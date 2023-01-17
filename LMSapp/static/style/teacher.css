@@ -26,5 +26,9 @@
 #work{
     width: 50%;
     height: 100%;
-    background-color: red;
+    /* background-color: red; */
+}
+
+.modal-body{
+    padding-top: 0px;
 }
