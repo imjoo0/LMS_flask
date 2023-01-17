@@ -1,0 +1,85 @@
+{% extends 'index.html' %}
+{% block title %}
+선생님 업무 관리 페이지
+{% endblock %}
+
+{% block topnav %}
+{% if user %}
+{{ user.name }} ({{ user.eng_name }})님 환영합니다.
+{% else %}
+로그인이 필요합니다.
+{% endif %}
+{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="../static/style/teacher.css">
+{% endblock %}
+{% block content %}
+{% autoescape off %}
+<!-- 모달 창 -->
+<div class="modal fade" id="question" tabindex="-1"
+    aria-labelledby="questionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="questionModalLabel">
+                    <strong>본원에 문의</strong>남기기
+                </h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="consulting-container">
+                    <div class="student_report">
+                        왼쪽
+                    </div>
+                    <div class="student_info">
+                        <div class="info_contents">
+                            <ul>
+                                <li>종류 : 문의종류를 선택해주세요 </li>
+                                <li>대상학생 :P1111</li>
+                                <li>상담내용 : 상담일지 등록 </li>
+                                <li>기존 반 : 내가 담당중인 반</li>
+                            </ul>
+                        </div>
+                        <div class="consulting-contents">
+                            
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container_box">
+    <section id="statistics">
+        <div class="personal_info">
+            <table border="0">
+                <th>선생님 개인 정보</th>
+                <th></th>
+                <th></th>
+                <tr>
+                    <td>{{ user.name }}({{ user.eng_name }})</td>
+                    <td>{{ user.mobileno }} / </td>
+                    <td>{{ user.email }}</td>
+                </tr>
+            </table>
+            <div id="check">
+                <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
+                <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#question">본원 문의</button>
+                <button>문의 답변</button>
+                <button>지난 상담 조회</button>
+            </div>
+        </div>
+        <div class="total_info"></div>
+        <div class="class_info"></div>
+    </section>
+    <section id="work"></section>
+</div>
+
+{% block jspart %}
+<script type="text/javascript" src="../static/js/teacher.js"></script>
+{% endblock %}
+
+{% endautoescape %}
+{% endblock %}

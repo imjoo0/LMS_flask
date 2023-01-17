@@ -1,0 +1,41 @@
+{% extends 'index.html' %}
+    {% block title %}
+    로그인
+    {% endblock %}
+    {% block topnav %}
+        {% if user %}
+        {{ user.name }}님 환영합니다.
+        {% else %}
+        로그인이 필요합니다.
+        {% endif %}
+    {% endblock %}
+
+    {% block content %}
+    {% autoescape off %}
+    <div class="section has-text-centered" id="login">
+        <div class="container" style="width:100%">
+            <form method="POST">
+                {{form.csrf_token}}
+                <div class="form-group">
+                    {{form.user_id.label("아이디")}}
+                    {{form.user_id(class="form-control", placeholder="아이디")}}
+                </div>
+                <div class="form-group">
+                    {{form.user_pw.label("비밀번호")}}
+                    {%if form.user_pw.errors%} <!--로그인이 실패하면-->
+                    {{form.user_pw.errors.0}} <!--첫번째 에러메시지 출력한다-->
+                    {%endif%} <!--실패하지 않았으면 비밀번호 넘긴다-->
+                    {{form.user_pw(class="form-control", placeholder="비밀번호")}}
+                </div>
+                <button type="submit" class="btn btn-primary">제출</button>
+            </form>
+        </div>
+    </div>
+    {% endautoescape %}
+    {% endblock %}
+
+    {% block jspart %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="../static/js/login.js"></script>
+    {% endblock %}

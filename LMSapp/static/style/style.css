@@ -1,0 +1,287 @@
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+
+/* 클래스 이름으로 css 적용 */
+
+
+.text-purple {
+    color: #b02b74;
+}
+
+.table .row .fa-check:hover, .table .row .fa-circle-check:hover {
+    color: #b04272;
+    cursor: pointer;
+}
+
+.text-instagram {
+    background: linear-gradient(to left bottom, #833ab4, #fd1d1d, #fcb045);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    border: none;
+}
+
+.text-youtube {
+    color: #FF0000;
+}
+
+.text-naver {
+    color: #03c75a;
+}
+
+
+* {
+    font-family: 'Do Hyeon', sans-serif;
+    color: #333333;
+}
+
+body {
+    background-color: #ffffff;
+}
+footer{
+    background-color: #333333;
+}
+.items{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+/* 모달 css */
+.modal .modal-dialog h5 {
+    color: #333333;
+}
+
+.modal .modal-dialog .modal-content .modal-body {
+    text-align: center;
+    color: #333333;
+    font-weight: 400;
+    padding: 5% 0;
+}
+
+.modal .modal-dialog .modal-content .btn {
+    outline: none;
+    border: none;
+}
+
+.modal .btn:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+
+.modal label{
+    color: rgb(22, 22, 22);
+    font-weight: 300;
+}
+
+.img-container {
+    height: 600px;
+    width: 1120px;
+    background: url('./images/counselling_modal.PNG');
+    background-size: cover;
+}
+
+.navbar-brand {
+    width: 15%;
+}
+.navbar-brand > img{
+    width: 100%;
+}
+
+.navbar-nav .nav-item .sidebar-link,
+.navbar-nav .nav-item .sidebar-link > i {
+    color: #F1F1F1;
+    font-weight: 600;
+    text-decoration:none !important;
+    border-radius: 5px;
+}
+
+.navbar-nav .nav-item .sidebar-link {
+    font-weight: 500;
+}
+
+.navbar-nav .nav-item .sidebar-link:hover {
+    text-decoration:none !important;
+    background-color: #FAF8FF;
+    border-radius: 5px;
+    color: #b02b74;
+    font-weight: 600;
+}
+
+.navbar-nav .nav-item .sidebar-link:hover > i {
+    color: #b02b74;
+}
+
+.navbar-nav .nav-item .current,
+.navbar-nav .nav-item .current > i {
+    border-radius: 5px;
+    background-color: #FFF4FC;
+    color: #b02b74;
+}
+.navbar-nav .nav-item .current:hover,
+.navbar-nav .nav-item .current:hover > i {
+    border-radius: 5px;
+    background-color: #FFF4FC;
+    color: #b02b74;
+}
+.navbar-nav .nav-item .current:hover {
+    box-shadow: 5px 5px 10px #1b1b1b;
+}
+
+/* 상단 nav바 */
+.top-nav-bar {
+    width: 100%;
+    flex-direction: row;
+    background-color: #2b2b2b;
+    font-size: 0.7rem;
+    padding-top: 21px;
+}
+
+.search-input {
+    background: transparent;
+    border: none;
+    border-radius: none;
+    border-bottom: 2px solid rgb(22, 22, 22);
+    transition: all .4s;
+}
+
+.search-input:focus {
+    background: transparent;
+    box-shadow: none;
+    border-bottom: 2px solid #dc3545;
+}
+
+.search-button {
+    border-radius: 50%;
+    padding: 10px 15px;
+    transition: all .4s
+}
+
+.search-button:hover{
+    background-color: #eee;
+    transform: translateY(-1px);
+}
+
+.icon-parent {
+    position: relative;
+}
+
+.icon-bullet::after{
+    content: "";
+    position: absolute;
+    top: 7px;
+    left: 15px;
+    height: 12px;
+    width: 12px;
+    background-color: #f44336;
+    border-radius: 50%;
+}
+
+/* footer */
+.card-container .footer p,
+.card-container .footer a {
+    font-weight: 300;
+    padding: 0 10px 0 10px;
+}
+
+.card-container .footer .nav-link i {
+    font-weight: 100;
+    font-size: 10px;
+}
+
+.card-container .footer .nav-link .fa-mug-saucer {
+    font-weight: 700;
+}
+
+
+
+
+/* card 섹션 */
+body::-webkit-scrollbar{
+    display: none;
+}
+
+.card-container {
+    width: 87vw;
+}
+
+.card-container .card * {
+    color: #222222;
+}
+
+.card-header .nav-item:hover {
+    cursor: pointer;
+    transform: translate(-1px, -1px);
+}
+
+
+/* 페이지네이션 */
+.page-link:focus {
+    background: transparent;
+    box-shadow: none;
+}
+
+/* 캐러셀 */
+.carousel {
+    width: 87vw;
+}
+
+/* select box */
+option {
+    font-weight: 500;
+}
+
+details {
+    border-bottom: 1px solid #efefef;
+    color: #666;
+    font-size: 16px;
+    padding: 15px;
+}
+
+
+details[open] summary {
+    font-weight: 800;
+}
+
+details > summary {
+    color: #333;
+    font-size: 18px;
+    padding: 15px 0;
+}
+
+.student_report{
+    background-color: purple;
+}
+
+.student_info{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.info_contents{
+    float: left;
+    width: 50%;
+}
+
+.info_contents > ul {
+    padding-left: 5px;
+}
+.info_contents > ul > li{
+    float: left;
+    list-style:none;
+}
+#main{
+    margin-top: 40px;
+    width: 100%;
+    height: 90vh;
+}
+#main > * {
+    color: #2e2e2e;
+}
+#login{
+    width: 100%;
+    height: 100%;
+    padding-top: 10%;
+}
+#login> *{
+    color: #2e2e2e!important;
+}
