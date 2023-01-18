@@ -22,31 +22,72 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="questionModalLabel">
-                    <strong>본원에 문의</strong>남기기
+                    본원에 문의 남기기
                 </h5>
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
-                <div class="consulting-container">
-                    <div class="student_report">
-                        왼쪽
+            <div>
+            <form action="/teacher/question" method="POST"></form>
+                <ul>
+                    <li>문의 종류 : 
+                        <select id="question_kind" class="border rounded-0 form-control form-control-sm" name="question_category" style=" width: 150px; height: 100%;" onchange="change_question_kind(this.value)">
+                            <optgroup>
+                                <option value="none" selected>문의 종류를 선택해주세요</option>
+                                <option value="일반">일반 문의</option>
+                                <option value="퇴소이반">퇴소/이반 승인 요청</option>
+                            </optgroup>
+                        </select>
+                    </li>
+                    <div id="invisible_for_0">
+                        <li>대상학생 :
+                            <select class="border rounded-0 form-control form-control-sm" name="question_category" style=" width: 150px; height: 100%;">
+                                <optgroup>
+                                    <option value="none" selected>대상학생을 선택해주세요</option>
+                                    <option value=0>for student</option>
+                                </optgroup>
+                            </select>
+                        </li>
+                        <li>상담내용 : 
+                            <select class="border rounded-0 form-control form-control-sm" name="question_category" style=" width: 150px; height: 100%;">
+                                <optgroup>
+                                    <option value="none" selected>진행한 상담의 상담일지를 선택해주세요</option>
+                                    <option value=0>for student</option>
+                                </optgroup>
+                            </select>
+                        </li>
+                        <li>기존 반 : 
+                            <select class="border rounded-0 form-control form-control-sm" name="question_category" style=" width: 150px; height: 100%;">
+                                <optgroup>
+                                    <option value="none" selected>기존 반을 선택해주세요</option>
+                                    <option value=0>for student</option>
+                                </optgroup>
+                            </select>
+                        </li>
+                        <li>이반/퇴소승인 요청 반 : 
+                            <select class="border rounded-0 form-control form-control-sm" name="question_category" style=" width: 150px; height: 100%;">
+                                <optgroup>
+                                    <option value="none" selected>퇴소 승인 / 이반 승인 요청반을 선택해주세요</option>
+                                    <option value=0>for student</option>
+                                </optgroup>
+                            </select>
+                        </li>
                     </div>
-                    <div class="student_info">
-                        <div class="info_contents">
-                            <ul>
-                                <li>종류 : 문의종류를 선택해주세요 </li>
-                                <li>대상학생 :P1111</li>
-                                <li>상담내용 : 상담일지 등록 </li>
-                                <li>기존 반 : 내가 담당중인 반</li>
-                            </ul>
-                        </div>
-                        <div class="consulting-contents">
-                            
-                        </div>
-
-                    </div>
+                    
+                    <li><label>문의 내용</label>
+                        <textarea
+                            class="border rounded-0 form-control form-control-sm"
+                            type="text"rows="5" cols="25" 
+                            name="question_contents"
+                            id = "question_contents"></textarea>
+                    </li>
+                </ul>
+                <div style="display: flex; float: right;">
+                    <button class="btn btn-success" type="submit" style="margin-top: 13px;">저장</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin-top: 13px;">취소</button>
                 </div>
+            </form>
             </div>
+                        
         </div>
     </div>
 </div>
