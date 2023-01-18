@@ -20,7 +20,7 @@ with SSHTunnelForwarder(
         with db.cursor() as cur:
             # semester 계산기 
             # cur.execute("select class.name_numeric") 
-            cur.execute("select student.id as 'register_no', student.register_no as 'original', student.first_name as 'name', student.mobileno as 'mobileno', parent.name as 'pname', parent.mobileno as 'pmobileno', student.created_at as 'register_date',  A.pack_code as 'reco_book_code' , A.package_date as 'reco_book_date' from student left join (select register_no, pack_code, max(package_date) as 'package_date' from book_package_history group by register_no) A on student.register_no = A.register_no left join parent on  parent.id = student.parent_id;")
+            cur.execute("select staff.id as 'teacher', class.id as 'id', class.name as 'bname', class.name_numeric as 'bname_numeric' from staff left join teacher_allocation on staff.id = teacher_allocation.teacher_id left join class on class.id = teacher_allocation.class_id where class.is_regular = 0 and class.is_ended=0;")
             data_list = cur.fetchall().copy()
             for i in data_list:
                 if ((i['bname_numeric']-13)%3) == 1:

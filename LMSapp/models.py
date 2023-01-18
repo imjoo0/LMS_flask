@@ -20,7 +20,7 @@ class User(db.Model):
 
     # 선생님이 남긴 문의 
     # questions = db.relationship('Question', backref='teacher')
-    
+
 class Ban(db.Model):
     __tablename__ = 'ban'
 
@@ -38,7 +38,7 @@ class Student(db.Model):
     __tablename__ = 'student'
 
     id=db.Column(db.Integer,primary_key=True)
-    original = db.Column(db.String(30), nullable=True)
+    original = db.Column(db.String(45), nullable=True)
     register_no = db.Column(db.Integer,unique=True)
     name =  db.Column(db.String(50), nullable=True)
     mobileno =  db.Column(db.String(100), nullable=True)
