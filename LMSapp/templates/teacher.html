@@ -13,9 +13,14 @@
 {% block style %}
 <link rel="stylesheet" href="../static/style/teacher.css">
 {% endblock %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <script> alert("{{ messages[-1] }}")</script>
+    {% endif %}
+{% endwith %}
 {% block content %}
 {% autoescape off %}
-<!-- 모달 창 -->
+<!-- 문의 남기기 -->
 <div class="modal fade" id="question" tabindex="-1"
     aria-labelledby="questionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -27,60 +32,153 @@
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div>
-            <form action="/teacher/question" method="POST"></form>
+            <form action="/teacher/question" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                 <ul>
                     <li>문의 종류 : 
                         <select id="question_kind" class="border rounded-0 form-control form-control-sm" name="question_category" style=" width: 150px; height: 100%;" onchange="change_question_kind(this.value)">
                             <optgroup>
                                 <option value="none" selected>문의 종류를 선택해주세요</option>
                                 <option value="일반">일반 문의</option>
-                                <option value="퇴소이반">퇴소/이반 승인 요청</option>
+                                <option value="이반">이반 승인 요청</option>
+                                <option value="퇴소">퇴소 승인 요청</option>
                             </optgroup>
                         </select>
                     </li>
-                    <div id="invisible_for_0">
+                    <div id="invisible_for_2">
+                        <li>기존 반 : 
+                            <select class="border rounded-0 form-control form-control-sm" name="ban_id" style=" width: 150px; height: 100%;">
+                                <optgroup>
+                                    <option value="none" selected>기존 반을 선택해주세요</option>
+                                    {% for ban in user.bans %}
+                                    <option value={{ban.register_no}}>{{ban.name}}</option>
+                                    {% endfor %}
+                                </optgroup>
+                            </select>
+                        </li>
                         <li>대상학생 :
-                            <select class="border rounded-0 form-control form-control-sm" name="question_category" style=" width: 150px; height: 100%;">
+                            <select id="student_list" class="border rounded-0 form-control form-control-sm" name="target_student" style=" width: 150px; height: 100%;">
                                 <optgroup>
                                     <option value="none" selected>대상학생을 선택해주세요</option>
-                                    <option value=0>for student</option>
+                                    {% for student in user.students %}
+                                    <option value={{student.register_no}}>{{ student.name }}({{ student.original }})</option>
+                                    {% endfor %}
                                 </optgroup>
                             </select>
                         </li>
                         <li>상담내용 : 
-                            <select class="border rounded-0 form-control form-control-sm" name="question_category" style=" width: 150px; height: 100%;">
+                            <select class="border rounded-0 form-control form-control-sm" name="consulting_history" style=" width: 150px; height: 100%;">
                                 <optgroup>
                                     <option value="none" selected>진행한 상담의 상담일지를 선택해주세요</option>
                                     <option value=0>for student</option>
                                 </optgroup>
                             </select>
                         </li>
-                        <li>기존 반 : 
-                            <select class="border rounded-0 form-control form-control-sm" name="question_category" style=" width: 150px; height: 100%;">
+                        <li>이반 요청 반 : 
+                            <select class="border rounded-0 form-control form-control-sm" name="new_ban_id" style=" width: 150px; height: 100%;">
                                 <optgroup>
-                                    <option value="none" selected>기존 반을 선택해주세요</option>
-                                    <option value=0>for student</option>
+                                    <option value="none" selected>이반 하려는 반을 선택해주세요</option>
+                                    {% for ban in all_ban %}
+                                    <option value={{ban.register_no}}>{{ ban.name }}</option>
+                                    {% endfor %}
                                 </optgroup>
                             </select>
                         </li>
-                        <li>이반/퇴소승인 요청 반 : 
-                            <select class="border rounded-0 form-control form-control-sm" name="question_category" style=" width: 150px; height: 100%;">
+                    </div>
+                    <div id="invisible_for_1">
+                        <li>반 : 
+                            <select class="border rounded-0 form-control form-control-sm" name="o_ban_id" style=" width: 150px; height: 100%;">
                                 <optgroup>
-                                    <option value="none" selected>퇴소 승인 / 이반 승인 요청반을 선택해주세요</option>
+                                    <option value="none" selected>퇴소하려는 반을 선택해주세요</option>
+                                    {% for ban in user.bans %}
+                                    <option value={{ban.register_no}}>{{ban.name}}</option>
+                                    {% endfor %}
+                                </optgroup>
+                            </select>
+                        </li>
+                        <li>퇴소학생 :
+                            <select id="student_list" class="border rounded-0 form-control form-control-sm" name="o_target_student" style=" width: 150px; height: 100%;">
+                                <optgroup>
+                                    <option value="none" selected>학생을 선택해주세요</option>
+                                    {% for student in user.students %}
+                                    <option value=0>{{ student.name }}({{ student.original }})</option>
+                                    {% endfor %}
+                                </optgroup>
+                            </select>
+                        </li>
+                        <li>상담내용 : 
+                            <select class="border rounded-0 form-control form-control-sm" name="o_consulting_history" style=" width: 150px; height: 100%;">
+                                <optgroup>
+                                    <option value="none" selected>진행한 상담의 상담일지를 선택해주세요</option>
                                     <option value=0>for student</option>
                                 </optgroup>
                             </select>
                         </li>
                     </div>
-                    
-                    <li><label>문의 내용</label>
-                        <textarea
-                            class="border rounded-0 form-control form-control-sm"
-                            type="text"rows="5" cols="25" 
-                            name="question_contents"
-                            id = "question_contents"></textarea>
-                    </li>
+                    <div id="question_box">
+                        <li><label>문의 제목</label>
+                            <input type="text" size="50"
+                                name="question_title">
+                        </li>
+                        <li><label>문의 내용</label>
+                            <textarea
+                                class="border rounded-0 form-control form-control-sm"
+                                type="text"rows="5" cols="25" 
+                                name="question_contents"
+                                id = "question_contents"></textarea>
+                        </li>
+                    </div>
                 </ul>
+                <div style="display: flex; float: right;">
+                    <button class="btn btn-success" type="submit" style="margin-top: 13px;">저장</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin-top: 13px;">취소</button>
+                </div>
+            </form>
+            </div>
+                        
+        </div>
+    </div>
+</div>
+<!-- 문의 조회 -->
+<div class="modal fade" id="question_list" tabindex="-1"
+    aria-labelledby="questionListModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="questionListModalLabel">
+                    문의 답변 확인 
+                </h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <table class="table text-center" id="questionlist">
+                <tbody  style="width:100%;">
+                    <tr class="row">
+                        <th class="col-3">문의</th>
+                        <th class="col-1">상태</th>
+                        <th class="col-3">담당자</th>
+                        <th class="col-4">제목</th>
+                        <th class="col-1">상세보기</th>
+                    </tr>
+                    {% for question in user.questions %}
+                    <tr class="row">
+                        {% if question.category == 0 %}
+                        <td class="col-3">일반문의</td>
+                        {% elif question.category == 1 %}
+                        <td class="col-3">퇴소문의</td>
+                        {% else %}
+                        <td class="col-3">이반문의</td>
+                        {% endif %}
+                        <td class="col-1"> 반려 </td>
+                        <td class="col-3"> 홍과장님 </td>
+                        <td class="col-4">{{ question.title }} </td>
+                        <td class="col-1" onclick="get_answer('{{question.id}}')">✔️</td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+
+            <div>
                 <div style="display: flex; float: right;">
                     <button class="btn btn-success" type="submit" style="margin-top: 13px;">저장</button>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin-top: 13px;">취소</button>
@@ -108,7 +206,7 @@
             <div id="check">
                 <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
                 <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#question">본원 문의</button>
-                <button>문의 답변</button>
+                <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#question_list">문의 답변</button>
                 <button>지난 상담 조회</button>
             </div>
         </div>

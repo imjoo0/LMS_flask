@@ -32,8 +32,18 @@
 .modal-body{
     padding-top: 0px;
 }
-
-#invisible_for_0{
+/* 이반 요청 */
+#invisible_for_2{
     display: none;
+}
+/* 퇴소 요청 */
+#invisible_for_1{
+    display: none;
+}
+#question_box{
+    display: none;
+}
 
+.row {
+    margin: 0px;
 }

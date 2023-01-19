@@ -1,6 +1,6 @@
-from flask import Blueprint,render_template, jsonify, request,redirect,url_for
+from flask import Blueprint,render_template, jsonify, request,redirect,url_for,flash
 import config 
-
+from datetime import datetime, timedelta, date
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 
 from flask import session  # 세션
@@ -12,14 +12,40 @@ from LMSapp.views import *
 def home():
     if request.method =='GET':
         user = User.query.filter(User.user_id == session['user_id']).all()[0]
-        return render_template('teacher.html',user=user)
+        all_ban = Ban.query.all()
+
+        return render_template('teacher.html',user=user,all_ban = all_ban)
 
 # 선생님 문의 저장 
-@bp.route('/question', methods=['POST'])
+@bp.route('/question', methods=['GET','POST'])
 def question():
-    question = request.form['question_contents']
-    print(question)
-    if result == 'fail':
-        return jsonify({'result': '업로드 실패'})
+    if request.method == 'POST':
+        question_category = request.form['question_category']
+        title = request.form['question_title']
+        contents = request.form['question_contents']
+        teacher = session['register_no']
+        create_date = datetime.now()
+        if question_category == '일반':
+            new_question = Question(category=0,title=title,contents=contents,teacher_id=teacher,create_date=create_date)
+        elif question_category == '이반':
+            ban_id = request.form['ban_id']
+            student_id = request.form['target_student'] 
+            new_ban = request.form['new_ban_id']
+            new_question = Question(category=2,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,new_ban_id=new_ban,create_date=create_date)
+        elif question_category == '퇴소':
+            ban_id = request.form['o_ban_id']
+            student_id = request.form['o_target_student'] 
+            new_question = Question(category=1,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,create_date=create_date)
+        db.session.add(new_question)
+        db.session.commit()
 
-    return jsonify({'result': '업로드 완료!'})
+        # 시행 안댐.. alert 기능  
+        flash("문의 저장완료 되었습니다")
+        return redirect('/')
+
+# 문의 / 답변 조회 
+# @bp.route('/question/<int:id>', methods=['GET','POST'])
+# def question(id):
+#     question = Question()
+#     if request.method == 'GET':
+#         return hello
