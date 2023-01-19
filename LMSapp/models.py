@@ -19,7 +19,7 @@ class User(db.Model):
     bans = db.relationship('Ban', backref='teacher')
 
     # 선생님이 남긴 문의 
-    # questions = db.relationship('Question', backref='teacher')
+    questions = db.relationship('Question', backref='teacher')
 
 class Ban(db.Model):
     __tablename__ = 'ban'
@@ -27,12 +27,12 @@ class Ban(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     register_no = db.Column(db.Integer,unique=True)
     name =  db.Column(db.String(100), nullable=True)
-    teacher = db.Column(db.Integer,db.ForeignKey('user.register_no'))
+    teacher_id = db.Column(db.Integer,db.ForeignKey('user.register_no'))
     semester =  db.Column(db.Integer, nullable=False)
     notice_num = db.Column(db.Integer, nullable=True)
     inquiry_num = db.Column(db.Integer, nullable=True)
     not_answered_inquiry_num = db.Column(db.Integer, nullable=True)
-    students = db.relationship('Student',secondary = 'ban_student',back_populates='bans', lazy = 'dynamic')
+    students = db.relationship('Student',secondary = 'enroll',back_populates='bans', lazy = 'dynamic')
 
 class Student(db.Model):
     __tablename__ = 'student'
@@ -44,23 +44,23 @@ class Student(db.Model):
     mobileno =  db.Column(db.String(100), nullable=True)
     parent_name =  db.Column(db.String(50), nullable=True)
     parent_mobileno =  db.Column(db.String(100), nullable=True)
-    recommend_book_code = db.Column(db.Integer,nullable=True)
+    recommend_book_code = db.Column(db.String(50), nullable=True)
     register_date = db.Column(db.String(30), nullable=True)
-    bans = db.relationship('Ban', secondary = 'ban_student', back_populates='students', lazy = 'dynamic')
+    bans = db.relationship('Ban', secondary = 'enroll', back_populates='students', lazy = 'dynamic')
 
-db.Table('ban_student',
-    db.Column('bs_ban',db.Integer,db.ForeignKey('ban.register_no')),
-    db.Column('bs_student',db.Integer,db.ForeignKey('student.register_no'))
+db.Table('enroll',
+    db.Column('ban_id',db.Integer,db.ForeignKey('ban.register_no')),
+    db.Column('student_id',db.Integer,db.ForeignKey('student.register_no'))
 )
 
-# class Ban_Student(db.Model):
-#     __tablename__ = 'ban_student'
+# class Enroll(db.Model):
+#     __tablename__ = 'enroll'
 
 #     id=db.Column(db.Integer,primary_key=True)
-#     bs_ban = db.Column(db.Integer,db.ForeignKey('ban.register_no'))
-#     bs_student = db.Column(db.Integer,db.ForeignKey('student.register_no'))
-#     bs_teacher = db.Column(db.Integer,db.ForeignKey('user.register_no'))
-#     bs_is_out_code = db.Column(db.Integer,nullable=False)
+#     ban = db.Column(db.Integer,db.ForeignKey('ban.register_no'))
+#     student = db.Column(db.Integer,db.ForeignKey('student.register_no'))
+#     teacher = db.Column(db.Integer,db.ForeignKey('user.register_no'))
+#     is_out_code = db.Column(db.Integer,nullable=False)
 #     switch_ban = db.Column(db.Integer,db.ForeignKey('ban.register_no'),nullable=True)
 
 class Question(db.Model):
@@ -70,10 +70,10 @@ class Question(db.Model):
     category = db.Column(db.Integer, nullable=False)
     title = db.Column(db.String(200), nullable=False)
     contents = db.Column(db.Text(), nullable=False)
-    teacher = db.Column(db.Integer,db.ForeignKey('user.register_no'))
-    ban = db.Column(db.Integer,db.ForeignKey('ban.register_no'))
+    teacher_id = db.Column(db.Integer,db.ForeignKey('user.register_no'))
+    ban_id = db.Column(db.Integer,db.ForeignKey('ban.register_no'))
     # consulting_history = db.Column(db.Integer,db.ForeignKey('consulting_history.id'))
-    student = db.Column(db.Integer,db.ForeignKey('student.register_no'))
+    student_id = db.Column(db.Integer,db.ForeignKey('student.register_no'))
     create_date = db.Column(db.DateTime(), nullable=False)
 
 # class Answer(db.Model):

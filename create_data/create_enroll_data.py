@@ -20,9 +20,9 @@ with SSHTunnelForwarder(
         with db.cursor() as cur:
             # semester 계산기 
             # cur.execute("select class.name_numeric") 
-            cur.execute("select student.id as 'register_no', student.register_no as 'original', student.first_name as 'name', student.mobileno as 'mobileno', parent.name as 'pname', parent.mobileno as 'pmobileno', student.created_at as 'register_date',  A.pack_code as 'reco_book_code' , A.package_date as 'reco_book_date' from student left join (select register_no, pack_code, max(package_date) as 'package_date' from book_package_history group by register_no) A on student.register_no = A.register_no left join parent on  parent.id = student.parent_id;")
+            cur.execute("select distinct enroll.student_id as 'student', teacher_allocation.class_id as 'ban', teacher_allocation.teacher_id as 'teacher' from enroll left join teacher_allocation on enroll.class_id = teacher_allocation.class_id;")
             data_list = cur.fetchall().copy()
-        
+                
     except:
         print("fail 1")
     finally:
@@ -38,8 +38,8 @@ try:
     with db.cursor() as cur:
         print('데이터 저장 진행 중 ')
 
-        sql = "insert into student(original, register_no,name,mobileno,parent_name,parent_mobileno,recommend_book_code,register_date)" \
-              " values (%(original)s, %(register_no)s, %(name)s, %(mobileno)s, %(pname)s, %(pmobileno)s, %(reco_book_code)s, %(register_date)s);"
+        sql = "insert into enroll(ban, student,teacher)" \
+              " values (%(ban)s, %(student)s, %(teacher)s);"
 
         cur.executemany(sql, data_list)
 
