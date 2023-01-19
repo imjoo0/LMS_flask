@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 import config
@@ -8,7 +7,6 @@ from flask_wtf.csrf import CSRFProtect  # csrf
 # 전역 변수로 db, migrate 객체를 만든 다음 create_app 함수 안에서 init_app 메서드를 이용해 app에 등록
 # db 객체를 create_app 함수 안에서 생성하면 블루프린트와 같은 다른 모듈에서 사용할수 없기 때문에 db, migrate와 같은 객체를 create_app 함수 밖에 생성하고, 해당 객체를 앱에 등록할 때는 create_app 함수에서 init_app 함수를 통해 진행한다.
 db = SQLAlchemy()
-migrate = Migrate()
 csrf = CSRFProtect()
 
 def create_app():
@@ -18,13 +16,15 @@ def create_app():
     # orm
     db.init_app(app)
     csrf.init_app(app)
-    migrate.init_app(app, db)
 
     from . import models
 
     # bp
     from .views import main_views
     app.register_blueprint(main_views.bp)
+
+    from .views import teacher
+    app.register_blueprint(teacher.bp)
 
     return app
 
