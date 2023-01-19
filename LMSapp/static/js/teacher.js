@@ -20,10 +20,16 @@
 
 //  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
 function change_question_kind(str){
-    if( str == "퇴소이반"){
-        $('#invisible_for_0').css('display','block');
+    if( str == "이반"){
+        $('#invisible_for_2').css('display','block');
+        $('#question_box').css('display','block');
+    }else if( str == "퇴소"){
+        $('#invisible_for_1').css('display','block');
+        $('#question_box').css('display','block');
     }else{
-        $('#invisible_for_0').css('display','none');
+        $('#invisible_for_1').css('display','none');
+        $('#invisible_for_2').css('display','none');
+        $('#question_box').css('display','block');
     }
 }
 
@@ -43,4 +49,20 @@ function post_question(str){
         }else {window.location.href='/'}
         }
     });
+}
+
+function get_answer(q_id){
+    questionlist = $('#questionlist').css('display','none');
+    console.log(q_id)
+    // $.ajax({
+    //     type: "GET",
+    //     url: "/teacher/question/q_id",
+    //     data: {},
+    //     success: function (response) {
+    //         alert(response["result"])
+    //         if (response["result"]=='문의가 전송되었습니다') {
+    //         window.location.replace('/teacher')
+    //     }else {window.location.href='/'}
+    //     }
+    // });
 }

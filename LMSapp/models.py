@@ -17,9 +17,11 @@ class User(db.Model):
     category = db.Column(db.Integer, nullable=False)
     register_no = db.Column(db.Integer,unique=True)
     bans = db.relationship('Ban', backref='teacher')
-
+    students =  db.relationship('Student',secondary = 'enroll', back_populates='teachers', lazy = 'dynamic')
     # 선생님이 남긴 문의 
     questions = db.relationship('Question', backref='teacher')
+    # 사용자가 남긴 상담일지 
+    # histories = relationship ~ 
 
 class Ban(db.Model):
     __tablename__ = 'ban'
@@ -47,10 +49,12 @@ class Student(db.Model):
     recommend_book_code = db.Column(db.String(50), nullable=True)
     register_date = db.Column(db.String(30), nullable=True)
     bans = db.relationship('Ban', secondary = 'enroll', back_populates='students', lazy = 'dynamic')
+    teachers = db.relationship('User', secondary = 'enroll', back_populates='students', lazy = 'dynamic')
 
 db.Table('enroll',
     db.Column('ban_id',db.Integer,db.ForeignKey('ban.register_no')),
-    db.Column('student_id',db.Integer,db.ForeignKey('student.register_no'))
+    db.Column('student_id',db.Integer,db.ForeignKey('student.register_no')),
+    db.Column('teacher_id',db.Integer,db.ForeignKey('user.register_no'))
 )
 
 # class Enroll(db.Model):
@@ -71,7 +75,8 @@ class Question(db.Model):
     title = db.Column(db.String(200), nullable=False)
     contents = db.Column(db.Text(), nullable=False)
     teacher_id = db.Column(db.Integer,db.ForeignKey('user.register_no'))
-    ban_id = db.Column(db.Integer,db.ForeignKey('ban.register_no'))
+    ban_id = db.Column(db.Integer,db.ForeignKey('ban.register_no'),nullable=True)
+    new_ban_id = db.Column(db.Integer,db.ForeignKey('ban.register_no'),nullable=True)
     # consulting_history = db.Column(db.Integer,db.ForeignKey('consulting_history.id'))
     student_id = db.Column(db.Integer,db.ForeignKey('student.register_no'))
     create_date = db.Column(db.DateTime(), nullable=False)
