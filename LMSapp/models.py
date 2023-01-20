@@ -47,7 +47,7 @@ class Student(db.Model):
     parent_name =  db.Column(db.String(50), nullable=True)
     parent_mobileno =  db.Column(db.String(100), nullable=True)
     recommend_book_code = db.Column(db.String(50), nullable=True)
-    register_date = db.Column(db.String(30), nullable=True)
+    register_date = db.Column(db.DateTime, nullable=True)
     bans = db.relationship('Ban', secondary = 'enroll', back_populates='students', lazy = 'dynamic')
     teachers = db.relationship('User', secondary = 'enroll', back_populates='students', lazy = 'dynamic')
 
@@ -61,9 +61,9 @@ db.Table('enroll',
 #     __tablename__ = 'enroll'
 
 #     id=db.Column(db.Integer,primary_key=True)
-#     ban = db.Column(db.Integer,db.ForeignKey('ban.register_no'))
-#     student = db.Column(db.Integer,db.ForeignKey('student.register_no'))
-#     teacher = db.Column(db.Integer,db.ForeignKey('user.register_no'))
+#     ban_id = db.Column(db.Integer,db.ForeignKey('ban.register_no'))
+#     student_id = db.Column(db.Integer,db.ForeignKey('student.register_no'))
+#     teacher_id = db.Column(db.Integer,db.ForeignKey('user.register_no'))
 #     is_out_code = db.Column(db.Integer,nullable=False)
 #     switch_ban = db.Column(db.Integer,db.ForeignKey('ban.register_no'),nullable=True)
 
