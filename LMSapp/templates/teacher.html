@@ -32,7 +32,7 @@
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div>
-            <form action="/teacher/question" method="POST">
+            <form action="/teacher/question/1" method="POST">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                 <ul>
                     <li>문의 종류 : 
@@ -101,7 +101,7 @@
                                 <optgroup>
                                     <option value="none" selected>학생을 선택해주세요</option>
                                     {% for student in user.students %}
-                                    <option value=0>{{ student.name }}({{ student.original }})</option>
+                                    <option value={{student.register_no}}>{{ student.name }}({{ student.original }})</option>
                                     {% endfor %}
                                 </optgroup>
                             </select>
@@ -150,7 +150,11 @@
                 </h5>
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <table class="table text-center" id="questionlist">
+            <div id="questiondetail" style="width:100%;">
+                <button type="button" class="btn btn-back" onclick="go_back()">다른 문의조회🔙 </button>
+                <div id="questiondetail_box" style="width:100%;"></div>
+            </div>
+            <table class="table text-center" id="questionlist" style="width:100%;">
                 <tbody  style="width:100%;">
                     <tr class="row">
                         <th class="col-3">문의</th>
@@ -174,18 +178,8 @@
                         <td class="col-1" onclick="get_answer('{{question.id}}')">✔️</td>
                     </tr>
                     {% endfor %}
-
                 </tbody>
-            </table>
-
-            <div>
-                <div style="display: flex; float: right;">
-                    <button class="btn btn-success" type="submit" style="margin-top: 13px;">저장</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin-top: 13px;">취소</button>
-                </div>
-            </form>
-            </div>
-                        
+            </table>    
         </div>
     </div>
 </div>
@@ -210,14 +204,106 @@
                 <button>지난 상담 조회</button>
             </div>
         </div>
-        <div class="total_info"></div>
-        <div class="class_info"></div>
+        <div class="total_info">
+            <div class="total_chart">
+                <div class="chartWrap">
+                    <div class="chart">
+                        <div class="chart-total">
+                            <span class="chart-total-num">Total:<br>{{user.students.all()|length}}</span>
+                        </div>
+                    </div>
+                    <div class="chart-bar" data-deg="50"></div>
+                    <div class="chart-bar" data-deg="95"></div>
+                    <div class="chart-bar" data-deg="150"></div>
+                    <div class="chart-bar" data-deg="{{ user.students.all()|length/360*100 }}">
+                    </div>
+                </div>
+            </div>
+            <div class="total_table">
+                <table class="table text-center" id="unlearned">
+                    <tbody  style="width:100%;">
+                        <tr class="row">
+                            <th class="col-3">IXL</th>
+                            <th class="col-3">리딩</th>
+                            <th class="col-3">리특</th>
+                            <th class="col-3">라이팅</th>
+                        </tr>
+                        <tr class="row">
+                            <td class="col-3"> 임시3 (5%) </td>
+                            <td class="col-3"> 임시3 (5%) </td>
+                            <td class="col-3"> 임시3 (5%) </td>
+                            <td class="col-3"> 임시3 (5%) </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table text-center" id="unlearned">
+                    <tbody  style="width:100%;">
+                        <tr class="row">
+                            <th class="col-6">업무</th>
+                            <th class="col-6">상담</th>
+                        </tr>
+                        <tr class="row">
+                            <td class="col-3"> 임시3/10 </td>
+                            <td class="col-3"> 5% </td>
+                            <td class="col-3"> 임시3/10 </td>
+                            <td class="col-3"> 5% </td>
+                        </tr>
+                    </tbody>
+                </table>  
+                <table class="table text-center" id="unlearned">
+                    <tbody  style="width:100%;">
+                        <tr class="row">
+                            <th class="col-6">공지</th>
+                            <th class="col-6">문의</th>
+                        </tr>
+                        <tr class="row">
+                            <td class="col-3"> 임시3/10 </td>
+                            <td class="col-3"> 5% </td>
+                            <td class="col-3"> 임시3/10 </td>
+                            <td class="col-3"> 5% </td>
+                        </tr>
+                    </tbody>
+                </table>      
+            </div>
+        </div>
+        
+        <div class="class_info">
+            <table class="table text-center" id="class_list" style="width:100%;">
+                <tbody  style="width:100%;">
+                    <tr class="row">
+                        <th class="col-2">반이름</th>
+                        <th class="col-1">학기</th>
+                        <th class="col-1">원생 수</th>
+                        <th class="col-2">퇴소</th>
+                        <th class="col-2">이반</th>
+                        <th class="col-2">미학습</th>
+                        <th class="col-2">문의 미응답</th>
+                    </tr>
+                    {% for ban in user.bans %}
+                    <tr class="row">
+                        <td class="col-2">{{ ban.name }}</td>
+                        <td class="col-1">{{ ban.semester }}</td>
+                        <td class="col-1">{{ ban.students.all()|length }}</td>
+                        <td class="col-2"> 임시3 (5%) </td>
+                        <td class="col-2"> 임시3 (5%) </td>
+                        <td class="col-2"> 임시3 (5%) </td>
+                        <td class="col-2"> 임시3 (5%) </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>    
+        </div>
+    
     </section>
-    <section id="work"></section>
+    
+    <section id="work">
+
+    </section>
 </div>
 
 {% block jspart %}
 <script type="text/javascript" src="../static/js/teacher.js"></script>
+<script type="text/javascript" src="../static/js/chart.js"></script>
 {% endblock %}
 
 {% endautoescape %}

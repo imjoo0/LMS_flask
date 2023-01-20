@@ -20,7 +20,7 @@ with SSHTunnelForwarder(
         with db.cursor() as cur:
             # semester 계산기 
             # cur.execute("select class.name_numeric") 
-            cur.execute("select distinct enroll.student_id as 'student', teacher_allocation.class_id as 'ban', teacher_allocation.teacher_id as 'teacher' from enroll left join teacher_allocation on enroll.class_id = teacher_allocation.class_id;")
+            cur.execute("select enroll.class_id as class_id, enroll.student_id as student_id, teacher_allocation.teacher_id as teacher_id from enroll left join class on class.id = enroll.class_id left join teacher_allocation on teacher_allocation.class_id = enroll.class_id where class.is_regular = 0 and class.is_ended=0 and class.name not like '%Test%' and class.name not like '%테스트%';")
             data_list = cur.fetchall().copy()
                 
     except:
@@ -38,8 +38,8 @@ try:
     with db.cursor() as cur:
         print('데이터 저장 진행 중 ')
 
-        sql = "insert into enroll(ban, student,teacher)" \
-              " values (%(ban)s, %(student)s, %(teacher)s);"
+        sql = "insert into enroll(ban_id, student_id,teacher_id)" \
+              " values (%(class_id)s, %(student_id)s, %(teacher_id)s);"
 
         cur.executemany(sql, data_list)
 
