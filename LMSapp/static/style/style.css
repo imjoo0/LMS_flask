@@ -285,3 +285,36 @@ details > summary {
 #login> *{
     color: #2e2e2e!important;
 }
+
+/* 선생님 / 관리부서 페이지 공통 화면 뷰 반 분할 */
+.container_box{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+
+
+#statistics{
+    width: 50%;
+    height: 100%;
+}
+
+#work{
+    width: 50%;
+    height: 100%;
+    /* background-color: red; */
+}
+
+/* 가로배치 */
+.make_row{
+    display: flex;
+    flex-direction: row;
+}
+/* 세로배치 */
+.make_col{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+}

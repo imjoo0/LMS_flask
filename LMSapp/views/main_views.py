@@ -9,7 +9,7 @@ bp = Blueprint('main', __name__, url_prefix='/')
 from flask import session  # 세션
 from LMSapp.forms import LoginForm
 from LMSapp.models import User
-from LMSapp.views import teacher
+from LMSapp.views import *
 
 SECRET_KEY = config.SECRET_KEY
 
@@ -30,7 +30,7 @@ def mainpage():
         return redirect('login')
     else:
         if user_category == 1:
-            return redirect(url_for('teacher_manage.home'))
+            return redirect(url_for('manage.home'))
         elif user_category == 2:
             return redirect(url_for('teacher.home'))
         else :
@@ -55,6 +55,5 @@ def login():
 # 로그아웃 API
 @bp.route("/logout", methods=['GET'])
 def logout():
-    form = LoginForm()
     session.pop('user_id', None)
     return redirect('/')

@@ -1,17 +1,17 @@
 {% extends 'index.html' %}
 {% block title %}
-선생님 업무 관리 페이지
+관리부서 페이지
 {% endblock %}
 
 {% block topnav %}
 {% if user %}
-{{ user.name }} ({{ user.eng_name }})님 환영합니다.
+{{ user.eng_name }}님 환영합니다.
 {% else %}
 로그인이 필요합니다.
 {% endif %}
 {% endblock %}
 {% block style %}
-<link rel="stylesheet" href="../static/style/teacher.css">
+<link rel="stylesheet" href="../static/style/manage.css">
 {% endblock %}
 {% block content %}
 {% autoescape off %}
@@ -94,32 +94,40 @@
 
 <div class="container_box">
     <section id="statistics">
-        <div class="personal_info">
-            <table border="0">
-                <th>선생님 개인 정보</th>
-                <th></th>
-                <th></th>
-                <tr>
-                    <td>{{ user.name }}({{ user.eng_name }})</td>
-                    <td>{{ user.mobileno }} / </td>
-                    <td>{{ user.email }}</td>
-                </tr>
-            </table>
-            <div id="check">
-                <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
-                <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#question">본원 문의</button>
-                <button>문의 답변</button>
-                <button>지난 상담 조회</button>
+        <div class="make_row">
+            <div class="label" id="default_title">
+                <h1> 반 현황 검색 </h1>
             </div>
+            <div class="label" id="label_title">
+                
+            </div>
+            <select name="target_ban" onchange="getBanInfo(this.value)">
+                <optgroup>
+                    <option value="none" selected>반을 선택해주세요</option>
+                    {% for ban in all_ban %}
+                    <option value={{ban.register_no}}>{{ban.name}}</option>
+                    {% endfor %}
+                </optgroup>
+            </select>
         </div>
-        <div class="total_info"></div>
-        <div class="class_info"></div>
+        <div class="make_col">
+            <div id="profile_data">
+                
+            </div>
+            <div id="ban_data">
+                
+            </div>
+            <table id="student_data" border="1">
+                
+            </table>
+        </div>
+        
     </section>
     <section id="work"></section>
 </div>
 
 {% block jspart %}
-<script type="text/javascript" src="../static/js/teacher.js"></script>
+<script type="text/javascript" src="../static/js/manage.js"></script>
 {% endblock %}
 
 {% endautoescape %}

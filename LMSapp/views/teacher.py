@@ -7,14 +7,13 @@ from flask import session  # 세션
 from LMSapp.models import *
 from LMSapp.views import *
 
-# 메인 페이지 
+# 선생님 메인 페이지
+# 테스트 계정 id : T1031 pw동일  
 @bp.route("/", methods=['GET'])
 def home():
     if request.method =='GET':
         user = User.query.filter(User.user_id == session['user_id']).all()[0]
         all_ban = Ban.query.all()
-        for b in user.bans:
-            print(b.students.all())
         return render_template('teacher.html',user=user,all_ban = all_ban)
 
 # 선생님 문의 저장 
