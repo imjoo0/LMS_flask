@@ -14,7 +14,9 @@ def home():
     if request.method =='GET':
         user = User.query.filter(User.user_id == session['user_id']).all()[0]
         all_ban = Ban.query.all()
-        return render_template('manage.html',user=user,all_ban = all_ban)
+        all_consulting_category = ConsultingCategory.query.all()
+        all_consulting = Consulting.query.all()
+        return render_template('manage.html',user=user,all_ban = all_ban,consulting_category = all_consulting_category, consultings = all_consulting)
 
 # json type not seriallizabel 해결 함수
     # object 인 경우 -> get_student(obj)
@@ -23,7 +25,7 @@ def get_student(student):
         'name' : student.name,
         'original' : student.original,
         'mobileno' : student.mobileno,
-        'parent_name_mobileno' : student.parent_name + student.parent_mobileno,
+        'parent_name_mobileno' : '('+ student.parent_name + ')' + student.parent_mobileno,
         'register_date' : student.register_date.strftime('%Y-%m-%d')
     }
     
@@ -44,8 +46,8 @@ def get_ban(id):
         student_info = []
         for student in students:
             student_info.append(json.dumps(get_student(student)))
-        print(student_info)
         return jsonify({
+            'target_ban' : target_ban.register_no,
             'name':target_ban.name,
             'teacher_name': teacher_info.name,
             'teacher_e_name':teacher_info.eng_name,
