@@ -1,7 +1,6 @@
 from LMSapp import db
 from sqlalchemy.sql import func
 from datetime import datetime
-from sqlalchemy_serializer import SerializerMixin
 
 
 class User(db.Model):
@@ -35,6 +34,7 @@ class Ban(db.Model):
     inquiry_num = db.Column(db.Integer, nullable=True)
     not_answered_inquiry_num = db.Column(db.Integer, nullable=True)
     students = db.relationship('Student',secondary = 'enroll',back_populates='bans', lazy = 'dynamic')
+    consultings = db.relationship('Consulting', backref='target_ban')
 
 class Student(db.Model):
     __tablename__ = 'student'
@@ -50,6 +50,7 @@ class Student(db.Model):
     register_date = db.Column(db.DateTime, nullable=True)
     bans = db.relationship('Ban', secondary = 'enroll', back_populates='students', lazy = 'dynamic')
     teachers = db.relationship('User', secondary = 'enroll', back_populates='students', lazy = 'dynamic')
+    consultings = db.relationship('Consulting', backref='target_student')
 
 db.Table('enroll',
     db.Column('ban_id',db.Integer,db.ForeignKey('ban.register_no')),
@@ -87,3 +88,24 @@ class Question(db.Model):
 #     question = db.relationship('Question', backref=db.backref('answer_set'))
 #     content = db.Column(db.Text(), nullable=False)
 #     create_date = db.Column(db.DateTime(), nullable=False)
+
+class ConsultingCategory(db.Model):
+    __tablename__ = 'consultingcategory'
+    
+    id=db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(45), nullable=True)
+    consultings = db.relationship('Consulting', backref='consultingcategory')
+
+
+class Consulting(db.Model):
+    __tablename__ = 'consulting'
+    
+    id=db.Column(db.Integer,primary_key=True)
+    ban_id = db.Column(db.Integer, db.ForeignKey('ban.register_no'))
+    category_id = db.Column(db.Integer, db.ForeignKey('consultingcategory.id'))
+    student_id = db.Column(db.Integer, db.ForeignKey('student.register_no'))
+    contents = db.Column(db.Text)
+    attachments = db.Column(db.String(45), nullable=True)
+    startdate = db.Column(db.DateTime)
+    deadline = db.Column(db.DateTime)
+    # consultinghistories = db.relationship('ConsultingHistory',backref='consulting')
