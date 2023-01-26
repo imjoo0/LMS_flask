@@ -19,6 +19,8 @@ class User(db.Model):
     students =  db.relationship('Student',secondary = 'enroll', back_populates='teachers', lazy = 'dynamic')
     # 선생님이 남긴 문의 
     questions = db.relationship('Question', backref='teacher')
+    tasks = db.relationship('Task', backref='teacher')
+
     # 사용자가 남긴 상담일지 
     # histories = relationship ~ 
 
@@ -35,6 +37,7 @@ class Ban(db.Model):
     not_answered_inquiry_num = db.Column(db.Integer, nullable=True)
     students = db.relationship('Student',secondary = 'enroll',back_populates='bans', lazy = 'dynamic')
     consultings = db.relationship('Consulting', backref='target_ban')
+    tasks = db.relationship('Task', backref='target_ban')
 
 class Student(db.Model):
     __tablename__ = 'student'
