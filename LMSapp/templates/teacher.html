@@ -300,7 +300,25 @@
     </section>
     
     <section id="work">
-
+        <div class="label make_row"style="margin-top: 5px;" >
+            <h3>상담 * 업무</h3>
+            <select id="work_done" class="border rounded-0 form-control form-control-sm" name="work_done" style=" width: 200px; height: 100%; text-align: center; margin-left: auto;" onchange="work_doneview(this.value)">
+                <optgroup>
+                    <option value=0>미완수</option>
+                    <option value=1>완수</option>
+                </optgroup>
+            </select>
+        </div>
+        <div class="container border rounded-3 p-4 pb-1">
+            {% for task in target_task %}
+            <details>
+                <summary>✅ {{ all_task_category[task[0].category_id].name }}<a href=w.url>👉 수행 </a></summary>
+                {% for t in task %}
+                <p> {{ t.contents }} | {{ t.ban_id }}</p>
+                {% endfor %}
+            </details>
+            {% endfor %}
+        </div>
     </section>
 </div>
 

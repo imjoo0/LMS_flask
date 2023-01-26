@@ -34,7 +34,13 @@ function change_question_kind(str){
         $('#question_box').show();
     }
 }
+function work_doneview(done){
+    if( done == 0 ){
 
+    }else{
+        
+    }
+}
 function get_answer(q_id){
     $('#questionlist').hide()
     console.log(q_id)

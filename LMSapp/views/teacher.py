@@ -14,7 +14,20 @@ def home():
     if request.method =='GET':
         user = User.query.filter(User.user_id == session['user_id']).all()[0]
         all_ban = Ban.query.all()
-        return render_template('teacher.html',user=user,all_ban = all_ban)
+        all_task_category = TaskCategory.query.all()
+        
+        # user.tasks.sort(key = lambda x:x.category_id)
+        tc=[]
+        for t in user.tasks:
+            tc.append(t.category_id)
+        tc = set(tc)
+        st = set(user.tasks)
+        print(st)
+        target_task = []
+        for t in tc:
+            target_task.append(list(st.intersection(all_task_category[t-1].tasks)))
+        print(target_task)
+        return render_template('teacher.html',user=user,all_ban = all_ban,all_task_category=all_task_category,target_task=target_task)
 
 # 선생님 문의 저장 
 @bp.route('/question/<int:id>', methods=['GET','POST'])
