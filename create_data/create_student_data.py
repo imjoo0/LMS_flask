@@ -18,7 +18,6 @@ with SSHTunnelForwarder(
     )
     try:
         with db.cursor() as cur:
-            # semester 계산기 
             # cur.execute("select class.name_numeric") 
             cur.execute("select student.id as 'register_no', student.register_no as 'original', student.first_name as 'name', student.mobileno as 'mobileno', parent.name as 'pname', parent.mobileno as 'pmobileno', student.created_at as 'register_date',  A.pack_code as 'reco_book_code' , A.package_date as 'reco_book_date' from student left join (select register_no, pack_code, max(package_date) as 'package_date' from book_package_history group by register_no) A on student.register_no = A.register_no left join parent on  parent.id = student.parent_id;")
             data_list = cur.fetchall().copy()

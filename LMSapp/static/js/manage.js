@@ -103,6 +103,7 @@ function getBanInfo(b_id){
     $('#ban_data').empty();
     $('#s_data').empty();
     $('#ban_statistics').empty();
+    $('#target_a_student').empty();
     if( b_id == 'none'){
         $('#default_title').show();
         $('#student_data').hide();
@@ -112,12 +113,21 @@ function getBanInfo(b_id){
         $('#student_data').show();
         $('#pagingul').show();
     }
+    if( b_id == '전체 반'){
+        $('#default_title').show();
+        $('#student_data').hide();
+        $('#pagingul').hide();
+        $('#select_student').hide();
+        $('#target_bans').empty();
+    }else{
+        $('#select_student').show();
+    }
     $.ajax({
         type: "GET",
         url: "/manage/ban/"+b_id,
         data: {},
         success: function (response) {
-            // let target_ban = response['target_ban']
+            let target_ban = response['target_ban']
             let ban_name = response['name'];
             let teacher_name = response['teacher_name']
             let teacher_e_name = response['teacher_e_name']
@@ -225,6 +235,7 @@ function getBanInfo(b_id){
                     </tbody>
                 </table>      
             `;
+
             $('#ban_statistics').append(temp_ban_statistics);
 
             // 상담요청시 뷰 바꿔주는 부분 
@@ -233,6 +244,19 @@ function getBanInfo(b_id){
             `;
             $('#target_bans').html(temp_target_ban);
 
+            // 전체 학생 대상 진행 append 
+            let target_all_student = `<option value="전체학생">✔️ ${ban_name}반 전체 학생 대상 진행</option>`;
+            $('#target_a_student').append(target_all_student)
+            
+            $('#target_student').empty();
+            for (var i = 0; i < totalData; i++) {
+                target = JSON.parse(data_list[i])
+                let id = target.id
+                let name = target.name;
+                let original = target.original;
+                let temp_target_student = `<option value="${id}"> ${name} ( ${original} )</option>`;
+                $('#target_student').append(temp_target_student)
+            } 
         }
     })
 }

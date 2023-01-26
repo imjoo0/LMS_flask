@@ -42,6 +42,7 @@
                                 <option value="일반">일반 문의</option>
                                 <option value="이반">이반 승인 요청</option>
                                 <option value="퇴소">퇴소 승인 요청</option>
+                                <option value="취소/환불">취소/환불 승인 요청</option>
                             </optgroup>
                         </select>
                     </li>
@@ -96,7 +97,7 @@
                                 </optgroup>
                             </select>
                         </li>
-                        <li>퇴소학생 :
+                        <li>대상학생 :
                             <select id="student_list" class="border rounded-0 form-control form-control-sm" name="o_target_student" style=" width: 150px; height: 100%;">
                                 <optgroup>
                                     <option value="none" selected>학생을 선택해주세요</option>
@@ -169,8 +170,10 @@
                         <td class="col-3">일반문의</td>
                         {% elif question.category == 1 %}
                         <td class="col-3">퇴소문의</td>
-                        {% else %}
+                        {% elif question.category == 2 %}
                         <td class="col-3">이반문의</td>
+                        {% else %}
+                        <td class="col-3">취소/환불</td>
                         {% endif %}
                         <td class="col-1"> 반려 </td>
                         <td class="col-3"> 홍과장님 </td>
