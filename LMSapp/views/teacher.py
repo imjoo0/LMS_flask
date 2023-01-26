@@ -36,6 +36,10 @@ def question(id):
             ban_id = request.form['o_ban_id']
             student_id = request.form['o_target_student'] 
             new_question = Question(category=1,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,create_date=create_date)
+        elif question_category == '취소/환불':
+            ban_id = request.form['o_ban_id']
+            student_id = request.form['o_target_student'] 
+            new_question = Question(category=3,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,create_date=create_date)
         db.session.add(new_question)
         db.session.commit()
 

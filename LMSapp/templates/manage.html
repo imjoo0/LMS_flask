@@ -16,79 +16,48 @@
 {% endblock %}
 {% block content %}
 {% autoescape off %}
-<!-- 모달 창 -->
-<div class="modal fade" id="question" tabindex="-1"
-    aria-labelledby="questionModalLabel" aria-hidden="true">
+<!-- 상담 요청 리스트 모달 창 -->
+<div class="modal fade" id="my_consulting_request" tabindex="-1" aria-labelledby="questionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="questionModalLabel">
-                    본원에 문의 남기기
+                    요청한 상담 목록 
                 </h5>
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div>
-            <form action="/teacher/question" method="POST"></form>
-                <ul>
-                    <li>문의 종류 : 
-                        <select id="question_kind" class="border rounded-0 form-control form-control-sm" name="question_category" style=" width: 150px; height: 100%;" onchange="change_question_kind(this.value)">
-                            <optgroup>
-                                <option value="none" selected>문의 종류를 선택해주세요</option>
-                                <option value="일반">일반 문의</option>
-                                <option value="퇴소이반">퇴소/이반 승인 요청</option>
-                            </optgroup>
-                        </select>
-                    </li>
-                    <div id="invisible_for_0">
-                        <li>대상학생 :
-                            <select class="border rounded-0 form-control form-control-sm" name="question_category" style=" width: 150px; height: 100%;">
-                                <optgroup>
-                                    <option value="none" selected>대상학생을 선택해주세요</option>
-                                    <option value=0>for student</option>
-                                </optgroup>
-                            </select>
-                        </li>
-                        <li>상담내용 : 
-                            <select class="border rounded-0 form-control form-control-sm" name="question_category" style=" width: 150px; height: 100%;">
-                                <optgroup>
-                                    <option value="none" selected>진행한 상담의 상담일지를 선택해주세요</option>
-                                    <option value=0>for student</option>
-                                </optgroup>
-                            </select>
-                        </li>
-                        <li>기존 반 : 
-                            <select class="border rounded-0 form-control form-control-sm" name="question_category" style=" width: 150px; height: 100%;">
-                                <optgroup>
-                                    <option value="none" selected>기존 반을 선택해주세요</option>
-                                    <option value=0>for student</option>
-                                </optgroup>
-                            </select>
-                        </li>
-                        <li>이반/퇴소승인 요청 반 : 
-                            <select class="border rounded-0 form-control form-control-sm" name="question_category" style=" width: 150px; height: 100%;">
-                                <optgroup>
-                                    <option value="none" selected>퇴소 승인 / 이반 승인 요청반을 선택해주세요</option>
-                                    <option value=0>for student</option>
-                                </optgroup>
-                            </select>
-                        </li>
-                    </div>
-                    
-                    <li><label>문의 내용</label>
-                        <textarea
-                            class="border rounded-0 form-control form-control-sm"
-                            type="text"rows="5" cols="25" 
-                            name="question_contents"
-                            id = "question_contents"></textarea>
-                    </li>
-                </ul>
-                <div style="display: flex; float: right;">
-                    <button class="btn btn-success" type="submit" style="margin-top: 13px;">저장</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin-top: 13px;">취소</button>
-                </div>
-            </form>
+                <table class="table text-center" id="consulting_task_list" style="width:100%;">
+                    <tbody  style="width:100%;">
+                        <thead>
+                            <tr class="row">
+                                <th class="col-3">날짜</th>
+                                <th class="col-2">종류</th>
+                                <th class="col-1">진행</th>
+                                <th class="col-4">내용</th>
+                                <th class="col-2">수정/삭제</th>
+                            </tr>
+                        </thead>
+                       
+                        {% for consulting in consultings %}
+                        <tr class="row">
+                            <td class="col-3">{{ consulting.startdate }} ~ {{ consulting.deadline }}</td>
+                            {% if consulting.category_id == 1 %}
+                            <td class="col-2">정기상담</td>
+                            {% elif consulting.category_id == 2 %}
+                            <td class="col-2">6개월상담</td>
+                            {% else %}
+                            <td class="col-2">귀찮상담</td>
+                            {% endif %}
+                            <td class="col-1"> 미진행 </td>
+                            <td class="col-4"> {{ consulting.contents }} </td>
+                            <td class="col-2"> <button>✏️</button> <button>❌</button></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table> 
             </div>
-                        
+
         </div>
     </div>
 </div>
@@ -105,24 +74,27 @@
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body" style="padding-top: 0;">
-                <form action="/manage/request_consulting" method="POST">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
-                    <div class="make_row" >
-                        <select class="border rounded-0 form-control form-control-sm" name="consulting_category" style=" width: 150px; height: 100%; margin-left:0;">
+                <form action="/manage/ban" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
+                    <div class="make_row">
+                        <select class="border rounded-0 form-control form-control-sm" name="consulting_category"
+                            style=" width: 150px; height: 100%; margin-left:0;">
                             <optgroup label="상담카테고리 선택">
                                 {% for category in consulting_category %}
                                 <option value="{{ category.id }}">{{ category.name }}</option>
                                 {% endfor %}
                             </optgroup>
                         </select>
-                        <input class="border rounded-0 form-control form-control-sm" type="text" name="consulting_contents" placeholder="상담 내용을 입력해주세요">
+                        <input class="border rounded-0 form-control form-control-sm" type="text"
+                            name="consulting_contents" placeholder="상담 내용을 입력해주세요">
                     </div>
                     <div class="notice_message">
                         <p>👇 상담을 진행할 반을 선택해주세요</p>
                         <div class="plus_under_contents">
-                            <select class="border rounded-0 form-control form-control-sm" name="consulting_target_student" id="consulting_target_student" onchange="getBanInfo(this.value)">
+                            <select class="border rounded-0 form-control form-control-sm" name="consulting_target_ban"
+                                id="consulting_target_ban" onchange="getBanInfo(this.value)">
                                 <optgroup label="상담 진행 반 선택">
-                                    <option value="전체 반">✔️ 전체 반 대상 진행</option>
+                                    <option value="전체 반">✔️ 전체 반 대상 진행 ( 저장 클릭 후 5분 소요 됩니다 ) </option>
                                     {% for ban in all_ban %}
                                     <option value="{{ ban.register_no }}">{{ ban.name }}</option>
                                     {% endfor %}
@@ -132,31 +104,152 @@
 
                             </div>
                         </div>
+                        <div class="notice_message" id="select_student">
+                            <p>👇 상담을 진행할 학생을 선택해주세요</p>
+                            <select class="border rounded-0 form-control form-control-sm"
+                                name="consulting_target_student" id="consulting_target_student">
+                                <optgroup id="target_a_student" label="반 대상 전체 진행">
+
+                                </optgroup>
+                                <optgroup id="target_student" label="개별 학생 대상 진행">
+
+                                </optgroup>
+                            </select>
+                        </div>
                     </div>
-                    
+
                     <div class="notice_message">
                         <p>👇 상담을 시작해야 하는 날짜를 2022-01-01 형식으로 적어주세요</p>
-                        <input class="border rounded-0 form-control form-control-sm" type="text" name="consulting_date" placeholder="2022-01-01">
+                        <input class="border rounded-0 form-control form-control-sm" type="text" name="consulting_date"
+                            placeholder="2023-01-01">
                     </div>
-                    
+
                     <div class="notice_message">
                         <p>👇 상담을 끝내야 하는 마감 날짜를 2022-01-01 형식으로 적어주세요</p>
-                        <input class="border rounded-0 form-control form-control-sm" type="text" name="consulting_deadline"  placeholder="2022-01-01">
+                        <input class="border rounded-0 form-control form-control-sm" type="text"
+                            name="consulting_deadline" placeholder="2023-01-01">
                     </div>
                     <div style="display: flex; float: right;">
                         <button class="btn btn-success" type="submit" style="margin-top: 13px;">저장</button>
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin-top: 13px;">취소</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                            style="margin-top: 13px;">취소</button>
                     </div>
-                    
+
                 </form>
 
             </div>
-            
+
 
         </div>
     </div>
 </div>
 
+
+<!-- 업무요청 모달 -->
+<div class="modal fade" id="request_task" tabindex="-1" aria-labelledby="RequestTaskModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="RequestTaskModalLabel">
+                    업무 요청
+                </h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" style="padding-top: 0;">
+                <form action="/manage/task" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
+                    <div class="make_row">
+                        <select class="border rounded-0 form-control form-control-sm" name="task_category"
+                            style=" width: 200px; height: 100%; margin-left:0;">
+                            <optgroup label="업무카테고리 선택">
+                                <option value="none" selected>업무 종류를 선택해주세요</option>
+                                {% for category in task_category %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                                {% endfor %}
+                            </optgroup>
+                        </select>
+                        <input class="border rounded-0 form-control form-control-sm" type="text" name="task_contents"
+                            placeholder="업무 내용을 입력해주세요">
+                    </div>
+                    <div class="notice_message">
+                        <p>👇 업무를 진행할 반을 선택해주세요</p>
+                        <div class="plus_under_contents">
+                            <select class="border rounded-0 form-control form-control-sm" name="task_target_ban" id="task_target_ban" onchange="getBanInfo(this.value)">
+                                <optgroup label="업무 진행 반 선택">
+                                    <option value="none" selected>진행 반 선택</option>
+                                    <option value="전체 반">✔️ 전체 대상 진행 ( 저장 클릭 후 조금 기다려 주세요 ) </option>
+                                    {% for bt in ban_teacher %}
+                                    <option value="{{ bt['ban'] }}">{{ bt['ban_name'] }} | 담당 선생님: {{ bt['teacher_name']
+                                        }}</option>
+                                    {% endfor %}
+                                </optgroup>
+                            </select>
+                            <div class="make_row" id="target_bans">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="notice_message">
+                        <p>👇 업무을 시작해야 하는 날짜를 2022-01-01 형식으로 적어주세요</p>
+                        <input class="border rounded-0 form-control form-control-sm" type="text" name="task_date"
+                            placeholder="2023-01-01">
+                    </div>
+
+                    <div class="notice_message">
+                        <p>👇 업무을 끝내야 하는 마감 날짜를 2022-01-01 형식으로 적어주세요</p>
+                        <input class="border rounded-0 form-control form-control-sm" type="text" name="task_deadline"
+                            placeholder="2023-01-01">
+                    </div>
+                    <div class="notice_message">
+                        <p>👇 업무 참고 url 을 알려주세요 (없을 경우: 없음)</p>
+                        <input class="border rounded-0 form-control form-control-sm" type="text" name="task_url"
+                            placeholder="https://www.purpleacademy.co.kr/">
+                    </div>
+                    <div class="notice_message">
+                        <p style="margin-right: 6px;"> 업무 주기와 업무 우선순위설정 : </p>
+                        <div class="make_row">
+                            <select class="border rounded-0 form-control form-control-sm" name="task_cycle"
+                            style=" width: 200px; height: 100%; margin-left:0;">
+                                <optgroup>
+                                    <option value="none" selected>업무 주기를 선택해주세요</option>
+                                    <option value=1>월요일 업무</option>
+                                    <option value=2>화요일 업무</option>
+                                    <option value=3>수요일 업무</option>
+                                    <option value=4>목요일 업무</option>
+                                    <option value=5>금요일 업무</option>
+                                    <option value=6>상시 업무</option>
+                                    <option value=7>업무 주기 없음</option>
+                                </optgroup>
+                            </select>
+                            <select class="border rounded-0 form-control form-control-sm" name="task_priority"
+                                style=" width: 200px; height: 100%; margin-left:0;">
+                                <optgroup>
+                                    <option value="none" selected>업무 우선순위를 선택해주세요</option>
+                                    <option value=4>최우선 업무</option>
+                                    <option value=3>오전 업무</option>
+                                    <option value=2>오후 업무</option>
+                                    <option value=1>우선순위 무관</option>
+                                </optgroup>
+                            </select>
+                        
+                        </div>
+                    </div>
+
+                    <div style="display: flex; float: right;">
+                        <button class="btn btn-success" type="submit" style="margin-top: 13px;">저장</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                            style="margin-top: 13px;">취소</button>
+                    </div>
+
+                </form>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
 
 <div class="container_box">
     <section id="statistics">
@@ -165,7 +258,7 @@
                 <h1> 반 현황 검색 </h1>
             </div>
             <div class="label" id="label_title">
-                
+
             </div>
             <select name="target_ban" onchange="getBanInfo(this.value)">
                 <optgroup>
@@ -178,10 +271,10 @@
         </div>
         <div class="make_col">
             <div id="profile_data">
-                
+
             </div>
             <div id="ban_data">
-                
+
             </div>
             <table class="table text-center" style="width:100%;" id="student_data">
                 <tr class="row" style="background: #DCE6F2;">
@@ -195,29 +288,69 @@
                     <th class="col-1">상세</th>
                 </tr>
                 <tr id="s_data" class="row">
-                        
+
                 </tr>
             </table>
             <ul id="pagingul"></ul>
 
             <div id="ban_statistics" class="make_row">
-                
+
             </div>
 
             <div class="make_row" id="request_box">
-                <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#request_consulting">상담 요청 하기</button>
-                <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#request_task">업무 요청 하기</button>
+                    <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
+                    data-bs-target="#request_consulting">상담 요청 하기</button>
+                    <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
+                    data-bs-target="#my_consulting_request" style="margin-right: 20px;">요청중인 상담 보기</button>
+                    <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
+                    data-bs-target="#request_task">업무 요청 하기</button>
+                    <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
+                    data-bs-target="#my_task_request">요청중인 업무 보기</button>    
             </div>
-            <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#my_request" style="margin-top: 2px;">요청중인 목록 보기</button>
+
         </div>
-        
+
     </section>
-    <section id="work"></section>
+    <section id="work">
+        <div class="make_col">
+            <div class="label" id="default_title">
+                <h1> 선생님 문의 현황 </h1>
+            </div>
+            <table class="table text-center" id="teacher_question" style="width:100%;">
+                <tbody >
+                    <thead>
+                        <tr class="row">
+                            <th class="col-3">종류</th>
+                            <th class="col-3">선생님</th>
+                            <th class="col-4">제목</th>
+                            <th class="col-2">응답</th>
+                        </tr>
+                    </thead>
+                   
+                    {% for q in questions %}
+                    <tr class="row">
+                        {% if q.category == 0 %}
+                        <td class="col-3">일반문의</td>
+                        {% elif q.category == 1 %}
+                        <td class="col-3">퇴소요청</td>
+                        {% elif q.category == 2 %}
+                        <td class="col-3">이반요청</td>
+                        {% else %}
+                        <td class="col-3">취소/환불</td>
+                        {% endif %}
+                        <td class="col-3"> {{q.teacher_id}} </td>
+                        <td class="col-4"> {{ q.contents }} </td>
+                        <td class="col-2"> <button>✏️</button> <button>❌</button></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table> 
+        </div>
+    </section>
 </div>
 
 {% block jspart %}
 <script type="text/javascript" src="../static/js/manage.js"></script>
-<script type="text/javascript" src="../static/js/paginate.js"></script>
 {% endblock %}
 
 {% endautoescape %}

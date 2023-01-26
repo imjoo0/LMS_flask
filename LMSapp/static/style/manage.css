@@ -65,3 +65,7 @@
     float: left;
     margin-bottom: 0;
 }
+
+#select_student{
+    display: none;
+}

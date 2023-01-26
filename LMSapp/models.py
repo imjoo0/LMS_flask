@@ -109,3 +109,28 @@ class Consulting(db.Model):
     startdate = db.Column(db.DateTime)
     deadline = db.Column(db.DateTime)
     # consultinghistories = db.relationship('ConsultingHistory',backref='consulting')
+
+class TaskCategory(db.Model):
+    __tablename__ = 'taskcategory'
+    
+    id=db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(45), nullable=True)
+    tasks = db.relationship('Task', backref='taskcategory')
+
+
+class Task(db.Model):
+    __tablename__ = 'task'
+    
+    id=db.Column(db.Integer,primary_key=True)
+    ban_id = db.Column(db.Integer, db.ForeignKey('ban.register_no'))
+    category_id = db.Column(db.Integer, db.ForeignKey('taskcategory.id'))
+    teacher_id = db.Column(db.Integer, db.ForeignKey('user.register_no'))
+    contents = db.Column(db.Text)
+    url = db.Column(db.Text)
+    attachments = db.Column(db.Text)
+    startdate = db.Column(db.DateTime)
+    deadline = db.Column(db.DateTime)
+    priority = db.Column(db.Integer, nullable=True)
+    cycle = db.Column(db.Integer, nullable=True)
+
+    # consultinghistories = db.relationship('ConsultingHistory',backref='consulting')

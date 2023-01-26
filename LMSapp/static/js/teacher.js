@@ -24,7 +24,7 @@ function change_question_kind(str){
         $('#invisible_for_1').hide();
         $('#invisible_for_2').show();
         $('#question_box').show();
-    }else if( str == "퇴소"){
+    }else if( str == "퇴소" || "취소/환불"){
         $('#invisible_for_2').hide();
         $('#invisible_for_1').show();
         $('#question_box').show();
