@@ -312,7 +312,7 @@
         <div class="container border rounded-3 p-4 pb-1">
             {% for task in target_task %}
             <details>
-                <summary>✅ {{ all_task_category[task[0].category_id].name }}<a href=w.url>👉 수행 </a></summary>
+                <summary>✅ {{ all_task_category[task[0].category_id].name }} <a href=w.url>👉 수행 </a></summary>
                 {% for t in task %}
                 <p> {{ t.contents }} | {{ t.ban_id }}</p>
                 {% endfor %}
