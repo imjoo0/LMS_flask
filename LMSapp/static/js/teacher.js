@@ -34,12 +34,8 @@ function change_question_kind(str){
         $('#question_box').show();
     }
 }
-function work_doneview(done){
-    if( done == 0 ){
-
-    }else{
-        
-    }
+function update_done(taskid){
+    console.log(taskid)
 }
 function get_answer(q_id){
     $('#questionlist').hide()

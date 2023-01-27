@@ -15,11 +15,12 @@ class User(db.Model):
     email = db.Column(db.String(100),nullable=True)    
     category = db.Column(db.Integer, nullable=False)
     register_no = db.Column(db.Integer,unique=True)
-    bans = db.relationship('Ban', backref='teacher')
-    students =  db.relationship('Student',secondary = 'enroll', back_populates='teachers', lazy = 'dynamic')
-    # 선생님이 남긴 문의 
+
+    # 관계 설정
     questions = db.relationship('Question', backref='teacher')
-    tasks = db.relationship('Task', backref='teacher')
+    bans = db.relationship('Ban', backref='teacher')
+    students = db.relationship('Student', backref='teacher')
+    tasks = db.relationship('TaskClass')
 
     # 사용자가 남긴 상담일지 
     # histories = relationship ~ 
@@ -35,14 +36,20 @@ class Ban(db.Model):
     notice_num = db.Column(db.Integer, nullable=True)
     inquiry_num = db.Column(db.Integer, nullable=True)
     not_answered_inquiry_num = db.Column(db.Integer, nullable=True)
-    students = db.relationship('Student',secondary = 'enroll',back_populates='bans', lazy = 'dynamic')
-    consultings = db.relationship('Consulting', backref='target_ban')
-    tasks = db.relationship('Task', backref='target_ban')
+    
+    # 관계 설정 
+    students = db.relationship('Student', backref='my_ban')
+    consultings = db.relationship('Consulting', backref='bans')
+    # tasks = db.relationship('Task',secondary = 'task_ban',back_populates='bans', lazy = 'dynamic')
+    tasks = db.relationship('TaskClass')
 
 class Student(db.Model):
     __tablename__ = 'student'
 
     id=db.Column(db.Integer,primary_key=True)
+    ban_id = db.Column(db.Integer,db.ForeignKey('ban.register_no'))
+    teacher_id = db.Column(db.Integer,db.ForeignKey('user.register_no'))
+    is_out_code = db.Column(db.Integer,nullable=False)
     original = db.Column(db.String(45), nullable=True)
     register_no = db.Column(db.Integer,unique=True)
     name =  db.Column(db.String(50), nullable=True)
@@ -51,25 +58,10 @@ class Student(db.Model):
     parent_mobileno =  db.Column(db.String(100), nullable=True)
     recommend_book_code = db.Column(db.String(50), nullable=True)
     register_date = db.Column(db.DateTime, nullable=True)
-    bans = db.relationship('Ban', secondary = 'enroll', back_populates='students', lazy = 'dynamic')
-    teachers = db.relationship('User', secondary = 'enroll', back_populates='students', lazy = 'dynamic')
+
+    # 관계 설정
     consultings = db.relationship('Consulting', backref='target_student')
 
-db.Table('enroll',
-    db.Column('ban_id',db.Integer,db.ForeignKey('ban.register_no')),
-    db.Column('student_id',db.Integer,db.ForeignKey('student.register_no')),
-    db.Column('teacher_id',db.Integer,db.ForeignKey('user.register_no'))
-)
-
-# class Enroll(db.Model):
-#     __tablename__ = 'enroll'
-
-#     id=db.Column(db.Integer,primary_key=True)
-#     ban_id = db.Column(db.Integer,db.ForeignKey('ban.register_no'))
-#     student_id = db.Column(db.Integer,db.ForeignKey('student.register_no'))
-#     teacher_id = db.Column(db.Integer,db.ForeignKey('user.register_no'))
-#     is_out_code = db.Column(db.Integer,nullable=False)
-#     switch_ban = db.Column(db.Integer,db.ForeignKey('ban.register_no'),nullable=True)
 
 class Question(db.Model):
     __tablename__ = 'question'
@@ -125,9 +117,7 @@ class Task(db.Model):
     __tablename__ = 'task'
     
     id=db.Column(db.Integer,primary_key=True)
-    ban_id = db.Column(db.Integer, db.ForeignKey('ban.register_no'))
     category_id = db.Column(db.Integer, db.ForeignKey('taskcategory.id'))
-    teacher_id = db.Column(db.Integer, db.ForeignKey('user.register_no'))
     contents = db.Column(db.Text)
     url = db.Column(db.Text)
     attachments = db.Column(db.Text)
@@ -135,5 +125,23 @@ class Task(db.Model):
     deadline = db.Column(db.DateTime)
     priority = db.Column(db.Integer, nullable=True)
     cycle = db.Column(db.Integer, nullable=True)
+    
+    # 관계 설정 
+    # bans = db.relationship('Ban',secondary ='task_ban',back_populates='tasks', lazy = 'dynamic')
+    bans = db.relationship('TaskClass')
+    teachers = db.relationship('TaskClass')
 
-    # consultinghistories = db.relationship('ConsultingHistory',backref='consulting')
+# db.Table('task_ban',
+#     db.Column('ban_id',db.Integer,db.ForeignKey('ban.register_no')),
+#     db.Column('task_id',db.Integer,db.ForeignKey('task.id')),
+#     db.Column('done',db.Integer)
+# )
+
+class TaskClass(db.Model):
+    __tablename__ = 'task_ban'
+
+    id=db.Column(db.Integer,primary_key=True)
+    ban_id = db.Column(db.ForeignKey('ban.register_no'), primary_key=True)
+    teacher_id = db.Column(db.ForeignKey('user.register_no'), primary_key=True)
+    task_id = db.Column(db.ForeignKey('task.id'), primary_key=True)
+    done = db.Column(db.Integer, nullable=True)

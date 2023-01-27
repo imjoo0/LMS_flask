@@ -129,3 +129,6 @@
     }
 
 /* 차트 끝 */
+#work_box > p{
+    margin-right: 6px;
+}
