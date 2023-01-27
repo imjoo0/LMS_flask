@@ -233,8 +233,8 @@ option {
 details {
     border-bottom: 1px solid #efefef;
     color: #666;
-    font-size: 16px;
-    padding: 15px;
+    font-size: 15px;
+    padding: 5px;
 }
 
 
@@ -244,8 +244,8 @@ details[open] summary {
 
 details > summary {
     color: #333;
-    font-size: 18px;
-    padding: 15px 0;
+    font-size: 15px;
+    padding: 5px 0;
 }
 
 .student_report{

@@ -1,11 +1,13 @@
 from flask import Blueprint,render_template, jsonify, request,redirect,url_for,flash
 import config 
 from datetime import datetime, timedelta, date
+
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 
 from flask import session  # 세션
 from LMSapp.models import *
 from LMSapp.views import *
+
 
 # 선생님 메인 페이지
 # 테스트 계정 id : T1031 pw동일  
@@ -15,19 +17,63 @@ def home():
         user = User.query.filter(User.user_id == session['user_id']).all()[0]
         all_ban = Ban.query.all()
         all_task_category = TaskCategory.query.all()
-        
-        # user.tasks.sort(key = lambda x:x.category_id)
-        tc=[]
-        for t in user.tasks:
-            tc.append(t.category_id)
-        tc = set(tc)
-        st = set(user.tasks)
-        print(st)
+
+        # task_id를 기준으로 소팅 
+        user.tasks.sort(key = lambda x:x.task_id)
+        tc = []
+        for task in user.tasks:
+            tc.append(task.task_id)        
+        tc = list(set(tc))
+
         target_task = []
         for t in tc:
-            target_task.append(list(st.intersection(all_task_category[t-1].tasks)))
+            target_data = {}
+            target_data['task'] = Task.query.filter(Task.id == t).all()[0]
+            target_data['task_data'] = []
+            for tb in user.tasks:
+                if t == tb.task_id:
+                    data = {}
+                    data['id'] = tb.id
+                    data['ban'] = Ban.query.filter(Ban.register_no == tb.ban_id).all()[0]
+                    target_data['task_data'].append(data)
+            target_task.append(target_data)
+
         print(target_task)
+            
+        # for target in target_task:
+        
+
+        #     intersection = list(set(task_category.tasks) & set(user.tasks))
+
+        # 로그인한 사용자의 업무들의 카테고리 중복 제거해서 저장 
+        # tc=[]
+        # for t in user.tasks:
+        #     tc.append(t.category_id)
+        # list(set(tc))
+
+        # for task_category in all_task_category:
+        #     if task_category.id in tc :
+        #         intersection = list(set(task_category.tasks) & set(user.tasks))
+        #         tatal_task_num = len(intersection)-1
+        #         print(tatal_task_num)
+        #         for i in range(tatal_task_num):
+        #             if (intersection[i].contents == intersection[i+1].contents):
+        #                 print(intersection[i])
+        # for t in tc:
+        #     target_task.append(list(st.intersection(all_task_category[t-1].tasks)))
+        # print(target_task)
         return render_template('teacher.html',user=user,all_ban = all_ban,all_task_category=all_task_category,target_task=target_task)
+
+# 테스트 계정 id : T1031 pw동일  
+@bp.route("/<int:id>", methods=['POST','GET'])
+def update_done(id):
+    target_task = TaskClass.query.get_or_404(id)
+    target_task.done = 1
+    try:
+        db.session.commit()
+        return redirect('/')
+    except:
+        return 'There was an issue updating your work'
 
 # 선생님 문의 저장 
 @bp.route('/question/<int:id>', methods=['GET','POST'])
