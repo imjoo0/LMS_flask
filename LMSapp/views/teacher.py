@@ -11,27 +11,31 @@ from LMSapp.views import *
 
 
 headers = {'content-type': 'application/json'}
-url = 'http://118.131.85.245:23744/'
-
 # 선생님 메인 페이지
 # 테스트 계정 id : T1031 pw동일  
 @bp.route("/", methods=['GET'])
 
 def home():
     if request.method =='GET':
-        res = requests.post(url + 'lms_student', headers=headers, data=json.dumps({'data':{'id': session['user_id']}}))
-        print(res.json())
-        students = res.json()
+        teacher_info = requests.post(config.api + 'get_teacher_info', headers=headers, data=json.dumps({'data':{'id': session['user_id']}}))
+        teacher_info = teacher_info.json()
+        teacher_info = teacher_info[0]
 
+        print(teacher_info['id']) # register_no로 바뀌어야 함. 
         user = User.query.filter(User.user_id == session['user_id']).all()[0]
-        print(user)
-        all_ban = Ban.query.all()
-        all_task_category = TaskCategory.query.all()
+        
+        mybans_info = requests.post(config.api + 'get_mybans', headers=headers, data=json.dumps({'data':{'id': session['user_id']}}))
+        mybans_info = mybans_info.json()
 
+        all_task_category = TaskCategory.query.all()
+  
         # task_id를 기준으로 소팅 
-        user.tasks.sort(key = lambda x:x.task_id)
+        my_tasks = TaskBan.query.filter(TaskBan.teacher_id==teacher_info['register_no']).all()
+        print(my_tasks)
+
+        my_tasks.sort(key = lambda x:x.task_id)
         tc = []
-        for task in user.tasks:
+        for task in my_tasks:
             tc.append(task.task_id)        
         tc = list(set(tc))
 
@@ -40,7 +44,7 @@ def home():
             target_data = {}
             target_data['task'] = Task.query.filter(Task.id == t).all()[0]
             target_data['task_data'] = []
-            for tb in user.tasks:
+            for tb in my_tasks:
                 if t == tb.task_id:
                     data = {}
                     data['id'] = tb.id
@@ -77,7 +81,7 @@ def home():
 # 테스트 계정 id : T1031 pw동일  
 @bp.route("/<int:id>", methods=['POST','GET'])
 def update_done(id):
-    target_task = TaskClass.query.get_or_404(id)
+    target_task = TaskBan.query.get_or_404(id)
     target_task.done = 1
     try:
         db.session.commit()
@@ -92,7 +96,8 @@ def question(id):
         question_category = request.form['question_category']
         title = request.form['question_title']
         contents = request.form['question_contents']
-        teacher = session['register_no']
+        teacher = session['user_id']
+
         create_date = datetime.now()
         if question_category == '일반':
             new_question = Question(category=0,title=title,contents=contents,teacher_id=teacher,create_date=create_date)

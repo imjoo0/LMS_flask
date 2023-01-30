@@ -17,7 +17,7 @@ SECRET_KEY = config.SECRET_KEY
 @bp.route('/')
 def mainpage():
     user = session.get('user_id', None)
-    user_category = session.get('user_category',0)
+    print(user)
     # user_category = session.get('user_category', None)
     # if user == None:
     #     return redirect('login')
@@ -29,12 +29,10 @@ def mainpage():
     if user == None:
         return redirect('login')
     else:
-        if user_category == 1:
+        if user == 'T0001':
             return redirect(url_for('manage.home'))
-        elif user_category == 2:
+        else:
             return redirect(url_for('teacher.home'))
-        else :
-            return render_template('index.html')
 
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -42,12 +40,6 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         session['user_id'] = form.data.get('user_id')
-        user_register_no = User.query.filter(
-            User.user_id == session['user_id']).all()[0].register_no
-        session['register_no'] = user_register_no
-        user_category = User.query.filter(
-            User.user_id == session['user_id']).all()[0].category
-        session['user_category'] = user_category
         return redirect('/')  # 성공하면 home.html로
     return render_template('login.html', form=form)
 
