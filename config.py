@@ -1,4 +1,4 @@
-SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://purple:wjdgus00@purpleacademy.net:3306/LMS'
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://purple:wjdgus00@127.0.0.1:3306/LMS'
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
