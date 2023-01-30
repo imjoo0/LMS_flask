@@ -2,6 +2,7 @@ from flask import Blueprint,render_template, jsonify, request,redirect,url_for,f
 import config 
 from datetime import datetime, timedelta, date
 import requests
+import json
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 
 from flask import session  # 세션
@@ -18,9 +19,12 @@ url = 'http://118.131.85.245:23744/'
 
 def home():
     if request.method =='GET':
-        res = requests.post(url=url + 'get_parent', headers=headers, data={'id': 'purple_test'})
+        res = requests.post(url + 'lms_student', headers=headers, data=json.dumps({'data':{'id': session['user_id']}}))
         print(res.json())
+        students = res.json()
+
         user = User.query.filter(User.user_id == session['user_id']).all()[0]
+        print(user)
         all_ban = Ban.query.all()
         all_task_category = TaskCategory.query.all()
 
@@ -68,7 +72,7 @@ def home():
         # for t in tc:
         #     target_task.append(list(st.intersection(all_task_category[t-1].tasks)))
         # print(target_task)
-        return render_template('teacher.html',user=user,all_ban = all_ban,all_task_category=all_task_category,target_task=target_task)
+        return render_template('teacher.html',user=user,all_ban = all_ban,all_task_category=all_task_category,target_task=target_task,students=students)
 
 # 테스트 계정 id : T1031 pw동일  
 @bp.route("/<int:id>", methods=['POST','GET'])
