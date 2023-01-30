@@ -20,7 +20,7 @@ class User(db.Model):
     questions = db.relationship('Question', backref='teacher')
     bans = db.relationship('Ban', backref='teacher')
     students = db.relationship('Student', backref='teacher')
-    tasks = db.relationship('TaskClass')
+    tasks = db.relationship('TaskBan')
 
     # 사용자가 남긴 상담일지 
     # histories = relationship ~ 
@@ -41,7 +41,7 @@ class Ban(db.Model):
     students = db.relationship('Student', backref='my_ban')
     consultings = db.relationship('Consulting', backref='bans')
     # tasks = db.relationship('Task',secondary = 'task_ban',back_populates='bans', lazy = 'dynamic')
-    tasks = db.relationship('TaskClass')
+    tasks = db.relationship('TaskBan')
 
 class Student(db.Model):
     __tablename__ = 'student'
@@ -128,8 +128,8 @@ class Task(db.Model):
     
     # 관계 설정 
     # bans = db.relationship('Ban',secondary ='task_ban',back_populates='tasks', lazy = 'dynamic')
-    bans = db.relationship('TaskClass')
-    teachers = db.relationship('TaskClass')
+    bans = db.relationship('TaskBan')
+    teachers = db.relationship('TaskBan')
 
 # db.Table('task_ban',
 #     db.Column('ban_id',db.Integer,db.ForeignKey('ban.register_no')),
@@ -137,7 +137,7 @@ class Task(db.Model):
 #     db.Column('done',db.Integer)
 # )
 
-class TaskClass(db.Model):
+class TaskBan(db.Model):
     __tablename__ = 'task_ban'
 
     id=db.Column(db.Integer,primary_key=True)
