@@ -1,7 +1,7 @@
 from flask import Blueprint,render_template, jsonify, request,redirect,url_for,flash
 import config 
 from datetime import datetime, timedelta, date
-
+import requests
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 
 from flask import session  # 세션
@@ -9,11 +9,17 @@ from LMSapp.models import *
 from LMSapp.views import *
 
 
+headers = {'content-type': 'application/json'}
+url = 'http://118.131.85.245:23744/'
+
 # 선생님 메인 페이지
 # 테스트 계정 id : T1031 pw동일  
 @bp.route("/", methods=['GET'])
+
 def home():
     if request.method =='GET':
+        res = requests.post(url=url + 'get_parent', headers=headers, data={'id': 'purple_test'})
+        print(res.json())
         user = User.query.filter(User.user_id == session['user_id']).all()[0]
         all_ban = Ban.query.all()
         all_task_category = TaskCategory.query.all()
