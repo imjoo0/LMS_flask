@@ -82,7 +82,10 @@ def home():
         # for t in tc:
         #     target_task.append(list(st.intersection(all_task_category[t-1].tasks)))
         # print(target_task)
-        return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,all_task_category=all_task_category,target_task=target_task,students=mystudents_info)
+
+        my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()[0]
+
+        return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,all_task_category=all_task_category,target_task=target_task,students=mystudents_info, questions=my_questions)
 
 # 테스트 계정 id : T1031 pw동일  
 @bp.route("/<int:id>", methods=['POST','GET'])
@@ -103,8 +106,8 @@ def question(id):
         title = request.form['question_title']
         contents = request.form['question_contents']
         teacher = session['user_registerno']
+        create_date = datetime.now().date()
 
-        create_date = datetime.now()
         if question_category == '일반':
             new_question = Question(category=0,title=title,contents=contents,teacher_id=teacher,create_date=create_date)
         elif question_category == '이반':
@@ -120,6 +123,7 @@ def question(id):
             ban_id = request.form['o_ban_id']
             student_id = request.form['o_target_student'] 
             new_question = Question(category=3,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,create_date=create_date)
+        
         db.session.add(new_question)
         db.session.commit()
 
@@ -132,8 +136,7 @@ def question(id):
         teacher_info = requests.post(config.api + 'get_teacher_info', headers=headers, data=json.dumps({'data':{'id': session['user_id']}}))
         teacher_info = teacher_info.json()
         teacher_info = teacher_info[0]
-
-        t = User.query.filter(User.register_no == q.teacher_id).all()[0]
+        a = Answer.query.filter(Answer.question_id == id).all()[0]
         
         if q.category == 0:
             return jsonify({
@@ -143,10 +146,18 @@ def question(id):
             'create_date':q.create_date,
             'teacher': teacher_info['name'],
             'teacher_e': teacher_info['engname'],
+            'answer' : a.content,
+            'answer_at': a.created_at
             })
         else:
-            s = Student.query.filter(Student.register_no == q.student_id).all()[0]
-            b = Ban.query.filter(Ban.register_no == q.ban_id).all()[0]
+            s = requests.post(config.api + 'get_student_info', headers=headers, data=json.dumps({'data':{ 'id':  q.student_id }}))
+            s = s.json()
+            s = s[0]
+
+            b = requests.post(config.api + 'get_ban', headers=headers, data=json.dumps({'data':{ 'id':  q.ban_id }}))
+            b = b.json()
+            b = b[0]    
+
             if q.category == 2:
                 return jsonify({
                 'cateogry':'이반 요청',
@@ -155,9 +166,12 @@ def question(id):
                 'create_date':q.create_date,
                 'teacher': teacher_info['name'],
                 'teacher_e':teacher_info['engname'],
-                'student': s.name,
-                'student_origin': s.original,
-                'ban' : b.name
+                'student': s['name'],
+                'student_origin': s['origin'],
+                'ban' : b['name'],
+                'answer' : a.content,
+                'answer_at': a.created_at,
+                'reject' : a.reject_code
                 })
             else:
                 return jsonify({
@@ -165,11 +179,14 @@ def question(id):
                 'title': q.title,
                 'contents':q.contents,
                 'create_date':q.create_date,
-                'teacher': t.name,
-                'teacher_e':t.eng_name,
-                'student': s.name,
-                'student_origin': s.original,
-                'ban' : b.name
+                'teacher': teacher_info['name'],
+                'teacher_e':teacher_info['engname'],
+                'student': s['name'],
+                'student_origin': s['origin'],
+                'ban' : b['name'],
+                'answer' : a.content,
+                'answer_at': a.created_at,
+                'reject' : a.reject_code
                 })
             
 
