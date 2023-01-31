@@ -32,7 +32,7 @@
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div>
-            <form action="/teacher/question/1" method="POST">
+            <form action="/teacher/question" method="POST">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                 <ul>
                     <li>문의 종류 : 
@@ -163,13 +163,11 @@
             <table class="table text-center" id="questionlist" style="width:100%;">
                 <tbody  style="width:100%;">
                     <tr class="row">
-                        <th class="col-3">문의</th>
-                        <th class="col-1">상태</th>
-                        <th class="col-3">담당자</th>
-                        <th class="col-4">제목</th>
-                        <th class="col-1">상세보기</th>
+                        <th class="col-3">종류</th>
+                        <th class="col-7">제목</th>
+                        <th class="col-2">상태</th>
                     </tr>
-                    {% for question in user.questions %}
+                    {% for question in questions %}
                     <tr class="row">
                         {% if question.category == 0 %}
                         <td class="col-3">일반문의</td>
@@ -180,10 +178,12 @@
                         {% else %}
                         <td class="col-3">취소/환불</td>
                         {% endif %}
-                        <td class="col-1"> 반려 </td>
-                        <td class="col-3"> 홍과장님 </td>
-                        <td class="col-4">{{ question.title }} </td>
-                        <td class="col-1" onclick="get_answer('{{question.id}}')">✔️</td>
+                        <td class="col-7">{{ question.title }} </td>
+                        {% if question.answer_id == null %}
+                        <td class="col-2"> 미답변 </td>
+                        {% else %}
+                        <td class="col-2"  onclick="get_answer('{{question.id}}')"> ✔️ </td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>

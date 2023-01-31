@@ -3,6 +3,8 @@ from wtforms import StringField,IntegerField
 from wtforms import PasswordField
 from wtforms.validators import DataRequired, EqualTo
 from LMSapp.models import User
+import requests
+import config
 
 # class RegisterForm(FlaskForm):
 #     user_id = StringField('user_id', validators=[DataRequired()])
@@ -20,8 +22,10 @@ class LoginForm(FlaskForm):
             user_id = form['user_id'].data
             user_pw = field.data
             
-            usertable = User.query.filter_by(user_id=user_id).first()
-            if usertable == None:
+
+            usertable = requests.post(config.api + 'get_teacher_info', headers=headers, data=json.dumps({'data':{'id': user_id} }))
+            print(usertable)
+            if usertable != 200:
                 raise ValueError('존재하지 않는 유저 입니다.')
             if usertable.user_pw != user_pw:
                 raise ValueError('비밀번호 틀림')

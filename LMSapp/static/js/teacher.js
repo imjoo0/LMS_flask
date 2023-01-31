@@ -55,6 +55,7 @@ function get_answer(q_id){
         teacher = response["teacher"]
         teacher_e = response["teacher_e"]
         create_date = response["create_date"]
+        answer = response['answer']
         if(cateogry == '일반문의'){
             let temp_question_list = `
             <ul>
@@ -64,11 +65,19 @@ function get_answer(q_id){
                 <li>작성자 : ${teacher} ( ${teacher_e} )</li>
                 <li>작성일 : ${create_date}</li>
             </ul>
-            <ul>
-                <li>응답 : 응답이 아직 없어요 😵‍💫
-            </ul>
+            <ul id='answer_list'></ul>
             `;
             $('#questiondetail_box').append(temp_question_list);
+            if( answer == null ){
+                temp_answer_list=`<li>응답 : 응답이 아직 없어요 😵‍💫</li>`;
+                $('#answer_list').append(temp_answer_list);
+            }else{
+                temp_answer_list=`
+                <li>응답 : ${answer} </li>
+                <li>응답일 : ${answer_at} </li>
+                `;
+                $('#answer_list').append(temp_answer_list);
+            }
         }
         else{
             ban = response["ban"]
@@ -83,14 +92,26 @@ function get_answer(q_id){
                 <li>작성일 : ${create_date}</li>
                 <li>대상 반 | 학생: ${ban} ➖ ${student} ( ${student_origin} )</li>
             </ul>
-            <ul>
-                <li>응답 : 반려 / 승인 처리 😵‍💫
-            </ul>
+            <ul id='answer_list'></ul>
             `;
             $('#questiondetail_box').append(temp_question_list);
-
+            if( answer == null ){
+                temp_answer_list=`<li>응답 : 응답이 아직 없어요 😵‍💫</li>`;
+                $('#answer_list').append(temp_answer_list);
+            }else{
+                if( response["reject"] = 1 ){
+                    reject_code = '반려'
+                }else{
+                    reject_code = '승인'
+                }
+                temp_answer_list=`
+                <li>처리 : ${ reject_code } </li>
+                <li>응답 : ${answer} </li>
+                <li>응답일 : ${answer_at} </li>
+                `;
+                $('#answer_list').append(temp_answer_list);
+            }
         }
-        
         }
     });
     $('#questiondetail').show()
