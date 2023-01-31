@@ -74,7 +74,7 @@ def home():
         # print(target_task)
 
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()[0]
-
+        print(my_questions)
         return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,all_task_category=all_task_category,target_task=target_task,students=mystudents_info, questions=my_questions)
 
 # 테스트 계정 id : T1031 pw동일  

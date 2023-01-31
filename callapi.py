@@ -17,21 +17,37 @@ def get_teacher_info(teacher_id):
 def get_mystudents(teacher_id):
     result = requests.post(config.api + 'get_mystudents', headers=headers, data=json.dumps({'data':{'id': teacher_id}}))
     result = result.json()
-    print('담당중인 학생들')
-    print(result)
+    # name / register_no / origin / nick_name / mobileno / pname / pmobileno
     return result
 
 def get_mybans(teacher_id):
     result = requests.post(config.api + 'get_mybans', headers=headers, data=json.dumps({'data':{'id': teacher_id}}))
     result = result.json()
-    print('담당중인 반들')
-    print(result)
+    # register_no / name / semester / total_student_num 
+    for i in result:
+        if ((i['semester']-13)%3) == 1:
+            i['semester'] = 1
+        elif ((i['semester']-13)%3) == 2:
+            i['semester'] = 5
+        elif ((i['semester']-13)%3) == 0:
+            i['semester'] = 9
+        else:
+            i['semester'] = i['semester'] 
     return result
 
 def all_ban_info():
     result = requests.post(config.api + 'get_all_ban', headers=headers, data=json.dumps({'data':{}}))
     result = result.json()
-    print('전체 반')
+    # register_no / name / semester 
+    for i in result:
+        if ((i['semester']-13)%3) == 1:
+            i['semester'] = 1
+        elif ((i['semester']-13)%3) == 2:
+            i['semester'] = 5
+        elif ((i['semester']-13)%3) == 0:
+            i['semester'] = 9
+        else:
+            i['semester'] = i['semester'] 
     print(result)
     return result
 
@@ -40,8 +56,19 @@ def get_ban(ban_id):
     result = requests.post(config.api + 'get_ban', headers=headers, data=json.dumps({'data':{'id': ban_id}}))
     result = result.json()
     result = result[0]
-    print('특정반 정보')
-    print(result)
+    # register_no / ban_name / semester 
+    # teacher_register_no / teacher_name / teacher_engname /teacher_mobileno / teacher_email
+    # student_num
+
+    if ((result['semester']-13)%3) == 1:
+        result['semester'] = 1
+    elif ((result['semester']-13)%3) == 2:
+        result['semester'] = 5
+    elif ((result['semester']-13)%3) == 0:
+        result['semester'] = 9
+    else:
+        result['semester'] = result['semester'] 
+
     return result
 
 # student_registerno 학생 PK 아이디 
@@ -50,5 +77,5 @@ def get_student_info(student_id):
     result = result.json()
     result = result[0]
     print('특정학생 정보')
-    print(student)
+    print(result)
     return result
