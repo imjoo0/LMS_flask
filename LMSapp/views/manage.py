@@ -15,24 +15,19 @@ bp = Blueprint('manage', __name__, url_prefix='/manage')
 @bp.route("/", methods=['GET'])
 def home():
     if request.method == 'GET':
-        user = User.query.filter(User.user_id == session['user_id']).all()[0]
+        user = callapi.get_teacher_info(session['user_id'])
         all_ban = callapi.all_ban_info()
-        ban_teacher = []
-        for ban in all_ban:
-            teacher = User.query.filter(User.register_no == ban.teacher_id).all()[0]
-            bt = {}
-            bt['teacher_name'] = teacher.name + "("+ teacher.eng_name +")"
-            bt['ban'] = ban.register_no
-            bt['ban_name'] = ban.name
-            ban_teacher.append(bt)
-        print(ban_teacher)
+        # ban_teacher= []
+        # for ban in all_ban:
+        #     ban_teacher.append(callapi.get_ban(ban['register_no']))
+        # print(ban_teacher)
         
         all_consulting_category = ConsultingCategory.query.all()
         all_consulting = Consulting.query.all()
         all_task_category = TaskCategory.query.all()
         all_task = Task.query.all()
         all_questions = Question.query.all()
-        return render_template('manage.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting,task_category =  all_task_category, ban_teacher=ban_teacher,tasks=all_task,questions=all_questions)
+        return render_template('manage.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting,task_category =  all_task_category,tasks=all_task,questions=all_questions)
 
 # json type not seriallizabel 해결 함수
     # object 인 경우 -> get_student(obj)
