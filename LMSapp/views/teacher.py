@@ -14,7 +14,6 @@ headers = {'content-type': 'application/json'}
 # 선생님 메인 페이지
 # 테스트 계정 id : T1031 pw동일  
 @bp.route("/", methods=['GET'])
-
 def home():
     if request.method =='GET':
         teacher_info = requests.post(config.api + 'get_teacher_info', headers=headers, data=json.dumps({'data':{'id': session['user_id']}}))
