@@ -23,9 +23,8 @@ def home():
 
         mystudents_info = requests.post(config.api + 'get_mystudents', headers=headers, data=json.dumps({'data':{'id': session['user_id']}}))
         mystudents_info = mystudents_info.json()
-        print(mystudents_info)
+
         mybans_info = requests.post(config.api + 'get_mybans', headers=headers, data=json.dumps({'data':{'id': session['user_id']}}))
-        print(mybans_info)
         mybans_info = mybans_info.json()
 
         all_ban_info = requests.post(config.api + 'get_all_ban', headers=headers, data=json.dumps({'data':{}}))
