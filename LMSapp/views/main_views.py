@@ -40,6 +40,11 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         session['user_id'] = form.data.get('user_id')
+        teacher_info = requests.post(config.api + 'get_teacher_info', headers=headers, data=json.dumps({'data':{'id': session['user_id']}}))
+        teacher_info = teacher_info.json()
+        teacher_info = teacher_info[0]
+        session['user_registerno'] = teacher_info['register_no']
+
         return redirect('/')  # 성공하면 home.html로
     return render_template('login.html', form=form)
 
