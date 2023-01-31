@@ -1,5 +1,4 @@
 from flask import Blueprint,render_template, jsonify, request,redirect,url_for
-import config 
 
 bp = Blueprint('main', __name__, url_prefix='/')
 #  "main"은 블루프린트의 "별칭"이다. 이 별칭은 나중에 자주 사용할 url_for 함수에서 사용된다. 그리고 url_prefix는 라우팅 함수의 애너테이션 URL 앞에 기본으로 붙일 접두어 URL을 의미한다. 
@@ -9,10 +8,9 @@ bp = Blueprint('main', __name__, url_prefix='/')
 from flask import session  # 세션
 from LMSapp.forms import LoginForm
 from LMSapp.views import *
-import requests
-import json
+import callapi
+import config
 
-headers = {'content-type': 'application/json'}
 SECRET_KEY = config.SECRET_KEY
 
 
@@ -42,9 +40,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         session['user_id'] = form.data.get('user_id')
-        teacher_info = requests.post(config.api + 'get_teacher_info', headers=headers, data=json.dumps({'data':{'id': session['user_id']}}))
-        teacher_info = teacher_info.json()
-        teacher_info = teacher_info[0]
+        teacher_info = callapi.get_teacher_info(session['user_id'])
         session['user_registerno'] = teacher_info['register_no']
 
         return redirect('/')  # 성공하면 home.html로

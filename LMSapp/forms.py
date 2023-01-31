@@ -2,11 +2,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField,IntegerField
 from wtforms import PasswordField
 from wtforms.validators import DataRequired, EqualTo
-import requests
-import config
-import json
+import callapi
 
-headers = {'content-type': 'application/json'}
 # class RegisterForm(FlaskForm):
 #     user_id = StringField('user_id', validators=[DataRequired()])
 #     user_category = IntegerField('user_category', validators=[DataRequired()])
@@ -23,8 +20,8 @@ class LoginForm(FlaskForm):
             user_id = form['user_id'].data
             user_pw = field.data
             
-            usertable = requests.post(config.api + 'get_teacher_info', headers=headers, data=json.dumps({'data':{'id': user_id} }))
-            pw = usertable.json()[0]
+            usertable = callapi.get_user(user_id)
+            pw = callapi.get_teacher_info(user_id)
             pw = pw['user_id']
             if usertable.status_code != 200:
                 raise ValueError('존재하지 않는 유저 입니다.')
