@@ -10,7 +10,9 @@ from flask import session  # 세션
 from LMSapp.forms import LoginForm
 from LMSapp.views import *
 import requests
+import json
 
+headers = {'content-type': 'application/json'}
 SECRET_KEY = config.SECRET_KEY
 
 

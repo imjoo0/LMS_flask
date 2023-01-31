@@ -16,14 +16,15 @@ class Question(db.Model):
     student_id = db.Column(db.Integer,nullable=True)
     create_date = db.Column(db.DateTime(), nullable=False)
     answer_id = db.Column(db.Integer, db.ForeignKey("answer.id"))
+    
+    answer_id = db.Column(db.Integer, db.ForeignKey('answer.id'))
     answer = db.relationship('Answer', backref=db.backref('question'))
 
 class Answer(db.Model):
     __tablename__ = 'answer'
 
     id = db.Column(db.Integer, primary_key=True)
-    question_id = db.Column(db.Integer, db.ForeignKey('question.id', ondelete='CASCADE'))
-    question = db.relationship('Question', backref=db.backref('answer'))
+    question = db.relationship('Question', backref=db.backref('answer'),ondelete='CASCADE',uselist=False)
     content = db.Column(db.Text(), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False)
     reject_code = db.Column(db.Integer,nullable=True) # 1이면 반려 

@@ -25,7 +25,7 @@ class LoginForm(FlaskForm):
             
             usertable = requests.post(config.api + 'get_teacher_info', headers=headers, data=json.dumps({'data':{'id': user_id} }))
             pw = usertable.json()[0]
-            pw = pw['user_pw']
+            pw = pw['user_id']
             if usertable.status_code != 200:
                 raise ValueError('존재하지 않는 유저 입니다.')
             if pw != user_pw:
