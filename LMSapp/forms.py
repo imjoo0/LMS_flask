@@ -2,7 +2,6 @@ from flask_wtf import FlaskForm
 from wtforms import StringField,IntegerField
 from wtforms import PasswordField
 from wtforms.validators import DataRequired, EqualTo
-from LMSapp.models import User
 import requests
 import config
 
