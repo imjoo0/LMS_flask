@@ -342,8 +342,8 @@
                     <p>✅ {{ tt['task'].contents }} <a href=w.url>👉 수행 </a></p>
                     <div class="make_row">
                         {% for data in tt['task_data']%}
-                            {% set msg = data['id'] %}
-                        <p>{{ data['ban'].name }} </p> <button onclick="update_done('{{ msg }}')"> 완료 </button>
+                        {% set msg = data['id'] %}
+                        <p>{{ data['ban_name'] (data['semester']) 학기}} </p> <button onclick="update_done('{{ msg }}')"> 완료 </button>
                         {% endfor %}
                     </div>
                     
