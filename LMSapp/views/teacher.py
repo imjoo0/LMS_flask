@@ -10,7 +10,6 @@ from LMSapp.views import *
 
 import callapi
 
-headers = {'content-type': 'application/json'}
 # 선생님 메인 페이지
 # 테스트 계정 id : T1031 pw동일  
 @bp.route("/", methods=['GET'])
