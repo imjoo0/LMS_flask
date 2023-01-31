@@ -45,12 +45,14 @@ def home():
         for t in tc:
             target_data = {}
             target_data['task'] = Task.query.filter(Task.id == t).all()[0]
+            target_data['ban'] = get_ban()
             target_data['task_data'] = []
             for tb in my_tasks:
                 if t == tb.task_id:
                     data = {}
                     data['id'] = tb.id
                     for ban in mybans_info:
+                        print(ban)
                         if( ban['register_no'] == tb.ban_id):
                             data['ban'] = ban
                     target_data['task_data'].append(data)
