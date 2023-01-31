@@ -28,7 +28,6 @@ def home():
   
         # task_id를 기준으로 소팅 
         my_tasks = TaskBan.query.filter(TaskBan.teacher_id==teacher_info['register_no']).all()
-        print(my_tasks)
 
         my_tasks.sort(key = lambda x:x.task_id)
         tc = []
