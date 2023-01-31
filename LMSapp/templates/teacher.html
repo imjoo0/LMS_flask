@@ -5,7 +5,7 @@
 
 {% block topnav %}
 {% if user %}
-{{ user.name }} ({{ user.eng_name }})님 환영합니다.
+{{ user['name'] }} ({{ user['engname'] }})님 환영합니다.
 {% else %}
 로그인이 필요합니다.
 {% endif %}
@@ -51,8 +51,8 @@
                             <select class="border rounded-0 form-control form-control-sm" name="ban_id" style=" width: 150px; height: 100%;">
                                 <optgroup>
                                     <option value="none" selected>기존 반을 선택해주세요</option>
-                                    {% for ban in user.bans %}
-                                    <option value={{ban.register_no}}>{{ban.name}}</option>
+                                    {% for ban in all_ban %}
+                                    <option value={{ban['register_no']}}>{{ban['ban_name']}}</option>
                                     {% endfor %}
                                 </optgroup>
                             </select>
@@ -195,9 +195,9 @@
                 <th></th>
                 <th></th>
                 <tr>
-                    <td>{{ user.name }}({{ user.eng_name }})</td>
-                    <td>{{ user.mobileno }} / </td>
-                    <td>{{ user.email }}</td>
+                    <td>{{ user['name'] }}({{ user['engname'] }})</td>
+                    <td>{{ user['mobileno'] }} / </td>
+                    <td>{{ user['email'] }}</td>
                 </tr>
             </table>
             <div id="check">
