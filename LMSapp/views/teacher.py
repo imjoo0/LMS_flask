@@ -23,9 +23,9 @@ def home():
 
         mystudents_info = requests.post(config.api + 'get_mystudents', headers=headers, data=json.dumps({'data':{'id': session['user_id']}}))
         mystudents_info = mystudents_info.json()
-
-
+        print(mystudents_info)
         mybans_info = requests.post(config.api + 'get_mybans', headers=headers, data=json.dumps({'data':{'id': session['user_id']}}))
+        print(mybans_info)
         mybans_info = mybans_info.json()
 
         all_ban_info = requests.post(config.api + 'get_all_ban', headers=headers, data=json.dumps({'data':{}}))
@@ -54,7 +54,7 @@ def home():
                     data['id'] = tb.id
                     for ban in mybans_info:
                         if( ban['register_no'] == tb.ban_id):
-                            data['ban'] = Ban.query.filter(Ban.register_no == tb.ban_id).all()[0]
+                            data['ban'] = ban
                     target_data['task_data'].append(data)
             target_task.append(target_data)
 
@@ -82,7 +82,7 @@ def home():
         # for t in tc:
         #     target_task.append(list(st.intersection(all_task_category[t-1].tasks)))
         # print(target_task)
-        return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,all_task_category=all_task_category,target_task=target_task,-13)%3=mystudents_info)
+        return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,all_task_category=all_task_category,target_task=target_task,students=mystudents_info)
 
 # 테스트 계정 id : T1031 pw동일  
 @bp.route("/<int:id>", methods=['POST','GET'])
@@ -102,7 +102,7 @@ def question(id):
         question_category = request.form['question_category']
         title = request.form['question_title']
         contents = request.form['question_contents']
-        teacher = session['user_id']
+        teacher = session['user_registerno']
 
         create_date = datetime.now()
         if question_category == '일반':
@@ -126,8 +126,13 @@ def question(id):
         # 시행 안댐.. alert 기능  
         flash("문의 저장완료 되었습니다")
         return redirect('/')
+
     elif request.method == 'GET':
         q = Question.query.filter(Question.id == id).all()[0]
+        teacher_info = requests.post(config.api + 'get_teacher_info', headers=headers, data=json.dumps({'data':{'id': session['user_id']}}))
+        teacher_info = teacher_info.json()
+        teacher_info = teacher_info[0]
+
         t = User.query.filter(User.register_no == q.teacher_id).all()[0]
         
         if q.category == 0:
@@ -136,8 +141,8 @@ def question(id):
             'title': q.title,
             'contents':q.contents,
             'create_date':q.create_date,
-            'teacher': t.name,
-            'teacher_e':t.eng_name,
+            'teacher': teacher_info['name'],
+            'teacher_e': teacher_info['engname'],
             })
         else:
             s = Student.query.filter(Student.register_no == q.student_id).all()[0]
@@ -148,8 +153,8 @@ def question(id):
                 'title': q.title,
                 'contents':q.contents,
                 'create_date':q.create_date,
-                'teacher': t.name,
-                'teacher_e':t.eng_name,
+                'teacher': teacher_info['name'],
+                'teacher_e':teacher_info['engname'],
                 'student': s.name,
                 'student_origin': s.original,
                 'ban' : b.name

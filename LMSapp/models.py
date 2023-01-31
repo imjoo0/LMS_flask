@@ -2,67 +2,6 @@ from LMSapp import db
 from sqlalchemy.sql import func
 from datetime import datetime
 
-
-class User(db.Model):
-    __tablename__ = 'user'
-    
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.String(50), nullable=False)
-    user_pw = db.Column(db.String(50), nullable=False)
-    name =  db.Column(db.String(50), nullable=True)
-    eng_name = db.Column(db.String(50), nullable=True)
-    mobileno  = db.Column(db.String(50), nullable=True)
-    email = db.Column(db.String(100),nullable=True)    
-    category = db.Column(db.Integer, nullable=False)
-    register_no = db.Column(db.Integer,unique=True)
-
-    # 관계 설정
-    questions = db.relationship('Question', backref='teacher')
-    bans = db.relationship('Ban', backref='teacher')
-    students = db.relationship('Student', backref='teacher')
-    tasks = db.relationship('TaskBan')
-
-    # 사용자가 남긴 상담일지 
-    # histories = relationship ~ 
-
-class Ban(db.Model):
-    __tablename__ = 'ban'
-
-    id=db.Column(db.Integer,primary_key=True)
-    register_no = db.Column(db.Integer,unique=True)
-    name =  db.Column(db.String(100), nullable=True)
-    teacher_id = db.Column(db.Integer,db.ForeignKey('user.register_no'))
-    semester =  db.Column(db.Integer, nullable=False)
-    notice_num = db.Column(db.Integer, nullable=True)
-    inquiry_num = db.Column(db.Integer, nullable=True)
-    not_answered_inquiry_num = db.Column(db.Integer, nullable=True)
-    
-    # 관계 설정 
-    students = db.relationship('Student', backref='my_ban')
-    consultings = db.relationship('Consulting', backref='bans')
-    # tasks = db.relationship('Task',secondary = 'task_ban',back_populates='bans', lazy = 'dynamic')
-    tasks = db.relationship('TaskBan')
-
-class Student(db.Model):
-    __tablename__ = 'student'
-
-    id=db.Column(db.Integer,primary_key=True)
-    ban_id = db.Column(db.Integer,db.ForeignKey('ban.register_no'))
-    teacher_id = db.Column(db.Integer,db.ForeignKey('user.register_no'))
-    is_out_code = db.Column(db.Integer,nullable=False)
-    original = db.Column(db.String(45), nullable=True)
-    register_no = db.Column(db.Integer,unique=True)
-    name =  db.Column(db.String(50), nullable=True)
-    mobileno =  db.Column(db.String(100), nullable=True)
-    parent_name =  db.Column(db.String(50), nullable=True)
-    parent_mobileno =  db.Column(db.String(100), nullable=True)
-    recommend_book_code = db.Column(db.String(50), nullable=True)
-    register_date = db.Column(db.DateTime, nullable=True)
-
-    # 관계 설정
-    consultings = db.relationship('Consulting', backref='target_student')
-
-
 class Question(db.Model):
     __tablename__ = 'question'
     
