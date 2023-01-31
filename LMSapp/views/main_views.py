@@ -8,8 +8,8 @@ bp = Blueprint('main', __name__, url_prefix='/')
 # 로그인 
 from flask import session  # 세션
 from LMSapp.forms import LoginForm
-from LMSapp.models import User
 from LMSapp.views import *
+import requests
 
 SECRET_KEY = config.SECRET_KEY
 
