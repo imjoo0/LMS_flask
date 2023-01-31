@@ -1,14 +1,14 @@
 from flask import Blueprint,render_template, jsonify, request,redirect,url_for,flash
 import config 
 from datetime import datetime, timedelta, date
-import requests
-import json
+
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 
 from flask import session  # 세션
 from LMSapp.models import *
 from LMSapp.views import *
 
+import callapi
 
 headers = {'content-type': 'application/json'}
 # 선생님 메인 페이지
@@ -16,18 +16,13 @@ headers = {'content-type': 'application/json'}
 @bp.route("/", methods=['GET'])
 def home():
     if request.method =='GET':
-        teacher_info = requests.post(config.api + 'get_teacher_info', headers=headers, data=json.dumps({'data':{'id': session['user_id']}}))
-        teacher_info = teacher_info.json()
-        teacher_info = teacher_info[0]
+        teacher_info = callapi.get_teacher_info(session['user_id'])
 
-        mystudents_info = requests.post(config.api + 'get_mystudents', headers=headers, data=json.dumps({'data':{'id': session['user_id']}}))
-        mystudents_info = mystudents_info.json()
+        mystudents_info = callapi.get_mystudents(session['user_id'])
 
-        mybans_info = requests.post(config.api + 'get_mybans', headers=headers, data=json.dumps({'data':{'id': session['user_id']}}))
-        mybans_info = mybans_info.json()
+        mybans_info = callapi.get_mybans(session['user_id'])
 
-        all_ban_info = requests.post(config.api + 'get_all_ban', headers=headers, data=json.dumps({'data':{}}))
-        all_ban_info = all_ban_info.json()
+        all_ban_info = callapi.all_ban_info()
 
         all_task_category = TaskCategory.query.all()
   
@@ -45,16 +40,12 @@ def home():
         for t in tc:
             target_data = {}
             target_data['task'] = Task.query.filter(Task.id == t).all()[0]
-            target_data['ban'] = get_ban()
             target_data['task_data'] = []
             for tb in my_tasks:
                 if t == tb.task_id:
                     data = {}
                     data['id'] = tb.id
-                    for ban in mybans_info:
-                        print(ban)
-                        if( ban['register_no'] == tb.ban_id):
-                            data['ban'] = ban
+                    data['ban'] = callapi.get_ban(tb.ban_id)
                     target_data['task_data'].append(data)
             target_task.append(target_data)
 
@@ -133,9 +124,7 @@ def question(id):
 
     elif request.method == 'GET':
         q = Question.query.filter(Question.id == id).all()[0]
-        teacher_info = requests.post(config.api + 'get_teacher_info', headers=headers, data=json.dumps({'data':{'id': session['user_id']}}))
-        teacher_info = teacher_info.json()
-        teacher_info = teacher_info[0]
+        teacher_info = callapi.get_teacher_info(session['user_id'])
         a = Answer.query.filter(Answer.question_id == id).all()[0]
         
         if q.category == 0:
@@ -150,13 +139,9 @@ def question(id):
             'answer_at': a.created_at
             })
         else:
-            s = requests.post(config.api + 'get_student_info', headers=headers, data=json.dumps({'data':{ 'id':  q.student_id }}))
-            s = s.json()
-            s = s[0]
+            s = callapi.get_student_info(q.student_id )
 
-            b = requests.post(config.api + 'get_ban', headers=headers, data=json.dumps({'data':{ 'id':  q.ban_id }}))
-            b = b.json()
-            b = b[0]    
+            b = callapi.get_ban(q.ban_id )    
 
             if q.category == 2:
                 return jsonify({
