@@ -4,6 +4,7 @@ from flask import session  # 세션
 from flask import Blueprint, render_template, jsonify, request, redirect, url_for
 import config
 import json
+import callapi
 
 bp = Blueprint('manage', __name__, url_prefix='/manage')
 
@@ -15,7 +16,7 @@ bp = Blueprint('manage', __name__, url_prefix='/manage')
 def home():
     if request.method == 'GET':
         user = User.query.filter(User.user_id == session['user_id']).all()[0]
-        all_ban = Ban.query.all()
+        all_ban = callapi.all_ban_info()
         ban_teacher = []
         for ban in all_ban:
             teacher = User.query.filter(User.register_no == ban.teacher_id).all()[0]

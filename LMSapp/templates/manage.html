@@ -264,7 +264,8 @@
                 <optgroup>
                     <option value="none" selected>반을 선택해주세요</option>
                     {% for ban in all_ban %}
-                    <option value={{ban.register_no}}>{{ban.name}}</option>
+                    {% set ban_regi = ban['register_no']  %}
+                    <option value={{ban_regi}}>{{ban['name']}} ({{ban['semester']}})</option>
                     {% endfor %}
                 </optgroup>
             </select>

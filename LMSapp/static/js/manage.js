@@ -1,3 +1,5 @@
+import {get_ban} from '../../../../LMS/callapi.py'
+
 let totalData; //총 데이터 수
 let dataPerPage = 3;
 let pageCount = 10; //페이징에 나타낼 페이지 수
@@ -127,14 +129,15 @@ function getBanInfo(b_id){
         url: "/manage/ban/"+b_id,
         data: {},
         success: function (response) {
-            let target_ban = response['target_ban']
-            let ban_name = response['name'];
-            let teacher_name = response['teacher_name']
-            let teacher_e_name = response['teacher_e_name']
-            let teacher_mobileno = response['teacher_mobileno']
-            let teacher_email = response['teacher_email']
+            let target_ban = get_ban(b_id)
+            let ban_name = target_ban['ban_name'];
+            let semester = target_ban['semester'];
+            let teacher_name = target_ban['teacher_name']
+            let teacher_e_name = target_ban['teacher_engname']
+            let teacher_mobileno = target_ban['teacher_mobileno']
+            let teacher_email = target_ban['teacher_email']
 
-            let temp_title = `<h1> ${ban_name} 현황</h1>`
+            let temp_title = `<h1>${semester}학기 ${ban_name} 현황</h1>`
             $('#label_title').append(temp_title);
 
             let temp_profile_data = `
@@ -151,7 +154,7 @@ function getBanInfo(b_id){
             `;
             $('#profile_data').append(temp_profile_data);
 
-            let students_num = response['students_num']
+            let students_num = target_ban['student_num']
             let temp_ban_data = `
             <table class="table text-center" style="width:100%;">
                 <tbody  style="width:100%;">
