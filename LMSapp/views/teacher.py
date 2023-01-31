@@ -21,8 +21,10 @@ def home():
         teacher_info = teacher_info.json()
         teacher_info = teacher_info[0]
 
-        print(teacher_info['id']) # register_no로 바뀌어야 함. 
-        
+        mystudents_info = requests.post(config.api + 'get_mystudents', headers=headers, data=json.dumps({'data':{'id': session['user_id']}}))
+        mystudents_info = mystudents_info.json()
+
+
         mybans_info = requests.post(config.api + 'get_mybans', headers=headers, data=json.dumps({'data':{'id': session['user_id']}}))
         mybans_info = mybans_info.json()
 
@@ -50,7 +52,9 @@ def home():
                 if t == tb.task_id:
                     data = {}
                     data['id'] = tb.id
-                    data['ban'] = Ban.query.filter(Ban.register_no == tb.ban_id).all()[0]
+                    for ban in mybans_info:
+                        if( ban['register_no'] == tb.ban_id):
+                            data['ban'] = Ban.query.filter(Ban.register_no == tb.ban_id).all()[0]
                     target_data['task_data'].append(data)
             target_task.append(target_data)
 
@@ -78,7 +82,7 @@ def home():
         # for t in tc:
         #     target_task.append(list(st.intersection(all_task_category[t-1].tasks)))
         # print(target_task)
-        return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,all_task_category=all_task_category,target_task=target_task,students=students)
+        return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,all_task_category=all_task_category,target_task=target_task,-13)%3=mystudents_info)
 
 # 테스트 계정 id : T1031 pw동일  
 @bp.route("/<int:id>", methods=['POST','GET'])
