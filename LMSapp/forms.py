@@ -4,7 +4,9 @@ from wtforms import PasswordField
 from wtforms.validators import DataRequired, EqualTo
 import requests
 import config
+import json
 
+headers = {'content-type': 'application/json'}
 # class RegisterForm(FlaskForm):
 #     user_id = StringField('user_id', validators=[DataRequired()])
 #     user_category = IntegerField('user_category', validators=[DataRequired()])
@@ -26,7 +28,7 @@ class LoginForm(FlaskForm):
             print(usertable)
             if usertable != 200:
                 raise ValueError('존재하지 않는 유저 입니다.')
-            if usertable.user_pw != user_pw:
+            if usertable.user_id != user_pw:
                 raise ValueError('비밀번호 틀림')
                 
     user_id = StringField('user_id', validators=[DataRequired()])
