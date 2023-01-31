@@ -52,7 +52,8 @@
                                 <optgroup>
                                     <option value="none" selected>기존 반을 선택해주세요</option>
                                     {% for ban in all_ban %}
-                                    <option value={{ban['register_no']}}>{{ban['ban_name']}}</option>
+                                    {% set ban_registerno = ban['register_no'] %}
+                                    <option value={{ban_registerno}}>{{ban['ban_name']}}</option>
                                     {% endfor %}
                                 </optgroup>
                             </select>
@@ -61,8 +62,9 @@
                             <select id="student_list" class="border rounded-0 form-control form-control-sm" name="target_student" style=" width: 150px; height: 100%;">
                                 <optgroup>
                                     <option value="none" selected>대상학생을 선택해주세요</option>
-                                    {% for student in user.students %}
-                                    <option value={{student.register_no}}>{{ student.name }}({{ student.original }})</option>
+                                    {% for student in students %}
+                                    {% set student_registerno = student['register_no'] %}
+                                    <option value={{student_registerno}}>{{ student['name'] }}({{ student['origin']}})</option>
                                     {% endfor %}
                                 </optgroup>
                             </select>
@@ -80,7 +82,8 @@
                                 <optgroup>
                                     <option value="none" selected>이반 하려는 반을 선택해주세요</option>
                                     {% for ban in all_ban %}
-                                    <option value={{ban.register_no}}>{{ ban.name }}</option>
+                                    {% set ban_registerno = ban['register_no'] %}
+                                    <option value={{ban_registerno}}>{{ ban['name'] }} ({{ ban['name_numeric'] }}학기)</option>
                                     {% endfor %}
                                 </optgroup>
                             </select>
@@ -91,8 +94,9 @@
                             <select class="border rounded-0 form-control form-control-sm" name="o_ban_id" style=" width: 150px; height: 100%;">
                                 <optgroup>
                                     <option value="none" selected>퇴소하려는 반을 선택해주세요</option>
-                                    {% for ban in user.bans %}
-                                    <option value={{ban.register_no}}>{{ban.name}}</option>
+                                    {% for ban in all_ban %}
+                                    {% set ban_registerno = ban['register_no'] %}
+                                    <option value={{ban_registerno}}>{{ ban['name'] }}</option>
                                     {% endfor %}
                                 </optgroup>
                             </select>
@@ -101,8 +105,9 @@
                             <select id="student_list" class="border rounded-0 form-control form-control-sm" name="o_target_student" style=" width: 150px; height: 100%;">
                                 <optgroup>
                                     <option value="none" selected>학생을 선택해주세요</option>
-                                    {% for student in user.students %}
-                                    <option value={{student.register_no}}>{{ student.name }}({{ student.original }})</option>
+                                    {% for student in students %}
+                                    {% set student_registerno = student['register_no'] %}
+                                    <option value={{student.register_no}}>{{ student['name'] }}({{ student['origin'] }})</option>
                                     {% endfor %}
                                 </optgroup>
                             </select>
@@ -282,11 +287,11 @@
                         <th class="col-2">미학습</th>
                         <th class="col-2">문의 미응답</th>
                     </tr>
-                    {% for ban in user.bans %}
+                    {% for ban in my_bans %}
                     <tr class="row">
-                        <td class="col-2">{{ ban.name }}</td>
-                        <td class="col-1">{{ ban.semester }}</td>
-                        <td class="col-1">{{ ban.students |length }}</td>
+                        <td class="col-2">{{ ban['name'] }}</td>
+                        <td class="col-1">{{ ban['name_numeric'] }}</td>
+                        <td class="col-1">{{ ban['total_student_num '] }}</td>
                         <td class="col-2"> 임시3 (5%) </td>
                         <td class="col-2"> 임시3 (5%) </td>
                         <td class="col-2"> 임시3 (5%) </td>
