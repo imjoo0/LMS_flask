@@ -48,7 +48,6 @@ def all_ban_info():
             i['semester'] = 9
         else:
             i['semester'] = i['semester'] 
-    print(result)
     return result
 
 # ban_registerno 반 PK 아이디 
@@ -76,6 +75,4 @@ def get_student_info(student_id):
     result = requests.post(config.api + 'get_student_info', headers=headers, data=json.dumps({'data':{ 'id':  student_id }}))
     result = result.json()
     result = result[0]
-    print('특정학생 정보')
-    print(result)
     return result
