@@ -152,6 +152,7 @@ function getBanInfo(b_id){
             $('#profile_data').append(temp_profile_data);
 
             let students_num = response['students_num']
+
             let temp_ban_data = `
             <table class="table text-center" style="width:100%;">
                 <tbody  style="width:100%;">
@@ -176,6 +177,9 @@ function getBanInfo(b_id){
 
             data_list = response['student_info']
             totalData = students_num
+            
+            console.log(data_list)
+            console.log(totalData)
 
             displayData(totalData, 1, 3,data_list);
             paging(totalData, 3, pageCount, 1,data_list);
