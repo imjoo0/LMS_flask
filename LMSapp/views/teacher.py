@@ -239,7 +239,9 @@ def answer(id):
                 'answer_at': '✖️'
                 })
             else:
+                print(q.student_id)
                 s = callapi.get_student_info(q.student_id )
+                print(s)
                 b = callapi.get_ban(q.ban_id )    
 
                 if q.category == 2:
