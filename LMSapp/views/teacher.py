@@ -164,53 +164,99 @@ def answer(id):
         teacher_info = callapi.get_teacher_info(session['user_id'])
         a = Answer.query.filter(Answer.question_id == q.id).all()
         print(a)
-        
-        if q.category == 0:
-            return jsonify({
-            'cateogry':'일반문의',
-            'title': q.title,
-            'contents':q.contents,
-            'create_date':q.create_date,
-            'teacher': teacher_info['name'],
-            'teacher_e': teacher_info['engname'],
-            'answer' : a.content,
-            'answer_at': a.created_at
-            })
-        else:
-            s = callapi.get_student_info(q.student_id )
-            b = callapi.get_ban(q.ban_id )    
-
-            if q.category == 2:
+        if len(a)!=0:
+            if q.category == 0:
                 return jsonify({
-                'cateogry':'이반 요청',
+                'cateogry':'일반문의',
                 'title': q.title,
                 'contents':q.contents,
                 'create_date':q.create_date,
                 'teacher': teacher_info['name'],
-                'teacher_e':teacher_info['engname'],
-                'student': s['name'],
-                'student_origin': s['origin'],
-                'ban' : b['name'],
+                'teacher_e': teacher_info['engname'],
                 'answer' : a.content,
-                'answer_at': a.created_at,
-                'reject' : a.reject_code
+                'answer_at': a.created_at
                 })
             else:
+                s = callapi.get_student_info(q.student_id )
+                b = callapi.get_ban(q.ban_id )    
+
+                if q.category == 2:
+                    return jsonify({
+                    'cateogry':'이반 요청',
+                    'title': q.title,
+                    'contents':q.contents,
+                    'create_date':q.create_date,
+                    'teacher': teacher_info['name'],
+                    'teacher_e':teacher_info['engname'],
+                    'student': s['name'],
+                    'student_origin': s['origin'],
+                    'ban' : b['name'],
+                    'answer' : a.content,
+                    'answer_at': a.created_at,
+                    'reject' : a.reject_code
+                    })
+                else:
+                    return jsonify({
+                    'cateogry':'퇴소 요청',
+                    'title': q.title,
+                    'contents':q.contents,
+                    'create_date':q.create_date,
+                    'teacher': teacher_info['name'],
+                    'teacher_e':teacher_info['engname'],
+                    'student': s['name'],
+                    'student_origin': s['origin'],
+                    'ban' : b['name'],
+                    'answer' : a.content,
+                    'answer_at': a.created_at,
+                    'reject' : a.reject_code
+                    })
+        else:
+            if q.category == 0:
                 return jsonify({
-                'cateogry':'퇴소 요청',
+                'cateogry':'일반문의',
                 'title': q.title,
                 'contents':q.contents,
                 'create_date':q.create_date,
                 'teacher': teacher_info['name'],
-                'teacher_e':teacher_info['engname'],
-                'student': s['name'],
-                'student_origin': s['origin'],
-                'ban' : b['name'],
-                'answer' : a.content,
-                'answer_at': a.created_at,
-                'reject' : a.reject_code
+                'teacher_e': teacher_info['engname'],
+                'answer' : '미응답',
+                'answer_at': '✖️'
                 })
-            
+            else:
+                s = callapi.get_student_info(q.student_id )
+                b = callapi.get_ban(q.ban_id )    
+
+                if q.category == 2:
+                    return jsonify({
+                    'cateogry':'이반 요청',
+                    'title': q.title,
+                    'contents':q.contents,
+                    'create_date':q.create_date,
+                    'teacher': teacher_info['name'],
+                    'teacher_e':teacher_info['engname'],
+                    'student': s['name'],
+                    'student_origin': s['origin'],
+                    'ban' : b['name'],
+                    'answer' : '미응답',
+                    'answer_at': '✖️',
+                    'reject' : '✖️'
+                    })
+                else:
+                    return jsonify({
+                    'cateogry':'퇴소 요청',
+                    'title': q.title,
+                    'contents':q.contents,
+                    'create_date':q.create_date,
+                    'teacher': teacher_info['name'],
+                    'teacher_e':teacher_info['engname'],
+                    'student': s['name'],
+                    'student_origin': s['origin'],
+                    'ban' : b['name'],
+                    'answer' : '미응답',
+                    'answer_at': '✖️',
+                    'reject' : '✖️'
+                    })
+                
 
 
 # 문의 / 답변 조회 
