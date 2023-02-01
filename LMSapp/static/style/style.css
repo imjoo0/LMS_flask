@@ -133,7 +133,6 @@ footer{
 /* 상단 nav바 */
 .top-nav-bar {
     width: 100%;
-    flex-direction: row;
     background-color: #2b2b2b;
     font-size: 0.7rem;
     padding-top: 21px;
@@ -202,9 +201,7 @@ body::-webkit-scrollbar{
     display: none;
 }
 
-.card-container {
-    width: 87vw;
-}
+
 
 .card-container .card * {
     color: #222222;
