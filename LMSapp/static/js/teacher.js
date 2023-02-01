@@ -20,7 +20,6 @@
 
 //  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
 function change_question_kind(str){
-    console.log(str)
     if( str == "이반"){
         $('#invisible_for_1').hide();
         $('#invisible_for_2').show();
@@ -37,11 +36,9 @@ function change_question_kind(str){
     }
 }
 function update_done(taskid){
-    console.log(taskid)
 }
 function get_answer(q_id){
     $('#questionlist').hide()
-    console.log(q_id)
     $.ajax({
         type: "GET",
         url: "/teacher/question/"+q_id,

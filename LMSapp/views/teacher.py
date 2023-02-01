@@ -162,7 +162,7 @@ def answer(id):
     if request.method == 'GET':
         q = Question.query.filter(Question.id == id).all()[0]
         teacher_info = callapi.get_teacher_info(session['user_id'])
-        a = Answer.query.filter(Answer.question_id == id).all()[0]
+        a = Answer.query.filter(Answer.question.id == id).all()[0]
         
         if q.category == 0:
             return jsonify({
@@ -177,7 +177,6 @@ def answer(id):
             })
         else:
             s = callapi.get_student_info(q.student_id )
-
             b = callapi.get_ban(q.ban_id )    
 
             if q.category == 2:
