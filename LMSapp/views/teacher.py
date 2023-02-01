@@ -44,7 +44,7 @@ def home():
         target_task = []
         for category in category_set:
             target_data = {}
-            target_data['category_id'] = category
+            target_data['category'] = TaskCategory.query.filter(TaskCategory.id == category).all()[0].name
             target_data['task'] = []
             for t in tc:
                 task_data = {}
