@@ -34,6 +34,9 @@ def home():
             tc.append(task.task_id)        
         tc = list(set(tc))
 
+        for t in tc:
+            task = Task.query.filter(Task.id == t).all()
+
         target_task = []
         for t in tc:
             target_data = {}
@@ -47,7 +50,18 @@ def home():
                     target_data['task_data'].append(data)
             target_task.append(target_data)
 
+
+        i=0
+        j=1
+        for i in range(len(target_task)):
+            for j in range(len(target_task)-1):
+                if target_task[i]['task'].category_id == target_task[j].category_id:
+                    target_task[i]['task_data'].append(target_task[j])
+                    target_task.pop(j)
+        
         print(target_task)
+        
+
             
         # for target in target_task:
         
