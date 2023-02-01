@@ -266,7 +266,7 @@
                     <option value="none" selected>반을 선택해주세요</option>
                     {% for ban in all_ban %}
                     {% set ban_regi = ban['register_no']  %}
-                    <option value={{ban_regi}}>{{ban['name']}} ({{ban['semester']}})</option>
+                    <option value={{ban_regi}}>{{ban['name']}} ({{ban['semester']}}학기)</option>
                     {% endfor %}
                 </optgroup>
             </select>
