@@ -14,6 +14,174 @@
 <link rel="stylesheet" href="../static/style/manage.css">
 <link rel="stylesheet" href="../static/style/paginate.css">
 {% endblock %}
+<script>
+    function getBanInfo(b_id){
+    console.log(b_id)
+    $('#label_title').empty();
+    $('#profile_data').empty();
+    $('#ban_data').empty();
+    $('#s_data').empty();
+    $('#ban_statistics').empty();
+    $('#target_a_student').empty();
+    if( b_id == 'none'){
+        $('#default_title').show();
+        $('#student_data').hide();
+        $('#pagingul').hide();
+    }else{
+        $('#default_title').hide();
+        $('#student_data').show();
+        $('#pagingul').show();
+    }
+    if( b_id == '전체 반'){
+        $('#default_title').show();
+        $('#student_data').hide();
+        $('#pagingul').hide();
+        $('#select_student').hide();
+        $('#target_bans').empty();
+    }else{
+        $('#select_student').show();
+    }
+    $.ajax({
+        type: "GET",
+        url: "/manage/ban/"+b_id,
+        data: {},
+        success: function (response) {
+            let target_ban = get_ban(b_id)
+            let ban_name = target_ban['ban_name'];
+            let semester = target_ban['semester'];
+            let teacher_name = target_ban['teacher_name']
+            let teacher_e_name = target_ban['teacher_engname']
+            let teacher_mobileno = target_ban['teacher_mobileno']
+            let teacher_email = target_ban['teacher_email']
+            console.log(target_ban)
+            let temp_title = `<h1>${semester}학기 ${ban_name} 현황</h1>`
+            $('#label_title').append(temp_title);
+
+            let temp_profile_data = `
+            <table border="0">
+                <th>담임 선생님 정보</th>
+                <th></th>
+                <th></th>
+                <tr>
+                    <td>${teacher_name}(${teacher_e_name})</td>
+                    <td> 📞 ${teacher_mobileno} </td>
+                    <td> ✉️ ${teacher_email}</td>
+                </tr>
+            </table>
+            `;
+            $('#profile_data').append(temp_profile_data);
+
+            let students_num = target_ban['student_num']
+            let temp_ban_data = `
+            <table class="table text-center" style="width:100%;">
+                <tbody  style="width:100%;">
+                    <tr class="row">
+                        <th class="col-2">총 원생 수</th>
+                        <th class="col-2">이반</th>
+                        <th class="col-2">퇴소</th>
+                        <th class="col-3">취소/환불</th>
+                        <th class="col-3">미학습</th>
+                    </tr>
+                    <tr class="row">
+                        <td class="col-2">${students_num}</td>
+                        <td class="col-2"> 임시3 (5%) </td>
+                        <td class="col-2"> 임시3 (5%) </td>
+                        <td class="col-3"> 임시3 (5%) </td>
+                        <td class="col-3"> 임시3 (5%) </td>
+                    </tr>
+                </tbody>
+            </table>
+            `;
+            $('#ban_data').append(temp_ban_data);
+
+            data_list = get_students(b_id)
+            console.log(data_list)
+            totalData = students_num
+
+            displayData(totalData, 1, 3,data_list);
+            paging(totalData, 3, pageCount, 1,data_list);
+
+            let temp_ban_statistics = `
+            <table class="table text-center" id="unlearned" style="margin-left:1%; margin-right: 4%;width: 40%;">
+                    <tbody  style="width:100%;">
+                        <tr class="row" style="background: #DCE6F2;">
+                            <th class="col-12">미학습 관리</th>
+                        </tr>
+                        <tr class="row">
+                            <th class="col-3">IXL</th>
+                            <th class="col-3">리딩</th>
+                            <th class="col-3">리특</th>
+                            <th class="col-3">라이팅</th>
+                        </tr>
+                        <tr class="row">
+                            <td class="col-3"> 임시3 (5%) </td>
+                            <td class="col-3"> 임시3 (5%) </td>
+                            <td class="col-3"> 임시3 (5%) </td>
+                            <td class="col-3"> 임시3 (5%) </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table text-center" id="teaching" style="margin-right: 4%; width: 25%;">
+                    <tbody  style="width:100%;">
+                        <tr class="row" style="background: #DCE6F2;">
+                            <th class="col-12">상담*업무 관리</th>
+                        </tr>
+                        <tr class="row">
+                            <th class="col-6">업무</th>
+                            <th class="col-6">상담</th>
+                        </tr>
+                        <tr class="row">
+                            <td class="col-3"> 3/10 </td>
+                            <td class="col-3"> 5% </td>
+                            <td class="col-3"> 3/10 </td>
+                            <td class="col-3"> 5% </td>
+                        </tr>
+                    </tbody>
+                </table>  
+                <table class="table text-center" id="task"style="width: 25%;" >
+                    <tbody  style="width:100%;">
+                        <tr class="row" style="background: #DCE6F2;">
+                            <th class="col-12">공지*문의 관리</th>
+                        </tr>
+                        <tr class="row">
+                            <th class="col-6">공지</th>
+                            <th class="col-6">문의</th>
+                        </tr>
+                        <tr class="row">
+                            <td class="col-3">3/10 </td>
+                            <td class="col-3"> 5% </td>
+                            <td class="col-3">3/10 </td>
+                            <td class="col-3"> 5% </td>
+                        </tr>
+                    </tbody>
+                </table>      
+            `;
+
+            $('#ban_statistics').append(temp_ban_statistics);
+
+            // 상담요청시 뷰 바꿔주는 부분 
+            let temp_target_ban = `
+            <p> 선택 - ${ban_name} <a></p>
+            `;
+            $('#target_bans').html(temp_target_ban);
+
+            // 전체 학생 대상 진행 append 
+            let target_all_student = `<option value="전체학생">✔️ ${ban_name}반 전체 학생 대상 진행</option>`;
+            $('#target_a_student').append(target_all_student)
+            
+            $('#target_student').empty();
+            for (var i = 0; i < totalData; i++) {
+                target = JSON.parse(data_list[i])
+                let id = target.id
+                let name = target.name;
+                let original = target.original;
+                let temp_target_student = `<option value="${id}"> ${name} ( ${original} )</option>`;
+                $('#target_student').append(temp_target_student)
+            } 
+        }
+    })
+}
+</script>
 {% block content %}
 {% autoescape off %}
 <!-- 상담 요청 리스트 모달 창 -->
