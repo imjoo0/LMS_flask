@@ -163,6 +163,7 @@ def answer(id):
         q = Question.query.filter(Question.id == id).all()[0]
         teacher_info = callapi.get_teacher_info(session['user_id'])
         a = Answer.query.filter(Answer.question_id == q.id).all()[0]
+        print(a)
         
         if q.category == 0:
             return jsonify({
