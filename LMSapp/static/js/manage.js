@@ -26,13 +26,16 @@ function displayData(totalData, currentPage, dataPerPage,data_list) {
         let mobileno = target['mobileno'];
         let parent_name_mobileno = target['pname'] +'('+target['pmobileno']+')';
         let reco_book_code = target['reco_book_code'];
-        let register_date = target['register_date'];
+        if( reco_book_code == null){
+            reco_book_code = '✖️'
+        }
+        let unlearned = '임시미학습율';
         chartHtml +=`
         <td class="col-2">${name}(${original})</td>
         <td class="col-2">${mobileno} </td>
         <td class="col-3">${parent_name_mobileno}</td>
         <td class="col-2">${reco_book_code} </td>
-        <td class="col-2">${register_date}</td><br>
+        <td class="col-2">${unlearned}</td><br>
         <td class="col-1" a href="#">✔️</td><br>
         `;
     } 
