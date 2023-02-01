@@ -114,8 +114,7 @@ def request_task():
         if received_target_ban == '전체 반':
             target_class = callapi.all_ban_info()
             for c in target_class:
-                target_teacher = callapi.get_ban(c['register_no'])
-                new_task = Task(ban_id=c['register_no'], category_id=received_category, teacher_id=target_teacher['teacher_register_no'],contents=received_task, startdate=received_task_startdate, deadline=received_task_deadline,url=received_task_url,priority=received_task_priority,cycle=received_task_cycle)
+                new_task = Task(ban_id=c['register_no'], category_id=received_category, teacher_id=c['teacher_id'],contents=received_task, startdate=received_task_startdate, deadline=received_task_deadline,url=received_task_url,priority=received_task_priority,cycle=received_task_cycle)
                 db.session.add(new_task)
                 db.session.commit()
         # 개별 반 선택 된 경우 

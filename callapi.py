@@ -60,7 +60,6 @@ def get_ban(ban_id):
     # register_no / ban_name / semester 
     # teacher_register_no / teacher_name / teacher_engname /teacher_mobileno / teacher_email
     # student_num
-
     if ((result['semester']-13)%3) == 1:
         result['semester'] = 1
     elif ((result['semester']-13)%3) == 2:
