@@ -217,7 +217,13 @@
 <div class="container_box p-5">
     <section id="statistics">
         <div class="personal_info">
-            <table border="0">
+            <div>
+                <span>{{ user['name'] }}({{ user['engname'] }}) 선생님 안녕하세요.</span><br>
+                <span>{{ user['mobileno'] }} / {{ user['email'] }}</span><br>
+                <span>* 정보가 상이할 경우 기술지원으로 문의주시기 바랍니다.</span>
+            </div>
+
+            <!-- <table border="0">
                 <th>선생님 개인 정보</th>
                 <th></th>
                 <th></th>
@@ -226,7 +232,7 @@
                     <td>{{ user['mobileno'] }} / </td>
                     <td>{{ user['email'] }}</td>
                 </tr>
-            </table>
+            </table> -->
             <div id="check">
                 <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
                 <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#question">본원 문의</button>
