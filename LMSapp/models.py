@@ -17,7 +17,6 @@ class Question(db.Model):
     create_date = db.Column(db.DateTime(), nullable=False)
     
     answer_id = db.Column(db.Integer, db.ForeignKey('answer.id',ondelete='CASCADE'))
-    answer = db.relationship('Answer')
 
 class Answer(db.Model):
     __tablename__ = 'answer'
