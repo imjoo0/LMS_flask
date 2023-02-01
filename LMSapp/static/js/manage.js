@@ -187,8 +187,8 @@ function getBanInfo(b_id){
             console.log(data_list)
             console.log(totalData)
 
-            displayData(totalData, 1, 3,data_list);
-            paging(totalData, 3, pageCount, 1,data_list);
+            displayData(totalData, 1, dataPerPage,data_list);
+            paging(totalData, dataPerPage, pageCount, 1,data_list);
 
             let temp_ban_statistics = `
             <table class="table text-center" id="unlearned" style="margin-left:1%; margin-right: 4%;width: 40%;">
