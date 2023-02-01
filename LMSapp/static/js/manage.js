@@ -19,12 +19,12 @@ function displayData(totalData, currentPage, dataPerPage,data_list) {
         i < last_item; // 55+5
         i++
     ) {
-        target = JSON.parse(data_list[i])
-        let name = target.name;
-        let original = target.original;
-        let mobileno = target.mobileno;
-        let parent_name_mobileno = target.parent_name_mobileno;
-        let register_date = target.register_date;
+        target = data_list[i]
+        let name = target['name'];
+        let original = target['origin'];
+        let mobileno = target['mobileno'];
+        let parent_name_mobileno = target['pname'] +'('+target['pmobileno']+')';
+        let register_date = target['register_date'];
         chartHtml +=`
         <td class="col-2">${name}(${original})</td>
         <td class="col-4">${mobileno} </td>
