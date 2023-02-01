@@ -20,7 +20,6 @@ function displayData(totalData, currentPage, dataPerPage,data_list) {
         i++
     ) {
         target = data_list[i]
-        console.log(target)
         let name = target['name'];
         let original = target['origin'];
         let mobileno = target['mobileno'];
@@ -94,7 +93,6 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
 
         //전역변수에 선택한 페이지 번호를 담는다...
         globalCurrentPage = selectedPage;
-        console.log(last)
 
         //페이징 표시 재호출
         paging(totalData, dataPerPage, pageCount, selectedPage, data_list);
@@ -183,9 +181,6 @@ function getBanInfo(b_id){
 
             data_list = response['student_info']
             totalData = students_num
-            
-            console.log(data_list)
-            console.log(totalData)
 
             displayData(totalData, 1, dataPerPage,data_list);
             paging(totalData, dataPerPage, pageCount, 1,data_list);
