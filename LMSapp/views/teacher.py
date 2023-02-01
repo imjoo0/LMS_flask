@@ -34,23 +34,48 @@ def home():
             tc.append(task.task_id)        
         tc = list(set(tc))
 
-        for t in tc:
-            task = Task.query.filter(Task.id == t).all()
+        category_set = []
+        for cate in tc:
+            t = Task.query.filter(Task.id==cate)
+            category_set.append(t.category_id)
+        category_set = list(set(category_set))
+        print(category_set)
 
         target_task = []
-        for t in tc:
+        for category in category_set:
             target_data = {}
-            target_data['task'] = Task.query.filter(Task.id == t).all()[0]
-            target_data['category_id'] =  target_data['task'].category_id
-            target_data['task_data'] = []
-            for tb in my_tasks:
-                if t == tb.task_id:
-                    data = {}
-                    data['id'] = tb.id
-                    data['ban'] = callapi.get_ban(tb.ban_id)
-                    target_data['task_data'].append(data)
+            target_data['category_id'] = category
+            target_data['task'] = []
+            for t in tc:
+                task_data = {}
+                task_data['task']=Task.query.filter(Task.id == t).all()[0]
+                task_data['ban_data'] = []
+                for tb in my_tasks:
+                    if t == tb.task_id:
+                        data = {}
+                        data['id'] = tb.id
+                        data['ban'] = callapi.get_ban(tb.ban_id)
+                        target_data['ban_data'].append(data)
+                target_data['task'].append(task_data)
             target_task.append(target_data)
 
+        print(target_task)
+
+
+        # for t in tc:
+        #     target_data = {}
+        #     target_data['task'] = Task.query.filter(Task.id == t).all()[0]
+        #     target_data['category_id'] =  target_data['task'].category_id
+        #     target_data['task_data'] = []
+        #     for tb in my_tasks:
+        #         if t == tb.task_id:
+        #             data = {}
+        #             data['id'] = tb.id
+        #             data['ban'] = callapi.get_ban(tb.ban_id)
+        #             target_data['task_data'].append(data)
+        #     target_task.append(target_data)
+
+                
 
         # i=0
         # j=1
