@@ -47,6 +47,7 @@ function get_answer(q_id){
         url: "/teacher/question/"+q_id,
         data: {},
         success: function (response) {
+        console.log(response)
             // alert(response["title"])
         //     if (response["result"]=='문의가 전송되었습니다') {
         //     window.location.replace('/teacher')
