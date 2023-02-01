@@ -29,7 +29,7 @@ function change_question_kind(str){
         $('#invisible_for_2').hide();
         $('#invisible_for_1').show();
         $('#question_box').show();
-    }else if( str == "일반"||"none"){
+    }else{
         console.log('되야혀')
         $('#invisible_for_1').hide();
         $('#invisible_for_2').hide();
