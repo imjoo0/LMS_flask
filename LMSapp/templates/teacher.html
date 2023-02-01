@@ -181,9 +181,9 @@
                             {% endif %}
                             <td class="col-7">{{ question.title }} </td>
                             {% if question.answer_id == null %}
-                            <td class="col-2"> 미답변 </td>
+                            <td class="col-2"> {{question.answer_id}} </td>
                             {% else %}
-                            <td class="col-2"  onclick="get_answer('{{question.id}}')"> ✔️ </td>
+                            <td class="col-2"  onclick="get_answer('{{question.id}}')">  {{question.answer_id}}  </td>
                             {% endif %}
                         </tr>
                         {% endfor %}
