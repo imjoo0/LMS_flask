@@ -110,19 +110,23 @@ def request_task():
         received_task_priority = request.form['task_priority']
         # 업무 주기
         received_task_cycle = request.form['task_cycle']
+
+        task = Task(category_id=received_category,contents=received_task,startdate=received_task_startdate,deadline=received_task_deadline,url=received_task_url,priority=received_task_priority,cycle=received_task_cycle)
+        db.session.add(task)
+        db.session.commit()
+        
         # 전체 반이 선택 된 경우
         if received_target_ban == '전체 반':
             target_class = callapi.all_ban_info()
             for c in target_class:
-                new_task = Task(ban_id=c['register_no'], category_id=received_category, teacher_id=c['teacher_id'],contents=received_task, startdate=received_task_startdate, deadline=received_task_deadline,url=received_task_url,priority=received_task_priority,cycle=received_task_cycle)
+                new_task = TaskBan(ban_id=c['register_no'],teacher_id=c['teacher_id'], task_id=task.id )
                 db.session.add(new_task)
                 db.session.commit()
         # 개별 반 선택 된 경우 
         else:
             target_teacher = callapi.get_ban(received_target_ban)
             target_teacher =  target_teacher['teacher_register_no']
-            new_task = Task(ban_id=received_target_ban, category_id=received_category, teacher_id=target_teacher,
-                                        contents=received_task, startdate=received_task_startdate, deadline=received_task_deadline,url=received_task_url,priority=received_task_priority,cycle=received_task_cycle)
+            new_task = TaskBan(ban_id=received_target_ban,teacher_id=target_teacher, task_id=task.id)
             db.session.add(new_task)
             db.session.commit()
         return redirect('/')
