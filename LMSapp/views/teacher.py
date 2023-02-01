@@ -53,7 +53,8 @@ def home():
                     if t == tb.task_id:
                         data = {}
                         data['id'] = tb.id
-                        data['ban'] = callapi.get_ban(tb.ban_id)
+                        ban = callapi.get_ban(tb.ban_id)
+                        data['ban'] = ban['ban_name']
                         task_data['ban_data'].append(data)
                 target_data['task'].append(task_data)
             target_task.append(target_data)

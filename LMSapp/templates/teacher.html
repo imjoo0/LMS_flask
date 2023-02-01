@@ -344,7 +344,7 @@
                     <div class="make_row">
                         {% for data in task['ban_data']%}
                         {% set msg = data['id'] %}
-                        <p>{{data['ban_name']}} </p> <button onclick="update_done('{{ msg }}')"> 완료 </button>
+                        <p>{{data['ban']}} </p> <button onclick="update_done('{{ msg }}')"> 완료 </button>
                         {% endfor %}
                     </div>
                     {%endfor%}
