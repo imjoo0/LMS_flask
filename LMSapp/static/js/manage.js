@@ -24,12 +24,19 @@ function displayData(totalData, currentPage, dataPerPage,data_list) {
         let original = target['origin'];
         let mobileno = target['mobileno'];
         let parent_name_mobileno = target['pname'] +'('+target['pmobileno']+')';
-        let register_date = target['register_date'];
+        // let register_date = target['register_date'];
+        // chartHtml +=`
+        // <td class="col-2">${name}(${original})</td>
+        // <td class="col-4">${mobileno} </td>
+        // <td class="col-3">${parent_name_mobileno}</td>
+        // <td class="col-2">${register_date}</td><br>
+        // <td class="col-1" a href="#">✔️</td><br>
+        // `;
         chartHtml +=`
         <td class="col-2">${name}(${original})</td>
         <td class="col-4">${mobileno} </td>
         <td class="col-3">${parent_name_mobileno}</td>
-        <td class="col-2">${register_date}</td><br>
+        <td class="col-2">22022-03-01</td><br>
         <td class="col-1" a href="#">✔️</td><br>
         `;
     } 
@@ -127,7 +134,7 @@ function getBanInfo(b_id){
         url: "/manage/ban/"+b_id,
         data: {},
         success: function (response) {
-            let target_ban = response['target_ban']
+            // let target_ban = response['target_ban']
             let ban_name = response['name'];
             let teacher_name = response['teacher_name']
             let teacher_e_name = response['teacher_e_name']
