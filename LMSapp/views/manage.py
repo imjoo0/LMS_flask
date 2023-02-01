@@ -135,8 +135,7 @@ def get_ban(id):
         # for student in students:
         #      student_info.append(json.dumps(get_student_json(student)))
         # print(student_info)
-        print(target_ban)
-        print(students)
+
         return jsonify({
             'target_ban': target_ban['register_no'],
             'name': target_ban['ban_name'],
