@@ -56,6 +56,8 @@ function get_answer(q_id){
         teacher_e = response["teacher_e"]
         create_date = response["create_date"]
         answer = response['answer']
+        answer_at = response['answer_at']
+
         if(cateogry == '일반문의'){
             let temp_question_list = `
             <ul>
@@ -64,25 +66,19 @@ function get_answer(q_id){
                 <li>문의 : ${contents}</li>
                 <li>작성자 : ${teacher} ( ${teacher_e} )</li>
                 <li>작성일 : ${create_date}</li>
+                <li>답변 : ${answer}</li>
+                <li>답변일 : ${answer_at}</li>
             </ul>
-            <ul id='answer_list'></ul>
             `;
             $('#questiondetail_box').append(temp_question_list);
-            if( answer == null ){
-                temp_answer_list=`<li>응답 : 응답이 아직 없어요 😵‍💫</li>`;
-                $('#answer_list').append(temp_answer_list);
-            }else{
-                temp_answer_list=`
-                <li>응답 : ${answer} </li>
-                <li>응답일 : ${answer_at} </li>
-                `;
-                $('#answer_list').append(temp_answer_list);
-            }
         }
         else{
             ban = response["ban"]
             student = response["student"]
             student_origin = response["student_origin"]
+            reject = response["reject"]
+            answer = response["answer"]
+            answer_at = response["answer_at"]
             let temp_question_list = `
             <ul>
                 <li>종류 : ${cateogry} </li>
@@ -91,26 +87,12 @@ function get_answer(q_id){
                 <li>작성자 : ${teacher} ( ${teacher_e} )</li>
                 <li>작성일 : ${create_date}</li>
                 <li>대상 반 | 학생: ${ban} ➖ ${student} ( ${student_origin} )</li>
-            </ul>
-            <ul id='answer_list'></ul>
-            `;
-            $('#questiondetail_box').append(temp_question_list);
-            if( answer == null ){
-                temp_answer_list=`<li>응답 : 응답이 아직 없어요 😵‍💫</li>`;
-                $('#answer_list').append(temp_answer_list);
-            }else{
-                if( response["reject"] = 1 ){
-                    reject_code = '반려'
-                }else{
-                    reject_code = '승인'
-                }
-                temp_answer_list=`
-                <li>처리 : ${ reject_code } </li>
+                <li>처리 : ${ reject } </li>
                 <li>응답 : ${answer} </li>
                 <li>응답일 : ${answer_at} </li>
-                `;
-                $('#answer_list').append(temp_answer_list);
-            }
+            </ul>
+            `;
+            $('#questiondetail_box').append(temp_question_list);
         }
         }
     });
