@@ -1,5 +1,5 @@
 let totalData; //총 데이터 수
-let dataPerPage = 3;
+let dataPerPage = 6;
 let pageCount = 10; //페이징에 나타낼 페이지 수
 let globalCurrentPage = 1; //현재 페이지
 let data_list;
@@ -260,10 +260,10 @@ function getBanInfo(b_id){
             
             $('#target_student').empty();
             for (var i = 0; i < totalData; i++) {
-                target = JSON.parse(data_list[i])
-                let id = target.id
-                let name = target.name;
-                let original = target.original;
+                target = data_list[i]
+                let id = target['register_no']
+                let name = target['name'];
+                let original = target['origin'];
                 let temp_target_student = `<option value="${id}"> ${name} ( ${original} )</option>`;
                 $('#target_student').append(temp_target_student)
             } 
@@ -272,7 +272,7 @@ function getBanInfo(b_id){
 }
 
 
-// 반 id가 입력되면 view를 바꿔주는 함수 
-function consulting_ban(b_id){
+// // 반 id가 입력되면 view를 바꿔주는 함수 
+// function consulting_ban(b_id){
 
-}
+// }

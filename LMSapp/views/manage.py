@@ -63,10 +63,11 @@ def request_consulting():
         
         # 전체 반이 선택 된 경우
         if received_target_ban == '전체 반':
-            target_class = Ban.query.all()
+            target_class = callapi.all_ban_info()
             for c in target_class:
-                for s in c.students:
-                    new_consulting = Consulting(ban_id=c.register_no, category_id=received_category, student_id=s.register_no,
+                students = callapi.get_students(c['register_no'])
+                for s in students:
+                    new_consulting = Consulting(ban_id=c['register_no'], category_id=received_category, student_id=s['register_no'],
                                                 contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline)
                     db.session.add(new_consulting)
                     db.session.commit()
@@ -76,9 +77,9 @@ def request_consulting():
             received_target_student = request.form['consulting_target_student']
             # 전체 학생일 경우 
             if received_target_student == '전체학생':
-                target_student_list = Ban.query.filter(Ban.register_no == received_target_ban).all()[0].students.all()
+                target_student_list = callapi.get_students(received_target_ban)
                 for student in target_student_list:
-                    new_consulting = Consulting(ban_id=received_target_ban, category_id=received_category, student_id=student.register_no,
+                    new_consulting = Consulting(ban_id=received_target_ban, category_id=received_category, student_id=student['register_no'],
                                                 contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline)
                     db.session.add(new_consulting)
                     db.session.commit()
