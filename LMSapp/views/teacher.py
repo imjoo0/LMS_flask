@@ -53,7 +53,8 @@ def home():
                     if t == tb.task_id:
                         data = {}
                         data['id'] = tb.id
-                        data['ban'] = callapi.get_ban(tb.ban_id)
+                        ban = callapi.get_ban(tb.ban_id)
+                        data['ban'] = ban['ban_name']
                         task_data['ban_data'].append(data)
                 target_data['task'].append(task_data)
             target_task.append(target_data)
@@ -108,8 +109,7 @@ def home():
         #     target_task.append(list(st.intersection(all_task_category[t-1].tasks)))
         # print(target_task)
 
-        my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()[0]
-        print(my_questions)
+        my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
         return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,all_task_category=all_task_category,target_task=target_task,students=mystudents_info, questions=my_questions)
 
 # 테스트 계정 id : T1031 pw동일  
@@ -124,8 +124,8 @@ def update_done(id):
         return 'There was an issue updating your work'
 
 # 선생님 문의 저장 
-@bp.route('/question/<int:id>', methods=['GET','POST'])
-def question(id):
+@bp.route('/question', methods=['POST'])
+def request_question():
     if request.method == 'POST':
         question_category = request.form['question_category']
         title = request.form['question_title']
@@ -156,58 +156,142 @@ def question(id):
         flash("문의 저장완료 되었습니다")
         return redirect('/')
 
-    elif request.method == 'GET':
+# 본원 답변 조회 
+@bp.route('/question/<int:id>', methods=['GET'])
+def answer(id):
+    if request.method == 'GET':
         q = Question.query.filter(Question.id == id).all()[0]
         teacher_info = callapi.get_teacher_info(session['user_id'])
-        a = Answer.query.filter(Answer.question_id == id).all()[0]
-        
-        if q.category == 0:
-            return jsonify({
-            'cateogry':'일반문의',
-            'title': q.title,
-            'contents':q.contents,
-            'create_date':q.create_date,
-            'teacher': teacher_info['name'],
-            'teacher_e': teacher_info['engname'],
-            'answer' : a.content,
-            'answer_at': a.created_at
-            })
-        else:
-            s = callapi.get_student_info(q.student_id )
-
-            b = callapi.get_ban(q.ban_id )    
-
-            if q.category == 2:
+        a = Answer.query.filter(Answer.question_id == q.id).all()
+        if len(a)!=0:
+            if q.category == 0:
                 return jsonify({
-                'cateogry':'이반 요청',
+                'cateogry':'일반문의',
                 'title': q.title,
                 'contents':q.contents,
                 'create_date':q.create_date,
                 'teacher': teacher_info['name'],
-                'teacher_e':teacher_info['engname'],
-                'student': s['name'],
-                'student_origin': s['origin'],
-                'ban' : b['name'],
+                'teacher_e': teacher_info['engname'],
                 'answer' : a.content,
-                'answer_at': a.created_at,
-                'reject' : a.reject_code
+                'answer_at': a.created_at
                 })
             else:
+                s = callapi.get_student_info(q.student_id )
+                b = callapi.get_ban(q.ban_id )    
+
+                if q.category == 2:
+                    return jsonify({
+                    'cateogry':'이반 요청',
+                    'title': q.title,
+                    'contents':q.contents,
+                    'create_date':q.create_date,
+                    'teacher': teacher_info['name'],
+                    'teacher_e':teacher_info['engname'],
+                    'student': s['name'],
+                    'student_origin': s['origin'],
+                    'ban' : b['name'],
+                    'answer' : a.content,
+                    'answer_at': a.created_at,
+                    'reject' : a.reject_code
+                    })
+                elif q.category==1:
+                    return jsonify({
+                    'cateogry':'퇴소 요청',
+                    'title': q.title,
+                    'contents':q.contents,
+                    'create_date':q.create_date,
+                    'teacher': teacher_info['name'],
+                    'teacher_e':teacher_info['engname'],
+                    'student': s['name'],
+                    'student_origin': s['origin'],
+                    'ban' : b['name'],
+                    'answer' : a.content,
+                    'answer_at': a.created_at,
+                    'reject' : a.reject_code
+                    })
+                elif q.category == 3:
+                    return jsonify({
+                    'cateogry':'취소/환불 요청',
+                    'title': q.title,
+                    'contents':q.contents,
+                    'create_date':q.create_date.strftime('%Y-%m-%d'),
+                    'teacher': teacher_info['name'],
+                    'teacher_e':teacher_info['engname'],
+                    'student': s['name'],
+                    'student_origin': s['origin'],
+                    'ban' : b['name'],
+                    'answer' : a.content,
+                    'answer_at': a.created_at,
+                    'reject' : a.reject_code
+                    })
+                else:
+                    return 'error'
+        elif len(a)==0:
+            if q.category == 0:
                 return jsonify({
-                'cateogry':'퇴소 요청',
+                'cateogry':'일반문의',
                 'title': q.title,
                 'contents':q.contents,
-                'create_date':q.create_date,
+                'create_date':q.create_date.strftime('%Y-%m-%d'),
                 'teacher': teacher_info['name'],
-                'teacher_e':teacher_info['engname'],
-                'student': s['name'],
-                'student_origin': s['origin'],
-                'ban' : b['name'],
-                'answer' : a.content,
-                'answer_at': a.created_at,
-                'reject' : a.reject_code
+                'teacher_e': teacher_info['engname'],
+                'answer' : '미응답',
+                'answer_at': '✖️'
                 })
-            
+            else:
+                print(q.student_id)
+                s = callapi.get_student_info(q.student_id )
+                print(s)
+                b = callapi.get_ban(q.ban_id )    
+
+                if q.category == 2:
+                    return jsonify({
+                    'cateogry':'이반 요청',
+                    'title': q.title,
+                    'contents':q.contents,
+                    'create_date':q.create_date.strftime('%Y-%m-%d'),
+                    'teacher': teacher_info['name'],
+                    'teacher_e':teacher_info['engname'],
+                    'student': s['name'],
+                    'student_origin': s['origin'],
+                    'ban' : b['name'],
+                    'answer' : '미응답',
+                    'answer_at': '✖️',
+                    'reject' : '✖️'
+                    })
+                elif q.category == 1:
+                    return jsonify({
+                    'cateogry':'퇴소 요청',
+                    'title': q.title,
+                    'contents':q.contents,
+                    'create_date':q.create_date.strftime('%Y-%m-%d'),
+                    'teacher': teacher_info['name'],
+                    'teacher_e':teacher_info['engname'],
+                    'student': s['name'],
+                    'student_origin': s['origin'],
+                    'ban' : b['name'],
+                    'answer' : '미응답',
+                    'answer_at': '✖️',
+                    'reject' : '✖️'
+                    })
+                elif q.category == 3:
+                    return jsonify({
+                    'cateogry':'취소/환불 요청',
+                    'title': q.title,
+                    'contents':q.contents,
+                    'create_date':q.create_date.strftime('%Y-%m-%d'),
+                    'teacher': teacher_info['name'],
+                    'teacher_e':teacher_info['engname'],
+                    'student': s['name'],
+                    'student_origin': s['origin'],
+                    'ban' : b['name'],
+                    'answer' : '미응답',
+                    'answer_at': '✖️',
+                    'reject' : '✖️'
+                    })
+                else:
+                    return 'error'
+                
 
 
 # 문의 / 답변 조회 

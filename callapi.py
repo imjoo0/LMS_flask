@@ -75,6 +75,7 @@ def get_ban(ban_id):
 def get_student_info(student_id):
     result = requests.post(config.api + 'get_student_info', headers=headers, data=json.dumps({'data':{ 'id':  student_id }}))
     result = result.json()
+    print(result)
     if(len(result)>0):
         result = result[0]
     return result

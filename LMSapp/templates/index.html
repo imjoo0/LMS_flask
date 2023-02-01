@@ -48,14 +48,28 @@
         </div>
         <div class="items">
             <!-- 네비게이션 -->
-            <nav class="navbar navbar-expand-md navbar-light">
+            <header>
+              <div class="top-nav-bar fixed-top d-flex justify-content-between align-items-center py-2">                
+                <div class="d-flex justify-content-start align-items-center ms-4" style="width: 200px;">
+                  <a href="/index.html" class="navbar-brand d-flex align-items-center w-100">
+                    <img src="../static/style/images/purple_logo_03.png">
+                  </a>
+                </div>         
+                <div class="top-nav-logout d-flex justify-content-center align-items-center me-3">
+                  <a href="#" data-bs-toggle="modal" data-bs-target="#sign-out">
+                    <i class="fas fa-sign-out-alt text-danger fa-lg fs-6"></i>
+                  </a>                    
+                </div>
+              </div> 
+            </header>
+            <!--<nav class="navbar navbar-expand-md navbar-light">
                 <button class="navbar-toggler ml-auto mb-2 bg-light" type="button" data-toggle="collapse" data-target="#sidebar">
                     <span class="navbar-toggle-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="sidebar">
                     <div class="container-fluid">
                         <div class="row">
-                            <!-- 상단 네비게이션바 -->
+                            
                             <div class="top-nav-bar ms-auto fixed-top py-1">
                                 <div class="row py-1">
                                     <div class="col d-flex" style="margin-left:-300px;">
@@ -72,7 +86,7 @@
                         </div>
                     </div>
                 </div>
-            </nav>
+            </nav>-->
             <div id="main">
                 {% block content %}
 
@@ -82,7 +96,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="card-container ms-auto">
-                            <div class="footer row pt-3 pb-2">
+                            <div class="footer row pt-3 py-2">
                                 <div class="col-lg-6 text-center">
                                     <p class="px-3 mb-2">&copy; 2023 Copyright. <span class="text-purple">PURPLEACADEMY</span></p>
                                 </div>

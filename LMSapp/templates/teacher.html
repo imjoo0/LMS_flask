@@ -51,9 +51,9 @@
                             <select class="border rounded-0 form-control form-control-sm" name="ban_id" style=" width: 150px; height: 100%;">
                                 <optgroup>
                                     <option value="none" selected>기존 반을 선택해주세요</option>
-                                    {% for ban in all_ban %}
+                                    {% for ban in my_bans %}
                                     {% set ban_registerno = ban['register_no'] %}
-                                    <option value={{ban_registerno}}>{{ban['ban_name']}}</option>
+                                    <option value={{ban_registerno}}>{{ban['name']}}</option>
                                     {% endfor %}
                                 </optgroup>
                             </select>
@@ -72,7 +72,7 @@
                         <li>상담내용 : 
                             <select class="border rounded-0 form-control form-control-sm" name="consulting_history" style=" width: 150px; height: 100%;">
                                 <optgroup>
-                                    <option value="none" selected>진행한 상담의 상담일지를 선택해주세요</option>
+                                    <option value="none" selected>상담을 우선 진행해주세요</option>
                                     <option value=0>for student</option>
                                 </optgroup>
                             </select>
@@ -83,7 +83,7 @@
                                     <option value="none" selected>이반 하려는 반을 선택해주세요</option>
                                     {% for ban in all_ban %}
                                     {% set ban_registerno = ban['register_no'] %}
-                                    <option value={{ban_registerno}}>{{ ban['name'] }} ({{ ban['name_numeric'] }}학기)</option>
+                                    <option value={{ban_registerno}}>{{ ban['name'] }} ({{ ban['semester'] }}학기)</option>
                                     {% endfor %}
                                 </optgroup>
                             </select>
@@ -94,7 +94,7 @@
                             <select class="border rounded-0 form-control form-control-sm" name="o_ban_id" style=" width: 150px; height: 100%;">
                                 <optgroup>
                                     <option value="none" selected>퇴소하려는 반을 선택해주세요</option>
-                                    {% for ban in all_ban %}
+                                    {% for ban in my_bans %}
                                     {% set ban_registerno = ban['register_no'] %}
                                     <option value={{ban_registerno}}>{{ ban['name'] }}</option>
                                     {% endfor %}
@@ -164,8 +164,9 @@
                 <tbody  style="width:100%;">
                     <tr class="row">
                         <th class="col-3">종류</th>
-                        <th class="col-7">제목</th>
-                        <th class="col-2">상태</th>
+                        <th class="col-5">제목</th>
+                        <th class="col-2">답변</th>
+                        <th class="col-2">수정/삭제</th>
                     </tr>
                     {% if questions is iterable %}
                         {% for question in questions %}
@@ -179,12 +180,13 @@
                             {% else %}
                             <td class="col-3">취소/환불</td>
                             {% endif %}
-                            <td class="col-7">{{ question.title }} </td>
-                            {% if question.answer_id == null %}
-                            <td class="col-2"> 미답변 </td>
+                            <td class="col-5">{{ question.title }} </td>
+                            {% if question.answer_id == None %}
+                            <td class="col-2"> 미응답 </td>
                             {% else %}
-                            <td class="col-2"  onclick="get_answer('{{question.id}}')"> ✔️ </td>
+                            <td class="col-2"  onclick="get_answer('{{question.id}}')">  ✔️  </td>
                             {% endif %}
+                            <td class="col-2"  onclick="get_answer('{{question.id}}')"> ✏️❌ </td>
                         </tr>
                         {% endfor %}
                     {% else %}
@@ -215,7 +217,13 @@
 <div class="container_box p-5">
     <section id="statistics">
         <div class="personal_info">
-            <table border="0">
+            <div>
+                <span>{{ user['name'] }}({{ user['engname'] }}) 선생님 안녕하세요.</span><br>
+                <span>{{ user['mobileno'] }} / {{ user['email'] }}</span><br>
+                <span>* 정보가 상이할 경우 기술지원으로 문의주시기 바랍니다.</span>
+            </div>
+
+            <!-- <table border="0">
                 <th>선생님 개인 정보</th>
                 <th></th>
                 <th></th>
@@ -224,7 +232,7 @@
                     <td>{{ user['mobileno'] }} / </td>
                     <td>{{ user['email'] }}</td>
                 </tr>
-            </table>
+            </table> -->
             <div id="check">
                 <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
                 <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#question">본원 문의</button>
@@ -344,7 +352,7 @@
                     <div class="make_row">
                         {% for data in task['ban_data']%}
                         {% set msg = data['id'] %}
-                        <p>{{data['ban_name']}} </p> <button onclick="update_done('{{ msg }}')"> 완료 </button>
+                        <p>{{data['ban']}} </p> <button onclick="update_done('{{ msg }}')"> 완료 </button>
                         {% endfor %}
                     </div>
                     {%endfor%}
