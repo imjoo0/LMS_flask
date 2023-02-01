@@ -39,7 +39,6 @@ def home():
             t = Task.query.filter(Task.id==cate).all()[0]
             category_set.append(t.category_id)
         category_set = list(set(category_set))
-        print(category_set)
 
         target_task = []
         for category in category_set:
@@ -58,8 +57,6 @@ def home():
                         task_data['ban_data'].append(data)
                 target_data['task'].append(task_data)
             target_task.append(target_data)
-
-        print(target_task)
 
 
         # for t in tc:
