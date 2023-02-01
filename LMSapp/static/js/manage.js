@@ -20,6 +20,7 @@ function displayData(totalData, currentPage, dataPerPage,data_list) {
         i++
     ) {
         target = data_list[i]
+        console.log(target)
         let name = target['name'];
         let original = target['origin'];
         let mobileno = target['mobileno'];
