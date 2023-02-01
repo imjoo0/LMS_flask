@@ -1,4 +1,5 @@
 import {get_ban} from '../../../../LMS/callapi.py'
+import {get_students} from '../../../../LMS/callapi.py'
 
 let totalData; //총 데이터 수
 let dataPerPage = 3;
@@ -100,6 +101,7 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
 }
 
 function getBanInfo(b_id){
+    console.log(b_id)
     $('#label_title').empty();
     $('#profile_data').empty();
     $('#ban_data').empty();
@@ -136,7 +138,7 @@ function getBanInfo(b_id){
             let teacher_e_name = target_ban['teacher_engname']
             let teacher_mobileno = target_ban['teacher_mobileno']
             let teacher_email = target_ban['teacher_email']
-
+            console.log(target_ban)
             let temp_title = `<h1>${semester}학기 ${ban_name} 현황</h1>`
             $('#label_title').append(temp_title);
 
@@ -177,7 +179,8 @@ function getBanInfo(b_id){
             `;
             $('#ban_data').append(temp_ban_data);
 
-            data_list = response['student_info']
+            data_list = get_students(b_id)
+            console.log(data_list)
             totalData = students_num
 
             displayData(totalData, 1, 3,data_list);
