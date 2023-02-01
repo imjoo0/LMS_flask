@@ -337,7 +337,7 @@
         <div class="container border rounded-3 p-4 pb-1">
             {% for tt in target_task %}
             <details>
-                <summary><strong>{{ all_task_category[tt['category_id']].name }} 업무 </strong></summary>
+                <summary><strong>{{ tt['category']}} 업무 </strong></summary>
                 <div class="make_col" id="work_box">
                     {% for task in tt['task'] %}
                     <p>✅ {{ task['task'].contents }} <a href=w.url>👉 수행 </a></p>
