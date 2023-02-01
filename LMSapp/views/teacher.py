@@ -52,14 +52,14 @@ def home():
             target_task.append(target_data)
 
 
-        i=0
-        j=1
-        for i in range(len(target_task)):
-            for j in range(len(target_task)-1):
-                if target_task[i]['category_id'] == target_task[j]['category_id']:
-                    target_task[i]['task_data'].append(target_task[j])
-                    target_task.pop(j)    
-        print(target_task)
+        # i=0
+        # j=1
+        # for i in range(len(target_task)):
+        #     for j in range(len(target_task)-1):
+        #         if target_task[i]['category_id'] == target_task[j]['category_id']:
+        #             target_task[i]['task_data'].append(target_task[j])
+        #             target_task.pop(j)    
+        # print(target_task)
         
 
             
