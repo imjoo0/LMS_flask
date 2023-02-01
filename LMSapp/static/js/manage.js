@@ -1,6 +1,3 @@
-import {get_ban} from '../../../../LMS/callapi.py'
-import {get_students} from '../../../../LMS/callapi.py'
-
 let totalData; //총 데이터 수
 let dataPerPage = 3;
 let pageCount = 10; //페이징에 나타낼 페이지 수
@@ -101,7 +98,6 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
 }
 
 function getBanInfo(b_id){
-    console.log(b_id)
     $('#label_title').empty();
     $('#profile_data').empty();
     $('#ban_data').empty();
@@ -131,15 +127,14 @@ function getBanInfo(b_id){
         url: "/manage/ban/"+b_id,
         data: {},
         success: function (response) {
-            let target_ban = get_ban(b_id)
-            let ban_name = target_ban['ban_name'];
-            let semester = target_ban['semester'];
-            let teacher_name = target_ban['teacher_name']
-            let teacher_e_name = target_ban['teacher_engname']
-            let teacher_mobileno = target_ban['teacher_mobileno']
-            let teacher_email = target_ban['teacher_email']
-            console.log(target_ban)
-            let temp_title = `<h1>${semester}학기 ${ban_name} 현황</h1>`
+            let target_ban = response['target_ban']
+            let ban_name = response['name'];
+            let teacher_name = response['teacher_name']
+            let teacher_e_name = response['teacher_e_name']
+            let teacher_mobileno = response['teacher_mobileno']
+            let teacher_email = response['teacher_email']
+
+            let temp_title = `<h1> ${ban_name} 현황</h1>`
             $('#label_title').append(temp_title);
 
             let temp_profile_data = `
@@ -156,7 +151,7 @@ function getBanInfo(b_id){
             `;
             $('#profile_data').append(temp_profile_data);
 
-            let students_num = target_ban['student_num']
+            let students_num = response['students_num']
             let temp_ban_data = `
             <table class="table text-center" style="width:100%;">
                 <tbody  style="width:100%;">
@@ -179,8 +174,7 @@ function getBanInfo(b_id){
             `;
             $('#ban_data').append(temp_ban_data);
 
-            data_list = get_students(b_id)
-            console.log(data_list)
+            data_list = response['student_info']
             totalData = students_num
 
             displayData(totalData, 1, 3,data_list);
@@ -266,6 +260,7 @@ function getBanInfo(b_id){
         }
     })
 }
+
 
 // 반 id가 입력되면 view를 바꿔주는 함수 
 function consulting_ban(b_id){

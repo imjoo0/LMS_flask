@@ -29,30 +29,6 @@ def home():
         all_questions = Question.query.all()
         return render_template('manage.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting,task_category =  all_task_category,tasks=all_task,questions=all_questions)
 
-# json type not seriallizabel 해결 함수
-    # object 인 경우 -> get_student(obj)
-
-
-def get_student(student):
-    return {
-        'id': student.register_no,
-        'name': student.name,
-        'original': student.original,
-        'mobileno': student.mobileno,
-        'parent_name_mobileno': '(' + student.parent_name + ')' + student.parent_mobileno,
-        'register_date': student.register_date.strftime('%Y-%m-%d')
-    }
-
-    # datetime인 경우 json_default()
-
-
-def json_default(value):
-  if isinstance(value, datetime.date):
-    return value.strftime('%Y-%m-%d')
-  raise TypeError('not JSON serializable')
-#   json_data = json.dumps(data, default=json_default) <- 사용시 이 포멧으로
-
-
 @bp.route("/ban", methods=['GET', 'POST'])
 def request_consulting():
     if request.method == 'POST':
@@ -135,23 +111,18 @@ def request_task():
 @bp.route("/ban/<int:id>", methods=['GET'])
 def get_ban(id):
     if request.method == 'GET':
-        target_ban = Ban.query.filter(Ban.register_no == id).all()[0]
-        # target_ban의 담임 선생님 정보
-        teacher_info = User.query.filter(
-            User.register_no == target_ban.teacher_id).all()[0]
-        students = target_ban.students.all()
-        student_info = []
-        for student in students:
-            student_info.append(json.dumps(get_student(student)))
+        target_ban = callapi.get_ban(id)
+        students = callapi.get_students(id)
+
         return jsonify({
-            'target_ban': target_ban.register_no,
-            'name': target_ban.name,
-            'teacher_name': teacher_info.name,
-            'teacher_e_name': teacher_info.eng_name,
-            'teacher_mobileno': teacher_info.mobileno,
-            'teacher_email': teacher_info.email,
-            'students_num': len(students),
-            'student_info': student_info
+            'target_ban': target_ban['register_no'],
+            'name': target_ban['name'],
+            'teacher_name': target_ban['teacher_name'],
+            'teacher_e_name': target_ban['teacher_engname'],
+            'teacher_mobileno': target_ban['teacher_mobileno'],
+            'teacher_email': target_ban['teacher_email'],
+            'students_num': target_ban['student_num'],
+            'student_info': students
         })
 
 # 선생님 문의 저장
