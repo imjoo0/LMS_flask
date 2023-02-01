@@ -17,13 +17,13 @@ class Question(db.Model):
     create_date = db.Column(db.DateTime(), nullable=False)
     
     answer_id = db.Column(db.Integer, db.ForeignKey('answer.id',ondelete='CASCADE'))
-    answer = db.relationship('Answer', backref=db.backref('questions'))
+    answer = db.relationship('Answer')
 
 class Answer(db.Model):
     __tablename__ = 'answer'
 
     id = db.Column(db.Integer, primary_key=True)
-    question = db.relationship('Question', backref=db.backref('answers'),uselist=False)
+    question = db.relationship('Question')
     content = db.Column(db.Text(), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False)
     reject_code = db.Column(db.Integer,nullable=True) # 1이면 반려 
@@ -91,7 +91,6 @@ class Task(db.Model):
 
     # 관계 설정 
     bans = db.relationship('TaskBan')
-    teachers = db.relationship('TaskBan')
 
 class TaskBan(db.Model):
     __tablename__ = 'taskban'
