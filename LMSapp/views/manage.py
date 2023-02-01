@@ -112,7 +112,7 @@ def request_task():
 def get_ban(id):
     if request.method == 'GET':
         target_ban = callapi.get_ban(id)
-        students = callapi.get_student('get_students',target_ban['register_no'])
+        students = callapi.get_student(target_ban['register_no'])
         print(students)
         return jsonify({
             'target_ban': target_ban['register_no'],
