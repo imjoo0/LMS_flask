@@ -109,7 +109,7 @@ def home():
         #     target_task.append(list(st.intersection(all_task_category[t-1].tasks)))
         # print(target_task)
 
-        my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()[0]
+        my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
         print(my_questions)
         return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,all_task_category=all_task_category,target_task=target_task,students=mystudents_info, questions=my_questions)
 
