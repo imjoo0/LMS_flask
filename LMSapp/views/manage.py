@@ -130,12 +130,12 @@ def request_task():
 def get_ban(id):
     if request.method == 'GET':
         target_ban = callapi.get_ban(id)
-        print(target_ban)
         students = callapi.get_students(target_ban['register_no'])
         # student_info = []
         # for student in students:
         #      student_info.append(json.dumps(get_student_json(student)))
         # print(student_info)
+        print(students)
         return jsonify({
             'target_ban': target_ban['register_no'],
             'name': target_ban['ban_name'],
