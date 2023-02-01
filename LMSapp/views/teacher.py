@@ -110,7 +110,6 @@ def home():
         # print(target_task)
 
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
-        print(my_questions)
         return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,all_task_category=all_task_category,target_task=target_task,students=mystudents_info, questions=my_questions)
 
 # 테스트 계정 id : T1031 pw동일  
@@ -125,8 +124,8 @@ def update_done(id):
         return 'There was an issue updating your work'
 
 # 선생님 문의 저장 
-@bp.route('/question/<int:id>', methods=['GET','POST'])
-def question(id):
+@bp.route('/question', methods=['POST'])
+def request_question():
     if request.method == 'POST':
         question_category = request.form['question_category']
         title = request.form['question_title']
@@ -157,7 +156,10 @@ def question(id):
         flash("문의 저장완료 되었습니다")
         return redirect('/')
 
-    elif request.method == 'GET':
+# 본원 답변 조회 
+@bp.route('/question/<int:id>', methods=['GET'])
+def answer(id):
+    if request.method == 'GET':
         q = Question.query.filter(Question.id == id).all()[0]
         teacher_info = callapi.get_teacher_info(session['user_id'])
         a = Answer.query.filter(Answer.question_id == id).all()[0]
