@@ -25,7 +25,7 @@ function displayData(totalData, currentPage, dataPerPage,data_list) {
         let original = target['origin'];
         let mobileno = target['mobileno'];
         let parent_name_mobileno = target['pname'] +'('+target['pmobileno']+')';
-        let register_date = target['register_date'];
+        let register_date = target['register_date'].strftime('%Y-%m-%d');
         chartHtml +=`
         <td class="col-2">${name}(${original})</td>
         <td class="col-4">${mobileno} </td>
