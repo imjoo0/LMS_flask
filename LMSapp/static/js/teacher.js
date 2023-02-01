@@ -28,7 +28,7 @@ function change_question_kind(str){
         $('#invisible_for_2').hide();
         $('#invisible_for_1').show();
         $('#question_box').show();
-    }else{
+    }else if( str == "일반"||"none"){
         $('#invisible_for_1').hide();
         $('#invisible_for_2').hide();
         $('#question_box').show();
