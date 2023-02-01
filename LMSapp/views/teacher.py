@@ -195,7 +195,7 @@ def answer(id):
                     'answer_at': a.created_at,
                     'reject' : a.reject_code
                     })
-                else:
+                elif q.category==1:
                     return jsonify({
                     'cateogry':'퇴소 요청',
                     'title': q.title,
@@ -210,6 +210,23 @@ def answer(id):
                     'answer_at': a.created_at,
                     'reject' : a.reject_code
                     })
+                elif q.category == 3:
+                    return jsonify({
+                    'cateogry':'취소/환불 요청',
+                    'title': q.title,
+                    'contents':q.contents,
+                    'create_date':q.create_date.strftime('%Y-%m-%d'),
+                    'teacher': teacher_info['name'],
+                    'teacher_e':teacher_info['engname'],
+                    'student': s['name'],
+                    'student_origin': s['origin'],
+                    'ban' : b['name'],
+                    'answer' : a.content,
+                    'answer_at': a.created_at,
+                    'reject' : a.reject_code
+                    })
+                else:
+                    return 'error'
         else:
             if q.category == 0:
                 return jsonify({
@@ -241,7 +258,7 @@ def answer(id):
                     'answer_at': '✖️',
                     'reject' : '✖️'
                     })
-                else:
+                elif q.category == 1:
                     return jsonify({
                     'cateogry':'퇴소 요청',
                     'title': q.title,
@@ -256,6 +273,23 @@ def answer(id):
                     'answer_at': '✖️',
                     'reject' : '✖️'
                     })
+                elif q.category == 3:
+                    return jsonify({
+                    'cateogry':'취소/환불 요청',
+                    'title': q.title,
+                    'contents':q.contents,
+                    'create_date':q.create_date.strftime('%Y-%m-%d'),
+                    'teacher': teacher_info['name'],
+                    'teacher_e':teacher_info['engname'],
+                    'student': s['name'],
+                    'student_origin': s['origin'],
+                    'ban' : b['name'],
+                    'answer' : '미응답',
+                    'answer_at': '✖️',
+                    'reject' : '✖️'
+                    })
+                else:
+                    return 'error'
                 
 
 
