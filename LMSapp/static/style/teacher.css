@@ -1,37 +1,13 @@
-.personal_info{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-}
-#check{
-    padding-left: 15px;
-}
-.total_info{
-    display: flex;
-    flex-direction: row;
-}
-.total_chart{
-    width: 50%;
-    height: 100%;
-}
-.total_table{
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    
-}
-.total_table > table{
-    margin-left: auto;
-    width:100%;
-    float: right;
-
+.question-btn {
+  width: 150px;
+  height: 150px;
+  background-color: #ffffff;
+  border: 1px solid #1b1b1b33;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  margin: 20px;
 }
 
-.modal-body{
-    padding-top: 0px;
-}
 /* 이반 요청 */
 #invisible_for_2{
     display: none;
@@ -46,12 +22,6 @@
 #questiondetail{
     display: none;
 }
-
-.row {
-    margin: 0px;
-}
-
-
 
 /* 차트 */
 .chartWrap{
