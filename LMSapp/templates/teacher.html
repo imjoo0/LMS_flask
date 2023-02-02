@@ -216,7 +216,13 @@
 
 <div class="container_box d-flex justify-content-center p-5 flex-column">
     <section id="user-info">
-        <div class="personal_info d-flex justify-content-center flex-row">
+        <div class="d-flex justify-content-center flex-row">
+            <div>
+                <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
+                <button class="question-btn head-office-question-btn" data-bs-toggle="modal" data-bs-target="#question">본원 문의</button>
+                <button class="question-btn answer-a-question" data-bs-toggle="modal" data-bs-target="#question_list">문의 답변</button>
+                <button class="question-btn show-last-counsulting">지난 상담 조회</button>
+            </div>
             <div>
                 <span>{{ user['name'] }}({{ user['engname'] }}) 선생님 안녕하세요.</span><br>
                 <span>{{ user['mobileno'] }} / {{ user['email'] }}</span><br>
@@ -232,12 +238,7 @@
                     <td>{{ user['email'] }}</td>
                 </tr>
             </table> -->
-            <div id="check">
-                <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
-                <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#question">본원 문의</button>
-                <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#question_list">문의 답변</button>
-                <button>지난 상담 조회</button>
-            </div>
+            
         </div>
     </section>
     <div class="d-flex justify-content-center flex-row">
