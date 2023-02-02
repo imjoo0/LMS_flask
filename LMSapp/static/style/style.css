@@ -285,27 +285,6 @@ details > summary {
     color: #2e2e2e!important;
 }
 
-/* 선생님 / 관리부서 페이지 공통 화면 뷰 반 분할 */
-.container_box{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100vw;
-    overflow: auto;
-}
-
-
-#statistics{
-    width: 50%;
-    height: 100%;
-}
-
-#work{
-    width: 45%;
-    height: 100%;
-    /* background-color: red; */
-    margin-left: 2%;
-}
 
 /* 가로배치 */
 .make_row{
@@ -317,5 +296,4 @@ details > summary {
     display: flex;
     flex-direction: column;
     width: 100%;
-
 }

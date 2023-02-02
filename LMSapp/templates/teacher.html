@@ -214,13 +214,12 @@
     </div>
 </div>
 
-<div class="container_box p-5">
-    <section id="statistics">
-        <div class="personal_info">
+<div class="container_box d-flex justify-content-center p-5 flex-column">
+    <section id="user-info">
+        <div class="personal_info d-flex justify-content-center flex-row">
             <div>
                 <span>{{ user['name'] }}({{ user['engname'] }}) 선생님 안녕하세요.</span><br>
                 <span>{{ user['mobileno'] }} / {{ user['email'] }}</span><br>
-                <span>* 정보가 상이할 경우 기술지원으로 문의주시기 바랍니다.</span>
             </div>
 
             <!-- <table border="0">
@@ -240,6 +239,9 @@
                 <button>지난 상담 조회</button>
             </div>
         </div>
+    </section>
+    <div class="d-flex justify-content-center flex-row">
+    <section id="statistics">
         <div class="total_info">
             <div class="total_chart">
                 <div class="chartWrap">
@@ -363,6 +365,7 @@
         </div>
         
     </section>
+    </div>
 </div>
 
 {% block jspart %}
