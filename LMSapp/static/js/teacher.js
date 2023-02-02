@@ -45,6 +45,7 @@ function update_done(taskid){
         contentType: false,
         processData: false,
         success: function (response) {
+            console.log(response)
             alert(response["result"])
             if (response["result"]=='업무 완료!') {
                 alert(response["result"])

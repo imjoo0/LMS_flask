@@ -115,7 +115,10 @@ def home():
 # 테스트 계정 id : T1031 pw동일  
 @bp.route("/<int:id>", methods=['POST','GET'])
 def update_done(id):
+    print(id)
+    print(type(id))
     target_task = TaskBan.query.get_or_404(id)
+    print(target_task)
     target_task.done = 1
     try:
         db.session.commit()
