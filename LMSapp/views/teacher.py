@@ -119,9 +119,9 @@ def update_done(id):
     target_task.done = 1
     try:
         db.session.commit()
-        return redirect('/')
+        return jsonify({'result': '업무 완료!'})
     except:
-        return 'There was an issue updating your work'
+        return jsonify({'result': '업무완료 실패'})
 
 # 선생님 문의 저장 
 @bp.route('/question', methods=['POST'])

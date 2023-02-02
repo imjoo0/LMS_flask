@@ -36,7 +36,22 @@ function change_question_kind(str){
     }
 }
 function update_done(taskid){
+    $.ajax({
+        type: "POST",
+        url: "/teacher/"+taskid,
+        data: taskid,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            alert(response["result"])
+            if (response["result"]=='업무 완료!') {
+                alert(response["result"])
+        }else {window.location.href='/'}
+        }
+    })
 }
+
 function get_answer(q_id){
     $('#questionlist').hide()
     $.ajax({
