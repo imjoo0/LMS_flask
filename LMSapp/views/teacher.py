@@ -115,15 +115,16 @@ def home():
 # 테스트 계정 id : T1031 pw동일  
 @bp.route("/task", methods=['POST','GET'])
 def update_done():
-    id = request.form['taskid']
-    target_task = TaskBan.query.get_or_404(id)
-    print(target_task)
-    target_task.done = 1
-    try:
-        db.session.commit()
-        return jsonify({'result': '업무 완료!'})
-    except:
-        return jsonify({'result': '업무완료 실패'})
+    if request.method =='POST':
+        id = request.form['taskid']
+        target_task = TaskBan.query.get_or_404(id)
+        print(target_task)
+        target_task.done = 1
+        try:
+            db.session.commit()
+            return jsonify({'result': '업무 완료!'})
+        except:
+            return jsonify({'result': '업무완료 실패'})
 
 # 선생님 문의 저장 
 @bp.route('/question', methods=['POST'])
