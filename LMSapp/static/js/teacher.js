@@ -37,7 +37,7 @@ function change_question_kind(str){
 }
 function update_done(taskid){
     taskid = Number(taskid)
-    print(typeof(taskid))
+    console.log(typeof(taskid))
 
     $.ajax({
         type: "POST",
