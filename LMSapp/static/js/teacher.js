@@ -49,7 +49,7 @@ function get_task(category_id){
         url: "/teacher/"+category_id,
         data: {},
         success: function (response) {
-            let tcb = '#task_contents_box'+category_id
+            let tcb = '#task_contents_box '+category_id
             if(response["task"] == '없음'){
                 let temp_task_contents_box = `
                 <p> 오늘은 할 업무가 없습니다🎉</p>
@@ -80,9 +80,9 @@ function get_task(category_id){
                         <label><input type="checkbox" name="taskid" value="${task_id}">${name}</label>
                         `;
                         if(done != 1){
-                            $('#task_ban_box_incomplete'+i).append(temp_task_ban_box);
+                            $('#task_ban_box_incomplete '+i).append(temp_task_ban_box);
                         }else{
-                            $('#task_ban_box_complete'+i).append(temp_task_ban_box);
+                            $('#task_ban_box_complete '+i).append(temp_task_ban_box);
                         }
                     }
                 }
