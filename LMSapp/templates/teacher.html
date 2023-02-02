@@ -352,7 +352,7 @@
             <h3>상담 * 업무</h3>
             <select id="work_done" class="border rounded-0 form-control form-control-sm" name="work_done" style=" width: 200px; height: 100%; text-align: center; margin-left: auto;" onchange="task_doneview(this.value)">
                 <optgroup>
-                    <option value=0>미완수</option>
+                    <option value=0 selected>미완수</option>
                     <option value=1>완수</option>
                 </optgroup>
             </select>
@@ -367,7 +367,6 @@
                         <div class="make_row" id="task_ban_box_complete">
                         </div>
                     </div>
-                </div>
             </details>
             {% endfor %}
         </div>
