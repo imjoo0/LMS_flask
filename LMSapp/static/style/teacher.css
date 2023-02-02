@@ -14,8 +14,8 @@
 }
 
 .question-btn {
-  width: 150px;
-  height: 150px;
+  width: 180px;
+  height: 180px;
   background-color: #f1f1f1;
   padding: 20px;
   margin: 16px;
@@ -42,14 +42,44 @@
   width: 80%;
   height: 100%;
   background-color: #f1f1f1;
-  margin: 16px;
+  margin: 16px 16px 20px 16px;
   padding: 20px;
   border-radius: 20px;
+  position: relative;
 }
 
 .user-detail span {
   color: #333333;
   font-weight: 600;
+}
+
+.user-detail-deco {
+  position: absolute;
+  z-index: -10;
+  width: 100%;
+  height: 100%;
+  background-color: #845EC2;
+  border-radius: 20px;
+  top: 0;
+}
+
+.user-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #1b1b1b33;
+}
+
+.user-name img {
+  width: 60px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.user-name span {
+  font-size: 20px;
+  margin-left: 10px;
 }
 
 /* 이반 요청 */

@@ -34,6 +34,7 @@ function change_question_kind(str){
 
 function task_doneview(done_code){
     if(done_code == 0){
+        console.log(done_code)
         $('#task_ban_box_incomplete').show();
         $('#task_ban_box_complete').hide();
     }else{
@@ -52,28 +53,31 @@ function get_task(category_id){
                 let temp_task_contents_box = `
                 <p> 오늘은 할 업무가 없습니다🎉</p>
                 `;
-                $('#task_contents_box').append(temp_task_contents_box);
+                $('#task_contents_box'+category_id).append(temp_task_contents_box);
             }else{
-                for(i=0;i<length(response["task"]);i++){
-                    let target = response["task"][i]
+                $('#task_contents_box'+category_id).empty()
+                let target_task = response["task"]
+                for(i=0;i<target_task.length;i++){
+                    let target = target_task[i]
                     let contents = target['contents']
                     let deadline = target['deadline']
                     let temp_task_contents_box = `
                     <p>✅ ${contents}  마감 : ${deadline} 까지 </p>
                     `;
-                    $('#task_contents_box').append(temp_task_contents_box);
-                    for(j=0;j<length(target['task_ban']);j++){
-                        let target_ban = target['task_ban'][j]
-                        let task_id = target_ban['id']
-                        let name = target_ban['ban']
-                        let done = target_ban['done']
+                    $('#task_contents_box'+category_id).append(temp_task_contents_box);
+                    let target_ban = target['task_ban']
+                    for(j=0;j<target_ban.length;j++){
+                        let target_ban_data = target_ban[j]
+                        let task_id = target_ban_data['id']
+                        let name = target_ban_data['ban']
+                        let done = target_ban_data['done']
                         let temp_task_ban_box = `
                         <label><input type="checkbox" name="taskid" value="${task_id}">${name}</label>
                         `;
                         if(done != 1){
-                            $('#task_ban_box_incomplete').append(temp_task_ban_box);
+                            $('#task_ban_box_incomplete'+category_id).append(temp_task_ban_box);
                         }else{
-                            $('#task_ban_box_complete').append(temp_task_ban_box);
+                            $('#task_ban_box_complete'+category_id).append(temp_task_ban_box);
                         }
                     }
                 }
