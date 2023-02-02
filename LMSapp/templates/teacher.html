@@ -242,11 +242,11 @@
                     <div class="user-contact">
                         <div>
                             <i class="fa-solid fa-mobile-screen-button"></i>
-                            <span>&nbsp;&nbsp;{{ user['email'] }}</span>
+                            <span>{{ user['mobileno'] }}</span>                        
                         </div>
-                        <div class="mt-3">
+                        <div>
                             <i class="fa-regular fa-envelope"></i>
-                            <span>&nbsp;&nbsp;{{ user['mobileno'] }}</span>
+                            <span>{{ user['email'] }}</span>
                         </div>
                     </div>
                 </div>
@@ -374,9 +374,9 @@
             <details>
                 <summary onclick="get_task('{{category}}')"><strong>{{ all_task_category[category-1].name }} 업무 </strong></summary>
                     <div class="make_col" id="task_contents_box{{category}}">
-                        <div class="make_row" id="task_ban_box_incomplete{{category}}">
+                        <div class="make_row" id="task_ban_box_incomplete">
                         </div>
-                        <div class="make_row" id="task_ban_box_complete{{category}}">
+                        <div class="make_row" id="task_ban_box_complete">
                         </div>
                     </div>
                 </div>
