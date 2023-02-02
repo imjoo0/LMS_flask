@@ -15,9 +15,6 @@
 //     get_review();
 // })
 
-
-
-
 //  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
 function change_question_kind(str){
     if( str == "이반"){
@@ -36,9 +33,7 @@ function change_question_kind(str){
     }
 }
 function update_done(taskid){
-    taskid = Number(taskid)
-    console.log(typeof(taskid))
-
+    taskid = Number(taskid);
     $.ajax({
         type: "POST",
         url: "/teacher/task",
