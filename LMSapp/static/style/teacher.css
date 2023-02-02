@@ -48,11 +48,6 @@
   position: relative;
 }
 
-.user-detail span {
-  color: #333333;
-  font-weight: 600;
-}
-
 .user-detail-deco {
   position: absolute;
   z-index: -10;
@@ -80,6 +75,25 @@
 .user-name span {
   font-size: 20px;
   margin-left: 10px;
+  color: #333333;
+  font-weight: 700;
+}
+
+.user-contact {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-contact i {
+  color: #333333;
+  font-size: 16px;
+}
+
+.user-contact span {
+  font-size: 16px;
+  color: #666666;
+  font-weight: 600;
 }
 
 /* 이반 요청 */
