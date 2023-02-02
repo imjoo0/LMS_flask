@@ -1,0 +1,58 @@
+ * Serving Flask app 'LMSapp'
+ * Debug mode: on
+Address already in use
+Port 6725 is in use by another program. Either identify and stop that program, or start the server with a different port.
+ * Serving Flask app 'LMSapp'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:6725
+ * Running on http://172.31.37.184:6725
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 599-982-060
+118.131.85.245 - - [02/Feb/2023 00:10:33] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [02/Feb/2023 00:10:33] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [02/Feb/2023 00:10:34] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:10:34] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:10:34] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [02/Feb/2023 00:10:34] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:10:34] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:10:34] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:10:34] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:10:34] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:11:15] "POST /login HTTP/1.1" 302 -
+118.131.85.245 - - [02/Feb/2023 00:11:15] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [02/Feb/2023 00:11:24] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [02/Feb/2023 00:11:24] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:11:24] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [02/Feb/2023 00:11:24] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [02/Feb/2023 00:11:24] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [02/Feb/2023 00:11:24] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:11:24] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:11:24] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:11:24] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:11:24] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:11:24] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:11:47] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [02/Feb/2023 00:11:47] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [02/Feb/2023 00:11:47] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [02/Feb/2023 00:11:47] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:11:47] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [02/Feb/2023 00:11:47] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:11:47] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:11:47] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:11:47] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:11:51] "POST /login HTTP/1.1" 302 -
+118.131.85.245 - - [02/Feb/2023 00:11:51] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [02/Feb/2023 00:11:52] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [02/Feb/2023 00:11:52] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:11:52] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:11:52] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:11:52] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [02/Feb/2023 00:11:52] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:11:52] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:11:52] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:11:52] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [02/Feb/2023 00:11:52] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
