@@ -1,3 +1,11 @@
+.container_box {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 85vw;
+  padding: 40px;
+}
+
 .question-btn-container {
   display: flex;
   justify-content: center;
@@ -27,6 +35,20 @@
 
 .question-label {
   font-size: 18px;
+  font-weight: 600;
+}
+
+.user-detail {
+  width: 80%;
+  height: 100%;
+  background-color: #f1f1f1;
+  margin: 16px;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.user-detail span {
+  color: #333333;
   font-weight: 600;
 }
 

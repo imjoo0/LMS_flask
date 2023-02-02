@@ -214,10 +214,10 @@
     </div>
 </div>
 
-<div class="container_box d-flex justify-content-center p-5 flex-column">
+<div class="container_box">
     <section id="user-info">
         <div class="d-flex justify-content-center flex-row">
-            <div class="d-flex justify-content-center flex-row">
+            <div class="col-lg-6 d-flex justify-content-center flex-row">
                 <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
                 <div class="question-btn-container">
                     <div class="question-btn head-office-question-btn" data-bs-toggle="modal" data-bs-target="#question"><img src="https://purpleacademy.net/free_project/public/image/head-office-question-btn.png"></div>  
@@ -232,9 +232,12 @@
                   <p class="question-label">지난 상담 조회</p>
                 </div>                        
             </div>
-            <div>
-                <span>{{ user['name'] }}({{ user['engname'] }}) 선생님 안녕하세요.</span><br>
-                <span>{{ user['mobileno'] }} / {{ user['email'] }}</span><br>
+            <div class="col-lg-6 d-flex align-items-center flex-column">
+                <div class="user-detail">
+                    <div class="user-detail-deco"></div>
+                    <span>{{ user['name'] }}({{ user['engname'] }}) 선생님 안녕하세요.</span><br>
+                    <span>{{ user['mobileno'] }} / {{ user['email'] }}</span><br>
+                </div>
             </div>
 
             <!-- <table border="0">
