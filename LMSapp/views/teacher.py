@@ -35,11 +35,11 @@ def home():
         tc = list(set(tc))
         print(tc)
 
-        category_set = []
-        for cate in tc:
-            t = Task.query.filter(Task.id==cate).all()[0]
-            category_set.append(t.category_id)
-        category_set = list(set(category_set))
+        # category_set = []
+        # for cate in tc:
+        #     t = Task.query.filter(Task.id==cate).all()[0]
+        #     category_set.append(t.category_id)
+        # category_set = list(set(category_set))
 
         target_task = []
         # for category in category_set:
