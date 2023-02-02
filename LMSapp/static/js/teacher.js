@@ -36,7 +36,7 @@ function change_question_kind(str){
     }
 }
 function update_done(taskid){
-    taskid = int(taskid)
+    taskid = Number(taskid)
     $.ajax({
         type: "POST",
         url: "/teacher/"+taskid,
