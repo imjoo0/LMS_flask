@@ -64,11 +64,12 @@ function get_task(category_id){
                     <p>✅ ${contents}  마감 : ${deadline} 까지 </p>
                     `;
                     $('#task_contents_box').append(temp_task_contents_box);
-                    for(j=0;j<length(target['task_ban']);j++){
-                        let target_ban = target['task_ban'][j]
-                        let task_id = target_ban['id']
-                        let name = target_ban['ban']
-                        let done = target_ban['done']
+                    let target_ban = target['task_ban']
+                    for(j=0;j<length(target_ban);j++){
+                        let target_ban_data = target_ban[j]
+                        let task_id = target_ban_data['id']
+                        let name = target_ban_data['ban']
+                        let done = target_ban_data['done']
                         let temp_task_ban_box = `
                         <label><input type="checkbox" name="taskid" value="${task_id}">${name}</label>
                         `;
