@@ -109,8 +109,8 @@ function update_done(taskid){
     })
 }
 
-function get_answer(q_id){
-     $.ajax({
+async function get_answer(q_id){
+     await $.ajax({
         type: "GET",
         url: "/teacher/question/"+q_id,
         data: {},
