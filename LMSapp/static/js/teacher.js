@@ -54,8 +54,10 @@ function get_task(category_id){
                 `;
                 $('#task_contents_box').append(temp_task_contents_box);
             }else{
-                for(i=0;i<length(response["task"]);i++){
-                    let target = response["task"][i]
+                let target_task = response["task"]
+                console.log(target_task)
+                for(i=0;i<length(target);i++){
+                    let target = target_task[i]
                     let contents = target['contents']
                     let deadline = target['deadline']
                     let temp_task_contents_box = `
