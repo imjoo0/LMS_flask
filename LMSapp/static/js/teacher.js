@@ -56,7 +56,6 @@ function get_task(category_id){
                 `;
                 $(tcb).append(temp_task_contents_box);
             }else{
-                $(tcb).empty()
                 let target_task = response["task"]
                 for(i=0;i<target_task.length;i++){
                     let target = target_task[i]
