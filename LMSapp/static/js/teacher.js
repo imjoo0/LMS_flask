@@ -20,12 +20,11 @@ function change_question_kind(str){
         $('#invisible_for_1').hide();
         $('#invisible_for_2').show();
         $('#question_box').show();
-    }else if( str == "퇴소" || "취소/환불"){
+    }else if( str == "퇴소" || str == "취소/환불"){
         $('#invisible_for_2').hide();
         $('#invisible_for_1').show();
         $('#question_box').show();
     }else{
-        console.log('되야혀')
         $('#invisible_for_1').hide();
         $('#invisible_for_2').hide();
         $('#question_box').show();
@@ -50,7 +49,6 @@ function get_task(category_id){
         data: {},
         success: function (response) {
             let tcb = '#task_contents_box'+category_id
-            console.log(tcb)
             if(response["task"] == '없음'){
                 let temp_task_contents_box = `
                 <p> 오늘은 할 업무가 없습니다🎉</p>
@@ -58,18 +56,20 @@ function get_task(category_id){
                 $(tcb).append(temp_task_contents_box);
             }else{
                 let target_task = response["task"]
+                 $(tcb).empty()
                 for(i=0;i<target_task.length;i++){
                     let target = target_task[i]
                     let contents = target['contents']
                     let deadline = target['deadline']
                     let temp_task_contents_box = `
                     <p>✅ ${contents}  마감 : ${deadline} 까지 </p>
-                    <div class="make_row" id="task_ban_box_incomplete">
+                    <div class="make_row" id="task_ban_box_incomplete${i}">
                     </div>
-                    <div class="make_row" id="task_ban_box_complete">
+                    <div class="make_row" id="task_ban_box_complete${i}">
                     </div>
                     `;
-
+                    $('#task_ban_box_incomplete'+i).empty()
+                    $('#task_ban_box_complete'+i).empty()
                     $(tcb).append(temp_task_contents_box);
                     let target_ban = target['task_ban']
                     for(j=0;j<target_ban.length;j++){
@@ -81,9 +81,9 @@ function get_task(category_id){
                         <label><input type="checkbox" name="taskid" value="${task_id}">${name}</label>
                         `;
                         if(done != 1){
-                            $('#task_ban_box_incomplete').append(temp_task_ban_box);
+                            $('#task_ban_box_incomplete'+i).append(temp_task_ban_box);
                         }else{
-                            $('#task_ban_box_complete').append(temp_task_ban_box);
+                            $('#task_ban_box_complete'+i).append(temp_task_ban_box);
                         }
                     }
                 }

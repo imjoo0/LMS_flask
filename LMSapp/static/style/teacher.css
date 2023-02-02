@@ -14,11 +14,10 @@
 }
 
 .question-btn {
-  width: 180px;
-  height: 180px;
+  width: 100%;
+  height: auto;
   background-color: #f1f1f1;
   padding: 20px;
-  margin: 16px;
   border-radius: 20px;
   transition: 0.4s;
 }
@@ -36,13 +35,13 @@
 .question-label {
   font-size: 18px;
   font-weight: 600;
+  color: #f1f1f1;
 }
 
 .user-detail {
-  width: 80%;
+  width: 97%;
   height: 100%;
   background-color: #f1f1f1;
-  margin: 16px 16px 22px 16px;
   padding: 16px 20px;
   border-radius: 20px;
   position: relative;
@@ -60,7 +59,7 @@
   background-color: #845EC2;
   border-radius: 20px;
   top: 0;
-  left: 16px;
+  left: 3%;
 }
 
 .user-name {

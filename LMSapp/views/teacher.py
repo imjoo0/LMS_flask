@@ -168,7 +168,6 @@ def task(id):
                         data['ban'] = ban['ban_name']
                         task_data['task_ban'].append(data)
                 target_task.append(task_data)
-            print (target_task)
             return jsonify({'task' : target_task})
 
 
