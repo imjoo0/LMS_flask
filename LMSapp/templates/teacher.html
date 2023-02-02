@@ -239,8 +239,16 @@
                         <img src="https://purpleacademy.net/free_project/public/image/teacher-profile.png">
                         <span>{{ user['name'] }}({{ user['engname'] }}) 선생님 안녕하세요.</span>
                     </div>
-                    
-                    <span>{{ user['mobileno'] }} / {{ user['email'] }}</span><br>
+                    <div class="user-contact">
+                        <div>
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                            <span>{{ user['mobileno'] }}</span>                        
+                        </div>
+                        <div>
+                            <i class="fa-regular fa-envelope"></i>
+                            <span>{{ user['email'] }}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
