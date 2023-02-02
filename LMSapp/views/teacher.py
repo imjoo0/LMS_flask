@@ -254,7 +254,7 @@ def answer(id):
                     'teacher_e':teacher_info['engname'],
                     'student': s['name'],
                     'student_origin': s['origin'],
-                    'ban' : b['name'],
+                    'ban' : b['ban_name'],
                     'answer' : '미응답',
                     'answer_at': '✖️',
                     'reject' : '✖️'
