@@ -5,7 +5,6 @@
   src: url(./font/PretendardVariable.woff2);
 }
 
-
 .text-purple {
     color: #b02b74;
 }
@@ -31,17 +30,25 @@
     color: #03c75a;
 }
 
+.top-border {
+  border-top: 2px groove #333333;
+}
+
+.bottom-border {
+  border-bottom: 2px groove #333333;
+}
+
 
 * {
     font-family: 'pretendard', sans-serif;
-    color: #333333;
+    color: #f1f1f1;
 }
 
 body {
-    background-color: #ffffff;
+    background-color: #444444;
 }
 footer{
-    background-color: #333333;
+    background-color: #2b2b2b;
 }
 .items{
     display: block;
