@@ -37,13 +37,12 @@ function change_question_kind(str){
 }
 function update_done(taskid){
     taskid = Number(taskid)
+    print(typeof(taskid))
+
     $.ajax({
         type: "POST",
         url: "/teacher/"+taskid,
         data: {},
-        cache: false,
-        contentType: false,
-        processData: false,
         success: function (response) {
             console.log(response)
             alert(response["result"])
