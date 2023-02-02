@@ -10,10 +10,9 @@
 // }
 
 // 처음 get 할때 뿌려질 정보 보내는 함수 
-// $(document).ready(function () {
-//     get_farmer();
-//     get_review();
-// })
+$(document).ready(function () {
+    task_doneview();
+})
 
 //  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
 function change_question_kind(str){
@@ -32,12 +31,37 @@ function change_question_kind(str){
         $('#question_box').show();
     }
 }
+function task_doneview(done_code){
+    if(done_code == 0){
+        $('#incomplete_done').show();
+        $('#complete_done').hide();
+    }else{
+        $('#complete_done').show();
+        $('#incomplete_done').hide();
+    }
+}
+function get_task(category_id){
+    $.ajax({
+        type: "GET",
+        url: "/teacher/"+category_id,
+        data: {},
+        success: function (response) {
+            console.log(response)
+            // alert(response["title"])
+        //     if (response["result"]=='문의가 전송되었습니다') {
+        //     window.location.replace('/teacher')
+        // }else {window.location.href='/'}
+        
+        }
+    });
+}
+
 function update_done(taskid){
     taskid = Number(taskid);
     $.ajax({
         type: "POST",
-        url: "/teacher/task",
-        data: {taskid:taskid},
+        url: "/teacher/"+taskid,
+        data: {},
         success: function (response) {
             console.log(response)
             alert(response["result"])

@@ -47,6 +47,7 @@
 }
 /* paging 관련 끝 */
 
+/* js 처리 */
 #student_data{
     display: none;
 }
@@ -67,5 +68,11 @@
 }
 
 #select_student{
+    display: none;
+}
+#complete_done{
+    display: none;
+}
+#incomplete_done{
     display: none;
 }
