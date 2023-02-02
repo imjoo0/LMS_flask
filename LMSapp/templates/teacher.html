@@ -217,22 +217,30 @@
 <div class="container_box">
     <div id="user-info" class="pb-4 border-bottom">
         <div class="d-flex justify-content-center flex-row row-cols-2">
-            <div class="d-flex justify-content-center flex-row">
-                <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
-                <div class="question-btn-container">
-                    <div class="question-btn head-office-question-btn" data-bs-toggle="modal" data-bs-target="#question"><img src="https://purpleacademy.net/free_project/public/image/head-office-question-btn.png"></div>  
-                    <p class="question-label">본원 문의</p>
+            <div class="p-5">
+                <div class="d-flex justify-content-center flex-row row-cols-3">
+                    <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
+                    <div class="question-btn-container">
+                        <div class="question-btn head-office-question-btn" data-bs-toggle="modal" data-bs-target="#question">
+                            <img src="https://purpleacademy.net/free_project/public/image/head-office-question-btn.png">
+                        </div>  
+                        <span class="question-label">본원 문의</span>
+                    </div>
+                    <div class="question-btn-container">
+                        <div class="question-btn answer-a-question" data-bs-toggle="modal" data-bs-target="#question_list">
+                            <img src="https://purpleacademy.net/free_project/public/image/answer-a-question.png">
+                        </div>
+                        <span class="question-label">문의 답변</span>
+                    </div>
+                    <div class="question-btn-container">
+                        <div class="question-btn show-last-counsulting">
+                            <img src="https://purpleacademy.net/free_project/public/image/show-last-counsulting.png">                        
+                        </div>
+                        <span class="question-label">지난 상담 조회</span>
+                    </div>                
                 </div>
-                <div class="question-btn-container">
-                    <div class="question-btn answer-a-question" data-bs-toggle="modal" data-bs-target="#question_list"><img src="https://purpleacademy.net/free_project/public/image/answer-a-question.png"></div>
-                    <p class="question-label">문의 답변</p>
-                </div>
-                <div class="question-btn-container">
-                  <div class="question-btn show-last-counsulting"><img src="https://purpleacademy.net/free_project/public/image/show-last-counsulting.png"></div>
-                  <p class="question-label">지난 상담 조회</p>
-                </div>                        
-            </div>
-            <div class="d-flex align-items-center flex-column">
+            </div> 
+            <div class="d-flex justify-content-start align-items-center p-5">
                 <div class="user-detail">
                     <div class="user-detail-deco"></div>
                     <div class="user-name">
@@ -250,24 +258,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- <table border="0">
-                <th>선생님 개인 정보</th>
-                <th></th>
-                <th></th>
-                <tr>
-                    <td>{{ user['name'] }}({{ user['engname'] }})</td>
-                    <td>{{ user['mobileno'] }} / </td>
-                    <td>{{ user['email'] }}</td>
-                </tr>
-            </table> -->
-            
+            </div>            
         </div>
     </div>
     <div class="d-flex justify-content-center row-cols-2 ">
         <div id="statistics" class="p-5">
-            <div class="total_info">
+            <div class="info">
                 <div class="total_chart">
                     <div class="chartWrap">
                         <div class="chart">
@@ -282,6 +278,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="info">
                 <div class="total_table">
                     <table class="table text-center" id="unlearned">
                         <tbody  style="width:100%;">
@@ -330,7 +329,7 @@
                 </div>
             </div>
         
-            <div class="class_info">
+            <div class="info">
                 <table class="table text-center" id="class_list" style="width:100%;">
                     <tbody  style="width:100%;">
                         <tr class="row">
@@ -359,25 +358,25 @@
         </div>
     
 
-    <section id="work">
-        <div class="label make_row"style="margin-top: 5px;" >
-            <h3>상담 * 업무</h3>
-            <select id="work_done" class="border rounded-0 form-control form-control-sm" name="work_done" style=" width: 200px; height: 100%; text-align: center; margin-left: auto;" onchange="task_doneview(this.value)">
-                <optgroup>
-                    <option value=0>미완수</option>
-                    <option value=1>완수</option>
-                </optgroup>
-            </select>
-        </div>
-        <div class="container border rounded-3 p-4 pb-1">
-            {% for category in my_task_category %}
-            <details>
-                <summary onclick="get_task('{{category}}')"><strong>{{ all_task_category[category-1].name }} 업무 </strong></summary>
-                    <div class="make_col" id="task_contents_box{{category}}">
-                        
-                    </div>
-            </details>
-            {% endfor %}
+    <section id="work" class="p-5">
+        <div class="info">
+            <div class="label make_row"style="margin-top: 5px;" >
+                <h3>상담 * 업무</h3>
+                <select id="work_done" class="border rounded-0 form-control form-control-sm" name="work_done" style=" width: 200px; height: 100%; text-align: center; margin-left: auto;" onchange="task_doneview(this.value)">
+                    <optgroup>
+                        <option value=0>미완수</option>
+                        <option value=1>완수</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="container border rounded-3 p-4 pb-1">
+                {% for category in my_task_category %}
+                <details>
+                    <summary onclick="get_task('{{category}}')"><strong>{{ all_task_category[category-1].name }} 업무 </strong></summary>
+                    <div class="make_col" id="task_contents_box{{category}}"></div>
+                    </details>
+                {% endfor %}
+            </div>
         </div>
 </div>
 
