@@ -40,7 +40,7 @@ function update_done(taskid){
     $.ajax({
         type: "POST",
         url: "/teacher/"+taskid,
-        data: taskid,
+        data: {},
         cache: false,
         contentType: false,
         processData: false,
