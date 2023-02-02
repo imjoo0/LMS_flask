@@ -105,6 +105,14 @@
   font-weight: 600;
 }
 
+.info {
+  background-color: #f1f1f1;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* 이반 요청 */
 #invisible_for_2{
     display: none;
