@@ -24,7 +24,7 @@ def home():
         mystudents_info = callapi.get_mystudents(session['user_id'])
 
         mybans_info = callapi.get_mybans(session['user_id'])
-
+        print(mybans_info)
         all_ban_info = callapi.all_ban_info()
 
         all_task_category = TaskCategory.query.all()
