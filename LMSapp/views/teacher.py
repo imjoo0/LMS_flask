@@ -151,7 +151,7 @@ def task(id):
                         category_task.append(task)
         target_task = []
         if(len(category_task)==0):
-            return jsonify({'result': '오늘의 업무가 없습니다'})
+            return jsonify({'task': '없음'})
         else:
             for task in category_task:
                 task_data = {}
@@ -216,7 +216,7 @@ def answer(id):
         if len(a)!=0:
             if q.category == 0:
                 return jsonify({
-                'cateogry':'일반문의',
+                'category':'일반문의',
                 'title': q.title,
                 'contents':q.contents,
                 'create_date':q.create_date,
@@ -231,7 +231,7 @@ def answer(id):
 
                 if q.category == 2:
                     return jsonify({
-                    'cateogry':'이반 요청',
+                    'category':'이반 요청',
                     'title': q.title,
                     'contents':q.contents,
                     'create_date':q.create_date,
@@ -246,7 +246,7 @@ def answer(id):
                     })
                 elif q.category==1:
                     return jsonify({
-                    'cateogry':'퇴소 요청',
+                    'category':'퇴소 요청',
                     'title': q.title,
                     'contents':q.contents,
                     'create_date':q.create_date,
@@ -261,7 +261,7 @@ def answer(id):
                     })
                 elif q.category == 3:
                     return jsonify({
-                    'cateogry':'취소/환불 요청',
+                    'category':'취소/환불 요청',
                     'title': q.title,
                     'contents':q.contents,
                     'create_date':q.create_date.strftime('%Y-%m-%d'),
@@ -279,7 +279,7 @@ def answer(id):
         elif len(a)==0:
             if q.category == 0:
                 return jsonify({
-                'cateogry':'일반문의',
+                'category':'일반문의',
                 'title': q.title,
                 'contents':q.contents,
                 'create_date':q.create_date.strftime('%Y-%m-%d'),
@@ -294,7 +294,7 @@ def answer(id):
 
                 if q.category == 2:
                     return jsonify({
-                    'cateogry':'이반 요청',
+                    'category':'이반 요청',
                     'title': q.title,
                     'contents':q.contents,
                     'create_date':q.create_date.strftime('%Y-%m-%d'),
@@ -309,7 +309,7 @@ def answer(id):
                     })
                 elif q.category == 1:
                     return jsonify({
-                    'cateogry':'퇴소 요청',
+                    'category':'퇴소 요청',
                     'title': q.title,
                     'contents':q.contents,
                     'create_date':q.create_date.strftime('%Y-%m-%d'),
@@ -324,7 +324,7 @@ def answer(id):
                     })
                 elif q.category == 3:
                     return jsonify({
-                    'cateogry':'취소/환불 요청',
+                    'category':'취소/환불 요청',
                     'title': q.title,
                     'contents':q.contents,
                     'create_date':q.create_date.strftime('%Y-%m-%d'),

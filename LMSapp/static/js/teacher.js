@@ -10,9 +10,9 @@
 // }
 
 // 처음 get 할때 뿌려질 정보 보내는 함수 
-$(document).ready(function () {
-    task_doneview();
-})
+// $(document).ready(function () {
+//     task_doneview();
+// })
 
 //  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
 function change_question_kind(str){
@@ -31,22 +31,53 @@ function change_question_kind(str){
         $('#question_box').show();
     }
 }
+
 function task_doneview(done_code){
     if(done_code == 0){
-        $('#incomplete_done').show();
-        $('#complete_done').hide();
+        $('#task_ban_box_incomplete').show();
+        $('#task_ban_box_complete').hide();
     }else{
-        $('#complete_done').show();
-        $('#incomplete_done').hide();
+        $('#task_ban_box_complete').show();
+        $('#task_ban_box_incomplete').hide();
     }
 }
+
 function get_task(category_id){
     $.ajax({
         type: "GET",
         url: "/teacher/"+category_id,
         data: {},
         success: function (response) {
-            console.log(response)
+            if(response["task"] == '없음'){
+                let temp_task_contents_box = `
+                <p> 오늘은 할 업무가 없습니다🎉</p>
+                `;
+                $('#task_contents_box').append(temp_task_contents_box);
+            }else{
+                for(i=0;i<length(response["task"]);i++){
+                    let target = response["task"][i]
+                    let contents = target['contents']
+                    let deadline = target['deadline']
+                    let temp_task_contents_box = `
+                    <p>✅ ${contents}  마감 : ${deadline} 까지 </p>
+                    `;
+                    $('#task_contents_box').append(temp_task_contents_box);
+                    for(j=0;j<length(target['task_ban']);j++){
+                        let target_ban = target['task_ban'][j]
+                        let task_id = target_ban['id']
+                        let name = target_ban['ban']
+                        let done = target_ban['done']
+                        let temp_task_ban_box = `
+                        <label><input type="checkbox" name="taskid" value="${task_id}">${name}</label>
+                        `;
+                        if(done != 1){
+                            $('#task_ban_box_incomplete').append(temp_task_ban_box);
+                        }else{
+                            $('#task_ban_box_complete').append(temp_task_ban_box);
+                        }
+                    }
+                }
+            }
             // alert(response["title"])
         //     if (response["result"]=='문의가 전송되었습니다') {
         //     window.location.replace('/teacher')
@@ -73,8 +104,7 @@ function update_done(taskid){
 }
 
 function get_answer(q_id){
-    $('#questionlist').hide()
-    $.ajax({
+     $.ajax({
         type: "GET",
         url: "/teacher/question/"+q_id,
         data: {},
@@ -84,7 +114,7 @@ function get_answer(q_id){
         //     if (response["result"]=='문의가 전송되었습니다') {
         //     window.location.replace('/teacher')
         // }else {window.location.href='/'}
-        cateogry = response["cateogry"]
+        category = response["category"]
         title = response["title"]
         contents = response["contents"]
         teacher = response["teacher"]
@@ -93,10 +123,10 @@ function get_answer(q_id){
         answer = response['answer']
         answer_at = response['answer_at']
 
-        if(cateogry == '일반문의'){
+        if(category == '일반문의'){
             let temp_question_list = `
             <ul>
-                <li>종류 : ${cateogry} </li>
+                <li>종류 : ${category} </li>
                 <li>제목 : ${title}</li>
                 <li>문의 : ${contents}</li>
                 <li>작성자 : ${teacher} ( ${teacher_e} )</li>
@@ -116,7 +146,7 @@ function get_answer(q_id){
             answer_at = response["answer_at"]
             let temp_question_list = `
             <ul>
-                <li>종류 : ${cateogry} </li>
+                <li>종류 : ${category} </li>
                 <li>제목 : ${title}</li>
                 <li>문의 : ${contents}</li>
                 <li>작성자 : ${teacher} ( ${teacher_e} )</li>
@@ -131,6 +161,7 @@ function get_answer(q_id){
         }
         }
     });
+    $('#questionlist').hide()
     $('#questiondetail').show()
 }
 

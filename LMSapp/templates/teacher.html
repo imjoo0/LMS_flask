@@ -214,10 +214,10 @@
     </div>
 </div>
 
-<div class="container_box d-flex justify-content-center p-5 flex-column">
+<div class="container_box">
     <section id="user-info">
         <div class="d-flex justify-content-center flex-row">
-            <div class="d-flex justify-content-center flex-row">
+            <div class="col-lg-6 d-flex justify-content-center flex-row">
                 <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
                 <div class="question-btn-container">
                     <div class="question-btn head-office-question-btn" data-bs-toggle="modal" data-bs-target="#question"><img src="https://purpleacademy.net/free_project/public/image/head-office-question-btn.png"></div>  
@@ -232,9 +232,12 @@
                   <p class="question-label">지난 상담 조회</p>
                 </div>                        
             </div>
-            <div>
-                <span>{{ user['name'] }}({{ user['engname'] }}) 선생님 안녕하세요.</span><br>
-                <span>{{ user['mobileno'] }} / {{ user['email'] }}</span><br>
+            <div class="col-lg-6 d-flex align-items-center flex-column">
+                <div class="user-detail">
+                    <div class="user-detail-deco"></div>
+                    <span>{{ user['name'] }}({{ user['engname'] }}) 선생님 안녕하세요.</span><br>
+                    <span>{{ user['mobileno'] }} / {{ user['email'] }}</span><br>
+                </div>
             </div>
 
             <!-- <table border="0">
@@ -357,36 +360,17 @@
         <div class="container border rounded-3 p-4 pb-1">
             {% for category in my_task_category %}
             <details>
-                <summary onclick="get_task('{{category}}')"><strong>{{ all_task_category[category].name }} 업무 </strong></summary>
-                <div class="make_col" id="complete_done" >
-                    <p>✅ {{ tt['task'].contents }} 마감 : {{tt['task'].deadline}} 까지 </p>
-                    {% for task in tt['task_ban'] %}
-                    <div class="make_row">
-                        {% set msg = task['id'] %}
-                        <p>{{task['ban']}} </p> <button onclick="update_done('{{ msg }}')"> 완료 </button>
+                <summary onclick="get_task('{{category}}')"><strong>{{ all_task_category[category-1].name }} 업무 </strong></summary>
+                    <div class="make_col" id="task_contents_box">
                     </div>
-                    {%endfor%}
+                    <div class="make_row" id="task_ban_box_incomplete">
+                    </div>
+                    <div class="make_row" id="task_ban_box_complete">
+                    </div>
                 </div>
             </details>
             {% endfor %}
         </div>
-        <div class="container border rounded-3 p-4 pb-1" id="incomplete_done">
-            {% for tt in target_task %}
-            <details>
-                <summary><strong>{{ all_task_category[tt['task'].category_id-1].name }} 업무 </strong></summary>
-                <div class="make_col" id="incomplete_done">
-                    <p>✅ {{ tt['task'].contents }} 마감 : {{tt['task'].deadline}} 까지 </p>
-                    {% for task in tt['task_ban'] %}
-                    <div class="make_row">
-                        {% set msg = task['id'] %}
-                        <p>{{task['ban']}} </p> <button onclick="update_done('{{ msg }}')"> 완료 </button>
-                    </div>
-                    {%endfor%}
-                </div>
-            </details>
-            {% endfor %}
-        </div>
-        
     </section>
     </div>
 </div>
