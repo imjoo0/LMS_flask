@@ -15,10 +15,6 @@ import callapi
 @bp.route("/", methods=['GET'])
 def home():
     if request.method =='GET':
-        current_time = datetime.now()
-        Today = current_time.date()
-        today_yoil = current_time.weekday() + 1
-
         teacher_info = callapi.get_teacher_info(session['user_id'])
 
         mystudents_info = callapi.get_mystudents(session['user_id'])
@@ -27,48 +23,7 @@ def home():
         print(mybans_info)
         all_ban_info = callapi.all_ban_info()
 
-        all_task_category = TaskCategory.query.all()
-  
-        # task_id를 기준으로 소팅 
-        my_tasks = TaskBan.query.filter(TaskBan.teacher_id==teacher_info['register_no']).all()
-
-        my_tasks.sort(key = lambda x:x.task_id)
-        tc = []
-        for task in my_tasks:
-            tc.append(Task.query.filter(Task.id==task.task_id).all()[0])     
-        tc = list(set(tc))
         
-        tc.sort(key=lambda x:-x.priority)
-        today_task = []
-        for task in tc:
-            if(task.cycle < 5): # 주기가 월-금인 경우 
-                if task.cycle == today_yoil:
-                    if(task.startdate.date() <= Today and Today <= task.deadline.date()):
-                        today_task.append(task)
-            elif(task.cycle == 6 ): # 주기가 상시인 경우 
-                if(task.startdate.date() <= Today and Today <= task.deadline.date()):
-                    today_task.append(task)
-            elif(task.cycle == 7 ): # 주기가 없는 경우
-                if(task.startdate.date() <= Today and Today <= task.deadline.date()):
-                    today_task.append(task)
-
-        target_task = []
-        if(len(today_task)==0):
-            target_task.append("오늘의 업무가 없습니다 :)")
-        else:
-            for task in today_task:
-                task_data = {}
-                task_data['task'] = task
-                task_data['task_ban'] = []
-                for tb in my_tasks:
-                    if task.id == tb.task_id:
-                        data = {}
-                        data['id'] = tb.id
-                        data['ban'] = callapi.get_ban(tb.ban_id)
-                        task_data['task_ban'].append(data)
-                target_task.append(task_data)
-        print (target_task)
-
 
         # category_set = []
         # for cate in tc:
@@ -146,7 +101,7 @@ def home():
         # print(target_task)
 
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
-        return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,all_task_category=all_task_category,target_task=target_task,students=mystudents_info, questions=my_questions)
+        return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,students=mystudents_info, questions=my_questions)
 
 # 테스트 계정 id : T1031 pw동일  
 @bp.route("/task", methods=['POST','GET'])
@@ -160,6 +115,55 @@ def update_done():
             return jsonify({'result': '업무 완료!'})
         except:
             return jsonify({'result': '업무완료 실패'})
+    elif request.method == 'GET':
+        current_time = datetime.now()
+        Today = current_time.date()
+        today_yoil = current_time.weekday() + 1
+
+        # all_task_category = TaskCategory.query.all()
+  
+        # task_id를 기준으로 소팅 
+        my_tasks = TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all()
+
+        my_tasks.sort(key = lambda x:x.task_id)
+        tc = []
+        for task in my_tasks:
+            tc.append(Task.query.filter(Task.id==task.task_id).all()[0])     
+        tc = list(set(tc))
+        
+        tc.sort(key=lambda x:-x.priority)
+        today_task = []
+        for task in tc:
+            if(task.cycle < 5): # 주기가 월-금인 경우 
+                if task.cycle == today_yoil:
+                    if(task.startdate.date() <= Today and Today <= task.deadline.date()):
+                        today_task.append(task)
+            elif(task.cycle == 6 ): # 주기가 상시인 경우 
+                if(task.startdate.date() <= Today and Today <= task.deadline.date()):
+                    today_task.append(task)
+            elif(task.cycle == 7 ): # 주기가 없는 경우
+                if(task.startdate.date() <= Today and Today <= task.deadline.date()):
+                    today_task.append(task)
+
+        target_task = []
+        if(len(today_task)==0):
+            return jsonify({'result': '오늘의 업무가 없습니다'})
+        else:
+            for task in today_task:
+                task_data = {}
+                task_data['task'] = task
+                task_data['task_ban'] = []
+                for tb in my_tasks:
+                    if task.id == tb.task_id:
+                        data = {}
+                        data['id'] = tb.id
+                        data['done'] = tb.done
+                        ban = callapi.get_ban(tb.ban_id)
+                        data['ban'] = ban['ban_name']
+                        task_data['task_ban'].append(data)
+                target_task.append(task_data)
+            print (target_task)
+            return jsonify({'task' : target_task})
 
 # 선생님 문의 저장 
 @bp.route('/question', methods=['POST'])

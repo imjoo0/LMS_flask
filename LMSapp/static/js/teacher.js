@@ -10,10 +10,9 @@
 // }
 
 // 처음 get 할때 뿌려질 정보 보내는 함수 
-// $(document).ready(function () {
-//     get_farmer();
-//     get_review();
-// })
+$(document).ready(function () {
+    task_doneview();
+})
 
 //  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
 function change_question_kind(str){
@@ -31,6 +30,25 @@ function change_question_kind(str){
         $('#invisible_for_2').hide();
         $('#question_box').show();
     }
+}
+function task_doneview(done_code){
+    if(done_code == 0){
+        $('#incomplete_done').show();
+        $('#complete_done').hide();
+    }else{
+        $('#complete_done').show();
+        $('#incomplete_done').hide();
+    }
+    $.ajax({
+        type: "GET",
+        url: "/teacher/task",
+        data: {},
+        success: function (response) {
+            // let target_ban = response['target_ban']
+            let task = response['task'];
+            console.log(task)     
+        }
+    })
 }
 function update_done(taskid){
     taskid = Number(taskid);
