@@ -69,7 +69,8 @@ function get_task(category_id){
                     <div class="make_row" id="task_ban_box_complete${i}">
                     </div>
                     `;
-                    
+                    $('#task_ban_box_incomplete'+toString(i)).empty()
+                    $('#task_ban_box_complete'+toString(i)).empty()
                     $(tcb).append(temp_task_contents_box);
                     let target_ban = target['task_ban']
                     for(j=0;j<target_ban.length;j++){
@@ -86,9 +87,6 @@ function get_task(category_id){
                             $('#task_ban_box_complete'+toString(i)).append(temp_task_ban_box);
                         }
                     }
-                    $('#task_ban_box_incomplete'+toString(i)).empty()
-                    $('#task_ban_box_complete'+toString(i)).empty()
-
                 }
             }
             // alert(response["title"])
