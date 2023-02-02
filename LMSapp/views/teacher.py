@@ -24,7 +24,7 @@ def home():
         mystudents_info = callapi.get_mystudents(session['user_id'])
 
         mybans_info = callapi.get_mybans(session['user_id'])
-
+        print(mybans_info)
         all_ban_info = callapi.all_ban_info()
 
         all_task_category = TaskCategory.query.all()
@@ -58,7 +58,7 @@ def home():
         else:
             for task in today_task:
                 task_data = {}
-                task_data['contents'] = task
+                task_data['task'] = task
                 task_data['task_ban'] = []
                 for tb in my_tasks:
                     if task.id == tb.task_id:
