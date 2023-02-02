@@ -151,7 +151,7 @@ def task(id):
                         category_task.append(task)
         target_task = []
         if(len(category_task)==0):
-            return jsonify({'result': '오늘의 업무가 없습니다'})
+            return jsonify({'task': '없음'})
         else:
             for task in category_task:
                 task_data = {}
