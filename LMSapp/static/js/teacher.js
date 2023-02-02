@@ -49,13 +49,14 @@ function get_task(category_id){
         url: "/teacher/"+category_id,
         data: {},
         success: function (response) {
+            let tcb = '#task_contents_box'+toString(category_id)
             if(response["task"] == '없음'){
                 let temp_task_contents_box = `
                 <p> 오늘은 할 업무가 없습니다🎉</p>
                 `;
-                $('#task_contents_box'+category_id).append(temp_task_contents_box);
+                $(tcb).append(temp_task_contents_box);
             }else{
-                $('#task_contents_box'+category_id).empty()
+                $(tcb).empty()
                 let target_task = response["task"]
                 for(i=0;i<target_task.length;i++){
                     let target = target_task[i]
@@ -64,7 +65,8 @@ function get_task(category_id){
                     let temp_task_contents_box = `
                     <p>✅ ${contents}  마감 : ${deadline} 까지 </p>
                     `;
-                    $('#task_contents_box'+category_id).append(temp_task_contents_box);
+                    
+                    $(tcb).append(temp_task_contents_box);
                     let target_ban = target['task_ban']
                     for(j=0;j<target_ban.length;j++){
                         let target_ban_data = target_ban[j]
@@ -75,9 +77,9 @@ function get_task(category_id){
                         <label><input type="checkbox" name="taskid" value="${task_id}">${name}</label>
                         `;
                         if(done != 1){
-                            $('#task_ban_box_incomplete'+category_id).append(temp_task_ban_box);
+                            $('#task_ban_box_incomplete'+toString(category_id)).append(temp_task_ban_box);
                         }else{
-                            $('#task_ban_box_complete'+category_id).append(temp_task_ban_box);
+                            $('#task_ban_box_complete'+toString(category_id)).append(temp_task_ban_box);
                         }
                     }
                 }
