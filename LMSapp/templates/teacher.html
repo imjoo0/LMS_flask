@@ -345,23 +345,7 @@
             </select>
         </div>
         <div class="container border rounded-3 p-4 pb-1">
-            {% for tt in target_task %}
-            <details>
-                <summary><strong>{{ tt['category']}} 업무 </strong></summary>
-                <div class="make_col" id="work_box">
-                    {% for task in tt['task'] %}
-                    <p>✅ {{ task['task'].contents }} <a href=w.url>👉 수행 </a></p>
-                    <div class="make_row">
-                        {% for data in task['ban_data']%}
-                        {% set msg = data['id'] %}
-                        <p>{{data['ban']}} </p> <button onclick="update_done('{{ msg }}')"> 완료 </button>
-                        {% endfor %}
-                    </div>
-                    {%endfor%}
-                </div>
-                
-            </details>
-            {% endfor %}
+
         </div>
         
     </section>
