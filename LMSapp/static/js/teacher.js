@@ -69,9 +69,10 @@ function get_task(category_id){
                     <div class="make_row" id="task_ban_box_complete${i}">
                     </div>
                     `;
-                    
                     $(tcb).append(temp_task_contents_box);
                     let target_ban = target['task_ban']
+                    $('#task_ban_box_incomplete'+i).empty()
+                    $('#task_ban_box_complete'+i).empty()
                     for(j=0;j<target_ban.length;j++){
                         let target_ban_data = target_ban[j]
                         let task_id = target_ban_data['id']
