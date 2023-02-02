@@ -8,6 +8,11 @@
   margin: 20px;
 }
 
+.question-btn img {
+  width: 100%;
+  object-fit: fill;
+}
+
 /* 이반 요청 */
 #invisible_for_2{
     display: none;
