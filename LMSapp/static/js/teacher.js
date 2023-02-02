@@ -75,9 +75,9 @@ function get_task(category_id){
                         <label><input type="checkbox" name="taskid" value="${task_id}">${name}</label>
                         `;
                         if(done != 1){
-                            $('#task_ban_box_incomplete').append(temp_task_ban_box);
+                            $('#task_ban_box_incomplete'+category_id).append(temp_task_ban_box);
                         }else{
-                            $('#task_ban_box_complete').append(temp_task_ban_box);
+                            $('#task_ban_box_complete'+category_id).append(temp_task_ban_box);
                         }
                     }
                 }
