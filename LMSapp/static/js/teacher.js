@@ -53,8 +53,9 @@ function get_task(category_id){
                 let temp_task_contents_box = `
                 <p> 오늘은 할 업무가 없습니다🎉</p>
                 `;
-                $('#task_contents_box').append(temp_task_contents_box);
+                $('#task_contents_box'+category_id).append(temp_task_contents_box);
             }else{
+                $('#task_contents_box'+category_id).empty()
                 let target_task = response["task"]
                 for(i=0;i<target_task.length;i++){
                     let target = target_task[i]
@@ -63,7 +64,7 @@ function get_task(category_id){
                     let temp_task_contents_box = `
                     <p>✅ ${contents}  마감 : ${deadline} 까지 </p>
                     `;
-                    $('#task_contents_box').append(temp_task_contents_box);
+                    $('#task_contents_box'+category_id).append(temp_task_contents_box);
                     let target_ban = target['task_ban']
                     for(j=0;j<target_ban.length;j++){
                         let target_ban_data = target_ban[j]
