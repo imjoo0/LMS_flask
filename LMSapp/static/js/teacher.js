@@ -55,7 +55,7 @@ function get_task(category_id){
                 $('#task_contents_box').append(temp_task_contents_box);
             }else{
                 let target_task = response["task"]
-                for(i=0;i<length(target_task);i++){
+                for(i=0;i<target_task.length;i++){
                     let target = target_task[i]
                     let contents = target['contents']
                     let deadline = target['deadline']
@@ -64,7 +64,7 @@ function get_task(category_id){
                     `;
                     $('#task_contents_box').append(temp_task_contents_box);
                     let target_ban = target['task_ban']
-                    for(j=0;j<length(target_ban);j++){
+                    for(j=0;j<target_ban.length;j++){
                         let target_ban_data = target_ban[j]
                         let task_id = target_ban_data['id']
                         let name = target_ban_data['ban']
