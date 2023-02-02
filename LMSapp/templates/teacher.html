@@ -235,7 +235,11 @@
             <div class="col-lg-6 d-flex align-items-center flex-column">
                 <div class="user-detail">
                     <div class="user-detail-deco"></div>
-                    <span>{{ user['name'] }}({{ user['engname'] }}) 선생님 안녕하세요.</span><br>
+                    <div class="user-name">
+                        <img src="https://purpleacademy.net/free_project/public/image/teacher-profile.png">
+                        <span>{{ user['name'] }}({{ user['engname'] }}) 선생님 안녕하세요.</span>
+                    </div>
+                    
                     <span>{{ user['mobileno'] }} / {{ user['email'] }}</span><br>
                 </div>
             </div>
@@ -352,7 +356,7 @@
             <h3>상담 * 업무</h3>
             <select id="work_done" class="border rounded-0 form-control form-control-sm" name="work_done" style=" width: 200px; height: 100%; text-align: center; margin-left: auto;" onchange="task_doneview(this.value)">
                 <optgroup>
-                    <option value=0 selected>미완수</option>
+                    <option value=0>미완수</option>
                     <option value=1>완수</option>
                 </optgroup>
             </select>
@@ -361,12 +365,13 @@
             {% for category in my_task_category %}
             <details>
                 <summary onclick="get_task('{{category}}')"><strong>{{ all_task_category[category-1].name }} 업무 </strong></summary>
-                    <div class="make_col" id="task_contents_box{{category}}">
+                    <div class="make_col" id="task_contents_box">
                         <div class="make_row" id="task_ban_box_incomplete">
                         </div>
                         <div class="make_row" id="task_ban_box_complete">
                         </div>
                     </div>
+                </div>
             </details>
             {% endfor %}
         </div>
