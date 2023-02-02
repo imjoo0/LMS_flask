@@ -363,9 +363,9 @@
             {% endfor %}
         </div>
         <div class="container border rounded-3 p-4 pb-1" id="incomplete_done">
-            {% for tt in target_task %}
+            {% for category in my_task_category %}
             <details>
-                <summary><strong>{{ all_task_category[tt['task'].category_id-1].name }} 업무 </strong></summary>
+                <summary onclick="get_task('{{category}}')"><strong>{{ all_task_category[category].name }} 업무 </strong></summary>
 
             </details>
             {% endfor %}
