@@ -36,7 +36,7 @@ function change_question_kind(str){
     }
 }
 function update_done(taskid){
-    console.log(taskid)
+    console.log(typeof(taskid))
     $.ajax({
         type: "POST",
         url: "/teacher/"+taskid,
