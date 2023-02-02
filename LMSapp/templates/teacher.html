@@ -357,7 +357,7 @@
         <div class="container border rounded-3 p-4 pb-1">
             {% for category in my_task_category %}
             <details>
-                <summary onclick="get_task('{{category}}')"><strong>{{ all_task_category[category].name }} 업무 </strong></summary>
+                <summary onclick="get_task('{{category}}')"><strong>{{ all_task_category[category-1].name }} 업무 </strong></summary>
 
             </details>
             {% endfor %}
@@ -365,7 +365,7 @@
         <div class="container border rounded-3 p-4 pb-1" id="incomplete_done">
             {% for category in my_task_category %}
             <details>
-                <summary onclick="get_task('{{category}}')"><strong>{{ all_task_category[category].name }} 업무 </strong></summary>
+                <summary onclick="get_task('{{category}}')"><strong>{{ all_task_category[category-1].name }} 업무 </strong></summary>
 
             </details>
             {% endfor %}
