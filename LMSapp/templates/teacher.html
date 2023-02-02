@@ -365,10 +365,10 @@
             {% for category in my_task_category %}
             <details>
                 <summary onclick="get_task('{{category}}')"><strong>{{ all_task_category[category-1].name }} 업무 </strong></summary>
-                    <div class="make_col" id="task_contents_box {{category}}">
-                        <div class="make_row" id="task_ban_box_incomplete {{category}}">
+                    <div class="make_col" id="task_contents_box{{category}}">
+                        <div class="make_row" id="task_ban_box_incomplete{{category}}">
                         </div>
-                        <div class="make_row" id="task_ban_box_complete {{category}}">
+                        <div class="make_row" id="task_ban_box_complete{{category}}">
                         </div>
                     </div>
                 </div>
