@@ -39,23 +39,29 @@ function task_doneview(done_code){
         $('#complete_done').show();
         $('#incomplete_done').hide();
     }
+}
+function get_task(category_id){
     $.ajax({
         type: "GET",
-        url: "/teacher/task",
+        url: "/teacher/"+category_id,
         data: {},
         success: function (response) {
-            // let target_ban = response['target_ban']
-            let task = response['task'];
-            console.log(task)     
+            console.log(response)
+            // alert(response["title"])
+        //     if (response["result"]=='문의가 전송되었습니다') {
+        //     window.location.replace('/teacher')
+        // }else {window.location.href='/'}
+        
         }
-    })
+    });
 }
+
 function update_done(taskid){
     taskid = Number(taskid);
     $.ajax({
         type: "POST",
-        url: "/teacher/task",
-        data: {taskid:taskid},
+        url: "/teacher/"+taskid,
+        data: {},
         success: function (response) {
             console.log(response)
             alert(response["result"])
