@@ -31,7 +31,8 @@ def home():
         my_tasks.sort(key = lambda x:x.task_id)
         tc = []
         for task in my_tasks:
-            tc.append(Task.query.filter(Task.id==task.task_id).all()[0])        
+            tc.append(Task.query.filter(Task.id==task.task_id).all()[0])     
+        print(tc)   
         tc = list(set(tc))
         print(tc)
 
@@ -119,7 +120,6 @@ def update_done():
     if request.method =='POST':
         id = request.form['taskid']
         target_task = TaskBan.query.get_or_404(id)
-        print(target_task)
         target_task.done = 1
         try:
             db.session.commit()
@@ -243,9 +243,7 @@ def answer(id):
                 'answer_at': '✖️'
                 })
             else:
-                print(q.student_id)
                 s = callapi.get_student_info(q.student_id )
-                print(s)
                 b = callapi.get_ban(q.ban_id )    
 
                 if q.category == 2:
