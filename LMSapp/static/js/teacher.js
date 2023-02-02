@@ -73,8 +73,7 @@ function update_done(taskid){
 }
 
 function get_answer(q_id){
-    $('#questionlist').hide()
-    $.ajax({
+     $.ajax({
         type: "GET",
         url: "/teacher/question/"+q_id,
         data: {},
@@ -84,7 +83,7 @@ function get_answer(q_id){
         //     if (response["result"]=='문의가 전송되었습니다') {
         //     window.location.replace('/teacher')
         // }else {window.location.href='/'}
-        cateogry = response["cateogry"]
+        category = response["category"]
         title = response["title"]
         contents = response["contents"]
         teacher = response["teacher"]
@@ -93,10 +92,10 @@ function get_answer(q_id){
         answer = response['answer']
         answer_at = response['answer_at']
 
-        if(cateogry == '일반문의'){
+        if(category == '일반문의'){
             let temp_question_list = `
             <ul>
-                <li>종류 : ${cateogry} </li>
+                <li>종류 : ${category} </li>
                 <li>제목 : ${title}</li>
                 <li>문의 : ${contents}</li>
                 <li>작성자 : ${teacher} ( ${teacher_e} )</li>
@@ -116,7 +115,7 @@ function get_answer(q_id){
             answer_at = response["answer_at"]
             let temp_question_list = `
             <ul>
-                <li>종류 : ${cateogry} </li>
+                <li>종류 : ${category} </li>
                 <li>제목 : ${title}</li>
                 <li>문의 : ${contents}</li>
                 <li>작성자 : ${teacher} ( ${teacher_e} )</li>
@@ -131,6 +130,7 @@ function get_answer(q_id){
         }
         }
     });
+    $('#questionlist').hide()
     $('#questiondetail').show()
 }
 
