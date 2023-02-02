@@ -41,8 +41,8 @@ function update_done(taskid){
 
     $.ajax({
         type: "POST",
-        url: "/teacher/"+taskid,
-        data: {},
+        url: "/teacher/task",
+        data: {taskid:taskid},
         success: function (response) {
             console.log(response)
             alert(response["result"])
