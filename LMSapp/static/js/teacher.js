@@ -50,6 +50,7 @@ function get_task(category_id){
         data: {},
         success: function (response) {
             let tcb = '#task_contents_box'+toString(category_id)
+            console.log(tcb)
             if(response["task"] == '없음'){
                 let temp_task_contents_box = `
                 <p> 오늘은 할 업무가 없습니다🎉</p>
