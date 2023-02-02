@@ -157,7 +157,7 @@ def task(id):
                 task_data = {}
                 task_data['contents'] = task.contents
                 task_data['url'] = task.url
-                task_data['deadline'] = task.deadline.date()
+                task_data['deadline'] = task.deadline.strftime('%Y-%m-%d')
                 task_data['task_ban'] = []
                 for tb in my_tasks:
                     if task.id == tb.task_id:
@@ -168,7 +168,6 @@ def task(id):
                         data['ban'] = ban['ban_name']
                         task_data['task_ban'].append(data)
                 target_task.append(task_data)
-            print (target_task)
             return jsonify({'task' : target_task})
 
 
