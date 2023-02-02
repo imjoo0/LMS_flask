@@ -31,8 +31,9 @@ def home():
         my_tasks.sort(key = lambda x:x.task_id)
         tc = []
         for task in my_tasks:
-            tc.append(task.task_id)        
+            tc.append(Task.query.filter(Task.id==task.task_id).all()[0])        
         tc = list(set(tc))
+        print(tc)
 
         category_set = []
         for cate in tc:
