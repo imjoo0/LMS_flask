@@ -64,9 +64,9 @@ function get_task(category_id){
                     let deadline = target['deadline']
                     let temp_task_contents_box = `
                     <p>✅ ${contents}  마감 : ${deadline} 까지 </p>
-                    <div class="make_row" id="task_ban_box_incomplete${i}">
+                    <div class="make_row" id="task_ban_box_incomplete">
                     </div>
-                    <div class="make_row" id="task_ban_box_complete${i}">
+                    <div class="make_row" id="task_ban_box_complete">
                     </div>
                     `;
 
@@ -81,9 +81,9 @@ function get_task(category_id){
                         <label><input type="checkbox" name="taskid" value="${task_id}">${name}</label>
                         `;
                         if(done != 1){
-                            $('#task_ban_box_incomplete'+i).append(temp_task_ban_box);
+                            $('#task_ban_box_incomplete').append(temp_task_ban_box);
                         }else{
-                            $('#task_ban_box_complete'+i).append(temp_task_ban_box);
+                            $('#task_ban_box_complete').append(temp_task_ban_box);
                         }
                     }
                 }
