@@ -58,7 +58,7 @@ def home():
         else:
             for task in today_task:
                 task_data = {}
-                task_data['contents'] = task
+                task_data['task'] = task
                 task_data['task_ban'] = []
                 for tb in my_tasks:
                     if task.id == tb.task_id:
