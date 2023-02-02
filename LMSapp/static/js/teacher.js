@@ -33,6 +33,7 @@ function change_question_kind(str){
 }
 
 function task_doneview(done_code){
+    console.log(done_code)
     if(done_code == 0){
         $('#task_ban_box_incomplete').show();
         $('#task_ban_box_complete').hide();
