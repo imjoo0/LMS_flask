@@ -1,16 +1,33 @@
+.question-btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .question-btn {
   width: 150px;
   height: 150px;
-  background-color: #ffffff;
-  border: 1px solid #1b1b1b33;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
-  margin: 20px;
+  background-color: #f1f1f1;
+  padding: 20px;
+  margin: 16px;
+  border-radius: 20px;
+  transition: 0.4s;
+}
+
+.question-btn:hover {
+  cursor: pointer;
+  padding: 15px;
 }
 
 .question-btn img {
   width: 100%;
   object-fit: fill;
+}
+
+.question-label {
+  font-size: 18px;
+  font-weight: 600;
 }
 
 /* 이반 요청 */
