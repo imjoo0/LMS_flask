@@ -42,10 +42,14 @@
   width: 80%;
   height: 100%;
   background-color: #f1f1f1;
-  margin: 16px 16px 20px 16px;
-  padding: 20px;
+  margin: 16px 16px 22px 16px;
+  padding: 16px 20px;
   border-radius: 20px;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .user-detail-deco {
@@ -56,13 +60,15 @@
   background-color: #845EC2;
   border-radius: 20px;
   top: 0;
+  left: 16px;
 }
 
 .user-name {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 20px;
+  padding-bottom: 16px;
   border-bottom: 1px solid #1b1b1b33;
 }
 
@@ -83,16 +89,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  padding-top: 16px ;
 }
 
 .user-contact i {
-  color: #333333;
+  color: #555555;
   font-size: 16px;
+  font-weight: 700;
 }
 
 .user-contact span {
   font-size: 16px;
-  color: #666666;
+  color: #555555;
   font-weight: 600;
 }
 
