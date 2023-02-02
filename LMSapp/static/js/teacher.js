@@ -55,8 +55,7 @@ function get_task(category_id){
                 $('#task_contents_box').append(temp_task_contents_box);
             }else{
                 let target_task = response["task"]
-                console.log(target_task)
-                for(i=0;i<length(target);i++){
+                for(i=0;i<length(target_task);i++){
                     let target = target_task[i]
                     let contents = target['contents']
                     let deadline = target['deadline']
