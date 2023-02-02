@@ -157,7 +157,7 @@ def task(id):
                 task_data = {}
                 task_data['contents'] = task.contents
                 task_data['url'] = task.url
-                task_data['deadline'] = task.deadline.date().date()
+                task_data['deadline'] = task.deadline.strftime('%Y-%m-%d')
                 task_data['task_ban'] = []
                 for tb in my_tasks:
                     if task.id == tb.task_id:
