@@ -263,122 +263,141 @@
     </div>
     <div class="d-flex justify-content-center row-cols-2 ">
         <div id="statistics" class="p-5">
-            <div class="info">
-                <div class="total_chart">
-                    <div class="chartWrap">
-                        <div class="chart">
-                            <div class="chart-total">
-                                <span class="chart-total-num">Total:<br></span>
+            <div class="info-container">
+                <div class="info-title">
+                    <span>Total Chart</span>
+                </div>
+                <div class="info">
+                    <div class="total_chart">
+                        <div class="chartWrap">
+                            <div class="chart">
+                                <div class="chart-total">
+                                    <span class="chart-total-num">Total:<br></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="chart-bar" data-deg="50"></div>
-                        <div class="chart-bar" data-deg="95"></div>
-                        <div class="chart-bar" data-deg="150"></div>
-                        <div class="chart-bar" data-deg="295/360*100">
+                            <div class="chart-bar" data-deg="50"></div>
+                                <div class="chart-bar" data-deg="95"></div>
+                                <div class="chart-bar" data-deg="150"></div>
+                                <div class="chart-bar" data-deg="295/360*100">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="info">
-                <div class="total_table">
-                    <table class="table text-center" id="unlearned">
-                        <tbody  style="width:100%;">
-                            <tr class="row">
-                                <th class="col-3">IXL</th>
-                                <th class="col-3">리딩</th>
-                                <th class="col-3">리특</th>
-                                <th class="col-3">라이팅</th>
-                            </tr>
-                            <tr class="row">
-                                <td class="col-3"> 임시3 (5%) </td>
-                                <td class="col-3"> 임시3 (5%) </td>
-                                <td class="col-3"> 임시3 (5%) </td>
-                                <td class="col-3"> 임시3 (5%) </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table text-center" id="unlearned">
-                        <tbody  style="width:100%;">
-                            <tr class="row">
-                                <th class="col-6">업무</th>
-                                <th class="col-6">상담</th>
-                            </tr>
-                            <tr class="row">
-                                <td class="col-3"> 임시3/10 </td>
-                                <td class="col-3"> 5% </td>
-                                <td class="col-3"> 임시3/10 </td>
-                                <td class="col-3"> 5% </td>
-                            </tr>
-                        </tbody>
-                    </table>  
-                    <table class="table text-center" id="unlearned">
-                        <tbody  style="width:100%;">
-                            <tr class="row">
-                                <th class="col-6">공지</th>
-                                <th class="col-6">문의</th>
-                            </tr>
-                            <tr class="row">
-                                <td class="col-3"> 임시3/10 </td>
-                                <td class="col-3"> 5% </td>
-                                <td class="col-3"> 임시3/10 </td>
-                                <td class="col-3"> 5% </td>
-                            </tr>
-                        </tbody>
-                    </table>      
+            <div class="info-container mt-5">
+                <div class="info-title">
+                    <span>Total Report</span>
+                </div>
+                <div class="info">
+                    <div class="total_table">
+                        <table class="table text-center" id="unlearned">
+                            <tbody  style="width:100%;">
+                                <tr class="row">
+                                    <th class="col-3">IXL</th>
+                                    <th class="col-3">리딩</th>
+                                    <th class="col-3">리특</th>
+                                    <th class="col-3">라이팅</th>
+                                </tr>
+                                <tr class="row">
+                                    <td class="col-3"> 임시3 (5%) </td>
+                                    <td class="col-3"> 임시3 (5%) </td>
+                                    <td class="col-3"> 임시3 (5%) </td>
+                                    <td class="col-3"> 임시3 (5%) </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table text-center" id="unlearned">
+                            <tbody  style="width:100%;">
+                                <tr class="row">
+                                    <th class="col-6">업무</th>
+                                    <th class="col-6">상담</th>
+                                </tr>
+                                <tr class="row">
+                                    <td class="col-3"> 임시3/10 </td>
+                                    <td class="col-3"> 5% </td>
+                                    <td class="col-3"> 임시3/10 </td>
+                                    <td class="col-3"> 5% </td>
+                                </tr>
+                            </tbody>
+                        </table>  
+                        <table class="table text-center" id="unlearned">
+                            <tbody  style="width:100%;">
+                                <tr class="row">
+                                    <th class="col-6">공지</th>
+                                    <th class="col-6">문의</th>
+                                </tr>
+                                <tr class="row">
+                                    <td class="col-3"> 임시3/10 </td>
+                                    <td class="col-3"> 5% </td>
+                                    <td class="col-3"> 임시3/10 </td>
+                                    <td class="col-3"> 5% </td>
+                                </tr>
+                            </tbody>
+                        </table>      
+                    </div>
                 </div>
             </div>
         
-            <div class="info">
-                <table class="table text-center" id="class_list" style="width:100%;">
-                    <tbody  style="width:100%;">
-                        <tr class="row">
-                            <th class="col-2">반이름</th>
-                            <th class="col-1">학기</th>
-                            <th class="col-1">원생 수</th>
-                            <th class="col-2">퇴소</th>
-                            <th class="col-2">이반</th>
-                            <th class="col-2">미학습</th>
-                            <th class="col-2">문의 미응답</th>
-                        </tr>
-                        {% for ban in my_bans %}
+
+            <div class="info-container mt-5">
+                <div class="info-title">
+                    <span>Class Report</span>
+                </div>
+                <div class="info">
+                    <table class="table text-center" id="class_list" style="width:100%;">
+                        <tbody  style="width:100%;">
                             <tr class="row">
-                                <td class="col-2">{{ ban['name'] }}</td>
-                                <td class="col-1">{{ ban['name_numeric'] }}</td>
-                                <td class="col-1">{{ ban['total_student_num '] }}</td>
-                                <td class="col-2"> 임시3 (5%) </td>
-                                <td class="col-2"> 임시3 (5%) </td>
-                                <td class="col-2"> 임시3 (5%) </td>
-                                <td class="col-2"> 임시3 (5%) </td>
+                                <th class="col-2">반이름</th>
+                                <th class="col-1">학기</th>
+                                <th class="col-1">원생 수</th>
+                                <th class="col-2">퇴소</th>
+                                <th class="col-2">이반</th>
+                                <th class="col-2">미학습</th>
+                                <th class="col-2">문의 미응답</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>    
+                            {% for ban in my_bans %}
+                                <tr class="row">
+                                    <td class="col-2">{{ ban['name'] }}</td>
+                                    <td class="col-1">{{ ban['name_numeric'] }}</td>
+                                    <td class="col-1">{{ ban['total_student_num '] }}</td>
+                                    <td class="col-2"> 임시3 (5%) </td>
+                                    <td class="col-2"> 임시3 (5%) </td>
+                                    <td class="col-2"> 임시3 (5%) </td>
+                                    <td class="col-2"> 임시3 (5%) </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>    
+                </div>
             </div>
         </div>
     
 
-    <section id="work" class="p-5">
-        <div class="info">
-            <div class="label make_row"style="margin-top: 5px;" >
-                <h3>상담 * 업무</h3>
-                <select id="work_done" class="border rounded-0 form-control form-control-sm" name="work_done" style=" width: 200px; height: 100%; text-align: center; margin-left: auto;" onchange="task_doneview(this.value)">
-                    <optgroup>
-                        <option value=0>미완수</option>
-                        <option value=1>완수</option>
-                    </optgroup>
-                </select>
+    <div id="work" class="p-5">
+        <div class="info-container">
+            <div class="info-title">
+                <span>To-Do List</span>
             </div>
-            <div class="container border rounded-3 p-4 pb-1">
-                {% for category in my_task_category %}
-                <details>
-                    <summary onclick="get_task('{{category}}')"><strong>{{ all_task_category[category-1].name }} 업무 </strong></summary>
-                    <div class="make_col" id="task_contents_box{{category}}"></div>
-                    </details>
-                {% endfor %}
+            <div class="info d-flex justify-content-center align-items-center flex-column">
+                <div class="d-flex justify-content-between flex-row w-100 pb-4 border-bottom">
+                    <h5 class="d-flex justify-content-center align-items-center m-0">상담 * 업무</h3>
+                    <select id="work_done" class="form-select text-center w-25" name="work_done" onchange="task_doneview(this.value)">
+                        <option value=0>미완수</option>
+                        <option value=1>완수</option> 
+                    </select>
+                </div>
+                <div class="w-100 mt-4">
+                    {% for category in my_task_category %}
+                        <details>
+                            <summary onclick="get_task('{{category}}')"><strong>{{ all_task_category[category-1].name }} 업무 </strong></summary>
+                            <div class="make_col" id="task_contents_box{{category}}"></div>
+                        </details>
+                    {% endfor %}
+                </div>
             </div>
         </div>
-</div>
+    </div>
 
 {% block jspart %}
 <script type="text/javascript" src="../static/js/teacher.js"></script>
