@@ -100,7 +100,7 @@ function get_task_done(){
     $('input:checkbox[name=taskid]').each(
         function(i,iVal){
            let target = Number(iVal.defaultValue);
-           print(target)
+           console.log(target)
            return update_done(target)
         }
     );
