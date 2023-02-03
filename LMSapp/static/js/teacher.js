@@ -97,20 +97,27 @@ function get_task(category_id){
     });
 }
 
-function update_done(taskid){
-    taskid = Number(taskid);
-    $.ajax({
-        type: "POST",
-        url: "/teacher/"+taskid,
-        data: {},
-        success: function (response) {
-            console.log(response)
-            alert(response["result"])
-            if (response["result"]=='업무 완료!') {
-                alert(response["result"])
-        }else {window.location.href='/'}
+function update_done(){
+    $('input:checkbox[name=checkList]').each(
+        function(index){
+            if($(this).is(":checked")==true){
+                console.log($(this.value));
+            }
         }
-    })
+    )
+    // taskid = Number(taskid);
+    // $.ajax({
+    //     type: "POST",
+    //     url: "/teacher/"+taskid,
+    //     data: {},
+    //     success: function (response) {
+    //         console.log(response)
+    //         alert(response["result"])
+    //         if (response["result"]=='업무 완료!') {
+    //             alert(response["result"])
+    //     }else {window.location.href='/'}
+    //     }
+    // })
 }
 
 async function get_answer(q_id){
