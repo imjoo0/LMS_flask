@@ -65,8 +65,10 @@ function get_task(category_id){
                     let temp_task_contents_box = `
                     <p>✅ ${contents}  마감 : ${deadline} 까지 </p>
                     <div class="make_row" id="task_ban_box_incomplete${category_id}${i}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                     </div>
                     <div class="make_row" id="task_ban_box_complete${category_id}${i}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                     </div>
                     `;
                     $('#task_ban_box_incomplete'+i).empty()

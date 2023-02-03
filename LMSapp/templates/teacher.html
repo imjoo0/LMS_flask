@@ -23,7 +23,7 @@
 <!-- 문의 남기기 -->
 <div class="modal fade" id="question" tabindex="-1"
     aria-labelledby="questionModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="questionModalLabel">
@@ -129,6 +129,7 @@
                     </div>
                     <div class="d-flex justify-content-center mt-4 mb-2">
                         <button class="btn btn-dark" type="submit">저장</button>
+
                         <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin-top: 13px;">취소</button> -->
                     </div>
                 </form>
@@ -373,12 +374,19 @@
             <div class="info d-flex justify-content-center align-items-center flex-column">
                 <div class="d-flex justify-content-between flex-row w-100 pb-4 border-bottom">
                     <h5 class="d-flex justify-content-center align-items-center m-0">상담 * 업무</h3>
-
-                    <select id="work_done" class="form-select text-center w-25" name="work_done" >
+                    <select id="work_done" class="form-select text-center w-25" name="work_done" onchange="task_doneview(this.value)">
                         <option value=0>오늘의 업무</option>
                         <option value=1>완료한 업무</option> 
                         <option value=2>지난업무</option> 
                     </select>
+                </div>
+                <div class="w-100 mt-4" id="today_task_box">
+                    {% for category in my_task_category %}
+                        <details>
+                            <summary onclick="get_task('{{category}}')"><strong>{{ all_task_category[category-1].name }} 업무 </strong></summary>
+                            <div class="make_col" id="task_contents_box{{category}}"></div>
+                        </details>
+                    {% endfor %}
                 </div>
                 <div class="w-100 mt-4" id="today_task_done_box">
                     {% for category in my_task_category %}
