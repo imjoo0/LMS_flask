@@ -15,6 +15,18 @@
     <div class="section has-text-centered" id="login">
         <div class="container" style="width:100%">
             <form method="POST">
+                <div class="segment">
+                    <h1>Sign up</h1>
+                </div>
+  
+                <label>
+                    <input type="text" placeholder="Email Address"/>
+                </label>
+                <label>
+                    <input type="password" placeholder="Password"/>
+                </label>
+                <button class="red" type="button"><i class="icon ion-md-lock"></i> Log in</button>
+                
                 {{form.csrf_token}}
                 <div class="form-group">
                     {{form.user_id.label("아이디")}}

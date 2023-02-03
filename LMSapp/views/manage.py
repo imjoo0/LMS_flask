@@ -59,7 +59,7 @@ def get_all_questions():
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute('select * from question;')
+                cur.execute('select title, contents, answer_id, teacher_id from question;')
                 all_questions = cur.fetchall();
                 print(all_questions)
         except:
@@ -67,7 +67,7 @@ def get_all_questions():
         finally:
             db.close()
 
-        return jsonify({'data':str(all_questions)})
+        return json.dumps(all_questions)
 
 
 @bp.route("/ban", methods=['GET', 'POST'])

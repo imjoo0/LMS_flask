@@ -101,22 +101,39 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
     });
 }
 
-$(function (){
+function paginating(){
     let container = $('#pagination')
-    container.pagination({
-        dataSource: [{name: 'hello1'}, {name:'hello2'}],
-        pageSize: 1,
-        callback: function (data, pagination){
-            var dataHtml = '';
-            $.each(data, function (index, item){
-                dataHtml +=  `<td class="col-3">${item.name}</td><td class="col-3">${item.name}</td><td class="col-3">${item.name}</td><td class="col-3">${item.name}</td>`;
+    $.ajax({
+        url: '/manage/api/get_all_questions',
+        type: 'get',
+        data: {},
+        success: function(data){
+            container.pagination({
+            dataSource: JSON.parse(data),
+            prevText: '이전',
+            nextText: '다음',
+            pageSize: 4,
+            callback: function (data, pagination){
+                var dataHtml = '';
+                $.each(data, function (index, item){
+                dataHtml +=  `
+                <td class="col-3">${item.title}</td>
+                <td class="col-3">${item.teacher_id}</td>
+                <td class="col-4">${item.contents}</td>
+                <td class="col-2"> <button>✏️</button> <button>❌</button></td>
+`;
                     });
 
-                    dataHtml += '</ul>';
                     $('#alim-tr').html(dataHtml);
         }
     })
-})
+
+        }
+    })
+    
+}
+
+paginating()
 
 function getBanInfo(b_id){
     $('#label_title').empty();
