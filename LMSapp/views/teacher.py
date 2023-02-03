@@ -129,7 +129,6 @@ def task(id):
         # task_id를 기준으로 소팅 
         my_tasks = TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all()
 
-        my_tasks.sort(key = lambda x:x.task_id)
         tc = []
         for task in my_tasks:
             tc.append(Task.query.filter(Task.id==task.task_id).all()[0])     
@@ -149,6 +148,7 @@ def task(id):
                 elif(task.cycle == 7 ): # 주기가 없는 경우
                     if(task.startdate.date() <= Today and Today <= task.deadline.date()):
                         category_task.append(task)
+        print(category_task)
         target_task = []
         if(len(category_task)==0):
             return jsonify({'task': '없음'})
