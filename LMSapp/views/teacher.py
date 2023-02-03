@@ -38,11 +38,10 @@ def home():
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
         return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,students=mystudents_info, questions=my_questions,my_task_category=category_set,all_task_category=all_task_category)
     elif request.method == 'POST':
-        print('jeje')
         task_ids = request.form['task_ids']
         print(task_ids)
         return jsonify({'result':'ok'})
-        
+
 # 테스트 계정 id : T1031 pw동일  
 @bp.route("/<int:id>", methods=['POST','GET'])
 def task(id):

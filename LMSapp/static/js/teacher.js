@@ -33,7 +33,6 @@ function change_question_kind(str){
 
 function task_doneview(done_code){
     if(done_code == 0){
-        console.log(done_code)
         $('#task_ban_box_incomplete').show();
         $('#task_ban_box_complete').hide();
     }else{
@@ -48,7 +47,6 @@ function get_task(category_id){
         url: "/teacher/"+category_id,
         data: {},
         success: function (response) {
-            console.log(response)
             let tcb = '#task_contents_box'+category_id
             if(response["task"] == '없음'){
                 let temp_task_contents_box = `
@@ -116,7 +114,7 @@ function update_done(){
 			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
             data: {task_ids:chk_Val},
             success: function (response) {{
-				console.log(response);
+				console.log("response  되는 건다");
 			}}
 		})
 }
