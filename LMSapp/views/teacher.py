@@ -42,6 +42,7 @@ def home():
         task_ids = request.form['task_ids']
         print(task_ids)
         return jsonify({'result':'ok'})
+        
 # 테스트 계정 id : T1031 pw동일  
 @bp.route("/<int:id>", methods=['POST','GET'])
 def task(id):
