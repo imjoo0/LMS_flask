@@ -6823,3 +6823,105 @@ TypeError: Object of type Question is not JSON serializable
 118.131.85.245 - - [03/Feb/2023 07:13:52] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
 118.131.85.245 - - [03/Feb/2023 07:13:52] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
 118.131.85.245 - - [03/Feb/2023 07:13:52] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [03/Feb/2023 07:15:32] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:15:32] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:15:32] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:15:32] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:15:32] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:15:32] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:15:33] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:15:33] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:15:33] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:15:33] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:15:33] "GET /manage/api/get_all_questions HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 61, in get_all_questions
+    return jsonify({'data':all_questions})
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/__init__.py", line 342, in jsonify
+    return current_app.json.response(*args, **kwargs)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 309, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=mimetype
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 230, in dumps
+    return json.dumps(obj, **kwargs)
+  File "/usr/lib/python3.8/json/__init__.py", line 234, in dumps
+    return cls(
+  File "/usr/lib/python3.8/json/encoder.py", line 201, in encode
+    chunks = list(chunks)
+  File "/usr/lib/python3.8/json/encoder.py", line 431, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/usr/lib/python3.8/json/encoder.py", line 405, in _iterencode_dict
+    yield from chunks
+  File "/usr/lib/python3.8/json/encoder.py", line 325, in _iterencode_list
+    yield from chunks
+  File "/usr/lib/python3.8/json/encoder.py", line 438, in _iterencode
+    o = _default(o)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 122, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type Question is not JSON serializable
+118.131.85.245 - - [03/Feb/2023 07:15:33] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:15:33] "GET /manage/api/get_all_questions HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 61, in get_all_questions
+    return jsonify({'data':all_questions})
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/__init__.py", line 342, in jsonify
+    return current_app.json.response(*args, **kwargs)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 309, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=mimetype
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 230, in dumps
+    return json.dumps(obj, **kwargs)
+  File "/usr/lib/python3.8/json/__init__.py", line 234, in dumps
+    return cls(
+  File "/usr/lib/python3.8/json/encoder.py", line 201, in encode
+    chunks = list(chunks)
+  File "/usr/lib/python3.8/json/encoder.py", line 431, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/usr/lib/python3.8/json/encoder.py", line 405, in _iterencode_dict
+    yield from chunks
+  File "/usr/lib/python3.8/json/encoder.py", line 325, in _iterencode_list
+    yield from chunks
+  File "/usr/lib/python3.8/json/encoder.py", line 438, in _iterencode
+    o = _default(o)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 122, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type Question is not JSON serializable
+118.131.85.245 - - [03/Feb/2023 07:15:38] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:15:38] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:15:38] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:15:38] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:15:38] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:15:38] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:15:38] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:15:38] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:15:38] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:15:38] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:15:38] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:15:40] "GET /teacher/2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:15:45] "GET /teacher/?task_ids%5B%5D=480&task_ids%5B%5D=559 HTTP/1.1" 200 -
