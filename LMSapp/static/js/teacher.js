@@ -98,7 +98,7 @@ function get_task(category_id){
 }
 
 function update_done(){
-    $('input:checkbox[name=checkList]').each(
+    $('input:checkbox[name=taskid]').each(
         function(index){
             if($(this).is(":checked")==true){
                 console.log($(this.value));
