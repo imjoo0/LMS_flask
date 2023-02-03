@@ -188,3 +188,5 @@ function go_back(){
     $('#questiondetail').hide();
     $('#questionlist').show();
 }
+
+

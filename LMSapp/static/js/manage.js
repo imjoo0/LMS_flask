@@ -105,11 +105,12 @@ $(function (){
     let container = $('#pagination')
 
     $.ajax({
-        method: "post",
+        method: "get",
         url: "/manage/api/get_all_questions",
         success: function (response){
+            console.log(JSON.parse(response.data))
             container.pagination({
-                dataSource: response.data,
+                dataSource: JSON.parse(response.data),
                 callback: function (data, pagination) {
                     var dataHtml = '<ul>';
                     $.each(data, function (index, item){
@@ -123,7 +124,7 @@ $(function (){
             })
         },
         error: function(xhr, status, error){
-            alert(xhr.responseText);
+            alert(xhr.responseText)
         }
 
     })
