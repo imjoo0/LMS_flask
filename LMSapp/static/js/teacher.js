@@ -100,23 +100,21 @@ function get_task(category_id){
 }
 
 function update_done(){
-    var token = $("meta[name='_csrf']").attr("content");
-    var header = $("meta[name='_csrf_header']").attr("content");
-
     let chk_Val = []
     $('input:checkbox[name=taskid]').each(
         function(i,iVal){
             chk_Val.push(Number(iVal.defaultValue));
         }
     );
-    var jsonData = {
-        "task_ids" : chk_Val
-    }
+    // var jsonData = {
+    //     "task_ids" : chk_Val
+    // }
     console.log(chk_Val)
     $.ajax({
         contentType: "application/json",
 			url:'/teacher/',
-			data: JSON.stringify(jsonData), // String -> json 형태로 변환
+			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
+            data: {task_ids:chk_Val},
 			beforeSend: function(xhr, settings) {
                 if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
                     xhr.setRequestHeader("X-CSRFToken", csrf_token);
