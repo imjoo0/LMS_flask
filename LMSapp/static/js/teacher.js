@@ -110,7 +110,6 @@ function update_done(){
     console.log(chk_Val)
     $.ajax({
             type: "POST",
-            contentType: "application/json",
 			url:'/teacher/',
 			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
             data: {task_ids:chk_Val},
