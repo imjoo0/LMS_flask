@@ -606,3 +606,2189 @@ AttributeError: 'list' object has no attribute 'content'
  * Restarting with stat
  * Debugger is active!
  * Debugger PIN: 599-982-060
+118.131.85.245 - - [03/Feb/2023 00:48:31] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:48:31] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:48:31] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:48:31] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:48:31] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:48:31] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:48:31] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:48:31] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:48:31] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:48:32] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:48:32] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:49:03] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:49:03] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:49:03] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:49:03] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:49:03] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:49:03] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:49:03] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:49:04] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:49:04] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:49:04] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:49:04] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 599-982-060
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 599-982-060
+118.131.85.245 - - [03/Feb/2023 00:52:06] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:52:06] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:52:06] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:52:06] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:52:06] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:52:06] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:52:06] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:52:06] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:52:06] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:52:06] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:52:07] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:52:08] "GET /teacher/2 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/iamjoo0/LMS/venv/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/iamjoo0/LMS/venv/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/iamjoo0/LMS/venv/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/iamjoo0/LMS/venv/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/iamjoo0/LMS/venv/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/iamjoo0/LMS/venv/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 00:52:50] "GET /teacher/4 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/iamjoo0/LMS/venv/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/iamjoo0/LMS/venv/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/iamjoo0/LMS/venv/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/iamjoo0/LMS/venv/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/iamjoo0/LMS/venv/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/iamjoo0/LMS/venv/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 599-982-060
+118.131.85.245 - - [03/Feb/2023 00:53:41] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:53:41] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:53:41] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:53:41] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:53:41] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:53:41] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:53:41] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:53:41] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:53:41] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:53:41] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:53:42] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:53:47] "GET /teacher/question/3 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:55:02] "GET /logout HTTP/1.1" 302 -
+118.131.85.245 - - [03/Feb/2023 00:55:02] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [03/Feb/2023 00:55:02] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:55:02] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:55:02] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:55:02] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:55:02] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:55:02] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:55:02] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:55:02] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [03/Feb/2023 00:55:07] "POST /login HTTP/1.1" 302 -
+118.131.85.245 - - [03/Feb/2023 00:55:07] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [03/Feb/2023 00:55:08] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:55:08] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:55:08] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:55:08] "GET /static/style/manage.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 00:55:08] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:55:09] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:55:10] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:55:10] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:55:10] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:55:10] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 00:55:17] "GET /manage/ban/1211 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:00:41] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:00:41] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:00:41] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:00:41] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:00:41] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:00:41] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:00:41] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:00:41] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:00:41] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:00:41] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:00:42] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py', reloading
+[{'register_no': 46954, 'origin': 'P191091', 'name': '이주연', 'engname': 'Juyeon Lee', 'mobileno': '010-9045-7998', 'email': 'roca1004@naver.com', 'reco_book_code': 'LKZ', 'reco_book_date': '2023-01-02T15:00:00.000Z'}]
+None
+T0001
+ * Restarting with stat
+Traceback (most recent call last):
+  File "/home/ubuntu/iamjoo0/LMS/app.py", line 4, in <module>
+    create_app().run('0.0.0.0', port=6725, debug=True)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/__init__.py", line 26, in create_app
+    from .views import teacher
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 224
+    return_data['reject'] = a.reject_code if q.category != 0
+                                                           ^
+SyntaxError: invalid syntax
+ * Serving Flask app 'LMSapp'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:6725
+ * Running on http://172.31.37.184:6725
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [03/Feb/2023 01:03:57] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:03:57] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:04:02] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:04:02] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:04:02] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:04:02] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:04:02] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:04:02] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:04:02] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:04:02] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:04:02] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:04:02] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:04:02] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:04:05] "GET /teacher/question/3 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 224, in answer
+    return_data['reject'] = a.reject_code if q.category != 0 else ''
+AttributeError: 'list' object has no attribute 'reject_code'
+118.131.85.245 - - [03/Feb/2023 01:04:08] "GET /teacher/question/2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:04:12] "GET /teacher/question/9 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 224, in answer
+    return_data['reject'] = a.reject_code if q.category != 0 else ''
+AttributeError: 'list' object has no attribute 'reject_code'
+118.131.85.245 - - [03/Feb/2023 01:04:46] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:04:46] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:04:46] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:04:46] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:04:46] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:04:46] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:04:46] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:04:46] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:04:46] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:04:46] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:04:46] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:06:06] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:06] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:06] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:06] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:06] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:06] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:06] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:06] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:06] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:07] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:07] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [03/Feb/2023 01:06:38] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:38] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:06:38] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:38] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:06:38] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:06:38] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:06:38] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:06:38] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:06:38] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:06:38] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:06:38] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:06:42] "GET /teacher/question/2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:46] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:46] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:46] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:46] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:46] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:46] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:46] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:46] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:47] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:47] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:06:47] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:07:01] "GET /teacher/question/10 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:09] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:07:09] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:13] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:13] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:13] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:13] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:13] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:13] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:13] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:14] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:14] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:14] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:14] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:07:27] "GET /teacher/question/10 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:32] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:32] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:32] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:32] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:32] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:33] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:33] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:33] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:33] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:33] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:07:33] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:08:38] "GET /teacher/4 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:08:39] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:08:39] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:08:39] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:08:39] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:08:39] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:08:39] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:08:39] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:08:39] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:08:39] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:08:40] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:08:40] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:08:59] "GET /teacher/8 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:09:00] "GET /teacher/8 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:09:01] "GET /teacher/6 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:09:01] "GET /teacher/6 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:09:02] "GET /teacher/5 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:09:02] "GET /teacher/5 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:09:03] "GET /teacher/2 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:09:03] "GET /teacher/4 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:09:03] "GET /teacher/2 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:09:04] "GET /teacher/4 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:09:25] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:09:25] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:09:25] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:09:25] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:09:25] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:09:25] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:09:25] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:09:25] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:09:25] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:09:25] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:09:26] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:09:28] "GET /teacher/question/10 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:10:13] "GET /teacher/5 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:10:13] "GET /teacher/8 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:10:13] "GET /teacher/5 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:10:14] "GET /teacher/8 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py', reloading
+[]
+[]
+[{'register_no': 46863, 'origin': 'P180072', 'name': '권선유', 'engname': 'Sunyu Kwon', 'mobileno': '010-9431-3298', 'email': 'hjhj1102@nate.com', 'reco_book_code': 'FNS', 'reco_book_date': '2023-01-02T15:00:00.000Z'}]
+[]
+[{'register_no': 46863, 'origin': 'P180072', 'name': '권선유', 'engname': 'Sunyu Kwon', 'mobileno': '010-9431-3298', 'email': 'hjhj1102@nate.com', 'reco_book_code': 'FNS', 'reco_book_date': '2023-01-02T15:00:00.000Z'}]
+[]
+[{'register_no': 46863, 'origin': 'P180072', 'name': '권선유', 'engname': 'Sunyu Kwon', 'mobileno': '010-9431-3298', 'email': 'hjhj1102@nate.com', 'reco_book_code': 'FNS', 'reco_book_date': '2023-01-02T15:00:00.000Z'}]
+ * Restarting with stat
+Traceback (most recent call last):
+  File "/home/ubuntu/iamjoo0/LMS/app.py", line 4, in <module>
+    create_app().run('0.0.0.0', port=6725, debug=True)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/__init__.py", line 26, in create_app
+    from .views import teacher
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 224
+    return_data['reject'] = a if q.category != 0
+                                               ^
+SyntaxError: invalid syntax
+ * Serving Flask app 'LMSapp'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:6725
+ * Running on http://172.31.37.184:6725
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [03/Feb/2023 01:11:11] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:11:11] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:11:11] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:11:11] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:11:11] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:11:11] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:11:11] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:11:11] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:11:11] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:11:11] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:11:11] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:11:19] "GET /teacher/question/10 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:11:46] "GET /teacher/question/2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:11:55] "GET /teacher/question/10 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:12:37] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:12:37] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:12:37] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:12:37] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:12:37] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:12:37] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:12:37] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:12:37] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:12:37] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:12:37] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:12:38] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py', reloading
+[{'register_no': 46863, 'origin': 'P180072', 'name': '권선유', 'engname': 'Sunyu Kwon', 'mobileno': '010-9431-3298', 'email': 'hjhj1102@nate.com', 'reco_book_code': 'FNS', 'reco_book_date': '2023-01-02T15:00:00.000Z'}]
+[{'register_no': 46863, 'origin': 'P180072', 'name': '권선유', 'engname': 'Sunyu Kwon', 'mobileno': '010-9431-3298', 'email': 'hjhj1102@nate.com', 'reco_book_code': 'FNS', 'reco_book_date': '2023-01-02T15:00:00.000Z'}]
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [03/Feb/2023 01:12:59] "GET /teacher/5 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:13:00] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:00] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:00] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:00] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:00] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:00] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:00] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:00] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:00] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:01] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:01] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:13:02] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:02] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:13:02] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:02] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:13:02] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:13:02] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:13:02] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:13:02] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:13:02] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:13:02] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:13:03] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:13:06] "GET /teacher/question/10 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:16] "GET /teacher/question/3 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:34] "GET /teacher/question/10 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:38] "GET /teacher/question/9 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:41] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:41] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:41] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:41] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:41] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:41] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:41] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:41] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:41] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:41] "GET /teacher/question/2 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 665, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 421, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 416, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/lib/python3.8/http/client.py", line 1348, in getresponse
+    response.begin()
+  File "/usr/lib/python3.8/http/client.py", line 316, in begin
+    version, status, reason = self._read_status()
+  File "/usr/lib/python3.8/http/client.py", line 285, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 719, in urlopen
+    retries = retries.increment(
+  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 400, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/six.py", line 718, in reraise
+    raise value.with_traceback(tb)
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 665, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 421, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 416, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/lib/python3.8/http/client.py", line 1348, in getresponse
+    response.begin()
+  File "/usr/lib/python3.8/http/client.py", line 316, in begin
+    version, status, reason = self._read_status()
+  File "/usr/lib/python3.8/http/client.py", line 285, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 213, in answer
+    teacher_info = callapi.get_teacher_info(session['user_id'])
+  File "/home/ubuntu/iamjoo0/LMS/callapi.py", line 12, in get_teacher_info
+    result = requests.post(config.api + 'get_teacher_info', headers=headers, data=json.dumps({'data':{'id': teacher_id}}))
+  File "/usr/lib/python3/dist-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 498, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+118.131.85.245 - - [03/Feb/2023 01:13:41] "GET /teacher/question/2 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 159, in _new_conn
+    conn = connection.create_connection(
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 84, in create_connection
+    raise err
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 74, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 665, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 387, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.8/http/client.py", line 1256, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1302, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1251, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1011, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.8/http/client.py", line 951, in send
+    self.connect()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 187, in connect
+    conn = self._new_conn()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 171, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7fda1607a700>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 719, in urlopen
+    retries = retries.increment(
+  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 436, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='118.131.85.245', port=23744): Max retries exceeded with url: /get_teacher_info (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fda1607a700>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 213, in answer
+    teacher_info = callapi.get_teacher_info(session['user_id'])
+  File "/home/ubuntu/iamjoo0/LMS/callapi.py", line 12, in get_teacher_info
+    result = requests.post(config.api + 'get_teacher_info', headers=headers, data=json.dumps({'data':{'id': teacher_id}}))
+  File "/usr/lib/python3/dist-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='118.131.85.245', port=23744): Max retries exceeded with url: /get_teacher_info (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fda1607a700>: Failed to establish a new connection: [Errno 111] Connection refused'))
+118.131.85.245 - - [03/Feb/2023 01:13:41] "GET /teacher/question/2 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 159, in _new_conn
+    conn = connection.create_connection(
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 84, in create_connection
+    raise err
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 74, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 665, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 387, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.8/http/client.py", line 1256, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1302, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1251, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1011, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.8/http/client.py", line 951, in send
+    self.connect()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 187, in connect
+    conn = self._new_conn()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 171, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7fda1606b940>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 719, in urlopen
+    retries = retries.increment(
+  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 436, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='118.131.85.245', port=23744): Max retries exceeded with url: /get_teacher_info (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fda1606b940>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 213, in answer
+    teacher_info = callapi.get_teacher_info(session['user_id'])
+  File "/home/ubuntu/iamjoo0/LMS/callapi.py", line 12, in get_teacher_info
+    result = requests.post(config.api + 'get_teacher_info', headers=headers, data=json.dumps({'data':{'id': teacher_id}}))
+  File "/usr/lib/python3/dist-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='118.131.85.245', port=23744): Max retries exceeded with url: /get_teacher_info (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fda1606b940>: Failed to establish a new connection: [Errno 111] Connection refused'))
+118.131.85.245 - - [03/Feb/2023 01:13:41] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:42] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:13:56] "GET /teacher/ HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 159, in _new_conn
+    conn = connection.create_connection(
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 84, in create_connection
+    raise err
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 74, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 665, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 387, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.8/http/client.py", line 1256, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1302, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1251, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.8/http/client.py", line 1011, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.8/http/client.py", line 951, in send
+    self.connect()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 187, in connect
+    conn = self._new_conn()
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 171, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7fda16066e20>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 719, in urlopen
+    retries = retries.increment(
+  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 436, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='118.131.85.245', port=23744): Max retries exceeded with url: /get_teacher_info (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fda16066e20>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 18, in home
+    teacher_info = callapi.get_teacher_info(session['user_id'])
+  File "/home/ubuntu/iamjoo0/LMS/callapi.py", line 12, in get_teacher_info
+    result = requests.post(config.api + 'get_teacher_info', headers=headers, data=json.dumps({'data':{'id': teacher_id}}))
+  File "/usr/lib/python3/dist-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='118.131.85.245', port=23744): Max retries exceeded with url: /get_teacher_info (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fda16066e20>: Failed to establish a new connection: [Errno 111] Connection refused'))
+118.131.85.245 - - [03/Feb/2023 01:13:56] "GET /teacher/?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:56] "GET /teacher/?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:56] "GET /teacher/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:13:56] "GET /teacher/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:14:22] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:14:22] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:14:22] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:14:22] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:14:22] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:14:22] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:14:22] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:14:22] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:14:22] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:14:23] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:14:23] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:14:33] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:14:33] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:14:33] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:14:33] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:14:33] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:14:33] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:14:33] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:14:33] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:14:33] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:14:33] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:14:34] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:14:36] "GET /teacher/question/2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:14:40] "GET /teacher/question/3 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:14:43] "GET /teacher/question/2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:14:46] "GET /teacher/question/4 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:14:50] "GET /teacher/question/7 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:14:53] "GET /teacher/question/9 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:14:56] "GET /teacher/question/10 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:15:36] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:15:36] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:15:36] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:15:36] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:15:36] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:15:36] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:15:36] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:15:36] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:15:36] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:15:37] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:15:37] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:15:51] "GET /teacher/question/2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:15:55] "GET /teacher/question/3 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:15:57] "GET /teacher/question/2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:16:02] "GET /teacher/question/5 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:16:05] "GET /teacher/question/10 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:16:48] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:16:48] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:16:48] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:16:48] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:16:48] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:16:48] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:16:48] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:16:48] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:16:48] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:16:48] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:16:49] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py', reloading
+[{'register_no': 46863, 'origin': 'P180072', 'name': '권선유', 'engname': 'Sunyu Kwon', 'mobileno': '010-9431-3298', 'email': 'hjhj1102@nate.com', 'reco_book_code': 'FNS', 'reco_book_date': '2023-01-02T15:00:00.000Z'}]
+[{'register_no': 46954, 'origin': 'P191091', 'name': '이주연', 'engname': 'Juyeon Lee', 'mobileno': '010-9045-7998', 'email': 'roca1004@naver.com', 'reco_book_code': 'LKZ', 'reco_book_date': '2023-01-02T15:00:00.000Z'}]
+[{'register_no': 46863, 'origin': 'P180072', 'name': '권선유', 'engname': 'Sunyu Kwon', 'mobileno': '010-9431-3298', 'email': 'hjhj1102@nate.com', 'reco_book_code': 'FNS', 'reco_book_date': '2023-01-02T15:00:00.000Z'}]
+[{'register_no': 47162, 'origin': 'P180937', 'name': '박재현', 'engname': 'Park', 'mobileno': '010-7161-5190', 'email': 'god7205190@naver.com', 'reco_book_code': 'NOC', 'reco_book_date': '2023-01-02T15:00:00.000Z'}]
+[{'register_no': 46954, 'origin': 'P191091', 'name': '이주연', 'engname': 'Juyeon Lee', 'mobileno': '010-9045-7998', 'email': 'roca1004@naver.com', 'reco_book_code': 'LKZ', 'reco_book_date': '2023-01-02T15:00:00.000Z'}]
+[{'register_no': 46876, 'origin': 'P190037', 'name': '나형석', 'engname': 'hyeong suk Na', 'mobileno': '010-9049-1147', 'email': 'jikyung1207@hanmail.net', 'reco_book_code': 'QIY', 'reco_book_date': '2022-11-01T15:00:00.000Z'}]
+[{'register_no': 47162, 'origin': 'P180937', 'name': '박재현', 'engname': 'Park', 'mobileno': '010-7161-5190', 'email': 'god7205190@naver.com', 'reco_book_code': 'NOC', 'reco_book_date': '2023-01-02T15:00:00.000Z'}]
+[{'register_no': 46863, 'origin': 'P180072', 'name': '권선유', 'engname': 'Sunyu Kwon', 'mobileno': '010-9431-3298', 'email': 'hjhj1102@nate.com', 'reco_book_code': 'FNS', 'reco_book_date': '2023-01-02T15:00:00.000Z'}]
+[{'register_no': 46954, 'origin': 'P191091', 'name': '이주연', 'engname': 'Juyeon Lee', 'mobileno': '010-9045-7998', 'email': 'roca1004@naver.com', 'reco_book_code': 'LKZ', 'reco_book_date': '2023-01-02T15:00:00.000Z'}]
+[{'register_no': 47168, 'origin': 'P180140', 'name': '홍지유', 'engname': 'Hong', 'mobileno': '010-5555-0092', 'email': 'ghkdud4499@naver.com', 'reco_book_code': 'LHC', 'reco_book_date': '2023-01-02T15:00:00.000Z'}]
+[{'register_no': 46863, 'origin': 'P180072', 'name': '권선유', 'engname': 'Sunyu Kwon', 'mobileno': '010-9431-3298', 'email': 'hjhj1102@nate.com', 'reco_book_code': 'FNS', 'reco_book_date': '2023-01-02T15:00:00.000Z'}]
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [03/Feb/2023 01:18:08] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:18:08] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:18:08] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:18:08] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:18:08] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:18:08] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:18:08] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:18:08] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:18:08] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:18:08] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:18:08] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:18:11] "GET /teacher/question/10 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:18:19] "GET /teacher/question/9 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:22:06] "GET /teacher/2 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:22:07] "GET /teacher/4 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:22:07] "GET /teacher/5 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:22:07] "GET /teacher/6 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:22:08] "GET /teacher/8 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:22:08] "GET /teacher/12 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:22:08] "GET /teacher/9 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:22:11] "GET /teacher/2 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:22:12] "GET /teacher/4 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:22:12] "GET /teacher/5 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:22:12] "GET /teacher/6 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:22:13] "GET /teacher/8 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:22:13] "GET /teacher/9 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:22:13] "GET /teacher/12 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:22:23] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:22:23] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:22:23] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:22:23] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:22:23] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:22:23] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:22:23] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:22:24] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:22:24] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:22:24] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:22:25] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:22:46] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:22:46] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:22:46] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:22:46] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:22:46] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:22:46] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:22:46] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:22:46] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:22:46] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:22:46] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:22:46] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:24:22] "GET /teacher/4 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:24:23] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:24:23] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:24:23] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:24:23] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:24:23] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:24:23] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:24:23] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:24:23] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:24:23] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:24:23] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:24:24] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:24:28] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:24:28] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:24:56] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:24:56] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:24:56] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:24:56] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:24:56] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:24:56] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:24:56] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:24:56] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:24:56] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:24:57] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:24:57] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:25:11] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:25:11] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:25:11] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:25:11] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:25:11] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:25:11] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:25:11] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:25:11] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:25:11] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:25:11] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:25:11] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:27:31] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:27:32] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:27:32] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:27:32] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:27:32] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:27:32] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:27:32] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:27:32] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:27:32] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:27:32] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:27:33] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:27:48] "GET /teacher/4 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:27:48] "GET /teacher/2 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:27:49] "GET /teacher/4 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:27:49] "GET /teacher/2 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:28:25] "GET /teacher/5 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:28:26] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:28:26] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:28:26] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:28:26] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:28:26] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:28:26] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:28:26] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:28:26] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:28:26] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:28:27] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:28:27] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:29:25] "GET /teacher/2 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:29:26] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:29:26] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:29:26] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:29:26] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:29:26] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:29:26] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:29:26] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:29:26] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:29:26] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:29:26] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:29:26] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:29:29] "GET /teacher/2 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:29:30] "GET /teacher/2 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:29:30] "GET /teacher/4 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:29:30] "GET /teacher/4 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:29:31] "GET /teacher/2 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:29:31] "GET /teacher/4 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:29:31] "GET /teacher/4 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:29:32] "GET /teacher/2 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:29:59] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:29:59] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:29:59] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:00] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:00] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:00] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:00] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:00] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:00] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:00] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:00] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:30:14] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:14] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:14] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:14] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:14] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:14] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:14] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:14] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:14] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:14] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:15] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:30:26] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:26] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:26] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:26] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:26] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:26] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:26] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:26] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:26] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:26] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:30:27] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:31:43] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:31:43] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:31:43] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:31:43] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:31:43] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:31:43] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:31:43] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:31:43] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:31:43] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:31:43] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:31:43] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:32:13] "GET /logout HTTP/1.1" 302 -
+118.131.85.245 - - [03/Feb/2023 01:32:13] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [03/Feb/2023 01:32:13] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:32:13] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:32:13] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:32:13] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [03/Feb/2023 01:32:13] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:32:13] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:32:13] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:32:13] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:32:13] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:32:30] "POST /login HTTP/1.1" 302 -
+118.131.85.245 - - [03/Feb/2023 01:32:30] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [03/Feb/2023 01:32:31] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:32:31] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:32:31] "GET /static/style/paginate.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:32:31] "GET /static/style/manage.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:32:31] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:32:31] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:32:32] "GET /static/js/manage.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:32:32] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:32:32] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:32:32] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:32:32] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:32:35] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:32:35] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:32:35] "GET /static/style/paginate.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:32:35] "GET /static/style/manage.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:32:35] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:32:36] "GET /static/js/manage.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:32:36] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:32:36] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:32:36] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:32:36] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:32:37] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:33:28] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:33:28] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:33:28] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:33:48] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:33:48] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:33:48] "GET /static/style/manage.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:33:48] "GET /static/style/paginate.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:33:48] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:33:49] "GET /static/js/manage.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:33:49] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:33:49] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:33:49] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:33:49] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:33:50] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:34:09] "GET /manage/ban/2018 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:34:17] "GET /logout HTTP/1.1" 302 -
+118.131.85.245 - - [03/Feb/2023 01:34:17] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [03/Feb/2023 01:34:17] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:34:17] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:34:17] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:34:17] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [03/Feb/2023 01:34:17] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:34:17] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:34:17] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:34:17] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:34:17] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:34:22] "POST /login HTTP/1.1" 302 -
+118.131.85.245 - - [03/Feb/2023 01:34:22] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [03/Feb/2023 01:34:23] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:34:23] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:34:23] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:34:23] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:34:23] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:34:23] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:34:23] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:34:23] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:34:23] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:34:23] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:34:23] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:37:30] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:37:30] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:37:30] "GET /static/style/manage.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:37:30] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:37:30] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:37:30] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:37:31] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:37:31] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:37:31] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:37:31] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:37:35] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:37:36] "GET /manage/ban/1217 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:37:36] "GET /index.html HTTP/1.1" 404 -
+118.131.85.245 - - [03/Feb/2023 01:37:36] "GET /favicon.ico HTTP/1.1" 404 -
+118.131.85.245 - - [03/Feb/2023 01:37:37] "GET /index.html HTTP/1.1" 404 -
+118.131.85.245 - - [03/Feb/2023 01:37:38] "GET /manage/ban/1225 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:37:39] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [03/Feb/2023 01:37:39] "GET /manage/ban/1217 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:37:40] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:37:40] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:37:40] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:37:40] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:37:40] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:37:40] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:37:40] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:37:40] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:37:40] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:37:40] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:37:46] "GET /index.html HTTP/1.1" 404 -
+118.131.85.245 - - [03/Feb/2023 01:38:18] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:38:18] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:38:18] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:38:18] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:38:18] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:38:18] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:38:18] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:38:19] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:38:19] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:38:19] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:38:20] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:38:24] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:38:24] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:38:44] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:38:44] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:38:44] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:38:44] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:38:44] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:38:44] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:38:44] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:38:44] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:38:44] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:38:44] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:38:45] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:39:19] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:39:19] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:39:19] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:39:19] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:39:19] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:39:19] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:39:19] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:39:19] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:39:19] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:39:20] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:39:20] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:40:52] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:40:52] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:40:52] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:40:52] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:40:52] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:40:52] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:40:52] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:40:52] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:40:52] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:40:53] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:40:53] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:41:01] "GET /teacher/2 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:41:02] "GET /teacher/2 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:41:48] "GET /teacher/2 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:41:48] "GET /teacher/2 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:41:48] "GET /teacher/4 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:41:49] "GET /teacher/4 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:41:49] "GET /teacher/5 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:41:49] "GET /teacher/5 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:41:50] "GET /teacher/8 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:41:50] "GET /teacher/6 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:41:51] "GET /teacher/8 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:41:51] "GET /teacher/6 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:41:51] "GET /teacher/5 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:41:52] "GET /teacher/9 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:41:52] "GET /teacher/12 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:41:52] "GET /teacher/9 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:41:52] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:41:52] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:41:52] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:41:53] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:41:53] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:41:53] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:41:53] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:41:53] "GET /teacher/12 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:41:53] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:41:53] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:41:53] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:41:54] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:43:26] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:43:26] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:43:26] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:43:26] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:43:26] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:43:26] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:43:26] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:43:26] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:43:26] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:43:27] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 01:43:27] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:43:39] "GET /teacher/2 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:43:39] "GET /teacher/2 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 134, in task
+    if t.startdate.date() <= Today and Today <= task.deadline.date():
+AttributeError: 'TaskBan' object has no attribute 'deadline'
+118.131.85.245 - - [03/Feb/2023 01:47:21] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 01:47:21] "GET /static/style/teacher.css HTTP/1.1" 304 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py', reloading
+[{'register_no': 46863, 'origin': 'P180072', 'name': '권선유', 'engname': 'Sunyu Kwon', 'mobileno': '010-9431-3298', 'email': 'hjhj1102@nate.com', 'reco_book_code': 'FNS', 'reco_book_date': '2023-01-02T15:00:00.000Z'}]
+[{'register_no': 47162, 'origin': 'P180937', 'name': '박재현', 'engname': 'Park', 'mobileno': '010-7161-5190', 'email': 'god7205190@naver.com', 'reco_book_code': 'NOC', 'reco_book_date': '2023-01-02T15:00:00.000Z'}]
+None
+T0001
+None
+T1031
+T1031
+ * Restarting with stat
+Traceback (most recent call last):
+  File "/home/ubuntu/iamjoo0/LMS/app.py", line 4, in <module>
+    create_app().run('0.0.0.0', port=6725, debug=True)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/__init__.py", line 29, in create_app
+    from .views import manage
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 8, in <module>
+    from flask_paginate import Pagination, get_page_parameter
+ModuleNotFoundError: No module named 'flask_paginate'
