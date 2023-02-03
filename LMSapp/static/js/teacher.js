@@ -79,7 +79,7 @@ function get_task(category_id){
                         let name = target_ban_data['ban']
                         let done = target_ban_data['done']
                         let temp_task_ban_box = `
-                        <label><input type="checkbox" name="taskid" value="${task_id}">${name}</label>
+                        <label><input type="checkbox" name="taskid" id="${task_id}" value="${task_id}">${name}</label>
                         `;
                         if(done != 1){
                             $('#task_ban_box_incomplete'+category_id+i).append(temp_task_ban_box);
