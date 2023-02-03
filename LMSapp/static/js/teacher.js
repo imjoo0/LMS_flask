@@ -37,20 +37,18 @@ function task_doneview(done_code){
         $('#task_ban_box_incomplete').show();
         $('#task_ban_box_complete').hide();
     }else{
-        console.log(done_code)
         $('#task_ban_box_complete').show();
         $('#task_ban_box_incomplete').hide();
     }
 }
 
-function get_not_done_task(category_id){
-    let wd = $('#work_done')
-    console.log(wd)
+function get_task(category_id){
     $.ajax({
         type: "GET",
         url: "/teacher/"+category_id,
         data: {},
         success: function (response) {
+            console.log(response)
             let tcb = '#task_contents_box'+category_id
             if(response["task"] == '없음'){
                 let temp_task_contents_box = `
@@ -81,7 +79,7 @@ function get_not_done_task(category_id){
                         let name = target_ban_data['ban']
                         let done = target_ban_data['done']
                         let temp_task_ban_box = `
-                        <label><input type="checkbox" name="taskid" id="${task_id}" value="${task_id}">${name}</label>
+                        <label><input type="checkbox" name="taskid" value="${task_id}">${name}</label>
                         `;
                         if(done != 1){
                             $('#task_ban_box_incomplete'+category_id+i).append(temp_task_ban_box);
