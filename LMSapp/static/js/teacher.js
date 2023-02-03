@@ -38,10 +38,6 @@ function task_doneview(done_code){
         $('#before_work').hide();
     }else if(done_code == 1){
         get_done_task()
-    }else{
-        $('#before_work').show();
-        $('#today_task_box').hide();
-        $('#today_done_box').hide();
     }
 }
 
