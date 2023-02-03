@@ -35,7 +35,6 @@ function task_doneview(done_code){
     if(done_code == 0){
         $('#today_task_box').show();
         $('#today_done_box').hide();
-        $('#before_work').hide();
     }else if(done_code == 1){
         get_done_task()
     }
@@ -90,11 +89,9 @@ async function get_task(category_id){
     });
     $('#today_task_box').show();
     $('#today_done_box').hide();
-    $('#before_work').hide();
 }
 async function get_done_task(){
     $('#today_task_box').hide();
-    $('#before_work').hide();
     $('#today_done_box').show();
     await $.ajax({
         type: "GET",
