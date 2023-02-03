@@ -111,7 +111,7 @@ function update_done(target){
             type: "POST",
 			url:'/teacher/'+target,
 			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
-            data: {task_ids:chk_Val},
+            data: {},
             success: function (response) {{
 				console.log(response);
 			}}
