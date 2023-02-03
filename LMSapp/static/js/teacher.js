@@ -100,25 +100,37 @@ function get_task(category_id){
 }
 
 async function update_done(){
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
     let chk_Val = []
     await $('input:checkbox[name=taskid]').each(
         function(i,iVal){
             chk_Val.push(Number(iVal.defaultValue));
         }
     );
+    var jsonData = {
+        "task_ids" : chk_Val
+    }
     console.log(chk_Val)
     $.ajax({
-        type: "POST",
-        url: "/teacher/",
-        data: {task_ids:chk_Val},
-        success: function (response) {
-            console.log(response)
-            alert(response["result"])
-        //     if (response["result"]=='업무 완료!') {
-        //         alert(response["result"])
-        // }else {window.location.href='/'}
-        }
-    })
+        contentType: "application/json",
+			url:'/teacher/',
+			data: JSON.stringify(jsonData), // String -> json 형태로 변환
+			beforeSend : function(xhr)
+            {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				xhr.setRequestHeader(header, token);
+            },
+			dataType: 'json', // success 시 받아올 데이터 형
+			async: true, //동기, 비동기 여부
+			cache :false, // 캐시 여부
+			success: function(data){
+				console.log('된다');
+			},
+			error:function(xhr,status,error){
+				console.log('error:'+error);
+			}
+		});
 }
 
 async function get_answer(q_id){
