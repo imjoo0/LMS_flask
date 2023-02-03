@@ -4511,3 +4511,388 @@ jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'console'. Jinja 
 118.131.85.245 - - [03/Feb/2023 04:07:04] "GET /teacher/6 HTTP/1.1" 200 -
 118.131.85.245 - - [03/Feb/2023 04:07:05] "GET /teacher/8 HTTP/1.1" 200 -
 118.131.85.245 - - [03/Feb/2023 04:07:14] "GET /teacher/9 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:13:22] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:13:22] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:13:22] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:13:22] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:13:22] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:13:22] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:13:22] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:13:22] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:13:22] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:13:22] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:13:22] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:13:24] "GET /teacher/2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:17:36] "GET /manage/ HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 53, in home
+    return render_template('manage.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting, task_category=all_task_category, tasks=all_task, questions=all_questions)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/templating.py", line 146, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/loaders.py", line 138, in load
+    code = environment.compile(source, name, filename)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 768, in compile
+    self.handle_exception(source=source_hint)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/templates/manage.html", line 316, in template
+    {% block content %}
+jinja2.exceptions.TemplateAssertionError: block 'content' defined twice
+118.131.85.245 - - [03/Feb/2023 04:17:36] "GET /manage/?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:17:36] "GET /manage/?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:17:37] "GET /manage/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:17:37] "GET /manage/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:18:02] "GET /manage/ HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 53, in home
+    return render_template('manage.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting, task_category=all_task_category, tasks=all_task, questions=all_questions)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/templating.py", line 146, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/loaders.py", line 138, in load
+    code = environment.compile(source, name, filename)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 768, in compile
+    self.handle_exception(source=source_hint)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/templates/manage.html", line 316, in template
+    {% blockcontent %}
+jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'blockcontent'. Jinja was looking for the following tags: 'endautoescape'. The innermost block that needs to be closed is 'autoescape'.
+118.131.85.245 - - [03/Feb/2023 04:18:02] "GET /manage/?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:18:02] "GET /manage/?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:18:02] "GET /manage/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:18:02] "GET /manage/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:18:15] "GET /manage/ HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 53, in home
+    return render_template('manage.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting, task_category=all_task_category, tasks=all_task, questions=all_questions)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/templating.py", line 146, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/loaders.py", line 138, in load
+    code = environment.compile(source, name, filename)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 768, in compile
+    self.handle_exception(source=source_hint)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/templates/manage.html", line 316, in template
+    {% block %}
+jinja2.exceptions.TemplateSyntaxError: expected token 'name', got 'end of statement block'
+118.131.85.245 - - [03/Feb/2023 04:18:15] "GET /manage/?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:18:15] "GET /manage/?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:18:15] "GET /manage/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:18:15] "GET /manage/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:18:27] "GET /manage/ HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 53, in home
+    return render_template('manage.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting, task_category=all_task_category, tasks=all_task, questions=all_questions)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/templating.py", line 146, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/loaders.py", line 138, in load
+    code = environment.compile(source, name, filename)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 768, in compile
+    self.handle_exception(source=source_hint)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/templates/manage.html", line 316, in template
+    {% block content %}
+jinja2.exceptions.TemplateAssertionError: block 'content' defined twice
+118.131.85.245 - - [03/Feb/2023 04:18:27] "GET /manage/?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:18:27] "GET /manage/?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:18:27] "GET /manage/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:18:27] "GET /manage/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:19:28] "GET /manage/ HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 53, in home
+    return render_template('manage.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting, task_category=all_task_category, tasks=all_task, questions=all_questions)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/templating.py", line 146, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/loaders.py", line 138, in load
+    code = environment.compile(source, name, filename)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 768, in compile
+    self.handle_exception(source=source_hint)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/templates/manage.html", line 317, in template
+    {% block content %}
+jinja2.exceptions.TemplateAssertionError: block 'content' defined twice
+118.131.85.245 - - [03/Feb/2023 04:19:28] "GET /manage/?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:19:28] "GET /manage/?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:19:28] "GET /manage/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:19:28] "GET /manage/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:19:59] "GET /manage/ HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 53, in home
+    return render_template('manage.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting, task_category=all_task_category, tasks=all_task, questions=all_questions)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/templating.py", line 146, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/loaders.py", line 138, in load
+    code = environment.compile(source, name, filename)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 768, in compile
+    self.handle_exception(source=source_hint)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/templates/manage.html", line 316, in template
+    {% block content %}
+jinja2.exceptions.TemplateAssertionError: block 'content' defined twice
+118.131.85.245 - - [03/Feb/2023 04:19:59] "GET /manage/?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:19:59] "GET /manage/?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:19:59] "GET /manage/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:19:59] "GET /manage/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:20:37] "GET /manage/ HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 53, in home
+    return render_template('manage.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting, task_category=all_task_category, tasks=all_task, questions=all_questions)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/templating.py", line 146, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 1081, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 1010, in get_template
+    return self._load_template(name, globals)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 969, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/loaders.py", line 138, in load
+    code = environment.compile(source, name, filename)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 768, in compile
+    self.handle_exception(source=source_hint)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/jinja2/environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/templates/manage.html", line 393, in template
+    {% endblock %}
+jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'endblock'. You probably made a nesting mistake. Jinja is expecting this tag, but currently looking for 'endautoescape'. The innermost block that needs to be closed is 'autoescape'.
+118.131.85.245 - - [03/Feb/2023 04:20:37] "GET /manage/?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:20:37] "GET /manage/?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:20:37] "GET /manage/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:20:37] "GET /manage/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:06] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:24:06] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:06] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:06] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:06] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:06] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:07] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:07] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:07] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:07] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:07] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:10] "GET /manage/?page=2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:24:10] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:10] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:10] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:10] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:10] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:10] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:10] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:10] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:10] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:17] "GET /manage/?page=1 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:24:17] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:17] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:17] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:17] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:17] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:18] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:18] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:18] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:18] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:24:26] "GET /manage/ban/1210 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:26:29] "GET /teacher/4 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:26:30] "GET /teacher/5 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:26:30] "GET /teacher/6 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:26:31] "GET /teacher/8 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:26:32] "GET /teacher/9 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:26:33] "GET /teacher/12 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:26:35] "GET /teacher/12 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:26:35] "GET /teacher/9 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:26:38] "GET /teacher/8 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:26:38] "GET /teacher/6 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:26:39] "GET /teacher/5 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:26:40] "GET /teacher/4 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:26:42] "GET /teacher/2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:27:05] "GET /teacher/2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:27:46] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:27:46] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:27:46] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:27:46] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:27:46] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:27:46] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:27:46] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:27:46] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:27:46] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:27:47] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:27:47] "GET /static/style/images/favicon.ico HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:15] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:28:15] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:28:23] "GET /teacher/5 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:24] "GET /teacher/5 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:33] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:33] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:33] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:33] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:33] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:33] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:33] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:33] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:33] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:34] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:34] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:28:56] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:56] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:56] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:56] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:56] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:56] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:56] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:56] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:56] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:57] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:28:57] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:47] "GET /manage/?page=1 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:35:47] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:47] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:47] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:47] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:47] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:47] "GET /static/js/manage.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:35:47] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:47] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:47] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:48] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:53] "GET /manage/?page=2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:35:53] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:53] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:53] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:53] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:53] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:54] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:54] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:54] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:54] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:57] "GET /manage/?page=1 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 04:35:57] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:57] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:57] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:57] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:57] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:57] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:57] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:57] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 04:35:57] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
