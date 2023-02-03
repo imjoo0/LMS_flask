@@ -37,11 +37,11 @@ function task_doneview(done_code){
         $('#today_done_box').hide();
         $('#before_work').hide();
     }else if(done_code == 1){
+        get_done_task()
         $('#today_done_box').show();
         $('#today_task_box').hide();
         $('#before_work').hide();
     }else{
-        get_done_task()
         $('#before_work').show();
         $('#today_task_box').hide();
         $('#today_done_box').hide();
@@ -99,8 +99,8 @@ async function get_task(category_id){
     $('#today_done_box').hide();
     $('#before_work').hide();
 }
-async function get_done_task(){
-    await $.ajax({
+function get_done_task(){
+    $.ajax({
         type: "GET",
         url: "/teacher/taskdone",
         data: {},
@@ -109,7 +109,7 @@ async function get_done_task(){
                 let temp_task_contents_box = `
                 <p> 오늘 완료한 업무가 없어요 😅</p>
                 `;
-                $(tcb).html(temp_task_contents_box);
+                $('#today_done_box').html(temp_task_contents_box);
             }else{
                 let target_task = response["task"]
                  $(tcb).empty()
@@ -121,15 +121,8 @@ async function get_done_task(){
                     $('#today_done_box').append(temp_task_contents_box);
                 }
             }
-        // alert(response["title"])
-        //     if (response["result"]=='문의가 전송되었습니다') {
-        //     window.location.replace('/teacher')
-        // }else {window.location.href='/'}
         }
     });
-    $('#today_task_box').show();
-    $('#today_done_box').hide();
-    $('#before_work').hide();
 }
 function get_update_done(){
     $('input:checkbox[name=taskid]').each(
