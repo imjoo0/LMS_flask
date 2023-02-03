@@ -101,7 +101,7 @@ function update_done(){
     let chk_Val = []
     $('input:checkbox[name=taskid]').each(
         function(i,iVal){
-            chk_Val.push(iVal.defaultValue);
+            chk_Val.push(Number(iVal.defaultValue));
         }
     );
     console.log(chk_Val)
