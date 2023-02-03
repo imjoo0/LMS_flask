@@ -134,7 +134,6 @@ def task(id):
             tc.append(Task.query.filter(Task.id==task.task_id).all()[0])     
         tc = list(set(tc))
         
-        tc.sort(key=lambda x:-x.priority)
         category_task = []
         for task in tc:
             if task.category_id == id:
@@ -148,6 +147,9 @@ def task(id):
                 elif(task.cycle == 7 ): # 주기가 없는 경우
                     if(task.startdate.date() <= Today and Today <= task.deadline.date()):
                         category_task.append(task)
+
+        
+        category_task.sort(key=lambda x:-x.priority)
         print(category_task)
         target_task = []
         if(len(category_task)==0):
