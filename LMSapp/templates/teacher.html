@@ -393,7 +393,7 @@
                 <div class="w-100 mt-4">
                     {% for category in my_task_category %}
                         <details>
-                            <summary onclick="get_task('{{category}}')"><strong>{{ all_task_category[category-1].name }} 업무 </strong></summary>
+                            <summary onclick="get_not_done_task('{{category}}')"><strong>{{ all_task_category[category-1].name }} 업무 </strong></summary>
                             <div class="make_col" id="task_contents_box{{category}}"></div>
                         </details>
                     {% endfor %}
