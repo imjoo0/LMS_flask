@@ -134,7 +134,7 @@ def task(id):
             if t.startdate.date() <= Today and Today <= task.deadline.date(): 
                 tc.append(t)
         tc = list(set(tc))
-        
+        print(tc)
         category_task = []
         for task in tc:
             if task.category_id == id:
