@@ -97,9 +97,9 @@ function get_task(category_id){
     });
 }
 
-function update_done(){
+async function update_done(){
     let chk_Val = []
-    $('input:checkbox[name=taskid]').each(
+    await $('input:checkbox[name=taskid]').each(
         function(i,iVal){
             chk_Val.push(Number(iVal.defaultValue));
         }
@@ -108,7 +108,7 @@ function update_done(){
     $.ajax({
         type: "POST",
         url: "/teacher/",
-        data: {},
+        data: {task_ids:chk_Val},
         success: function (response) {
             console.log(response)
             alert(response["result"])
