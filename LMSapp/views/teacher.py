@@ -125,32 +125,30 @@ def task(id):
         Today = current_time.date()
         today_yoil = current_time.weekday() + 1
 
-  
-        # task_id를 기준으로 소팅 
         my_tasks = TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all()
 
         tc = []
         for task in my_tasks:
-            tc.append(Task.query.filter(Task.id==task.task_id).all()[0])     
+            t = Task.query.filter(Task.id==task.task_id).all()[0]
+            # 오늘의 업무만 저장 
+            if t.startdate.date() <= Today and Today <= task.deadline.date(): 
+                tc.append(t)
         tc = list(set(tc))
         
         category_task = []
         for task in tc:
             if task.category_id == id:
-                if(task.cycle < 5): # 주기가 월-금인 경우 
-                    if task.cycle == today_yoil:
-                        if(task.startdate.date() <= Today and Today <= task.deadline.date()):
-                            category_task.append(task)
-                elif(task.cycle == 6 ): # 주기가 상시인 경우 
-                    if(task.startdate.date() <= Today and Today <= task.deadline.date()):
-                        category_task.append(task)
+                if(task.cycle == today_yoil): # 주기가 월-금인 경우 
+                    category_task.append(task)
+                elif(task.cycle == 6): # 주기가 상시인 경우 
+                    category_task.append(task)
                 elif(task.cycle == 7 ): # 주기가 없는 경우
-                    if(task.startdate.date() <= Today and Today <= task.deadline.date()):
-                        category_task.append(task)
+                    category_task.append(task)
 
+
+        # 우선순위 정렬 
+        category_task.sort(key=lambda x:-x.priority) 
         
-        category_task.sort(key=lambda x:-x.priority)
-        print(category_task)
         target_task = []
         if(len(category_task)==0):
             return jsonify({'task': '없음'})
