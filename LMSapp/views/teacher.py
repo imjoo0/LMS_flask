@@ -35,89 +35,39 @@ def home():
 
         all_task_category = TaskCategory.query.all()
 
-        
-        
-        # for category in category_set:
-        #     target_data = {}
-        #     target_data['category'] = TaskCategory.query.filter(TaskCategory.id == category).all()[0].name
-        #     target_data['task'] = []
-        #     for t in tc:
-        #         task_data = {}
-        #         task_data['task']=Task.query.filter(Task.id == t).all()[0]
-        #         task_data['ban_data'] = []
-        #         for tb in my_tasks:
-        #             if t == tb.task_id:
-        #                 data = {}
-        #                 data['id'] = tb.id
-        #                 ban = callapi.get_ban(tb.ban_id)
-        #                 data['ban'] = ban['ban_name']
-        #                 task_data['ban_data'].append(data)
-        #         target_data['task'].append(task_data)
-        #     target_task.append(target_data)
-
-
-        # for t in tc:
-        #     target_data = {}
-        #     target_data['task'] = Task.query.filter(Task.id == t).all()[0]
-        #     target_data['category_id'] =  target_data['task'].category_id
-        #     target_data['task_data'] = []
-        #     for tb in my_tasks:
-        #         if t == tb.task_id:
-        #             data = {}
-        #             data['id'] = tb.id
-        #             data['ban'] = callapi.get_ban(tb.ban_id)
-        #             target_data['task_data'].append(data)
-        #     target_task.append(target_data)
-
-                
-
-        # i=0
-        # j=1
-        # for i in range(len(target_task)):
-        #     for j in range(len(target_task)-1):
-        #         if target_task[i]['category_id'] == target_task[j]['category_id']:
-        #             target_task[i]['task_data'].append(target_task[j])
-        #             target_task.pop(j)    
-        # print(target_task)
-        
-
-            
-        # for target in target_task:
-        
-
-        #     intersection = list(set(task_category.tasks) & set(user.tasks))
-
-        # 로그인한 사용자의 업무들의 카테고리 중복 제거해서 저장 
-        # tc=[]
-        # for t in user.tasks:
-        #     tc.append(t.category_id)
-        # list(set(tc))
-
-        # for task_category in all_task_category:
-        #     if task_category.id in tc :
-        #         intersection = list(set(task_category.tasks) & set(user.tasks))
-        #         tatal_task_num = len(intersection)-1
-        #         print(tatal_task_num)
-        #         for i in range(tatal_task_num):
-        #             if (intersection[i].contents == intersection[i+1].contents):
-        #                 print(intersection[i])
-        # for t in tc:
-        #     target_task.append(list(st.intersection(all_task_category[t-1].tasks)))
-        # print(target_task)
-
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
         return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,students=mystudents_info, questions=my_questions,my_task_category=category_set,all_task_category=all_task_category)
 
-# 테스트 계정 id : T1031 pw동일  
+# 오늘 완료 한 업무  get
+@bp.route("/taskdone", methods=['GET'])
+def taskdone():
+    if request.method == 'GET':
+        current_time = datetime.now()
+        Today = current_time.date()
+
+        my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == 1)).all()
+
+        tc = []
+        for task in my_tasks:
+            t = Task.query.filter(Task.id==task.task_id).all()[0]
+            # 오늘의 업무만 저장 
+            if t.startdate.date() <= Today and Today <= t.deadline.date(): 
+                tc.append(t.contents)
+        tc = list(set(tc))
+        print(tc)
+        if(len(tc)==0):
+            return jsonify({'task': '없음'})
+        else:
+            return jsonify({'task' : tc})
+# 오늘 해야 할 업무 get / post 
 @bp.route("/<int:id>", methods=['POST','GET'])
 def task(id):
     if request.method =='POST':
-        id = request.form['taskid']
         target_task = TaskBan.query.get_or_404(id)
         target_task.done = 1
         try:
             db.session.commit()
-            return jsonify({'result': '업무 완료!'})
+            return jsonify({'result': '완료'})
         except:
             return jsonify({'result': '업무완료 실패'})
     elif request.method == 'GET':
@@ -125,30 +75,30 @@ def task(id):
         Today = current_time.date()
         today_yoil = current_time.weekday() + 1
 
-  
-        # task_id를 기준으로 소팅 
-        my_tasks = TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all()
+        my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done != 1)).all()
 
-        my_tasks.sort(key = lambda x:x.task_id)
         tc = []
         for task in my_tasks:
-            tc.append(Task.query.filter(Task.id==task.task_id).all()[0])     
+            t = Task.query.filter(Task.id==task.task_id).all()[0]
+            # 오늘의 업무만 저장 
+            if t.startdate.date() <= Today and Today <= t.deadline.date(): 
+                tc.append(t)
         tc = list(set(tc))
         
-        tc.sort(key=lambda x:-x.priority)
         category_task = []
         for task in tc:
             if task.category_id == id:
-                if(task.cycle < 5): # 주기가 월-금인 경우 
-                    if task.cycle == today_yoil:
-                        if(task.startdate.date() <= Today and Today <= task.deadline.date()):
-                            category_task.append(task)
-                elif(task.cycle == 6 ): # 주기가 상시인 경우 
-                    if(task.startdate.date() <= Today and Today <= task.deadline.date()):
-                        category_task.append(task)
+                if(task.cycle == today_yoil): # 주기가 월-금인 경우 
+                    category_task.append(task)
+                elif(task.cycle == 6): # 주기가 상시인 경우 
+                    category_task.append(task)
                 elif(task.cycle == 7 ): # 주기가 없는 경우
-                    if(task.startdate.date() <= Today and Today <= task.deadline.date()):
-                        category_task.append(task)
+                    category_task.append(task)
+
+
+        # 우선순위 정렬 
+        category_task.sort(key=lambda x:-x.priority) 
+        
         target_task = []
         if(len(category_task)==0):
             return jsonify({'task': '없음'})
@@ -212,132 +162,27 @@ def answer(id):
         q = Question.query.filter(Question.id == id).all()[0]
         teacher_info = callapi.get_teacher_info(session['user_id'])
         a = Answer.query.filter(Answer.question_id == q.id).all()
-        if len(a)!=0:
-            if q.category == 0:
-                return jsonify({
-                'category':'일반문의',
-                'title': q.title,
-                'contents':q.contents,
-                'create_date':q.create_date,
-                'teacher': teacher_info['name'],
-                'teacher_e': teacher_info['engname'],
-                'answer' : a.content,
-                'answer_at': a.created_at
-                })
-            else:
-                s = callapi.get_student_info(q.student_id )
-                b = callapi.get_ban(q.ban_id )    
+        return_data = {}
+        return_data['category'] = '일반문의' if q.category == 0 else '퇴소 요청' if q.category == 1 else '이반 요청'if q.category == 2 else '취소/환불 요청' 
+        return_data['title'] = q.title
+        return_data['contents'] = q.contents
+        return_data['create_date'] = q.create_date.strftime('%Y-%m-%d')
+        return_data['teacher'] = teacher_info['name']
+        return_data['teacher_e'] = teacher_info['engname']
+        return_data['answer'] = a.content if len(a)  > 0 else '✖️'
+        return_data['answer_at'] = a.created_at if len(a) > 0  else '✖️'
+        return_data['reject'] = a.reject_code if q.category != 0 and len(a) > 0 else ''
+         
+        if q.category != 0:
+            s = callapi.get_student_info(q.student_id )
+            b = callapi.get_ban(q.ban_id )    
 
-                if q.category == 2:
-                    return jsonify({
-                    'category':'이반 요청',
-                    'title': q.title,
-                    'contents':q.contents,
-                    'create_date':q.create_date,
-                    'teacher': teacher_info['name'],
-                    'teacher_e':teacher_info['engname'],
-                    'student': s['name'],
-                    'student_origin': s['origin'],
-                    'ban' : b['ban_name'],
-                    'answer' : a.content,
-                    'answer_at': a.created_at,
-                    'reject' : a.reject_code
-                    })
-                elif q.category==1:
-                    return jsonify({
-                    'category':'퇴소 요청',
-                    'title': q.title,
-                    'contents':q.contents,
-                    'create_date':q.create_date,
-                    'teacher': teacher_info['name'],
-                    'teacher_e':teacher_info['engname'],
-                    'student': s['name'],
-                    'student_origin': s['origin'],
-                    'ban' : b['ban_name'],
-                    'answer' : a.content,
-                    'answer_at': a.created_at,
-                    'reject' : a.reject_code
-                    })
-                elif q.category == 3:
-                    return jsonify({
-                    'category':'취소/환불 요청',
-                    'title': q.title,
-                    'contents':q.contents,
-                    'create_date':q.create_date.strftime('%Y-%m-%d'),
-                    'teacher': teacher_info['name'],
-                    'teacher_e':teacher_info['engname'],
-                    'student': s['name'],
-                    'student_origin': s['origin'],
-                    'ban' : b['ban_name'],
-                    'answer' : a.content,
-                    'answer_at': a.created_at,
-                    'reject' : a.reject_code
-                    })
-                else:
-                    return 'error'
-        elif len(a)==0:
-            if q.category == 0:
-                return jsonify({
-                'category':'일반문의',
-                'title': q.title,
-                'contents':q.contents,
-                'create_date':q.create_date.strftime('%Y-%m-%d'),
-                'teacher': teacher_info['name'],
-                'teacher_e': teacher_info['engname'],
-                'answer' : '미응답',
-                'answer_at': '✖️'
-                })
-            else:
-                s = callapi.get_student_info(q.student_id )
-                b = callapi.get_ban(q.ban_id )    
+            return_data['student'] = s['name']
+            return_data['student_origin'] = s['origin']
+            return_data['ban'] = b['ban_name']
 
-                if q.category == 2:
-                    return jsonify({
-                    'category':'이반 요청',
-                    'title': q.title,
-                    'contents':q.contents,
-                    'create_date':q.create_date.strftime('%Y-%m-%d'),
-                    'teacher': teacher_info['name'],
-                    'teacher_e':teacher_info['engname'],
-                    'student': s['name'],
-                    'student_origin': s['origin'],
-                    'ban' : b['ban_name'],
-                    'answer' : '미응답',
-                    'answer_at': '✖️',
-                    'reject' : '✖️'
-                    })
-                elif q.category == 1:
-                    return jsonify({
-                    'category':'퇴소 요청',
-                    'title': q.title,
-                    'contents':q.contents,
-                    'create_date':q.create_date.strftime('%Y-%m-%d'),
-                    'teacher': teacher_info['name'],
-                    'teacher_e':teacher_info['engname'],
-                    'student': s['name'],
-                    'student_origin': s['origin'],
-                    'ban' : b['ban_name'],
-                    'answer' : '미응답',
-                    'answer_at': '✖️',
-                    'reject' : '✖️'
-                    })
-                elif q.category == 3:
-                    return jsonify({
-                    'category':'취소/환불 요청',
-                    'title': q.title,
-                    'contents':q.contents,
-                    'create_date':q.create_date.strftime('%Y-%m-%d'),
-                    'teacher': teacher_info['name'],
-                    'teacher_e':teacher_info['engname'],
-                    'student': s['name'],
-                    'student_origin': s['origin'],
-                    'ban' : b['ban_name'],
-                    'answer' : '미응답',
-                    'answer_at': '✖️',
-                    'reject' : '✖️'
-                    })
-                else:
-                    return 'error'
+        return jsonify(return_data)
+                    
                 
 
 

@@ -20,6 +20,20 @@
 {% endwith %}
 {% block content %}
 {% autoescape off %}
+<script type="text/javascript">
+    var csrf_token = "{{ csrf_token() }}";
+
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrf_token);
+            }
+        }
+    });
+</script>
+<script type="text/javascript">
+    axios.defaults.headers.common["X-CSRFToken"] = "{{ csrf_token() }}";
+</script>
 <!-- 문의 남기기 -->
 <div class="modal fade" id="question" tabindex="-1"
     aria-labelledby="questionModalLabel" aria-hidden="true">
@@ -27,121 +41,113 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="questionModalLabel">
-                    본원에 문의 남기기
+                    <img src="https://purpleacademy.net/free_project/public/image/head-office-question-btn.png" style="width: 30px;">&nbsp;&nbsp;본원에 문의 남기기
                 </h5>
-                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <div>
-            <form action="/teacher/question" method="POST">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
-                <ul>
-                    <li>문의 종류 : 
-                        <select id="question_kind" class="border rounded-0 form-control form-control-sm" name="question_category" style=" width: 150px; height: 100%;" onchange="change_question_kind(this.value)">
-                            <optgroup>
-                                <option value="none" selected>문의 종류를 선택해주세요</option>
-                                <option value="일반">일반 문의</option>
-                                <option value="이반">이반 승인 요청</option>
-                                <option value="퇴소">퇴소 승인 요청</option>
-                                <option value="취소/환불">취소/환불 승인 요청</option>
-                            </optgroup>
+            <div class="modal-body py-4 px-5">
+                <form action="/teacher/question" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">문의 종류</span>
+                        <select id="question_kind" class="modal-body-select" name="question_category" onchange="change_question_kind(this.value)">
+                            <option value="none" selected>문의 종류를 선해주세요</option>
+                            <option value="일반">일반 문의</option>
+                            <option value="이반">이반 승인 요청</option>
+                            <option value="퇴소">퇴소 승인 요청</option>
+                            <option value="취소/환불">취소/환불 승인 요청</option>
                         </select>
-                    </li>
+                    </div>
+                    <!-- invisible_for_2 start -->
                     <div id="invisible_for_2">
-                        <li>기존 반 : 
-                            <select class="border rounded-0 form-control form-control-sm" name="ban_id" style=" width: 150px; height: 100%;">
-                                <optgroup>
-                                    <option value="none" selected>기존 반을 선택해주세요</option>
-                                    {% for ban in my_bans %}
+                        <div class="modal-body-select-container">
+                            <span class="modal-body-select-label">기존 반</span> 
+                            <select class="modal-body-select" name="ban_id">        
+                                <option value="none" selected>기존 반을 선택해주세요</option>
+                                {% for ban in my_bans %}
                                     {% set ban_registerno = ban['register_no'] %}
                                     <option value={{ban_registerno}}>{{ban['name']}}</option>
-                                    {% endfor %}
-                                </optgroup>
+                                {% endfor %}
                             </select>
-                        </li>
-                        <li>대상학생 :
-                            <select id="student_list" class="border rounded-0 form-control form-control-sm" name="target_student" style=" width: 150px; height: 100%;">
-                                <optgroup>
-                                    <option value="none" selected>대상학생을 선택해주세요</option>
+                        </div>
+                        <div class="modal-body-select-container">
+                            <span class="modal-body-select-label">대상 원생</span>
+                            <select id="student_list" class="modal-body-select" name="target_student">
+                                    <option value="none" selected>원생을 선택해주세요</option>
                                     {% for student in students %}
-                                    {% set student_registerno = student['register_no'] %}
-                                    <option value={{student_registerno}}>{{ student['name'] }}({{ student['origin']}})</option>
+                                        {% set student_registerno = student['register_no'] %}
+                                        <option value={{student_registerno}}>{{ student['name'] }}({{ student['origin']}})</option>
                                     {% endfor %}
-                                </optgroup>
+                                    
                             </select>
-                        </li>
-                        <li>상담내용 : 
-                            <select class="border rounded-0 form-control form-control-sm" name="consulting_history" style=" width: 150px; height: 100%;">
-                                <optgroup>
-                                    <option value="none" selected>상담을 우선 진행해주세요</option>
-                                    <option value=0>for student</option>
-                                </optgroup>
+                        </div>
+                        <div class="modal-body-select-container">
+                            <span class="modal-body-select-label">상담 내용</span>
+                            <select class="modal-body-select" name="consulting_history">
+                                <option value="none" selected>상담을 우선 진행해주세요</option>
+                                <option value=0>for student</option>
                             </select>
-                        </li>
-                        <li>이반 요청 반 : 
-                            <select class="border rounded-0 form-control form-control-sm" name="new_ban_id" style=" width: 150px; height: 100%;">
-                                <optgroup>
-                                    <option value="none" selected>이반 하려는 반을 선택해주세요</option>
-                                    {% for ban in all_ban %}
+                        </div>
+                        <div class="modal-body-select-container">
+                            <span class="modal-body-select-label">이반 요청 반</span> 
+                            <select class="modal-body-select" name="new_ban_id">    
+                                <option value="none" selected>이반 하려는 반을 선택해주세요</option>
+                                {% for ban in all_ban %}
                                     {% set ban_registerno = ban['register_no'] %}
                                     <option value={{ban_registerno}}>{{ ban['name'] }} ({{ ban['semester'] }}학기)</option>
-                                    {% endfor %}
-                                </optgroup>
+                                {% endfor %}
                             </select>
-                        </li>
+                        </div>
                     </div>
+                    <!-- invisible_for_2 end -->
+                    <!-- invisible_for_1 start -->
                     <div id="invisible_for_1">
-                        <li>반 : 
-                            <select class="border rounded-0 form-control form-control-sm" name="o_ban_id" style=" width: 150px; height: 100%;">
-                                <optgroup>
-                                    <option value="none" selected>퇴소하려는 반을 선택해주세요</option>
-                                    {% for ban in my_bans %}
+                        <div class="modal-body-select-container">
+                            <span class="modal-body-select-label">반</span>
+                            <select class="modal-body-select" name="o_ban_id">
+                                <option value="none" selected>퇴소하려는 반을 선택해주세요</option>
+                                {% for ban in my_bans %}
                                     {% set ban_registerno = ban['register_no'] %}
                                     <option value={{ban_registerno}}>{{ ban['name'] }}</option>
-                                    {% endfor %}
-                                </optgroup>
+                                {% endfor %}
                             </select>
-                        </li>
-                        <li>대상학생 :
-                            <select id="student_list" class="border rounded-0 form-control form-control-sm" name="o_target_student" style=" width: 150px; height: 100%;">
-                                <optgroup>
-                                    <option value="none" selected>학생을 선택해주세요</option>
-                                    {% for student in students %}
+                        </div>
+                        <div class="modal-body-select-container">
+                            <span class="modal-body-select-label">대상 원생</span>
+                            <select id="student_list" class="modal-body-select" name="o_target_student">
+                                <option value="none" selected>원생을 선택해주세요</option>
+                                {% for student in students %}
                                     {% set student_registerno = student['register_no'] %}
                                     <option value={{student.register_no}}>{{ student['name'] }}({{ student['origin'] }})</option>
-                                    {% endfor %}
-                                </optgroup>
+                                {% endfor %}                
                             </select>
-                        </li>
-                        <li>상담내용 : 
-                            <select class="border rounded-0 form-control form-control-sm" name="o_consulting_history" style=" width: 150px; height: 100%;">
-                                <optgroup>
-                                    <option value="none" selected>진행한 상담의 상담일지를 선택해주세요</option>
-                                    <option value=0>for student</option>
-                                </optgroup>
+                        </div>    
+                        <div class="modal-body-select-container">
+                            <span class="modal-body-select-label">상담 내용</span> 
+                            <select class="modal-body-select" name="o_consulting_history">
+                                <option value="none" selected>진행한 상담의 상담일지를 선택해주세요</option>
+                                <option value=0>for student</option>
                             </select>
-                        </li>
+                        </div>
                     </div>
+                    <!-- invisible_for_1 end -->
                     <div id="question_box">
-                        <li><label>문의 제목</label>
-                            <input type="text" size="50"
-                                name="question_title">
-                        </li>
-                        <li><label>문의 내용</label>
-                            <textarea
-                                class="border rounded-0 form-control form-control-sm"
-                                type="text"rows="5" cols="25" 
-                                name="question_contents"
-                                id = "question_contents"></textarea>
-                        </li>
+                        <div class="modal-body-select-container">
+                            <span class="modal-body-select-label">문의 제목</span>
+                            <input class="modal-body-select" type="text" size="50" name="question_title" style="width: 75%;">
+                        </div>
+                        <div class="modal-body-select-container">
+                            <span class="modal-body-select-label">문의 내용</span>
+                            <textarea id="question_contents" class="modal-body-select" type="text"rows="5" cols="25" name="question_contents" style="width: 75%;"></textarea>
+                        </div>
                     </div>
-                </ul>
-                <div style="display: flex; float: right;">
-                    <button class="btn btn-success" type="submit" style="margin-top: 13px;">저장</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin-top: 13px;">취소</button>
-                </div>
-            </form>
-            </div>
-                        
+                    <div class="d-flex justify-content-center mt-4 mb-2">
+                        <button class="btn btn-dark" type="submit">저장</button>
+
+                        <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin-top: 13px;">취소</button> -->
+                    </div>
+                </form>
+            </div>           
         </div>
     </div>
 </div>
@@ -152,73 +158,75 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="questionListModalLabel">
-                    문의 답변 확인 
+                    <img src="https://purpleacademy.net/free_project/public/image/answer-a-question.png" style="width: 30px; margin-bottom: 2px;">&nbsp;&nbsp;문의 답변 확인 
                 </h5>
-                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <div id="questiondetail" style="width:100%;">
-                <button type="button" class="btn btn-back" onclick="go_back()">다른 문의조회🔙 </button>
-                <div id="questiondetail_box" style="width:100%;"></div>
-            </div>
-            <table class="table text-center" id="questionlist" style="width:100%;">
-                <tbody  style="width:100%;">
-                    <tr class="row">
-                        <th class="col-3">종류</th>
-                        <th class="col-5">제목</th>
-                        <th class="col-2">답변</th>
-                        <th class="col-2">수정/삭제</th>
-                    </tr>
-                    {% if questions is iterable %}
-                        {% for question in questions %}
+            <div class="modal-body by-4 px-5">
+                <div id="questiondetail" style="width:100%;">
+                    <button type="button" class="btn btn-back" onclick="go_back()">다른 문의조회🔙 </button>
+                    <div id="questiondetail_box" style="width:100%;"></div>
+                </div>
+                <table class="table text-center" id="questionlist" style="width:100%;">
+                    <tbody  style="width:100%;">
                         <tr class="row">
-                            {% if question.category == 0 %}
-                            <td class="col-3">일반문의</td>
-                            {% elif question.category == 1 %}
-                            <td class="col-3">퇴소문의</td>
-                            {% elif question.category == 2 %}
-                            <td class="col-3">이반문의</td>
-                            {% else %}
-                            <td class="col-3">취소/환불</td>
-                            {% endif %}
-                            <td class="col-5">{{ question.title }} </td>
-                            {% if question.answer_id == None %}
-                            <td class="col-2"> 미응답 </td>
-                            {% else %}
-                            <td class="col-2"  onclick="get_answer('{{question.id}}')">  ✔️  </td>
-                            {% endif %}
-                            <td class="col-2"  onclick="get_answer('{{question.id}}')"> ✏️❌ </td>
+                            <th class="col-3">종류</th>
+                            <th class="col-5">제목</th>
+                            <th class="col-2">답변</th>
+                            <th class="col-2">수정/삭제</th>
                         </tr>
-                        {% endfor %}
-                    {% else %}
-                        <tr class="row">
-                            {% if questions.category == 0 %}
-                            <td class="col-3">일반문의</td>
-                            {% elif questions.category == 1 %}
-                            <td class="col-3">퇴소문의</td>
-                            {% elif questions.category == 2 %}
-                            <td class="col-3">이반문의</td>
-                            {% else %}
-                            <td class="col-3">취소/환불</td>
-                            {% endif %}
-                            <td class="col-7">{{ questions.title }} </td>
-                            {% if questions.answer_id == null %}
-                            <td class="col-2"> 미답변 </td>
-                            {% else %}
-                            <td class="col-2"  onclick="get_answer('{{questions.id}}')"> ✔️ </td>
-                            {% endif %}
-                        </tr>
-                    {% endif %}
-                </tbody>
-            </table>    
+                        {% if questions is iterable %}
+                            {% for question in questions %}
+                            <tr class="row">
+                                {% if question.category == 0 %}
+                                <td class="col-3">일반문의</td>
+                                {% elif question.category == 1 %}
+                                <td class="col-3">퇴소문의</td>
+                                {% elif question.category == 2 %}
+                                <td class="col-3">이반문의</td>
+                                {% else %}
+                                <td class="col-3">취소/환불</td>
+                                {% endif %}
+                                <td class="col-5">{{ question.title }} </td>
+                                {% if question.answer_id == None %}
+                                <td class="col-2"> 미응답 </td>
+                                {% else %}
+                                <td class="col-2"  onclick="get_answer('{{question.id}}')">  ✔️  </td>
+                                {% endif %}
+                                <td class="col-2"  onclick="get_answer('{{question.id}}')"> ✏️❌ </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr class="row">
+                                {% if questions.category == 0 %}
+                                <td class="col-3">일반문의</td>
+                                {% elif questions.category == 1 %}
+                                <td class="col-3">퇴소문의</td>
+                                {% elif questions.category == 2 %}
+                                <td class="col-3">이반문의</td>
+                                {% else %}
+                                <td class="col-3">취소/환불</td>
+                                {% endif %}
+                                <td class="col-7">{{ questions.title }} </td>
+                                {% if questions.answer_id == null %}
+                                <td class="col-2"> 미답변 </td>
+                                {% else %}
+                                <td class="col-2"  onclick="get_answer('{{questions.id}}')"> ✔️ </td>
+                                {% endif %}
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>    
         </div>
     </div>
 </div>
 
 <div class="container_box">
-    <div id="user-info" class="pb-4 border-bottom">
+    <div id="user-info" class="border-bottom">
         <div class="d-flex justify-content-center flex-row row-cols-2">
             <div class="p-5">
-                <div class="d-flex justify-content-center flex-row row-cols-3">
+                <div class="d-flex justify-content-between flex-row row-cols-3">
                     <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
                     <div class="question-btn-container">
                         <div class="question-btn head-office-question-btn" data-bs-toggle="modal" data-bs-target="#question">
@@ -248,7 +256,7 @@
                         <span>{{ user['name'] }}({{ user['engname'] }}) 선생님 안녕하세요.</span>
                     </div>
                     <div class="user-contact">
-                        <div>
+                        <div class="mt-2">
                            <i class="fa-regular fa-envelope"></i>                            
                            <span>&nbsp;&nbsp;{{ user['email'] }}</span>
                         </div>
@@ -263,123 +271,168 @@
     </div>
     <div class="d-flex justify-content-center row-cols-2 ">
         <div id="statistics" class="p-5">
-            <div class="info">
-                <div class="total_chart">
-                    <div class="chartWrap">
-                        <div class="chart">
-                            <div class="chart-total">
-                                <span class="chart-total-num">Total:<br></span>
+            <div class="info-container">
+                <div class="info-title">
+                    <span>Total Chart</span>
+                </div>
+                <div class="info">
+                    <div class="total_chart">
+                        <div class="chartWrap">
+                            <div class="chart">
+                                <div class="chart-total">
+                                    <span class="chart-total-num">Total:<br></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="chart-bar" data-deg="50"></div>
-                        <div class="chart-bar" data-deg="95"></div>
-                        <div class="chart-bar" data-deg="150"></div>
-                        <div class="chart-bar" data-deg="295/360*100">
+                            <div class="chart-bar" data-deg="50"></div>
+                                <div class="chart-bar" data-deg="95"></div>
+                                <div class="chart-bar" data-deg="150"></div>
+                                <div class="chart-bar" data-deg="295/360*100">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="info">
-                <div class="total_table">
-                    <table class="table text-center" id="unlearned">
-                        <tbody  style="width:100%;">
-                            <tr class="row">
-                                <th class="col-3">IXL</th>
-                                <th class="col-3">리딩</th>
-                                <th class="col-3">리특</th>
-                                <th class="col-3">라이팅</th>
-                            </tr>
-                            <tr class="row">
-                                <td class="col-3"> 임시3 (5%) </td>
-                                <td class="col-3"> 임시3 (5%) </td>
-                                <td class="col-3"> 임시3 (5%) </td>
-                                <td class="col-3"> 임시3 (5%) </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table text-center" id="unlearned">
-                        <tbody  style="width:100%;">
-                            <tr class="row">
-                                <th class="col-6">업무</th>
-                                <th class="col-6">상담</th>
-                            </tr>
-                            <tr class="row">
-                                <td class="col-3"> 임시3/10 </td>
-                                <td class="col-3"> 5% </td>
-                                <td class="col-3"> 임시3/10 </td>
-                                <td class="col-3"> 5% </td>
-                            </tr>
-                        </tbody>
-                    </table>  
-                    <table class="table text-center" id="unlearned">
-                        <tbody  style="width:100%;">
-                            <tr class="row">
-                                <th class="col-6">공지</th>
-                                <th class="col-6">문의</th>
-                            </tr>
-                            <tr class="row">
-                                <td class="col-3"> 임시3/10 </td>
-                                <td class="col-3"> 5% </td>
-                                <td class="col-3"> 임시3/10 </td>
-                                <td class="col-3"> 5% </td>
-                            </tr>
-                        </tbody>
-                    </table>      
+            <div class="info-container mt-5">
+                <div class="info-title">
+                    <span>Total Report</span>
+                </div>
+                <div class="info">
+                    <div class="total_table">
+                        <table class="table text-center" id="unlearned">
+                            <tbody  style="width:100%;">
+                                <tr class="row">
+                                    <th class="col-3">IXL</th>
+                                    <th class="col-3">리딩</th>
+                                    <th class="col-3">리특</th>
+                                    <th class="col-3">라이팅</th>
+                                </tr>
+                                <tr class="row">
+                                    <td class="col-3"> 임시3 (5%) </td>
+                                    <td class="col-3"> 임시3 (5%) </td>
+                                    <td class="col-3"> 임시3 (5%) </td>
+                                    <td class="col-3"> 임시3 (5%) </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table text-center" id="unlearned">
+                            <tbody  style="width:100%;">
+                                <tr class="row">
+                                    <th class="col-6">업무</th>
+                                    <th class="col-6">상담</th>
+                                </tr>
+                                <tr class="row">
+                                    <td class="col-3"> 임시3/10 </td>
+                                    <td class="col-3"> 5% </td>
+                                    <td class="col-3"> 임시3/10 </td>
+                                    <td class="col-3"> 5% </td>
+                                </tr>
+                            </tbody>
+                        </table>  
+                        <table class="table text-center" id="unlearned">
+                            <tbody  style="width:100%;">
+                                <tr class="row">
+                                    <th class="col-6">공지</th>
+                                    <th class="col-6">문의</th>
+                                </tr>
+                                <tr class="row">
+                                    <td class="col-3"> 임시3/10 </td>
+                                    <td class="col-3"> 5% </td>
+                                    <td class="col-3"> 임시3/10 </td>
+                                    <td class="col-3"> 5% </td>
+                                </tr>
+                            </tbody>
+                        </table>      
+                    </div>
                 </div>
             </div>
         
-            <div class="info">
-                <table class="table text-center" id="class_list" style="width:100%;">
-                    <tbody  style="width:100%;">
-                        <tr class="row">
-                            <th class="col-2">반이름</th>
-                            <th class="col-1">학기</th>
-                            <th class="col-1">원생 수</th>
-                            <th class="col-2">퇴소</th>
-                            <th class="col-2">이반</th>
-                            <th class="col-2">미학습</th>
-                            <th class="col-2">문의 미응답</th>
-                        </tr>
-                        {% for ban in my_bans %}
+
+            <div class="info-container mt-5">
+                <div class="info-title">
+                    <span>Class Report</span>
+                </div>
+                <div class="info">
+                    <table class="table text-center" id="class_list" style="width:100%;">
+                        <tbody  style="width:100%;">
                             <tr class="row">
-                                <td class="col-2">{{ ban['name'] }}</td>
-                                <td class="col-1">{{ ban['name_numeric'] }}</td>
-                                <td class="col-1">{{ ban['total_student_num '] }}</td>
-                                <td class="col-2"> 임시3 (5%) </td>
-                                <td class="col-2"> 임시3 (5%) </td>
-                                <td class="col-2"> 임시3 (5%) </td>
-                                <td class="col-2"> 임시3 (5%) </td>
+                                <th class="col-2">반이름</th>
+                                <th class="col-1">학기</th>
+                                <th class="col-1">원생 수</th>
+                                <th class="col-2">퇴소</th>
+                                <th class="col-2">이반</th>
+                                <th class="col-2">미학습</th>
+                                <th class="col-2">문의 미응답</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>    
+                            {% for ban in my_bans %}
+                                <tr class="row">
+                                    <td class="col-2">{{ ban['name'] }}</td>
+                                    <td class="col-1">{{ ban['name_numeric'] }}</td>
+                                    <td class="col-1">{{ ban['total_student_num '] }}</td>
+                                    <td class="col-2"> 임시3 (5%) </td>
+                                    <td class="col-2"> 임시3 (5%) </td>
+                                    <td class="col-2"> 임시3 (5%) </td>
+                                    <td class="col-2"> 임시3 (5%) </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>    
+                </div>
             </div>
         </div>
     
 
-    <section id="work" class="p-5">
-        <div class="info">
-            <div class="label make_row"style="margin-top: 5px;" >
-                <h3>상담 * 업무</h3>
-                <select id="work_done" class="border rounded-0 form-control form-control-sm" name="work_done" style=" width: 200px; height: 100%; text-align: center; margin-left: auto;" onchange="task_doneview(this.value)">
-                    <optgroup>
-                        <option value=0>미완수</option>
-                        <option value=1>완수</option>
-                    </optgroup>
-                </select>
+    <div id="work" class="p-5">
+        <div class="info-container">
+            <div class="info-title">
+                <span>To-Do List</span>
             </div>
-            <div class="container border rounded-3 p-4 pb-1">
-                {% for category in my_task_category %}
-                <details>
-                    <summary onclick="get_task('{{category}}')"><strong>{{ all_task_category[category-1].name }} 업무 </strong></summary>
-                    <div class="make_col" id="task_contents_box{{category}}"></div>
-                    </details>
-                {% endfor %}
+            <div class="info d-flex justify-content-center align-items-center flex-column">
+                <div class="d-flex justify-content-between flex-row w-100 pb-4 border-bottom">
+                    <h5 class="d-flex justify-content-center align-items-center m-0" id="task_title">오늘의 업무</h3>
+                    <select id="work_done" class="form-select text-center w-25" name="work_done" onchange="task_doneview(this.value)">
+                        <option value=0 selected>오늘의 업무</option>
+                        <option value=1>완료한 업무</option> 
+                    </select>
+                </div>
+                <div class="w-100 mt-4" id="today_task_box">
+                    {% for category in my_task_category %}
+                        <details>
+                            <summary onclick="get_task('{{category}}')"><strong>{{ all_task_category[category-1].name }} 업무 </strong></summary>
+                            <div class="make_col" id="task_contents_box{{category}}"></div>
+                        </details>
+                    {% endfor %}
+                    <button onclick="get_task_done()">업무 완료 저장</button>
+                </div>
+                <div class="w-100 mt-4" id="today_done_box">
+                </div>
             </div>
         </div>
-</div>
 
+
+        <div class="info-container mt-5">
+            <div class="info-title">
+                <span>To-Do Manage</span>
+            </div>
+            <div class="info d-flex justify-content-center align-items-center flex-column">
+                <div class="d-flex justify-content-between flex-row w-100 pb-4 border-bottom">
+                    <h5 class="d-flex justify-content-center align-items-center m-0" id="task_title">오늘의 업무</h3>
+                    <select id="work_done" class="form-select text-center w-25" name="work_done" onchange="consulting_view(this.value)">
+                        <option value=0 selected>오늘의 상담</option>
+                        <option value=1>완료한 상담</option> 
+                    </select>
+                </div>
+                <div class="w-100 mt-4" id="today_consulting_box">
+                    <p>consulting needed</p>
+                </div>
+                <div class="w-100 mt-4" id="today_done_consulting_box">
+                </div>
+            </div>
+        </div>
+    
+    </div>
+
+    
 {% block jspart %}
 <script type="text/javascript" src="../static/js/teacher.js"></script>
 <script type="text/javascript" src="../static/js/chart.js"></script>

@@ -13,6 +13,10 @@
 {% block style %}
 <link rel="stylesheet" href="../static/style/manage.css">
 <link rel="stylesheet" href="../static/style/paginate.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css"/>
 {% endblock %}
 {% block content %}
 {% autoescape off %}
@@ -158,7 +162,7 @@
             </div>
             <div class="modal-body" style="padding-top: 0;">
                 <form action="/manage/task" method="POST">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
+                    <input id="csrf_token" type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
                     <div class="make_row">
                         <select class="border rounded-0 form-control form-control-sm" name="task_category"
                             style=" width: 200px; height: 100%; margin-left:0;">
@@ -251,7 +255,7 @@
     </div>
 </div>
 
-<div class="container_box">
+<div class="container_box w-75">
     <section id="statistics">
         <div class="make_row">
             <div class="label" id="default_title">
@@ -319,7 +323,6 @@
                 <h1> 선생님 문의 현황 </h1>
             </div>
             <table class="table text-center" id="teacher_question" style="width:100%;">
-                <tbody >
                     <thead>
                         <tr class="row">
                             <th class="col-3">종류</th>
@@ -328,9 +331,9 @@
                             <th class="col-2">응답</th>
                         </tr>
                     </thead>
-                   
-                    {% for q in questions %}
-                    <tr class="row">
+                <tbody >
+                    <!--{% for q in questions %}
+                    <tr id="alim-tr" class="row">
                         {% if q.category == 0 %}
                         <td class="col-3">일반문의</td>
                         {% elif q.category == 1 %}
@@ -342,11 +345,14 @@
                         {% endif %}
                         <td class="col-3"> {{q.teacher_id}} </td>
                         <td class="col-4"> {{ q.contents }} </td>
-                        <td class="col-2"> <button>✏️</button> <button>❌</button></td>
-                    </tr>
-                    {% endfor %}
+                        <td class="col-2"> <button>✏️</button> <button>❌</button></td> -
+                        </tr>
+                    {% endfor %}-->
+                    <tr id="alim-tr" class="row"></tr>
+
                 </tbody>
-            </table> 
+            </table>
+            <div id="pagination" class="py-5"></div>
         </div>
     </section>
 </div>

@@ -1,8 +1,8 @@
-let totalData; //총 데이터 수
-let dataPerPage = 6;
-let pageCount = 10; //페이징에 나타낼 페이지 수
-let globalCurrentPage = 1; //현재 페이지
-let data_list;
+var totalData = 0; //총 데이터 수
+var dataPerPage = 6;
+var pageCount = 10; //페이징에 나타낼 페이지 수
+var globalCurrentPage = 1; //현재 페이지
+var data_list;
 
 function displayData(totalData, currentPage, dataPerPage,data_list) {
     let chartHtml = "";
@@ -100,6 +100,40 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
         displayData(totalData, selectedPage, dataPerPage,data_list);
     });
 }
+
+function paginating(){
+    let container = $('#pagination')
+    $.ajax({
+        url: '/manage/api/get_all_questions',
+        type: 'get',
+        data: {},
+        success: function(data){
+            container.pagination({
+            dataSource: JSON.parse(data),
+            prevText: '이전',
+            nextText: '다음',
+            pageSize: 4,
+            callback: function (data, pagination){
+                var dataHtml = '';
+                $.each(data, function (index, item){
+                dataHtml +=  `
+                <td class="col-3">${item.title}</td>
+                <td class="col-3">${item.teacher_id}</td>
+                <td class="col-4">${item.contents}</td>
+                <td class="col-2"> <button>✏️</button> <button>❌</button></td>
+`;
+                    });
+
+                    $('#alim-tr').html(dataHtml);
+        }
+    })
+
+        }
+    })
+    
+}
+
+paginating()
 
 function getBanInfo(b_id){
     $('#label_title').empty();
@@ -265,7 +299,6 @@ function getBanInfo(b_id){
         }
     })
 }
-
 
 // // 반 id가 입력되면 view를 바꿔주는 함수 
 // function consulting_ban(b_id){
