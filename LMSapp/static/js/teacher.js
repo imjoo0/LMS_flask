@@ -56,7 +56,7 @@ async function get_task(category_id){
             let tcb = '#task_contents_box'+category_id
             if(response["task"] == '없음'){
                 let temp_task_contents_box = `
-                <p> 오늘은 할 업무가 없습니다🎉</p>
+                <p> 업무 완료! 🎉</p>
                 `;
                 $(tcb).html(temp_task_contents_box);
             }else{
