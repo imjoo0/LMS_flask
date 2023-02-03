@@ -62,10 +62,10 @@ function get_task(category_id){
                     let deadline = target['deadline']
                     let temp_task_contents_box = `
                     <p>✅ ${contents}  마감 : ${deadline} 까지 </p>
-                    <form method="post" class="make_row" id="task_ban_box_incomplete${category_id}${i}">
+                    <form action="/teacher/" method="post" class="make_row" id="task_ban_box_incomplete${category_id}${i}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                     </form>
-                    <form method="post" class="make_row" id="task_ban_box_complete${category_id}${i}">
+                    <form action="/teacher/" method="post" class="make_row" id="task_ban_box_complete${category_id}${i}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                     </form>
                     `;
