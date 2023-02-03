@@ -64,12 +64,12 @@ function get_task(category_id){
                     let deadline = target['deadline']
                     let temp_task_contents_box = `
                     <p>✅ ${contents}  마감 : ${deadline} 까지 </p>
-                    <div class="make_row" id="task_ban_box_incomplete${category_id}${i}">
+                    <form method="post" class="make_row" id="task_ban_box_incomplete${category_id}${i}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
-                    </div>
-                    <div class="make_row" id="task_ban_box_complete${category_id}${i}">
+                    </form>
+                    <form method="post" class="make_row" id="task_ban_box_complete${category_id}${i}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
-                    </div>
+                    </form>
                     `;
                     $('#task_ban_box_incomplete'+i).empty()
                     $('#task_ban_box_complete'+i).empty()
@@ -99,12 +99,12 @@ function get_task(category_id){
     });
 }
 
-async function update_done(){
+function update_done(){
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
 
     let chk_Val = []
-    await $('input:checkbox[name=taskid]').each(
+    $('input:checkbox[name=taskid]').each(
         function(i,iVal){
             chk_Val.push(Number(iVal.defaultValue));
         }
@@ -117,20 +117,18 @@ async function update_done(){
         contentType: "application/json",
 			url:'/teacher/',
 			data: JSON.stringify(jsonData), // String -> json 형태로 변환
-			beforeSend : function(xhr)
-            {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-				xhr.setRequestHeader(header, token);
+			beforeSend: function(xhr, settings) {
+                if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrf_token);
+                }
             },
 			dataType: 'json', // success 시 받아올 데이터 형
 			async: true, //동기, 비동기 여부
 			cache :false, // 캐시 여부
-			success: function(data){
-				console.log('된다');
-			},
-			error:function(xhr,status,error){
-				console.log('error:'+error);
-			}
-		});
+            success: function (response) {{
+				console.log(response);
+			}}
+		})
 }
 
 async function get_answer(q_id){
