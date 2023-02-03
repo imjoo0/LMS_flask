@@ -107,7 +107,7 @@ function update_done(){
     console.log(chk_Val)
     $.ajax({
         type: "POST",
-        url: "/teacher",
+        url: "/teacher/",
         data: {task_ids:chk_Val},
         success: function (response) {
             console.log(response)
