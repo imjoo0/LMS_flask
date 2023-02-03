@@ -23,7 +23,7 @@
 <!-- 문의 남기기 -->
 <div class="modal fade" id="question" tabindex="-1"
     aria-labelledby="questionModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="questionModalLabel">
@@ -31,11 +31,12 @@
                 </h5>
                 <button type="button" class="btn btn-close text-reset" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body p-5">
                 <form action="/teacher/question" method="POST">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
-                    <ul>
-                        <li>문의 종류 : 
+                    
+                        <div>
+                            <label for="question_kind">문의 종류</label>
                             <select id="question_kind" class="border rounded-0 form-control form-control-sm" name="question_category" style=" width: 150px; height: 100%;" onchange="change_question_kind(this.value)">
                                 <optgroup>
                                     <option value="none" selected>문의 종류를 선택해주세요</option>
@@ -45,9 +46,9 @@
                                     <option value="취소/환불">취소/환불 승인 요청</option>
                                 </optgroup>
                             </select>
-                        </li>
+                        </div>
                         <div id="invisible_for_2">
-                            <li>기존 반 : 
+                            <div>기존 반 : 
                                 <select class="border rounded-0 form-control form-control-sm" name="ban_id" style=" width: 150px; height: 100%;">
                                     <optgroup>
                                         <option value="none" selected>기존 반을 선택해주세요</option>
@@ -57,8 +58,8 @@
                                         {% endfor %}
                                     </optgroup>
                                 </select>
-                            </li>
-                            <li>대상학생 :
+                            </div>
+                            <div>대상학생 :
                                 <select id="student_list" class="border rounded-0 form-control form-control-sm" name="target_student" style=" width: 150px; height: 100%;">
                                     <optgroup>
                                         <option value="none" selected>대상학생을 선택해주세요</option>
@@ -68,16 +69,16 @@
                                         {% endfor %}
                                     </optgroup>
                                 </select>
-                            </li>
-                            <li>상담내용 : 
+                            </div>
+                            <div>상담내용 : 
                                 <select class="border rounded-0 form-control form-control-sm" name="consulting_history" style=" width: 150px; height: 100%;">
                                     <optgroup>
                                         <option value="none" selected>상담을 우선 진행해주세요</option>
                                         <option value=0>for student</option>
                                     </optgroup>
                                 </select>
-                            </li>
-                            <li>이반 요청 반 : 
+                            </div>
+                            <div>이반 요청 반 : 
                                 <select class="border rounded-0 form-control form-control-sm" name="new_ban_id" style=" width: 150px; height: 100%;">
                                     <optgroup>
                                         <option value="none" selected>이반 하려는 반을 선택해주세요</option>
@@ -87,10 +88,10 @@
                                         {% endfor %}
                                     </optgroup>
                                 </select>
-                            </li>
+                            </div>
                         </div>
                         <div id="invisible_for_1">
-                            <li>반 : 
+                            <div>반 : 
                                 <select class="border rounded-0 form-control form-control-sm" name="o_ban_id" style=" width: 150px; height: 100%;">
                                     <optgroup>
                                         <option value="none" selected>퇴소하려는 반을 선택해주세요</option>
@@ -100,8 +101,8 @@
                                         {% endfor %}
                                     </optgroup>
                                 </select>
-                            </li>
-                            <li>대상학생 :
+                            </div>
+                            <div>대상학생 :
                                 <select id="student_list" class="border rounded-0 form-control form-control-sm" name="o_target_student" style=" width: 150px; height: 100%;">
                                     <optgroup>
                                         <option value="none" selected>학생을 선택해주세요</option>
@@ -111,31 +112,31 @@
                                         {% endfor %}
                                     </optgroup>
                                 </select>
-                            </li>
-                            <li>상담내용 : 
+                            </div>
+                            <div>상담내용 : 
                                 <select class="border rounded-0 form-control form-control-sm" name="o_consulting_history" style=" width: 150px; height: 100%;">
                                     <optgroup>
                                         <option value="none" selected>진행한 상담의 상담일지를 선택해주세요</option>
                                         <option value=0>for student</option>
                                     </optgroup>
                                 </select>
-                            </li>
+                            </div>
                         </div>
                         <div id="question_box">
-                            <li>
+                            <div>
                                 <label>문의 제목</label>
                                 <input type="text" size="50" name="question_title">
-                            </li>
-                            <li>
+                            </div>
+                            <div>
                                 <label>문의 내용</label>
                                 <textarea
                                     class="border rounded-0 form-control form-control-sm"
                                     type="text"rows="5" cols="25" 
                                     name="question_contents"
                                     id = "question_contents"></textarea>
-                            </li>
+                            </div>
                         </div>
-                    </ul>
+                    
                     <div style="display: flex; float: right;">
                         <button class="btn btn-success" type="submit">저장</button>
                         <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin-top: 13px;">취소</button> -->
@@ -382,19 +383,12 @@
             <div class="info d-flex justify-content-center align-items-center flex-column">
                 <div class="d-flex justify-content-between flex-row w-100 pb-4 border-bottom">
                     <h5 class="d-flex justify-content-center align-items-center m-0">상담 * 업무</h3>
-                    <select id="work_done" class="form-select text-center w-25" name="work_done" onchange="task_doneview(this.value)">
+
+                    <select id="work_done" class="form-select text-center w-25" name="work_done" >
                         <option value=0>오늘의 업무</option>
                         <option value=1>완료한 업무</option> 
                         <option value=2>지난업무</option> 
                     </select>
-                </div>
-                <div class="w-100 mt-4" id="today_task_box">
-                    {% for category in my_task_category %}
-                        <details>
-                            <summary onclick="get_task('{{category}}')"><strong>{{ all_task_category[category-1].name }} 업무 </strong></summary>
-                            <div class="make_col" id="task_contents_box{{category}}"></div>
-                        </details>
-                    {% endfor %}
                 </div>
                 <div class="w-100 mt-4" id="today_task_done_box">
                     {% for category in my_task_category %}
