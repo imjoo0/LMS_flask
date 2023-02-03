@@ -49,7 +49,7 @@ async function get_task(category_id){
             let tcb = '#task_contents_box'+category_id
             if(response["task"] == '없음'){
                 let temp_task_contents_box = `
-                <p> 업무 완료! 🎉</p>
+                <p> 오늘의 업무를 완료했습니다! 🎉</p>
                 `;
                 $(tcb).html(temp_task_contents_box);
             }else{
@@ -91,8 +91,10 @@ async function get_task(category_id){
     $('#today_done_box').hide();
 }
 async function get_done_task(){
+    $('#task_title').html('오늘 완료한 업무')
     $('#today_task_box').hide();
     $('#today_done_box').show();
+
     await $.ajax({
         type: "GET",
         url: "/teacher/taskdone",
