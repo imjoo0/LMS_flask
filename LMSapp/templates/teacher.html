@@ -215,10 +215,10 @@
 </div>
 
 <div class="container_box">
-    <div id="user-info" class="pb-4 border-bottom">
+    <div id="user-info" class="border-bottom">
         <div class="d-flex justify-content-center flex-row row-cols-2">
             <div class="p-5">
-                <div class="d-flex justify-content-center flex-row row-cols-3">
+                <div class="d-flex justify-content-between flex-row row-cols-3">
                     <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
                     <div class="question-btn-container">
                         <div class="question-btn head-office-question-btn" data-bs-toggle="modal" data-bs-target="#question">
@@ -248,7 +248,7 @@
                         <span>{{ user['name'] }}({{ user['engname'] }}) 선생님 안녕하세요.</span>
                     </div>
                     <div class="user-contact">
-                        <div>
+                        <div class="mt-2">
                            <i class="fa-regular fa-envelope"></i>                            
                            <span>&nbsp;&nbsp;{{ user['email'] }}</span>
                         </div>
