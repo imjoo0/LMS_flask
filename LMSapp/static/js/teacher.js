@@ -98,13 +98,12 @@ function get_task(category_id){
 }
 
 function update_done(){
-    $('input:checkbox[name=checkList]').each(
-        function(index){
-            if($(this).is(":checked")==true){
-                console.log($(this.value));
-            }
+    let chk_val=[];
+    $('input:checkbox[name=checkList]').each(function(ival){
+            chk_val.push(ival)
         }
     )
+    console.log(chk_val)
     // taskid = Number(taskid);
     // $.ajax({
     //     type: "POST",
