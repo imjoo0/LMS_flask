@@ -115,14 +115,6 @@ function update_done(){
 			url:'/teacher/',
 			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
             data: {task_ids:chk_Val},
-			beforeSend: function(xhr, settings) {
-                if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrf_token);
-                }
-            },
-			dataType: 'json', // success 시 받아올 데이터 형
-			async: true, //동기, 비동기 여부
-			cache :false, // 캐시 여부
             success: function (response) {{
 				console.log(response);
 			}}
