@@ -65,9 +65,6 @@ function get_task(category_id){
                     <form method="post" class="make_row" id="task_ban_box_incomplete${category_id}${i}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                     </form>
-                    <form method="post" class="make_row" id="task_ban_box_complete${category_id}${i}">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
-                    </form>
                     `;
                     $('#task_ban_box_incomplete'+i).empty()
                     $('#task_ban_box_complete'+i).empty()
@@ -81,11 +78,7 @@ function get_task(category_id){
                         let temp_task_ban_box = `
                         <label><input type="checkbox" name="taskid" value="${task_id}">${name}</label>
                         `;
-                        if(done != 1){
-                            $('#task_ban_box_incomplete'+category_id+i).append(temp_task_ban_box);
-                        }else{
-                            $('#task_ban_box_complete'+category_id+i).append(temp_task_ban_box);
-                        }
+                        $('#task_ban_box_incomplete'+category_id+i).append(temp_task_ban_box);
                     }
                 }
             }
