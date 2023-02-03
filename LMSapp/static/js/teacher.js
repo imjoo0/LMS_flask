@@ -105,20 +105,18 @@ function update_done(){
         }
     );
     console.log(chk_Val)
-
-    // taskid = Number(taskid);
-    // $.ajax({
-    //     type: "POST",
-    //     url: "/teacher/"+taskid,
-    //     data: {},
-    //     success: function (response) {
-    //         console.log(response)
-    //         alert(response["result"])
-    //         if (response["result"]=='업무 완료!') {
-    //             alert(response["result"])
-    //     }else {window.location.href='/'}
-    //     }
-    // })
+    $.ajax({
+        type: "POST",
+        url: "/teacher",
+        data: {task_ids:chk_Val},
+        success: function (response) {
+            console.log(response)
+            alert(response["result"])
+        //     if (response["result"]=='업무 완료!') {
+        //         alert(response["result"])
+        // }else {window.location.href='/'}
+        }
+    })
 }
 
 async function get_answer(q_id){
