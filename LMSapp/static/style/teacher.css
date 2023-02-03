@@ -132,9 +132,13 @@
   background-color: #2B2B2B;
 }
 
-.modal-header .modal-title, .modal-header .btn-close {
+.modal-header .modal-title{
   color: #f1f1f1;
 }
+
+
+
+
 
 /* 이반 요청 */
 #invisible_for_2{

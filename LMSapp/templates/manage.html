@@ -328,7 +328,6 @@
                             <th class="col-2">응답</th>
                         </tr>
                     </thead>
-                   
                     {% for q in questions %}
                     <tr class="row">
                         {% if q.category == 0 %}
@@ -347,13 +346,12 @@
                     {% endfor %}
                 </tbody>
             </table>
-        </div>
 <!-- 페이징처리 시작 -->
     <ul class="pagination justify-content-center">
         <!-- 이전페이지 -->
-        {% if question.has_prev %}
+        {% if questions.has_prev %}
         <li class="page-item">
-            <a class="page-link" href="?page={{ question.prev_num }}">이전</a>
+            <a class="page-link" href="?page={{ questions.prev_num }}">이전</a>
         </li>
         {% else %}
         <li class="page-item disabled">
@@ -361,9 +359,9 @@
         </li>
         {% endif %}
         <!-- 페이지번호 -->
-        {% for page_num in question.iter_pages() %}
+        {% for page_num in questions.iter_pages() %}
         {% if page_num %}
-        {% if page_num != question.page %}
+        {% if page_num != questions.page %}
         <li class="page-item">
             <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
         </li>
@@ -379,9 +377,9 @@
         {% endif %}
         {% endfor %}
         <!-- 다음페이지 -->
-        {% if question.has_next %}
+        {% if questions.has_next %}
         <li class="page-item">
-            <a class="page-link" href="?page={{ question.next_num }}">다음</a>
+            <a class="page-link" href="?page={{ questions.next_num }}">다음</a>
         </li>
         {% else %}
         <li class="page-item disabled">
@@ -389,6 +387,7 @@
         </li>
         {% endif %}
     </ul>
+        </div>
     <!-- 페이징처리 끝 -->
     </section>
 </div>
