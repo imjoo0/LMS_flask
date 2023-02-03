@@ -96,25 +96,24 @@ function get_task(category_id){
         }
     });
 }
-
-function update_done(){
-    let chk_Val = []
+function get_task_done(){
     $('input:checkbox[name=taskid]').each(
         function(i,iVal){
-            chk_Val.push(Number(iVal.defaultValue));
+           let target = Number(iVal.defaultValue);
+           print(target)
+           return update_done(target)
         }
     );
-    // var jsonData = {
-    //     "task_ids" : chk_Val
-    // }
-    console.log(chk_Val)
+}
+function update_done(target){
+    console.log(target)
     $.ajax({
             type: "POST",
-			url:'/teacher/',
+			url:'/teacher/'+target,
 			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
             data: {task_ids:chk_Val},
             success: function (response) {{
-				console.log("response  되는 건다");
+				console.log(response);
 			}}
 		})
 }
