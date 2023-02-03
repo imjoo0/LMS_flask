@@ -33,6 +33,7 @@ function change_question_kind(str){
 
 function task_doneview(done_code){
     if(done_code == 0){
+        $('#task_title').html('오늘의 업무')
         $('#today_task_box').show();
         $('#today_done_box').hide();
     }else if(done_code == 1){
