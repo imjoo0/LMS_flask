@@ -37,6 +37,7 @@ function task_doneview(done_code){
         $('#task_ban_box_incomplete').show();
         $('#task_ban_box_complete').hide();
     }else{
+        console.log(done_code)
         $('#task_ban_box_complete').show();
         $('#task_ban_box_incomplete').hide();
     }
