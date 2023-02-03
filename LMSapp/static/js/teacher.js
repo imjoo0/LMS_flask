@@ -40,6 +40,10 @@ function task_doneview(done_code){
         $('#today_done_box').show();
         $('#today_task_box').hide();
         $('#before_work').hide();
+    }else{
+        $('#before_work').show();
+        $('#today_task_box').hide();
+        $('#today_done_box').hide();
     }
 }
 
