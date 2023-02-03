@@ -44,7 +44,7 @@ function task_doneview(done_code){
 }
 
 function get_not_done_task(category_id){
-    let wd = $('#work_done').value()
+    let wd = $('#work_done')
     console.log(wd)
     $.ajax({
         type: "GET",
