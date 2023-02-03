@@ -6141,3 +6141,685 @@ Press CTRL+C to quit
 118.131.85.245 - - [03/Feb/2023 06:18:02] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
 118.131.85.245 - - [03/Feb/2023 06:18:04] "GET /teacher/2 HTTP/1.1" 200 -
 118.131.85.245 - - [03/Feb/2023 06:18:05] "POST /teacher/ HTTP/1.1" 400 -
+118.131.85.245 - - [03/Feb/2023 06:27:26] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:27:26] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:27:26] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:27:26] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:27:26] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:27:26] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:27:26] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:27:26] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:27:26] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:27:26] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:27:26] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:27:29] "GET /teacher/2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:28:03] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:28:03] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:28:03] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:28:03] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:28:03] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:28:03] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:28:03] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:28:03] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:28:03] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:28:03] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:28:04] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:28:14] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:28:15] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:28:15] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:28:15] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:28:15] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:28:15] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:28:15] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:28:15] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:28:15] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:28:15] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:28:15] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:28:16] "GET /teacher/2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:28:21] "POST /teacher/ HTTP/1.1" 400 -
+118.131.85.245 - - [03/Feb/2023 06:31:44] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:31:44] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:31:44] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:31:44] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:31:44] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:31:44] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:31:44] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:31:44] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:31:44] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:31:44] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:31:44] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:31:45] "GET /teacher/2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:31:47] "POST /teacher/ HTTP/1.1" 400 -
+118.131.85.245 - - [03/Feb/2023 06:40:04] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:40:04] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:05] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:05] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:05] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:05] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:05] "GET /static/js/manage.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:40:06] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:06] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:06] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:10] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:40:13] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:13] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:13] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:13] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:13] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:13] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:14] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:14] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:14] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:14] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:21] "GET /static/style/images/favicon.ico HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:40:36] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:40:36] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:36] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:36] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:37] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:37] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:37] "GET /static/js/manage.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:40:37] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:37] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:37] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:38] "POST /manage/api/get_all_questions HTTP/1.1" 400 -
+118.131.85.245 - - [03/Feb/2023 06:40:38] "POST /manage/api/get_all_questions HTTP/1.1" 400 -
+118.131.85.245 - - [03/Feb/2023 06:40:38] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:54] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:40:54] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:54] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:54] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:54] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:55] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:55] "GET /static/js/manage.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:40:55] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:55] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:55] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:40:56] "POST /manage/api/get_all_questions HTTP/1.1" 400 -
+118.131.85.245 - - [03/Feb/2023 06:40:56] "POST /manage/api/get_all_questions HTTP/1.1" 400 -
+118.131.85.245 - - [03/Feb/2023 06:41:08] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:41:08] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:41:08] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:41:08] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:41:08] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:41:08] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:41:09] "GET /static/js/manage.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:41:09] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:41:09] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:41:09] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:41:09] "POST /manage/api/get_all_questions HTTP/1.1" 400 -
+118.131.85.245 - - [03/Feb/2023 06:41:09] "POST /manage/api/get_all_questions HTTP/1.1" 400 -
+118.131.85.245 - - [03/Feb/2023 06:41:09] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [03/Feb/2023 06:42:24] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:42:24] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:42:24] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:42:24] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:42:24] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:42:24] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:42:25] "GET /static/js/manage.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:42:25] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:42:25] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:42:25] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:42:25] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:42:25] "GET /manage/api/get_all_questions HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 60, in get_all_questions
+    return jsonify({'data':list(all_questions)})
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/__init__.py", line 342, in jsonify
+    return current_app.json.response(*args, **kwargs)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 309, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=mimetype
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 230, in dumps
+    return json.dumps(obj, **kwargs)
+  File "/usr/lib/python3.8/json/__init__.py", line 234, in dumps
+    return cls(
+  File "/usr/lib/python3.8/json/encoder.py", line 201, in encode
+    chunks = list(chunks)
+  File "/usr/lib/python3.8/json/encoder.py", line 431, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/usr/lib/python3.8/json/encoder.py", line 405, in _iterencode_dict
+    yield from chunks
+  File "/usr/lib/python3.8/json/encoder.py", line 325, in _iterencode_list
+    yield from chunks
+  File "/usr/lib/python3.8/json/encoder.py", line 438, in _iterencode
+    o = _default(o)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 122, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type Question is not JSON serializable
+118.131.85.245 - - [03/Feb/2023 06:42:25] "GET /manage/api/get_all_questions HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 60, in get_all_questions
+    return jsonify({'data':list(all_questions)})
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/__init__.py", line 342, in jsonify
+    return current_app.json.response(*args, **kwargs)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 309, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=mimetype
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 230, in dumps
+    return json.dumps(obj, **kwargs)
+  File "/usr/lib/python3.8/json/__init__.py", line 234, in dumps
+    return cls(
+  File "/usr/lib/python3.8/json/encoder.py", line 201, in encode
+    chunks = list(chunks)
+  File "/usr/lib/python3.8/json/encoder.py", line 431, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/usr/lib/python3.8/json/encoder.py", line 405, in _iterencode_dict
+    yield from chunks
+  File "/usr/lib/python3.8/json/encoder.py", line 325, in _iterencode_list
+    yield from chunks
+  File "/usr/lib/python3.8/json/encoder.py", line 438, in _iterencode
+    o = _default(o)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 122, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type Question is not JSON serializable
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [03/Feb/2023 06:44:59] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:44:59] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:44:59] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:44:59] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:44:59] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:44:59] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:45:00] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:45:00] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:45:00] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:45:00] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:45:00] "GET /manage/api/get_all_questions HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 60, in get_all_questions
+    return jsonify({'data':all_questions})
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/__init__.py", line 342, in jsonify
+    return current_app.json.response(*args, **kwargs)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 309, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=mimetype
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 230, in dumps
+    return json.dumps(obj, **kwargs)
+  File "/usr/lib/python3.8/json/__init__.py", line 234, in dumps
+    return cls(
+  File "/usr/lib/python3.8/json/encoder.py", line 201, in encode
+    chunks = list(chunks)
+  File "/usr/lib/python3.8/json/encoder.py", line 431, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/usr/lib/python3.8/json/encoder.py", line 405, in _iterencode_dict
+    yield from chunks
+  File "/usr/lib/python3.8/json/encoder.py", line 438, in _iterencode
+    o = _default(o)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 122, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type Query is not JSON serializable
+118.131.85.245 - - [03/Feb/2023 06:45:00] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:45:00] "GET /manage/api/get_all_questions HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 60, in get_all_questions
+    return jsonify({'data':all_questions})
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/__init__.py", line 342, in jsonify
+    return current_app.json.response(*args, **kwargs)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 309, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=mimetype
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 230, in dumps
+    return json.dumps(obj, **kwargs)
+  File "/usr/lib/python3.8/json/__init__.py", line 234, in dumps
+    return cls(
+  File "/usr/lib/python3.8/json/encoder.py", line 201, in encode
+    chunks = list(chunks)
+  File "/usr/lib/python3.8/json/encoder.py", line 431, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/usr/lib/python3.8/json/encoder.py", line 405, in _iterencode_dict
+    yield from chunks
+  File "/usr/lib/python3.8/json/encoder.py", line 438, in _iterencode
+    o = _default(o)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 122, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type Query is not JSON serializable
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [03/Feb/2023 06:47:21] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:47:21] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:47:21] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:47:21] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:47:21] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:47:21] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:47:22] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:47:22] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:47:22] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:47:22] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:47:22] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:47:22] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:47:22] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:48:47] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:48:47] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:48:47] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:48:47] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:48:48] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:48:48] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:48:48] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:48:48] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:48:48] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:48:48] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:48:48] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:48:49] "GET /teacher/2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:50:10] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:50:10] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:50:10] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:50:10] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:50:10] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:50:10] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:50:10] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:50:10] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:50:10] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:50:10] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:50:10] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:51:37] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:51:37] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:55:20] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:55:20] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:55:20] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:55:20] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:55:20] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:55:20] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:55:21] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:55:21] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:55:21] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:55:21] "GET /static/js/pagination.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:55:21] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:55:21] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:55:21] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:55:21] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:55:21] "GET /manage/SELECT%20question.id%20AS%20question_id,%20question.category%20AS%20question_category,%20question.title%20AS%20question_title,%20question.contents%20AS%20question_contents,%20question.teacher_id%20AS%20question_teacher_id,%20question.ban_id%20AS%20question_ban_id,%20question.new_ban_id%20AS%20question_new_ban_id,%20question.student_id%20AS%20question_student_id,%20question.create_date%20AS%20question_create_date,%20question.answer_id%20AS%20question_answer_id%20FROM%20question%20ORDER%20BY%20question.id%20DESC?pageSize=10&pageNumber=1&_=1675407319352 HTTP/1.1" 404 -
+118.131.85.245 - - [03/Feb/2023 06:55:21] "GET /manage/SELECT%20question.id%20AS%20question_id,%20question.category%20AS%20question_category,%20question.title%20AS%20question_title,%20question.contents%20AS%20question_contents,%20question.teacher_id%20AS%20question_teacher_id,%20question.ban_id%20AS%20question_ban_id,%20question.new_ban_id%20AS%20question_new_ban_id,%20question.student_id%20AS%20question_student_id,%20question.create_date%20AS%20question_create_date,%20question.answer_id%20AS%20question_answer_id%20FROM%20question%20ORDER%20BY%20question.id%20DESC?pageSize=10&pageNumber=1&_=1675407319353 HTTP/1.1" 404 -
+118.131.85.245 - - [03/Feb/2023 06:57:07] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:57:07] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:07] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:07] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:07] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:07] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:08] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:08] "GET /static/js/pagination.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:08] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:08] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:08] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:09] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:57:09] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:09] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:57:26] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:57:26] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:26] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:26] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:26] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:26] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:27] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:27] "GET /static/js/pagination.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:27] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:27] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:27] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:27] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:57:27] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 06:57:27] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 06:57:27] "GET /manage/SELECT%20question.id%20AS%20question_id,%20question.category%20AS%20question_category,%20question.title%20AS%20question_title,%20question.contents%20AS%20question_contents,%20question.teacher_id%20AS%20question_teacher_id,%20question.ban_id%20AS%20question_ban_id,%20question.new_ban_id%20AS%20question_new_ban_id,%20question.student_id%20AS%20question_student_id,%20question.create_date%20AS%20question_create_date,%20question.answer_id%20AS%20question_answer_id%20FROM%20question%20ORDER%20BY%20question.id%20DESC?pageSize=10&pageNumber=1&_=1675407445983 HTTP/1.1" 404 -
+118.131.85.245 - - [03/Feb/2023 06:57:27] "GET /manage/SELECT%20question.id%20AS%20question_id,%20question.category%20AS%20question_category,%20question.title%20AS%20question_title,%20question.contents%20AS%20question_contents,%20question.teacher_id%20AS%20question_teacher_id,%20question.ban_id%20AS%20question_ban_id,%20question.new_ban_id%20AS%20question_new_ban_id,%20question.student_id%20AS%20question_student_id,%20question.create_date%20AS%20question_create_date,%20question.answer_id%20AS%20question_answer_id%20FROM%20question%20ORDER%20BY%20question.id%20DESC?pageSize=10&pageNumber=1&_=1675407445984 HTTP/1.1" 404 -
+118.131.85.245 - - [03/Feb/2023 07:00:12] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:00:12] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:12] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:12] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:00:12] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:12] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:12] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:12] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:12] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:12] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:12] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:15] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:00:15] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:15] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:15] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:15] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:15] "GET /teacher/2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:00:16] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:16] "GET /static/js/pagination.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:16] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:16] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:16] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:16] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:16] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:00:16] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:00:16] "GET /manage/SELECT%20question.id%20AS%20question_id,%20question.category%20AS%20question_category,%20question.title%20AS%20question_title,%20question.contents%20AS%20question_contents,%20question.teacher_id%20AS%20question_teacher_id,%20question.ban_id%20AS%20question_ban_id,%20question.new_ban_id%20AS%20question_new_ban_id,%20question.student_id%20AS%20question_student_id,%20question.create_date%20AS%20question_create_date,%20question.answer_id%20AS%20question_answer_id%20FROM%20question%20ORDER%20BY%20question.id%20DESC?pageSize=10&pageNumber=1&_=1675407615174 HTTP/1.1" 404 -
+118.131.85.245 - - [03/Feb/2023 07:00:16] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:16] "GET /manage/SELECT%20question.id%20AS%20question_id,%20question.category%20AS%20question_category,%20question.title%20AS%20question_title,%20question.contents%20AS%20question_contents,%20question.teacher_id%20AS%20question_teacher_id,%20question.ban_id%20AS%20question_ban_id,%20question.new_ban_id%20AS%20question_new_ban_id,%20question.student_id%20AS%20question_student_id,%20question.create_date%20AS%20question_create_date,%20question.answer_id%20AS%20question_answer_id%20FROM%20question%20ORDER%20BY%20question.id%20DESC?pageSize=10&pageNumber=1&_=1675407615175 HTTP/1.1" 404 -
+118.131.85.245 - - [03/Feb/2023 07:00:21] "GET /teacher/?{%22task_ids%22:[480,559]}&_=1675407612268 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:00:34] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:00:34] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:34] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:34] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:34] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:34] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:35] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:35] "GET /static/js/pagination.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:35] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:35] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:35] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:35] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:00:35] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:00:35] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:00:35] "GET /manage/SELECT%20question.id%20AS%20question_id,%20question.category%20AS%20question_category,%20question.title%20AS%20question_title,%20question.contents%20AS%20question_contents,%20question.teacher_id%20AS%20question_teacher_id,%20question.ban_id%20AS%20question_ban_id,%20question.new_ban_id%20AS%20question_new_ban_id,%20question.student_id%20AS%20question_student_id,%20question.create_date%20AS%20question_create_date,%20question.answer_id%20AS%20question_answer_id%20FROM%20question%20ORDER%20BY%20question.id%20DESC?pageSize=10&pageNumber=1&_=1675407634036 HTTP/1.1" 404 -
+118.131.85.245 - - [03/Feb/2023 07:00:35] "GET /manage/SELECT%20question.id%20AS%20question_id,%20question.category%20AS%20question_category,%20question.title%20AS%20question_title,%20question.contents%20AS%20question_contents,%20question.teacher_id%20AS%20question_teacher_id,%20question.ban_id%20AS%20question_ban_id,%20question.new_ban_id%20AS%20question_new_ban_id,%20question.student_id%20AS%20question_student_id,%20question.create_date%20AS%20question_create_date,%20question.answer_id%20AS%20question_answer_id%20FROM%20question%20ORDER%20BY%20question.id%20DESC?pageSize=10&pageNumber=1&_=1675407634037 HTTP/1.1" 404 -
+118.131.85.245 - - [03/Feb/2023 07:01:50] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:01:50] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:01:50] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:01:50] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:01:50] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:01:50] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:01:50] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:01:50] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:01:50] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:01:50] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:01:50] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:02:16] "GET /teacher/2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:03:03] "GET /teacher/?task_ids%5B%5D=480&task_ids%5B%5D=559&_=1675407710802 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:03:07] "GET /teacher/?task_ids%5B%5D=480&task_ids%5B%5D=559&_=1675407710803 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:03:09] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:03:09] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:03:10] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:03:10] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:03:10] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:03:10] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:03:10] "GET /static/js/manage.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:03:10] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:03:10] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:03:10] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:03:11] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:03:11] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:03:11] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:03:14] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:03:14] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:03:14] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:05:47] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:05:47] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:05:47] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:05:47] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:05:47] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:05:48] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:05:48] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:05:48] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:05:48] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:05:48] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:05:49] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:05:49] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:05:49] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:05:49] "GET /manage/SELECT%20question.id%20AS%20question_id,%20question.category%20AS%20question_category,%20question.title%20AS%20question_title,%20question.contents%20AS%20question_contents,%20question.teacher_id%20AS%20question_teacher_id,%20question.ban_id%20AS%20question_ban_id,%20question.new_ban_id%20AS%20question_new_ban_id,%20question.student_id%20AS%20question_student_id,%20question.create_date%20AS%20question_create_date,%20question.answer_id%20AS%20question_answer_id%20FROM%20question%20ORDER%20BY%20question.id%20DESC?pageSize=10&pageNumber=1&_=1675407946741 HTTP/1.1" 404 -
+118.131.85.245 - - [03/Feb/2023 07:05:49] "GET /manage/SELECT%20question.id%20AS%20question_id,%20question.category%20AS%20question_category,%20question.title%20AS%20question_title,%20question.contents%20AS%20question_contents,%20question.teacher_id%20AS%20question_teacher_id,%20question.ban_id%20AS%20question_ban_id,%20question.new_ban_id%20AS%20question_new_ban_id,%20question.student_id%20AS%20question_student_id,%20question.create_date%20AS%20question_create_date,%20question.answer_id%20AS%20question_answer_id%20FROM%20question%20ORDER%20BY%20question.id%20DESC?pageSize=10&pageNumber=1&_=1675407946742 HTTP/1.1" 404 -
+118.131.85.245 - - [03/Feb/2023 07:06:59] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:06:59] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:06:59] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:06:59] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:06:59] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:06:59] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:06:59] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:06:59] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:06:59] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:06:59] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:06:59] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:07:00] "GET /teacher/2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:07:03] "GET /teacher/?task_ids%5B%5D=480&task_ids%5B%5D=559 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:11] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:11] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:11] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:11] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:11] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:11] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:12] "GET /static/js/manage.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:12] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:12] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:12] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:12] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:12] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:12] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:20] "GET /teacher/?task_ids%5B%5D=480&task_ids%5B%5D=559 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:27] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:27] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:27] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:27] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:27] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:27] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:28] "GET /static/js/manage.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:28] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:28] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:28] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:28] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:28] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:28] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:57] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:57] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:57] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:57] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:57] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:57] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:58] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:58] "GET /static/js/manage.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:58] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:58] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:58] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:58] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:58] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:58] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:58] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:58] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:58] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:58] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:58] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:58] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:58] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:08:58] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:59] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:08:59] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:09:03] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:09:03] "GET /static/style/teacher.css HTTP/1.1" 304 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [03/Feb/2023 07:09:59] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:09:59] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:09:59] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:09:59] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:09:59] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:09:59] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:00] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:00] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:00] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:00] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:00] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:10:00] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:00] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:10:14] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:10:14] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:14] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:14] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:14] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:14] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:14] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:14] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:14] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:14] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:15] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:10:15] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:15] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [03/Feb/2023 07:10:52] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:10:52] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:52] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:52] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:52] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:52] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:52] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:52] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:52] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:52] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:53] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:10:53] "GET /manage/api/get_all_questions HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 60, in get_all_questions
+    return jsonify({'data':all_questions})
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/__init__.py", line 342, in jsonify
+    return current_app.json.response(*args, **kwargs)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 309, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=mimetype
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 230, in dumps
+    return json.dumps(obj, **kwargs)
+  File "/usr/lib/python3.8/json/__init__.py", line 234, in dumps
+    return cls(
+  File "/usr/lib/python3.8/json/encoder.py", line 201, in encode
+    chunks = list(chunks)
+  File "/usr/lib/python3.8/json/encoder.py", line 431, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/usr/lib/python3.8/json/encoder.py", line 405, in _iterencode_dict
+    yield from chunks
+  File "/usr/lib/python3.8/json/encoder.py", line 325, in _iterencode_list
+    yield from chunks
+  File "/usr/lib/python3.8/json/encoder.py", line 438, in _iterencode
+    o = _default(o)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 122, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type Question is not JSON serializable
+118.131.85.245 - - [03/Feb/2023 07:10:53] "GET /manage/api/get_all_questions HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 60, in get_all_questions
+    return jsonify({'data':all_questions})
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/__init__.py", line 342, in jsonify
+    return current_app.json.response(*args, **kwargs)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 309, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=mimetype
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 230, in dumps
+    return json.dumps(obj, **kwargs)
+  File "/usr/lib/python3.8/json/__init__.py", line 234, in dumps
+    return cls(
+  File "/usr/lib/python3.8/json/encoder.py", line 201, in encode
+    chunks = list(chunks)
+  File "/usr/lib/python3.8/json/encoder.py", line 431, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/usr/lib/python3.8/json/encoder.py", line 405, in _iterencode_dict
+    yield from chunks
+  File "/usr/lib/python3.8/json/encoder.py", line 325, in _iterencode_list
+    yield from chunks
+  File "/usr/lib/python3.8/json/encoder.py", line 438, in _iterencode
+    o = _default(o)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 122, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type Question is not JSON serializable
+118.131.85.245 - - [03/Feb/2023 07:11:01] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:11:01] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:11:01] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:11:01] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:11:01] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:11:01] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:11:01] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:11:01] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:11:01] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:11:01] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:11:01] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:11:06] "GET /teacher/2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:11:09] "GET /teacher/?task_ids%5B%5D=480&task_ids%5B%5D=559 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:11:11] "GET /teacher/?task_ids%5B%5D=480&task_ids%5B%5D=559 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:13:29] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:13:29] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:13:29] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:13:29] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:13:29] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:13:29] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:13:29] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:13:29] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:13:29] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:13:30] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:13:30] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [03/Feb/2023 07:13:52] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:13:52] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:13:52] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:13:52] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:13:52] "GET /static/js/chart.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:13:52] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:13:52] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:13:52] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:13:52] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:13:52] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [03/Feb/2023 07:13:52] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -

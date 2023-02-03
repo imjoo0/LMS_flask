@@ -52,14 +52,12 @@ def home():
         return render_template('manage.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting, task_category=all_task_category, tasks=all_task, questions=all_questions)
 
 
-@bp.route('/api/get_all_questions', methods=['POST'])
+@bp.route('/api/get_all_questions', methods=['GET'])
 def get_all_questions():
-    if request.method == 'POST':
-        all_questions = Question.query.order_by(Question.id.desc())
+    if request.method == 'GET':
+        all_questions = Question.query.all()
 
-        return_data = {}
-
-        return jsonify({'data':list(all_questions)})
+        return jsonify({'data':all_questions})
 
 
 @bp.route("/ban", methods=['GET', 'POST'])
