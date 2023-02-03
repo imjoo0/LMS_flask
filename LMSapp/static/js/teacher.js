@@ -111,7 +111,7 @@ async function get_done_task(){
                 `;
                 $('#today_done_box').html(temp_task_contents_box);
             }else{
-                 $(tcb).empty()
+                 $('#today_done_box').empty()
                 for(i=0;i<response["task"].length;i++){
                     let target = response["task"][i]
                     console.log(target)
