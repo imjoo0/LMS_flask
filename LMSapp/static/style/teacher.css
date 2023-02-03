@@ -34,8 +34,6 @@
 
 }
 
-
-
 .question-label {
   font-size: 18px;
   font-weight: 600;
@@ -110,7 +108,7 @@
 }
 
 .info-title {
-  background-color: #2c2c2c;
+  background-color: #2b2b2b;
   padding: 15px 30px;
   border-radius: 20px 20px 0 0;
   border-bottom: 3px groove #f1f1f1;
@@ -128,6 +126,14 @@
   justify-content: center;
   align-items: center;
   padding: 30px;
+}
+
+.modal-header {
+  background-color: #2B2B2B;
+}
+
+.modal-header .modal-title, .modal-header .btn-close {
+  color: #f1f1f1;
 }
 
 /* 이반 요청 */
