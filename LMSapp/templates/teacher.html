@@ -12,6 +12,8 @@
 {% endblock %}
 {% block style %}
 <link rel="stylesheet" href="../static/style/teacher.css">
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 {% endblock %}
 {% with messages = get_flashed_messages() %}
     {% if messages %}
