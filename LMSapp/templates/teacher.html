@@ -12,6 +12,14 @@
 {% endblock %}
 {% block style %}
 <link rel="stylesheet" href="../static/style/teacher.css">
+{% endblock %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <script> alert("{{ messages[-1] }}")</script>
+    {% endif %}
+{% endwith %}
+{% block content %}
+{% autoescape off %}
 <script type="text/javascript">
     var csrf_token = "{{ csrf_token() }}";
 
@@ -26,14 +34,6 @@
 <script type="text/javascript">
     axios.defaults.headers.common["X-CSRFToken"] = "{{ csrf_token() }}";
 </script>
-{% endblock %}
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <script> alert("{{ messages[-1] }}")</script>
-    {% endif %}
-{% endwith %}
-{% block content %}
-{% autoescape off %}
 <!-- 문의 남기기 -->
 <div class="modal fade" id="question" tabindex="-1"
     aria-labelledby="questionModalLabel" aria-hidden="true">
