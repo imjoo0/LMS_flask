@@ -54,7 +54,7 @@ function get_task(category_id){
                 let temp_task_contents_box = `
                 <p> 오늘은 할 업무가 없습니다🎉</p>
                 `;
-                $(tcb).append(temp_task_contents_box);
+                $(tcb).html(temp_task_contents_box);
             }else{
                 let target_task = response["task"]
                  $(tcb).empty()
