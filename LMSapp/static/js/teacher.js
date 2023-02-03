@@ -48,6 +48,7 @@ function get_task(category_id){
         url: "/teacher/"+category_id,
         data: {},
         success: function (response) {
+            console.log(response)
             let tcb = '#task_contents_box'+category_id
             if(response["task"] == '없음'){
                 let temp_task_contents_box = `
