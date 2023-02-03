@@ -113,7 +113,11 @@ function update_done(target){
 			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
             data: {},
             success: function (response) {{
-				console.log(response);
+				if(response['result'] == '완료'){
+                    alert("업무 완료가 저장되었습니다.")
+                }else{
+                    alert(response["result"])
+                }
 			}}
 		})
 }

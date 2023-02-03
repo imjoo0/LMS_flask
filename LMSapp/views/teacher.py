@@ -12,7 +12,7 @@ import callapi
 
 # 선생님 메인 페이지
 # 테스트 계정 id : T1031 pw동일  
-@bp.route("/", methods=['GET','POST'])
+@bp.route("/", methods=['GET'])
 def home():
     if request.method =='GET':
         teacher_info = callapi.get_teacher_info(session['user_id'])
@@ -46,7 +46,7 @@ def task(id):
         target_task.done = 1
         try:
             db.session.commit()
-            return jsonify({'result': '업무 완료!'})
+            return jsonify({'result': '완료'})
         except:
             return jsonify({'result': '업무완료 실패'})
     elif request.method == 'GET':
@@ -54,7 +54,7 @@ def task(id):
         Today = current_time.date()
         today_yoil = current_time.weekday() + 1
 
-        my_tasks = TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all()
+        my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done != 1)).all()
 
         tc = []
         for task in my_tasks:
