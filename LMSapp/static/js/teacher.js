@@ -48,6 +48,7 @@ function get_task(category_id){
         url: "/teacher/"+category_id,
         data: {},
         success: function (response) {
+            $(tcb).empty()
             console.log(response)
             let tcb = '#task_contents_box'+category_id
             if(response["task"] == '없음'){
@@ -93,8 +94,6 @@ function get_task(category_id){
         //     if (response["result"]=='문의가 전송되었습니다') {
         //     window.location.replace('/teacher')
         // }else {window.location.href='/'}
-                    
-        $(tcb).empty()
         }
     });
 }
