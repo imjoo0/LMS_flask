@@ -263,3 +263,4 @@
         height: 100%;
     }
 
+#today_task_box,#today_done_box,#before_work{display: none}

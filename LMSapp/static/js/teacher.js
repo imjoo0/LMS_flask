@@ -33,11 +33,13 @@ function change_question_kind(str){
 
 function task_doneview(done_code){
     if(done_code == 0){
-        $('#task_ban_box_incomplete').show();
-        $('#task_ban_box_complete').hide();
-    }else{
-        $('#task_ban_box_complete').show();
-        $('#task_ban_box_incomplete').hide();
+        $('#today_task_box').show();
+        $('#today_done_box').hide();
+        $('#before_work').hide();
+    }else if(done_code == 1){
+        $('#today_done_box').show();
+        $('#today_task_box').hide();
+        $('#before_work').hide();
     }
 }
 
