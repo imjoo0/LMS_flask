@@ -62,10 +62,10 @@ function get_task(category_id){
                     let deadline = target['deadline']
                     let temp_task_contents_box = `
                     <p>✅ ${contents}  마감 : ${deadline} 까지 </p>
-                    <form action="/teacher/" method="post" class="make_row" id="task_ban_box_incomplete${category_id}${i}">
+                    <form method="post" class="make_row" id="task_ban_box_incomplete${category_id}${i}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                     </form>
-                    <form action="/teacher/" method="post" class="make_row" id="task_ban_box_complete${category_id}${i}">
+                    <form method="post" class="make_row" id="task_ban_box_complete${category_id}${i}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                     </form>
                     `;
@@ -109,7 +109,8 @@ function update_done(){
     // }
     console.log(chk_Val)
     $.ajax({
-        contentType: "application/json",
+            type: "POST",
+            contentType: "application/json",
 			url:'/teacher/',
 			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
             data: {task_ids:chk_Val},
