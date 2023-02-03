@@ -5,7 +5,7 @@ from flask import Blueprint, render_template, jsonify, request, redirect, url_fo
 import config
 import json
 import callapi
-# from flask_paginate import Pagination, get_page_parameter, get_page_args
+from flask_paginate import Pagination, get_page_parameter, get_page_args
 
 bp = Blueprint('manage', __name__, url_prefix='/manage')
 
@@ -45,9 +45,9 @@ def home():
         all_consulting = Consulting.query.all()
         all_task_category = TaskCategory.query.all()
         all_task = Task.query.all()
-        all_questions = Question.query.all()
-        #page = request.args.get('page',type=int,default=1)
-        #all_questions = all_questions.paginate(page=page,per_page=10)
+        all_questions = Question.query.order_by(Question.id.desc())
+        page = request.args.get('page',type=int,default=1)
+        all_questions = all_questions.paginate(page=page, per_page=6)
 
         
         return render_template('manage.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting,task_category =  all_task_category,tasks=all_task,questions=all_questions)
