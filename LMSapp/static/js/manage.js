@@ -1,8 +1,8 @@
-let totalData; //총 데이터 수
-let dataPerPage = 6;
-let pageCount = 10; //페이징에 나타낼 페이지 수
-let globalCurrentPage = 1; //현재 페이지
-let data_list;
+//const totalData = 0; //총 데이터 수
+//let dataPerPage = 6;
+//let pageCount = 10; //페이징에 나타낼 페이지 수
+//let globalCurrentPage = 1; //현재 페이지
+//let data_list;
 
 function displayData(totalData, currentPage, dataPerPage,data_list) {
     let chartHtml = "";
