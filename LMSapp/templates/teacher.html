@@ -43,7 +43,7 @@
                 <h5 class="modal-title" id="questionModalLabel">
                     <img src="https://purpleacademy.net/free_project/public/image/head-office-question-btn.png" style="width: 30px;">&nbsp;&nbsp;본원에 문의 남기기
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body py-4 px-5">
                 <form action="/teacher/question" method="POST">
@@ -158,64 +158,66 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="questionListModalLabel">
-                    문의 답변 확인 
+                    <img src="https://purpleacademy.net/free_project/public/image/answer-a-question.png" style="width: 30px; margin-bottom: 2px;">&nbsp;&nbsp;문의 답변 확인 
                 </h5>
-                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <div id="questiondetail" style="width:100%;">
-                <button type="button" class="btn btn-back" onclick="go_back()">다른 문의조회🔙 </button>
-                <div id="questiondetail_box" style="width:100%;"></div>
-            </div>
-            <table class="table text-center" id="questionlist" style="width:100%;">
-                <tbody  style="width:100%;">
-                    <tr class="row">
-                        <th class="col-3">종류</th>
-                        <th class="col-5">제목</th>
-                        <th class="col-2">답변</th>
-                        <th class="col-2">수정/삭제</th>
-                    </tr>
-                    {% if questions is iterable %}
-                        {% for question in questions %}
+            <div class="modal-body by-4 px-5">
+                <div id="questiondetail" style="width:100%;">
+                    <button type="button" class="btn btn-back" onclick="go_back()">다른 문의조회🔙 </button>
+                    <div id="questiondetail_box" style="width:100%;"></div>
+                </div>
+                <table class="table text-center" id="questionlist" style="width:100%;">
+                    <tbody  style="width:100%;">
                         <tr class="row">
-                            {% if question.category == 0 %}
-                            <td class="col-3">일반문의</td>
-                            {% elif question.category == 1 %}
-                            <td class="col-3">퇴소문의</td>
-                            {% elif question.category == 2 %}
-                            <td class="col-3">이반문의</td>
-                            {% else %}
-                            <td class="col-3">취소/환불</td>
-                            {% endif %}
-                            <td class="col-5">{{ question.title }} </td>
-                            {% if question.answer_id == None %}
-                            <td class="col-2"> 미응답 </td>
-                            {% else %}
-                            <td class="col-2"  onclick="get_answer('{{question.id}}')">  ✔️  </td>
-                            {% endif %}
-                            <td class="col-2"  onclick="get_answer('{{question.id}}')"> ✏️❌ </td>
+                            <th class="col-3">종류</th>
+                            <th class="col-5">제목</th>
+                            <th class="col-2">답변</th>
+                            <th class="col-2">수정/삭제</th>
                         </tr>
-                        {% endfor %}
-                    {% else %}
-                        <tr class="row">
-                            {% if questions.category == 0 %}
-                            <td class="col-3">일반문의</td>
-                            {% elif questions.category == 1 %}
-                            <td class="col-3">퇴소문의</td>
-                            {% elif questions.category == 2 %}
-                            <td class="col-3">이반문의</td>
-                            {% else %}
-                            <td class="col-3">취소/환불</td>
-                            {% endif %}
-                            <td class="col-7">{{ questions.title }} </td>
-                            {% if questions.answer_id == null %}
-                            <td class="col-2"> 미답변 </td>
-                            {% else %}
-                            <td class="col-2"  onclick="get_answer('{{questions.id}}')"> ✔️ </td>
-                            {% endif %}
-                        </tr>
-                    {% endif %}
-                </tbody>
-            </table>    
+                        {% if questions is iterable %}
+                            {% for question in questions %}
+                            <tr class="row">
+                                {% if question.category == 0 %}
+                                <td class="col-3">일반문의</td>
+                                {% elif question.category == 1 %}
+                                <td class="col-3">퇴소문의</td>
+                                {% elif question.category == 2 %}
+                                <td class="col-3">이반문의</td>
+                                {% else %}
+                                <td class="col-3">취소/환불</td>
+                                {% endif %}
+                                <td class="col-5">{{ question.title }} </td>
+                                {% if question.answer_id == None %}
+                                <td class="col-2"> 미응답 </td>
+                                {% else %}
+                                <td class="col-2"  onclick="get_answer('{{question.id}}')">  ✔️  </td>
+                                {% endif %}
+                                <td class="col-2"  onclick="get_answer('{{question.id}}')"> ✏️❌ </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr class="row">
+                                {% if questions.category == 0 %}
+                                <td class="col-3">일반문의</td>
+                                {% elif questions.category == 1 %}
+                                <td class="col-3">퇴소문의</td>
+                                {% elif questions.category == 2 %}
+                                <td class="col-3">이반문의</td>
+                                {% else %}
+                                <td class="col-3">취소/환불</td>
+                                {% endif %}
+                                <td class="col-7">{{ questions.title }} </td>
+                                {% if questions.answer_id == null %}
+                                <td class="col-2"> 미답변 </td>
+                                {% else %}
+                                <td class="col-2"  onclick="get_answer('{{questions.id}}')"> ✔️ </td>
+                                {% endif %}
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>    
         </div>
     </div>
 </div>

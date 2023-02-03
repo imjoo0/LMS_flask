@@ -103,30 +103,18 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
 
 $(function (){
     let container = $('#pagination')
-
-    $.ajax({
-        method: "get",
-        url: "/manage/api/get_all_questions",
-        success: function (response){
-            console.log(JSON.parse(response.data))
-            container.pagination({
-                dataSource: JSON.parse(response.data),
-                callback: function (data, pagination) {
-                    var dataHtml = '<ul>';
-                    $.each(data, function (index, item){
-                        dataHtml += '<li>' + item.name + '</li>';
+    container.pagination({
+        dataSource: [{name: 'hello1'}, {name:'hello2'}],
+        pageSize: 1,
+        callback: function (data, pagination){
+            var dataHtml = '';
+            $.each(data, function (index, item){
+                dataHtml +=  `<td class="col-3">${item.name}</td><td class="col-3">${item.name}</td><td class="col-3">${item.name}</td><td class="col-3">${item.name}</td>`;
                     });
 
                     dataHtml += '</ul>';
-
-                    $('#data-container').html(dataHtml);
-                }
-            })
-        },
-        error: function(xhr, status, error){
-            alert(xhr.responseText)
+                    $('#alim-tr').html(dataHtml);
         }
-
     })
 })
 
