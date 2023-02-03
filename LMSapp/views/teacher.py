@@ -148,9 +148,9 @@ def task(id):
                     if(task.startdate.date() <= Today and Today <= task.deadline.date()):
                         category_task.append(task)
 
-        # 우선순위 정렬 
-        category_task.sort(key=lambda x:-x.priority) 
         
+        category_task.sort(key=lambda x:-x.priority)
+        print(category_task)
         target_task = []
         if(len(category_task)==0):
             return jsonify({'task': '없음'})
@@ -214,23 +214,28 @@ def answer(id):
         q = Question.query.filter(Question.id == id).all()[0]
         teacher_info = callapi.get_teacher_info(session['user_id'])
         a = Answer.query.filter(Answer.question_id == q.id).all()
+        return_data = {}
+        return_data['category'] = '일반문의' if q.category == 0 else '퇴소 요청' if q.category == 1 else '이반 요청'if q.category == 2 else '취소/환불 요청' 
+        return_data['title'] = q.title
+        return_data['contents'] = q.contents
+        return_data['create_date'] = q.create_date
+        return_data['teacher'] = teacher_info['name']
+        return_data['teacher_e'] = teacher_info['engname']
+        return_data['answer'] = a.content if len(a)  > 0 else '✖️'
+        return_data['answer_at'] = a.created_at if len(a) > 0  else '✖️'
+
         if len(a)!=0:
             if q.category == 0:
-                return jsonify({
-                'category':'일반문의',
-                'title': q.title,
-                'contents':q.contents,
-                'create_date':q.create_date,
-                'teacher': teacher_info['name'],
-                'teacher_e': teacher_info['engname'],
-                'answer' : a.content,
-                'answer_at': a.created_at
-                })
+                return jsonify(return_data)
             else:
                 s = callapi.get_student_info(q.student_id )
                 b = callapi.get_ban(q.ban_id )    
 
                 if q.category == 2:
+                    return_data['student'] = s['name']
+                    return_data['student_origin'] = s['origin']
+                    return_data['ban'] = b['ban_name']
+                    return_data['reject'] = a.reject_code
                     return jsonify({
                     'category':'이반 요청',
                     'title': q.title,
@@ -279,16 +284,7 @@ def answer(id):
                     return 'error'
         elif len(a)==0:
             if q.category == 0:
-                return jsonify({
-                'category':'일반문의',
-                'title': q.title,
-                'contents':q.contents,
-                'create_date':q.create_date.strftime('%Y-%m-%d'),
-                'teacher': teacher_info['name'],
-                'teacher_e': teacher_info['engname'],
-                'answer' : '미응답',
-                'answer_at': '✖️'
-                })
+                return jsonify(return_data)
             else:
                 s = callapi.get_student_info(q.student_id )
                 b = callapi.get_ban(q.ban_id )    
