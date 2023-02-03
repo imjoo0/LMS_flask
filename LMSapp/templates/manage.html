@@ -255,7 +255,7 @@
     </div>
 </div>
 
-<div class="container_box">
+<div class="container_box w-75">
     <section id="statistics">
         <div class="make_row">
             <div class="label" id="default_title">
@@ -323,7 +323,6 @@
                 <h1> 선생님 문의 현황 </h1>
             </div>
             <table class="table text-center" id="teacher_question" style="width:100%;">
-                <tbody >
                     <thead>
                         <tr class="row">
                             <th class="col-3">종류</th>
@@ -332,7 +331,8 @@
                             <th class="col-2">응답</th>
                         </tr>
                     </thead>
-                    {% for q in questions %}
+                <tbody >
+                    <!--{% for q in questions %}
                     <tr id="alim-tr" class="row">
                         {% if q.category == 0 %}
                         <td class="col-3">일반문의</td>
@@ -345,13 +345,14 @@
                         {% endif %}
                         <td class="col-3"> {{q.teacher_id}} </td>
                         <td class="col-4"> {{ q.contents }} </td>
-                        <td class="col-2"> <button>✏️</button> <button>❌</button></td>
-                    </tr>
-                    {% endfor %}
+                        <td class="col-2"> <button>✏️</button> <button>❌</button></td> -
+                        </tr>
+                    {% endfor %}-->
+                    <tr id="alim-tr" class="row"></tr>
+
                 </tbody>
             </table>
-            <div id="data-container"></div>
-            <div id="pagination"></div>
+            <div id="pagination" class="py-5"></div>
         </div>
     </section>
 </div>
