@@ -38,9 +38,6 @@ function task_doneview(done_code){
         $('#before_work').hide();
     }else if(done_code == 1){
         get_done_task()
-        $('#today_done_box').show();
-        $('#today_task_box').hide();
-        $('#before_work').hide();
     }else{
         $('#before_work').show();
         $('#today_task_box').hide();
@@ -99,8 +96,11 @@ async function get_task(category_id){
     $('#today_done_box').hide();
     $('#before_work').hide();
 }
-function get_done_task(){
-    $.ajax({
+async function get_done_task(){
+    $('#today_task_box').hide();
+    $('#before_work').hide();
+    $('#today_done_box').show();
+    await $.ajax({
         type: "GET",
         url: "/teacher/taskdone",
         data: {},
@@ -112,6 +112,7 @@ function get_done_task(){
                 $('#today_done_box').html(temp_task_contents_box);
             }else{
                 let target_task = response["task"]
+                console.log(target_task)
                  $(tcb).empty()
                 for(i=0;i<target_task.length;i++){
                     let target = target_task[i]

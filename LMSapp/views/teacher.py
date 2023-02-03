@@ -53,6 +53,7 @@ def taskdone():
             if t.startdate.date() <= Today and Today <= t.deadline.date(): 
                 tc.append(t.contents)
         tc = list(set(tc))
+        print(tc)
         if(len(tc)==0):
             return jsonify({'task': '없음'})
         else:
