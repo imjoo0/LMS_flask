@@ -93,7 +93,8 @@ function get_task(category_id){
         //     if (response["result"]=='문의가 전송되었습니다') {
         //     window.location.replace('/teacher')
         // }else {window.location.href='/'}
-        
+                    
+        $(tcb).empty()
         }
     });
 }

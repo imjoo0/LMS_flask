@@ -148,9 +148,9 @@ def task(id):
                     if(task.startdate.date() <= Today and Today <= task.deadline.date()):
                         category_task.append(task)
 
+        # 우선순위 정렬 
+        category_task.sort(key=lambda x:-x.priority) 
         
-        category_task.sort(key=lambda x:-x.priority)
-        print(category_task)
         target_task = []
         if(len(category_task)==0):
             return jsonify({'task': '없음'})
