@@ -145,8 +145,9 @@ def consulting(id):
         consulting_list = []
         for student in my_students:
             consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1))
-            consultings.query.filter((Consulting.startdate <= current_time)&(current_time <= Consulting.deadline)).all()
             print(consultings)
+            consultings.query.filter((Consulting.startdate <= current_time)&(current_time <= Consulting.deadline)).all()
+
             if( len(consultings) != 0 ):
                 target_data = {}
                 target_data['name'] = student['name'] + '(' + student['origin'] + ')'
