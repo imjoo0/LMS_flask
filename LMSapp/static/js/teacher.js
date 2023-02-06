@@ -67,14 +67,54 @@ async function get_consulting(ban_regi){
                     let mobileno = target['mobileno']
                     let student_reco_book_code = target['reco_book_code']
                     let consulting_num = target['consulting_num']
+                    
                     let temp_consulting_contents_box = `
-                        <div data-bs-toggle="modal" data-bs-target="#consultinghistory">
+                        <div data-bs-toggle="modal" data-bs-target="#consultinghistory${register_no}">
                             <strong>${student_name} 상담 ${consulting_num}건</strong> 📞${mobileno} | 추천도서:${student_reco_book_code}
                         </div>
+                        <div class="modal fade" id="consultinghistory${register_no}" tabindex="-1"
+                            aria-labelledby="consultinghistoryModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="consultinghistoryModalLabel">
+                                            <img src="https://purpleacademy.net/free_project/public/image/head-office-consultinghistory-btn.png" style="width: 30px;">&nbsp;&nbsp;${student_name}상담일지 작성
+                                        </h5>
+                                        <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body py-4 px-5">
+                                        <form action="/teacher/consulting" method="POST">
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
+                                            <div class="modal-body-select-container"  id="consultinghistory_kind">
+                                                <span class="modal-body-select-label">진행 할 상담</span>
+                                                <select id="consultinghistory_kind${register_no}" class="modal-body-select" name="consultinghistory_category">
+                                                    <option value="none" selected>진행 할 상담을 선택해주세요</option>
+                                                </select>
+                                            </div>
+                                            <div id="consulting_box">
+                                                <div class="modal-body-select-container">
+                                                    <span class="modal-body-select-label">문의 제목</span>
+                                                    <input class="modal-body-select" type="text" size="50" name="consulting_title" style="width: 75%;">
+                                                </div>
+                                                <div class="modal-body-select-container">
+                                                    <span class="modal-body-select-label">문의 내용</span>
+                                                    <textarea id="consulting_contents" class="modal-body-select" type="text"rows="5" cols="25" name="consulting_contents" style="width: 75%;"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-center mt-4 mb-2">
+                                                <button class="btn btn-dark" type="submit">저장</button>
+
+                                                <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin-top: 13px;">취소</button> -->
+                                            </div>
+                                        </form>
+                                    </div>           
+                                </div>
+                            </div>
+                        </div>
                     `;
-                    $('#consultinghistory_kind').empty()
-                    $('#consultinghistoryModalLabel').html(`&nbsp;&nbsp;${student_name} 상담`)
                     $('#today_consulting_box').append(temp_consulting_contents_box);
+                    
+                    $('#consultinghistory_kind'+register_no).empty()
                     let target_consulting = target['consultings']
                     for(j=0;j<target_consulting.length;j++){
                         let target_consulting_data = target_consulting[j]
@@ -86,7 +126,7 @@ async function get_consulting(ban_regi){
                         let temp_consulting_contents_box = `
                             <option value=${consulting_id}><strong>${category}</strong> ${contents} </br> *마감: ${deadline}까지 </option>
                         `;
-                        $('#consultinghistory_kind').append(temp_consulting_contents_box);
+                        $('#consultinghistory_kind'+register_no).append(temp_consulting_contents_box);
                     }
                 }
             }
