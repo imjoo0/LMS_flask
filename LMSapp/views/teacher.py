@@ -29,10 +29,10 @@ def home():
         if len(my_tasks)!=0:
             tc = []
             for task in my_tasks:
-                t = Task.query.filter(Task.id==task.task_id).all()[-1]
-                print(t)
+                t = Task.query.filter(Task.id==task.task_id).all()[0]
                 # 오늘의 업무만 저장 
                 if t.startdate.date() <= Today and Today <= t.deadline.date(): 
+                    print("fun")
                     tc.append(t.contents)
             tc = list(set(tc))
             category_set = []
