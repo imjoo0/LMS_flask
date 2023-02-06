@@ -82,7 +82,7 @@ async function get_consulting(ban_regi){
                         let deadline = target_consulting_data['deadline']
 
                         let temp_consulting_contents_box = `
-                        <label><input type="checkbox" name="consultingid" value="${consulting_id}">( ${category} ) ${contents} *마감: ${deadline}까지 </label>
+                        <label><input type="checkbox" name="consultingid" value="${consulting_id}">( ${category} ) ${contents} </br> *마감: ${deadline}까지 </label>
                         `;
                         $('#consulting_contents_box'+register_no).append(temp_consulting_contents_box);
                     }
