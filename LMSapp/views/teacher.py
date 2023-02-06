@@ -31,8 +31,8 @@ def home():
                 t = Task.query.filter(Task.id==task.task_id).all()
                 print(t)
                 # 오늘의 업무만 저장 
-                if t.startdate.date() <= Today and Today <= t.deadline.date(): 
-                    tc.append(t.contents)
+                if t[0].startdate.date() <= Today and Today <= t[0].deadline.date(): 
+                    tc.append(t[0].contents)
             tc = list(set(tc))
             category_set = []
             for cate in tc:
