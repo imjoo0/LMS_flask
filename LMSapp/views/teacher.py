@@ -24,17 +24,18 @@ def home():
         all_ban_info = callapi.all_ban_info()
         all_task_category = TaskCategory.query.all()
         my_tasks = TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all()
-        # print(my_tasks)
-        print(my_tasks)
+
         if len(my_tasks)!=0:
             for task in my_tasks:
                 t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline )).all()   
             # # print(tc)
             # tc = list(set(tc))
+            t = list(set(t))
             print(t)
 
+
             category_set = []
-            for cate in tc:
+            for cate in t:
                 category_set.append(cate.category_id)
             category_set = list(set(category_set))
         else:
