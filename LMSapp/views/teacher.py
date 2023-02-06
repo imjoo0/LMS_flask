@@ -155,7 +155,6 @@ def consulting(id):
                 target_data['register_date'] = student['register_date']            
                 target_data['consultings'] = []
                 for consulting in consultings:
-                    if()
                     consulting_data = {}
                     consulting_data['contents'] = consulting.contents
                     consulting_data['category'] = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first().name
