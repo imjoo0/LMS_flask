@@ -33,7 +33,7 @@ def home():
                 # if t.startdate.date() <= Today and Today <= t.deadline.date(): 
                 #     tc.append(t.contents)   
                 print(t)         
-            print(tc)
+            # print(tc)
             tc = list(set(tc))
 
             category_set = []
