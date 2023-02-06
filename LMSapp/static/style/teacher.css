@@ -263,4 +263,5 @@
         height: 100%;
     }
 
-#today_task_box,#today_done_box,#before_work{display: none}
+#today_task_box,#today_done_box{display: none}
+#today_consulting_box,#today_done_consulting_box{display: none}

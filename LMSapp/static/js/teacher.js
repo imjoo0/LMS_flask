@@ -34,13 +34,15 @@ function consulting_view(ban_regi){
     ban_regi = Number(ban_regi)
     if(ban_regi == 0){
         $('#consulting_title').html('상담할 반을 선택해주세요 ')
-        // $('#today_task_box').show();
-        // $('#today_done_box').hide();
+        $('#today_consulting_box').hide();
+        $('#today_done_consulting_box').hide();
     }else if(ban_regi == 1){
         // get_done_task()
         $('#consulting_title').html('오늘 완료한 상담 목록')
     }else{
+        $('#consulting_title').html('오늘의 상담')
         get_consulting(ban_regi)
+        $('#today_done_consulting_box').hide();
     }
 }
 
@@ -65,7 +67,7 @@ async function get_consulting(ban_regi){
                     let student_reco_book_code = target['reco_book_code']
                     let temp_consulting_contents_box = `
                     <details>
-                            <summary><strong>${student_name} 상담</strong> 📞${mobileno} | 추천도서:${reco_book_code} </summary>
+                            <summary><strong>${student_name} 상담</strong> 📞${mobileno} | 추천도서:${student_reco_book_code} </summary>
                             <div class="make_col" id="consulting_contents_box${register_no}"></div>
                     </details>
                     `;
@@ -88,8 +90,8 @@ async function get_consulting(ban_regi){
             }
         }
     });
-    // $('#today_task_box').show();
-    // $('#today_done_box').hide();
+    $('#today_consulting_box').show();
+    $('#today_done_consulting_box').hide();
 }
 
 function task_doneview(done_code){
