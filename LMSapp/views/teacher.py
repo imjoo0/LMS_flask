@@ -26,9 +26,13 @@ def home():
         my_tasks = TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all()
 
         my_tasks.sort(key = lambda x:x.task_id)
+        
         tc = []
         for task in my_tasks:
-            tc.append(Task.query.filter(Task.id==task.task_id).all())     
+            t = Task.query.filter(Task.id==task.task_id).all()[0]
+            # 오늘의 업무만 저장 
+            if t.startdate.date() <= Today and Today <= t.deadline.date(): 
+                tc.append(t.contents)
         tc = list(set(tc))
 
         category_set = []
