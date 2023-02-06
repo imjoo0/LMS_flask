@@ -144,25 +144,23 @@ def consulting(id):
         my_students = callapi.get_students(id)
         consulting_list = []
         for student in my_students:
-            consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1)).all()[0]
-            print(consultings)
-            if( len(consultings) != 0 ):
-                target_data = {}
-                target_data['name'] = student['name'] + '(' + student['origin'] + ')'
-                target_data['mobileno'] = student['mobileno']
-                target_data['reco_book_code'] = student['reco_book_code']
-                target_data['register_date'] = student['register_date']            
-                target_data['consultings'] = []
-                for consulting in consultings:
-                    if(consulting.startdate.date() <= Today and Today <= consulting.deadline.date()):
-                        consulting_data = {}
-                        consulting_data['contents'] = consulting.contents
-                        consulting_data['category'] = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first().name
-                        consulting_data['deadline'] = consulting.deadline.strftime('%Y-%m-%d')
-                        consulting_data['consulting_ban'] = []
-                        target_data['consultings'].append(consulting_data)
-                if(len(target_data['consultings'])!=0):
-                    consulting_list.append(target_data)
+            consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1)).all()
+            target_data = {}
+            target_data['name'] = student['name'] + '(' + student['origin'] + ')'
+            target_data['mobileno'] = student['mobileno']
+            target_data['reco_book_code'] = student['reco_book_code']
+            target_data['register_date'] = student['register_date']            
+            target_data['consultings'] = []
+            for consulting in consultings:
+                if(consulting.startdate.date() <= Today and Today <= consulting.deadline.date()):
+                    consulting_data = {}
+                    consulting_data['contents'] = consulting.contents
+                    consulting_data['category'] = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first().name
+                    consulting_data['deadline'] = consulting.deadline.strftime('%Y-%m-%d')
+                    consulting_data['consulting_ban'] = []
+                    target_data['consultings'].append(consulting_data)
+            if(len(target_data['consultings'])!=0):
+                consulting_list.append(target_data)
         print(consulting_list)
         if(len(consulting_list)==0):
             return jsonify({'consulting': '없음'})
