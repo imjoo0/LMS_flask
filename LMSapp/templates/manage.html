@@ -89,7 +89,7 @@
                             </tr>
                         </thead>
                        
-                        {% for consulting in consultings %}
+                        <!--{% for consulting in consultings %}
                         <tr class="row">
                             <td class="col-3">{{ consulting.startdate }} ~ {{ consulting.deadline }}</td>
                             {% if consulting.category_id == 1 %}
@@ -103,7 +103,7 @@
                             <td class="col-4"> {{ consulting.contents }} </td>
                             <td class="col-2"> <button>✏️</button> <button>❌</button></td>
                         </tr>
-                        {% endfor %}
+                        {% endfor %}-->
                     </tbody>
                 </table> 
             </div>
@@ -352,14 +352,12 @@
             <div class="make_row" id="request_box">
                     <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
                     data-bs-target="#request_consulting">상담 요청 하기</button>
-                    <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-                    data-bs-target="#my_consulting_request" style="margin-right: 20px;">요청중인 상담 보기</button>
+                    <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#my_consulting_request" onclick="get_consulting()" style="margin-right: 20px;">요청중인 상담 보기</button>
                     <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
                     data-bs-target="#request_task">업무 요청 하기</button>
                     <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
                     data-bs-target="#my_task_request">요청중인 업무 보기</button>    
             </div>
-
         </div>
 
     </section>

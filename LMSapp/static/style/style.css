@@ -44,9 +44,17 @@
     color: #444444;
 }
 
+
+
 body {
     background-color: #444444;
+    min-height: 100vh;
 }
+
+body::-webkit-scrollbar{
+    display: none;
+}
+
 footer{
     background-color: #2b2b2b;
 }
@@ -203,10 +211,7 @@ footer{
 
 
 
-/* card 섹션 */
-body::-webkit-scrollbar{
-    display: none;
-}
+
 
 
 

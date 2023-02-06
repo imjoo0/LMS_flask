@@ -1,8 +1,14 @@
 import config 
 import requests
 import json
+import datetime
 
 headers = {'content-type': 'application/json'}
+
+def json_default(value):
+    if isinstance(value, datetime.datetime):
+        return value.strftime('%Y-%m-%d')
+    raise TypeError('not serializable')
 
 # session['user_id'] 선생님 아이디 
 def get_user(teacher_id):

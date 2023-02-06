@@ -135,6 +135,20 @@ function paginating(){
 
 paginating()
 
+function get_consulting(){
+$.ajax({
+        url: '/manage/api/get_consulting',
+        type: 'get',
+        data: {},
+        success: function(data){
+        console.log(data)
+    },
+    error: function(xhr, status, error){
+        alert(xhr.responseText);
+    }
+})
+}
+
 function getBanInfo(b_id){
     $('#label_title').empty();
     $('#profile_data').empty();
