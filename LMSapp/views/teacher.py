@@ -25,7 +25,7 @@ def home():
         all_task_category = TaskCategory.query.all()
 
         my_tasks = TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all()
-        if len(my_tasks!=0):
+        if len(my_tasks)!=0:
             tc = []
             for task in my_tasks:
                 t = Task.query.filter(Task.id==task.task_id).all()[0]
