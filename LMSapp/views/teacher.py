@@ -144,7 +144,8 @@ def consulting(id):
         my_students = callapi.get_students(id)
         consulting_list = []
         for student in my_students:
-            consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1) & (Consulting.startdate() <= current_time) & ( current_time <= Consulting.deadline())).all()
+            consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1))
+            consultings.query.filter((Consulting.startdate <= current_time)&(current_time <= Consulting.deadline)).all()
             print(consultings)
             if( len(consultings) != 0 ):
                 target_data = {}
@@ -154,6 +155,7 @@ def consulting(id):
                 target_data['register_date'] = student['register_date']            
                 target_data['consultings'] = []
                 for consulting in consultings:
+                    if()
                     consulting_data = {}
                     consulting_data['contents'] = consulting.contents
                     consulting_data['category'] = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first().name
