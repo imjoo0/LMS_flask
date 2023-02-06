@@ -204,7 +204,7 @@ async function get_task(category_id){
 }
 
 async function get_done_task(){
-    $('#task_title').html('오늘 완료한 업무')
+    $('#task_title').html('완료한 업무')
     $('#today_task_box').hide();
     $('#today_done_box').show();
 
