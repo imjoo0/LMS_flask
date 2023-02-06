@@ -180,12 +180,23 @@ async function get_task(category_id){
                     let target = target_task[i]
                     let contents = target['contents']
                     let deadline = target['deadline']
-                    let temp_task_contents_box = `
-                    <p>✅ ${contents}  마감 : ${deadline} 까지 </p>
-                    <form method="post" class="make_row" id="task_ban_box_incomplete${category_id}${i}">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
-                    </form>
-                    `;
+                    let priority = target['priority']
+                    if(priority > 2){
+                        let temp_task_contents_box = `
+                        <p style="color:red;">⭐우선업무 ${contents}  마감 : ${deadline} 까지 </p>
+                        <form method="post" class="make_row" id="task_ban_box_incomplete${category_id}${i}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
+                        </form>
+                        `;
+                    }else{
+                        let temp_task_contents_box = `
+                        <p>✅ ${contents}  마감 : ${deadline} 까지 </p>
+                        <form method="post" class="make_row" id="task_ban_box_incomplete${category_id}${i}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
+                        </form>
+                        `;
+                    }
+                    
                     $('#task_ban_box_incomplete'+i).empty()
                     $('#task_ban_box_complete'+i).empty()
                     $(tcb).append(temp_task_contents_box);

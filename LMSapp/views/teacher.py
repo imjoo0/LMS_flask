@@ -101,11 +101,7 @@ def task(id):
         category_task = []
         for task in tc:
             if task.category_id == id:
-                if(task.cycle == today_yoil): # 주기가 월-금인 경우 
-                    category_task.append(task)
-                elif(task.cycle == 6): # 주기가 상시인 경우 
-                    category_task.append(task)
-                elif(task.cycle == 7 ): # 주기가 없는 경우
+                if(task.cycle == today_yoil or task.cycle == 6 or task.cycle == 7 ): # 주기가 월-금인 경우 
                     category_task.append(task)
 
 
@@ -120,6 +116,7 @@ def task(id):
                 task_data = {}
                 task_data['contents'] = task.contents
                 task_data['url'] = task.url
+                task_data['priority'] = task.priority
                 task_data['deadline'] = task.deadline.strftime('%Y-%m-%d')
                 task_data['task_ban'] = []
                 for tb in my_tasks:
