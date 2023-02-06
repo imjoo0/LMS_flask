@@ -47,7 +47,7 @@ function consulting_view(ban_regi){
 async function get_consulting(ban_regi){
     await $.ajax({
         type: "GET",
-        url: "/teacher/consulting"+ban_regi,
+        url: "/teacher/consulting/"+ban_regi,
         data: {},
         success: function (response) {
             let target_consulting = response["consulting"]
