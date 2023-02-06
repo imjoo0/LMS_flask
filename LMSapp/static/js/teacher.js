@@ -183,7 +183,7 @@ async function get_task(category_id){
                     let priority = target['priority']
                     if(priority > 2){
                         let temp_task_contents_box = `
-                        <p style="color:red;">⭐우선업무 ${contents} 마감 : ${deadline} 까지 </p>
+                        <p>⭐우선업무: ${contents} (마감 : ${deadline})</p>
                         <form method="post" class="make_row" id="task_ban_box_incomplete${category_id}${i}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                         </form>
