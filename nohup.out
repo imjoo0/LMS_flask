@@ -8918,3 +8918,92 @@ None
 118.131.85.245 - - [06/Feb/2023 02:50:36] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
 118.131.85.245 - - [06/Feb/2023 02:50:36] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
 118.131.85.245 - - [06/Feb/2023 02:50:37] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:50:56] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:50:56] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:50:56] "GET /static/style/login.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:50:56] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:50:56] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:50:56] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:50:56] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:50:56] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:50:56] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:50:56] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py', reloading
+(1054, "Unknown column 'category_id' in 'field list'")
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:51:00] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:51:00] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:51:00] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:00] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:00] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:00] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:01] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:01] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:01] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:01] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:01] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:51:01] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:51:01] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:02] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:51:02] "GET /static/style/login.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:02] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:51:02] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:02] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:51:02] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:02] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:02] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:02] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:02] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:03] "GET /manage/api/get_consulting HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:51:05] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:51:05] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:05] "GET /static/style/login.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:05] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:05] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:51:05] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:05] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:05] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:05] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:05] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py', reloading
+(1146, "Table 'LMS.consultring' doesn't exist")
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:51:54] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:51:54] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:54] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:54] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:54] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:54] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:55] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:55] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:55] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:55] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:55] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:51:55] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:51:55] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:51:57] "GET /manage/api/get_consulting HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:52:03] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:52:03] "GET /static/style/login.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:52:03] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:52:03] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:52:03] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:52:03] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:52:03] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:52:03] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:52:04] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:52:04] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:52:16] "GET /manage/api/get_consulting HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:52:18] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:52:18] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:52:18] "GET /static/style/login.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:52:18] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:52:18] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:52:18] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:52:18] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:52:18] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:52:18] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:52:19] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -

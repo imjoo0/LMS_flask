@@ -44,11 +44,12 @@
     color: #444444;
 }
 
-
-
 body {
     background-color: #444444;
-    min-height: 100vh;
+    min-height: 100vh-117.09px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 body::-webkit-scrollbar{
