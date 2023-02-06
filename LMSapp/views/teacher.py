@@ -28,7 +28,7 @@ def home():
         if len(my_tasks)!=0:
             tc = []
             for task in my_tasks:
-                t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time)).all()
+                t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline )).all()
                 # 오늘의 업무만 저장 
                 # if t.startdate.date() <= Today and Today <= t.deadline.date(): 
                 #     tc.append(t.contents)   
