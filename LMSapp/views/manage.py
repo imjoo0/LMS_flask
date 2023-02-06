@@ -61,7 +61,6 @@ def get_all_questions():
             with db.cursor() as cur:
                 cur.execute('select title, contents, answer_id, teacher_id from question;')
                 all_questions = cur.fetchall();
-                print(all_questions)
         except:
             print('err')
         finally:
