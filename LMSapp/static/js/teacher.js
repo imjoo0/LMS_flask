@@ -135,7 +135,7 @@ async function get_consulting(ban_regi){
                         let deadline = target_consulting_data['deadline']
 
                         let temp_consulting_list = `
-                            <p>✅<strong>${category}</strong> ${contents} *마감: ~${deadline}까지</p>
+                            <p>✅<strong>${category}</strong></br>${contents}</br>*마감: ~${deadline}까지</br></p>
                         `;
                         let temp_consulting_contents_box = `
                             <option value=${consulting_id}>${contents}</option>
