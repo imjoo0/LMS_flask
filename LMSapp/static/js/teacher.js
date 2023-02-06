@@ -188,6 +188,7 @@ async function get_task(category_id){
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                         </form>
                         `;
+                        $(tcb).append(temp_task_contents_box);
                     }else{
                         let temp_task_contents_box = `
                         <p>✅ ${contents}  마감 : ${deadline} 까지 </p>
@@ -195,11 +196,11 @@ async function get_task(category_id){
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                         </form>
                         `;
+                        $(tcb).append(temp_task_contents_box);
                     }
                     
                     $('#task_ban_box_incomplete'+i).empty()
                     $('#task_ban_box_complete'+i).empty()
-                    $(tcb).append(temp_task_contents_box);
                     let target_ban = target['task_ban']
                     for(j=0;j<target_ban.length;j++){
                         let target_ban_data = target_ban[j]
