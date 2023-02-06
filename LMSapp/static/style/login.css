@@ -1,26 +1,26 @@
 .form-container{
-    background: linear-gradient(#E9374C,#D31128);
+    background: linear-gradient(#FFB0F2, #FF8FD1);
     font-size: 0;
     padding: 0 15px;
-    border: 1px solid #DC2036;
     border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    box-shadow: -13px -13px 20px #FFF3FD22, 13px 13px 20px #2b2b2b;
 }
 .form-container .form-icon{
     color: #fff;
     font-size: 13px;
     text-align: center;
-    text-shadow: 0 0 20px rgba(0,0,0,0.2);
     width: 50%;
     padding: 70px 0;
     vertical-align: top;
     display: inline-block;
 }
+
 .form-container .form-icon i{
     font-size: 124px;
     margin: 0 0 15px;
     display: block;
 }
+
 .form-container .form-icon .signup a{
     color: #fff;
     text-transform: capitalize;
@@ -33,12 +33,12 @@
 
 
 .form-container .form-horizontal{
-    background: rgba(255,255,255,0.99);
+    background: #f1f1f1;
     width: 50%;
-    padding: 60px 30px;
-    margin: -20px 0;
+    padding: 100px 30px;
+    margin: -32px 0;
     border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    box-shadow: 0 0 20px #111111cc;
     display: inline-block;
 }
 
@@ -92,7 +92,7 @@
 }
 .form-horizontal .btn{
     color: rgba(255,255,255,0.8);
-    background: #E9374C;
+    background: #B02B74;
     font-size: 15px;
     font-weight: 500;
     text-transform: uppercase;
@@ -106,7 +106,7 @@
 .form-horizontal .btn:hover,
 .form-horizontal .btn:focus{
     color: #fff;
-    background-color: #D31128;
+    background-color: #6B003B;
     box-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 .form-horizontal .forgot-pass{
@@ -123,13 +123,32 @@
     text-decoration: underline;
 }
 @media only screen and (max-width:576px){
-    .form-container{ padding-bottom: 15px; }
+  #main {
+    min-height: 600px;
+  }
+
+
+    .form-container{
+      padding-bottom: 15px; 
+      flex-direction: column;
+      margin: 20px 0;
+    }
     .form-container .form-icon{
         width: 100%;
         padding: 20px 0;
     }
+    .form-container .form-icon img{
+        width: 30%;
+        height: auto;
+    }
     .form-container .form-horizontal{
         width: 100%;
         margin: 0;
+        padding: 60px 30px;
     }
 }
+
+#user_id, #user_pw {
+  color: #2b2b2b;
+}
+
