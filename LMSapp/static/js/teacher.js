@@ -141,7 +141,7 @@ function update_done(target){
                 }else{
                     alert(response["result"])
                 }
-                return redirect('/teacher/')
+                window.location.replace('/teacher')
 			}}
 		})
 }
