@@ -20,6 +20,52 @@
 {% endblock %}
 {% block content %}
 {% autoescape off %}
+<!-- 요청한 업무 리스트 모달 창 -->
+<div class="modal fade" id="my_task_request" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="taskModalLabel">
+                    요청 중인 업무 목록 
+                </h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div>
+                <table class="table text-center" id="task_list" style="width:100%;">
+                    <tbody  style="width:100%;">
+                        <thead>
+                            <tr class="row">
+                                <th class="col-3">날짜</th>
+                                <th class="col-2">종류</th>
+                                <th class="col-1">진행</th>
+                                <th class="col-4">내용</th>
+                                <th class="col-2">수정/삭제</th>
+                            </tr>
+                        </thead>
+                       
+                        {% for task in Tasks %}
+                        <tr class="row">
+                            <td class="col-3">{{ task.startdate }} ~ {{ task.deadline }}</td>
+                            {% if task.category_id == 1 %}
+                            <td class="col-2">정기상담</td>
+                            {% elif task.category_id == 2 %}
+                            <td class="col-2">6개월상담</td>
+                            {% else %}
+                            <td class="col-2">귀찮상담</td>
+                            {% endif %}
+                            <td class="col-1"> 미진행 </td>
+                            <td class="col-4"> {{ task.contents }} </td>
+                            <td class="col-2"> <button>✏️</button> <button>❌</button></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table> 
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <!-- 요청한 상담 리스트 모달 창 -->
 <div class="modal fade" id="my_consulting_request" tabindex="-1" aria-labelledby="questionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
