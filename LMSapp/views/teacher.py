@@ -165,7 +165,6 @@ def consulting(id):
             return jsonify({'consulting': '없음'})
         else: 
             consulting_list.sort(key = lambda x:-x['consulting_num'])
-            print(consulting_list)
             return jsonify({'consulting': consulting_list})
         
 
