@@ -76,7 +76,7 @@ def get_consulting():
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute("select ban_id, category_id, student_id, contents, attachments from question;")
+                cur.execute("select ban_id, category_id, student_id, contents, attachments, date_format(startdate, '%Y-%m-%d') as startdate, date_format(deadline, '%Y-%m-%d') as deadline from consulting;")
                 all_consulting = cur.fetchall();
         except Exception as e:
             print(e)
