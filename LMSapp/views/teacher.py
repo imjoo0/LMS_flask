@@ -64,9 +64,9 @@ def taskdone():
 
         tc = []
         for task in my_tasks:
-            t = Task.query.filter(Task.id==task.task_id).all()[0]
+            t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline )).first()
             # 오늘의 업무만 저장 
-            if t.startdate.date() <= Today and Today <= t.deadline.date(): 
+            if t != None:
                 tc.append(t.contents)
         tc = list(set(tc))
         if(len(tc)==0):
@@ -92,9 +92,9 @@ def task(id):
 
         tc = []
         for task in my_tasks:
-            t = Task.query.filter(Task.id==task.task_id).all()[0]
+            t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline )).first()
             # 오늘의 업무만 저장 
-            if t.startdate.date() <= Today and Today <= t.deadline.date(): 
+            if t != None:
                 tc.append(t)
         tc = list(set(tc))
         
