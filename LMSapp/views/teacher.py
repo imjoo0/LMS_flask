@@ -22,26 +22,24 @@ def home():
         mystudents_info = callapi.get_mystudents(session['user_id'])
         mybans_info = callapi.get_mybans(session['user_id'])
         all_ban_info = callapi.all_ban_info()
+        all_task_category = TaskCategory.query.all()
 
         my_tasks = TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all()
-
-        my_tasks.sort(key = lambda x:x.task_id)
-
-        tc = []
-        for task in my_tasks:
-            t = Task.query.filter(Task.id==task.task_id).first()
-            print(t)
-            # 오늘의 업무만 저장 
-            if t.startdate.date() <= Today and Today <= t.deadline.date(): 
-                tc.append(t.contents)
-        tc = list(set(tc))
-
-        category_set = []
-        for cate in tc:
-            category_set.append(cate.category_id)
-        category_set = list(set(category_set))
-
-        all_task_category = TaskCategory.query.all()
+        if len(my_tasks!=0):
+            tc = []
+            for task in my_tasks:
+                t = Task.query.filter(Task.id==task.task_id).all()[0]
+                # 오늘의 업무만 저장 
+                if t.startdate.date() <= Today and Today <= t.deadline.date(): 
+                    tc.append(t.contents)
+            tc = list(set(tc))
+            category_set = []
+            for cate in tc:
+                category_set.append(cate.category_id)
+            category_set = list(set(category_set))
+        else:
+            category_set = '없음'
+        
 
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
         return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,students=mystudents_info, questions=my_questions,my_task_category=category_set,all_task_category=all_task_category)
