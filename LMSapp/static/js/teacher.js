@@ -30,6 +30,9 @@ function change_question_kind(str){
         $('#question_box').show();
     }
 }
+function consulting_view(ban_regi){
+    console.log(ban_regi)
+}
 
 function task_doneview(done_code){
     if(done_code == 0){
