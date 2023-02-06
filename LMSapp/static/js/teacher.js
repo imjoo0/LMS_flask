@@ -62,7 +62,7 @@ async function get_consulting(ban_regi){
                 for(i=0;i<response["consulting"].length;i++){
                     let target = response["consulting"][i]
                     let student_name = target['name']
-                    let register_no = target['register_no']
+                    let register_no = target['s_id']
                     let mobileno = target['mobileno']
                     let student_reco_book_code = target['reco_book_code']
                     let temp_consulting_contents_box = `
@@ -82,7 +82,7 @@ async function get_consulting(ban_regi){
                         let deadline = target_consulting_data['deadline']
 
                         let temp_consulting_contents_box = `
-                        <label><input type="checkbox" name="consultingid" value="${consulting_id}">( ${category} ) ${contents} </br> *마감: ${deadline}까지 </label>
+                        <label><input type="checkbox" name="consultingid" value="${consulting_id}"><strong>${category}</strong> ${contents} </br> *마감: ${deadline}까지 </label>
                         `;
                         $('#consulting_contents_box'+register_no).append(temp_consulting_contents_box);
                     }
