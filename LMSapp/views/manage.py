@@ -7,6 +7,7 @@ import json
 import callapi
 from flask_paginate import Pagination, get_page_parameter, get_page_args
 import pymysql
+import callapi
 
 bp = Blueprint('manage', __name__, url_prefix='/manage')
 
@@ -61,13 +62,87 @@ def get_all_questions():
             with db.cursor() as cur:
                 cur.execute('select title, contents, answer_id, teacher_id from question;')
                 all_questions = cur.fetchall();
-                print(all_questions)
         except:
             print('err')
         finally:
             db.close()
 
         return json.dumps(all_questions)
+
+@bp.route('/api/get_consulting', methods=['GET'])
+def get_consulting():
+    if request.method == 'GET':
+        all_consulting = []
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute("select consulting.id, consulting.ban_id, consulting.category_id, consulting.student_id, consulting.contents, consulting.attachments, date_format(consulting.startdate, '%Y-%m-%d') as startdate, date_format(consulting.deadline, '%Y-%m-%d') as deadline, consultingcategory.name from consulting left join consultingcategory on consultingcategory.id = consulting.category_id;")
+                all_consulting = cur.fetchall();
+        except Exception as e:
+            print(e)
+        finally:
+            db.close()
+
+        return json.dumps(all_consulting)
+
+
+@bp.route('/api/get_task', methods=['GET'])
+def get_task():
+    if request.method == 'GET':
+        all_task = []
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute("select task.id, task.category_id, task.contents, task.url, task.attachments, date_format(task.startdate, '%Y-%m-%d') as startdate, date_format(task.deadline, '%Y-%m-%d') as deadline, task.priority, task.cycle, taskcategory.name from task left join taskcategory on task.category_id = taskcategory.id;")
+                all_task = cur.fetchall();
+        except Exception as e:
+            print(e)
+        finally:
+            db.close()
+
+        return json.dumps(all_task)
+
+
+@bp.route('/api/delete_consulting/<int:id>', methods=['GET'])
+def delete_consulting(id):
+    result = {}
+    if request.method == 'GET':
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute(f'delete from consulting where id={id}')
+                db.commit()
+                result['status'] = 200
+                result['text'] = id
+        except Exception as e:
+            print(e)
+            result['status'] = 401
+            result['text'] = str(e)
+        finally:
+            db.close()
+
+        return result
+
+
+@bp.route('/api/delete_task/<int:id>', methods=['GET'])
+def delete_task(id):
+    result = {}
+    if request.method == 'GET':
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute(f'delete from task where id={id}')
+                db.commit()
+                result['status'] = 200
+                result['text'] = id
+        except Exception as e:
+            print(e)
+            result['status'] = 401
+            result['text'] = str(e)
+        finally:
+            db.close()
+
+        return result
 
 
 @bp.route("/ban", methods=['GET', 'POST'])
@@ -91,7 +166,7 @@ def request_consulting():
                 students = callapi.get_students(c['register_no'])
                 for s in students:
                     new_consulting = Consulting(ban_id=c['register_no'], category_id=received_category, student_id=s['register_no'],
-                                                contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline)
+                                                contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0)
                     db.session.add(new_consulting)
                     db.session.commit()
         # 개별 반 선택 된 경우 
@@ -103,13 +178,13 @@ def request_consulting():
                 target_student_list = callapi.get_students(received_target_ban)
                 for student in target_student_list:
                     new_consulting = Consulting(ban_id=received_target_ban, category_id=received_category, student_id=student['register_no'],
-                                                contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline)
+                                                contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0)
                     db.session.add(new_consulting)
                     db.session.commit()
             # 개별 학생일 경우 
             else:
                 new_consulting = Consulting(ban_id=received_target_ban, category_id=received_category, student_id=received_target_student,
-                                            contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline)
+                                            contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0)
                 db.session.add(new_consulting)
                 db.session.commit()
         return redirect('/')

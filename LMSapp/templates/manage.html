@@ -20,6 +20,44 @@
 {% endblock %}
 {% block content %}
 {% autoescape off %}
+<!-- 요청한 업무 리스트 모달 창 -->
+<div class="modal fade" id="my_task_request" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="taskModalLabel">
+                    요청 중인 업무 목록 
+                </h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-header">
+                <select id="task-category-select" onchange="sort_task(this.value)" class="form-select" aria-label="Default select example">
+                    <optgroup id="task-option">
+                    </optgroup>
+                </select>
+            </div>
+            <div>
+                <table class="table text-center" id="task_list" style="width:100%;">
+                    <tbody  style="width:100%;">
+                        <thead>
+                            <tr class="row">
+                                <th class="col-3">날짜</th>
+                                <th class="col-2">종류</th>
+                                <th class="col-1">진행</th>
+                                <th class="col-4">내용</th>
+                                <th class="col-2">수정/삭제</th>
+                            </tr>
+                        </thead>
+                            <tr id="task-tr" class="row"></tr>
+                        </tbody>
+                </table>
+                <div id="task-pagination"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- 요청한 상담 리스트 모달 창 -->
 <div class="modal fade" id="my_consulting_request" tabindex="-1" aria-labelledby="questionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -29,6 +67,12 @@
                     요청한 상담 목록 
                 </h5>
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-header">
+                <select id="category-select" onchange="sort_consulting(this.value)" class="form-select" aria-label="Default select example">
+                    <optgroup id="consulting-option">
+                    </optgroup>
+                </select>
             </div>
             <div>
                 <table class="table text-center" id="consulting_task_list" style="width:100%;">
@@ -42,24 +86,12 @@
                                 <th class="col-2">수정/삭제</th>
                             </tr>
                         </thead>
-                       
-                        {% for consulting in consultings %}
-                        <tr class="row">
-                            <td class="col-3">{{ consulting.startdate }} ~ {{ consulting.deadline }}</td>
-                            {% if consulting.category_id == 1 %}
-                            <td class="col-2">정기상담</td>
-                            {% elif consulting.category_id == 2 %}
-                            <td class="col-2">6개월상담</td>
-                            {% else %}
-                            <td class="col-2">귀찮상담</td>
-                            {% endif %}
-                            <td class="col-1"> 미진행 </td>
-                            <td class="col-4"> {{ consulting.contents }} </td>
-                            <td class="col-2"> <button>✏️</button> <button>❌</button></td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table> 
+                            <tr class="row" id="tr-row">
+                                <td>Loading...</td>
+                            </tr>
+                        </tbody>
+                </table>
+                <div id="consulting-pagination"></div>
             </div>
 
         </div>
@@ -79,7 +111,7 @@
             </div>
             <div class="modal-body" style="padding-top: 0;">
                 <form action="/manage/ban" method="POST">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
+                    <input id="csrf_token" type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
                     <div class="make_row">
                         <select class="border rounded-0 form-control form-control-sm" name="consulting_category"
                             style=" width: 150px; height: 100%; margin-left:0;">
@@ -306,14 +338,12 @@
             <div class="make_row" id="request_box">
                     <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
                     data-bs-target="#request_consulting">상담 요청 하기</button>
-                    <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-                    data-bs-target="#my_consulting_request" style="margin-right: 20px;">요청중인 상담 보기</button>
+                    <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#my_consulting_request" onclick="get_consulting()" style="margin-right: 20px;">요청중인 상담 보기</button>
                     <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
                     data-bs-target="#request_task">업무 요청 하기</button>
-                    <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
+                    <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" onclick="get_task()"
                     data-bs-target="#my_task_request">요청중인 업무 보기</button>    
             </div>
-
         </div>
 
     </section>
@@ -332,24 +362,7 @@
                         </tr>
                     </thead>
                 <tbody >
-                    <!--{% for q in questions %}
-                    <tr id="alim-tr" class="row">
-                        {% if q.category == 0 %}
-                        <td class="col-3">일반문의</td>
-                        {% elif q.category == 1 %}
-                        <td class="col-3">퇴소요청</td>
-                        {% elif q.category == 2 %}
-                        <td class="col-3">이반요청</td>
-                        {% else %}
-                        <td class="col-3">취소/환불</td>
-                        {% endif %}
-                        <td class="col-3"> {{q.teacher_id}} </td>
-                        <td class="col-4"> {{ q.contents }} </td>
-                        <td class="col-2"> <button>✏️</button> <button>❌</button></td> -
-                        </tr>
-                    {% endfor %}-->
                     <tr id="alim-tr" class="row"></tr>
-
                 </tbody>
             </table>
             <div id="pagination" class="py-5"></div>

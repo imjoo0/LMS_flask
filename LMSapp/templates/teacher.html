@@ -224,8 +224,8 @@
 
 <div class="container_box">
     <div id="user-info" class="border-bottom">
-        <div class="d-flex justify-content-center flex-row row-cols-2">
-            <div class="p-5">
+        <div class="d-flex justify-content-center flex-xl-row row-cols-xl-2 flex-column-reverse">
+            <div class="p-lg-5 p-1 pb-4">
                 <div class="d-flex justify-content-between flex-row row-cols-3">
                     <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
                     <div class="question-btn-container">
@@ -248,7 +248,7 @@
                     </div>                
                 </div>
             </div> 
-            <div class="d-flex justify-content-start align-items-center p-5">
+            <div class="d-flex justify-content-start align-items-center p-lg-5 py-3">
                 <div class="user-detail">
                     <div class="user-detail-deco"></div>
                     <div class="user-name">
@@ -269,13 +269,13 @@
             </div>            
         </div>
     </div>
-    <div class="d-flex justify-content-center row-cols-2 ">
-        <div id="statistics" class="p-5">
+    <div class="d-flex justify-content-center row-cols-xl-2 flex-xl-row flex-column">
+        <div id="statistics" class="p-lg-5 p-1 py-4">
             <div class="info-container">
                 <div class="info-title">
                     <span>Total Chart</span>
                 </div>
-                <div class="info">
+                <div class="info" style="overflow: scroll;">
                     <div class="total_chart">
                         <div class="chartWrap">
                             <div class="chart">
@@ -382,7 +382,7 @@
         </div>
     
 
-    <div id="work" class="p-5">
+    <div id="work" class="p-lg-5 p-1 py-4">
         <div class="info-container">
             <div class="info-title">
                 <span>To-Do List</span>
@@ -396,13 +396,17 @@
                     </select>
                 </div>
                 <div class="w-100 mt-4" id="today_task_box">
+                    {% if my_task_category=='없음' %}
+                        <p>오늘의 업무가 없습니다 :) </p>
+                    {% else %}
                     {% for category in my_task_category %}
                         <details>
                             <summary onclick="get_task('{{category}}')"><strong>{{ all_task_category[category-1].name }} 업무 </strong></summary>
                             <div class="make_col" id="task_contents_box{{category}}"></div>
                         </details>
                     {% endfor %}
-                    <button onclick="get_task_done()">업무 완료 저장</button>
+                    <button onclick="get_update_done()">업무 완료 저장</button>
+                    {% endif %}
                 </div>
                 <div class="w-100 mt-4" id="today_done_box">
                 </div>
@@ -412,18 +416,22 @@
 
         <div class="info-container mt-5">
             <div class="info-title">
-                <span>To-Do Manage</span>
+                <span>Consulting List</span>
             </div>
             <div class="info d-flex justify-content-center align-items-center flex-column">
                 <div class="d-flex justify-content-between flex-row w-100 pb-4 border-bottom">
-                    <h5 class="d-flex justify-content-center align-items-center m-0" id="task_title">오늘의 업무</h3>
+                    <h5 class="d-flex justify-content-center align-items-center m-0" id="consulting_title">상담할 반을 선택해주세요</h3>
                     <select id="work_done" class="form-select text-center w-25" name="work_done" onchange="consulting_view(this.value)">
-                        <option value=0 selected>오늘의 상담</option>
-                        <option value=1>완료한 상담</option> 
+                        <option value=0 selected>상담할 반을 선택해주세요</option>
+                        {% for ban in my_bans %}
+                        {% set ban_regi = ban['register_no'] %}
+                        <option value={{ban_regi}}>{{ ban['name'] }} 상담</option>
+                        {% endfor %} 
+                        <option value=1>오늘 완료한 상담</option>
                     </select>
                 </div>
                 <div class="w-100 mt-4" id="today_consulting_box">
-                    <p>consulting needed</p>
+                    
                 </div>
                 <div class="w-100 mt-4" id="today_done_consulting_box">
                 </div>

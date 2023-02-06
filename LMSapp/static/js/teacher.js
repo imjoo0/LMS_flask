@@ -31,6 +31,126 @@ function change_question_kind(str){
     }
 }
 
+function consulting_view(ban_regi){
+    ban_regi = Number(ban_regi)
+    if(ban_regi == 0){
+        $('#consulting_title').html('상담할 반을 선택해주세요 ')
+        $('#today_consulting_box').hide();
+        $('#today_done_consulting_box').hide();
+    }else if(ban_regi == 1){
+        // get_done_task()
+        $('#consulting_title').html('오늘 완료한 상담 목록')
+    }else{
+        $('#consulting_title').html('오늘의 상담')
+        get_consulting(ban_regi)
+        $('#today_done_consulting_box').hide();
+    }
+}
+
+async function get_consulting(ban_regi){
+    await $.ajax({
+        type: "GET",
+        url: "/teacher/consulting/"+ban_regi,
+        data: {},
+        success: function (response) {
+            if(response["consulting"] == '없음'){
+                let temp_consulting_contents_box = `
+                <p> 오늘의 상담 업무를 완료했습니다 🎉</p>
+                `;
+                $('#today_consulting_box').html(temp_consulting_contents_box);
+            }else{
+                $('#today_consulting_box').empty()
+                for(i=0;i<response["consulting"].length;i++){
+                    let target = response["consulting"][i]
+                    let student_name = target['name']
+                    let register_no = target['s_id']
+                    let mobileno = target['mobileno']
+                    let student_reco_book_code = target['reco_book_code']
+                    let consulting_num = target['consulting_num']
+                    
+                    let temp_consulting_contents_box = `
+                        <div data-bs-toggle="modal" data-bs-target="#consultinghistory${register_no}">
+                            <strong>${student_name} 상담 ${consulting_num}건</strong> 📞${mobileno} | 추천도서:${student_reco_book_code}
+                        </div>
+                        <div class="modal fade" id="consultinghistory${register_no}" tabindex="-1"
+                            aria-labelledby="consultinghistoryModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="consultinghistoryModalLabel">
+                                            <img src="#" style="width: 30px;">&nbsp;&nbsp;${student_name}상담일지 작성
+                                        </h5>
+                                        <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body py-4 px-5">
+                                        <form action="/teacher/consulting" method="POST">
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
+                                            <div class="modal-body-select-container"  id="consultingneeded">
+                                                <span class="modal-body-select-label">진행 할 상담 목록</span>
+                                                <div id="consultinglist${register_no}" class="modal-body-select" style="width:100%">
+                                                </div>
+                                            </div>
+                                            <div class="modal-body-select-container"  id="consultinghistory_kind">
+                                                <span class="modal-body-select-label">상담 선택</span>
+                                                <select id="consultinghistory_kind${register_no}" class="modal-body-select" name="consultinghistory_category" style="width:100%">
+                                                    <option value="none" selected>진행 할 상담을 선택해주세요</option>
+                                                </select>
+                                            </div>
+                                            <div id="consulting_box">
+                                                <div class="modal-body-select-container">
+                                                    <span class="modal-body-select-label">상담 사유</span>
+                                                    <input class="modal-body-select" type="text" size="50" name="consulting_reson" style="width: 75%;">
+                                                </div>
+                                                <div class="modal-body-select-container">
+                                                    <span class="modal-body-select-label">제공한 가이드</span>
+                                                    <input class="modal-body-select" type="text" size="50" name="consulting_solution" style="width: 75%;">
+                                                </div>
+                                                <div class="modal-body-select-container">
+                                                    <span class="modal-body-select-label">상담 결과</span>
+                                                    <textarea id="consulting_contents" class="modal-body-select" type="text"rows="5" cols="25" name="consulting_result" style="width: 75%;"></textarea>
+                                                </div>
+                                                <div class="modal-body-select-container">
+                                                <span class="modal-body-select-label">부재중</span>
+                                                <label><input type="checkbox" name="missed" value="missed">부재중</label>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-center mt-4 mb-2">
+                                                <button class="btn btn-dark" type="submit">저장</button>
+                                            </div>
+                                        </form>
+                                    </div>           
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    $('#today_consulting_box').append(temp_consulting_contents_box);
+                    
+                    $('#consultinghistory_kind'+register_no).empty()
+                    let target_consulting = target['consultings']
+                    for(j=0;j<target_consulting.length;j++){
+                        let target_consulting_data = target_consulting[j]
+                        let consulting_id = target_consulting_data['c_id']
+                        let contents = target_consulting_data['contents']
+                        let category = target_consulting_data['category']
+                        let deadline = target_consulting_data['deadline']
+
+                        let temp_consulting_list = `
+                            <p>✅<strong>${category}</strong></br>${contents}</br>*마감: ~${deadline}까지</br></p>
+                        `;
+                        let temp_consulting_contents_box = `
+                            <option value=${consulting_id}>${contents}</option>
+                        `;
+                        $('#consultinghistory_kind'+register_no).append(temp_consulting_contents_box);
+                        $('#consultinglist'+register_no).append(temp_consulting_list);
+                    }
+                }
+            }
+        }
+    });
+    $('#today_consulting_box').show();
+    $('#today_done_consulting_box').hide();
+}
+
 function task_doneview(done_code){
     if(done_code == 0){
         $('#task_title').html('오늘의 업무')
@@ -60,21 +180,32 @@ async function get_task(category_id){
                     let target = target_task[i]
                     let contents = target['contents']
                     let deadline = target['deadline']
-                    let temp_task_contents_box = `
-                    <p>✅ ${contents}  마감 : ${deadline} 까지 </p>
-                    <form method="post" class="make_row" id="task_ban_box_incomplete${category_id}${i}">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
-                    </form>
-                    `;
+                    let priority = target['priority']
+                    if(priority > 2){
+                        let temp_task_contents_box = `
+                        <p>⭐우선업무: ${contents} (마감 : ${deadline})</p>
+                        <form method="post" class="make_row" id="task_ban_box_incomplete${category_id}${i}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
+                        </form>
+                        `;
+                        $(tcb).append(temp_task_contents_box);
+                    }else{
+                        let temp_task_contents_box = `
+                        <p>✅ ${contents}  (마감 : ${deadline})</p>
+                        <form method="post" class="make_row" id="task_ban_box_incomplete${category_id}${i}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
+                        </form>
+                        `;
+                        $(tcb).append(temp_task_contents_box);
+                    }
+                    
                     $('#task_ban_box_incomplete'+i).empty()
                     $('#task_ban_box_complete'+i).empty()
-                    $(tcb).append(temp_task_contents_box);
                     let target_ban = target['task_ban']
                     for(j=0;j<target_ban.length;j++){
                         let target_ban_data = target_ban[j]
                         let task_id = target_ban_data['id']
                         let name = target_ban_data['ban']
-                        let done = target_ban_data['done']
                         let temp_task_ban_box = `
                         <label><input type="checkbox" name="taskid" value="${task_id}">${name}</label>
                         `;
@@ -91,8 +222,9 @@ async function get_task(category_id){
     $('#today_task_box').show();
     $('#today_done_box').hide();
 }
+
 async function get_done_task(){
-    $('#task_title').html('오늘 완료한 업무')
+    $('#task_title').html('완료한 업무')
     $('#today_task_box').hide();
     $('#today_done_box').show();
 
@@ -138,10 +270,10 @@ function update_done(target){
             data: {},
             success: function (response) {{
 				if(response['result'] == '완료'){
-                    alert("업무 완료가 저장되었습니다.")
                 }else{
                     alert(response["result"])
                 }
+                window.location.replace('/teacher')
 			}}
 		})
 }

@@ -10,6 +10,9 @@ from LMSapp.views import *
 
 import callapi
 
+current_time = datetime.now()
+Today = current_time.date()
+
 # 선생님 메인 페이지
 # 테스트 계정 id : T1031 pw동일  
 @bp.route("/", methods=['GET'])
@@ -19,46 +22,58 @@ def home():
         mystudents_info = callapi.get_mystudents(session['user_id'])
         mybans_info = callapi.get_mybans(session['user_id'])
         all_ban_info = callapi.all_ban_info()
-
+        all_task_category = TaskCategory.query.all()
         my_tasks = TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all()
 
-        my_tasks.sort(key = lambda x:x.task_id)
-        tc = []
-        for task in my_tasks:
-            tc.append(Task.query.filter(Task.id==task.task_id).all()[0])     
-        tc = list(set(tc))
+        if len(my_tasks)!=0:
+            tc = []
+            for task in my_tasks:
+                t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline )).first()
+                if(t != None):
+                    tc.append(t)
+            tc = list(set(tc))
+            print(tc)
 
-        category_set = []
-        for cate in tc:
-            category_set.append(cate.category_id)
-        category_set = list(set(category_set))
 
-        all_task_category = TaskCategory.query.all()
+            category_set = []
+            for cate in tc:
+                category_set.append(cate.category_id)
+            category_set = list(set(category_set))
+        else:
+            category_set = '없음'
+        
 
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
         return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,students=mystudents_info, questions=my_questions,my_task_category=category_set,all_task_category=all_task_category)
+
+def taskcycle():
+    my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == 1)).all()
+    for task in my_tasks:
+        t = Task.query.filter(Task.id==task.task_id).all()[0]
+        if t.cycle != 7 and Today <= t.deadline.date():
+            task.done = 0
+            db.session.commit()
+        elif t.cycle == 7 and task.done==1:
+            db.session.delete(task)
 
 # 오늘 완료 한 업무  get
 @bp.route("/taskdone", methods=['GET'])
 def taskdone():
     if request.method == 'GET':
-        current_time = datetime.now()
-        Today = current_time.date()
-
         my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == 1)).all()
 
         tc = []
         for task in my_tasks:
-            t = Task.query.filter(Task.id==task.task_id).all()[0]
+            t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline )).first()
             # 오늘의 업무만 저장 
-            if t.startdate.date() <= Today and Today <= t.deadline.date(): 
+            if t != None:
                 tc.append(t.contents)
         tc = list(set(tc))
-        print(tc)
         if(len(tc)==0):
             return jsonify({'task': '없음'})
         else:
             return jsonify({'task' : tc})
+
 # 오늘 해야 할 업무 get / post 
 @bp.route("/<int:id>", methods=['POST','GET'])
 def task(id):
@@ -71,33 +86,27 @@ def task(id):
         except:
             return jsonify({'result': '업무완료 실패'})
     elif request.method == 'GET':
-        current_time = datetime.now()
-        Today = current_time.date()
         today_yoil = current_time.weekday() + 1
 
         my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done != 1)).all()
 
         tc = []
         for task in my_tasks:
-            t = Task.query.filter(Task.id==task.task_id).all()[0]
+            t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline )).first()
             # 오늘의 업무만 저장 
-            if t.startdate.date() <= Today and Today <= t.deadline.date(): 
+            if t != None:
                 tc.append(t)
         tc = list(set(tc))
         
         category_task = []
         for task in tc:
             if task.category_id == id:
-                if(task.cycle == today_yoil): # 주기가 월-금인 경우 
-                    category_task.append(task)
-                elif(task.cycle == 6): # 주기가 상시인 경우 
-                    category_task.append(task)
-                elif(task.cycle == 7 ): # 주기가 없는 경우
+                if(task.cycle == today_yoil or task.cycle == 6 or task.cycle == 7 ): # 주기가 월-금인 경우 
                     category_task.append(task)
 
 
         # 우선순위 정렬 
-        category_task.sort(key=lambda x:-x.priority) 
+        category_task.sort(key=lambda x : (-x.priority, x.deadline)) 
         
         target_task = []
         if(len(category_task)==0):
@@ -107,6 +116,7 @@ def task(id):
                 task_data = {}
                 task_data['contents'] = task.contents
                 task_data['url'] = task.url
+                task_data['priority'] = task.priority
                 task_data['deadline'] = task.deadline.strftime('%Y-%m-%d')
                 task_data['task_ban'] = []
                 for tb in my_tasks:
@@ -120,6 +130,38 @@ def task(id):
                 target_task.append(task_data)
             return jsonify({'task' : target_task})
 
+# 반별 오늘 해야 할 상담 목록 
+@bp.route("consulting/<int:id>", methods=['GET'])
+def consulting(id):
+    if request.method == 'GET':
+        my_students = callapi.get_students(id)
+        consulting_list = []
+        for student in my_students:
+            consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1)).all()
+            target_data = {}
+            target_data['s_id'] = student['register_no']
+            target_data['name'] = student['name'] + '(' + student['origin'] + ')'
+            target_data['mobileno'] = student['mobileno']
+            target_data['reco_book_code'] = student['reco_book_code']         
+            target_data['consultings'] = []
+            for consulting in consultings:
+                if(consulting.startdate.date() <= Today and Today <= consulting.deadline.date()):
+                    consulting_data = {}
+                    consulting_data['c_id'] = consulting.id
+                    consulting_data['contents'] = consulting.contents
+                    consulting_data['category'] = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first().name
+                    consulting_data['deadline'] = consulting.deadline.strftime('%Y-%m-%d')
+                    target_data['consultings'].append(consulting_data)
+            if(len(target_data['consultings'])!=0):
+                target_data['consultings'].sort(key = lambda x:(x['deadline']))
+                target_data['consulting_num'] = len(target_data['consultings'])
+                consulting_list.append(target_data)
+        if(len(consulting_list)==0):
+            return jsonify({'consulting': '없음'})
+        else: 
+            consulting_list.sort(key = lambda x:(-x['consulting_num']))
+            return jsonify({'consulting': consulting_list})
+        
 
 
 # 선생님 문의 저장 

@@ -3,6 +3,8 @@ var dataPerPage = 6;
 var pageCount = 10; //페이징에 나타낼 페이지 수
 var globalCurrentPage = 1; //현재 페이지
 var data_list;
+var consultingData = [];
+var taskData = [];
 
 function displayData(totalData, currentPage, dataPerPage,data_list) {
     let chartHtml = "";
@@ -112,7 +114,7 @@ function paginating(){
             dataSource: JSON.parse(data),
             prevText: '이전',
             nextText: '다음',
-            pageSize: 4,
+            pageSize: 5,
             callback: function (data, pagination){
                 var dataHtml = '';
                 $.each(data, function (index, item){
@@ -120,20 +122,215 @@ function paginating(){
                 <td class="col-3">${item.title}</td>
                 <td class="col-3">${item.teacher_id}</td>
                 <td class="col-4">${item.contents}</td>
-                <td class="col-2"> <button>✏️</button> <button>❌</button></td>
-`;
+                <td class="col-2"> <button>✏️</button> <button>❌</button></td>`;
                     });
-
-                    $('#alim-tr').html(dataHtml);
+                $('#alim-tr').html(dataHtml);
+            }
+        })
         }
-    })
-
-        }
-    })
-    
+    }) 
 }
 
 paginating()
+
+async function get_consulting(){
+    let container = $('#consulting-pagination')
+    var category_list = []
+await $.ajax({
+        url: '/manage/api/get_consulting',
+        type: 'get',
+        data: {},
+        success: function(data){
+            $.each([...JSON.parse(data)], function (idx, val){
+                category_list.push(val.name)
+            });
+            consultingData = data;
+            container.pagination({
+            dataSource: JSON.parse(data),
+            prevText: '이전',
+            nextText: '다음',
+            pageSize: 10,
+            callback: function (data, pagination){
+                var dataHtml = '';
+                var idxHtml = `<option value="none" selected>카테고리를 선택해주세요</option>`;
+                $.each(data, function (index, consulting){
+                dataHtml +=  `
+                    <td class="col-3">${consulting.startdate} ~ ${consulting.deadline}</td>
+                    <td class="col-2">${consulting.name}</td>
+                    <td class="col-1"> 미진행 </td>
+                    <td class="col-4"> ${consulting.contents}</td>
+                    <td class="col-2"> <button>✏️</button> 
+                    <button onclick="delete_consulting(${consulting.id})">❌</button></td>`;
+                    });
+                category_set = new Set(category_list)
+                category_list = [...category_set]
+                $.each(category_list, function(idx, val){
+                    idxHtml += `<option value="${val}">${val}</option>`
+                })
+                    $('#consulting-option').html(idxHtml);
+                    $('#tr-row').html(dataHtml);
+        }
+    })
+    },
+    error: function(xhr, status, error){
+        alert(xhr.responseText);
+    }
+})
+}
+
+
+async function sort_consulting(value){
+    var dataHtml = '';
+    let container = $('#consulting-pagination')
+    const data = await JSON.parse(consultingData).filter((e)=>{
+        return e.name == value;
+    })
+    await container.pagination({
+            dataSource: data,
+            prevText: '이전',
+            nextText: '다음',
+            pageSize: 10,
+            callback: function (data, pagination){
+                var dataHtml = '';
+                $.each(data, function (index, consulting){
+                    dataHtml +=  `
+                        <td class="col-3">${consulting.startdate} ~ ${consulting.deadline}</td>
+                        <td class="col-2">${consulting.name}</td>
+                        <td class="col-1"> 미진행 </td>
+                        <td class="col-4"> ${consulting.contents}</td>
+                        <td class="col-2"> <button>✏️</button> 
+                        <button onclick="delete_consulting(${consulting.id})">❌</button></td>`;
+                    });
+    $('#tr-row').html(dataHtml);      
+        }
+    })
+}
+
+
+async function get_task(){
+    let container = $('#task-pagination')
+    var category_list = []
+await $.ajax({
+        url: '/manage/api/get_task',
+        type: 'get',
+        data: {},
+        success: function(data){
+            $.each([...JSON.parse(data)], function (idx, val){
+                category_list.push(val.name)
+            });
+            taskData = JSON.parse(data);
+            container.pagination({
+            dataSource: JSON.parse(data),
+            prevText: '이전',
+            nextText: '다음',
+            pageSize: 10,
+            callback: function (data, pagination){
+                var dataHtml = '';
+                var idxHtml = `<option value="none" selected>카테고리를 선택해주세요</option>`;
+                $.each(data, function (index, task){
+                dataHtml +=  `
+                    <td class="col-3">${ task.startdate } ~ ${ task.deadline }</td>               
+                    <td class="col-2">${task.name}</td>               
+                    <td class="col-1"> 미진행 </td>
+                    <td class="col-4"> ${task.contents}</td>
+                    <td class="col-2"> <button>✏️</button>
+                    <button onclick="delete_task(${task.id})">❌</button></td>`;
+                    });
+                category_set = new Set(category_list)
+                category_list = [...category_set]
+                $.each(category_list, function(idx, val){
+                    idxHtml += `<option value="${val}">${val}</option>`
+                })
+                $('#task-category-select').html(idxHtml);
+                $('#task-tr').html(dataHtml);
+        }
+    })
+
+    },
+    error: function(xhr, status, error){
+        alert(xhr.responseText);
+    }
+})
+}
+
+
+async function sort_task(value){
+    var dataHtml = '';
+    let container = $('#task-pagination')
+    const data = taskData.filter((e)=>{
+        return e.name == value;
+    })
+    await container.pagination({
+            dataSource: data,
+            prevText: '이전',
+            nextText: '다음',
+            pageSize: 10,
+            callback: function (data, pagination){
+                var dataHtml = '';
+                var idxHtml = `<option value="none" selected>카테고리를 선택해주세요</option>`;
+                $.each(data, function (index, task){
+                    dataHtml +=  `
+                    <td class="col-3">${ task.startdate } ~ ${ task.deadline }</td>               
+                    <td class="col-2">${task.name}</td>               
+                    <td class="col-1"> 미진행 </td>
+                    <td class="col-4"> ${task.contents}</td>
+                    <td class="col-2"> <button>✏️</button>
+                    <button onclick="delete_task(${task.id})">❌</button></td>`;
+                    });
+
+                $('#task-tr').html(dataHtml);      
+        }
+    })
+}
+
+
+async function delete_consulting(idx){
+   const csrf = $('#csrf_token').val();
+    var con_val = confirm('정말 삭제하시겠습니까?')
+    if(con_val == true){
+        await $.ajax({
+            url: '/manage/api/delete_consulting/' + idx ,
+            type: 'get',
+            headers: {'content-type': 'application/json'},
+            data: {},
+            success: function(data){
+                if (data.status == 200){
+                    alert(`성공`)
+                }else {
+                    alert(`실패 ${data.status} ${data.text}`)
+                }
+            },
+            error: function(xhr, status, error){
+                alert(xhr.responseText);
+            }
+        })
+        get_consulting()
+    }
+}
+
+async function delete_task(idx){
+    var con_val = confirm('정말 삭제하시겠습니까')
+    if(con_val == true){
+        await $.ajax({
+            url: '/manage/api/delete_task/' + idx ,
+            type: 'get',
+            headers: {'content-type': 'application/json'},
+            data: {},
+            success: function(data){
+                if (data.status == 200){
+                    alert(`성공`)
+                }else {
+                    alert(`실패 ${data.status} ${data.text}`)
+                }
+            },
+            error: function(xhr, status, error){
+                alert(xhr.responseText);
+            }
+        })
+        get_task()
+    }
+}
+
 
 function getBanInfo(b_id){
     $('#label_title').empty();
