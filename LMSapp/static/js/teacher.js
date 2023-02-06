@@ -85,6 +85,11 @@ async function get_consulting(ban_regi){
                                     <div class="modal-body py-4 px-5">
                                         <form action="/teacher/consulting" method="POST">
                                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
+                                            <div class="modal-body-select-container"  id="consultingneeded">
+                                                <span class="modal-body-select-label">진행 할 상담 목록</span>
+                                                <div id="consultinglist${register_no}" class="modal-body-select">
+                                                </div>
+                                            </div>
                                             <div class="modal-body-select-container"  id="consultinghistory_kind">
                                                 <span class="modal-body-select-label">진행 할 상담</span>
                                                 <select id="consultinghistory_kind${register_no}" class="modal-body-select" name="consultinghistory_category">
@@ -129,10 +134,14 @@ async function get_consulting(ban_regi){
                         let category = target_consulting_data['category']
                         let deadline = target_consulting_data['deadline']
 
+                        let temp_consulting_list = `
+                            <p>✅<strong>${category}</strong> ${contents} *마감: ~${deadline}까지</p>
+                        `;
                         let temp_consulting_contents_box = `
-                            <option value=${consulting_id}><strong>${category}</strong> ${contents} </br> *마감: ${deadline}까지 </option>
+                            <option value=${consulting_id}>${contents}</option>
                         `;
                         $('#consultinghistory_kind'+register_no).append(temp_consulting_contents_box);
+                        $('#consultinglist'+register_no).append(temp_consulting_list);
                     }
                 }
             }
