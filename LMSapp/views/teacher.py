@@ -142,7 +142,7 @@ def consulting(id):
             return jsonify({'result': '업무완료 실패'})
     elif request.method == 'GET':
         my_students = callapi.get_students(id)
-
+        consulting_list = []
         for student in my_students:
             target_data = {}
             target_data['name'] = student['name'] + '(' + student['origin'] + ')'
@@ -159,9 +159,12 @@ def consulting(id):
                     consulting_data['deadline'] = consulting.deadline.strftime('%Y-%m-%d')
                     consulting_data['consulting_ban'] = []
                     target_data['consultings'].append(consulting_data)
-                return jsonify({'consulting_list' : target_data})
+                
+                consulting_list.append(target_data)
+                return jsonify({'consulting_list' : consulting_list})
             else:
-                return jsonify({'consulting_list' : 없음})
+                return jsonify({'consulting_list' : '없음'})
+        
         
 
 
