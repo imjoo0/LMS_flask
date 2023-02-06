@@ -50,35 +50,42 @@ async function get_consulting(ban_regi){
         url: "/teacher/consulting/"+ban_regi,
         data: {},
         success: function (response) {
-            let target_consulting = response["consulting"]
-            console.log(target_consulting)
-            // $(tcb).empty()
-            // for(i=0;i<target_consulting.length;i++){
-            //     let target = target_consulting[i]
-            //     let contents = target['contents']
-            //     let deadline = target['deadline']
-            //     let temp_task_contents_box = `
-            //     <p>✅ ${contents}  마감 : ${deadline} 까지 </p>
-            //     <form method="post" class="make_row" id="task_ban_box_incomplete${category_id}${i}">
-            //     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
-            //     </form>
-            //     `;
-            //     $('#task_ban_box_incomplete'+i).empty()
-            //     $('#task_ban_box_complete'+i).empty()
-            //     $(tcb).append(temp_task_contents_box);
-            //     let target_ban = target['task_ban']
-            //     for(j=0;j<target_ban.length;j++){
-            //         let target_ban_data = target_ban[j]
-            //         let task_id = target_ban_data['id']
-            //         let name = target_ban_data['ban']
-            //         let done = target_ban_data['done']
-            //         let temp_task_ban_box = `
-            //         <label><input type="checkbox" name="taskid" value="${task_id}">${name}</label>
-            //         `;
-            //         $('#task_ban_box_incomplete'+category_id+i).append(temp_task_ban_box);
-            //     }
-            // }
-            
+            if(response["consulting"] == '없음'){
+                let temp_consulting_contents_box = `
+                <p> 오늘의 상담 업무를 완료했습니다 🎉</p>
+                `;
+                $('#today_consulting_box').html(temp_consulting_contents_box);
+            }else{
+                $('#today_consulting_box').empty()
+                for(i=0;i<response["consulting"].length;i++){
+                    let target = response["consulting"][i]
+                    let student_name = target['name']
+                    let register_no = target['register_no']
+                    let mobileno = target['mobileno']
+                    let student_reco_book_code = target['reco_book_code']
+                    let temp_consulting_contents_box = `
+                    <details>
+                            <summary><strong>${student_name} 상담</strong> 📞${mobileno} | 추천도서:${reco_book_code} </summary>
+                            <div class="make_col" id="consulting_contents_box${register_no}"></div>
+                    </details>
+                    `;
+                    $('#consulting_contents_box'+register_no).empty()
+                    $('#today_consulting_box').append(temp_consulting_contents_box);
+                    let target_consulting = target['consultings']
+                    for(j=0;j<target_consulting.length;j++){
+                        let target_consulting_data = target_consulting[j]
+                        let consulting_id = target_consulting_data['c_id']
+                        let contents = target_consulting_data['contents']
+                        let category = target_consulting_data['category']
+                        let deadline = target_consulting_data['deadline']
+
+                        let temp_consulting_contents_box = `
+                        <label><input type="checkbox" name="consultingid" value="${consulting_id}">( ${category} ) ${contents} *마감: ${deadline}까지 </label>
+                        `;
+                        $('#consulting_contents_box'+register_no).append(temp_consulting_contents_box);
+                    }
+                }
+            }
         }
     });
     // $('#today_task_box').show();
