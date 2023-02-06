@@ -104,10 +104,13 @@ async function get_consulting(ban_regi){
                                                     <span class="modal-body-select-label">상담 결과</span>
                                                     <textarea id="consulting_contents" class="modal-body-select" type="text"rows="5" cols="25" name="consulting_result" style="width: 75%;"></textarea>
                                                 </div>
+                                                <div class="modal-body-select-container">
+                                                <span class="modal-body-select-label">부재중</span>
+                                                <label><input type="checkbox" name="missed" value="missed">부재중</label>
+                                                </div>
                                             </div>
                                             <div class="d-flex justify-content-center mt-4 mb-2">
                                                 <button class="btn btn-dark" type="submit">저장</button>
-                                                <label><input type="checkbox" name="missed" value="missed">부재중</label>
                                             </div>
                                         </form>
                                     </div>           
