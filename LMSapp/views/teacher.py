@@ -131,17 +131,9 @@ def task(id):
             return jsonify({'task' : target_task})
 
 # 반별 오늘 해야 할 상담 목록 
-@bp.route("consulting/<int:id>", methods=['POST','GET'])
+@bp.route("consulting/<int:id>", methods=['GET'])
 def consulting(id):
-    if request.method =='POST':
-        target_task = TaskBan.query.get_or_404(id)
-        target_task.done = 1
-        try:
-            db.session.commit()
-            return jsonify({'result': '완료'})
-        except:
-            return jsonify({'result': '업무완료 실패'})
-    elif request.method == 'GET':
+    if request.method == 'GET':
         my_students = callapi.get_students(id)
         consulting_list = []
         for student in my_students:

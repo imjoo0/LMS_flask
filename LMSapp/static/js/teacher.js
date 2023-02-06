@@ -206,7 +206,6 @@ async function get_task(category_id){
                         let target_ban_data = target_ban[j]
                         let task_id = target_ban_data['id']
                         let name = target_ban_data['ban']
-                        let done = target_ban_data['done']
                         let temp_task_ban_box = `
                         <label><input type="checkbox" name="taskid" value="${task_id}">${name}</label>
                         `;
