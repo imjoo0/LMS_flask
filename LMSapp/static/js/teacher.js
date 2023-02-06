@@ -45,7 +45,7 @@ function consulting_view(ban_regi){
 }
 
 async function get_consulting(ban_regi){
-    await$.ajax({
+    await $.ajax({
         type: "GET",
         url: "/teacher/consulting"+ban_regi,
         data: {},
