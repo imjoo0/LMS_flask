@@ -144,13 +144,14 @@ def consulting(id):
         my_students = callapi.get_students(id)
         consulting_list = []
         for student in my_students:
-            target_data = {}
-            target_data['name'] = student['name'] + '(' + student['origin'] + ')'
-            target_data['mobileno'] = student['mobileno']
-            target_data['reco_book_code'] = student['reco_book_code']
-            target_data['register_date'] = student['register_date']
             consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1) & (Consulting.startdate.date() <= Today) & ( Today <= Consulting.deadline.date())).all()
-            if( len(consultings) > 0 ):
+            print(consultings)
+            if( len(consultings) != 0 ):
+                target_data = {}
+                target_data['name'] = student['name'] + '(' + student['origin'] + ')'
+                target_data['mobileno'] = student['mobileno']
+                target_data['reco_book_code'] = student['reco_book_code']
+                target_data['register_date'] = student['register_date']            
                 target_data['consultings'] = []
                 for consulting in consultings:
                     consulting_data = {}
@@ -159,12 +160,12 @@ def consulting(id):
                     consulting_data['deadline'] = consulting.deadline.strftime('%Y-%m-%d')
                     consulting_data['consulting_ban'] = []
                     target_data['consultings'].append(consulting_data)
-                
                 consulting_list.append(target_data)
-                return jsonify({'consulting_list' : consulting_list})
-            else:
-                return jsonify({'consulting_list' : '없음'})
-        
+        print(consulting_list)
+        if(len(consulting_list)==0):
+            return jsonify({'consulting': '없음'})
+        else: 
+            return jsonify({'consulting': consulting_list})
         
 
 

@@ -50,11 +50,39 @@ async function get_consulting(ban_regi){
         url: "/teacher/consulting"+ban_regi,
         data: {},
         success: function (response) {
-            console.log(response)
+            let target_consulting = response["consulting"]
+            console.log(target_consulting)
+            // $(tcb).empty()
+            // for(i=0;i<target_consulting.length;i++){
+            //     let target = target_consulting[i]
+            //     let contents = target['contents']
+            //     let deadline = target['deadline']
+            //     let temp_task_contents_box = `
+            //     <p>✅ ${contents}  마감 : ${deadline} 까지 </p>
+            //     <form method="post" class="make_row" id="task_ban_box_incomplete${category_id}${i}">
+            //     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
+            //     </form>
+            //     `;
+            //     $('#task_ban_box_incomplete'+i).empty()
+            //     $('#task_ban_box_complete'+i).empty()
+            //     $(tcb).append(temp_task_contents_box);
+            //     let target_ban = target['task_ban']
+            //     for(j=0;j<target_ban.length;j++){
+            //         let target_ban_data = target_ban[j]
+            //         let task_id = target_ban_data['id']
+            //         let name = target_ban_data['ban']
+            //         let done = target_ban_data['done']
+            //         let temp_task_ban_box = `
+            //         <label><input type="checkbox" name="taskid" value="${task_id}">${name}</label>
+            //         `;
+            //         $('#task_ban_box_incomplete'+category_id+i).append(temp_task_ban_box);
+            //     }
+            // }
+            
         }
     });
-    $('#today_task_box').show();
-    $('#today_done_box').hide();
+    // $('#today_task_box').show();
+    // $('#today_done_box').hide();
 }
 
 function task_doneview(done_code){
