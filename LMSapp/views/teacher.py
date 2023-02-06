@@ -26,16 +26,17 @@ def home():
         my_tasks = TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all()
 
         if len(my_tasks)!=0:
+            tc = []
             for task in my_tasks:
                 t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline )).first()
-                print(t)
-            # # print(tc)
-            # tc = list(set(tc))
-            t = list(set(t))
+                if(t != None):
+                    tc.append(t)
+            tc = list(set(tc))
+            print(tc)
 
 
             category_set = []
-            for cate in t:
+            for cate in tc:
                 category_set.append(cate.category_id)
             category_set = list(set(category_set))
         else:
