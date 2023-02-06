@@ -191,7 +191,7 @@ async function get_task(category_id){
                         $(tcb).append(temp_task_contents_box);
                     }else{
                         let temp_task_contents_box = `
-                        <p>✅ ${contents}  마감 : ${deadline} 까지 </p>
+                        <p>✅ ${contents}  (마감 : ${deadline})</p>
                         <form method="post" class="make_row" id="task_ban_box_incomplete${category_id}${i}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                         </form>
