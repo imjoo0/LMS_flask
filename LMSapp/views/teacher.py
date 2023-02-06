@@ -24,11 +24,11 @@ def home():
         all_ban_info = callapi.all_ban_info()
         all_task_category = TaskCategory.query.all()
 
-        my_tasks = TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all()[-1]
+        my_tasks = TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all()
         if len(my_tasks)!=0:
             tc = []
             for task in my_tasks:
-                t = Task.query.filter(Task.id==task.task_id).all()
+                t = Task.query.filter(Task.id==task.task_id).all()[-1]
                 print(t)
                 # 오늘의 업무만 저장 
                 if t.startdate.date() <= Today and Today <= t.deadline.date(): 
