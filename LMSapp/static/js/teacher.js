@@ -65,9 +65,10 @@ async function get_consulting(ban_regi){
                     let register_no = target['s_id']
                     let mobileno = target['mobileno']
                     let student_reco_book_code = target['reco_book_code']
+                    let consulting_num = target['consulting_num']
                     let temp_consulting_contents_box = `
                     <details>
-                            <summary><strong>${student_name} 상담</strong> 📞${mobileno} | 추천도서:${student_reco_book_code} </summary>
+                            <summary><strong>${student_name} 상담 ${consulting_num}건</strong> 📞${mobileno} | 추천도서:${student_reco_book_code} </summary>
                             <div class="make_col" id="consulting_contents_box${register_no}"></div>
                     </details>
                     `;

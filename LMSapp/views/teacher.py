@@ -159,6 +159,7 @@ def consulting(id):
                     consulting_data['deadline'] = consulting.deadline.strftime('%Y-%m-%d')
                     target_data['consultings'].append(consulting_data)
             if(len(target_data['consultings'])!=0):
+                target_data['consulting_num'] = len(target_data['consultings'])
                 consulting_list.append(target_data)
         if(len(consulting_list)==0):
             return jsonify({'consulting': '없음'})
