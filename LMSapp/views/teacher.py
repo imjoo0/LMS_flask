@@ -110,7 +110,7 @@ def task(id):
 
 
         # 우선순위 정렬 
-        category_task.sort(key=lambda x:-x.priority) 
+        category_task.sort(key=lambda x : (-x.priority, x.deadline)) 
         
         target_task = []
         if(len(category_task)==0):
@@ -169,7 +169,7 @@ def consulting(id):
         if(len(consulting_list)==0):
             return jsonify({'consulting': '없음'})
         else: 
-            consulting_list.sort(key = lambda x:-x['consulting_num'])
+            consulting_list.sort(key = lambda x:(-x['consulting_num'],x['deadline']))
             return jsonify({'consulting': consulting_list})
         
 
