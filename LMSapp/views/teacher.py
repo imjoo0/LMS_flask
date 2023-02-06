@@ -27,7 +27,7 @@ def home():
 
         if len(my_tasks)!=0:
             for task in my_tasks:
-                t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline )).all() 
+                t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline )).one()
                 print(t)
             # # print(tc)
             # tc = list(set(tc))
