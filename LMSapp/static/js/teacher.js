@@ -87,12 +87,12 @@ async function get_consulting(ban_regi){
                                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                                             <div class="modal-body-select-container"  id="consultingneeded">
                                                 <span class="modal-body-select-label">진행 할 상담 목록</span>
-                                                <div id="consultinglist${register_no}" class="modal-body-select">
+                                                <div id="consultinglist${register_no}" class="modal-body-select" style="width:100%">
                                                 </div>
                                             </div>
                                             <div class="modal-body-select-container"  id="consultinghistory_kind">
-                                                <span class="modal-body-select-label">진행 할 상담</span>
-                                                <select id="consultinghistory_kind${register_no}" class="modal-body-select" name="consultinghistory_category">
+                                                <span class="modal-body-select-label">상담 선택</span>
+                                                <select id="consultinghistory_kind${register_no}" class="modal-body-select" name="consultinghistory_category" style="width:100%">
                                                     <option value="none" selected>진행 할 상담을 선택해주세요</option>
                                                 </select>
                                             </div>
