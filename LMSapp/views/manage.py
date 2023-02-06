@@ -7,6 +7,7 @@ import json
 import callapi
 from flask_paginate import Pagination, get_page_parameter, get_page_args
 import pymysql
+import callapi
 
 bp = Blueprint('manage', __name__, url_prefix='/manage')
 
@@ -67,6 +68,22 @@ def get_all_questions():
             db.close()
 
         return json.dumps(all_questions)
+
+@bp.route('/api/get_consulting', methods=['GET'])
+def get_consulting():
+    if request.method == 'GET':
+        all_consulting = []
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute("select ban_id, category_id, student_id, contents, attachments from question;")
+                all_consulting = cur.fetchall();
+        except Exception as e:
+            print(e)
+        finally:
+            db.close()
+
+        return json.dumps(all_consulting)
 
 
 @bp.route("/ban", methods=['GET', 'POST'])

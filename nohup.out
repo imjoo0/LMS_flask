@@ -7763,3 +7763,1158 @@ err
 118.131.85.245 - - [03/Feb/2023 08:55:24] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
 118.131.85.245 - - [03/Feb/2023 08:55:24] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
 118.131.85.245 - - [03/Feb/2023 08:55:24] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+ * Serving Flask app 'LMSapp'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:6725
+ * Running on http://172.31.37.184:6725
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:03:44] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:03:44] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:03:44] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:03:44] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:03:44] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:03:44] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:03:45] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:03:45] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:03:45] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:03:45] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:03:45] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:03:46] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:03:46] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:03:48] "GET /manage/api/get_consulting HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 79, in get_consulting
+    return jsonify(all_consulting)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/__init__.py", line 342, in jsonify
+    return current_app.json.response(*args, **kwargs)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 309, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=mimetype
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 230, in dumps
+    return json.dumps(obj, **kwargs)
+  File "/usr/lib/python3.8/json/__init__.py", line 234, in dumps
+    return cls(
+  File "/usr/lib/python3.8/json/encoder.py", line 201, in encode
+    chunks = list(chunks)
+  File "/usr/lib/python3.8/json/encoder.py", line 429, in _iterencode
+    yield from _iterencode_list(o, _current_indent_level)
+  File "/usr/lib/python3.8/json/encoder.py", line 325, in _iterencode_list
+    yield from chunks
+  File "/usr/lib/python3.8/json/encoder.py", line 438, in _iterencode
+    o = _default(o)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/json/provider.py", line 122, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type Consulting is not JSON serializable
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:05:13] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:05:13] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:05:13] "GET /static/style/login.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:05:13] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:05:13] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:05:13] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:05:13] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:05:13] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:05:13] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:05:14] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:05:25] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:05:25] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:05:25] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:05:25] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:05:25] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:05:26] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:05:27] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:05:27] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:05:27] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:05:27] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:05:27] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:05:27] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:05:27] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:05:37] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:05:37] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:05:37] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:05:37] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:05:37] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:05:37] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:05:39] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:05:39] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:05:39] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:05:39] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:05:39] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:05:39] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:05:39] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:05:41] "GET /manage/api/get_consulting HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 79, in get_consulting
+    return json.dumps(all_consulting)
+  File "/usr/lib/python3.8/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+  File "/usr/lib/python3.8/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.8/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/usr/lib/python3.8/json/encoder.py", line 179, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type Consulting is not JSON serializable
+118.131.85.245 - - [06/Feb/2023 02:06:41] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:06:41] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:06:41] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:06:41] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:06:41] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:06:41] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:06:42] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:06:42] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:06:42] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:06:42] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:06:42] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:06:42] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:06:42] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:06:44] "GET /manage/api/get_consulting HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 79, in get_consulting
+    return json.dumps(all_consulting)
+  File "/usr/lib/python3.8/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+  File "/usr/lib/python3.8/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.8/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/usr/lib/python3.8/json/encoder.py", line 179, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type Consulting is not JSON serializable
+118.131.85.245 - - [06/Feb/2023 02:07:03] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:07:03] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:07:03] "GET /static/style/login.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:07:03] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:07:03] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:07:03] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:07:03] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:07:04] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:07:04] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:07:04] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:07:12] "GET /static/style/login.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:07:12] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:09:18] "GET /manage/api/get_consulting HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 79, in get_consulting
+    return json.dumps(all_consulting)
+  File "/usr/lib/python3.8/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+  File "/usr/lib/python3.8/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.8/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/usr/lib/python3.8/json/encoder.py", line 179, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type Consulting is not JSON serializable
+118.131.85.245 - - [06/Feb/2023 02:11:01] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:11:01] "GET /static/style/login.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:11:01] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:11:01] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:11:01] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:11:01] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:11:01] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:11:02] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:11:02] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:11:02] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:11:47] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:11:47] "GET /static/style/login.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:11:47] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:11:47] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:11:47] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:11:47] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:11:47] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:11:47] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:11:47] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:11:47] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:11:50] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:11:50] "GET /static/style/login.css HTTP/1.1" 304 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/callapi.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py', reloading
+ * Restarting with stat
+Traceback (most recent call last):
+  File "/home/ubuntu/iamjoo0/LMS/app.py", line 4, in <module>
+    create_app().run('0.0.0.0', port=6725, debug=True)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/__init__.py", line 29, in create_app
+    from .views import manage
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 10
+    import '../../callapi.py' as callapi
+           ^
+SyntaxError: invalid syntax
+Traceback (most recent call last):
+  File "app.py", line 4, in <module>
+    create_app().run('0.0.0.0', port=6725, debug=True)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/__init__.py", line 29, in create_app
+    from .views import manage
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 10
+    import '../../callapi.py' as callapi
+           ^
+SyntaxError: invalid syntax
+Traceback (most recent call last):
+  File "app.py", line 4, in <module>
+    create_app().run('0.0.0.0', port=6725, debug=True)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/__init__.py", line 29, in create_app
+    from .views import manage
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 76
+    def json_default(value)    
+                              ^
+SyntaxError: invalid syntax
+ * Serving Flask app 'LMSapp'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:6725
+ * Running on http://172.31.37.184:6725
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:17:31] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:17:31] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:17:31] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:17:31] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:17:31] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:17:31] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:17:32] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:17:32] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:17:32] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:17:32] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:17:32] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:17:32] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:17:32] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:17:34] "GET /manage/api/get_consulting HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 77, in get_consulting
+    return json.dumps(all_consulting, default=callapi.json_default)
+  File "/usr/lib/python3.8/json/__init__.py", line 234, in dumps
+    return cls(
+  File "/usr/lib/python3.8/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.8/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/home/ubuntu/iamjoo0/LMS/callapi.py", line 8, in json_default
+    if isinstance(value, datetime.date):
+NameError: name 'datetime' is not defined
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/callapi.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/callapi.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:18:07] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:18:07] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:07] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:07] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:07] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:07] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:08] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:08] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:08] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:08] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:08] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:18:08] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:18:08] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:09] "GET /manage/api/get_consulting HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 77, in get_consulting
+    return json.dumps(all_consulting, default=callapi.json_default)
+  File "/usr/lib/python3.8/json/__init__.py", line 234, in dumps
+    return cls(
+  File "/usr/lib/python3.8/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.8/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/home/ubuntu/iamjoo0/LMS/callapi.py", line 11, in json_default
+    raise TypeError('nor serializable')
+TypeError: nor serializable
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/callapi.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:18:31] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:18:31] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:31] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:31] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:31] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:31] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:32] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:32] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:32] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:32] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:32] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:18:32] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:18:32] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:33] "GET /manage/api/get_consulting HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 77, in get_consulting
+    return json.dumps(all_consulting, default=callapi.json_default)
+  File "/usr/lib/python3.8/json/__init__.py", line 234, in dumps
+    return cls(
+  File "/usr/lib/python3.8/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.8/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/home/ubuntu/iamjoo0/LMS/callapi.py", line 11, in json_default
+    raise TypeError('nor serializable')
+TypeError: nor serializable
+118.131.85.245 - - [06/Feb/2023 02:18:36] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:18:36] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:18:36] "GET /static/style/login.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:18:36] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:18:36] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:18:36] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:18:36] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:18:36] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:18:37] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:18:37] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/callapi.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:18:58] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:18:58] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:58] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:58] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:59] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:18:59] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:19:00] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:19:00] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:19:00] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:19:00] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:19:00] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:19:00] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:19:00] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:19:01] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:19:01] "GET /static/style/login.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:19:01] "GET /manage/api/get_consulting HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 77, in get_consulting
+    return json.dumps(all_consulting, default=callapi.json_default)
+  File "/usr/lib/python3.8/json/__init__.py", line 234, in dumps
+    return cls(
+  File "/usr/lib/python3.8/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.8/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/home/ubuntu/iamjoo0/LMS/callapi.py", line 11, in json_default
+    raise TypeError('not serializable')
+TypeError: not serializable
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/callapi.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:19:28] "POST /login HTTP/1.1" 302 -
+118.131.85.245 - - [06/Feb/2023 02:19:28] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [06/Feb/2023 02:19:29] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:19:29] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:19:29] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:19:29] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:19:29] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:19:29] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:19:29] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:19:29] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:19:29] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:19:29] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:19:29] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:19:40] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:20:25] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:20:25] "GET /static/style/login.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:20:25] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:20:25] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:20:25] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:20:25] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:20:25] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:20:25] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:20:26] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:20:26] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/callapi.py', reloading
+T1031
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:21:08] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:21:08] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:21:08] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:21:08] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:21:08] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:21:08] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:21:09] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:21:09] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:21:09] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:21:09] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:21:09] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:21:09] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:21:09] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:21:11] "GET /manage/api/get_consulting HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:21:50] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:21:50] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:21:50] "GET /static/style/login.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:21:50] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:21:50] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:21:50] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:21:50] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:21:50] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:21:51] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:21:51] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:21:59] "GET /static/style/login.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:21:59] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:22:13] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:22:13] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:22:13] "GET /static/style/login.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:22:13] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:22:13] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:22:13] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:22:13] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:22:13] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:22:13] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:22:14] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/callapi.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:22:21] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:22:21] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:22:21] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:22:21] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:22:21] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:22:21] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:22:22] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:22:22] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:22:22] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:22:22] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:22:22] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:22:22] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:22:22] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:22:24] "GET /manage/api/get_consulting HTTP/1.1" 200 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/callapi.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:22:42] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:22:42] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:22:42] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:22:43] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:22:43] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:22:43] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:22:44] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:22:44] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:22:44] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:22:44] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:22:44] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:22:44] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:22:44] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:22:45] "GET /manage/api/get_consulting HTTP/1.1" 200 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/callapi.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:23:22] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:23:22] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:23:22] "GET /static/style/login.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:23:22] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:23:22] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:23:22] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:23:22] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:23:22] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:23:23] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:23:23] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:23:48] "GET /static/style/login.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:23:48] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:23:48] "GET /index.html HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:23:48] "GET /favicon.ico HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:23:50] "GET /index.html HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:23:53] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [06/Feb/2023 02:23:54] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:23:54] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:23:54] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:23:54] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:23:54] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:23:54] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:23:54] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:23:54] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:23:54] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:23:54] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:23:55] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:23:58] "GET /logout HTTP/1.1" 302 -
+118.131.85.245 - - [06/Feb/2023 02:23:58] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [06/Feb/2023 02:23:58] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:23:58] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:23:58] "GET /static/style/login.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:23:58] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:23:58] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:23:58] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:23:58] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:23:58] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:23:58] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:23:59] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:24:13] "POST /login HTTP/1.1" 302 -
+118.131.85.245 - - [06/Feb/2023 02:24:13] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [06/Feb/2023 02:24:14] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:24:14] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:24:14] "GET /static/style/manage.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:24:14] "GET /static/style/paginate.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:24:14] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:24:15] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:24:15] "GET /static/js/manage.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:24:16] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:24:16] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:24:16] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:24:16] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:24:16] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:24:16] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:24:20] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:24:20] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:24:20] "GET /static/style/paginate.css HTTP/1.1" 304 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py', reloading
+T1031
+None
+T0001
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:24:30] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:24:30] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:24:30] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:24:30] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:24:30] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:24:30] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:24:31] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:24:31] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:24:31] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:24:31] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:24:31] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:24:31] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:24:31] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:25:29] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:26:03] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:26:03] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:03] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:03] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:03] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:03] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:04] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:04] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:04] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:04] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:04] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:26:04] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:26:04] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:05] "GET /manage/api/get_consulting HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 78, in get_consulting
+    return json.dumps(all_consulting, default=callapi.json_default)
+  File "/usr/lib/python3.8/json/__init__.py", line 234, in dumps
+    return cls(
+  File "/usr/lib/python3.8/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.8/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/home/ubuntu/iamjoo0/LMS/callapi.py", line 11, in json_default
+    raise TypeError('not serializable')
+TypeError: not serializable
+118.131.85.245 - - [06/Feb/2023 02:26:15] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:26:15] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:26:15] "GET /static/style/login.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:26:15] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:26:16] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:26:16] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:26:16] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:26:16] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:26:16] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:26:17] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+ * Serving Flask app 'LMSapp'
+ * Debug mode: on
+Address already in use
+Port 6725 is in use by another program. Either identify and stop that program, or start the server with a different port.
+118.131.85.245 - - [06/Feb/2023 02:26:28] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:26:28] "GET /static/style/login.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:28] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:28] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:26:28] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:28] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:28] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:28] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:28] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:28] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:35] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:26:35] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:35] "GET /static/style/login.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:35] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:26:35] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:35] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:35] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:35] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:35] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:35] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:36] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:36] "GET /static/style/login.css HTTP/1.1" 304 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/callapi.py', reloading
+<Consulting 1>
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:26:50] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:26:50] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:50] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:50] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:50] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:50] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:51] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:51] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:51] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:51] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:51] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:26:51] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:26:51] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:26:53] "GET /manage/api/get_consulting HTTP/1.1" 500 -
+ * Serving Flask app 'LMSapp'
+ * Debug mode: on
+Address already in use
+Port 6725 is in use by another program. Either identify and stop that program, or start the server with a different port.
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 78, in get_consulting
+    return json.dumps(all_consulting, default=callapi.json_default)
+  File "/usr/lib/python3.8/json/__init__.py", line 234, in dumps
+    return cls(
+  File "/usr/lib/python3.8/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.8/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/home/ubuntu/iamjoo0/LMS/callapi.py", line 11, in json_default
+    raise TypeError('not serializable')
+TypeError: not serializable
+118.131.85.245 - - [06/Feb/2023 02:27:24] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:27:24] "GET /static/style/login.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:27:24] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:27:24] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:27:25] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:27:25] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:27:25] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:27:25] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:27:25] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:27:26] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:27:38] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:27:38] "GET /static/style/login.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:27:38] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:27:38] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:27:39] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:27:39] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:27:39] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:27:39] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:27:39] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:27:39] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:27:41] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:27:41] "GET /static/style/login.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:28:11] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:28:11] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:28:11] "GET /static/style/login.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:28:11] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:28:11] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:28:11] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:28:11] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:28:11] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:28:11] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:28:11] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:28:24] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:28:24] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:28:24] "GET /static/style/login.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:28:24] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:28:24] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:28:24] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:28:25] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:28:25] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:28:25] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:28:25] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:30:25] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:30:25] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:30:25] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:30:25] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:30:25] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:30:25] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:30:26] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:30:26] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:30:26] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:30:26] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:30:26] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:30:26] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:30:26] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:30:31] "GET /manage/api/get_consulting HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 78, in get_consulting
+    return json.dumps(all_consulting, default=callapi.json_default)
+  File "/usr/lib/python3.8/json/__init__.py", line 234, in dumps
+    return cls(
+  File "/usr/lib/python3.8/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.8/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/home/ubuntu/iamjoo0/LMS/callapi.py", line 11, in json_default
+    raise TypeError('not serializable')
+TypeError: not serializable
+118.131.85.245 - - [06/Feb/2023 02:31:31] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:31:31] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:31:31] "GET /static/style/login.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:31:31] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:31:31] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:31:31] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:31:31] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:31:32] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:31:32] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:31:33] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py', reloading
+<Consulting 1>
+<Consulting 1>
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:33:25] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:33:25] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:33:25] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:33:25] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:33:25] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:33:25] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:33:26] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:33:26] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:33:26] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:33:26] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:33:26] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:33:26] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:33:27] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:33:28] "GET /manage/api/get_consulting HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 78, in get_consulting
+    return json.dumps(all_consulting, default=callapi.json_default)
+  File "/usr/lib/python3.8/json/__init__.py", line 234, in dumps
+    return cls(
+  File "/usr/lib/python3.8/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.8/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/home/ubuntu/iamjoo0/LMS/callapi.py", line 11, in json_default
+    raise TypeError('not serializable')
+TypeError: not serializable
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py', reloading
+<class 'LMSapp.models.Consulting'>
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:41:43] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:41:43] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:41:43] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:41:43] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:41:43] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:41:43] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:41:44] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:41:44] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:41:44] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:41:44] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:41:44] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:41:44] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:41:44] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:41:45] "GET /manage/api/get_consulting HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 86, in get_consulting
+    return json.dumps(all_consulting, default=callapi.json_default)
+UnboundLocalError: local variable 'all_consulting' referenced before assignment
+118.131.85.245 - - [06/Feb/2023 02:42:14] "GET /manage/api/get_consulting HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 86, in get_consulting
+    return json.dumps(all_consulting, default=callapi.json_default)
+UnboundLocalError: local variable 'all_consulting' referenced before assignment
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py', reloading
+err
+err
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:42:53] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:42:53] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:42:53] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:42:53] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:42:53] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:42:53] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:42:54] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:42:54] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:42:54] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:42:54] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:42:54] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:42:54] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:42:55] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:42:55] "GET /manage/api/get_consulting HTTP/1.1" 200 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py', reloading
+err
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:43:13] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:43:13] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:43:13] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:43:13] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:43:13] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:43:13] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:43:14] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:43:14] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:43:14] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:43:14] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:43:14] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:43:14] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:43:14] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:43:19] "GET /manage/api/get_consulting HTTP/1.1" 200 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py', reloading
+err
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:43:40] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:43:40] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:43:40] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:43:40] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:43:40] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:43:40] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:43:41] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:43:41] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:43:41] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:43:41] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:43:41] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:43:41] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:43:41] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:44:00] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:44:00] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:44:00] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:44:00] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:44:00] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:44:00] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:44:01] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:44:01] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:44:01] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:44:01] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:44:01] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:44:01] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:44:01] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:44:02] "GET /manage/api/get_consulting HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:44:20] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:44:20] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:44:20] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:44:20] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:44:20] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:44:20] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:44:21] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:44:21] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:44:21] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:44:21] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:44:21] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:44:21] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:44:21] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:44:22] "GET /manage/api/get_consulting HTTP/1.1" 200 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py', reloading
+err
+[]
+err
+[]
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+ * Serving Flask app 'LMSapp'
+ * Debug mode: on
+Address already in use
+Port 6725 is in use by another program. Either identify and stop that program, or start the server with a different port.
+118.131.85.245 - - [06/Feb/2023 02:45:54] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:45:54] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:45:54] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:45:54] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:45:54] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:45:54] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:45:55] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:45:55] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:45:55] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:45:55] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:45:55] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:45:55] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:45:55] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:45:57] "GET /manage/api/get_consulting HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:46:43] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:46:43] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:46:43] "GET /static/style/login.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:46:43] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:46:44] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:46:44] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:46:44] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:46:44] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:46:44] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:46:45] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+ * Serving Flask app 'LMSapp'
+ * Debug mode: on
+Address already in use
+Port 6725 is in use by another program. Either identify and stop that program, or start the server with a different port.
+118.131.85.245 - - [06/Feb/2023 02:47:01] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:47:01] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:47:01] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:47:01] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:47:01] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:47:01] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:47:02] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:47:02] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:47:02] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:47:02] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:47:02] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:47:02] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:47:02] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:47:03] "GET /manage/api/get_consulting HTTP/1.1" 200 -
+ * Serving Flask app 'LMSapp'
+ * Debug mode: on
+Address already in use
+Port 6725 is in use by another program. Either identify and stop that program, or start the server with a different port.
+118.131.85.245 - - [06/Feb/2023 02:48:20] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:48:20] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:48:20] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:48:20] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:48:20] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:48:20] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:48:21] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:48:21] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:48:21] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:48:21] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:48:21] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:48:21] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:48:21] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:48:25] "GET /manage/api/get_consulting HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:48:30] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [06/Feb/2023 02:48:30] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:48:31] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:48:31] "GET /static/style/login.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:48:31] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:48:31] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:48:31] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:48:31] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:48:31] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:48:32] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:48:32] "GET /static/style/images/favicon.ico HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:49:05] "GET /manage/api/get_consulting HTTP/1.1" 200 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py', reloading
+(1054, "Unknown column 'category_id' in 'field list'")
+[]
+(1054, "Unknown column 'category_id' in 'field list'")
+[]
+(1054, "Unknown column 'category_id' in 'field list'")
+[]
+None
+(1054, "Unknown column 'category_id' in 'field list'")
+[]
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [06/Feb/2023 02:49:32] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:49:32] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:49:32] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:49:32] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:49:32] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:49:32] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:49:33] "GET /static/js/manage.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:49:34] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:49:34] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:49:34] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:49:34] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:49:34] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:49:34] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -
+118.131.85.245 - - [06/Feb/2023 02:49:35] "GET /manage/api/get_consulting HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:50:36] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:50:36] "GET /static/style/login.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:50:36] "GET /static/style/style.css HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:50:36] "GET /static/js/script.js HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:50:36] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [06/Feb/2023 02:50:36] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:50:36] "GET /static/style/images/Instagram_Glyph_Gradient.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:50:36] "GET /static/style/images/naver_cafe.png HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:50:36] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 200 -
+118.131.85.245 - - [06/Feb/2023 02:50:37] "GET /static/style/images/favicon.ico HTTP/1.1" 304 -

@@ -26,107 +26,84 @@
 </head>
 
 <body>
-    <div class=form-group>
-        <!-- 모달 -->
-        <!-- 로그아웃 모달 -->
-        <div class="modal fade" id="sign-out" tabindex="-1" aria-labelledby="signOutModealLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="signOutModealLabel">로그아웃</h5>
-                        <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        로그아웃 하시겠습니까?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success"><a href="/logout">확인</a></button>
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
-                    </div>
-                </div>
-            </div>
+  <!-- 모달 -->
+  <!-- 로그아웃 모달 -->
+  <div class="modal fade" id="sign-out" tabindex="-1" aria-labelledby="signOutModealLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="signOutModealLabel">로그아웃</h5>
+          <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
         </div>
-        <div class="items">
-            <!-- 네비게이션 -->
-            <header>
-              <div class="top-nav-bar fixed-top d-flex justify-content-between align-items-center py-2 bottom-border">                
-                <div class="d-flex justify-content-start align-items-center ms-4 p-1" style="width: 220px;">
-                  <a href="/index.html" class="navbar-brand d-flex align-items-center w-100 p-0 m-0">
-                    <img class="w-100" src="../static/style/images/purple_logo_03.png">
-                  </a>
-                </div>         
-                <div class="top-nav-logout d-flex justify-content-center align-items-center me-3">
-                  <a href="#" data-bs-toggle="modal" data-bs-target="#sign-out">
-                    <i class="fas fa-sign-out-alt text-danger fa-lg fs-6"></i>
-                  </a>                    
-                </div>
-              </div> 
-            </header>
-            <!--<nav class="navbar navbar-expand-md navbar-light">
-                <button class="navbar-toggler ml-auto mb-2 bg-light" type="button" data-toggle="collapse" data-target="#sidebar">
-                    <span class="navbar-toggle-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="sidebar">
-                    <div class="container-fluid">
-                        <div class="row">
-                            
-                            <div class="top-nav-bar ms-auto fixed-top py-1">
-                                <div class="row py-1">
-                                    <div class="col d-flex" style="margin-left:-300px;">
-                                        <a href="/index.html" class="navbar-brand text-center d-block mx-auto bottom-border"><img src="../static/style/images/purple_logo_03.png"></a>
-                                    </div>
-                                    <div class="col d-flex justify-content-end me-4">
-                                        <ul class="navbar-nav">
-                                            <h4 class="nav-title mb-0" style="color:#F1F1F1;">{% block topnav %}{% endblock %}</h4>
-                                            <li class="nav-item"><a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#sign-out"><i class="fas fa-sign-out-alt text-danger fa-lg"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </nav>-->
-            <div id="main">
-                {% block content %}
-
-                {% endblock %}
-            </div>
-            <footer class="fixed-bottom top-border">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="card-container ms-auto">
-                            <div class="footer row pt-3 py-2">
-                                <div class="col-lg-6 text-center">
-                                    <p class="px-3 mb-2">&copy; 2023 Copyright. <span class="text-purple">PURPLEACADEMY</span></p>
-                                </div>
-                                <div class="col-lg-6 text-center">
-                                    <div class="row justify-content-center align-items-center">
-                                        <ul class="list-inline mb-0">
-                                            <li class="list-inline-item mr-2">
-                                                <a href="https://www.instagram.com/purpleacademy1/" target="_blank" class="nav-link icon text-light"><img class="mb-2" src="../static/style/images/Instagram_Glyph_Gradient.png" width="21"></span></a>
-                                            </li>
-                                            <li class="list-inline-item mr-2">
-                                                <a href="https://www.youtube.com/c/livePURPLEACADEMY/featured" target="_blank" class="nav-link icon text-light"><i class="fa-brands fa-youtube text-youtube" width="21"></i></a>
-                                            </li>
-                                            <li class="list-inline-item mr-2">
-                                                <a href="https://cafe.naver.com/purplemam" target="_blank" class="nav-link icon text-light"><img class="mb-2" src="../static/style/images/naver_cafe.png" width="21"></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+        <div class="modal-body">
+          로그아웃 하시겠습니까?
         </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success"><a href="/logout">확인</a></button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
+        </div>
+      </div>
     </div>
-    
-    <!-- script -->
-    <script type="text/javascript" src="../static/js/script.js"></script>
-    {% block jspart %}
+  </div>
+  <div class="items">
+    <!-- 네비게이션 -->
+    <header>
+      <div class="top-nav-bar fixed-top d-flex justify-content-between align-items-center py-2 bottom-border">                
+        <div class="d-flex justify-content-start align-items-center ms-4 p-1" style="width: 220px;">
+          <a href="/index.html" class="navbar-brand d-flex align-items-center w-100 p-0 m-0">
+            <img class="w-100" src="../static/style/images/purple_logo_03.png">
+          </a>
+        </div>         
+        <div class="top-nav-logout d-flex justify-content-center align-items-center me-3">
+          <a href="#" data-bs-toggle="modal" data-bs-target="#sign-out">
+            <i class="fas fa-sign-out-alt text-danger fa-lg fs-6"></i>
+          </a>                    
+        </div>
+      </div> 
+    </header>
+    <div id="main">
+      {% block content %}
 
-    {% endblock %}
+      {% endblock %}
+    </div>
+    <footer class="fixed-bottom top-border">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="card-container ms-auto">
+            <div class="footer row pt-3 py-2">
+              <div class="col-lg-6 text-center">
+                <p class="px-3 mb-2">&copy; 2023 Copyright. <span class="text-purple">PURPLEACADEMY</span></p>
+              </div>
+              <div class="col-lg-6 text-center">
+                <div class="row justify-content-center align-items-center">
+                  <ul class="list-inline mb-0">
+                    <li class="list-inline-item mr-2">
+                      <a href="https://www.instagram.com/purpleacademy1/" target="_blank" class="nav-link icon text-light"><img class="mb-2" src="../static/style/images/Instagram_Glyph_Gradient.png" width="21"></span></a>
+                    </li>
+                    <li class="list-inline-item mr-2">
+                      <a href="https://www.youtube.com/c/livePURPLEACADEMY/featured" target="_blank" class="nav-link icon text-light">
+                        <i class="fa-brands fa-youtube text-youtube" width="21"></i>
+                      </a>
+                    </li>
+                    <li class="list-inline-item mr-2">
+                      <a href="https://cafe.naver.com/purplemam" target="_blank" class="nav-link icon text-light">
+                        <img class="mb-2" src="../static/style/images/naver_cafe.png" width="21">
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
+  <!-- script -->
+  <script type="text/javascript" src="../static/js/script.js"></script>
+  {% block jspart %}
+
+  {% endblock %}
 </body>
 </html>
