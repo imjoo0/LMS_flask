@@ -146,7 +146,7 @@ def consulting(id):
         for student in my_students:
             consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1))
             print(consultings)
-            consultings.query.filter((Consulting.startdate <= current_time)&(current_time <= Consulting.deadline)).all()
+            consultings.filter((Consulting.startdate <= current_time)&(current_time <= Consulting.deadline)).all()
 
             if( len(consultings) != 0 ):
                 target_data = {}
