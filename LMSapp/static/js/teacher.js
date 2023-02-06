@@ -141,7 +141,7 @@ function update_done(target){
                 }else{
                     alert(response["result"])
                 }
-                return redirect('/')
+                return redirect('/teacher/')
 			}}
 		})
 }
