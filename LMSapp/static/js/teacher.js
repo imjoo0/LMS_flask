@@ -78,7 +78,7 @@ async function get_consulting(ban_regi){
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="consultinghistoryModalLabel">
-                                            <img src="https://purpleacademy.net/free_project/public/image/head-office-consultinghistory-btn.png" style="width: 30px;">&nbsp;&nbsp;${student_name}상담일지 작성
+                                            <img src="#" style="width: 30px;">&nbsp;&nbsp;${student_name}상담일지 작성
                                         </h5>
                                         <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
                                     </div>
@@ -93,18 +93,21 @@ async function get_consulting(ban_regi){
                                             </div>
                                             <div id="consulting_box">
                                                 <div class="modal-body-select-container">
-                                                    <span class="modal-body-select-label">문의 제목</span>
-                                                    <input class="modal-body-select" type="text" size="50" name="consulting_title" style="width: 75%;">
+                                                    <span class="modal-body-select-label">상담 사유</span>
+                                                    <input class="modal-body-select" type="text" size="50" name="consulting_reson" style="width: 75%;">
                                                 </div>
                                                 <div class="modal-body-select-container">
-                                                    <span class="modal-body-select-label">문의 내용</span>
-                                                    <textarea id="consulting_contents" class="modal-body-select" type="text"rows="5" cols="25" name="consulting_contents" style="width: 75%;"></textarea>
+                                                    <span class="modal-body-select-label">제공한 가이드</span>
+                                                    <input class="modal-body-select" type="text" size="50" name="consulting_solution" style="width: 75%;">
+                                                </div>
+                                                <div class="modal-body-select-container">
+                                                    <span class="modal-body-select-label">상담 결과</span>
+                                                    <textarea id="consulting_contents" class="modal-body-select" type="text"rows="5" cols="25" name="consulting_result" style="width: 75%;"></textarea>
                                                 </div>
                                             </div>
                                             <div class="d-flex justify-content-center mt-4 mb-2">
                                                 <button class="btn btn-dark" type="submit">저장</button>
-
-                                                <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin-top: 13px;">취소</button> -->
+                                                <label><input type="checkbox" name="missed" value="missed">부재중</label>
                                             </div>
                                         </form>
                                     </div>           
