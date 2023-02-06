@@ -27,13 +27,11 @@ def home():
         # print(my_tasks)
         print(my_tasks)
         if len(my_tasks)!=0:
-            tc = []
             for task in my_tasks:
-                t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline )).all()[0]
-                tc.append(t)   
+                t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline )).all()   
             # # print(tc)
             # tc = list(set(tc))
-            print(tc)
+            print(t)
 
             category_set = []
             for cate in tc:
