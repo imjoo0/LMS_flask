@@ -50,7 +50,7 @@ def taskcycle():
             db.session.commit()
         elif t.cycle == 7 and task.done==1:
             db.session.delete(task)
-            
+
 # 오늘 완료 한 업무  get
 @bp.route("/taskdone", methods=['GET'])
 def taskdone():
@@ -82,8 +82,6 @@ def task(id):
         except:
             return jsonify({'result': '업무완료 실패'})
     elif request.method == 'GET':
-        current_time = datetime.now()
-        Today = current_time.date()
         today_yoil = current_time.weekday() + 1
 
         my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done != 1)).all()
@@ -131,6 +129,40 @@ def task(id):
                 target_task.append(task_data)
             return jsonify({'task' : target_task})
 
+# 반별 오늘 해야 할 상담 목록 
+@bp.route("consulting/<int:id>", methods=['POST','GET'])
+def consulting(id):
+    if request.method =='POST':
+        target_task = TaskBan.query.get_or_404(id)
+        target_task.done = 1
+        try:
+            db.session.commit()
+            return jsonify({'result': '완료'})
+        except:
+            return jsonify({'result': '업무완료 실패'})
+    elif request.method == 'GET':
+        my_students = callapi.get_students(id)
+
+        for student in my_students:
+            target_data = {}
+            target_data['name'] = student['name'] + '(' + student['origin'] + ')'
+            target_data['mobileno'] = student['mobileno']
+            target_data['reco_book_code'] = student['reco_book_code']
+            target_data['register_date'] = student['register_date']
+            consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1) & (Consulting.startdate.date() <= Today) & ( Today <= Consulting.deadline.date())).all()
+            if( len(consultings) > 0 ):
+                target_data['consultings'] = []
+                for consulting in consultings:
+                    consulting_data = {}
+                    consulting_data['contents'] = consulting.contents
+                    consulting_data['category'] = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first().name
+                    consulting_data['deadline'] = consulting.deadline.strftime('%Y-%m-%d')
+                    consulting_data['consulting_ban'] = []
+                    target_data['consultings'].append(consulting_data)
+                return jsonify({'consulting_list' : target_data})
+            else:
+                return jsonify({'consulting_list' : 없음})
+        
 
 
 # 선생님 문의 저장 
