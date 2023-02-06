@@ -46,10 +46,6 @@
 
 body {
     background-color: #444444;
-    min-height: 100vh-117.09px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 body::-webkit-scrollbar{
@@ -91,6 +87,10 @@ footer{
     color: rgb(22, 22, 22);
     font-weight: 300;
 } */
+.modal-footer a {
+  text-decoration: none;
+  color: #ffffff;
+}
 
 .img-container {
     height: 600px;
@@ -286,6 +286,7 @@ details > summary {
     margin-top: 61.09px;
     margin-bottom: 56px;
     width: 100vw;
+    min-height: calc(100vh - 117.09px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -299,6 +300,7 @@ details > summary {
 #login> *{
     color: #2e2e2e!important;
 }
+
 
 
 /* 가로배치 */
