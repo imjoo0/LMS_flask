@@ -63,21 +63,21 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
     let pageHtml = "";
 
     if (prev > 0) {
-        pageHtml += "<li><a href='#' id='prev'> 이전 </a></li>";
+        pageHtml += "<li><a class='cursor-pointer' id='prev'> 이전 </a></li>";
     }
 
     //페이징 번호 표시 
     for (var i = first; i <= last; i++) {
         if (currentPage == i) {
             pageHtml +=
-                "<li class='on'><a href='#' id='" + i + "'>" + i + "</a></li>";
+                "<li class='on'><a class='cursor-pointer' id='" + i + "'>" + i + "</a></li>";
         } else {
-            pageHtml += "<li><a href='#' id='" + i + "'>" + i + "</a></li>";
+            pageHtml += "<li><a class='cursor-pointer' id='" + i + "'>" + i + "</a></li>";
         }
     }
 
     if (last < totalPage) {
-        pageHtml += "<li><a href='#' id='next'> 다음 </a></li>";
+        pageHtml += "<li><a class='cursor-pointer' id='next' > 다음 </a></li>";
     }
 
     $("#pagingul").html(pageHtml);

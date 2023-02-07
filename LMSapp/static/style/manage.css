@@ -84,3 +84,15 @@
   float: right !important;
   padding-right: 10px;
 }
+
+.manage-question-btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 47%;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
