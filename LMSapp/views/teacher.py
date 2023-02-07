@@ -166,12 +166,14 @@ def consulting(id):
                 category = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first()
                 if(category.id < 101):
                     consulting_data['category'] = category.name + str(consulting.week_code) + '주 미학습 상담을 진행해주세요 '
+                    consulting_data['week_code'] = consulting.week_code
                 else:
-                   consulting_data['category'] = category.name  
+                   consulting_data['category'] = category.name
+                   consulting_data['week_code'] = 0
                 consulting_data['deadline'] = consulting.deadline.strftime('%Y-%m-%d')
                 target_data['consultings'].append(consulting_data)
                 if(len(target_data['consultings'])!=0):
-                    target_data['consultings'].sort(key = lambda x:(x['deadline']))
+                    target_data['consultings'].sort(key = lambda x:(x['deadline'],-x['week_code']))
                     target_data['consulting_num'] = len(target_data['consultings'])
                     consulting_list.append(target_data)
         if(len(consulting_list)==0):
