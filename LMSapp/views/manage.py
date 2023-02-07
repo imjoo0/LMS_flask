@@ -110,9 +110,12 @@ def update_task():
         try:
             with db.cursor() as cur:
                 #cur.execute(f'update consulting set content='' where id={id}')
-                result['text'] = str(request.agrs.get('text'))
+                result['status'] = 200
+                result['text'] = str(request.args.get('text'))
         except Exception as e:
             print(e)
+            result['status'] = 401
+            result['text'] = str(e)
         finally:
             db.close()
 

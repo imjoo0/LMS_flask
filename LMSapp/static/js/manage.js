@@ -153,7 +153,7 @@ await $.ajax({
             pageSize: 10,
             callback: function (data, pagination){
                 var dataHtml = '';
-                var idxHtml = `<option value="none" selected>카테고리를 선택해주세요</option>`;
+                var idxHtml = `<option value="none">전체</option>`;
                 $.each(data, function (index, consulting){
                 dataHtml +=  `
                     <td class="col-3">${consulting.startdate} ~ ${consulting.deadline}</td>
@@ -183,11 +183,11 @@ async function update_consulting(idx){
     await $.ajax({
         url: '/manage/api/update_consulting',
         type: 'get',
-        data: { 'text': 'good'},
+        data: {'text': 'good'},
         success: function(data){
             console.log(data)
         }
-})
+    })
 }
 
 
@@ -195,7 +195,11 @@ async function sort_consulting(value){
     var dataHtml = '';
     let container = $('#consulting-pagination')
     const data = await JSON.parse(consultingData).filter((e)=>{
-        return e.name == value;
+        if(value == 'none'){
+            return e.name
+        }else{
+            return e.name == value;
+        }
     })
     await container.pagination({
             dataSource: data,
@@ -238,7 +242,7 @@ await $.ajax({
             pageSize: 10,
             callback: function (data, pagination){
                 var dataHtml = '';
-                var idxHtml = `<option value="none" selected>카테고리를 선택해주세요</option>`;
+                var idxHtml = `<option value="" selected>카테고리를 선택해주세요</option><option value="none">전체</option>`;
                 $.each(data, function (index, task){
                 dataHtml +=  `
                     <td class="col-3">${ task.startdate } ~ ${ task.deadline }</td>               
