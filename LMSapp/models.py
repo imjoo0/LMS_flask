@@ -51,14 +51,14 @@ class ConsultingCategory(db.Model):
     
     id=db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(45), nullable=True)
-    consultings = db.relationship('Consultings', backref='consultingcategory')
+    consultings = db.relationship('Consulting', backref='consultingcategory')
 
 class UnlearnedConsultingCategory(db.Model):
     __tablename__ = 'unlearnedconsultingcategory'
     
     id=db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(45), nullable=True)
-    consultings = db.relationship('Consultings', backref='unlearnedconsultingcategory')
+    consultings = db.relationship('Consulting', backref='unlearnedconsultingcategory')
 
 class Consulting(db.Model):
     __tablename__ = 'consulting'
