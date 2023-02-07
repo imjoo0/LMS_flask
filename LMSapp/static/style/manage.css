@@ -85,13 +85,43 @@
   padding-right: 10px;
 }
 
-.manage-question-btn-container {
+.manage-work-btn-container {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 47%;
 }
+
+.manage-work-btn {
+  width: 100%;
+  height: auto;
+  background-color: #f1f1f1;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+}
+
+.manage-work-btn:hover {
+  cursor: pointer;
+  padding: 12%;
+}
+
+.manage-work-btn img {
+  width: 100%;
+  object-fit: fill;
+
+}
+
+.manage-work-label {
+  font-size: 18px;
+  font-weight: 600;
+  color: #f1f1f1;
+  padding-top: 10px;
+}
+
 
 .cursor-pointer {
   cursor: pointer;

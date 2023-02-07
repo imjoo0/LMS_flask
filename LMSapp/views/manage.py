@@ -252,6 +252,7 @@ def request_task():
 def get_ban(id):
     if request.method == 'GET':
         target_ban = callapi.get_ban(id)
+        alimnote = callapi.get_alimnote(id)[0]
         students = callapi.get_students(target_ban['register_no'])
         # student_info = []
         # for student in students:
@@ -266,7 +267,9 @@ def get_ban(id):
             'teacher_mobileno': target_ban['teacher_mobileno'],
             'teacher_email': target_ban['teacher_email'],
             'students_num': target_ban['student_num'],
-            'student_info': students
+            'student_info': students,
+            'all_alim' : alimnote['all'],
+            'answer_alim' : alimnote['answer']
         })
 
 # 선생님 문의 저장

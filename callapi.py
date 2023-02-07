@@ -99,3 +99,7 @@ def get_students(ban_id):
 #     result = result.json()
 #     return result
 #     # register_no / origin / name / pmobileno / pname /reco_book_code /register_date
+def get_alimnote(ban_id):
+    result = requests.post(config.api + 'get_alimnote', headers=headers, data=json.dumps({'data':{'id': ban_id}}))
+    result = result.json()
+    return result
