@@ -253,7 +253,17 @@
                     <div class="user-detail-deco"></div>
                     <div class="user-name">
                         <img src="https://purpleacademy.net/free_project/public/image/teacher-profile.png">
-                        <span>{{ user['name'] }}({{ user['engname'] }}) 선생님 안녕하세요.</span>
+                        <div class="d-flex justify-content-center align-items-center flex-column">
+                            <span>{{ user['name'] }}({{ user['engname'] }}) 선생님 안녕하세요.</span>
+                            <div class="mt-2">
+                                <a href="#" class="me-1" data-bs-toggle="modal" data-bs-target="#sign-out">
+                                    <i class="fas fa-sign-out-alt text-danger fa-lg fs-6"></i>
+                                </a>
+                                <a href="#" class="ms-1" data-bs-toggle="modal" data-bs-target="#">
+                                    <i class="fa-solid fa-gear text-primary fa-lg fs-6"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                     <div class="user-contact">
                         <div class="mt-2">
