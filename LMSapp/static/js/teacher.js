@@ -92,7 +92,7 @@ async function get_consulting(ban_regi){
                                             </div>
                                             <div class="modal-body-select-container"  id="consultinghistory_kind">
                                                 <span class="modal-body-select-label">상담 선택</span>
-                                                <select id="consultinghistory_kind${register_no}" class="modal-body-select" name="consultinghistory_category" style="width:100%">
+                                                <select id="consultinghistory_kind${register_no}" class="modal-body-select" name="target_consulting" style="width:100%">
                                                     <option value="none" selected>진행 할 상담을 선택해주세요</option>
                                                 </select>
                                             </div>
