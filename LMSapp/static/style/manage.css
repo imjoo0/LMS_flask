@@ -80,3 +80,7 @@
 #incomplete_done{
     display: none;
 }
+.paginationjs-pages {
+  float: right !important;
+  padding-right: 10px;
+}
