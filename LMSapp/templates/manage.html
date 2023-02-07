@@ -20,38 +20,13 @@
 {% endblock %}
 {% block content %}
 {% autoescape off %}
-
-<!-- 문의 조회 모달 창 -->
+<!-- 요청한 업무 리스트 모달 창 -->
 <div class="modal fade" id="answer" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="answerModalLabel">
                     OOO 선생님 문의 
-                </h5>
-                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <div class="modal-header">
-                <select id="task-category-select" onchange="sort_task(this.value)" class="form-select" aria-label="Default select example">
-                    <optgroup id="task-option">
-                    </optgroup>
-                </select>
-            </div>
-            <div>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- 요청한 업무 리스트 모달 창 -->
-<div class="modal fade" id="my_task_request" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="taskModalLabel">
-                    요청 중인 업무 목록 
                 </h5>
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
@@ -367,9 +342,11 @@
                     <div class="manage-user-detail-deco"></div>
                     <div class="user-name">
                         <img src="https://purpleacademy.net/free_project/public/image/teacher-profile.png">
-                        <div>
+                        <div class="d-flex justify-content-center align-items-center flex-column">
                             <span>{{ user['engname'] }}님 안녕하세요</span>
-                            <button>로그아웃</button>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#sign-out">
+            <i class="fas fa-sign-out-alt text-danger fa-lg fs-6"></i>
+          </a> 
                         </div>
                          
                     </div>
