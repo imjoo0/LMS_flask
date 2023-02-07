@@ -93,9 +93,9 @@ def get_students(ban_id):
     return result
     # register_no / origin / name / pmobileno / pname 
 
-# ban_registerno 반 PK 아이디 -> student
-def get_student(url,data):
-    result = requests.post(config.api + url, headers=headers, data=json.dumps({'data':{'id': data}}))
-    result = result.json()
-    return result
-    # register_no / origin / name / pmobileno / pname /reco_book_code /register_date
+# # ban_registerno 반 PK 아이디 -> student
+# def get_student(url,data):
+#     result = requests.post(config.api + url, headers=headers, data=json.dumps({'data':{'id': data}}))
+#     result = result.json()
+#     return result
+#     # register_no / origin / name / pmobileno / pname /reco_book_code /register_date
