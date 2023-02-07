@@ -53,20 +53,12 @@ class ConsultingCategory(db.Model):
     name = db.Column(db.String(45), nullable=True)
     consultings = db.relationship('Consulting', backref='consultingcategory')
 
-class UnlearnedConsultingCategory(db.Model):
-    __tablename__ = 'unlearnedconsultingcategory'
-    
-    id=db.Column(db.Integer,primary_key=True)
-    name = db.Column(db.String(45), nullable=True)
-    consultings = db.relationship('Consulting', backref='unlearnedconsultingcategory')
-
 class Consulting(db.Model):
     __tablename__ = 'consulting'
     
     id=db.Column(db.Integer,primary_key=True)
     ban_id = db.Column(db.Integer,nullable=True)
     category_id = db.Column(db.Integer, db.ForeignKey('consultingcategory.id'))
-    unlearnedcategory_id = db.Column(db.Integer, db.ForeignKey('unlearnedconsultingcategory.id'))
     student_id = db.Column(db.Integer,nullable=True)
     contents = db.Column(db.Text)
     startdate = db.Column(db.DateTime)
