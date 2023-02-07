@@ -125,7 +125,7 @@ function paginating(){
                 <td class="col-4">${item.contents}</td>
                 <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
                 data-bs-target="#answer${item.id}">✏️</button> <button>❌</button></td>`;
-                    });
+                });
                 $('#alim-tr').html(dataHtml);
             }
         })
