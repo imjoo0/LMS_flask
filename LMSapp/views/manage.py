@@ -252,14 +252,15 @@ def request_task():
 def get_ban(id):
     if request.method == 'GET':
         target_ban = callapi.get_ban(id)
-        alimnote = callapi.get_alimnote(id)[0]
-        students = callapi.get_students(target_ban['register_no'])
-        # student_info = []
-        # for student in students:
-        #      student_info.append(json.dumps(get_student_json(student)))
-        # print(student_info)
+        if target_ban:
+            alimnote = callapi.get_alimnote(id)[0]
+            students = callapi.get_students(target_ban['register_no'])
+            # student_info = []
+            # for student in students:
+            #      student_info.append(json.dumps(get_student_json(student)))
+            # print(student_info)
 
-        return jsonify({
+            return jsonify({
             'target_ban': target_ban['register_no'],
             'name': target_ban['ban_name'],
             'teacher_name': target_ban['teacher_name'],
@@ -271,6 +272,8 @@ def get_ban(id):
             'all_alim' : alimnote['all'],
             'answer_alim' : alimnote['answer']
         })
+        else:
+            return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
 
 # 선생님 문의 저장
 # @bp.route('/question', methods=['POST'])

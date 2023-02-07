@@ -374,13 +374,20 @@ function getBanInfo(b_id){
     }else{
         $('#select_student').show();
     }
-    console.log(b_id)
+    //$('#profile_data').html('Loading Data...');
+
     $.ajax({
         type: "GET",
         url: "/manage/ban/"+b_id,
         data: {},
         success: function (response) {
             // let target_ban = response['target_ban']
+            if (response['status'] == 400){
+                let no_data_title = `<h1> ${response.text} </h1>`
+                $('#s_data').html(no_data_title);
+                $('#pagingul').hide();
+                return
+            }
             let ban_name = response['name'];
             let teacher_name = response['teacher_name']
             let teacher_e_name = response['teacher_e_name']
@@ -388,7 +395,6 @@ function getBanInfo(b_id){
             let teacher_email = response['teacher_email']
             let answer = Number(response['answer_alim'])
             let all_alim = Number(response['all_alim'])
-            console.log(answer/all_alim)
             let answer_rate =  function(answer, all_alim) {
                 if(Object.is(answer/all_alim, NaN)) return 0;
                 else return answer/all_alim*100;
@@ -409,6 +415,7 @@ function getBanInfo(b_id){
                 </tr>
             </table>
             `;
+            $('#profile_data').empty();
             $('#profile_data').append(temp_profile_data);
 
             let students_num = response['students_num']
@@ -518,7 +525,10 @@ function getBanInfo(b_id){
                 let temp_target_student = `<option value="${id}"> ${name} ( ${original} )</option>`;
                 $('#target_student').append(temp_target_student)
             } 
-        }
+        },
+        error:function(xhr, status, error){
+                alert(xhr.responseText);
+            }
     })
 }
 
