@@ -72,6 +72,7 @@ async function get_consulting(ban_regi){
                         <div data-bs-toggle="modal" data-bs-target="#consultinghistory${register_no}">
                             <strong>${student_name} 상담 ${consulting_num}건</strong> 📞${mobileno} | 추천도서:${student_reco_book_code}
                         </div>
+                        
                         <div class="modal fade" id="consultinghistory${register_no}" tabindex="-1"
                             aria-labelledby="consultinghistoryModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -93,30 +94,26 @@ async function get_consulting(ban_regi){
                                             <div class="modal-body-select-container"  id="consultinghistory_kind">
                                                 <span class="modal-body-select-label">상담 선택</span>
                                                 <select id="consultinghistory_kind${register_no}" class="modal-body-select" name="target_consulting" style="width:100%">
-                                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>    
                                                     <option value="none" selected>진행 할 상담을 선택해주세요</option>
                                                 </select>
                                             </div>
                                             <div id="consulting_box">
                                                 <div class="modal-body-select-container">
                                                     <span class="modal-body-select-label">상담 사유</span>
-                                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                                     <input class="modal-body-select" type="text" size="50" name="consulting_reson" style="width: 75%;">
                                                 </div>
                                                 <div class="modal-body-select-container">
                                                     <span class="modal-body-select-label">제공한 가이드</span>
-                                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                                     <input class="modal-body-select" type="text" size="50" name="consulting_solution" style="width: 75%;">
                                                 </div>
                                                 <div class="modal-body-select-container">
                                                     <span class="modal-body-select-label">상담 결과</span>
-                                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                                     <textarea id="consulting_contents" class="modal-body-select" type="text"rows="5" cols="25" name="consulting_result" style="width: 75%;"></textarea>
                                                 </div>
                                                 <p>상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
                                                 <div class="modal-body-select-container">
                                                 <span class="modal-body-select-label">부재중</span>
-                                                <label> <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/><input type="checkbox" name="missed" value="missed">부재중</label>
+                                                <label><input type="checkbox" name="missed" value="missed">부재중</label>
                                                 </div>
                                             </div>
                                             <div class="d-flex justify-content-center mt-4 mb-2">
