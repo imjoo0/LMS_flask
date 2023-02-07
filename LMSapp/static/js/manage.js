@@ -374,6 +374,7 @@ function getBanInfo(b_id){
     }else{
         $('#select_student').show();
     }
+    console.log(b_id)
     $.ajax({
         type: "GET",
         url: "/manage/ban/"+b_id,
@@ -385,6 +386,13 @@ function getBanInfo(b_id){
             let teacher_e_name = response['teacher_e_name']
             let teacher_mobileno = response['teacher_mobileno']
             let teacher_email = response['teacher_email']
+            let answer = Number(response['answer_alim'])
+            let all_alim = Number(response['all_alim'])
+            console.log(answer/all_alim)
+            let answer_rate =  function(answer, all_alim) {
+                if(Object.is(answer/all_alim, NaN)) return 0;
+                else return answer/all_alim*100;
+            }
 
             let temp_title = `<h1> ${ban_name} 현황</h1>`
             $('#label_title').append(temp_title);
@@ -482,8 +490,8 @@ function getBanInfo(b_id){
                         <tr class="row">
                             <td class="col-3">3/10 </td>
                             <td class="col-3"> 5% </td>
-                            <td class="col-3">3/10 </td>
-                            <td class="col-3"> 5% </td>
+                            <td class="col-3">${answer}/${all_alim} </td>
+                            <td class="col-3"> ${answer_rate(answer, all_alim)}% </td>
                         </tr>
                     </tbody>
                 </table>      

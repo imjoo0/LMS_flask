@@ -20,29 +20,6 @@
 {% endblock %}
 {% block content %}
 {% autoescape off %}
-
-<!-- 선생님 문의확인 모달 창 -->
-<div class="modal fade" id="answer2" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="answerModalLabel">
-                    OOO선생님의 문의 
-                </h5>
-                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <div class="modal-header">
-                <select id="oo-category-select" class="form-select" aria-label="Default select example">
-                    <select name="test" id="test">test</select>
-                </select>
-            </div>
-            <div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- 요청한 업무 리스트 모달 창 -->
 <div class="modal fade" id="my_task_request" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -314,33 +291,49 @@
     <div id="user-info" class="border-bottom">
         <div class="d-flex justify-content-center flex-xl-row row-cols-xl-2 flex-column-reverse">
             <div class="p-lg-5 p-1 pb-4">
-                <div class="d-flex justify-content-between flex-row row-cols-2">
+                <div class="d-flex justify-content-between flex-row row-cols-2 mb-5">
                     <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
-                    <div class="manage-question-btn-container">
-                        <div class="question-btn head-office-question-btn row" data-bs-toggle="modal" data-bs-target="#">
-                            <img class="col-3" src="../static/style/images/user.png">
-                            <span class="question-label col-7">신규 상담 요청</span>
+                    <div class="manage-work-btn-container">
+                        <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#">
+                            <div class="col-3">
+                                <img src="../static/style/images/user.png">
+                            </div>
+                            <div class="col-7">
+                                <span class="manage-work-label col-7">신규 상담 요청</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="manage-question-btn-container">
-                        <div class="question-btn answer-a-question" data-bs-toggle="modal" data-bs-target="#">
-                            <img class="col-3" src="../static/style/images/user.png">
-                            <span class="question-label col-7">상담 리스트</span>
+                    <div class="manage-work-btn-container">
+                        <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#">
+                            <div class="col-3">
+                                <img src="../static/style/images/conversation.png">
+                            </div>
+                            <div class="col-7">
+                                <span class="manage-work-label">상담 리스트</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-between flex-row row-cols-2">
-                    <div class="manage-question-btn-container">
-                        <div class="question-btn show-last-counsulting">
-                            <img class="col-3" src="../static/style/images/user.png">
-                            <span class="question-label col-7">신규 업무 요청</span>
+                    <div class="manage-work-btn-container">
+                        <div class="manage-work-btn">
+                            <div class="col-3">
+                                <img class="col-3" src="../static/style/images/note.png">
+                            </div>
+                            <div class="col-7">
+                                <span class="manage-work-label col-7">신규 업무 요청</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="manage-question-btn-container">
-                        <div class="question-btn show-last-counsulting">
-                            <img src="">                        
+                    <div class="manage-work-btn-container">
+                        <div class="manage-work-btn">
+                            <div class="col-3">
+                                <img class="col-3" src="../static/style/images/order.png">
+                            </div>
+                            <div class="col-7">
+                                <span class="manage-work-label col-7">업무 리스트</span>
+                            </div>
                         </div>
-                        <span class="question-label">업무 리스트</span>
                     </div>                
                 </div>
             </div> 
