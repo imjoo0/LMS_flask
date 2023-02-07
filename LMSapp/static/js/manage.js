@@ -388,6 +388,7 @@ function getBanInfo(b_id){
                 $('#pagingul').hide();
                 return
             }
+            let students_num = response['students_num'];
             let ban_name = response['name'];
             let teacher_name = response['teacher_name']
             let teacher_e_name = response['teacher_e_name']
@@ -399,7 +400,9 @@ function getBanInfo(b_id){
                 if(Object.is(answer/all_alim, NaN)) return 0;
                 else return answer/all_alim*100;
             }
-
+            let switch_student = response['switch_student']['data'].filter(a => a.category==0).length;
+            let exit_student = response['switch_student']['data'].filter(a => a.category==1).length;
+            let all_student = switch_student + exit_student + students_num;
             let temp_title = `<h1> ${ban_name} 현황</h1>`
             $('#label_title').append(temp_title);
 
@@ -418,7 +421,6 @@ function getBanInfo(b_id){
             $('#profile_data').empty();
             $('#profile_data').append(temp_profile_data);
 
-            let students_num = response['students_num']
 
             let temp_ban_data = `
             <table class="table text-center" style="width:100%;">
@@ -432,8 +434,8 @@ function getBanInfo(b_id){
                     </tr>
                     <tr class="row">
                         <td class="col-2">${students_num}</td>
-                        <td class="col-2"> 임시3 (5%) </td>
-                        <td class="col-2"> 임시3 (5%) </td>
+                        <td class="col-2">${switch_student}(${(switch_student/all_student*100).toFixed(2)}%)</td>
+                        <td class="col-2">${exit_student}(${(exit_student/all_student*100).toFixed(2)}%)</td>
                         <td class="col-3"> 임시3 (5%) </td>
                         <td class="col-3"> 임시3 (5%) </td>
                     </tr>

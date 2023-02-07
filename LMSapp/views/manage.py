@@ -253,8 +253,22 @@ def get_ban(id):
     if request.method == 'GET':
         target_ban = callapi.get_ban(id)
         if target_ban:
+            db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+            switch_student = {}
+            try:
+                with db.cursor() as cur:
+                    cur.execute(f'select id, ban_id, switch_ban_id, teacher_id, student_id, category from switchstudent where ban_id={id}')
+                    switch_student['status'] = 200
+                    switch_student['data'] = cur.fetchall()
+            except Exception as e:
+                print(e)
+                switch_student['status'] = 401
+                switch_student['text'] = str(e)
+            finally:
+                db.close()
             alimnote = callapi.get_alimnote(id)[0]
             students = callapi.get_students(target_ban['register_no'])
+             
             # student_info = []
             # for student in students:
             #      student_info.append(json.dumps(get_student_json(student)))
@@ -270,10 +284,31 @@ def get_ban(id):
             'students_num': target_ban['student_num'],
             'student_info': students,
             'all_alim' : alimnote['all'],
-            'answer_alim' : alimnote['answer']
+            'answer_alim' : alimnote['answer'],
+            'switch_student': switch_student 
         })
         else:
             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
+        
+
+@bp.route("/insert_question", methods=['GET'])
+def insert_question():
+    if request.method == 'GET':
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute(f'delete from task where id={id}')
+                db.commit()
+                result['status'] = 200
+                result['text'] = id
+        except Exception as e:
+            print(e)
+            result['status'] = 401
+            result['text'] = str(e)
+        finally:
+            db.close()
+
+        return result
 
 # 선생님 문의 저장
 # @bp.route('/question', methods=['POST'])
