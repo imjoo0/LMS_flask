@@ -43,7 +43,7 @@ def home():
         #     ban_teacher.append(callapi.get_ban(ban['register_no']))
         # print(ban_teacher)
         
-        all_consulting_category = ConsultingCategory.query.all()
+        all_consulting_category = ConsultingCategory.query.filter(ConsultingCategory.id > 100).all()
         all_consulting = Consulting.query.all()
         all_task_category = TaskCategory.query.all()
         all_task = Task.query.all()
