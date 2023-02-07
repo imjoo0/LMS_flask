@@ -55,6 +55,10 @@
   flex-direction: column;
 }
 
+.user-detail a {
+  text-decoration: none;
+}
+
 .user-detail-deco {
   position: absolute;
   z-index: -10;
