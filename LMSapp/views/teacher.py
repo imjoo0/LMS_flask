@@ -15,7 +15,7 @@ Today = current_time.date()
 
 # 선생님 메인 페이지
 # 테스트 계정 id : T1031 pw동일  
-@bp.route("/", methods=['GET'])
+@bp.route("/", methods=['GET','POST'])
 def home():
     if request.method =='GET':
         teacher_info = callapi.get_teacher_info(session['user_id'])
@@ -45,7 +45,23 @@ def home():
 
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
         return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,students=mystudents_info, questions=my_questions,my_task_category=category_set,all_task_category=all_task_category)
+    elif request.method =='POST':
+        #  상담 id 저장 
+        received_consulting = request.form['target_consulting']
+        # 상담 사유
+        received_reason = request.form['consulting_reson']
+        # 제공 가이드
+        received_solution = request.form['consulting_solution']
+        # 제공 가이드
+        received_result = request.form['consulting_result']
+        # 부재중 체크 
+        received_missed = request.form['consulting_missed']
 
+        print(received_missed)
+        print(type(received_consulting))
+        print(received_reason)
+        print(received_solution)
+        print(received_result)
 def taskcycle():
     my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == 1)).all()
     for task in my_tasks:
