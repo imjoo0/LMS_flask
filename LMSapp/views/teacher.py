@@ -165,7 +165,7 @@ def consulting(id):
                 consulting_data['contents'] = consulting.contents
                 category = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first()
                 if(category.id < 101):
-                    consulting_data['category'] = category.name + consulting.weekcode + '주 미학습 상담을 진행해주세요 '
+                    consulting_data['category'] = category.name + consulting.week_code + '주 미학습 상담을 진행해주세요 '
                 else:
                    consulting_data['category'] = category.name  
                 consulting_data['deadline'] = consulting.deadline.strftime('%Y-%m-%d')
