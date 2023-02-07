@@ -150,8 +150,6 @@ def task(id):
 def consulting(id):
     if request.method == 'GET':
         my_students = callapi.get_students(id)
-        s = callapi.get_student_info(58473)
-        print(s)
         consulting_list = []
         for student in my_students:
             consultings = Consulting.query.filter((Consulting.student_id==58473) & (Consulting.done != 1) ).all()
