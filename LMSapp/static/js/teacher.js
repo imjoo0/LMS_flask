@@ -83,7 +83,7 @@ async function get_consulting(ban_regi){
                                         <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body py-4 px-5">
-                                        <form action="/teacher/consulting" method="POST">
+                                        <form action="/teacher" method="POST">
                                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                                             <div class="modal-body-select-container"  id="consultingneeded">
                                                 <span class="modal-body-select-label">진행 할 상담 목록</span>
