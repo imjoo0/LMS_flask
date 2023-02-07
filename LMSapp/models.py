@@ -65,6 +65,7 @@ class Consulting(db.Model):
     deadline = db.Column(db.DateTime)
     done = db.Column(db.Integer,nullable=True)
     week_code = db.Column(db.Integer,nullable=True)
+    missed = db.Column(db.Integer,nullable=True)
     # consultinghistories = db.relationship('ConsultingHistory',backref='consulting')
 
 class TaskCategory(db.Model):
