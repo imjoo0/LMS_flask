@@ -160,17 +160,20 @@ def consulting(id):
             target_data['reco_book_code'] = student['reco_book_code']         
             target_data['consultings'] = []
             for consulting in consultings:
-                if(consulting.startdate.date() <= Today and Today <= consulting.deadline.date()):
-                    consulting_data = {}
-                    consulting_data['c_id'] = consulting.id
-                    consulting_data['contents'] = consulting.contents
-                    consulting_data['category'] = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first().name
-                    consulting_data['deadline'] = consulting.deadline.strftime('%Y-%m-%d')
-                    target_data['consultings'].append(consulting_data)
-            if(len(target_data['consultings'])!=0):
-                target_data['consultings'].sort(key = lambda x:(x['deadline']))
-                target_data['consulting_num'] = len(target_data['consultings'])
-                consulting_list.append(target_data)
+                consulting_data = {}
+                consulting_data['c_id'] = consulting.id
+                consulting_data['contents'] = consulting.contents
+                category = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first()
+                if(category.id < 101):
+                    consulting_data['category'] = category.name + ' 미학습 상담을 진행해주세요 '
+                else:
+                   consulting_data['category'] = category.name  
+                consulting_data['deadline'] = consulting.deadline.strftime('%Y-%m-%d')
+                target_data['consultings'].append(consulting_data)
+                if(len(target_data['consultings'])!=0):
+                    target_data['consultings'].sort(key = lambda x:(x['deadline']))
+                    target_data['consulting_num'] = len(target_data['consultings'])
+                    consulting_list.append(target_data)
         if(len(consulting_list)==0):
             return jsonify({'consulting': '없음'})
         else: 
