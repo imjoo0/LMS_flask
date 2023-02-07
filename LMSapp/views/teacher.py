@@ -167,7 +167,7 @@ def consulting(id):
                 if(consulting.category_id < 101):
                     consulting_data['category'] = str(consulting.week_code) + '주 미학습 상담을 진행해주세요 '
                     consulting_data['week_code'] = consulting.week_code
-                    consulting_data['contents'] = category.name + consulting.contents
+                    consulting_data['contents'] = category.name +' '+ consulting.contents
                 else:
                    consulting_data['category'] = category.name
                    consulting_data['week_code'] = 0
