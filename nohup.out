@@ -15440,3 +15440,11 @@ IndexError: list index out of range
 118.131.85.245 - - [06/Feb/2023 06:42:51] "GET /teacher/?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 304 -
 118.131.85.245 - - [06/Feb/2023 06:42:51] "GET /teacher/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
 118.131.85.245 - - [06/Feb/2023 06:42:51] "GET /teacher/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
+ * Serving Flask app 'LMSapp'
+ * Debug mode: on
+Address already in use
+Port 6725 is in use by another program. Either identify and stop that program, or start the server with a different port.
+ * Serving Flask app 'LMSapp'
+ * Debug mode: on
+Address already in use
+Port 6725 is in use by another program. Either identify and stop that program, or start the server with a different port.

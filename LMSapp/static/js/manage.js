@@ -114,6 +114,7 @@ function paginating(){
             dataSource: JSON.parse(data),
             prevText: '이전',
             nextText: '다음',
+            pageClassName: 'float-end',
             pageSize: 5,
             callback: function (data, pagination){
                 var dataHtml = '';
@@ -159,7 +160,7 @@ await $.ajax({
                     <td class="col-2">${consulting.name}</td>
                     <td class="col-1"> 미진행 </td>
                     <td class="col-4"> ${consulting.contents}</td>
-                    <td class="col-2"> <button>✏️</button> 
+                    <td class="col-2"> <button onclick="update_consulting(${consulting.id}))">✏️</button> 
                     <button onclick="delete_consulting(${consulting.id})">❌</button></td>`;
                     });
                 category_set = new Set(category_list)
@@ -175,6 +176,17 @@ await $.ajax({
     error: function(xhr, status, error){
         alert(xhr.responseText);
     }
+})
+}
+
+async function update_consulting(idx){
+    await $.ajax({
+        url: '/manage/api/update_consulting',
+        type: 'get',
+        data: {'text': 'text'},
+        success: function(data){
+            console.log(data)
+        }
 })
 }
 
@@ -198,7 +210,7 @@ async function sort_consulting(value){
                         <td class="col-2">${consulting.name}</td>
                         <td class="col-1"> 미진행 </td>
                         <td class="col-4"> ${consulting.contents}</td>
-                        <td class="col-2"> <button>✏️</button> 
+                        <td class="col-2"> <button onclick="update_consulting(${consulting.id})">✏️</button> 
                         <button onclick="delete_consulting(${consulting.id})">❌</button></td>`;
                     });
     $('#tr-row').html(dataHtml);      
