@@ -160,7 +160,7 @@ await $.ajax({
                     <td class="col-2">${consulting.name}</td>
                     <td class="col-1"> 미진행 </td>
                     <td class="col-4"> ${consulting.contents}</td>
-                    <td class="col-2"> <button onclick="update_consulting(${consulting.id}))">✏️</button> 
+                    <td class="col-2"> <button onclick="update_consulting(${consulting.id})">✏️</button> 
                     <button onclick="delete_consulting(${consulting.id})">❌</button></td>`;
                     });
                 category_set = new Set(category_list)
@@ -183,7 +183,7 @@ async function update_consulting(idx){
     await $.ajax({
         url: '/manage/api/update_consulting',
         type: 'get',
-        data: {'text': 'text'},
+        data: { 'text': 'good'},
         success: function(data){
             console.log(data)
         }

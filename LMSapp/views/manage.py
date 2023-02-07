@@ -76,7 +76,7 @@ def get_consulting():
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute("select consulting.id, consulting.ban_id, consulting.category_id, consulting.student_id, consulting.contents, consulting.attachments, date_format(consulting.startdate, '%Y-%m-%d') as startdate, date_format(consulting.deadline, '%Y-%m-%d') as deadline, consultingcategory.name from consulting left join consultingcategory on consultingcategory.id = consulting.category_id;")
+                cur.execute("select consulting.id, consulting.ban_id, consulting.category_id, consulting.student_id, consulting.contents, consulting.week_code, consulting.done, consulting.category_id, date_format(consulting.startdate, '%Y-%m-%d') as startdate, date_format(consulting.deadline, '%Y-%m-%d') as deadline, consultingcategory.name from consulting left join consultingcategory on consultingcategory.id = consulting.category_id;")
                 all_consulting = cur.fetchall();
         except Exception as e:
             print(e)
@@ -101,6 +101,22 @@ def get_task():
             db.close()
 
         return json.dumps(all_task)
+
+@bp.route('/api/update_consulting', methods=['GET'])
+def update_task():
+    if request.method == 'GET':
+        result = {}
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                #cur.execute(f'update consulting set content='' where id={id}')
+                result['text'] = str(request.agrs.get('text'))
+        except Exception as e:
+            print(e)
+        finally:
+            db.close()
+
+        return result
 
 
 @bp.route('/api/delete_consulting/<int:id>', methods=['GET'])
