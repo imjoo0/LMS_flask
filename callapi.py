@@ -63,6 +63,8 @@ def get_ban(ban_id):
     result = result.json()
     if(len(result)>0):
         result = result[0]
+    else:
+        return False
     # register_no / ban_name / semester 
     # teacher_register_no / teacher_name / teacher_engname /teacher_mobileno / teacher_email
     # student_num
