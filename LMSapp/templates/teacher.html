@@ -253,7 +253,17 @@
                     <div class="user-detail-deco"></div>
                     <div class="user-name">
                         <img src="https://purpleacademy.net/free_project/public/image/teacher-profile.png">
-                        <span>{{ user['name'] }}({{ user['engname'] }}) 선생님 안녕하세요.</span>
+                        <div class="d-flex justify-content-center align-items-center flex-column">
+                            <span>{{ user['name'] }}({{ user['engname'] }}) 선생님 안녕하세요.</span>
+                            <div class="mt-2">
+                                <a href="#" class="me-1" data-bs-toggle="modal" data-bs-target="#sign-out">
+                                    <i class="fas fa-sign-out-alt text-danger fa-lg fs-6"></i>
+                                </a>
+                                <a href="#" class="ms-1" data-bs-toggle="modal" data-bs-target="#">
+                                    <i class="fa-solid fa-gear text-primary fa-lg fs-6"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                     <div class="user-contact">
                         <div class="mt-2">
@@ -367,8 +377,8 @@
                             {% for ban in my_bans %}
                                 <tr class="row">
                                     <td class="col-2">{{ ban['name'] }}</td>
-                                    <td class="col-1">{{ ban['name_numeric'] }}</td>
-                                    <td class="col-1">{{ ban['total_student_num '] }}</td>
+                                    <td class="col-1">{{ ban['semester'] }}</td>
+                                    <td class="col-1">{{ ban['total_student_num'] }}</td>
                                     <td class="col-2"> 임시3 (5%) </td>
                                     <td class="col-2"> 임시3 (5%) </td>
                                     <td class="col-2"> 임시3 (5%) </td>
@@ -427,7 +437,6 @@
                         {% set ban_regi = ban['register_no'] %}
                         <option value={{ban_regi}}>{{ ban['name'] }} 상담</option>
                         {% endfor %} 
-                        <option value=1>오늘 완료한 상담</option>
                     </select>
                 </div>
                 <div class="w-100 mt-4" id="today_consulting_box">

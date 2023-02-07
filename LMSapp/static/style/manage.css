@@ -80,3 +80,81 @@
 #incomplete_done{
     display: none;
 }
+.paginationjs-pages {
+  float: right !important;
+  padding-right: 10px;
+}
+
+.manage-work-btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 47%;
+}
+
+.manage-work-btn {
+  width: 100%;
+  height: auto;
+  background-color: #f1f1f1;
+  border-radius: 20px;
+  padding: 3%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  cursor: pointer;
+}
+
+.manage-work-btn .manage-work-img {
+  width: 25%;
+  padding: 2.5%;
+  transition: 0.4s;
+}
+
+.manage-work-btn .manage-work-label-wrapper {
+  width: 60%;
+  text-align: center;
+}
+
+.manage-work-btn .manage-work-label {
+  transition: 0.4s; 
+}
+
+.manage-work-btn:hover > .manage-work-img {
+  padding: 1.3%;
+}
+
+.manage-work-btn:hover .manage-work-label {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.manage-work-btn img {
+  width: 100%;
+  object-fit: fill;
+
+}
+
+.manage-work-label {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333333;
+}
+
+
+.manage-user-detail-deco {
+  position: absolute !important;
+  z-index: -10; 
+  width: 100%;
+  height: 100%;
+  background-color: #FF7069;
+  border-radius: 20px;
+  top: 0;
+  left: 3%;
+}
+
+
+.cursor-pointer {
+  cursor: pointer;
+}

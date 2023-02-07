@@ -63,21 +63,21 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
     let pageHtml = "";
 
     if (prev > 0) {
-        pageHtml += "<li><a href='#' id='prev'> 이전 </a></li>";
+        pageHtml += "<li><a class='cursor-pointer' id='prev'> 이전 </a></li>";
     }
 
     //페이징 번호 표시 
     for (var i = first; i <= last; i++) {
         if (currentPage == i) {
             pageHtml +=
-                "<li class='on'><a href='#' id='" + i + "'>" + i + "</a></li>";
+                "<li class='on'><a class='cursor-pointer' id='" + i + "'>" + i + "</a></li>";
         } else {
-            pageHtml += "<li><a href='#' id='" + i + "'>" + i + "</a></li>";
+            pageHtml += "<li><a class='cursor-pointer' id='" + i + "'>" + i + "</a></li>";
         }
     }
 
     if (last < totalPage) {
-        pageHtml += "<li><a href='#' id='next'> 다음 </a></li>";
+        pageHtml += "<li><a class='cursor-pointer' id='next' > 다음 </a></li>";
     }
 
     $("#pagingul").html(pageHtml);
@@ -114,6 +114,7 @@ function paginating(){
             dataSource: JSON.parse(data),
             prevText: '이전',
             nextText: '다음',
+            pageClassName: 'float-end',
             pageSize: 5,
             callback: function (data, pagination){
                 var dataHtml = '';
@@ -122,8 +123,9 @@ function paginating(){
                 <td class="col-3">${item.title}</td>
                 <td class="col-3">${item.teacher_id}</td>
                 <td class="col-4">${item.contents}</td>
-                <td class="col-2"> <button>✏️</button> <button>❌</button></td>`;
-                    });
+                <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
+                data-bs-target="#answer">✏️</button> <button>❌</button></td>`;
+                });
                 $('#alim-tr').html(dataHtml);
             }
         })
@@ -152,14 +154,14 @@ await $.ajax({
             pageSize: 10,
             callback: function (data, pagination){
                 var dataHtml = '';
-                var idxHtml = `<option value="none" selected>카테고리를 선택해주세요</option>`;
+                var idxHtml = `<option value="none">전체</option>`;
                 $.each(data, function (index, consulting){
                 dataHtml +=  `
                     <td class="col-3">${consulting.startdate} ~ ${consulting.deadline}</td>
                     <td class="col-2">${consulting.name}</td>
                     <td class="col-1"> 미진행 </td>
                     <td class="col-4"> ${consulting.contents}</td>
-                    <td class="col-2"> <button>✏️</button> 
+                    <td class="col-2"> <button onclick="update_consulting(${consulting.id})">✏️</button> 
                     <button onclick="delete_consulting(${consulting.id})">❌</button></td>`;
                     });
                 category_set = new Set(category_list)
@@ -178,12 +180,27 @@ await $.ajax({
 })
 }
 
+async function update_consulting(idx){
+    await $.ajax({
+        url: '/manage/api/update_consulting',
+        type: 'get',
+        data: {'text': 'good'},
+        success: function(data){
+            console.log(data)
+        }
+    })
+}
+
 
 async function sort_consulting(value){
     var dataHtml = '';
     let container = $('#consulting-pagination')
     const data = await JSON.parse(consultingData).filter((e)=>{
-        return e.name == value;
+        if(value == 'none'){
+            return e.name
+        }else{
+            return e.name == value;
+        }
     })
     await container.pagination({
             dataSource: data,
@@ -198,7 +215,7 @@ async function sort_consulting(value){
                         <td class="col-2">${consulting.name}</td>
                         <td class="col-1"> 미진행 </td>
                         <td class="col-4"> ${consulting.contents}</td>
-                        <td class="col-2"> <button>✏️</button> 
+                        <td class="col-2"> <button onclick="update_consulting(${consulting.id})">✏️</button> 
                         <button onclick="delete_consulting(${consulting.id})">❌</button></td>`;
                     });
     $('#tr-row').html(dataHtml);      
@@ -226,7 +243,7 @@ await $.ajax({
             pageSize: 10,
             callback: function (data, pagination){
                 var dataHtml = '';
-                var idxHtml = `<option value="none" selected>카테고리를 선택해주세요</option>`;
+                var idxHtml = `<option value="" selected>카테고리를 선택해주세요</option><option value="none">전체</option>`;
                 $.each(data, function (index, task){
                 dataHtml +=  `
                     <td class="col-3">${ task.startdate } ~ ${ task.deadline }</td>               
@@ -357,18 +374,35 @@ function getBanInfo(b_id){
     }else{
         $('#select_student').show();
     }
+    //$('#profile_data').html('Loading Data...');
+
     $.ajax({
         type: "GET",
         url: "/manage/ban/"+b_id,
         data: {},
         success: function (response) {
             // let target_ban = response['target_ban']
+            if (response['status'] == 400){
+                let no_data_title = `<h1> ${response.text} </h1>`
+                $('#s_data').html(no_data_title);
+                $('#pagingul').hide();
+                return
+            }
+            let students_num = response['students_num'];
             let ban_name = response['name'];
             let teacher_name = response['teacher_name']
             let teacher_e_name = response['teacher_e_name']
             let teacher_mobileno = response['teacher_mobileno']
             let teacher_email = response['teacher_email']
-
+            let answer = Number(response['answer_alim'])
+            let all_alim = Number(response['all_alim'])
+            let answer_rate =  function(answer, all_alim) {
+                if(Object.is(answer/all_alim, NaN)) return 0;
+                else return answer/all_alim*100;
+            }
+            let switch_student = response['switch_student']['data'].filter(a => a.category==0).length;
+            let exit_student = response['switch_student']['data'].filter(a => a.category==1).length;
+            let all_student = switch_student + exit_student + students_num;
             let temp_title = `<h1> ${ban_name} 현황</h1>`
             $('#label_title').append(temp_title);
 
@@ -384,9 +418,9 @@ function getBanInfo(b_id){
                 </tr>
             </table>
             `;
+            $('#profile_data').empty();
             $('#profile_data').append(temp_profile_data);
 
-            let students_num = response['students_num']
 
             let temp_ban_data = `
             <table class="table text-center" style="width:100%;">
@@ -400,8 +434,8 @@ function getBanInfo(b_id){
                     </tr>
                     <tr class="row">
                         <td class="col-2">${students_num}</td>
-                        <td class="col-2"> 임시3 (5%) </td>
-                        <td class="col-2"> 임시3 (5%) </td>
+                        <td class="col-2">${switch_student}(${(switch_student/all_student*100).toFixed(2)}%)</td>
+                        <td class="col-2">${exit_student}(${(exit_student/all_student*100).toFixed(2)}%)</td>
                         <td class="col-3"> 임시3 (5%) </td>
                         <td class="col-3"> 임시3 (5%) </td>
                     </tr>
@@ -465,8 +499,8 @@ function getBanInfo(b_id){
                         <tr class="row">
                             <td class="col-3">3/10 </td>
                             <td class="col-3"> 5% </td>
-                            <td class="col-3">3/10 </td>
-                            <td class="col-3"> 5% </td>
+                            <td class="col-3">${answer}/${all_alim} </td>
+                            <td class="col-3"> ${answer_rate(answer, all_alim)}% </td>
                         </tr>
                     </tbody>
                 </table>      
@@ -493,7 +527,10 @@ function getBanInfo(b_id){
                 let temp_target_student = `<option value="${id}"> ${name} ( ${original} )</option>`;
                 $('#target_student').append(temp_target_student)
             } 
-        }
+        },
+        error:function(xhr, status, error){
+                alert(xhr.responseText);
+            }
     })
 }
 

@@ -13,13 +13,34 @@
 {% block style %}
 <link rel="stylesheet" href="../static/style/manage.css">
 <link rel="stylesheet" href="../static/style/paginate.css">
-
+<link rel="stylesheet" href="../static/style/teacher.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css"/>
 {% endblock %}
 {% block content %}
-{% autoescape off %}
+
+<!-- 문의 조회 모달 창 -->
+<div class="modal fade" id="answer" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="answerModalLabel">
+                    OOO 선생님 문의 
+                </h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-header">
+                
+            </div>
+            <div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- 요청한 업무 리스트 모달 창 -->
 <div class="modal fade" id="my_task_request" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -91,7 +112,7 @@
                             </tr>
                         </tbody>
                 </table>
-                <div id="consulting-pagination" class="py-5 justify-content-center"></div>
+                <div id="consulting-pagination" class="py-5 text-center"></div>
             </div>
 
         </div>
@@ -287,7 +308,88 @@
     </div>
 </div>
 
-<div class="container_box w-75">
+<div class="container_box">
+    <div id="user-info" class="border-bottom">
+        <div class="d-flex justify-content-center flex-xl-row row-cols-xl-2 flex-column-reverse">
+            <div class="p-lg-5 p-1 pb-4">
+                <div class="d-flex justify-content-between flex-row row-cols-2 mb-4">
+                    <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
+                    <div class="manage-work-btn-container">
+                        <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#request_consulting">
+                            <div class="manage-work-img">
+                                <img src="../static/style/images/user.png">
+                            </div>
+                            <div class="manage-work-label-wrapper">
+                                <span class="manage-work-label col-7">신규 상담 요청</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="manage-work-btn-container">
+                        <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#my_consulting_request" onclick="get_consulting()">
+                            <div class="manage-work-img">
+                                <img src="../static/style/images/conversation.png">
+                            </div>
+                            <div class="manage-work-label-wrapper">
+                                <span class="manage-work-label">상담 리스트</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between flex-row row-cols-2">
+                    <div class="manage-work-btn-container">
+                        <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#request_task">
+                            <div class="manage-work-img">
+                                <img src="../static/style/images/note.png">
+                            </div>
+                            <div class="manage-work-label-wrapper">
+                                <span class="manage-work-label">신규 업무 요청</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="manage-work-btn-container">
+                        <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#my_task_request">
+                            <div class="manage-work-img">
+                                <img src="../static/style/images/order.png">
+                            </div>
+                            <div class="manage-work-label-wrapper">
+                                <span class="manage-work-label">업무 리스트</span>
+                            </div>
+                        </div>
+                    </div>                
+                </div>
+            </div> 
+            <div class="d-flex justify-content-start align-items-center p-lg-5 py-3">
+                <div class="user-detail">
+                    <div class="manage-user-detail-deco"></div>
+                    <div class="user-name">
+                        <img src="https://purpleacademy.net/free_project/public/image/teacher-profile.png">
+                        <div class="d-flex justify-content-center align-items-center flex-column">
+                            <span>{{ user['engname'] }}님 안녕하세요</span>
+                            <div class="mt-2">
+                                <a href="#" class="me-1" data-bs-toggle="modal" data-bs-target="#sign-out">
+                                    <i class="fas fa-sign-out-alt text-danger fa-lg fs-6"></i>
+                                </a>
+                                <a href="#" class="ms-1" data-bs-toggle="modal" data-bs-target="#">
+                                    <i class="fa-solid fa-gear text-primary fa-lg fs-6"></i>
+                                </a>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="user-contact">
+                        <div class="mt-2">
+                           <i class="fa-regular fa-envelope"></i>                            
+                           <span>&nbsp;&nbsp;{{ user['email'] }}</span>
+                        </div>
+                        <div class="mt-3">
+                            <i class="fa-solid fa-briefcase"></i>
+                            <span>&nbsp;&nbsp;관리부서</span>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+
     <section id="statistics">
         <div class="make_row">
             <div class="label" id="default_title">
@@ -335,7 +437,7 @@
 
             </div>
 
-            <div class="make_row" id="request_box">
+            <!-- <div class="make_row" id="request_box">
                     <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
                     data-bs-target="#request_consulting">상담 요청 하기</button>
                     <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#my_consulting_request" onclick="get_consulting()" style="margin-right: 20px;">요청중인 상담 보기</button>
@@ -343,7 +445,7 @@
                     data-bs-target="#request_task">업무 요청 하기</button>
                     <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" onclick="get_task()"
                     data-bs-target="#my_task_request">요청중인 업무 보기</button>    
-            </div>
+            </div> -->
         </div>
 
     </section>
@@ -365,7 +467,7 @@
                     <tr id="alim-tr" class="row"></tr>
                 </tbody>
             </table>
-            <div id="pagination" class="py-5"></div>
+            <div id="pagination" class="py-5 text-center"></div>
         </div>
     </section>
 </div>

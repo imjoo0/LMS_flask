@@ -6,8 +6,6 @@
   padding: 40px;
 }
 
-
-
 .question-btn-container {
   display: flex;
   justify-content: center;
@@ -55,6 +53,10 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.user-detail a {
+  text-decoration: none;
 }
 
 .user-detail-deco {

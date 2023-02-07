@@ -43,7 +43,7 @@ def home():
         #     ban_teacher.append(callapi.get_ban(ban['register_no']))
         # print(ban_teacher)
         
-        all_consulting_category = ConsultingCategory.query.all()
+        all_consulting_category = ConsultingCategory.query.filter(ConsultingCategory.id > 100).all()
         all_consulting = Consulting.query.all()
         all_task_category = TaskCategory.query.all()
         all_task = Task.query.all()
@@ -76,7 +76,7 @@ def get_consulting():
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute("select consulting.id, consulting.ban_id, consulting.category_id, consulting.student_id, consulting.contents, consulting.attachments, date_format(consulting.startdate, '%Y-%m-%d') as startdate, date_format(consulting.deadline, '%Y-%m-%d') as deadline, consultingcategory.name from consulting left join consultingcategory on consultingcategory.id = consulting.category_id;")
+                cur.execute("select consulting.id, consulting.ban_id, consulting.category_id, consulting.student_id, consulting.contents, consulting.week_code, consulting.done, consulting.category_id, date_format(consulting.startdate, '%Y-%m-%d') as startdate, date_format(consulting.deadline, '%Y-%m-%d') as deadline, consultingcategory.name from consulting left join consultingcategory on consultingcategory.id = consulting.category_id;")
                 all_consulting = cur.fetchall();
         except Exception as e:
             print(e)
@@ -101,6 +101,25 @@ def get_task():
             db.close()
 
         return json.dumps(all_task)
+
+@bp.route('/api/update_consulting', methods=['GET'])
+def update_task():
+    if request.method == 'GET':
+        result = {}
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                #cur.execute(f'update consulting set content='' where id={id}')
+                result['status'] = 200
+                result['text'] = str(request.args.get('text'))
+        except Exception as e:
+            print(e)
+            result['status'] = 401
+            result['text'] = str(e)
+        finally:
+            db.close()
+
+        return result
 
 
 @bp.route('/api/delete_consulting/<int:id>', methods=['GET'])
@@ -233,13 +252,29 @@ def request_task():
 def get_ban(id):
     if request.method == 'GET':
         target_ban = callapi.get_ban(id)
-        students = callapi.get_students(target_ban['register_no'])
-        # student_info = []
-        # for student in students:
-        #      student_info.append(json.dumps(get_student_json(student)))
-        # print(student_info)
+        if target_ban:
+            db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+            switch_student = {}
+            try:
+                with db.cursor() as cur:
+                    cur.execute(f'select id, ban_id, switch_ban_id, teacher_id, student_id, category from switchstudent where ban_id={id}')
+                    switch_student['status'] = 200
+                    switch_student['data'] = cur.fetchall()
+            except Exception as e:
+                print(e)
+                switch_student['status'] = 401
+                switch_student['text'] = str(e)
+            finally:
+                db.close()
+            alimnote = callapi.get_alimnote(id)[0]
+            students = callapi.get_students(target_ban['register_no'])
+             
+            # student_info = []
+            # for student in students:
+            #      student_info.append(json.dumps(get_student_json(student)))
+            # print(student_info)
 
-        return jsonify({
+            return jsonify({
             'target_ban': target_ban['register_no'],
             'name': target_ban['ban_name'],
             'teacher_name': target_ban['teacher_name'],
@@ -247,8 +282,33 @@ def get_ban(id):
             'teacher_mobileno': target_ban['teacher_mobileno'],
             'teacher_email': target_ban['teacher_email'],
             'students_num': target_ban['student_num'],
-            'student_info': students
+            'student_info': students,
+            'all_alim' : alimnote['all'],
+            'answer_alim' : alimnote['answer'],
+            'switch_student': switch_student 
         })
+        else:
+            return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
+        
+
+@bp.route("/insert_question", methods=['GET'])
+def insert_question():
+    if request.method == 'GET':
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute(f'delete from task where id={id}')
+                db.commit()
+                result['status'] = 200
+                result['text'] = id
+        except Exception as e:
+            print(e)
+            result['status'] = 401
+            result['text'] = str(e)
+        finally:
+            db.close()
+
+        return result
 
 # 선생님 문의 저장
 # @bp.route('/question', methods=['POST'])

@@ -53,7 +53,6 @@ class ConsultingCategory(db.Model):
     name = db.Column(db.String(45), nullable=True)
     consultings = db.relationship('Consulting', backref='consultingcategory')
 
-
 class Consulting(db.Model):
     __tablename__ = 'consulting'
     
@@ -62,10 +61,11 @@ class Consulting(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('consultingcategory.id'))
     student_id = db.Column(db.Integer,nullable=True)
     contents = db.Column(db.Text)
-    attachments = db.Column(db.String(45), nullable=True)
     startdate = db.Column(db.DateTime)
     deadline = db.Column(db.DateTime)
     done = db.Column(db.Integer,nullable=True)
+    week_code = db.Column(db.Integer,nullable=True)
+    missed = db.Column(db.Integer,nullable=True)
     # consultinghistories = db.relationship('ConsultingHistory',backref='consulting')
 
 class TaskCategory(db.Model):
