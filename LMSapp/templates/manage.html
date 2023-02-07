@@ -20,6 +20,29 @@
 {% endblock %}
 {% block content %}
 {% autoescape off %}
+
+<!-- 선생님 문의확인 모달 창 -->
+<div class="modal fade" id="answer2" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="answerModalLabel">
+                    OOO선생님의 문의 
+                </h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-header">
+                <select id="oo-category-select" class="form-select" aria-label="Default select example">
+                    <select name="test" id="test">test</select>
+                </select>
+            </div>
+            <div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- 요청한 업무 리스트 모달 창 -->
 <div class="modal fade" id="my_task_request" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
