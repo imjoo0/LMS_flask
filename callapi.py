@@ -105,3 +105,9 @@ def get_alimnote(ban_id):
     result = requests.post(config.api + 'get_alimnote', headers=headers, data=json.dumps({'data':{'id': ban_id}}))
     result = result.json()
     return result
+
+
+def get_notice(ban_id):
+    result = requests.post(config.api + 'get_notice', headers=headers, data=json.dumps({'data':{'id': ban_id}}))
+    result = result.json()
+    return result

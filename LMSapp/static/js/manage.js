@@ -6,7 +6,7 @@ var data_list;
 var consultingData = [];
 var taskData = [];
 
-function displayData(totalData, currentPage, dataPerPage,data_list) {
+function displayData(totalData, currentPage, dataPerPage,data_list, consulting) {
     let chartHtml = "";
 
     //Number로 변환하지 않으면 아래에서 +를 할 경우 스트링 결합이 되어버림.. 
@@ -30,20 +30,24 @@ function displayData(totalData, currentPage, dataPerPage,data_list) {
         if( reco_book_code == null){
             reco_book_code = '✖️'
         }
-        let unlearned = '임시미학습율';
+         let answer_rate =  function(answer, all) {
+                if(Object.is(answer/all, NaN)) return 0;
+                else return answer/all*100;
+            }
+        let unlearned = consulting.filter( a => a.student_id == target.register_no).length;
         chartHtml +=`
         <td class="col-2">${name}(${original})</td>
         <td class="col-2">${mobileno} </td>
         <td class="col-3">${parent_name_mobileno}</td>
         <td class="col-2">${reco_book_code} </td>
-        <td class="col-2">${unlearned}</td><br>
+        <td class="col-2">${unlearned}(${answer_rate(unlearned, consulting.length).toFixed(1)}%)</td><br>
         <td class="col-1" a href="#">✔️</td><br>
         `;
     } 
     $("#s_data").html(chartHtml);
 }
 
-function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
+function paging(totalData, dataPerPage, pageCount, currentPage, data_list, consulting) {
     totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
 
     if (totalPage < pageCount) {
@@ -97,9 +101,9 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
         globalCurrentPage = selectedPage;
 
         //페이징 표시 재호출
-        paging(totalData, dataPerPage, pageCount, selectedPage, data_list);
+        paging(totalData, dataPerPage, pageCount, selectedPage, data_list, consulting);
         //글 목록 표시 재호출
-        displayData(totalData, selectedPage, dataPerPage,data_list);
+        displayData(totalData, selectedPage, dataPerPage,data_list, consulting);
     });
 }
 
@@ -111,7 +115,7 @@ function paginating(){
         data: {},
         success: function(data){
             container.pagination({
-            dataSource: JSON.parse(data),
+            dataSource: JSON.parse(data).filter(a => a.answer_id == null),
             prevText: '이전',
             nextText: '다음',
             pageClassName: 'float-end',
@@ -396,13 +400,23 @@ function getBanInfo(b_id){
             let teacher_email = response['teacher_email']
             let answer = Number(response['answer_alim'])
             let all_alim = Number(response['all_alim'])
-            let answer_rate =  function(answer, all_alim) {
-                if(Object.is(answer/all_alim, NaN)) return 0;
-                else return answer/all_alim*100;
+            let answer_rate =  function(answer, all) {
+                if(Object.is(answer/all, NaN)) return 0;
+                else return answer/all*100;
             }
             let switch_student = response['switch_student']['data'].filter(a => a.category==0).length;
             let exit_student = response['switch_student']['data'].filter(a => a.category==1).length;
             let all_student = switch_student + exit_student + students_num;
+            let notice = response['notice']
+            let consulting = response['consulting']['data']
+            let consulting_ixl = consulting.filter(a => a.category_id == 1).length
+            let consulting_reading = consulting.filter(a => a.category_id == 4).length
+            let consulting_speacial = consulting.filter(a => a.category_id == 3).length
+            let consulting_writing = consulting.filter(a => a.category_id == 6).length
+            let consulting_homepage = consulting.filter(a => a.category_id == 2).length
+            let consulting_intoreading = consulting.filter(a => a.category_id == 5 || a.category_id == 7).length
+            let task = response['task']['data']
+
             let temp_title = `<h1> ${ban_name} 현황</h1>`
             $('#label_title').append(temp_title);
 
@@ -426,18 +440,16 @@ function getBanInfo(b_id){
             <table class="table text-center" style="width:100%;">
                 <tbody  style="width:100%;">
                     <tr class="row">
-                        <th class="col-2">총 원생 수</th>
-                        <th class="col-2">이반</th>
-                        <th class="col-2">퇴소</th>
-                        <th class="col-3">취소/환불</th>
+                        <th class="col-3">현 원생 수</th>
+                        <th class="col-3">이반</th>
+                        <th class="col-3">퇴소</th>
                         <th class="col-3">미학습</th>
                     </tr>
                     <tr class="row">
-                        <td class="col-2">${students_num}</td>
-                        <td class="col-2">${switch_student}(${(switch_student/all_student*100).toFixed(2)}%)</td>
-                        <td class="col-2">${exit_student}(${(exit_student/all_student*100).toFixed(2)}%)</td>
-                        <td class="col-3"> 임시3 (5%) </td>
-                        <td class="col-3"> 임시3 (5%) </td>
+                        <td class="col-3">${students_num}</td>
+                        <td class="col-3">${switch_student}(${(switch_student/all_student*100).toFixed(2)}%)</td>
+                        <td class="col-3">${exit_student}(${(exit_student/all_student*100).toFixed(2)}%)</td>
+                        <td class="col-3">${consulting.length}(${(consulting.length/all_student*100).toFixed(2)}%) </td>
                     </tr>
                 </tbody>
             </table>
@@ -447,8 +459,8 @@ function getBanInfo(b_id){
             data_list = response['student_info']
             totalData = students_num
 
-            displayData(totalData, 1, dataPerPage,data_list);
-            paging(totalData, dataPerPage, pageCount, 1,data_list);
+            displayData(totalData, 1, dataPerPage,data_list, consulting);
+            paging(totalData, dataPerPage, pageCount, 1,data_list, consulting);
 
             let temp_ban_statistics = `
             <table class="table text-center" id="unlearned" style="margin-left:1%; margin-right: 4%;width: 40%;">
@@ -457,16 +469,20 @@ function getBanInfo(b_id){
                             <th class="col-12">미학습 관리</th>
                         </tr>
                         <tr class="row">
-                            <th class="col-3">IXL</th>
-                            <th class="col-3">리딩</th>
-                            <th class="col-3">리특</th>
-                            <th class="col-3">라이팅</th>
+                            <th class="col-2">IXL</th>
+                            <th class="col-2">리딩</th>
+                            <th class="col-2">리특</th>
+                            <th class="col-2">라이팅</th>
+                            <th class="col-2">미접속</th>
+                            <th class="col-2">인투리딩</th>
                         </tr>
                         <tr class="row">
-                            <td class="col-3"> 임시3 (5%) </td>
-                            <td class="col-3"> 임시3 (5%) </td>
-                            <td class="col-3"> 임시3 (5%) </td>
-                            <td class="col-3"> 임시3 (5%) </td>
+                            <td class="col-2">${consulting_ixl}(${answer_rate(consulting_ixl, consulting.length).toFixed(2)}%)</td>
+                            <td class="col-2">${consulting_reading}(${answer_rate(consulting_reading, consulting.length).toFixed(1)}%)</td>
+                            <td class="col-2">${consulting_speacial}(${answer_rate(consulting_speacial, consulting.length).toFixed(1)}%) </td>
+                            <td class="col-2">${consulting_writing}(${answer_rate(consulting_writing, consulting.length).toFixed(1)}%) </td>
+                            <td class="col-2">${consulting_homepage}(${answer_rate(consulting_homepage, consulting.length).toFixed(1)}%) </td>
+                            <td class="col-2">${consulting_intoreading}(${answer_rate(consulting_intoreading, consulting.length).toFixed(1)}%) </td>
                         </tr>
                     </tbody>
                 </table>
@@ -480,10 +496,10 @@ function getBanInfo(b_id){
                             <th class="col-6">상담</th>
                         </tr>
                         <tr class="row">
-                            <td class="col-3"> 3/10 </td>
-                            <td class="col-3"> 5% </td>
-                            <td class="col-3"> 3/10 </td>
-                            <td class="col-3"> 5% </td>
+                            <td class="col-3">${task.filter(a => a.done == 1).length}/${task.length}</td>
+                            <td class="col-3">${answer_rate(task.filter(a => a.done == 1).length, task.length).toFixed(1)}%</td>
+                            <td class="col-3">${consulting.filter(a => a.done == 1).length}/${consulting.length}</td>
+                            <td class="col-3">${answer_rate(consulting.filter(a => a.done == 1).length, consulting.length).toFixed(1)}%</td>
                         </tr>
                     </tbody>
                 </table>  
@@ -497,10 +513,9 @@ function getBanInfo(b_id){
                             <th class="col-6">문의</th>
                         </tr>
                         <tr class="row">
-                            <td class="col-3">3/10 </td>
-                            <td class="col-3"> 5% </td>
+                            <td class="col-6">${notice.length}</td>
                             <td class="col-3">${answer}/${all_alim} </td>
-                            <td class="col-3"> ${answer_rate(answer, all_alim)}% </td>
+                            <td class="col-3">${answer_rate(answer, all_alim).toFixed(2)}%</td>
                         </tr>
                     </tbody>
                 </table>      
