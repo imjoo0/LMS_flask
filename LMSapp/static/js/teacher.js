@@ -68,6 +68,7 @@ async function get_consulting(ban_regi){
                     let student_reco_book_code = target['reco_book_code']
                     let consulting_num = target['consulting_num']
                     $('#consultinghistory').attr('id',`consultinghistory${register_no}`)
+                    $('#consultinghistoryModalLabel').attr('id',`consultinghistoryModalLabel${register_no}`)
                     let temp_consulting_contents_box = `
                         <div data-bs-toggle="modal" data-bs-target="#consultinghistory${register_no}">
                             <strong>${student_name} 상담 ${consulting_num}건</strong> 📞${mobileno} | 추천도서:${student_reco_book_code}
@@ -75,7 +76,7 @@ async function get_consulting(ban_regi){
                     `;
                     $('#today_consulting_box').append(temp_consulting_contents_box);
                     
-                    $('#consultinghistoryModalLabel').html(`<img src="#" style="width: 30px;">&nbsp;&nbsp;${student_name}상담일지 작성`)
+                    $(`#consultinghistoryModalLabel${register_no}`).html(`<img src="#" style="width: 30px;">&nbsp;&nbsp;${student_name}상담일지 작성`)
                     $('#consultinglist').attr('id',`consultinglist${register_no}`)
                     $('#consultinghistory_kind').attr('id', `consultinghistory_kind${register_no}`)
                     $('#consultinghistory_kind'+register_no).empty()
