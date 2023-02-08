@@ -12,7 +12,7 @@ import callapi
 bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 # 관리자 메인 페이지
-# 테스트 계정 id : T0001 pw동일
+# 테스트 계정 id : admin2 pw동일
 @bp.route("/", methods=['GET'])
 def home():
     if request.method == 'GET':

@@ -17,7 +17,6 @@ SECRET_KEY = config.SECRET_KEY
 @bp.route('/')
 def mainpage():
     user = session.get('user_id', None)
-    print(user)
     # user_category = session.get('user_category', None)
     # if user == None:
     #     return redirect('login')
