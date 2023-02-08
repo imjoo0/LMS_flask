@@ -27,8 +27,8 @@ def home():
         all_task_category = TaskCategory.query.all()
         my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done != 1) ).all()
         all_my_tasks = len(TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all())
-        not_done_tasks = len(my_tasks)
-        not_done_task_per = int((not_done_tasks/all_my_tasks)*100)
+        done_tasks = len(TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done != 0) ).all())
+        not_done_task_per = int((done_tasks/all_my_tasks)*100)
         if len(my_tasks)!=0:
             tc = []
             for task in my_tasks:
@@ -47,7 +47,7 @@ def home():
 
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
 
-        return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,students=mystudents_info, questions=my_questions,my_task_category=category_set,all_task_category=all_task_category,all_task_num=all_my_tasks, not_done_task_num=not_done_tasks,not_done_task_per=not_done_task_per)
+        return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,students=mystudents_info, questions=my_questions,my_task_category=category_set,all_task_category=all_task_category,all_task_num=all_my_tasks, not_done_task_num=done_tasks,not_done_task_per=not_done_task_per)
 
 def taskcycle():
     my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == 1)).all()
