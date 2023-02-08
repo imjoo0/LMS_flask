@@ -159,13 +159,11 @@ function consulting_history(c_id){
     consulting_solution = $('#consulting_solution').val()
     consulting_result = $('#consulting_result').val()
     consulting_missed = $('#missed').val()
-    console.log(target_consulting)
     $.ajax({
             type: "POST",
 			url:'/teacher/consulting/'+c_id,
 			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
             data: {
-                target_consulting:target_consulting ,
                 consulting_reson:consulting_reson,
                 consulting_solution:consulting_solution,
                 consulting_result:consulting_result,
