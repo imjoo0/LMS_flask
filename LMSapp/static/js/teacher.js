@@ -162,6 +162,7 @@ function get_target_consulting(student){
 function consulting_history(c_id){
     consulting_missed = $('#missed'+String(c_id)).is(':checked')
     if (consulting_missed = true){
+        console.log('funck')
         consulting_reason = "부재중"
         consulting_solution = "부재중"
         consulting_result = "부재중"

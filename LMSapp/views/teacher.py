@@ -167,16 +167,8 @@ def consulting(id):
             consulting_list.sort(key = lambda x:-x['consulting_num'])
             return jsonify({'consulting': consulting_list})
     elif request.method =='POST':
-        #  상담 id 받음 
-        # 상담 사유
-        received_reason = request.form['consulting_reason']
-        # 제공 가이드
-        received_solution = request.form['consulting_solution']
-        # 제공 가이드
-        received_result = request.form['consulting_result']
         # 부재중 체크 
         received_missed = request.form['consulting_missed']
-
         target_consulting = Consulting.query.get_or_404(id)
         
         if received_missed == True:
@@ -188,6 +180,12 @@ def consulting(id):
             except:
                 return jsonify({'result': '부재중 처리 실패'})
         else:
+            # 상담 사유
+            received_reason = request.form['consulting_reason']
+            # 제공 가이드
+            received_solution = request.form['consulting_solution']
+            # 제공 가이드
+            received_result = request.form['consulting_result']
             new_history = ConsultingHistory(consulting_id=id,reason=received_reason,solution=received_solution,result=received_result,created_at=Today)
             target_consulting.done = 1
             db.session.add(new_history)
