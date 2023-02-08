@@ -186,7 +186,7 @@ def consulting(id):
             except:
                 return jsonify({'result': '부재중 처리 실패'})
         else:
-            new_history = ConsultingHistory(consulting_id=id,reason=received_reason,solution=received_solution,result=received_result,missed=received_missed)
+            new_history = ConsultingHistory(consulting_id=id,reason=received_reason,solution=received_solution,result=received_result)
             db.session.add(new_history)
             db.session.commit()
 
