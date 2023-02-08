@@ -67,18 +67,66 @@ async function get_consulting(ban_regi){
                     let mobileno = target['mobileno']
                     let student_reco_book_code = target['reco_book_code']
                     let consulting_num = target['consulting_num']
-                    $('#consultinghistory').attr('id',`consultinghistory${register_no}`)
-                    $('#consultinghistoryModalLabel').attr('id',`consultinghistoryModalLabel${register_no}`)
+                    
                     let temp_consulting_contents_box = `
                         <div data-bs-toggle="modal" data-bs-target="#consultinghistory${register_no}">
                             <strong>${student_name} 상담 ${consulting_num}건</strong> 📞${mobileno} | 추천도서:${student_reco_book_code}
                         </div>
+                        
+                        <div class="modal fade" id="consultinghistory${register_no}" tabindex="-1"
+                            aria-labelledby="consultinghistoryModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="consultinghistoryModalLabel">
+                                            <img src="#" style="width: 30px;">&nbsp;&nbsp;${student_name}상담일지 작성
+                                        </h5>
+                                        <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body py-4 px-5">
+                                        <form action="/teacher/" method="POST">
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
+                                            <div class="modal-body-select-container"  id="consultingneeded">
+                                                <span class="modal-body-select-label">진행 할 상담 목록</span>
+                                                <div id="consultinglist${register_no}" class="modal-body-select" style="width:100%">
+                                                </div>
+                                            </div>
+                                            <div class="modal-body-select-container"  id="consultinghistory_kind">
+                                                <span class="modal-body-select-label">상담 선택</span>
+                                                <select id="consultinghistory_kind${register_no}" class="modal-body-select" name="target_consulting" style="width:100%">
+                                                    <option value="none" selected>진행 할 상담을 선택해주세요</option>
+                                                </select>
+                                            </div>
+                                            <div id="consulting_box">
+                                                <div class="modal-body-select-container">
+                                                    <span class="modal-body-select-label">상담 사유</span>
+                                                    <input class="modal-body-select" type="text" size="50" name="consulting_reson" style="width: 75%;">
+                                                </div>
+                                                <div class="modal-body-select-container">
+                                                    <span class="modal-body-select-label">제공한 가이드</span>
+                                                    <input class="modal-body-select" type="text" size="50" name="consulting_solution" style="width: 75%;">
+                                                </div>
+                                                <div class="modal-body-select-container">
+                                                    <span class="modal-body-select-label">상담 결과</span>
+                                                    <textarea id="consulting_contents" class="modal-body-select" type="text"rows="5" cols="25" name="consulting_result" style="width: 75%;"></textarea>
+                                                </div>
+                                                <p>상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
+                                                <div class="modal-body-select-container">
+                                                <span class="modal-body-select-label">부재중</span>
+                                                <label><input type="checkbox" name="missed" value="missed">부재중</label>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-center mt-4 mb-2">
+                                                <button class="btn btn-dark" type="submit">저장</button>
+                                            </div>
+                                        </form>
+                                    </div>           
+                                </div>
+                            </div>
+                        </div>
                     `;
                     $('#today_consulting_box').append(temp_consulting_contents_box);
                     
-                    $(`#consultinghistoryModalLabel${register_no}`).html(`<img src="#" style="width: 30px;">&nbsp;&nbsp;${student_name}상담일지 작성`)
-                    $('#consultinglist').attr('id',`consultinglist${register_no}`)
-                    $('#consultinghistory_kind').attr('id', `consultinghistory_kind${register_no}`)
                     $('#consultinghistory_kind'+register_no).empty()
                     let target_consulting = target['consultings']
                     for(j=0;j<target_consulting.length;j++){
