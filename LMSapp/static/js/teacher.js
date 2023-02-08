@@ -110,7 +110,6 @@ async function get_consulting(ban_regi){
                     $('#today_consulting_box').append(temp_consulting_contents_box);
                     
                     $('#consultinghistory_kind'+register_no).empty()
-                    $('#consulting_box'+register_no).empty()
                     let target_consulting = target['consultings']
                     for(j=0;j<target_consulting.length;j++){
                         let target_consulting_data = target_consulting[j]
@@ -147,7 +146,7 @@ async function get_consulting(ban_regi){
                             <label><input type="checkbox" id="missed${consulting_id}" value="missed">부재중</label>
                         </div>
                         `;
-                        $('#consulting_box'+register_no).append(temp_consulting_box);
+                        $('#consulting_box'+register_no).html(temp_consulting_box);
                     }
                 }
             }
