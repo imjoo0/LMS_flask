@@ -65,11 +65,19 @@ def get_ban():
         teacher_info = callapi.get_teacher_info(session['user_id'])
         mystudents_info = callapi.get_mystudents(session['user_id'])
         mybans_info = callapi.get_mybans(session['user_id'])
-        all_ban_info = callapi.all_ban_info()
+
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute('select * from consulting;')
+                all_questions = cur.fetchall();
+        except:
+            print('err')
+        finally:
+            db.close()
+
+        return json.dumps(all_questions)        
         
-        return {'user': teacher_info, 'my_bans': mybans_info, 'all_ban': all_ban_info, 'students': mystudents_info, 'questions': json.dumps(my_questions), 'my_task_category': category_set}
-
-
 # 오늘 완료 한 업무  get
 @bp.route("/taskdone", methods=['GET'])
 def taskdone():
