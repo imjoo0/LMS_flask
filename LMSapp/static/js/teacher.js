@@ -46,7 +46,6 @@ function consulting_view(ban_regi){
         $('#today_done_consulting_box').hide();
     }
 }
-
 async function get_consulting(ban_regi){
     await $.ajax({
         type: "GET",
@@ -117,7 +116,7 @@ async function get_consulting(ban_regi){
                                                 </div>
                                             </div>
                                             <div class="d-flex justify-content-center mt-4 mb-2">
-                                                <button class="btn btn-dark" type="submit">저장</button>
+                                                <button class="btn btn-dark" type="submit" onclick="consulting_history()">저장</button>
                                             </div>
                                         </form>
                                     </div>           
@@ -152,7 +151,20 @@ async function get_consulting(ban_regi){
     $('#today_consulting_box').show();
     $('#today_done_consulting_box').hide();
 }
-
+function consulting_history(){
+    $.ajax({
+            type: "POST",
+			url:'/teacher/',
+			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
+            data: {},
+            success: function (response) {{
+				if(response['result'] == '완료'){
+                }else{
+                    alert(response["result"])
+                }
+			}}
+		})
+}
 function task_doneview(done_code){
     if(done_code == 0){
         $('#task_title').html('오늘의 업무')
