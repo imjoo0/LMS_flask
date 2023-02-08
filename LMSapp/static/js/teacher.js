@@ -181,7 +181,6 @@ function consulting_history(c_id){
                 }else{
                     alert(response["result"])
                 }
-                window.location.replace('/teacher/consulting/'+c_id)
 			}}
 		})
 }

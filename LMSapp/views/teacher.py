@@ -177,8 +177,9 @@ def consulting(id):
         # 부재중 체크 
         received_missed = request.form['consulting_missed']
 
+        target_consulting = Consulting.query.get_or_404(id)
+        
         if received_missed == True:
-            target_consulting = Consulting.query.get_or_404(id)
             target_consulting.missed += 1
             try:
                 db.session.commit()
@@ -186,7 +187,8 @@ def consulting(id):
             except:
                 return jsonify({'result': '부재중 처리 실패'})
         else:
-            new_history = ConsultingHistory(consulting_id=id,reason=received_reason,solution=received_solution,result=received_result)
+            new_history = ConsultingHistory(consulting_id=id,reason=received_reason,solution=received_solution,result=received_result,created_at=Today)
+            target_consulting.done = 1
             db.session.add(new_history)
             db.session.commit()
 
