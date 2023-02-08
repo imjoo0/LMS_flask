@@ -142,7 +142,6 @@ def consulting(id):
             target_data['mobileno'] = student['mobileno']
             target_data['reco_book_code'] = student['reco_book_code']         
             target_data['consultings'] = []
-            target_data['consulting_num'] = 0
             for consulting in consultings:
                 consulting_data = {}
                 consulting_data['c_id'] = consulting.id
@@ -160,9 +159,9 @@ def consulting(id):
             if(len(target_data['consultings'])!=0):
                 target_data['consultings'].sort(key = lambda x:(x['deadline'],-x['week_code']))
                 target_data['consulting_num'] = len(target_data['consultings'])
-            consulting_list.append(target_data)
+                consulting_list.append(target_data)
         
-        if(len(consulting_list)<=0):
+        if(len(consulting_list)==0):
             return jsonify({'consulting': '없음'})
         else: 
             consulting_list.sort(key = lambda x:-x['consulting_num'])
