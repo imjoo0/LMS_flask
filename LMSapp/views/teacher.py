@@ -8,6 +8,7 @@ from flask import session  # 세션
 from LMSapp.models import *
 from LMSapp.views import *
 import json
+import pymysql
 
 import callapi
 
@@ -60,7 +61,7 @@ def taskcycle():
 @bp.route('/api/get_teacher_ban', methods=['GET'])
 def get_ban():
     if request.method == 'GET':
-
+        result = []
         teacher_info = callapi.get_teacher_info(session['user_id'])
         mystudents_info = callapi.get_mystudents(session['user_id'])
         mybans_info = callapi.get_mybans(session['user_id'])
@@ -68,14 +69,15 @@ def get_ban():
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute('select * from consulting;')
-                all_questions = cur.fetchall();
+                for ban in my_bans:
+                    cur.execute(f"select * from consulting where ban_id = {ban};")
+                    result.append(cur.fetchall().copy())
         except:
             print('err')
         finally:
             db.close()
 
-        return json.dumps(all_questions)        
+        return json.dumps(result)        
         
 # 오늘 완료 한 업무  get
 @bp.route("/taskdone", methods=['GET'])

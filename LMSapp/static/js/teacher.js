@@ -393,11 +393,7 @@ function get_data(){
         data: {},
         success: function (response) {
         console.log(response)
-        },
-        error: function(xhr, status, error){
-                alert(xhr.responseText);
-            }
-
+        } 
     });
 }
 
