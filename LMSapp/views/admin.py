@@ -31,7 +31,7 @@ def home():
         #page = request.args.get('page',type=int,default=1)
         #all_questions = all_questions.paginate(page=page, per_page=10)
 
-        return render_template('manage.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting, task_category=all_task_category, tasks=all_task, questions=all_questions)
+        return render_template('admin.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting, task_category=all_task_category, tasks=all_task, questions=all_questions)
 
 
 
