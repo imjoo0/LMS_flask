@@ -386,4 +386,19 @@ function go_back(){
     $('#questionlist').show();
 }
 
+function get_data(){
+    $.ajax({
+        type: "GET",
+        url: "/teacher/api/get_teacher_ban",
+        data: {},
+        success: function (response) {
+        console.log(response)
+        },
+        error: function(xhr, status, error){
+                alert(xhr.responseText);
+            }
 
+    });
+}
+
+get_data()
