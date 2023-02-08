@@ -117,7 +117,7 @@ async function get_consulting(ban_regi){
                                                 </div>
                                             </div>
                                             <div class="d-flex justify-content-center mt-4 mb-2">
-                                                <button class="btn btn-dark" type="submit" onclick="get_target_consulting(${register_no})">저장</button>
+                                                <button class="btn btn-dark" onclick="get_target_consulting(${register_no})">저장</button>
                                             </div>
                                         </form>
                                     </div>           
