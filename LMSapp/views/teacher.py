@@ -166,8 +166,7 @@ def consulting(id):
             consulting_list.sort(key = lambda x:(-x['consulting_num']))
             return jsonify({'consulting': consulting_list})
     elif request.method =='POST':
-        #  상담 id 저장 
-        received_consulting = request.form['target_consulting']
+        #  상담 id 받음 
         # 상담 사유
         received_reason = request.form['consulting_reson']
         # 제공 가이드
@@ -178,7 +177,7 @@ def consulting(id):
         received_missed = request.form['consulting_missed']
 
         print(received_missed)
-        print(type(received_consulting))
+        print(type(id))
         print(received_reason)
         print(received_solution)
         print(received_result)

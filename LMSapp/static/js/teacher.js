@@ -152,16 +152,14 @@ async function get_consulting(ban_regi){
 }
 function get_target_consulting(student){
     c_id = $(`#consultinghistory_kind${student} option:selected`).val()
-    console.log(c_id)
     return consulting_history(c_id)
 }
 function consulting_history(c_id){
-    console.log(c_id)
-    target_consulting = $('#target_consulting').val()
     consulting_reson = $('#consulting_reson').val()
     consulting_solution = $('#consulting_solution').val()
     consulting_result = $('#consulting_result').val()
     consulting_missed = $('#missed').val()
+    console.log(target_consulting)
     $.ajax({
             type: "POST",
 			url:'/teacher/consulting/'+c_id,
