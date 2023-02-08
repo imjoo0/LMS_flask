@@ -142,6 +142,7 @@ def consulting(id):
             target_data['mobileno'] = student['mobileno']
             target_data['reco_book_code'] = student['reco_book_code']         
             target_data['consultings'] = []
+            target_data['consulting_num'] = 0
             for consulting in consultings:
                 consulting_data = {}
                 consulting_data['c_id'] = consulting.id
