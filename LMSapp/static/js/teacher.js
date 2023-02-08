@@ -67,8 +67,7 @@ async function get_consulting(ban_regi){
                     let mobileno = target['mobileno']
                     let student_reco_book_code = target['reco_book_code']
                     let consulting_num = target['consulting_num']
-                    temp_id = `consultinghistory${register_no}`
-                    $('#consultinghistory').id = 'temp_id'
+                    $('#consultinghistory').attr('id',`consultinghistory${register_no}`)
                     let temp_consulting_contents_box = `
                         <div data-bs-toggle="modal" data-bs-target="#consultinghistory${register_no}">
                             <strong>${student_name} 상담 ${consulting_num}건</strong> 📞${mobileno} | 추천도서:${student_reco_book_code}
