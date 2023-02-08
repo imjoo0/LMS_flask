@@ -25,7 +25,7 @@ def home():
         mybans_info = callapi.get_mybans(session['user_id'])
         all_ban_info = callapi.all_ban_info()
         all_task_category = TaskCategory.query.all()
-        my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (my_tasks.done != 1) ).all()
+        my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done != 1) ).all()
         all_my_tasks = len(TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all())
         not_done_tasks = len(my_tasks)
         if len(my_tasks)!=0:
