@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css"/>
 {% endblock %}
 {% block content %}
-
+{% autoescape off %}
 <!-- 문의 조회 모달 창 -->
 <div class="modal fade" id="answer" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -347,7 +347,7 @@
                         </div>
                     </div>
                     <div class="manage-work-btn-container">
-                        <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#my_task_request">
+                        <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#my_task_request" onclick="get_task()">
                             <div class="manage-work-img">
                                 <img src="../static/style/images/order.png">
                             </div>
@@ -389,6 +389,22 @@
             </div>            
         </div>
     </div>
+    <div id="ban-statistics" class="p-lg-5 px-1 py-4">
+        <div class="info-container">
+            <div class="info-title">
+                <span>Class Statistics</span>
+            </div>
+            <div class="info">
+                <select class="form-select" name="target_ban" onchange="getBanInfo(this.value)">
+                    <option value="none" selected>반을 선택해주세요</option>
+                    {% for ban in all_ban %}
+                    {% set ban_regi = ban['register_no']  %}
+                    <option value={{ban_regi}}>{{ban['name']}} ({{ban['semester']}}학기)</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>        
+    </div>
 
     <section id="statistics">
         <div class="make_row">
@@ -400,7 +416,7 @@
             </div>
             <select name="target_ban" onchange="getBanInfo(this.value)">
                 <optgroup>
-                    <option value="none" selected>반을 선택해주세요</option>
+                    <option value="none" disabled selected>반을 선택해주세요</option>
                     {% for ban in all_ban %}
                     {% set ban_regi = ban['register_no']  %}
                     <option value={{ban_regi}}>{{ban['name']}} ({{ban['semester']}}학기)</option>

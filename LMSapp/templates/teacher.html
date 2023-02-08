@@ -317,7 +317,7 @@
                                     <th class="col-3">리특</th>
                                     <th class="col-3">라이팅</th>
                                 </tr>
-                                <tr class="row">
+                                <tr id="totalreport-row" class="row">
                                     <td class="col-3"> 임시3 (5%) </td>
                                     <td class="col-3"> 임시3 (5%) </td>
                                     <td class="col-3"> 임시3 (5%) </td>
@@ -331,7 +331,7 @@
                                     <th class="col-6">업무</th>
                                     <th class="col-6">상담</th>
                                 </tr>
-                                <tr class="row">
+                                <tr id="classreport-row" class="row">
                                     <td class="col-3"> 임시3/10 </td>
                                     <td class="col-3"> 5% </td>
                                     <td class="col-3"> 임시3/10 </td>
@@ -376,7 +376,7 @@
                             </tr>
                             {% for ban in my_bans %}
                                 <tr class="row">
-                                    <td class="col-2">{{ ban['name'] }}</td>
+                                    <td class="col-2">{{ ban['name'] }}({{ban['register_no']}})</td>
                                     <td class="col-1">{{ ban['semester'] }}</td>
                                     <td class="col-1">{{ ban['total_student_num'] }}</td>
                                     <td class="col-2"> 임시3 (5%) </td>

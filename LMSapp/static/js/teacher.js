@@ -84,42 +84,24 @@ async function get_consulting(ban_regi){
                                         <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body py-4 px-5">
-                                        <form action="/teacher/" method="POST">
                                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                                             <div class="modal-body-select-container"  id="consultingneeded">
                                                 <span class="modal-body-select-label">진행 할 상담 목록</span>
                                                 <div id="consultinglist${register_no}" class="modal-body-select" style="width:100%">
                                                 </div>
                                             </div>
-                                            <div class="modal-body-select-container"  id="consultinghistory_kind">
+                                            <div class="modal-body-select-container">
                                                 <span class="modal-body-select-label">상담 선택</span>
                                                 <select id="consultinghistory_kind${register_no}" class="modal-body-select" name="target_consulting" style="width:100%">
                                                     <option value="none" selected>진행 할 상담을 선택해주세요</option>
                                                 </select>
                                             </div>
-                                            <div id="consulting_box">
-                                                <div class="modal-body-select-container">
-                                                    <span class="modal-body-select-label">상담 사유</span>
-                                                    <input class="modal-body-select" type="text" size="50" name="consulting_reson" style="width: 75%;">
-                                                </div>
-                                                <div class="modal-body-select-container">
-                                                    <span class="modal-body-select-label">제공한 가이드</span>
-                                                    <input class="modal-body-select" type="text" size="50" name="consulting_solution" style="width: 75%;">
-                                                </div>
-                                                <div class="modal-body-select-container">
-                                                    <span class="modal-body-select-label">상담 결과</span>
-                                                    <textarea id="consulting_contents" class="modal-body-select" type="text"rows="5" cols="25" name="consulting_result" style="width: 75%;"></textarea>
-                                                </div>
-                                                <p>상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
-                                                <div class="modal-body-select-container">
-                                                <span class="modal-body-select-label">부재중</span>
-                                                <label><input type="checkbox" name="missed" value="missed">부재중</label>
-                                                </div>
+                                            <div id="consulting_box${register_no}">
+                                                
                                             </div>
                                             <div class="d-flex justify-content-center mt-4 mb-2">
-                                                <button class="btn btn-dark" type="submit">저장</button>
+                                                <button class="btn btn-dark" onclick="get_target_consulting(${register_no})">저장</button>
                                             </div>
-                                        </form>
                                     </div>           
                                 </div>
                             </div>
@@ -144,6 +126,27 @@ async function get_consulting(ban_regi){
                         `;
                         $('#consultinghistory_kind'+register_no).append(temp_consulting_contents_box);
                         $('#consultinglist'+register_no).append(temp_consulting_list);
+
+                        let temp_consulting_box = `
+                        <div class="modal-body-select-container">
+                            <span class="modal-body-select-label">상담 사유</span>
+                            <input class="modal-body-select" type="text" size="50" id="consulting_reason${consulting_id}" style="width: 75%;">
+                        </div>
+                        <div class="modal-body-select-container">
+                            <span class="modal-body-select-label">제공한 가이드</span>
+                            <input class="modal-body-select" type="text" size="50" id="consulting_solution${consulting_id}" style="width: 75%;">
+                        </div>
+                        <div class="modal-body-select-container">
+                            <span class="modal-body-select-label">상담 결과</span>
+                            <textarea class="modal-body-select" type="text"rows="5" cols="25" id="consulting_result${consulting_id}" style="width: 75%;"></textarea>
+                        </div>
+                        <p>상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
+                        <div class="modal-body-select-container">
+                            <span class="modal-body-select-label">부재중</span>
+                            <label><input type="checkbox" id="missed${consulting_id}">부재중</label>
+                        </div>
+                        `;
+                        $('#consulting_box'+register_no).html(temp_consulting_box);
                     }
                 }
             }
@@ -152,7 +155,42 @@ async function get_consulting(ban_regi){
     $('#today_consulting_box').show();
     $('#today_done_consulting_box').hide();
 }
-
+function get_target_consulting(student){
+    c_id = $(`#consultinghistory_kind${student} option:selected`).val()
+    return consulting_history(c_id)
+}
+function consulting_history(c_id){
+    consulting_missed = $('#missed'+String(c_id)).checked;
+    if (consulting_missed = true){
+        console.log('funck')
+        consulting_reason = "부재중"
+        consulting_solution = "부재중"
+        consulting_result = "부재중"
+    }else{
+        console.log('부재중아님')
+        consulting_reason = $('#consulting_reason'+String(c_id)).val()
+        console.log(consulting_reason)
+        consulting_solution = $('#consulting_solution'+String(c_id)).val()
+        consulting_result = $('#consulting_result'+String(c_id)).val()
+    }
+    $.ajax({
+            type: "POST",
+			url:'/teacher/consulting/'+c_id,
+			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
+            data: {
+                consulting_reason:consulting_reason,
+                consulting_solution:consulting_solution,
+                consulting_result:consulting_result,
+                consulting_missed:consulting_missed,
+            },
+            success: function (response) {{
+				if(response['result'] == '상담일지 저장 완료'){
+                }else{
+                    alert(response["result"])
+                }
+			}}
+		})
+}
 function task_doneview(done_code){
     if(done_code == 0){
         $('#task_title').html('오늘의 업무')

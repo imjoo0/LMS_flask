@@ -66,7 +66,19 @@ class Consulting(db.Model):
     done = db.Column(db.Integer,nullable=True)
     week_code = db.Column(db.Integer,nullable=True)
     missed = db.Column(db.Integer,nullable=True)
-    # consultinghistories = db.relationship('ConsultingHistory',backref='consulting')
+    # 관계 설정 
+    consultinghistories = db.relationship('ConsultingHistory',backref='consulting')
+
+class ConsultingHistory(db.Model):
+    __tablename__ = 'consultinghistory'
+    
+    id=db.Column(db.Integer,primary_key=True)
+    consulting_id = db.Column(db.Integer,db.ForeignKey('consulting.id'))
+    reason = db.Column(db.Text)
+    solution = db.Column(db.Text)
+    result = db.Column(db.Text)
+    created_at = db.Column(db.DateTime)
+
 
 class TaskCategory(db.Model):
     __tablename__ = 'taskcategory'

@@ -20447,3 +20447,7 @@ Press CTRL+C to quit
 118.131.85.245 - - [07/Feb/2023 08:27:28] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
 118.131.85.245 - - [07/Feb/2023 08:27:28] "GET /manage/api/get_all_questions HTTP/1.1" 200 -
 118.131.85.245 - - [07/Feb/2023 08:27:34] "GET /manage/api/get_consulting HTTP/1.1" 200 -
+ * Serving Flask app 'LMSapp'
+ * Debug mode: on
+Address already in use
+Port 6725 is in use by another program. Either identify and stop that program, or start the server with a different port.
