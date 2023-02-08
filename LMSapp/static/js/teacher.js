@@ -163,7 +163,7 @@ function consulting_history(c_id){
     consulting_reson = $('#consulting_reson'+c_id).val()
     consulting_solution = $('#consulting_solution'+c_id).val()
     consulting_result = $('#consulting_result'+c_id).val()
-    consulting_missed = $('#missed'+c_id).val()
+    consulting_missed = $('#missed'+c_id).id(':checked')
     $.ajax({
             type: "POST",
 			url:'/teacher/consulting/'+c_id,
