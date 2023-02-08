@@ -74,7 +74,7 @@ class ConsultingHistory(db.Model):
     __tablename__ = 'consultinghistory'
     
     id=db.Column(db.Integer,primary_key=True)
-    consulting_id = db.Column(db.Integer,db.ForeignKey('consulting.id'))
+    consulting_id = db.Column(db.Integer, db.ForeignKey('consulting.id',ondelete='CASCADE'))
     student_id = db.Column(db.Integer,nullable=True)
     reason = db.Column(db.Text)
     solution = db.Column(db.Text)
