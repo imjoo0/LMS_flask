@@ -284,8 +284,6 @@ def get_ban(id):
             alimnote = callapi.get_alimnote(id)[0]
             notice = callapi.get_notice(id)
             students = callapi.get_students(target_ban['register_no'])
-            print('*')
-            print(students) 
             # student_info = []
             # for student in students:
             #      student_info.append(json.dumps(get_student_json(student)))

@@ -31,6 +31,8 @@ def mainpage():
     else:
         if user == 'T0001':
             return redirect(url_for('manage.home'))
+        elif user == 'admin2':
+            return redirect(url_for('admin.home'))
         else:
             return redirect(url_for('teacher.home'))
 
