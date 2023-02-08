@@ -160,7 +160,8 @@ def consulting(id):
                 target_data['consultings'].sort(key = lambda x:(x['deadline'],-x['week_code']))
                 target_data['consulting_num'] = len(target_data['consultings'])
             consulting_list.append(target_data)
-        if(len(consulting_list)==0):
+        
+        if(len(consulting_list)<=0):
             return jsonify({'consulting': '없음'})
         else: 
             consulting_list.sort(key = lambda x:-x['consulting_num'])
