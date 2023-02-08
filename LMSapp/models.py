@@ -74,12 +74,10 @@ class ConsultingHistory(db.Model):
     
     id=db.Column(db.Integer,primary_key=True)
     consulting_id = db.Column(db.Integer,db.ForeignKey('consulting.id'))
-    student_id = db.Column(db.Integer,nullable=True)
     reason = db.Column(db.Text)
     solution = db.Column(db.Text)
     result = db.Column(db.Text)
     created_at = db.Column(db.DateTime)
-    missed = db.Column(db.Boolean)
 
 
 class TaskCategory(db.Model):

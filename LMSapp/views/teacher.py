@@ -178,16 +178,19 @@ def consulting(id):
         received_missed = request.form['consulting_missed']
 
         if received_missed == True:
-            new_history = ConsultingHistory(category=0,title=title,contents=contents,teacher_id=teacher,create_date=create_date)
+            target_consulting = Consulting.query.get_or_404(id)
+            target_consulting.missed += 1
+            try:
+                db.session.commit()
+                return jsonify({'result': '부재중 처리 완료'})
+            except:
+                return jsonify({'result': '부재중 처리 실패'})
         else:
-            ban_id = request.form['o_ban_id']
-            student_id = request.form['o_target_student'] 
-            new_question = Question(category=3,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,create_date=create_date)
-        
-        db.session.add(new_question)
-        db.session.commit()
+            new_history = ConsultingHistory(consulting_id=id,reason=received_reason,solution=received_solution,result=received_result,missed=received_missed)
+            db.session.add(new_history)
+            db.session.commit()
 
-        return{'result':'완료'}
+        return{'result':'상담일지 저장 완료'}
     
 
 
