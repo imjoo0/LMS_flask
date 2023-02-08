@@ -169,11 +169,9 @@ def consulting(id):
     elif request.method =='POST':
         # 부재중 체크 
         received_missed = request.form['consulting_missed']
-        print(received_missed)
-        print(type(received_missed))
         target_consulting = Consulting.query.get_or_404(id)
         
-        if received_missed == True:
+        if received_missed == "true":
             print(target_consulting)
             target_consulting.missed += 1
             try:
