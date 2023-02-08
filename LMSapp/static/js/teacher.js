@@ -74,6 +74,7 @@ async function get_consulting(ban_regi){
                         </div>
                     `;
                     $('#today_consulting_box').append(temp_consulting_contents_box);
+                    
                     $('#consultinghistoryModalLabel').html(`<img src="#" style="width: 30px;">&nbsp;&nbsp;${student_name}상담일지 작성`)
                     $('#consultinglist').attr('id',`consultinglist${register_no}`)
                     $('#consultinghistory_kind').attr('id', `consultinghistory_kind${register_no}`)
