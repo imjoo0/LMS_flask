@@ -75,8 +75,8 @@ async function get_consulting(ban_regi){
                     `;
                     $('#today_consulting_box').append(temp_consulting_contents_box);
                     $('#consultinghistoryModalLabel').html(`<img src="#" style="width: 30px;">&nbsp;&nbsp;${student_name}상담일지 작성`)
-                    $('#consultinglist').id = `consultinglist${register_no}`
-                    $('#consultinghistory_kind').id = `consultinghistory_kind${register_no}`
+                    $('#consultinglist').attr('id',`consultinglist${register_no}`)
+                    $('#consultinghistory_kind').attr('id', `consultinghistory_kind${register_no}`)
                     $('#consultinghistory_kind'+register_no).empty()
                     let target_consulting = target['consultings']
                     for(j=0;j<target_consulting.length;j++){
