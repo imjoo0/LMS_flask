@@ -163,7 +163,7 @@ def consulting(id):
         if(len(consulting_list)==0):
             return jsonify({'consulting': '없음'})
         else: 
-            consulting_list.sort(key = lambda x:(-x['consulting_num']))
+            consulting_list.sort(key = lambda x:-x['consulting_num'])
             return jsonify({'consulting': consulting_list})
     elif request.method =='POST':
         #  상담 id 받음 
