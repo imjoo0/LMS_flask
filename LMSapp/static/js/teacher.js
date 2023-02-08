@@ -160,11 +160,12 @@ function get_target_consulting(student){
     return consulting_history(c_id)
 }
 function consulting_history(c_id){
-    consulting_reason = $('#consulting_reason'+c_id).val()
+
+    consulting_reason = $('#consulting_reason'+String(c_id)).val()
     console.log(consulting_reason)
-    consulting_solution = $('#consulting_solution'+c_id).val()
-    consulting_result = $('#consulting_result'+c_id).val()
-    consulting_missed = $('#missed'+c_id).is(':checked')
+    consulting_solution = $('#consulting_solution'+String(c_id)).val()
+    consulting_result = $('#consulting_result'+String(c_id)).val()
+    consulting_missed = $('#missed'+String(c_id)).is(':checked')
     $.ajax({
             type: "POST",
 			url:'/teacher/consulting/'+c_id,
