@@ -8,6 +8,7 @@ from flask import session  # 세션
 from LMSapp.models import *
 from LMSapp.views import *
 import json
+import pymysql
 
 import callapi
 
@@ -24,15 +25,12 @@ def home():
         mybans_info = callapi.get_mybans(session['user_id'])
         all_ban_info = callapi.all_ban_info()
         all_task_category = TaskCategory.query.all()
-        my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno'])).all()
+        my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno'])&(my_tasks.done != 1) ).all()
         all_task_num = 0
         if len(my_tasks)!=0:
             tc = []
-            atn = []
             for task in my_tasks:
                 t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline )).first()
-                all_task_num = len(Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time)).all())
-                done_task_num = len(Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( Task.done !=0 )).all())
                 if(t != None):
                     tc.append(t)
             tc = list(set(tc))
@@ -47,7 +45,7 @@ def home():
 
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
 
-        return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,students=mystudents_info, questions=my_questions,my_task_category=category_set,all_task_category=all_task_category,all_task_num=all_task_num,done_task_num=done_task_num)
+        return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,students=mystudents_info, questions=my_questions,my_task_category=category_set,all_task_category=all_task_category,all_task_num=all_task_num)
 
 def taskcycle():
     my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == 1)).all()
@@ -63,22 +61,32 @@ def taskcycle():
 @bp.route('/api/get_teacher_ban', methods=['GET'])
 def get_ban():
     if request.method == 'GET':
-
-        teacher_info = callapi.get_teacher_info(session['user_id'])
-        mystudents_info = callapi.get_mystudents(session['user_id'])
+        result = []
         mybans_info = callapi.get_mybans(session['user_id'])
 
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute('select * from consulting;')
-                all_questions = cur.fetchall();
+                for ban in mybans_info:
+                    temp = {}
+                    # cur.execute(f"select id, ban_id, category_id, student_id, contents, date_format(startdate, '%Y-%m-%d') as startdate, date_format(deadline, '%Y-%m-%d') as deadline, week_code, done, missed from consulting where ban_id = {ban['register_no']};")
+                    cur.execute(f"select count(*) as 'count', category_id from consulting where ban_id = {ban['register_no']} group by category_id")
+                    temp['consulting'] = cur.fetchall().copy()
+
+                    cur.execute(f"select count(*) as 'count', category from switchstudent where ban_id={ban['register_no']} group by category")
+                    temp['switchstudent'] = cur.fetchall().copy()
+
+                    alimnote = callapi.get_alimnote(ban['register_no'])
+                    temp['alimnote'] = alimnote
+
+                    result.append({ban['name']: temp.copy()})
+                    #result.append(ban['register_no'])
         except:
             print('err')
         finally:
             db.close()
 
-        return json.dumps(all_questions)        
+        return json.dumps(result)        
         
 # 오늘 완료 한 업무  get
 @bp.route("/taskdone", methods=['GET'])
