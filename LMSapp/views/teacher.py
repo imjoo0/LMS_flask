@@ -61,29 +61,13 @@ def taskcycle():
 @bp.route('/api/get_teacher_ban', methods=['GET'])
 def get_ban():
     if request.method == 'GET':
+
         teacher_info = callapi.get_teacher_info(session['user_id'])
         mystudents_info = callapi.get_mystudents(session['user_id'])
         mybans_info = callapi.get_mybans(session['user_id'])
         all_ban_info = callapi.all_ban_info()
-        my_tasks = TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all()
-        my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
-        # all_task_category = TaskCategory.query.all()
-
-        if len(my_tasks)!=0:
-            tc = []
-            for task in my_tasks:
-                t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline )).first()
-                if(t != None):
-                    tc.append(t)
-            tc = list(set(tc))
-
-            category_set = []
-            for cate in tc:
-                category_set.append(cate.category_id)
-            category_set = list(set(category_set))
-        else:
-            category_set = []
-    return {'user': teacher_info, 'my_bans': mybans_info, 'all_ban': all_ban_info, 'students': mystudents_info, 'questions': json.dumps(my_questions), 'my_task_category': category_set}
+        
+        return {'user': teacher_info, 'my_bans': mybans_info, 'all_ban': all_ban_info, 'students': mystudents_info, 'questions': json.dumps(my_questions), 'my_task_category': category_set}
 
 
 # 오늘 완료 한 업무  get
