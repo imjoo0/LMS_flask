@@ -180,6 +180,7 @@ def consulting(id):
         target_consulting = Consulting.query.get_or_404(id)
         
         if received_missed == True:
+            print(target_consulting)
             target_consulting.missed += 1
             try:
                 db.session.commit()
