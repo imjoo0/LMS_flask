@@ -107,7 +107,7 @@ async function get_consulting(ban_regi){
                                                 </div>
                                                 <div class="modal-body-select-container">
                                                     <span class="modal-body-select-label">상담 결과</span>
-                                                    <textarea id="consulting_contents" class="modal-body-select" type="text"rows="5" cols="25" id="consulting_result" style="width: 75%;"></textarea>
+                                                    <textarea class="modal-body-select" type="text"rows="5" cols="25" id="consulting_result" style="width: 75%;"></textarea>
                                                 </div>
                                                 <p>상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
                                                 <div class="modal-body-select-container">
