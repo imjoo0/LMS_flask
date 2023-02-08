@@ -7,6 +7,7 @@ bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 from flask import session  # 세션
 from LMSapp.models import *
 from LMSapp.views import *
+import json
 
 import callapi
 
@@ -23,12 +24,15 @@ def home():
         mybans_info = callapi.get_mybans(session['user_id'])
         all_ban_info = callapi.all_ban_info()
         all_task_category = TaskCategory.query.all()
-        my_tasks = TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all()
-
+        my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno'])).all()
+        all_task_num = 0
         if len(my_tasks)!=0:
             tc = []
+            atn = []
             for task in my_tasks:
                 t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline )).first()
+                all_task_num = len(Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time)).all())
+                done_task_num = len(Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( Task.done !=0 )).all())
                 if(t != None):
                     tc.append(t)
             tc = list(set(tc))
@@ -42,8 +46,9 @@ def home():
         
 
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
-        return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,students=mystudents_info, questions=my_questions,my_task_category=category_set,all_task_category=all_task_category)
-    
+
+        return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,students=mystudents_info, questions=my_questions,my_task_category=category_set,all_task_category=all_task_category,all_task_num=all_task_num,done_task_num=done_task_num)
+
 def taskcycle():
     my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == 1)).all()
     for task in my_tasks:
@@ -54,6 +59,27 @@ def taskcycle():
         elif t.cycle == 7 and task.done==1:
             db.session.delete(task)
 
+
+@bp.route('/api/get_teacher_ban', methods=['GET'])
+def get_ban():
+    if request.method == 'GET':
+
+        teacher_info = callapi.get_teacher_info(session['user_id'])
+        mystudents_info = callapi.get_mystudents(session['user_id'])
+        mybans_info = callapi.get_mybans(session['user_id'])
+
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute('select * from consulting;')
+                all_questions = cur.fetchall();
+        except:
+            print('err')
+        finally:
+            db.close()
+
+        return json.dumps(all_questions)        
+        
 # 오늘 완료 한 업무  get
 @bp.route("/taskdone", methods=['GET'])
 def taskdone():
@@ -253,7 +279,8 @@ def answer(id):
 
         return jsonify(return_data)
                     
-                
+
+
 
 
 # 문의 / 답변 조회 

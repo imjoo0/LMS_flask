@@ -29,6 +29,9 @@ def create_app():
     from .views import manage
     app.register_blueprint(manage.bp)
 
+    from .views import admin
+    app.register_blueprint(admin.bp)
+
     return app
 
 # flask db init < 데이터베이스초기화 : flask db init 명령은 데이터베이스를 관리하는 초기 파일들을 다음처럼 migrations 디렉터리에 자동으로 생성 ( 명령은 최초 한 번만 수행 )

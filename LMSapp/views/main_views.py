@@ -17,7 +17,6 @@ SECRET_KEY = config.SECRET_KEY
 @bp.route('/')
 def mainpage():
     user = session.get('user_id', None)
-    print(user)
     # user_category = session.get('user_category', None)
     # if user == None:
     #     return redirect('login')
@@ -31,6 +30,8 @@ def mainpage():
     else:
         if user == 'T0001':
             return redirect(url_for('manage.home'))
+        elif user == 'admin2':
+            return redirect(url_for('admin.home'))
         else:
             return redirect(url_for('teacher.home'))
 
