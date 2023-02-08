@@ -177,11 +177,15 @@ def consulting(id):
         # 부재중 체크 
         received_missed = request.form['consulting_missed']
 
-        print(received_missed)
-        print(type(id))
-        print(received_reason)
-        print(received_solution)
-        print(received_result)
+        if received_missed == True:
+            new_history = ConsultingHistory(category=0,title=title,contents=contents,teacher_id=teacher,create_date=create_date)
+        else:
+            ban_id = request.form['o_ban_id']
+            student_id = request.form['o_target_student'] 
+            new_question = Question(category=3,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,create_date=create_date)
+        
+        db.session.add(new_question)
+        db.session.commit()
 
         return{'result':'완료'}
     
@@ -215,9 +219,6 @@ def request_question():
         
         db.session.add(new_question)
         db.session.commit()
-
-        # 시행 안댐.. alert 기능  
-        flash("문의 저장완료 되었습니다")
         return redirect('/')
 
 # 본원 답변 조회 
