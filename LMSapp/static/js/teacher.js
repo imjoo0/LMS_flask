@@ -160,13 +160,14 @@ function get_target_consulting(student){
     return consulting_history(c_id)
 }
 function consulting_history(c_id){
-    consulting_missed = $('#missed'+String(c_id)).is(':checked')
+    consulting_missed = $('#missed'+String(c_id)).checked;
     if (consulting_missed = true){
         console.log('funck')
         consulting_reason = "부재중"
         consulting_solution = "부재중"
         consulting_result = "부재중"
     }else{
+        console.log('부재중아님')
         consulting_reason = $('#consulting_reason'+String(c_id)).val()
         console.log(consulting_reason)
         consulting_solution = $('#consulting_solution'+String(c_id)).val()
