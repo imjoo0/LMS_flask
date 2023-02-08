@@ -28,7 +28,7 @@ def home():
         my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done != 1) ).all()
         all_my_tasks = len(TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all())
         not_done_tasks = len(my_tasks)
-        not_done_task_per = int((not_done_tasks/all_my_tasks)*100) + '%'
+        not_done_task_per = int((not_done_tasks/all_my_tasks)*100)
         if len(my_tasks)!=0:
             tc = []
             for task in my_tasks:
