@@ -66,15 +66,14 @@ class Consulting(db.Model):
     done = db.Column(db.Integer,nullable=True)
     week_code = db.Column(db.Integer,nullable=True)
     missed = db.Column(db.Integer,nullable=True)
-
     # 관계 설정 
-    consultinghistories = db.relationship('consultinghistory')
+    consultinghistories = db.relationship('ConsultingHistory',backref='consulting')
 
 class ConsultingHistory(db.Model):
     __tablename__ = 'consultinghistory'
     
     id=db.Column(db.Integer,primary_key=True)
-    consulting_id = db.Column(db.Integer, db.ForeignKey('consulting.id',ondelete='CASCADE'))
+    consulting_id = db.Column(db.Integer,db.ForeignKey('consulting.id'))
     student_id = db.Column(db.Integer,nullable=True)
     reason = db.Column(db.Text)
     solution = db.Column(db.Text)
