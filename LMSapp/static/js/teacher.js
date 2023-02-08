@@ -130,7 +130,7 @@ async function get_consulting(ban_regi){
                         let temp_consulting_box = `
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">상담 사유</span>
-                            <input class="modal-body-select" type="text" size="50" id="consulting_reson${consulting_id}" style="width: 75%;">
+                            <input class="modal-body-select" type="text" size="50" id="consulting_reason${consulting_id}" style="width: 75%;">
                         </div>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">제공한 가이드</span>
@@ -160,7 +160,8 @@ function get_target_consulting(student){
     return consulting_history(c_id)
 }
 function consulting_history(c_id){
-    consulting_reson = $('#consulting_reson'+c_id).val()
+    consulting_reason = $('#consulting_reason'+c_id).val()
+    console.log(consulting_reason)
     consulting_solution = $('#consulting_solution'+c_id).val()
     consulting_result = $('#consulting_result'+c_id).val()
     consulting_missed = $('#missed'+c_id).is(':checked')
@@ -169,7 +170,7 @@ function consulting_history(c_id){
 			url:'/teacher/consulting/'+c_id,
 			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
             data: {
-                consulting_reson:consulting_reson,
+                consulting_reason:consulting_reason,
                 consulting_solution:consulting_solution,
                 consulting_result:consulting_result,
                 consulting_missed:consulting_missed,

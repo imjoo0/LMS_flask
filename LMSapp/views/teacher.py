@@ -169,7 +169,7 @@ def consulting(id):
     elif request.method =='POST':
         #  상담 id 받음 
         # 상담 사유
-        received_reason = request.form['consulting_reson']
+        received_reason = request.form['consulting_reason']
         # 제공 가이드
         received_solution = request.form['consulting_solution']
         # 제공 가이드
