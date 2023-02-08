@@ -91,7 +91,7 @@ async function get_consulting(ban_regi){
                                                 <div id="consultinglist${register_no}" class="modal-body-select" style="width:100%">
                                                 </div>
                                             </div>
-                                            <div class="modal-body-select-container"  id="consultinghistory_kind">
+                                            <div class="modal-body-select-container">
                                                 <span class="modal-body-select-label">상담 선택</span>
                                                 <select id="consultinghistory_kind${register_no}" class="modal-body-select" name="target_consulting" style="width:100%">
                                                     <option value="none" selected>진행 할 상담을 선택해주세요</option>
@@ -117,7 +117,7 @@ async function get_consulting(ban_regi){
                                                 </div>
                                             </div>
                                             <div class="d-flex justify-content-center mt-4 mb-2">
-                                                <button class="btn btn-dark" type="submit">저장</button>
+                                                <button class="btn btn-dark" type="submit" onclick="get_target_consulting(${register_no})">저장</button>
                                             </div>
                                         </form>
                                     </div>           
@@ -152,7 +152,37 @@ async function get_consulting(ban_regi){
     $('#today_consulting_box').show();
     $('#today_done_consulting_box').hide();
 }
-
+function get_target_consulting(student){
+    c_id = $(`#consultinghistory_kind${student} option:selected`).val()
+    return consulting_history(c_id)
+}
+function consulting_history(c_id){
+    console.log(c_id)
+    target_consulting = $('#target_consulting').val()
+    consulting_reson = $('#consulting_reson').val()
+    consulting_solution = $('#consulting_solution').val()
+    consulting_result = $('#consulting_result').val()
+    consulting_missed = $('#consulting_missed').val()
+    $.ajax({
+            type: "POST",
+			url:'/teacher/consulting'+c_id,
+			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
+            data: {
+                target_consulting:target_consulting ,
+                consulting_reson:consulting_reson,
+                consulting_solution:consulting_solution,
+                consulting_result:consulting_result,
+                consulting_missed:consulting_missed,
+            },
+            success: function (response) {{
+				if(response['result'] == '완료'){
+                }else{
+                    alert(response["result"])
+                }
+                window.location.replace('/teacher')
+			}}
+		})
+}
 function task_doneview(done_code){
     if(done_code == 0){
         $('#task_title').html('오늘의 업무')

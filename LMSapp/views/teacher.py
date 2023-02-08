@@ -61,6 +61,8 @@ def home():
         print(received_solution)
         print(received_result)
 
+        return{'result':'완료'}
+
 def taskcycle():
     my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == 1)).all()
     for task in my_tasks:
