@@ -161,18 +161,16 @@ function get_target_consulting(student){
 }
 function consulting_history(c_id){
     consulting_missed = $(`input:checkbox[id="missed${c_id}"]`).is(":checked")
-    // if (consulting_missed == true){
-    //     console.log('funck')
-    //     consulting_reason = "부재중"
-    //     consulting_solution = "부재중"
-    //     consulting_result = "부재중"
-    // }else{
-    //     console.log('부재중아님')
-    //     consulting_reason = $('#consulting_reason'+String(c_id)).val()
-    //     console.log(consulting_reason)
-    //     consulting_solution = $('#consulting_solution'+String(c_id)).val()
-    //     consulting_result = $('#consulting_result'+String(c_id)).val()
-    // }
+    if (consulting_missed == true){
+        consulting_reason = "부재중"
+        consulting_solution = "부재중"
+        consulting_result = "부재중"
+    }else{
+        consulting_reason = $('#consulting_reason'+String(c_id)).val()
+        console.log(consulting_reason)
+        consulting_solution = $('#consulting_solution'+String(c_id)).val()
+        consulting_result = $('#consulting_result'+String(c_id)).val()
+    }
     $.ajax({
             type: "POST",
 			url:'/teacher/consulting/'+c_id,
