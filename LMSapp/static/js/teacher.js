@@ -143,7 +143,7 @@ async function get_consulting(ban_regi){
                         <p>상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">부재중</span>
-                            <label><input type="checkbox" id="missed${consulting_id}">부재중</label>
+                            <label><input type="checkbox" id="missed${consulting_id}>부재중</label>
                         </div>
                         `;
                         $('#consulting_box'+register_no).html(temp_consulting_box);
@@ -160,19 +160,19 @@ function get_target_consulting(student){
     return consulting_history(c_id)
 }
 function consulting_history(c_id){
-    console.log($`input:checkbox[id='#missed${c_id}']`)
-    if ($(`input:checkbox[id='#missed${c_id}']`).is(":checked")== true){
-        console.log('funck')
-        consulting_reason = "부재중"
-        consulting_solution = "부재중"
-        consulting_result = "부재중"
-    }else{
-        console.log('부재중아님')
-        consulting_reason = $('#consulting_reason'+String(c_id)).val()
-        console.log(consulting_reason)
-        consulting_solution = $('#consulting_solution'+String(c_id)).val()
-        consulting_result = $('#consulting_result'+String(c_id)).val()
-    }
+    console.log(`$(#missed${c_id})`)
+    // if (consulting_missed == true){
+    //     console.log('funck')
+    //     consulting_reason = "부재중"
+    //     consulting_solution = "부재중"
+    //     consulting_result = "부재중"
+    // }else{
+    //     console.log('부재중아님')
+    //     consulting_reason = $('#consulting_reason'+String(c_id)).val()
+    //     console.log(consulting_reason)
+    //     consulting_solution = $('#consulting_solution'+String(c_id)).val()
+    //     consulting_result = $('#consulting_result'+String(c_id)).val()
+    // }
     $.ajax({
             type: "POST",
 			url:'/teacher/consulting/'+c_id,
