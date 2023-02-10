@@ -160,7 +160,7 @@ function get_target_consulting(student){
     return consulting_history(c_id)
 }
 function consulting_history(c_id){
-    console.log(`input:checkbox[id='#missed${c_id}']`)
+    console.log($`input:checkbox[id='#missed${c_id}']`)
     if ($(`input:checkbox[id='#missed${c_id}']`).is(":checked")== true){
         console.log('funck')
         consulting_reason = "부재중"
