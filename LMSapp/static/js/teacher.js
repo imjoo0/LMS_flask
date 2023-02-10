@@ -162,7 +162,7 @@ function get_target_consulting(student){
 function consulting_history(c_id){
     consulting_missed = document.getElementById(`missed${c_id}`).checked;
     console.log(consulting_missed)
-    if (consulting_missed = true){
+    if (consulting_missed == true){
         console.log('funck')
         consulting_reason = "부재중"
         consulting_solution = "부재중"
