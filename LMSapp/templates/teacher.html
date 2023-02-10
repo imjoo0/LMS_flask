@@ -234,6 +234,12 @@
                 <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body by-4 px-5">
+                <select id="consulting_history_by_ban" class="form-select text-center w-25" name="consulting_history_by_ban" onchange="done_consulting_history_view(this.value)">
+                    {% for ban in my_bans %}
+                    {% set ban_regi = ban['register_no'] %}
+                    <option value={{ban_regi}} selected>{{ban['name']}}</option>
+                    {% endfor %} 
+                </select>
                 <div id="consulting_history_list" style="width:100%;">
                     <button type="button" class="btn btn-back" onclick="go_back()">다른 일지조회🔙 </button>
                     <div id="consulting_history_box" style="width:100%;"></div>
