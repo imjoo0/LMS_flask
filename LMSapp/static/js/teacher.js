@@ -160,7 +160,7 @@ function get_target_consulting(student){
     return consulting_history(c_id)
 }
 function consulting_history(c_id){
-    $(`input:chckbox[name='#missed${c_id}']`).checked;
+    $(`input:checkbox[name='#missed${c_id}']`).checked;
     console.log(consulting_missed)
     if (consulting_missed == true){
         console.log('funck')
