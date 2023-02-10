@@ -160,7 +160,7 @@ function get_target_consulting(student){
     return consulting_history(c_id)
 }
 function consulting_history(c_id){
-    consulting_missed = $(`#missed${c_id}`).checked;
+    consulting_missed = $(`#missed${c_id}`).ischecked;
     console.log(consulting_missed)
     if (consulting_missed = true){
         console.log('funck')
