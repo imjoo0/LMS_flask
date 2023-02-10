@@ -208,7 +208,6 @@ def consulting(id):
         target_consulting = Consulting.query.get_or_404(id)
         
         if received_missed == "true":
-            print(target_consulting)
             target_consulting.missed += 1
             try:
                 db.session.commit()
@@ -226,8 +225,7 @@ def consulting(id):
             target_consulting.done = 1
             db.session.add(new_history)
             db.session.commit()
-
-        return{'result':'상담일지 저장 완료'}
+            return{'result':'상담일지 저장 완료'}
     
 
 

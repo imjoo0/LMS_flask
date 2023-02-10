@@ -182,10 +182,7 @@ function consulting_history(c_id){
                 consulting_missed:consulting_missed,
             },
             success: function (response) {{
-				if(response['result'] == '상담일지 저장 완료'){
-                }else{
-                    alert(response["result"])
-                }
+				alert(response["result"])
 			}}
 		})
 }
