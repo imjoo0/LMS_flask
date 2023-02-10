@@ -167,7 +167,6 @@ function consulting_history(c_id){
         consulting_result = "부재중"
     }else{
         consulting_reason = $('#consulting_reason'+String(c_id)).val()
-        console.log(consulting_reason)
         consulting_solution = $('#consulting_solution'+String(c_id)).val()
         consulting_result = $('#consulting_result'+String(c_id)).val()
     }
