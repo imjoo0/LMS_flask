@@ -197,6 +197,7 @@ function get_target_consulting(student,temp_code){
     c_id = $(`#consultinghistory_kind${student} option:selected`).val()
     return consulting_history(c_id)
 }
+
 function consulting_history(c_id){
     consulting_missed = $(`input:checkbox[id="missed${c_id}"]`).is(":checked")
     if (consulting_missed == true){
@@ -263,7 +264,7 @@ async function get_task(category_id){
                         $(tcb).append(temp_task_contents_box);
                     }else{
                         let temp_task_contents_box = `
-                        <p>✅ ${contents}  (마감 : ${deadline})</p>
+                        <p>✅ ${contents}  (마감 : ${deadline}) </p>
                         <form method="post" class="make_row" id="task_ban_box_incomplete${category_id}${i}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                         </form>
@@ -327,7 +328,7 @@ async function get_done_task(){
 function get_update_done(){
     $('input:checkbox[name=taskid]').each(
         function(i,iVal){
-           let target = Number(iVal.defaultValue);
+           let target = Number(iVal.value);
            console.log(target)
            return update_done(target)
         }
