@@ -240,6 +240,11 @@
                     <option value={{ban_regi}} selected>{{ban['name']}}</option>
                     {% endfor %} 
                 </select>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
+
+                <div id="consulting_history_box">
+                    
+                </div>
                 <div id="consulting_history_list" style="width:100%;">
                     <button type="button" class="btn btn-back" onclick="go_back()">다른 일지조회🔙 </button>
                     <div id="consulting_history_box" style="width:100%;"></div>

@@ -239,7 +239,7 @@ def done_consulting(id):
         my_students = callapi.get_students(id)
         consulting_list = []
         for student in my_students:
-            consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done == 1) & (Consulting.startdate <= current_time)).all()
+            consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done == 1)).all()
             target_data = {}
             target_data['s_id'] = student['register_no']
             target_data['name'] = student['name'] + '(' + student['origin'] + ')'
@@ -248,28 +248,26 @@ def done_consulting(id):
             target_data['consultings'] = []
             for consulting in consultings:
                 consulting_data = {}
-                consulting_data['c_id'] = consulting.id
+                consulting_data['history'] = ConsultingHistory(ConsultingHistory.consulting_id  == consulting.id).first()
                 category = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first()
                 if(consulting.category_id < 101):
                     consulting_data['category'] = str(consulting.week_code) + '주 미학습 상담 진행건 '
                     consulting_data['contents'] = category.name +' '+ consulting.contents
-                    consulting_data['history'] = ConsultingHistory(ConsultingHistory.consulting_id  == consulting.id).first()
                 else:
                    consulting_data['category'] = category.name
                    consulting_data['contents'] = consulting.contents
-                   consulting_data['history'] = ConsultingHistory(ConsultingHistory.consulting_id  == consulting.id).first()
                 target_data['consultings'].append(consulting_data)
             
             if(len(target_data['consultings'])!=0):
-                target_data['consultings'].sort(key = lambda x:(x['deadline'],-x['week_code']))
+                target_data['consultings'].sort(key = lambda x:(-x['week_code']))
                 target_data['consulting_num'] = len(target_data['consultings'])
                 consulting_list.append(target_data)
         
         if(len(consulting_list)==0):
-            return jsonify({'consulting': '없음'})
+            return jsonify({'consulting_history': '없음'})
         else: 
             consulting_list.sort(key = lambda x:(-x['consulting_num']))
-            return jsonify({'consulting': consulting_list})
+            return jsonify({'consulting_history': consulting_list})
             
   
 

@@ -20,48 +20,43 @@ function done_consulting_history_view(ban_regi){
         url: "/done_consulting/"+ban_regi,
         data: {},
         success: function (response) {
-            if(response["consulting"] == '없음'){
+            $("#consulting_history_box").attr('id',`consulting_history_box${ban_regi}`)
+            if(response["consulting_history"] == '없음'){
                 let temp_task_contents_box = `
                 <p> 작성한 상담일지가 없습니다! 😂</p>
                 `;
-                $(tcb).html(temp_task_contents_box);
+                $(`#consulting_history_box${ban_regi}`).html(temp_task_contents_box);
             }else{
-                let target_task = response["task"]
-                 $(tcb).empty()
-                for(i=0;i<target_task.length;i++){
-                    let target = target_task[i]
-                    let contents = target['contents']
-                    let deadline = target['deadline']
-                    let priority = target['priority']
-                    if(priority > 2){
-                        let temp_task_contents_box = `
-                        <p>⭐우선업무: ${contents} (마감 : ${deadline})</p>
-                        <form method="post" class="make_row" id="task_ban_box_incomplete${category_id}${i}">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
-                        </form>
-                        `;
-                        $(tcb).append(temp_task_contents_box);
-                    }else{
-                        let temp_task_contents_box = `
-                        <p>✅ ${contents}  (마감 : ${deadline})</p>
-                        <form method="post" class="make_row" id="task_ban_box_incomplete${category_id}${i}">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
-                        </form>
-                        `;
-                        $(tcb).append(temp_task_contents_box);
-                    }
-                    
-                    $('#task_ban_box_incomplete'+i).empty()
-                    $('#task_ban_box_complete'+i).empty()
-                    let target_ban = target['task_ban']
-                    for(j=0;j<target_ban.length;j++){
-                        let target_ban_data = target_ban[j]
-                        let task_id = target_ban_data['id']
-                        let name = target_ban_data['ban']
-                        let temp_task_ban_box = `
-                        <label><input type="checkbox" name="taskid" value="${task_id}">${name}</label>
-                        `;
-                        $('#task_ban_box_incomplete'+category_id+i).append(temp_task_ban_box);
+                let target_consulting_history = response["consulting_history"]
+                $(`#consulting_history_box${ban_regi}`).empty()
+                for(i=0;i<target_consulting_history.length;i++){
+                    let target = target_consulting_history[i]
+                    let s_id = target['s_id']
+                    let name = target['name']
+                    let mobileno = target['mobileno']
+                    let reco_book_code = target['reco_book_code']
+
+                    let temp_student_info = `
+                    <table class="table text-center" id="consulting_task_list" style="width:100%;">
+                    <tbody  style="width:100%;">
+                        <thead>
+                            <tr class="row">
+                                <th class="col-4">이름</th>
+                                <th class="col-4">연락처</th>
+                                <th class="col-2">추천도서코드</th>
+                                <th class="col-2"></th>
+                            </tr>
+                        </thead>
+                            <tr class="row" id="tr-row">
+                                <td class="col-4">${name}</td>
+                                <td class="col-4">${mobileno}</td>
+                                <td class="col-2">${reco_book_code}</td>
+                                <td class="col-2" onclick="">상담 내역 확인하기</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    `;
+                    $(`#consulting_history_box${ban_regi}`).append(temp_student_info);
                     }
                 }
             }
@@ -69,10 +64,8 @@ function done_consulting_history_view(ban_regi){
         //     if (response["result"]=='문의가 전송되었습니다') {
         //     window.location.replace('/teacher')
         // }else {window.location.href='/'}
-        }
     });
-    $('#today_task_box').show();
-    $('#today_done_box').hide();
+
 }
 //  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
 function change_question_kind(str){
@@ -153,9 +146,14 @@ async function get_consulting(ban_regi){
                                                 <span class="modal-body-select-label">부재중</span>
                                                 <label><input type="checkbox" id="missed">부재중</label>
                                             </div>
+                                            <p>상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
                                             <div class="d-flex justify-content-center mt-4 mb-2">
-                                                <button class="btn btn-dark" onclick="get_target_consulting(${register_no})">저장</button>
+                                                <button class="btn btn-dark" onclick="get_target_consulting(${register_no},${0})">저장</button>
                                             </div>
+                                            <div class="d-flex justify-content-center mt-4 mb-2">
+                                            <button class="btn btn-dark" onclick="get_target_consulting(${register_no},${1})">임시 저장</button>
+                                            </div>
+
                                     </div>           
                                 </div>
                             </div>
@@ -185,7 +183,6 @@ async function get_consulting(ban_regi){
                             <span class="modal-body-select-label">상담 결과</span>
                             <textarea class="modal-body-select" type="text"rows="5" cols="25" id="consulting_result${consulting_id}" style="width: 75%;"></textarea>
                         </div>
-                        <p>상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
                         `;
                         $('#consulting_box'+register_no).append(temp_consulting_box);
                     }
@@ -196,7 +193,7 @@ async function get_consulting(ban_regi){
     $('#today_consulting_box').show();
     $('#today_done_consulting_box').hide();
 }
-function get_target_consulting(student){
+function get_target_consulting(student,temp_code){
     c_id = $(`#consultinghistory_kind${student} option:selected`).val()
     return consulting_history(c_id)
 }
