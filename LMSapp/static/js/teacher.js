@@ -27,39 +27,9 @@ function done_consulting_history_view(ban_regi){
                 `;
                 $('#consulting_history_box'+ban_regi).html(temp_task_contents_box);
             }else{
-                let target_consulting_history = response["consulting_history"]
-                $(`#consulting_history_box${ban_regi}`).empty()
-                for(i=0;i<target_consulting_history.length;i++){
-                    let target = target_consulting_history[i]
-                    let s_id = target['s_id']
-                    let name = target['name']
-                    let mobileno = target['mobileno']
-                    let reco_book_code = target['reco_book_code']
-
-                    let temp_student_info = `
-                    <table class="table text-center" id="consulting_task_list" style="width:100%;">
-                    <tbody  style="width:100%;">
-                        <thead>
-                            <tr class="row">
-                                <th class="col-4">이름</th>
-                                <th class="col-4">연락처</th>
-                                <th class="col-2">추천도서코드</th>
-                                <th class="col-2"></th>
-                            </tr>
-                        </thead>
-                            <tr class="row" id="tr-row">
-                                <td class="col-4">${name}</td>
-                                <td class="col-4">${mobileno}</td>
-                                <td class="col-2">${reco_book_code}</td>
-                                <td class="col-2" onclick="">상담 내역 확인하기</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    `;
-                    $('#consulting_history_box'+ban_regi).append(temp_student_info);
-                    }
-                }
+                
             }
+        }
             // alert(response["title"])
         //     if (response["result"]=='문의가 전송되었습니다') {
         //     window.location.replace('/teacher')

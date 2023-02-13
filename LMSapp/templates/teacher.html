@@ -234,12 +234,6 @@
                 <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body by-4 px-5">
-                <select id="consulting_history_by_ban" class="form-select text-center w-25" name="consulting_history_by_ban" onchange="done_consulting_history_view(this.value)">
-                    {% for ban in my_bans %}
-                    {% set ban_regi = ban['register_no'] %}
-                    <option value={{ban_regi}} selected>{{ban['name']}}</option>
-                    {% endfor %} 
-                </select>
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                 <table class="table text-center" id="consulting_task_list" style="width:100%;">
                     <tbody  style="width:100%;">
@@ -253,10 +247,11 @@
                         </thead>
                         {% for student in students %}
                         <tr class="row" id="tr-row">
-                            <td class="col-4">{{student['name']}}</td>
+                            <td class="col-4">{{student['name']}}( {{student['origin']}} )</td>
                             <td class="col-4">{{student['mobileno']}}</td>
-                            <td class="col-2">{{student['reco_book_code']}}</td>
-                            <td class="col-2" onclick="">상담 내역 확인하기</td>
+                            <td class="col-2">{{student['pname']}}</td>
+                            {% set s_regi = student['register_no'] %}
+                            <td class="col-2" onclick="done_consulting_history_view('{{ s_regi }}')">상담 내역 확인하기</td>
                         </tr>
                         {% endfor %}
 
