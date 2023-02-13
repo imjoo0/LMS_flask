@@ -145,17 +145,7 @@ async function get_consulting(ban_regi){
                                     </div>
                                     <div class="modal-body py-4 px-5">
                                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
-                                            <div class="modal-body-select-container"  id="consultingneeded">
-                                                <span class="modal-body-select-label">진행 할 상담 목록</span>
-                                                <div id="consultinglist${register_no}" class="modal-body-select" style="width:100%">
-                                                </div>
-                                            </div>
-                                            <div class="modal-body-select-container">
-                                                <span class="modal-body-select-label">상담 선택</span>
-                                                <select id="consultinghistory_kind${register_no}" class="modal-body-select" name="target_consulting" style="width:100%">
-                                                    <option value="none" selected>진행 할 상담을 선택해주세요</option>
-                                                </select>
-                                            </div>
+
                                             <div id="consulting_box${register_no}">
                                                 
                                             </div>
@@ -177,17 +167,8 @@ async function get_consulting(ban_regi){
                         let contents = target_consulting_data['contents']
                         let category = target_consulting_data['category']
                         let deadline = target_consulting_data['deadline']
-
-                        let temp_consulting_list = `
-                            <p>✅<strong>${category}</strong></br>${contents}</br>*마감: ~${deadline}까지</br></p>
-                        `;
-                        let temp_consulting_contents_box = `
-                            <option value=${consulting_id}>${contents}</option>
-                        `;
-                        $('#consultinghistory_kind'+register_no).append(temp_consulting_contents_box);
-                        $('#consultinglist'+register_no).append(temp_consulting_list);
-
                         let temp_consulting_box = `
+                        <p id=${consulting_id}>✅<strong>${category}</strong></br>${contents}</br>*마감: ~${deadline}까지</br></p>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">상담 사유</span>
                             <input class="modal-body-select" type="text" size="50" id="consulting_reason${consulting_id}" style="width: 75%;">
