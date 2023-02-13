@@ -328,9 +328,9 @@ async function get_done_task(){
 function get_update_done(){
     $('input:checkbox[name=taskid]').each(function(index){
         if($(this).is(":checked")==true){
-            console.log($(this).val());
+            return update_done($(this).val())
         }
-    })
+    });
 }
 function update_done(target){
     console.log(target)
