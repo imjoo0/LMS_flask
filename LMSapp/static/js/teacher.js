@@ -326,13 +326,11 @@ async function get_done_task(){
     });
 }
 function get_update_done(){
-    $('input:checkbox[name=taskid]').each.is(":checked")(
-        function(i,iVal){
-           let target = Number(iVal.value);
-           console.log(target)
-           return update_done(target)
+    $('input:checkbox[name=taskid]').each(function(index){
+        if($(this).is(":checked")==true){
+            console.log($(this).val());
         }
-    );
+    })
 }
 function update_done(target){
     console.log(target)
