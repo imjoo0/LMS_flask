@@ -241,9 +241,29 @@
                     {% endfor %} 
                 </select>
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
+                <table class="table text-center" id="consulting_task_list" style="width:100%;">
+                    <tbody  style="width:100%;">
+                        <thead>
+                            <tr class="row">
+                                <th class="col-4">이름</th>
+                                <th class="col-4">연락처</th>
+                                <th class="col-2">추천도서코드</th>
+                                <th class="col-2">✅</th>
+                            </tr>
+                        </thead>
+                        {% for student in students %}
+                        <tr class="row" id="tr-row">
+                            <td class="col-4">{{student['name']}}</td>
+                            <td class="col-4">{{student['mobileno']}}</td>
+                            <td class="col-2">{{student['reco_book_code']}}</td>
+                            <td class="col-2" onclick="">상담 내역 확인하기</td>
+                        </tr>
+                        {% endfor %}
 
+                        </tbody>
+                    </table>
                 <div id="consulting_history_box">
-                    
+
                 </div>
                 <div id="consulting_history_list" style="width:100%;">
                     <button type="button" class="btn btn-back" onclick="go_back()">다른 일지조회🔙 </button>
