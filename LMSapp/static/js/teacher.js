@@ -326,7 +326,7 @@ async function get_done_task(){
     });
 }
 function get_update_done(){
-    $('input:checkbox[name=taskid]').each(
+    $('input:checkbox[name=taskid]').each.is(":checked")(
         function(i,iVal){
            let target = Number(iVal.value);
            console.log(target)
