@@ -25,7 +25,7 @@ function done_consulting_history_view(ban_regi){
                 let temp_task_contents_box = `
                 <p> 작성한 상담일지가 없습니다! 😂</p>
                 `;
-                $(`#consulting_history_box${ban_regi}`).html(temp_task_contents_box);
+                $('#consulting_history_box'+ban_regi).html(temp_task_contents_box);
             }else{
                 let target_consulting_history = response["consulting_history"]
                 $(`#consulting_history_box${ban_regi}`).empty()
@@ -56,7 +56,7 @@ function done_consulting_history_view(ban_regi){
                         </tbody>
                     </table>
                     `;
-                    $(`#consulting_history_box${ban_regi}`).append(temp_student_info);
+                    $('#consulting_history_box'+ban_regi).append(temp_student_info);
                     }
                 }
             }
