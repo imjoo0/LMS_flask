@@ -185,7 +185,7 @@ def request_consulting():
                 students = callapi.get_students(c['register_no'])
                 for s in students:
                     new_consulting = Consulting(ban_id=c['register_no'], category_id=received_category, student_id=s['register_no'],
-                                                contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0)
+                                                contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed=0)
                     db.session.add(new_consulting)
                     db.session.commit()
         # 개별 반 선택 된 경우 
@@ -197,13 +197,13 @@ def request_consulting():
                 target_student_list = callapi.get_students(received_target_ban)
                 for student in target_student_list:
                     new_consulting = Consulting(ban_id=received_target_ban, category_id=received_category, student_id=student['register_no'],
-                                                contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0)
+                                                contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed=0)
                     db.session.add(new_consulting)
                     db.session.commit()
             # 개별 학생일 경우 
             else:
                 new_consulting = Consulting(ban_id=received_target_ban, category_id=received_category, student_id=received_target_student,
-                                            contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0)
+                                            contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed=0)
                 db.session.add(new_consulting)
                 db.session.commit()
         return redirect('/')
