@@ -187,7 +187,7 @@ async function get_consulting(ban_regi){
                             <label><input type="checkbox" id="missed${consulting_id}">부재중</label>
                         </div>
                         `;
-                        $('#consulting_box'+register_no).html(temp_consulting_box);
+                        $('#consulting_box'+register_no).append(temp_consulting_box);
                     }
                 }
             }
