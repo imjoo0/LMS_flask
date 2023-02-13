@@ -151,7 +151,7 @@ async function get_consulting(ban_regi){
                                             </div>
                                             <div class="modal-body-select-container">
                                                 <span class="modal-body-select-label">부재중</span>
-                                                <label><input type="checkbox" id="missed${consulting_id}">부재중</label>
+                                                <label><input type="checkbox" id="missed">부재중</label>
                                             </div>
                                             <div class="d-flex justify-content-center mt-4 mb-2">
                                                 <button class="btn btn-dark" onclick="get_target_consulting(${register_no})">저장</button>
