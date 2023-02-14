@@ -29,11 +29,11 @@ def home():
         all_my_tasks = len(TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all())
         done_tasks = len(TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done != 0) ).all())
         not_done_task_per = int((done_tasks/all_my_tasks)*100)
-        
+
         if len(my_tasks)!=0:
             tc = []
             for task in my_tasks:
-                t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & ( Task.category_id != 13 )).first()
+                t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline )).first()
                 if(t != None):
                     tc.append(t)
             tc = list(set(tc))
@@ -44,7 +44,6 @@ def home():
             category_set = list(set(category_set))
         else:
             category_set = '없음'
-        print(category_set)
 
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
 
