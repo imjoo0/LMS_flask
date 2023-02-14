@@ -132,7 +132,9 @@ def task(id):
         
         category_task = []
         for task in tc:
-            category_task.append(task)
+            if (task.category_id == id) and (task.cycle == today_yoil or task.cycle == 0 ) : # 주기가 월-금인 경우 
+                    category_task.append(task)
+
 
         # 우선순위 정렬 
         category_task.sort(key=lambda x : (-x.priority, x.deadline)) 
