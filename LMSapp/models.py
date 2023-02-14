@@ -65,7 +65,7 @@ class Consulting(db.Model):
     deadline = db.Column(db.DateTime)
     done = db.Column(db.Integer,nullable=True)
     week_code = db.Column(db.Integer,nullable=True)
-    missed = db.Column(db.Integer,nullable=True)
+    created_at = db.Column(db.DateTime(), nullable=False)
     # 관계 설정 
     consultinghistories = db.relationship('ConsultingHistory',backref='consulting')
 
