@@ -168,10 +168,6 @@ function post_target_consulting(consulting,register_no){
     consulting_reason = $('#consulting_reason'+String(consulting)).val()
     consulting_solution = $('#consulting_solution'+String(consulting)).val()
     consulting_result = $('#consulting_result'+String(consulting)).val()
-    if (consulting_missed == true){
-        $(`#consulting_student${register_no}`).hide()
-        console.log($(`#consulting_student${register_no}`))
-    }
     $.ajax({
             type: "POST",
 			url:'/teacher/consulting/'+consulting,
