@@ -44,7 +44,7 @@ def home():
             category_set = list(set(category_set))
         else:
             category_set = '없음'
-        
+        print(category_set)
 
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
 
