@@ -193,7 +193,7 @@ def consulting(id):
                    target_data['consulting_missed'] = consulting.missed.date()
                 target_data['consultings'].append(consulting_data)
             test = datetime.strptime('22020101',"%Y%m%d").date()
-            print(test - target_data['consulting_missed'])
+            print(type(test - target_data['consulting_missed']))
             if((target_data['consulting_missed'] - test) == '0:00:00'):
                 print('dd')
                 target_data['consulting_missed'] = '없음'
