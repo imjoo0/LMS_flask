@@ -33,7 +33,7 @@ def home():
         if len(my_tasks)!=0:
             tc = []
             for task in my_tasks:
-                t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline )).first()
+                t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & ( Task.category_id != 13 )).first()
                 if(t != None):
                     tc.append(t)
             tc = list(set(tc))
