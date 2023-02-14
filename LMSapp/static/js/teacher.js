@@ -164,16 +164,9 @@ async function get_consulting(ban_regi){
 }
 function post_target_consulting(consulting,temp_code){
     consulting_missed = $('input:checkbox[id="missed"]').is(":checked")
-    if (consulting_missed == true){
-        consulting_reason = "부재중"
-        consulting_solution = "부재중"
-        consulting_result = "부재중"
-        console.log('부재중')
-    }else{
-        consulting_reason = $('#consulting_reason'+String(consulting)).val()
-        consulting_solution = $('#consulting_solution'+String(consulting)).val()
-        consulting_result = $('#consulting_result'+String(consulting)).val()
-    }
+    consulting_reason = $('#consulting_reason'+String(consulting)).val()
+    consulting_solution = $('#consulting_solution'+String(consulting)).val()
+    consulting_result = $('#consulting_result'+String(consulting)).val()
     $.ajax({
             type: "POST",
 			url:'/teacher/consulting/'+consulting,
