@@ -192,7 +192,7 @@ def consulting(id):
                    consulting_data['contents'] = consulting.contents
                    target_data['consulting_missed'] = consulting.missed
                 target_data['consultings'].append(consulting_data)
-
+            print(target_data['consulting_missed'])
             if(len(target_data['consultings'])!=0):
                 target_data['consultings'].sort(key = lambda x:(x['deadline'],-x['week_code']))
                 target_data['consulting_num'] = len(target_data['consultings'])
