@@ -37,7 +37,7 @@ def home():
                 if(t != None):
                     tc.append(t)
             tc = list(set(tc))
-
+            print(tc)
             category_set = []
             for cate in tc:
                 category_set.append(cate.category_id)
