@@ -108,9 +108,11 @@ async function get_consulting(ban_regi){
                                     </div>
                                     <div class="modal-body py-4 px-5">
                                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
+                                            <div class="d-flex justify-content-center mt-4 mb-2">
 
+                                            </div>
                                             <div id="consulting_box${register_no}">
-                                                
+                                                <strong>${student_name} 상담 ${consulting_num}건</strong> 📞${mobileno} | 추천도서:${student_reco_book_code}
                                             </div>
                                             <div class="modal-body-select-container">
                                                 <span class="modal-body-select-label">부재중</span>
@@ -164,12 +166,13 @@ async function get_consulting(ban_regi){
     $('#today_done_consulting_box').hide();
 }
 function get_target_consulting(student,temp_code){
-    c_id = $(`#consultinghistory_kind${student} option:selected`).val()
-    return consulting_history(c_id)
+    console.log(temp_code)
+    console.log(type(temp_code))
+    return consulting_history(student,temp_code)
 }
 
-function consulting_history(c_id){
-    consulting_missed = $(`input:checkbox[id="missed${c_id}"]`).is(":checked")
+function consulting_history(s_id,temp_code){
+    consulting_missed = $(`input:checkbox[id="missed${s_id}"]`).is(":checked")
     if (consulting_missed == true){
         consulting_reason = "부재중"
         consulting_solution = "부재중"
