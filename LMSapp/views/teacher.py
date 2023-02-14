@@ -135,8 +135,7 @@ def task(id):
         
         category_task = []
         for task in tc:
-            if task.category_id == id:
-                if(task.cycle == today_yoil or task.cycle == 6 or task.cycle == 7 ): # 주기가 월-금인 경우 
+            if (task.category_id == id) and (task.cycle == today_yoil or task.cycle == 0 ) : # 주기가 월-금인 경우 
                     category_task.append(task)
 
 
