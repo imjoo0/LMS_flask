@@ -14,7 +14,7 @@ import callapi
 
 current_time = datetime.now()
 Today = current_time.date()
-
+today_yoil = current_time.weekday() + 1
 # 선생님 메인 페이지
 # 테스트 계정 id : T1031 pw동일  
 @bp.route("/", methods=['GET'])
@@ -33,7 +33,7 @@ def home():
         if len(my_tasks)!=0:
             tc = []
             for task in my_tasks:
-                t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline )).first()
+                t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & ( (Task.cycle == today_yoil) | (Task.cycle == 0))).first()
                 if(t != None):
                     tc.append(t)
             tc = list(set(tc))
@@ -120,8 +120,6 @@ def task(id):
         except:
             return jsonify({'result': '업무완료 실패'})
     elif request.method == 'GET':
-        today_yoil = current_time.weekday() + 1
-
         my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done != 1)).all()
 
         tc = []
