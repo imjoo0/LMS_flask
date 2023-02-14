@@ -119,13 +119,6 @@ async function get_consulting(ban_regi){
                                                 <label><input type="checkbox" id="missed">부재중</label>
                                             </div>
                                             <p>상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
-                                            <div class="d-flex justify-content-center mt-4 mb-2">
-                                                <button class="btn btn-dark" onclick="get_target_consulting(${register_no},${0})">저장</button>
-                                            </div>
-                                            <div class="d-flex justify-content-center mt-4 mb-2">
-                                            <button class="btn btn-dark" onclick="get_target_consulting(${register_no},${1})">임시 저장</button>
-                                            </div>
-
                                     </div>           
                                 </div>
                             </div>
@@ -155,6 +148,10 @@ async function get_consulting(ban_regi){
                             <span class="modal-body-select-label">상담 결과</span>
                             <textarea class="modal-body-select" type="text"rows="5" cols="25" id="consulting_result${consulting_id}" style="width: 75%;"></textarea>
                         </div>
+                        <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
+                            <button class="btn btn-dark" onclick="get_target_consulting(${consulting_id},${0})">저장</button>
+                            <button class="btn btn-dark" onclick="get_target_consulting(${consulting_id},${1})">임시 저장</button>
+                        </div>  
                         `;
                         $('#consulting_box'+register_no).append(temp_consulting_box);
                     }
@@ -166,13 +163,11 @@ async function get_consulting(ban_regi){
     $('#today_done_consulting_box').hide();
 }
 function get_target_consulting(student,temp_code){
-    console.log(temp_code)
-    console.log(type(temp_code))
-    return consulting_history(student,temp_code)
+
 }
 
-function consulting_history(s_id,temp_code){
-    consulting_missed = $(`input:checkbox[id="missed${s_id}"]`).is(":checked")
+function consulting_history(c_id){
+    consulting_missed = $(`input:checkbox[id="missed${c_id}"]`).is(":checked")
     if (consulting_missed == true){
         consulting_reason = "부재중"
         consulting_solution = "부재중"
