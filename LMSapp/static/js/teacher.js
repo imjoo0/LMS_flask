@@ -98,8 +98,21 @@ async function get_consulting(ban_regi){
                         <div data-bs-toggle="modal" data-bs-target="#consultinghistory${register_no}" id="consulting_student${register_no}">
                             <strong>${student_name} 상담 ${consulting_num}건</strong> 📞${mobileno} | 추천도서:${student_reco_book_code} ➖ 부재중 시도 : ${consulting_missed}
                         </div>
+                    `;
+                    $('#today_consulting_box').append(temp_consulting_contents_box);
+                    }else{
+                        let temp_consulting_contents_box = `
+                        <div data-bs-toggle="modal" data-bs-target="#consultinghistory${register_no}" id="consulting_student${register_no}">
+                            <strong>${student_name} 상담 ${consulting_num}건</strong> 📞${mobileno} | 추천도서:${student_reco_book_code} ➖ 부재중 시도 : ${consulting_missed}
+                        </div>
+                        `;
+                        if(consulting_missed == '오늘'){
+                            $('#today_done_consulting_box').append(temp_consulting_contents_box);
+                        }else{$('#today_consulting_box').append(temp_consulting_contents_box);}
                         
-                        <div class="modal fade" id="consultinghistory${register_no}" tabindex="-1"
+                    }
+                   let temp_consulting_modal = `
+                   <div class="modal fade" id="consultinghistory${register_no}" tabindex="-1"
                             aria-labelledby="consultinghistoryModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-xl">
                                 <div class="modal-content">
@@ -126,15 +139,8 @@ async function get_consulting(ban_regi){
                                 </div>
                             </div>
                         </div>
-                    `;
-                    $('#today_consulting_box').append(temp_consulting_contents_box);
-                    }else if(consulting_missed == '오늘'){
-
-                    }else{
-
-                    }
-                   
-                    
+                   `
+                   $('#today_consulting_box').append(temp_consulting_modal);
                     $('#consultinghistory_kind'+register_no).empty()
                     let target_consulting = target['consultings']
                     for(j=0;j<target_consulting.length;j++){
@@ -170,7 +176,7 @@ async function get_consulting(ban_regi){
     $('#today_consulting_box').show();
     $('#today_done_consulting_box').hide();
 }
-function post_target_consulting(consulting,register_no){
+function post_target_consulting(consulting){
     consulting_missed = $('input:checkbox[id="missed"]').is(":checked")
     consulting_reason = $('#consulting_reason'+String(consulting)).val()
     consulting_solution = $('#consulting_solution'+String(consulting)).val()
