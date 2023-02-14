@@ -185,14 +185,14 @@ def consulting(id):
                     consulting_data['category'] = str(consulting.week_code) + '주 미학습 상담을 진행해주세요 '
                     consulting_data['week_code'] = consulting.week_code
                     consulting_data['contents'] = category.name +' '+ consulting.contents
-                    target_data['consulting_missed'] = consulting.missed
+                    target_data['consulting_missed'] = consulting.missed.date()
                 else:
                    consulting_data['category'] = category.name
                    consulting_data['week_code'] = 0
                    consulting_data['contents'] = consulting.contents
-                   target_data['consulting_missed'] = consulting.missed
+                   target_data['consulting_missed'] = consulting.missed.date()
                 target_data['consultings'].append(consulting_data)
-            if(target_data['consulting_missed'] == datetime('2202', '01', '01', hour=0, minute=0, second=0, microsecond=0, tzinfo=None)):
+            if(target_data['consulting_missed'] == date('2202', '01', '01')):
                 target_data['consulting_missed'] = '없음'
             if(len(target_data['consultings'])!=0):
                 target_data['consultings'].sort(key = lambda x:(x['deadline'],-x['week_code']))
