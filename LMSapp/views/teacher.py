@@ -47,7 +47,7 @@ def home():
 
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
 
-        return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,students=mystudents_info, questions=my_questions,my_task_category=category_set,all_task_category=all_task_category,all_task_num=all_my_tasks, not_done_task_num=done_tasks,not_done_task_per=not_done_task_per)
+        return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,students=mystudents_info, questions=my_questions,my_task_category=category_set,all_task_category=all_task_category,all_task_num=all_my_tasks, not_done_task_num=done_tasks,not_done_task_per=not_done_task_per,my_task = tc)
 
 def taskcycle():
     my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == 1)).all()
@@ -132,9 +132,7 @@ def task(id):
         
         category_task = []
         for task in tc:
-            if (task.category_id == id) and (task.cycle == today_yoil or task.cycle == 0 ) : # 주기가 월-금인 경우 
-                    category_task.append(task)
-
+            category_task.append(task)
 
         # 우선순위 정렬 
         category_task.sort(key=lambda x : (-x.priority, x.deadline)) 
