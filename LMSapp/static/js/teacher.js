@@ -114,9 +114,7 @@ async function get_consulting(ban_regi){
                                             <div id="consulting_box${register_no}">
                                                 <strong>${student_name} 상담 ${consulting_num}건</strong> 📞${mobileno} | 추천도서:${student_reco_book_code}
                                             </div>
-                                            <div class="modal-body-select-container">
-                                                <span class="modal-body-select-label">부재중</span>
-                                                <label><input type="checkbox" id="missed">부재중</label>
+                                            <div class="modal-body-select-container" id="consulting_missed_box">
                                             </div>
                                             <p>✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
                                     </div>           
@@ -149,12 +147,16 @@ async function get_consulting(ban_regi){
                             <textarea class="modal-body-select" type="text"rows="5" cols="25" id="consulting_result${consulting_id}" style="width: 75%;"></textarea>
                         </div>
                         <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
-                            <button class="btn btn-dark" onclick="get_target_consulting(${consulting_id},${0})" style="margin-right:5px">저장</button>
-                            <button class="btn btn-dark" onclick="get_target_consulting(${consulting_id},${1})">임시 저장</button>
+                            <button class="btn btn-dark" onclick="post_target_consulting(${consulting_id},${0})" style="margin-right:5px">저장</button>
+                            <button class="btn btn-dark" onclick="post_target_consulting(${consulting_id},${1})">임시 저장</button>
                         </div>  
                         `;
                         $('#consulting_box'+register_no).append(temp_consulting_box);
                     }
+                    temp_missed = `
+                    <span class="modal-body-select-label">부재중</span>
+                    <label><input type="checkbox" id="missed${consulting_id}">부재중</label>`;
+                    $('#consulting_missed_box').append(temp_missed)
                 }
             }
         }
@@ -162,35 +164,36 @@ async function get_consulting(ban_regi){
     $('#today_consulting_box').show();
     $('#today_done_consulting_box').hide();
 }
-function get_target_consulting(student,temp_code){
-
-}
-
-function consulting_history(c_id){
-    consulting_missed = $(`input:checkbox[id="missed${c_id}"]`).is(":checked")
+function post_target_consulting(consulting,temp_code){
+    consulting_missed = $(`input:checkbox[id="missed${consulting}"]`).is(":checked")
     if (consulting_missed == true){
         consulting_reason = "부재중"
         consulting_solution = "부재중"
         consulting_result = "부재중"
     }else{
-        consulting_reason = $('#consulting_reason'+String(c_id)).val()
-        consulting_solution = $('#consulting_solution'+String(c_id)).val()
-        consulting_result = $('#consulting_result'+String(c_id)).val()
+        consulting_reason = $('#consulting_reason'+String(consulting)).val()
+        consulting_solution = $('#consulting_solution'+String(consulting)).val()
+        consulting_result = $('#consulting_result'+String(consulting)).val()
     }
     $.ajax({
             type: "POST",
-			url:'/teacher/consulting/'+c_id,
+			url:'/teacher/consulting/'+consulting,
 			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
             data: {
                 consulting_reason:consulting_reason,
                 consulting_solution:consulting_solution,
                 consulting_result:consulting_result,
                 consulting_missed:consulting_missed,
+                temp_post : temp_code
             },
             success: function (response) {{
 				alert(response["result"])
 			}}
 		})
+}
+
+function consulting_history(c_id){
+    
 }
 function task_doneview(done_code){
     if(done_code == 0){
