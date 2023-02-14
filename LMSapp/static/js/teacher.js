@@ -62,7 +62,9 @@ function consulting_view(ban_regi){
         $('#today_done_consulting_box').hide();
     }else if(ban_regi == 1){
         // get_done_task()
-        $('#consulting_title').html('오늘 완료한 상담 목록')
+        $('#consulting_title').html('부재중 상담 목록')
+        $('#today_consulting_box').hide();
+        $('#today_done_consulting_box').show();
     }else{
         $('#consulting_title').html('오늘의 상담')
         get_consulting(ban_regi)
@@ -92,7 +94,7 @@ async function get_consulting(ban_regi){
                     let consulting_num = target['consulting_num']
                     let consulting_missed = target['consulting_missed']
                     let temp_consulting_contents_box = `
-                        <div data-bs-toggle="modal" data-bs-target="#consultinghistory${register_no}">
+                        <div data-bs-toggle="modal" data-bs-target="#consultinghistory${register_no}" id="consulting_student${register_no}">
                             <strong>${student_name} 상담 ${consulting_num}건</strong> 📞${mobileno} | 추천도서:${student_reco_book_code} ➖ 부재중 시도 : ${consulting_missed}건
                         </div>
                         
@@ -149,7 +151,7 @@ async function get_consulting(ban_regi){
                             <textarea class="modal-body-select" type="text"rows="5" cols="25" id="consulting_result${consulting_id}" style="width: 75%;"></textarea>
                         </div>
                         <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
-                            <button class="btn btn-dark" onclick="post_target_consulting(${consulting_id})" style="margin-right:5px">저장</button>
+                            <button class="btn btn-dark" onclick="post_target_consulting(${consulting_id},${register_no})" style="margin-right:5px">저장</button>
                         </div>  
                         `;
                         $('#consulting_box'+register_no).append(temp_consulting_box);
@@ -161,11 +163,15 @@ async function get_consulting(ban_regi){
     $('#today_consulting_box').show();
     $('#today_done_consulting_box').hide();
 }
-function post_target_consulting(consulting){
+function post_target_consulting(consulting,register_no){
     consulting_missed = $('input:checkbox[id="missed"]').is(":checked")
     consulting_reason = $('#consulting_reason'+String(consulting)).val()
     consulting_solution = $('#consulting_solution'+String(consulting)).val()
     consulting_result = $('#consulting_result'+String(consulting)).val()
+    if (consulting_missed == true){
+        $(`#consulting_student${register_no}`).hide()
+        $('#today_done_consulting_box').append($(`#consulting_student${register_no}`))
+    }
     $.ajax({
             type: "POST",
 			url:'/teacher/consulting/'+consulting,
