@@ -192,7 +192,7 @@ def consulting(id):
                    consulting_data['contents'] = consulting.contents
                    target_data['consulting_missed'] = consulting.missed
                 target_data['consultings'].append(consulting_data)
-            if(target_data['consulting_missed'] == '2202-01-01 00:00:00'):
+            if(target_data['consulting_missed'] == '2202-01-01'):
                 target_data['consulting_missed'] = '없음'
             if(len(target_data['consultings'])!=0):
                 target_data['consultings'].sort(key = lambda x:(x['deadline'],-x['week_code']))
