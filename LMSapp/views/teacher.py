@@ -168,7 +168,7 @@ def consulting(id):
         my_students = callapi.get_students(id)
         consulting_list = []
         for student in my_students:
-            consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1)  & (Consulting.missed != Today)& (Consulting.startdate <= current_time) & ( current_time <= Consulting.deadline )).all()
+            consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1)  & (Consulting.startdate <= current_time) & ( current_time <= Consulting.deadline )).all()
             target_data = {}
             target_data['s_id'] = student['register_no']
             target_data['name'] = student['name'] + '(' + student['origin'] + ')'
@@ -196,6 +196,8 @@ def consulting(id):
             print(type(test - target_data['consulting_missed']))
             if((target_data['consulting_missed'] - test).days == 0):
                 target_data['consulting_missed'] = '없음'
+            elif((target_data['consulting_missed'] - Today).days == 0):
+                target_data['consulting_missed'] = '오늘'
             if(len(target_data['consultings'])!=0):
                 target_data['consultings'].sort(key = lambda x:(x['deadline'],-x['week_code']))
                 target_data['consulting_num'] = len(target_data['consultings'])
