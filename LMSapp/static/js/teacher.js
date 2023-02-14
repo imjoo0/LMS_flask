@@ -95,7 +95,7 @@ async function get_consulting(ban_regi){
                     let consulting_missed = target['consulting_missed']
                     let temp_consulting_contents_box = `
                         <div data-bs-toggle="modal" data-bs-target="#consultinghistory${register_no}" id="consulting_student${register_no}">
-                            <strong>${student_name} 상담 ${consulting_num}건</strong> 📞${mobileno} | 추천도서:${student_reco_book_code} ➖ 부재중 시도 : ${consulting_missed}건
+                            <strong>${student_name} 상담 ${consulting_num}건</strong> 📞${mobileno} | 추천도서:${student_reco_book_code} ➖ 부재중 시도 : ${consulting_missed}
                         </div>
                         
                         <div class="modal fade" id="consultinghistory${register_no}" tabindex="-1"

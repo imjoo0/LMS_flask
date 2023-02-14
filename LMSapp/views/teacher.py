@@ -168,13 +168,13 @@ def consulting(id):
         my_students = callapi.get_students(id)
         consulting_list = []
         for student in my_students:
-            consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1) & (Consulting.startdate <= current_time) & ( current_time <= Consulting.deadline )).all()
+            consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1)  & (Consulting.missed != Today)& (Consulting.startdate <= current_time) & ( current_time <= Consulting.deadline )).all()
             target_data = {}
             target_data['s_id'] = student['register_no']
             target_data['name'] = student['name'] + '(' + student['origin'] + ')'
             target_data['mobileno'] = student['mobileno']
             target_data['reco_book_code'] = student['reco_book_code']    
-            target_data['consulting_missed'] = 0     
+            target_data['consulting_missed'] = 0
             target_data['consultings'] = []
             for consulting in consultings:
                 consulting_data = {}
@@ -185,14 +185,14 @@ def consulting(id):
                     consulting_data['category'] = str(consulting.week_code) + '주 미학습 상담을 진행해주세요 '
                     consulting_data['week_code'] = consulting.week_code
                     consulting_data['contents'] = category.name +' '+ consulting.contents
-                    target_data['consulting_missed'] += consulting.missed
+                    target_data['consulting_missed'] = consulting.missed
                 else:
                    consulting_data['category'] = category.name
                    consulting_data['week_code'] = 0
                    consulting_data['contents'] = consulting.contents
-                   target_data['consulting_missed'] += consulting.missed
+                   target_data['consulting_missed'] = consulting.missed
                 target_data['consultings'].append(consulting_data)
-            
+
             if(len(target_data['consultings'])!=0):
                 target_data['consultings'].sort(key = lambda x:(x['deadline'],-x['week_code']))
                 target_data['consulting_num'] = len(target_data['consultings'])
@@ -201,7 +201,7 @@ def consulting(id):
         if(len(consulting_list)==0):
             return jsonify({'consulting': '없음'})
         else: 
-            consulting_list.sort(key = lambda x:(-x['consulting_num'],-x['consulting_missed']))
+            consulting_list.sort(key = lambda x:(-x['consulting_num'],x['consulting_missed']))
             return jsonify({'consulting': consulting_list})
             
     elif request.method =='POST':
@@ -210,7 +210,7 @@ def consulting(id):
         target_consulting = Consulting.query.get_or_404(id)
         
         if received_missed == "true":
-            target_consulting.missed += 1
+            target_consulting.missed = Today
             try:
                 db.session.commit()
                 return jsonify({'result': '부재중 처리 완료'})
