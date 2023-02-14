@@ -149,8 +149,7 @@ async function get_consulting(ban_regi){
                             <textarea class="modal-body-select" type="text"rows="5" cols="25" id="consulting_result${consulting_id}" style="width: 75%;"></textarea>
                         </div>
                         <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
-                            <button class="btn btn-dark" onclick="post_target_consulting(${consulting_id},${0})" style="margin-right:5px">저장</button>
-                            <button class="btn btn-dark" onclick="post_target_consulting(${consulting_id},${1})">임시 저장</button>
+                            <button class="btn btn-dark" onclick="post_target_consulting(${consulting_id})" style="margin-right:5px">저장</button>
                         </div>  
                         `;
                         $('#consulting_box'+register_no).append(temp_consulting_box);
@@ -162,7 +161,7 @@ async function get_consulting(ban_regi){
     $('#today_consulting_box').show();
     $('#today_done_consulting_box').hide();
 }
-function post_target_consulting(consulting,temp_code){
+function post_target_consulting(consulting){
     consulting_missed = $('input:checkbox[id="missed"]').is(":checked")
     consulting_reason = $('#consulting_reason'+String(consulting)).val()
     consulting_solution = $('#consulting_solution'+String(consulting)).val()
@@ -176,10 +175,12 @@ function post_target_consulting(consulting,temp_code){
                 consulting_solution:consulting_solution,
                 consulting_result:consulting_result,
                 consulting_missed:consulting_missed,
-                temp_code:temp_code
             },
             success: function (response) {{
 				alert(response["result"])
+                if(response["result"] == '상담일지 저장 완료'){
+                    return window.location.href='/'
+                }
 			}}
 		})
 }

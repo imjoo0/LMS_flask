@@ -217,7 +217,7 @@ def consulting(id):
             except:
                 return jsonify({'result': '부재중 처리 실패'})
         else:
-            # 상담 사유
+             # 상담 사유
             received_reason = request.form['consulting_reason']
             # 제공 가이드
             received_solution = request.form['consulting_solution']
