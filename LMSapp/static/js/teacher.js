@@ -178,7 +178,7 @@ function post_target_consulting(consulting){
             },
             success: function (response) {{
 				alert(response["result"])
-                if(response["result"] == '상담일지 저장 완료'){
+                if(response["result"] != '상담일지 저장 완료'){
                     return window.location.href='/'
                 }
 			}}
