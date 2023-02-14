@@ -193,12 +193,11 @@ def consulting(id):
                    target_data['consulting_missed'] = consulting.missed.date()
                 target_data['consultings'].append(consulting_data)
             test = datetime.strptime('22020101',"%Y%m%d").date()
-            print(type(test - target_data['consulting_missed']))
-            if((target_data['consulting_missed'] - test).days == 0):
-                target_data['consulting_missed'] = '없음'
-            elif((target_data['consulting_missed'] - Today).days == 0):
-                target_data['consulting_missed'] = '오늘'
             if(len(target_data['consultings'])!=0):
+                if((target_data['consulting_missed'] - test).days == 0):
+                    target_data['consulting_missed'] = '없음'
+                elif((target_data['consulting_missed'] - Today).days == 0):
+                    target_data['consulting_missed'] = '오늘'
                 target_data['consultings'].sort(key = lambda x:(x['deadline'],-x['week_code']))
                 target_data['consulting_num'] = len(target_data['consultings'])
                 consulting_list.append(target_data)
