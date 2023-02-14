@@ -185,12 +185,12 @@ def consulting(id):
                     consulting_data['category'] = str(consulting.week_code) + '주 미학습 상담을 진행해주세요 '
                     consulting_data['week_code'] = consulting.week_code
                     consulting_data['contents'] = category.name +' '+ consulting.contents
-                    target_data['consulting_missed'] = consulting.missed.date()
+                    target_data['consulting_missed'] = consulting.missed
                 else:
                    consulting_data['category'] = category.name
                    consulting_data['week_code'] = 0
                    consulting_data['contents'] = consulting.contents
-                   target_data['consulting_missed'] = consulting.missed.date()
+                   target_data['consulting_missed'] = consulting.missed
                 target_data['consultings'].append(consulting_data)
             test = datetime.strptime('20220101',"%Y%m%d")
             if((target_data['consulting_missed'] - test)<1):
