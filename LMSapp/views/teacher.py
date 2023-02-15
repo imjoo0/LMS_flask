@@ -166,6 +166,7 @@ def task(id):
 def missed_consulting():
     if request.method == 'GET':
         my_students = callapi.get_mystudents(session['user_registerno'])
+        print(my_students)
         consulting_list = []
         for student in my_students:
             consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1) & (Consulting.missed.date() == Today)).all()
