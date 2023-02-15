@@ -188,7 +188,7 @@ def missed_consulting():
                    consulting_data['category'] = category.name
                    consulting_data['week_code'] = 0
                    consulting_data['contents'] = consulting.contents
-                target_data['consultings'].append(consulting_data)x
+                target_data['consultings'].append(consulting_data)
             if(len(target_data['consultings'])!=0):
                 target_data['consultings'].sort(key = lambda x:(x['deadline'],-x['week_code']))
                 target_data['consulting_num'] = len(target_data['consultings'])
