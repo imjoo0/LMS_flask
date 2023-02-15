@@ -60,11 +60,6 @@ function consulting_view(ban_regi){
         $('#consulting_title').html('상담할 반을 선택해주세요 ')
         $('#today_consulting_box').hide();
         $('#today_done_consulting_box').hide();
-    }else if(ban_regi == 1){
-        // get_done_task()
-        $('#consulting_title').html('부재중 상담 목록')
-        $('#today_consulting_box').hide();
-        $('#today_done_consulting_box').show();
     }else{
         $('#consulting_title').html('오늘의 상담')
         get_consulting(ban_regi)
@@ -100,16 +95,13 @@ async function get_consulting(ban_regi){
                         </div>
                     `;
                     $('#today_consulting_box').append(temp_consulting_contents_box);
-                    }else{
+                    }else if(consulting_missed != '오늘'){
                         let temp_consulting_contents_box = `
                         <div data-bs-toggle="modal" data-bs-target="#consultinghistory${register_no}" id="consulting_student${register_no}">
                             <strong>${student_name} 상담 ${consulting_num}건</strong> 📞${mobileno} | 추천도서:${student_reco_book_code} ➖ 부재중 시도 : ${consulting_missed}
                         </div>
                         `;
-                        if(consulting_missed == '오늘'){
-                            $('#today_done_consulting_box').append(temp_consulting_contents_box);
-                        }else{$('#today_consulting_box').append(temp_consulting_contents_box);}
-                        
+                        $('#today_consulting_box').append(temp_consulting_contents_box);
                     }
                    let temp_consulting_modal = `
                    <div class="modal fade" id="consultinghistory${register_no}" tabindex="-1"
