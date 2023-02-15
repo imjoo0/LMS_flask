@@ -27,6 +27,26 @@ function done_consulting_history_view(ban_regi){
                 `;
                 $('#consulting_history_box'+ban_regi).html(temp_task_contents_box);
             }else{
+                for(i=0;i<response["consulting"].length;i++){
+                    let target = response["consulting"][i]
+                    let student_name = target['name']
+                    let register_no = target['s_id']
+                    let mobileno = target['mobileno']
+                    let student_reco_book_code = target['reco_book_code']
+                    let consulting_num = target['consulting_num']
+                    let temp_c_h_list = `
+                    
+                        {% for student in students %}
+                            <td class="col-3">${student_name}</td>
+                            <td class="col-3">${mobileno}</td>
+                            <td class="col-2">${consulting_num}</td>
+                            <td class="col-2">${student_reco_book_code}</td>
+                            <td class="col-2" onclick="done_consulting_history_view('${ register_no }')">상담 내역 확인하기</td>
+                        
+                        {% endfor %}
+                    `
+                    $('#consulting_history_list').append(temp_c_h_list)
+                }
                 
             }
         }
@@ -37,6 +57,8 @@ function done_consulting_history_view(ban_regi){
     });
 
 }
+
+
 //  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
 function change_question_kind(str){
     if( str == "이반"){
@@ -59,15 +81,13 @@ function consulting_view(ban_regi){
     if(ban_regi == 0){
         $('#consulting_title').html('상담할 반을 선택해주세요 ')
         $('#today_consulting_box').hide();
-        $('#today_done_consulting_box').hide();
     }else{
         $('#consulting_title').html('오늘의 상담')
         get_consulting(ban_regi)
-        $('#today_done_consulting_box').hide();
     }
 }
-async function get_consulting(ban_regi,code){
-    console.log(code)
+
+async function get_consulting(ban_regi){
     await $.ajax({
         type: "GET",
         url: "/teacher/consulting/"+ban_regi,
@@ -166,7 +186,6 @@ async function get_consulting(ban_regi,code){
         }
     });
     $('#today_consulting_box').show();
-    $('#today_done_consulting_box').hide();
 }
 function post_target_consulting(consulting){
     consulting_missed = $('input:checkbox[id="missed"]').is(":checked")
@@ -192,9 +211,6 @@ function post_target_consulting(consulting){
 		})
 }
 
-function consulting_history(c_id){
-    
-}
 function task_doneview(done_code){
     if(done_code == 0){
         $('#task_title').html('오늘의 업무')

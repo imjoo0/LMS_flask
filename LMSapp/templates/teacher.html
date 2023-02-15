@@ -236,43 +236,28 @@
             <div class="modal-body by-4 px-5">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                 <h5 class="d-flex justify-content-center align-items-center m-0" id="consulting_title">상담을 진행한 반을 선택해주세요</h3>
-                    <select id="work_done" class="form-select text-center w-100" name="work_done" onchange="get_consulting(this.value,0)">
+                    <select id="work_done" class="form-select text-center w-100" name="work_done" onchange="done_consulting_history_view(this.value)">
                         <option value=0 selected>상담을 진행한 반을 선택해주세요</option>
                         {% for ban in my_bans %}
                         {% set ban_regi = ban['register_no'] %}
                         <option value={{ban_regi}}>{{ ban['name'] }} 상담</option>
                         {% endfor %} 
                     </select>
-                <table class="table text-center" id="consulting_task_list" style="width:100%;">
+                <table class="table text-center" style="width:100%;">
                     <tbody  style="width:100%;">
                         <thead>
                             <tr class="row">
-                                <th class="col-4">이름</th>
-                                <th class="col-4">연락처</th>
+                                <th class="col-3">이름</th>
+                                <th class="col-3">연락처</th>
                                 <th class="col-2">추천도서코드</th>
+                                <th class="col-2">진행한 상담 수</th>
                                 <th class="col-2">✅</th>
                             </tr>
                         </thead>
-                        {% for student in students %}
-                        <tr class="row" id="tr-row">
-                            <td class="col-4">{{student['name']}}( {{student['origin']}} )</td>
-                            <td class="col-4">{{student['mobileno']}}</td>
-                            <td class="col-2">{{student['pname']}}</td>
-                            {% set s_regi = student['register_no'] %}
-                            <td class="col-2" onclick="done_consulting_history_view('{{ s_regi }}')">상담 내역 확인하기</td>
+                        <tr class="row" id="consulting_history_list" >
                         </tr>
-                        {% endfor %}
-
-                        </tbody>
-                    </table>
-                <div id="consulting_history_box">
-
-                </div>
-                <div id="consulting_history_list" style="width:100%;">
-                    <button type="button" class="btn btn-back" onclick="go_back()">다른 일지조회🔙 </button>
-                    <div id="consulting_history_box" style="width:100%;"></div>
-                </div>
-
+                    </tbody>
+                </table>
             </div>    
         </div>
     </div>
@@ -496,8 +481,6 @@
                 </div>
                 <div class="w-100 mt-4" id="today_consulting_box">
                     
-                </div>
-                <div class="w-100 mt-4" id="today_done_consulting_box">
                 </div>
             </div>
         </div>

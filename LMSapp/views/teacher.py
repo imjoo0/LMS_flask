@@ -236,7 +236,7 @@ def consulting(id):
             db.session.commit()
             return{'result':'상담일지 저장 완료'}
     
-# 완성 한 상담 목록 
+# 상담일지 확인  
 @bp.route("done_consulting/<int:id>", methods=['GET','POST'])
 def done_consulting(id):
     if request.method == 'GET':
