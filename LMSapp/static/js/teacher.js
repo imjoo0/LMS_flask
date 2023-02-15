@@ -20,14 +20,13 @@ function done_consulting_history_view(ban_regi){
         url: "/done_consulting/"+ban_regi,
         data: {},
         success: function (response) {
-            $("#consulting_history_box").attr('id',`consulting_history_box${ban_regi}`)
+            $("#chs").attr('id',`chs${ban_regi}`)
             if(response["consulting_history"] == '없음'){
                 let temp_task_contents_box = `
                 <p> 작성한 상담일지가 없습니다! 😂</p>
                 `;
-                $('#consulting_history_box'+ban_regi).html(temp_task_contents_box);
+                $('#chs'+ban_regi).html(temp_task_contents_box);
             }else{
-                $('#consulting_history_list').empty()
                 for(i=0;i<response["consulting"].length;i++){
                     let target = response["consulting"][i]
                     let student_name = target['name']
@@ -35,15 +34,18 @@ function done_consulting_history_view(ban_regi){
                     let mobileno = target['mobileno']
                     let student_reco_book_code = target['reco_book_code']
                     let consulting_num = target['consulting_num']
-                    let temp_c_h_list = `
-                            <td class="col-3">${student_name}</td>
+                    
+                    $('#consulting_history_list').append(temp_c_h_list)
+                    let temp_ch_contents_box = `
+                    <td class="col-3">${student_name}</td>
                             <td class="col-3">${mobileno}</td>
                             <td class="col-2">${consulting_num}</td>
                             <td class="col-2">${student_reco_book_code}</td>
                             <td class="col-2" onclick="done_consulting_history_view('${ register_no }')">상담 내역 확인하기</td>
-                        `
-                    $('#consulting_history_list').append(temp_c_h_list)
+                    `;
+                    $('#chs'+ban_regi).html(temp_ch_contents_box);
                 }
+                
             }
         }
             // alert(response["title"])
