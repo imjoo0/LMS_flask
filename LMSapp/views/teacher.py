@@ -168,12 +168,11 @@ def missed_consulting():
         my_students = callapi.get_mystudents(session['user_registerno'])
         consulting_list = []
         for student in my_students:
-            consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1)  & (Consulting.startdate <= current_time) & ( current_time <= Consulting.deadline ) & (Consulting.missed.date() == Today)).all()
+            consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1) & (Consulting.missed.date() == Today)).all()
             target_data = {}
             target_data['s_id'] = student['register_no']
             target_data['name'] = student['name'] + '(' + student['origin'] + ')'
             target_data['mobileno'] = student['mobileno']
-            target_data['reco_book_code'] = student['reco_book_code']    
             target_data['consultings'] = []
             for consulting in consultings:
                 consulting_data = {}
