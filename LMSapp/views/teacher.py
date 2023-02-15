@@ -174,8 +174,9 @@ def consulting(id):
             target_data['name'] = student['name'] + '(' + student['origin'] + ')'
             target_data['mobileno'] = student['mobileno']
             target_data['reco_book_code'] = student['reco_book_code']    
-            target_data['consulting_missed'] = 0
+            target_data['consulting_missed'] = datetime.strptime('11110101',"%Y%m%d").date()
             target_data['consultings'] = []
+
             for consulting in consultings:
                 consulting_data = {}
                 consulting_data['c_id'] = consulting.id
@@ -185,16 +186,16 @@ def consulting(id):
                     consulting_data['category'] = str(consulting.week_code) + '주 미학습 상담을 진행해주세요 '
                     consulting_data['week_code'] = consulting.week_code
                     consulting_data['contents'] = category.name +' '+ consulting.contents
-                    target_data['consulting_missed'] = consulting.missed.date()
                 else:
                    consulting_data['category'] = category.name
                    consulting_data['week_code'] = 0
                    consulting_data['contents'] = consulting.contents
-                   target_data['consulting_missed'] = consulting.missed.date()
+                if(target_data['consulting_missed'] <= consulting.missed.date()):
+                    target_data['consulting_missed'] = consulting.missed.date()
                 target_data['consultings'].append(consulting_data)
-            test = datetime.strptime('22020101',"%Y%m%d").date()
+            standard = datetime.strptime('11110101',"%Y%m%d").date()
             if(len(target_data['consultings'])!=0):
-                if((target_data['consulting_missed'] - test).days == 0):
+                if((target_data['consulting_missed'] - standard).days == 0):
                     target_data['consulting_missed'] = '없음'
                 elif((target_data['consulting_missed'] - Today).days == 0):
                     target_data['consulting_missed'] = '오늘'
