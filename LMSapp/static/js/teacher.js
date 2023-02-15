@@ -60,10 +60,11 @@ function consulting_view(ban_regi){
         $('#consulting_title').html('상담할 반을 선택해주세요 ')
         $('#today_consulting_box').hide();
         $('#today_done_consulting_box').hide();
-    }else if(ban_regi == 1){
+    }else if(ban_regi == -1){
         // get_done_task()
         $('#consulting_title').html('부재중 상담 목록')
         $('#today_consulting_box').hide();
+        get_consulting(ban_regi)
         $('#today_done_consulting_box').show();
     }else{
         $('#consulting_title').html('오늘의 상담')

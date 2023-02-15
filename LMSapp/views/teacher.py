@@ -165,6 +165,8 @@ def task(id):
 @bp.route("consulting/<int:id>", methods=['GET','POST'])
 def consulting(id):
     if request.method == 'GET':
+        if(id==-1):
+            print('hello')
         my_students = callapi.get_students(id)
         consulting_list = []
         for student in my_students:
