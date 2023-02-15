@@ -162,44 +162,6 @@ def task(id):
             return jsonify({'task' : target_task})
 
 # 반별 오늘 해야 할 상담 목록 
-@bp.route("/consulting", methods=['GET'])
-def missed_consulting():
-    if request.method == 'GET':
-        my_students = callapi.get_mystudents(session['user_registerno'])
-        print(my_students)
-        consulting_list = []
-        for student in my_students:
-            consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1) & (Consulting.missed.date() == Today)).all()
-            print(consultings)
-            target_data = {}
-            target_data['s_id'] = student['register_no']
-            target_data['name'] = student['name'] + '(' + student['origin'] + ')'
-            target_data['mobileno'] = student['mobileno']
-            target_data['consultings'] = []
-            for consulting in consultings:
-                consulting_data = {}
-                consulting_data['c_id'] = consulting.id
-                consulting_data['deadline'] = consulting.deadline.strftime('%Y-%m-%d')
-                category = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first()
-                if(consulting.category_id < 101):
-                    consulting_data['category'] = str(consulting.week_code) + '주 미학습 상담을 진행해주세요 '
-                    consulting_data['week_code'] = consulting.week_code
-                    consulting_data['contents'] = category.name +' '+ consulting.contents
-                else:
-                   consulting_data['category'] = category.name
-                   consulting_data['week_code'] = 0
-                   consulting_data['contents'] = consulting.contents
-                target_data['consultings'].append(consulting_data)
-            if(len(target_data['consultings'])!=0):
-                target_data['consultings'].sort(key = lambda x:(x['deadline'],-x['week_code']))
-                target_data['consulting_num'] = len(target_data['consultings'])
-                consulting_list.append(target_data)
-        if(len(consulting_list)==0):
-            return jsonify({'consulting': '없음'})
-        else: 
-            consulting_list.sort(key = lambda x:(-x['consulting_num'],x['consulting_missed']))
-            return jsonify({'consulting': consulting_list})
-# 반별 오늘 해야 할 상담 목록 
 @bp.route("consulting/<int:id>", methods=['GET','POST'])
 def consulting(id):
     if request.method == 'GET':
