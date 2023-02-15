@@ -93,6 +93,7 @@ async function get_consulting(ban_regi){
                     let student_reco_book_code = target['reco_book_code']
                     let consulting_num = target['consulting_num']
                     let consulting_missed = target['consulting_missed']
+                    console.log(consulting_missed)
                     if(consulting_missed == '없음'){
                         let temp_consulting_contents_box = `
                         <div data-bs-toggle="modal" data-bs-target="#consultinghistory${register_no}" id="consulting_student${register_no}">
