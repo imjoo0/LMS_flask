@@ -163,7 +163,7 @@ def task(id):
             return jsonify({'task' : target_task})
 
 # 반별 오늘 해야 할 상담 목록 
-@bp.route("consulting/<int:id>", methods=['GET','POST'])
+@bp.route("/consulting/<int:id>", methods=['GET','POST'])
 def consulting(id):
     if request.method == 'GET':
         my_students = callapi.get_students(id)
@@ -237,11 +237,12 @@ def consulting(id):
             return{'result':'상담일지 저장 완료'}
     
 # 상담일지 확인  
-@bp.route("done_consulting/<int:id>", methods=['GET','POST'])
+@bp.route("/done_consulting/<int:id>", methods=['GET','POST'])
 def done_consulting(id):
     if request.method == 'GET':
         my_students = callapi.get_students(id)
         consulting_list = []
+        print(my_students)
         for student in my_students:
             consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done == 1)).all()
             target_data = {}
