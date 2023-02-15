@@ -162,7 +162,7 @@ def task(id):
             return jsonify({'task' : target_task})
 
 # 반별 오늘 해야 할 상담 목록 
-@bp.route("consulting", methods=['GET'])
+@bp.route("/consulting", methods=['GET'])
 def missed_consulting():
     if request.method == 'GET':
         my_students = callapi.get_mystudents(session['user_registerno'])
