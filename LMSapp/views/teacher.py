@@ -166,8 +166,9 @@ def task(id):
 def consulting(id):
     if request.method == 'GET':
         if(id==-1):
-            print('hello')
-        my_students = callapi.get_students(id)
+            my_students = callapi.get_mystudents(session['user_registerno'])
+        else:
+            my_students = callapi.get_students(id)
         consulting_list = []
         for student in my_students:
             consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1)  & (Consulting.startdate <= current_time) & ( current_time <= Consulting.deadline )).all()
