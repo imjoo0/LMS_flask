@@ -190,7 +190,7 @@ def consulting(id):
                    consulting_data['category'] = category.name
                    consulting_data['week_code'] = 0
                    consulting_data['contents'] = consulting.contents
-                if(target_data['consulting_missed'] <= consulting.missed.date()):
+                if(target_data['consulting_missed'] < consulting.missed.date()):
                     target_data['consulting_missed'] = consulting.missed.date()
                 target_data['consultings'].append(consulting_data)
             standard = datetime.strptime('11110101',"%Y%m%d").date()
@@ -213,7 +213,8 @@ def consulting(id):
         # 부재중 체크 
         received_missed = request.form['consulting_missed']
         target_consulting = Consulting.query.get_or_404(id)
-        
+        print(received_missed)
+        print(target_consulting)
         if received_missed == "true":
             target_consulting.missed = Today
             try:
