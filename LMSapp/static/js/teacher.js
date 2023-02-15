@@ -86,6 +86,17 @@ function consulting_view(ban_regi){
     }
 }
 
+function consulting_history_view(ban_regi){
+    ban_regi = Number(ban_regi)
+    if(ban_regi == 0){
+        $('#consulting_title').html('상담할 반을 선택해주세요 ')
+        $('#consulting_history_student_list').hide();
+    }else{
+        $('#consulting_title').html('오늘의 상담')
+        get_consulting(ban_regi)
+    }
+}
+
 async function get_consulting(ban_regi){
     await $.ajax({
         type: "GET",

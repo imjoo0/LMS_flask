@@ -242,22 +242,27 @@
                         {% set ban_regi = ban['register_no'] %}
                         <option value={{ban_regi}}>{{ ban['name'] }} 상담</option>
                         {% endfor %} 
+                        <option value=-1>부재중 상담</option>
                     </select>
-                <table class="table text-center" style="width:100%;">
-                    <tbody  style="width:100%;">
-                        <thead>
-                            <tr class="row">
-                                <th class="col-3">이름</th>
-                                <th class="col-3">연락처</th>
-                                <th class="col-2">추천도서코드</th>
-                                <th class="col-2">진행한 상담 수</th>
-                                <th class="col-2">✅</th>
+                <div class="w-100 mt-4" id="consulting_history_box">
+                    <h1 id="h_title"></h1>
+                    <table class="table text-center" style="width:100%;" id="consulting_history_student_list">
+                        <tbody  style="width:100%;">
+                            <thead>
+                                <tr class="row">
+                                    <th class="col-3">이름</th>
+                                    <th class="col-3">연락처</th>
+                                    <th class="col-2">추천도서코드</th>
+                                    <th class="col-2">진행한 상담 수</th>
+                                    <th class="col-2">✅</th>
+                                </tr>
+                            </thead>
+                            <tr class="row" id="chs">
                             </tr>
-                        </thead>
-                        <tr class="row" id="chs">
-                        </tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>    
         </div>
     </div>
