@@ -26,6 +26,7 @@ def home():
         all_ban_info = callapi.all_ban_info()
         all_task_category = TaskCategory.query.all()
         my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done != 1) ).all()
+        
         all_my_tasks = len(TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all())
         done_tasks = len(TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == 1)).all())
         done_task_per = int((done_tasks/all_my_tasks)*100)
