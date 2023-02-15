@@ -27,6 +27,7 @@ function done_consulting_history_view(ban_regi){
                 `;
                 $('#consulting_history_box'+ban_regi).html(temp_task_contents_box);
             }else{
+                $('#consulting_history_list').empty()
                 for(i=0;i<response["consulting"].length;i++){
                     let target = response["consulting"][i]
                     let student_name = target['name']
@@ -35,19 +36,14 @@ function done_consulting_history_view(ban_regi){
                     let student_reco_book_code = target['reco_book_code']
                     let consulting_num = target['consulting_num']
                     let temp_c_h_list = `
-                    
-                        {% for student in students %}
                             <td class="col-3">${student_name}</td>
                             <td class="col-3">${mobileno}</td>
                             <td class="col-2">${consulting_num}</td>
                             <td class="col-2">${student_reco_book_code}</td>
                             <td class="col-2" onclick="done_consulting_history_view('${ register_no }')">상담 내역 확인하기</td>
-                        
-                        {% endfor %}
-                    `
+                        `
                     $('#consulting_history_list').append(temp_c_h_list)
                 }
-                
             }
         }
             // alert(response["title"])
