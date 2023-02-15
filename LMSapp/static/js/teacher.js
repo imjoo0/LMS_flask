@@ -66,7 +66,9 @@ function consulting_view(ban_regi){
         $('#today_done_consulting_box').hide();
     }
 }
-
+function consulting_history_view(ban_regi){
+    console.log('hello')
+}
 async function get_consulting(ban_regi){
     await $.ajax({
         type: "GET",
