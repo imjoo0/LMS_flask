@@ -252,17 +252,18 @@ def done_consulting(ban_id,is_missed):
             target_data['s_id'] = student['register_no']
             target_data['name'] = student['name'] + '(' + student['origin'] + ')'
             target_data['mobileno'] = student['mobileno']
-            target_data['reco_book_code'] = student['reco_book_code']      
+            target_data['reco_book_code'] = student['reco_book_code']   
+            target_data['kind'] = ''
             target_data['consultings'] = []
             for consulting in consultings:
                 consulting_data = {}
                 # if(ConsultingHistory(ConsultingHistory.consulting_id  == consulting.id).first() != None):
                 ch = ConsultingHistory.query.filter(ConsultingHistory.consulting_id  == consulting.id).first()
                 if ch != None:
+                    target_data['kind'] = '완료 상담'
                     consulting_data['history'] = ch.reason + ch.solution + ch.result
                 else:
-                    print('dd')
-                    consulting_data['history'] = '부재중 상담'
+                    target_data['kind'] = '부재중 상담'
                     consulting_data['missed'] = consulting.missed.date()
                 category = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first()
                 if(consulting.category_id < 101):

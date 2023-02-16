@@ -48,7 +48,7 @@ function done_consulting_history_view(is_ban,is_missed){
                     let register_no = target['s_id']
                     let mobileno = target['mobileno']
                     let student_reco_book_code = target['reco_book_code']
-                    if(target['history'] == '부재중 상담'){
+                    if(target['kind'] == '부재중 상담'){
                         console.log('dd')
                         let consulting_missed = target['missed']
                         let temp_ch_contents_box = `
