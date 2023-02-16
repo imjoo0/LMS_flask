@@ -69,7 +69,7 @@ function done_consulting_history_view(is_ban,is_missed){
                             <td class="col-2">${consulting_num}</td>
                             <td class="col-2" onclick="done_consulting_history_view('${ register_no }')">상담 내역 확인하기</td>
                         `;
-                        $('#consulting_history_student_list').html(temp_ch_contents_box);
+                        $('#consulting_history_student_list').append(temp_ch_contents_box);
                     }
                     
                 }
