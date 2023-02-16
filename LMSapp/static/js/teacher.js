@@ -33,12 +33,12 @@ function done_consulting_history_view(is_ban,is_missed){
         url: "/teacher/done_consulting/"+is_ban+'/'+is_missed,
         data: {},
         success: function (response) {
-            $("#chs").attr('id',`chs${ban_regi}${is_missed}`)
+            $("#chs").attr('id',`chs${ban_regi}`)
             if(response["consulting_history"] == '없음'){
                 let temp_task_contents_box = `
                 <p> 진행한 상담이 없습니다! 😂</p>
                 `;
-                $('#chs'+ban_regi+is_missed).html(temp_task_contents_box);
+                $('#chs'+ban_regi).html(temp_task_contents_box);
             }else{
                 for(i=0;i<response["consultings"].length;i++){
                     let target = response["consulting"][i]
@@ -46,15 +46,28 @@ function done_consulting_history_view(is_ban,is_missed){
                     let register_no = target['s_id']
                     let mobileno = target['mobileno']
                     let student_reco_book_code = target['reco_book_code']
-                    let consulting_num = target['consulting_num']
-                    let temp_ch_contents_box = `
-                    <td class="col-3">${student_name}</td>
-                        <td class="col-3">${mobileno}</td>
-                        <td class="col-2">${consulting_num}</td>
-                        <td class="col-2">${student_reco_book_code}</td>
-                        <td class="col-2" onclick="done_consulting_history_view('${ register_no }')">상담 내역 확인하기</td>
-                    `;
-                    $('#chs'+ban_regi+is_missed).html(temp_ch_contents_box);
+                    if(target['history'] == '부재중 상담'){
+                        let consulting_missed = target['missed']
+                        let temp_ch_contents_box = `
+                        <td class="col-3">${student_name}</td>
+                            <td class="col-3">${mobileno}</td>
+                            <td class="col-2">${consulting_missed}</td>
+                            <td class="col-2">${student_reco_book_code}</td>
+                            <td class="col-2" onclick="done_consulting_history_view('${ register_no }')">상담 내역 확인하기</td>
+                        `;
+                        $('#chs'+ban_regi+is_missed).html(temp_ch_contents_box);
+                    }else{
+                        let consulting_num = target['consulting_num']
+                        let temp_ch_contents_box = `
+                        <td class="col-3">${student_name}</td>
+                            <td class="col-3">${mobileno}</td>
+                            <td class="col-2">${consulting_num}</td>
+                            <td class="col-2">${student_reco_book_code}</td>
+                            <td class="col-2" onclick="done_consulting_history_view('${ register_no }')">상담 내역 확인하기</td>
+                        `;
+                        $('#chs'+ban_regi+is_missed).html(temp_ch_contents_box);
+                    }
+                    
                 }
                 
             }
