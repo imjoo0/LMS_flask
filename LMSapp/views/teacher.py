@@ -241,16 +241,13 @@ def consulting(id):
 @bp.route("/done_consulting/<int:ban_id>/<int:is_missed>", methods=['GET','POST'])
 def done_consulting(ban_id,is_missed):
     if request.method == 'GET':
-        print(ban_id)
-        print(is_missed)
         my_students = callapi.get_students(ban_id)
         consulting_list = []
-        print(my_students)
         for student in my_students:
             if(is_missed == 0): # 완료한 상담. 
                 consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done == 1)).all()
             else: # 부재중 상담
-                consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1) & ( (Consulting.missed-standard) != 0) ).all()
+                consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1) & ( Consulting.missed != standard ) ).all()
             target_data = {}
             target_data['s_id'] = student['register_no']
             target_data['name'] = student['name'] + '(' + student['origin'] + ')'
