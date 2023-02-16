@@ -238,7 +238,7 @@ def consulting(id):
             return{'result':'상담일지 저장 완료'}
     
 # 상담일지 확인  
-@bp.route("/done_consulting/<int:ban_id>/<int:is_missed>", methods=['GET','POST'])
+@bp.route("/done_consulting/<int:id>/<int:id>", methods=['GET','POST'])
 def done_consulting(ban_id,is_missed):
     if request.method == 'GET':
         print(ban_id)
