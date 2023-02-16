@@ -33,13 +33,11 @@ function done_consulting_history_view(is_ban,is_missed){
         url: "/teacher/done_consulting/"+is_ban+'/'+is_missed,
         data: {},
         success: function (response) {
-            let newid = 'chs'+String(ban_regi)
-            $("#chs").attr('id',newid)
             if(response["consulting_history"] == '없음'){
                 let temp_task_contents_box = `
                 <p> 진행한 상담이 없습니다! 😂</p>
                 `;
-                $('#chs'+ban_regi).html(temp_task_contents_box);
+                $('#h_title').html(temp_task_contents_box);
             }else{
                 for(i=0;i<response["consultings"].length;i++){
                     let target = response["consulting"][i]
@@ -56,7 +54,7 @@ function done_consulting_history_view(is_ban,is_missed){
                             <td class="col-2">${student_reco_book_code}</td>
                             <td class="col-2" onclick="done_consulting_history_view('${ register_no }')">상담 내역 확인하기</td>
                         `;
-                        $('#chs'+ban_regi+is_missed).html(temp_ch_contents_box);
+                        $('#missed_consulting_history_student_list').append(temp_ch_contents_box);
                     }else{
                         let consulting_num = target['consulting_num']
                         let temp_ch_contents_box = `
@@ -66,7 +64,7 @@ function done_consulting_history_view(is_ban,is_missed){
                             <td class="col-2">${student_reco_book_code}</td>
                             <td class="col-2" onclick="done_consulting_history_view('${ register_no }')">상담 내역 확인하기</td>
                         `;
-                        $('#chs'+ban_regi+is_missed).html(temp_ch_contents_box);
+                        $('#consulting_history_student_list').html(temp_ch_contents_box);
                     }
                     
                 }
