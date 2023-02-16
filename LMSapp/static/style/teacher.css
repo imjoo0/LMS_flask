@@ -284,4 +284,4 @@
     }
 
 #today_task_box,#today_done_box{display: none}
-#consulting_history_box,#today_consulting_box,#missed_consulting_history_box{display: none}
+#h_title,#consulting_history_box,#today_consulting_box,#missed_consulting_history_box{display: none}

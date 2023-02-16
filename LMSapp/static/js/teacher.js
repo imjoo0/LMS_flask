@@ -39,11 +39,9 @@ function done_consulting_history_view(is_ban,is_missed){
             if(response["consulting_history"] == '없음'){
                 $('#missed_consulting_history_box').hide()
                 $('#consulting_history_box').hide()
-                let temp_task_contents_box = `
-                <p> 진행한 상담이 없습니다! 😂</p>
-                `;
-                $('#h_title').html(temp_task_contents_box);
+                $('#h_title').show();
             }else{
+                $('#h_title').hide();
                 for(i=0;i<response["consultings"].length;i++){
                     let target = response["consulting"][i]
                     let student_name = target['name']
