@@ -263,7 +263,7 @@ def done_consulting(ban_id,is_missed):
                     target_data['kind'] = '완료 상담'
                     consulting_data['history'] = ch.reason + ch.solution + ch.result
                 else:
-                    target_data['kind'] = consulting.missed.date()
+                    target_data['kind'] = consulting.missed.strftime('%Y-%m-%d')
                 category = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first()
                 if(consulting.category_id < 101):
                     consulting_data['category'] = str(consulting.week_code) + '주 미학습 상담 진행건 '
