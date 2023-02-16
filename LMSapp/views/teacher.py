@@ -272,7 +272,7 @@ def done_consulting(ban_id,is_missed):
                 target_data['consultings'].append(consulting_data)
             
             if(len(target_data['consultings'])!=0):
-                target_data['consultings'].sort(key = lambda x:(-(x['history'].created_at.date())))
+                target_data['consultings'].sort(key = lambda x:(-(x['history'].created_at)))
                 target_data['consulting_num'] = len(target_data['consultings'])
                 consulting_list.append(target_data)
         
