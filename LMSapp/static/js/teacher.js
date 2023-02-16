@@ -29,8 +29,9 @@ function get_consulting_history(){
     }
     done_consulting_history_view(is_ban,is_missed)
 }
-function change(){
-    $('#consultinghistorydiary').show()
+function change(id){
+    new_id = 'consultinghistorydiary'+String(id)
+    $('#consultinghistorydiary').attr('id',new_id);
 }
 // 반이 선택 되면 모달창 뷰를 바꿔주는 함수 
 function done_consulting_history_view(is_ban,is_missed){
@@ -60,11 +61,11 @@ function done_consulting_history_view(is_ban,is_missed){
                             <td class="col-3">${mobileno}</td>
                             <td class="col-2">${student_reco_book_code}</td>
                             <td class="col-2">${consulting_missed}</td>
-                            <td class="col-2" onclick="change()">상담 수정</td>
+                            <td class="col-2" onclick="change(${register_no})">상담 수정</td>
                         `;
                         $('#missed_consulting_history_student_list').append(temp_ch_contents_box);
 
-                        $('#consulting_h_box'+register_no).empty()
+                        $('#consultinghistorydiary'+register_no).empty()
                         let target_consulting = target['consultings']
                         for(j=0;j<target_consulting.length;j++){
                             let target_consulting_data = target_consulting[j]
@@ -90,7 +91,7 @@ function done_consulting_history_view(is_ban,is_missed){
                                 <button class="btn btn-dark" onclick="post_target_consulting(${consulting_id},${register_no})" style="margin-right:5px">저장</button>
                             </div>  
                             `;
-                            $('#consultinghistorydiary').append(temp_consulting_box);
+                            $('#consultinghistorydiary'+register_no).append(temp_consulting_box);
                         }
                         
                     }else{
