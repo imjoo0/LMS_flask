@@ -23,7 +23,7 @@ function get_consulting_history(){
 function done_consulting_history_view(is_ban,is_missed){
     $.ajax({
         type: "GET",
-        url: "/done_consulting/"+is_ban+'/'+is_missed,
+        url: "/teacher/done_consulting/"+is_ban+'/'+is_missed,
         data: {},
         success: function (response) {
             $('#h_title').html('OOO 반');
