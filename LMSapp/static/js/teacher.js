@@ -42,15 +42,16 @@ function done_consulting_history_view(is_ban,is_missed){
                 $('#h_title').show();
             }else{
                 $('#h_title').hide();
+                $('#missed_consulting_history_student_list').empty()
+                $('#consulting_history_student_list').empty()
                 for(i=0;i<response["consulting_history"].length;i++){
                     let target = response["consulting_history"][i]
                     let student_name = target['name']
                     let register_no = target['s_id']
                     let mobileno = target['mobileno']
                     let student_reco_book_code = target['reco_book_code']
-                    if(target['kind'] == '부재중 상담'){
-                        console.log('dd')
-                        let consulting_missed = target['missed']
+                    if(target['kind'] != '완료 상담'){
+                        let consulting_missed = target['kind']
                         let temp_ch_contents_box = `
                         <td class="col-3">${student_name}</td>
                             <td class="col-3">${mobileno}</td>
