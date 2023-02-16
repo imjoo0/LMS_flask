@@ -42,8 +42,8 @@ function done_consulting_history_view(is_ban,is_missed){
                 $('#h_title').show();
             }else{
                 $('#h_title').hide();
-                for(i=0;i<response["consultings"].length;i++){
-                    let target = response["consulting"][i]
+                for(i=0;i<response["consulting_history"].length;i++){
+                    let target = response["consulting_history"][i]
                     let student_name = target['name']
                     let register_no = target['s_id']
                     let mobileno = target['mobileno']
