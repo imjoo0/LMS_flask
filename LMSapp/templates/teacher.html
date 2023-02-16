@@ -237,7 +237,7 @@
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                 <h5 class="d-flex justify-content-center align-items-center m-0" id="consulting_title">상담을 진행한 반을 선택해주세요</h3>
                     <div class="make_row">
-                        <select id="work_done" class="form-select text-center w-30" name="work_done">
+                        <select id="work_done" class="form-select text-center w-30" name="work_done" style="margin-left: 10px;">
                             <option value=0 selected>상담을 진행한 반을 선택해주세요</option>
                             {% for ban in my_bans %}
                             {% set ban_regi = ban['register_no'] %}
