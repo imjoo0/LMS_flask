@@ -50,16 +50,73 @@ function done_consulting_history_view(is_ban,is_missed){
                     let register_no = target['s_id']
                     let mobileno = target['mobileno']
                     let student_reco_book_code = target['reco_book_code']
-                    if(target['kind'] != '완료 상담'){
+                    if(target['kind'] != '완료 상담'){ // 부재중 상담
                         let consulting_missed = target['kind']
                         let temp_ch_contents_box = `
                         <td class="col-3">${student_name}</td>
                             <td class="col-3">${mobileno}</td>
                             <td class="col-2">${student_reco_book_code}</td>
                             <td class="col-2">${consulting_missed}</td>
-                            <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory${register_no}">상담 내역 확인하기</td>
+                            <td class="col-2" data-bs-toggle="modal" data-bs-target="#detailconsultinghistory${register_no}">상담 수정</td>
                         `;
                         $('#missed_consulting_history_student_list').append(temp_ch_contents_box);
+
+                        $('#consultinghistory_kind'+register_no).empty()
+                        let target_consulting = target['consultings']
+                        for(j=0;j<target_consulting.length;j++){
+                            let target_consulting_data = target_consulting[j]
+                            let consulting_id = target_consulting_data['c_id']
+                            let contents = target_consulting_data['contents']
+                            let category = target_consulting_data['category']
+                            let deadline = target_consulting_data['deadline']
+                            let temp_consulting_box = `
+                            <div class="modal fade" id="detailconsultinghistory${register_no}" tabindex="-1"
+                            aria-labelledby="consultinghistoryModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-xl">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="consultinghistoryModalLabel">
+                                                <img src="#" style="width: 30px;">&nbsp;&nbsp;${student_name}상담일지 작성
+                                            </h5>
+                                            <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body py-4 px-5">
+                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
+                                                <div class="d-flex justify-content-center mt-4 mb-2">
+
+                                                </div>
+                                                <div id="consulting_box${register_no}">
+                                                    <strong>${student_name} 상담 ${consulting_num}건</strong> 📞${mobileno} | 추천도서:${student_reco_book_code}
+                                                </div>
+                                                <div class="modal-body-select-container">
+                                                    <span class="modal-body-select-label">부재중</span>
+                                                    <label><input type="checkbox" id="missed">부재중</label>
+                                                </div>
+                                                <p>✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
+                                        </div>           
+                                    </div>
+                                </div>
+                            </div>
+                            <p id=${consulting_id}>✅<strong>${category}</strong></br>${contents}</br>*마감: ~${deadline}까지</br></p>
+                            <div class="modal-body-select-container">
+                                <span class="modal-body-select-label">상담 사유</span>
+                                <input class="modal-body-select" type="text" size="50" id="consulting_reason${consulting_id}" style="width: 75%;">
+                            </div>
+                            <div class="modal-body-select-container">
+                                <span class="modal-body-select-label">제공한 가이드</span>
+                                <input class="modal-body-select" type="text" size="50" id="consulting_solution${consulting_id}" style="width: 75%;">
+                            </div>
+                            <div class="modal-body-select-container">
+                                <span class="modal-body-select-label">상담 결과</span>
+                                <textarea class="modal-body-select" type="text"rows="5" cols="25" id="consulting_result${consulting_id}" style="width: 75%;"></textarea>
+                            </div>
+                            <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
+                                <button class="btn btn-dark" onclick="post_target_consulting(${consulting_id},${register_no})" style="margin-right:5px">저장</button>
+                            </div>  
+                            `;
+                            $('#consulting_box'+register_no).append(temp_consulting_box);
+                        }
+                        
                     }else{
                         let consulting_num = target['consulting_num']
                         let temp_ch_contents_box = `
@@ -67,7 +124,7 @@ function done_consulting_history_view(is_ban,is_missed){
                             <td class="col-3">${mobileno}</td>
                             <td class="col-2">${student_reco_book_code}</td>
                             <td class="col-2">${consulting_num}</td>
-                            <td class="col-2" onclick="done_consulting_history_view('${ register_no }')">상담 일지 수정</td>
+                            <td class="col-2" onclick="done_consulting_history_view('${ register_no }')">상담 내역 확인하기</td>
                         `;
                         $('#consulting_history_student_list').append(temp_ch_contents_box);
                     }
