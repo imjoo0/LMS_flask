@@ -257,7 +257,7 @@ def done_consulting(ban_id,is_missed):
             for consulting in consultings:
                 consulting_data = {}
                 # if(ConsultingHistory(ConsultingHistory.consulting_id  == consulting.id).first() != None):
-                consulting_data['history'] = ConsultingHistory(ConsultingHistory.consulting_id  == consulting.id).first()
+                consulting_data['history'] = ConsultingHistory(ConsultingHistory.consulting_id  == consulting.id).all()
                 print(consulting_data['history'])
                 category = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first()
                 if(consulting.category_id < 101):
