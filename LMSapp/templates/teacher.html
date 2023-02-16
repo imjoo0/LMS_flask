@@ -236,14 +236,14 @@
             <div class="modal-body by-4 px-5">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                 <h5 class="d-flex justify-content-center align-items-center m-0" id="consulting_title">상담을 진행한 반을 선택해주세요</h3>
-                    <select id="work_done" class="form-select text-center w-100" name="work_done">
+                    <select id="work_done" class="form-select text-center w-50" name="work_done">
                         <option value=0 selected>상담을 진행한 반을 선택해주세요</option>
                         {% for ban in my_bans %}
                         {% set ban_regi = ban['register_no'] %}
                         <option value={{ban_regi}}>{{ ban['name'] }} 상담</option>
                         {% endfor %} 
                     </select>
-                    <select id="work_done" class="form-select text-center w-100" name="work_done" onchange="done_consulting_history_view(this.value)">
+                    <select id="work_done" class="form-select text-center w-50" name="work_done" onchange="done_consulting_history_view(this.value)">
                         <option value=0 selected>완료한 상담</option>
                         <option value=0 selected>부재중 상담</option>
                     </select>
