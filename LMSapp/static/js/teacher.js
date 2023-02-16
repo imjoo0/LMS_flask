@@ -57,7 +57,7 @@ function done_consulting_history_view(is_ban,is_missed){
                             <td class="col-3">${mobileno}</td>
                             <td class="col-2">${student_reco_book_code}</td>
                             <td class="col-2">${consulting_missed}</td>
-                            <td class="col-2" onclick="done_consulting_history_view('${ register_no }')">상담 내역 확인하기</td>
+                            <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory${register_no}">상담 내역 확인하기</td>
                         `;
                         $('#missed_consulting_history_student_list').append(temp_ch_contents_box);
                     }else{
