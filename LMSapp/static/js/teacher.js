@@ -47,8 +47,6 @@ function done_consulting_history_view(is_ban,is_missed){
                     let mobileno = target['mobileno']
                     let student_reco_book_code = target['reco_book_code']
                     let consulting_num = target['consulting_num']
-                    
-                    $('#consulting_history_list').append(temp_c_h_list)
                     let temp_ch_contents_box = `
                     <td class="col-3">${student_name}</td>
                         <td class="col-3">${mobileno}</td>
