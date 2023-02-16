@@ -16,20 +16,17 @@ $(document).ready(function () {
 
 function get_consulting_history(){
     let is_missed = $('#history_done option:selected').val()
-    console.log(is_missed)
     let is_ban = $('#history_ban option:selected').val()
-    console.log(is_ban)
     done_consulting_history_view(is_ban,is_missed)
 }
 // 반이 선택 되면 모달창 뷰를 바꿔주는 함수 
 function done_consulting_history_view(is_ban,is_missed){
-    console.log(is_ban)
-    console.log(is_missed)
     $.ajax({
         type: "GET",
-        url: "/done_consulting/"+ban_regi,
+        url: "/done_consulting/"+is_ban+'/'+is_missed,
         data: {},
         success: function (response) {
+            $('#h_title').html('OOO 반')
             $("#chs").attr('id',`chs${ban_regi}`)
             if(response["consulting_history"] == '없음'){
                 let temp_task_contents_box = `

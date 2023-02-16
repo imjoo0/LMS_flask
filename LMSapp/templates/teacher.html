@@ -245,12 +245,12 @@
                             {% endfor %} 
                         </select>
                         <select id="history_done" class="form-select text-center w-50" name="work_done">
+                            <option value=2 selected>전체 상담</option>
                             <option value=1 selected>완료한 상담</option>
                             <option value=0 selected>부재중 상담</option>
                         </select>
-                        <button onclick="get_consulting_history()"> 검색</button>
+                        <button onclick="get_consulting_history()">검색</button>
                     </div>
-                    
                 <div class="w-100 mt-4" id="consulting_history_box">
                     <h1 id="h_title"></h1>
                     <table class="table text-center" style="width:100%;" id="consulting_history_student_list">
