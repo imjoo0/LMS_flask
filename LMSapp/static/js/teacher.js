@@ -33,7 +33,8 @@ function done_consulting_history_view(is_ban,is_missed){
         url: "/teacher/done_consulting/"+is_ban+'/'+is_missed,
         data: {},
         success: function (response) {
-            $("#chs").attr('id',`chs${ban_regi}`)
+            let newid = 'chs'+String(ban_regi)
+            $("#chs").attr('id',newid)
             if(response["consulting_history"] == '없음'){
                 let temp_task_contents_box = `
                 <p> 진행한 상담이 없습니다! 😂</p>
