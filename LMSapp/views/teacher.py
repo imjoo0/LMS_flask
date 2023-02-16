@@ -15,6 +15,8 @@ import callapi
 current_time = datetime.now()
 Today = current_time.date()
 today_yoil = current_time.weekday() + 1
+
+standard = datetime.strptime('11110101',"%Y%m%d").date()
 # 선생님 메인 페이지
 # 테스트 계정 id : T1031 pw동일  
 @bp.route("/", methods=['GET'])
@@ -194,7 +196,6 @@ def consulting(id):
                 if(target_data['consulting_missed'] < consulting.missed.date()):
                     target_data['consulting_missed'] = consulting.missed.date()
                 target_data['consultings'].append(consulting_data)
-            standard = datetime.strptime('11110101',"%Y%m%d").date()
             if(len(target_data['consultings'])!=0):
                 if((target_data['consulting_missed'] - standard).days == 0):
                     target_data['consulting_missed'] = '없음'
@@ -237,14 +238,17 @@ def consulting(id):
             return{'result':'상담일지 저장 완료'}
     
 # 상담일지 확인  
-@bp.route("/done_consulting/<int:id>", methods=['GET','POST'])
-def done_consulting(id):
+@bp.route("/done_consulting/<int:ban_id>/<int:is_missed>", methods=['GET','POST'])
+def done_consulting(ban_id,is_missed):
     if request.method == 'GET':
-        my_students = callapi.get_students(id)
+        my_students = callapi.get_students(ban_id)
         consulting_list = []
         print(my_students)
         for student in my_students:
-            consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done == 1)).all()
+            if(is_missed == 0): # 완료한 상담. 
+                consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done == 1)).all()
+            else: # 부재중 상담
+                consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1) & ( (Consulting.missed-standard).days == 0) ).all()
             target_data = {}
             target_data['s_id'] = student['register_no']
             target_data['name'] = student['name'] + '(' + student['origin'] + ')'
@@ -253,7 +257,9 @@ def done_consulting(id):
             target_data['consultings'] = []
             for consulting in consultings:
                 consulting_data = {}
+                # if(ConsultingHistory(ConsultingHistory.consulting_id  == consulting.id).first() != None):
                 consulting_data['history'] = ConsultingHistory(ConsultingHistory.consulting_id  == consulting.id).first()
+                print(consulting_data['history'])
                 category = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first()
                 if(consulting.category_id < 101):
                     consulting_data['category'] = str(consulting.week_code) + '주 미학습 상담 진행건 '
@@ -264,7 +270,7 @@ def done_consulting(id):
                 target_data['consultings'].append(consulting_data)
             
             if(len(target_data['consultings'])!=0):
-                target_data['consultings'].sort(key = lambda x:(-x['week_code']))
+                target_data['consultings'].sort(key = lambda x:(-x['history'].created_at.date()))
                 target_data['consulting_num'] = len(target_data['consultings'])
                 consulting_list.append(target_data)
         

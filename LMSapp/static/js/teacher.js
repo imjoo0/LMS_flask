@@ -26,7 +26,7 @@ function done_consulting_history_view(is_ban,is_missed){
         url: "/done_consulting/"+is_ban+'/'+is_missed,
         data: {},
         success: function (response) {
-            $('#h_title').html('OOO 반')
+            $('#h_title').html('OOO 반');
             $("#chs").attr('id',`chs${ban_regi}`)
             if(response["consulting_history"] == '없음'){
                 let temp_task_contents_box = `
