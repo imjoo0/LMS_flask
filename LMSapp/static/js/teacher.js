@@ -58,18 +58,7 @@ function done_consulting_history_view(is_ban,is_missed){
                             <td class="col-2">${student_reco_book_code}</td>
                             <td class="col-2">${consulting_missed}</td>
                             <td class="col-2" data-bs-toggle="modal" data-bs-target="#detailconsultinghistory${register_no}">상담 수정</td>
-                        `;
-                        $('#missed_consulting_history_student_list').append(temp_ch_contents_box);
 
-                        $('#consultinghistory_kind'+register_no).empty()
-                        let target_consulting = target['consultings']
-                        for(j=0;j<target_consulting.length;j++){
-                            let target_consulting_data = target_consulting[j]
-                            let consulting_id = target_consulting_data['c_id']
-                            let contents = target_consulting_data['contents']
-                            let category = target_consulting_data['category']
-                            let deadline = target_consulting_data['deadline']
-                            let temp_consulting_box = `
                             <div class="modal fade" id="detailconsultinghistory${register_no}" tabindex="-1"
                             aria-labelledby="consultinghistoryModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -85,8 +74,8 @@ function done_consulting_history_view(is_ban,is_missed){
                                                 <div class="d-flex justify-content-center mt-4 mb-2">
 
                                                 </div>
-                                                <div id="consulting_box${register_no}">
-                                                    <strong>${student_name} 상담 ${consulting_num}건</strong> 📞${mobileno} | 추천도서:${student_reco_book_code}
+                                                <div id="consulting_h_box${register_no}">
+
                                                 </div>
                                                 <div class="modal-body-select-container">
                                                     <span class="modal-body-select-label">부재중</span>
@@ -97,6 +86,18 @@ function done_consulting_history_view(is_ban,is_missed){
                                     </div>
                                 </div>
                             </div>
+                        `;
+                        $('#missed_consulting_history_student_list').append(temp_ch_contents_box);
+
+                        $('#consulting_h_box'+register_no).empty()
+                        let target_consulting = target['consultings']
+                        for(j=0;j<target_consulting.length;j++){
+                            let target_consulting_data = target_consulting[j]
+                            let consulting_id = target_consulting_data['c_id']
+                            let contents = target_consulting_data['contents']
+                            let category = target_consulting_data['category']
+                            let deadline = target_consulting_data['deadline']
+                            let temp_consulting_box = `
                             <p id=${consulting_id}>✅<strong>${category}</strong></br>${contents}</br>*마감: ~${deadline}까지</br></p>
                             <div class="modal-body-select-container">
                                 <span class="modal-body-select-label">상담 사유</span>
@@ -114,7 +115,7 @@ function done_consulting_history_view(is_ban,is_missed){
                                 <button class="btn btn-dark" onclick="post_target_consulting(${consulting_id},${register_no})" style="margin-right:5px">저장</button>
                             </div>  
                             `;
-                            $('#consulting_box'+register_no).append(temp_consulting_box);
+                            $('#consulting_h_box'+register_no).append(temp_consulting_box);
                         }
                         
                     }else{
