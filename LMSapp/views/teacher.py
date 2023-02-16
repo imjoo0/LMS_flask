@@ -248,6 +248,7 @@ def done_consulting(ban_id,is_missed):
                 consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done == 1)).all()
             else: # 부재중 상담
                 consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1) & ( Consulting.missed != standard ) ).all()
+                print(consultings)
             target_data = {}
             target_data['s_id'] = student['register_no']
             target_data['name'] = student['name'] + '(' + student['origin'] + ')'
