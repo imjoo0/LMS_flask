@@ -13,9 +13,18 @@
 $(document).ready(function () {
     $('#today_task_box').show();
 })
+
+function get_consulting_history(){
+    let is_missed = $('#history_done option:selected').val()
+    console.log(is_missed)
+    let is_ban = $('#history_ban option:selected').val()
+    console.log(is_ban)
+    done_consulting_history_view(is_ban,is_missed)
+}
 // 반이 선택 되면 모달창 뷰를 바꿔주는 함수 
-function done_consulting_history_view(ban_regi){
-    console.log(ban_regi)
+function done_consulting_history_view(is_ban,is_missed){
+    console.log(is_ban)
+    console.log(is_missed)
     $.ajax({
         type: "GET",
         url: "/done_consulting/"+ban_regi,
