@@ -17,6 +17,13 @@ $(document).ready(function () {
 function get_consulting_history(){
     let is_missed = $('#history_done option:selected').val()
     let is_ban = $('#history_ban option:selected').val()
+    if(is_missed == 0){
+      $('#consulting_history_box').show()
+      $('#missed_consulting_history_box').hide()
+    }else{
+      $('#consulting_history_box').hide()
+      $('#missed_consulting_history_box').show()
+    }
     done_consulting_history_view(is_ban,is_missed)
 }
 // 반이 선택 되면 모달창 뷰를 바꿔주는 함수 
@@ -26,15 +33,14 @@ function done_consulting_history_view(is_ban,is_missed){
         url: "/teacher/done_consulting/"+is_ban+'/'+is_missed,
         data: {},
         success: function (response) {
-            $('#h_title').html('OOO 반');
-            $("#chs").attr('id',`chs${ban_regi}`)
+            $("#chs").attr('id',`chs${ban_regi}${is_missed}`)
             if(response["consulting_history"] == '없음'){
                 let temp_task_contents_box = `
-                <p> 작성한 상담일지가 없습니다! 😂</p>
+                <p> 진행한 상담이 없습니다! 😂</p>
                 `;
-                $('#chs'+ban_regi).html(temp_task_contents_box);
+                $('#chs'+ban_regi+is_missed).html(temp_task_contents_box);
             }else{
-                for(i=0;i<response["consulting"].length;i++){
+                for(i=0;i<response["consultings"].length;i++){
                     let target = response["consulting"][i]
                     let student_name = target['name']
                     let register_no = target['s_id']
@@ -50,7 +56,7 @@ function done_consulting_history_view(is_ban,is_missed){
                         <td class="col-2">${student_reco_book_code}</td>
                         <td class="col-2" onclick="done_consulting_history_view('${ register_no }')">상담 내역 확인하기</td>
                     `;
-                    $('#chs'+ban_regi).html(temp_ch_contents_box);
+                    $('#chs'+ban_regi+is_missed).html(temp_ch_contents_box);
                 }
                 
             }

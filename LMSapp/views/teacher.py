@@ -258,8 +258,10 @@ def done_consulting(ban_id,is_missed):
                 consulting_data = {}
                 # if(ConsultingHistory(ConsultingHistory.consulting_id  == consulting.id).first() != None):
                 ch = ConsultingHistory.query.filter(ConsultingHistory.consulting_id  == consulting.id).first()
-                print(ch)
-                consulting_data['history'] = 'dd'
+                if ch != None:
+                    consulting_data['history'] = ch
+                else:
+                    consulting_data['history'] = '부재중 상담'
                 category = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first()
                 if(consulting.category_id < 101):
                     consulting_data['category'] = str(consulting.week_code) + '주 미학습 상담 진행건 '
