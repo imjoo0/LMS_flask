@@ -37,6 +37,8 @@ function done_consulting_history_view(is_ban,is_missed){
         data: {},
         success: function (response) {
             if(response["consulting_history"] == '없음'){
+                $('#missed_consulting_history_box').hide()
+                $('#consulting_history_box').hide()
                 let temp_task_contents_box = `
                 <p> 진행한 상담이 없습니다! 😂</p>
                 `;
