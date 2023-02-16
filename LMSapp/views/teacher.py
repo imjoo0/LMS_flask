@@ -241,6 +241,8 @@ def consulting(id):
 @bp.route("/done_consulting/<int:ban_id>/<int:is_missed>", methods=['GET','POST'])
 def done_consulting(ban_id,is_missed):
     if request.method == 'GET':
+        print(ban_id)
+        print(is_missed)
         my_students = callapi.get_students(ban_id)
         consulting_list = []
         print(my_students)
