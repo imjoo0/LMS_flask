@@ -281,10 +281,7 @@ def done_consulting(ban_id,is_missed):
         if(len(consulting_list)==0):
             return jsonify({'consulting_history': '없음'})
         else: 
-            if(consulting_list['kind'] == '완료상담'):
-                consulting_list.sort(key = lambda x:(-x['consulting_num']))
-            else:
-                consulting_list.sort(key = lambda x:(-x['kind']))
+            consulting_list.sort(key = lambda x:(-x['consulting_num']))
             return jsonify({'consulting_history': consulting_list})
             
   
