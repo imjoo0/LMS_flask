@@ -20,9 +20,12 @@ function get_consulting_history(){
     if(is_missed == 0){
       $('#consulting_history_box').show()
       $('#missed_consulting_history_box').hide()
-    }else{
+    }else if(is_missed == 1){
       $('#consulting_history_box').hide()
       $('#missed_consulting_history_box').show()
+    }else{
+        $('#missed_consulting_history_box').hide()
+        $('#consulting_history_box').hide()
     }
     done_consulting_history_view(is_ban,is_missed)
 }
