@@ -250,7 +250,9 @@ async function get_consulting(student_id){
                     </div>
                     <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
                         <button class="btn btn-dark"
-                            onclick="post_bulk_consultings(${consulting_ids})"
+                            onclick="${consulting_ids}.array.forEach((c_id) => {
+                                post_target_consulting(c_id);
+                            });"
                             style="margin-right:5px">저장</button>
                     </div>
                 `;
@@ -261,9 +263,7 @@ async function get_consulting(student_id){
     // $('#today_consulting_box').show();
 }
 function post_bulk_consultings(consulting_ids){
-    consulting_ids.array.forEach((c_id) => {
-        post_target_consulting(c_id);
-    });
+    
 }
 function post_target_consulting(consulting){
     consulting_missed = $(`input:checkbox[id="missed"]`).is(":checked")
