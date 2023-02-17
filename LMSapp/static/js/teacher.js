@@ -178,11 +178,13 @@ async function get_consulting(ban_regi){
                     let student_reco_book_code = target['reco_book_code']
                     let consulting_num = target['consulting_num']
                     let temp_consulting_contents_box = `
+                    <tr class="row">
                     <td class="col-3">${student_name}</td>
                     <td class="col-3">${mobileno}</td>
                     <td class="col-2">${student_reco_book_code}</td>
                     <td class="col-2">${consulting_num}</td>
-                    <td class="col-2" onclick="change(${register_no})">상담 실행</td>
+                    <td class="col-2" onclick="change(${register_no})">상담 실행</td> 
+                    </tr>
                     `;
                     $('#today_consulting_box').append(temp_consulting_contents_box);
                 }
