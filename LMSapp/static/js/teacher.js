@@ -158,7 +158,7 @@ async function get_consulting(ban_regi){
     }
     await $.ajax({
         type: "GET",
-        url: "/teacher/consulting/"+ban_regi,
+        url: "/teacher/mystudents/"+ban_regi,
         data: {},
         success: function (response) {
             if(response["consulting"] == '없음'){

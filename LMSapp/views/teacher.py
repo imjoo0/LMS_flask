@@ -164,6 +164,15 @@ def task(id):
                 target_task.append(task_data)
             return jsonify({'task' : target_task})
 
+# 선생님이 담당 중인 반 학생중 상담이 필요한 학생의 정보
+@bp.route("/mystudents/<int:ban_id>", methods=['GET','POST'])
+def mystudents(ban_id):
+    if request.method == 'GET':
+        my_students = callapi.get_students(ban_id)
+        for student in my_students:
+            consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1)  & (Consulting.startdate <= current_time) & ( current_time <= Consulting.deadline )).all()
+            print(consultings)
+            
 # 반별 오늘 해야 할 상담 목록 
 @bp.route("/consulting/<int:id>", methods=['GET','POST'])
 def consulting(id):
