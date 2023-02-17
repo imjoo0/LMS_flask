@@ -179,7 +179,6 @@ def mystudents(ban_id,is_done):
                 target_data['mobileno'] = student['mobileno']
                 target_data['reco_book_code'] = student['reco_book_code']
                 target_data['consulting_num'] = len(consultings)
-                target_data['consultings'] = consultings
                 consulting_student_list.append(target_data)
         if(len(consulting_student_list) != 0):
             consulting_student_list.sort(key = lambda x:(-x['consulting_num']))
