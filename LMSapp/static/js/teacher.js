@@ -170,6 +170,7 @@ async function get_consulting(ban_regi){
                 `;
                 $('#today_consulting_box').html(temp_consulting_contents_box);
             }else{
+                $('#consulting_student_list').show();
                 $('#today_consulting_box').empty()
                 for(i=0;i<response["consulting_student_list"].length;i++){
                     let target = response["consulting_student_list"][i]
