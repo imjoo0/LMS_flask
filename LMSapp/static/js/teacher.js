@@ -164,7 +164,7 @@ async function get_consulting(ban_regi){
         success: function (response) {
             console.log(response['consulting_student_list'])
             if(response["consulting_student_list"] == '없음'){
-                $('#consulting_student_list').empty();
+                $('#consulting_student_list').hide();
                 let temp_consulting_contents_box = `
                 <p> 오늘의 상담 업무를 완료했습니다 🎉</p>
                 `;
