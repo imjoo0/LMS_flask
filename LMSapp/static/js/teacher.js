@@ -208,7 +208,7 @@ async function get_consulting(student_id){
             //     $('#consulting_msg').html(temp_consulting_contents_box);
             }else{
                 $('#consultinghistoryModalLabelt').html('상담일지 작성')
-                $('#consulting_history_box').empty();
+                $('#consulting_write_box').empty();
                 for(i=0;i<response["consulting_list"].length;i++){
                     let target = response["consulting_list"][i]
                     let category = target['category']
@@ -244,7 +244,7 @@ async function get_consulting(student_id){
                         style="margin-right:5px">저장</button>
                     </div>
                     `;
-                    $('#consulting_history_box').append(temp_consulting_contents_box);
+                    $('#consulting_write_box').append(temp_consulting_contents_box);
                 }
             }
         }
