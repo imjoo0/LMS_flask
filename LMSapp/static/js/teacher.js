@@ -206,7 +206,7 @@ async function get_consulting(student_id){
             //     <p> 오늘의 상담 업무를 완료했습니다 🎉</p>
             //     `;
             //     $('#consulting_msg').html(temp_consulting_contents_box);
-            // }else{
+            }else{
             //     $('#consulting_msg').empty();
             //     $('#consulting').show();
             //     $('#today_consulting_box').empty()
@@ -228,7 +228,7 @@ async function get_consulting(student_id){
             //         `;
             //         $('#today_consulting_box').append(temp_consulting_contents_box);
             //     }
-            // }
+            }
         }
     });
     $('#today_consulting_box').show();
