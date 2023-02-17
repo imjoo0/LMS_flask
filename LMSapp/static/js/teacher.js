@@ -236,9 +236,6 @@ async function get_consulting(student_id){
                         <textarea class="modal-body-select" type="text" rows="5" cols="25"
                             id="consulting_result${consulting_id}" style="width: 75%;"></textarea>
                     </div>
-                    <div id="consulting_post_box">
-                        
-                    </div>
                     `;
                     $('#consulting_write_box').append(temp_consulting_contents_box);
                 }
@@ -254,7 +251,7 @@ async function get_consulting(student_id){
                             style="margin-right:5px">저장</button>
                     </div>
                 `;
-                $('#consulting_post_box').html(temp_post_box);
+                $('#consulting_write_box').html(temp_post_box);
             }
         }
     });
