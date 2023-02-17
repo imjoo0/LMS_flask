@@ -251,7 +251,7 @@ async function get_consulting(student_id){
                             style="margin-right:5px">저장</button>
                     </div>
                 `;
-                $('#consulting_write_box').html(temp_post_box);
+                $('#consulting_write_box').append(temp_post_box);
             }
         }
     });
