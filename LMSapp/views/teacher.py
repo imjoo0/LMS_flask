@@ -181,6 +181,8 @@ def consulting(id):
             target_data['consultings'] = []
 
             for consulting in consultings:
+                h=consulting.history
+                print(h)
                 consulting_data = {}
                 consulting_data['c_id'] = consulting.id
                 consulting_data['deadline'] = consulting.deadline.strftime('%Y-%m-%d')
