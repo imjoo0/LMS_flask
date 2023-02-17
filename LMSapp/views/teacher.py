@@ -216,7 +216,7 @@ def consulting(student_id,is_done):
                 elif( (consulting_data['consulting_missed']- Today).days == 0):
                     consulting_data['consulting_missed'] = '부재중 오늘'
                 consulting_list.append(consulting_data)
-            consulting_list.sort(key = lambda x:(-x['consulting_missed'],x['deadline'],-x['week_code']))
+            consulting_list.sort(key = lambda x:(-x['week_code'],x['deadline']))
             return jsonify({'consulting_list': consulting_list})
         else:
             return jsonify({'consulting_list': '없음'})
