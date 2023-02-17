@@ -271,7 +271,7 @@ function post_target_consulting(consulting){
     consulting_result = $('#consulting_result'+consulting_id).val()
     $.ajax({
             type: "POST",
-			url:'/teacher/consulting/'+consulting,
+			url:'/teacher/consulting/'+consulting+'/'+0,
 			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
             data: {
                 consulting_reason:consulting_reason,
