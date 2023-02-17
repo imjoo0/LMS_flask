@@ -261,7 +261,7 @@ async function get_consulting(student_id){
     // $('#today_consulting_box').show();
 }
 function post_bulk_consultings(consulting_ids){
-    consulting_ids.forEach(c_id => {
+    consulting_ids.array.forEach((c_id) => {
         post_target_consulting(c_id);
     });
 }
