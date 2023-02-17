@@ -210,7 +210,7 @@ def consulting(student_id,is_done):
                     consulting_data['week_code'] = 0
                     consulting_data['contents'] = consulting.contents
                 if(consulting_data['consulting_missed'] < consulting.missed.date()):
-                    consulting_data['consulting_missed'] = consulting.missed.strftime('%Y-%m-%d')
+                    consulting_data['consulting_missed'] = consulting.missed.date()
                 if( (consulting_data['consulting_missed']- standard).days == 0):
                     consulting_data['consulting_missed'] = '없음'
                 elif( (consulting_data['consulting_missed']- Today).days == 0):
