@@ -210,11 +210,11 @@ def consulting(student_id,is_done):
                     consulting_data['week_code'] = 0
                     consulting_data['contents'] = consulting.contents
                 if(consulting_data['consulting_missed'] < consulting.missed.date()):
-                    consulting_data['consulting_missed'] = consulting.missed.date()
+                    consulting_data['consulting_missed'] = consulting.missed.strftime('%Y-%m-%d')
                 if( (consulting_data['consulting_missed']- standard).days == 0):
-                    consulting_data['consulting_missed'] = '부재중 없음'
+                    consulting_data['consulting_missed'] = '없음'
                 elif( (consulting_data['consulting_missed']- Today).days == 0):
-                    consulting_data['consulting_missed'] = '부재중 오늘'
+                    consulting_data['consulting_missed'] = '오늘'
                 consulting_list.append(consulting_data)
             consulting_list.sort(key = lambda x:(-x['week_code'],x['deadline']))
             return jsonify({'consulting_list': consulting_list})
