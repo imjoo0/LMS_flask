@@ -252,10 +252,11 @@ async function get_consulting(student_id){
     // $('#today_consulting_box').show();
 }
 function post_target_consulting(consulting){
-    consulting_missed = $('input:checkbox[id="missed"]').is(":checked")
-    consulting_reason = $('#consulting_reason'+String(consulting)).val()
-    consulting_solution = $('#consulting_solution'+String(consulting)).val()
-    consulting_result = $('#consulting_result'+String(consulting)).val()
+    consulting_id = String(consulting)
+    consulting_missed = $(`input:checkbox[id="missed"+${consulting_id}]`).is(":checked")
+    consulting_reason = $('#consulting_reason'+consulting_id).val()
+    consulting_solution = $('#consulting_solution'+consulting_id).val()
+    consulting_result = $('#consulting_result'+consulting_id).val()
     $.ajax({
             type: "POST",
 			url:'/teacher/consulting/'+consulting,
