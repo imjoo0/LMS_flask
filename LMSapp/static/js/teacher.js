@@ -170,6 +170,10 @@ async function get_consulting(ban_regi){
                 $('#consulting_msg').html(temp_consulting_contents_box);
             }else{
                 $('#consulting_student_list').show();
+                let temp_consulting_contents_box = `
+                <p> 오늘 해야 할 상담 목록 🎉</p>
+                `;
+                $('#consulting_msg').html(temp_consulting_contents_box);
                 $('#today_consulting_box').empty()
                 for(i=0;i<response["consulting_student_list"].length;i++){
                     let target = response["consulting_student_list"][i]
