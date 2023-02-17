@@ -261,10 +261,9 @@ async function get_consulting(student_id){
     // $('#today_consulting_box').show();
 }
 function post_bulk_consultings(consulting_ids){
-    console.log(consulting_ids)
-    for(i=0;i<consulting_ids.length;i++){
-        post_target_consulting(consulting_ids[i])
-    }
+    consulting_ids.forEach(c_id => {
+        post_target_consulting(c_id);
+    });
 }
 function post_target_consulting(consulting){
     consulting_missed = $(`input:checkbox[id="missed"]`).is(":checked")
