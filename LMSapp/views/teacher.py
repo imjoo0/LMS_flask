@@ -188,46 +188,37 @@ def mystudents(ban_id,is_done):
         else:
             return jsonify({'consulting_student_list': '없음'})
 
-# 반별 오늘 해야 할 상담 목록 
-@bp.route("/consulting/<int:id>", methods=['GET','POST'])
-def consulting(id):
+# 학생에게 해야할 상담 목록 
+@bp.route("/consulting/<int:student_id>", methods=['GET','POST'])
+def consulting(student_id):
     if request.method == 'GET':
-        my_students = callapi.get_students(id)
+        consultings = Consulting.query.filter((Consulting.student_id==student_id) & (Consulting.done != 1)  & (Consulting.startdate <= current_time) & ( current_time <= Consulting.deadline )).all()
         consulting_list = []
-        for student in my_students:
-            consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1)  & (Consulting.startdate <= current_time) & ( current_time <= Consulting.deadline )).all()
-            target_data = {}
-            target_data['s_id'] = student['register_no']
-            target_data['name'] = student['name'] + '(' + student['origin'] + ')'
-            target_data['mobileno'] = student['mobileno']
-            target_data['reco_book_code'] = student['reco_book_code']    
-            target_data['consulting_missed'] = datetime.strptime('11110101',"%Y%m%d").date()
-            target_data['consultings'] = []
-
-            for consulting in consultings:
-                consulting_data = {}
-                consulting_data['c_id'] = consulting.id
-                consulting_data['deadline'] = consulting.deadline.strftime('%Y-%m-%d')
-                category = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first()
-                if(consulting.category_id < 101):
-                    consulting_data['category'] = str(consulting.week_code) + '주 미학습 상담을 진행해주세요 '
-                    consulting_data['week_code'] = consulting.week_code
-                    consulting_data['contents'] = category.name +' '+ consulting.contents
-                else:
-                   consulting_data['category'] = category.name
-                   consulting_data['week_code'] = 0
-                   consulting_data['contents'] = consulting.contents
-                if(target_data['consulting_missed'] < consulting.missed.date()):
-                    target_data['consulting_missed'] = consulting.missed.date()
-                target_data['consultings'].append(consulting_data)
-            if(len(target_data['consultings'])!=0):
-                if((target_data['consulting_missed'] - standard).days == 0):
-                    target_data['consulting_missed'] = '없음'
-                elif((target_data['consulting_missed'] - Today).days == 0):
-                    target_data['consulting_missed'] = '오늘'
-                target_data['consultings'].sort(key = lambda x:(x['deadline'],-x['week_code']))
-                target_data['consulting_num'] = len(target_data['consultings'])
-                consulting_list.append(target_data)
+        for consulting in consultings:
+            consulting_data = {}
+            consulting_data['c_id'] = consulting.id
+            consulting_data['deadline'] = consulting.deadline.strftime('%Y-%m-%d')
+            consulting_data['consulting_missed'] = datetime.strptime('11110101',"%Y%m%d").date()
+            category = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first()
+            if(consulting.category_id < 101):
+                consulting_data['category'] = str(consulting.week_code) + '주 미학습 상담을 진행해주세요 '
+                consulting_data['week_code'] = consulting.week_code
+                consulting_data['contents'] = category.name +' '+ consulting.contents
+            else:
+                consulting_data['category'] = category.name
+                consulting_data['week_code'] = 0
+                consulting_data['contents'] = consulting.contents
+            if(consulting_data['consulting_missed'] < consulting.missed.date()):
+                consulting_data['consulting_missed'] = consulting.missed.date()
+            consulting_list.append(consulting_data)
+        # if(len(consulting_list)!=0):
+        #     if((target_data['consulting_missed'] - standard).days == 0):
+        #         target_data['consulting_missed'] = '없음'
+        #     elif((target_data['consulting_missed'] - Today).days == 0):
+        #         target_data['consulting_missed'] = '오늘'
+        #     target_data['consultings'].sort(key = lambda x:(x['deadline'],-x['week_code']))
+        #     target_data['consulting_num'] = len(target_data['consultings'])
+        #     consulting_list.append(target_data)
         
         if(len(consulting_list)==0):
             return jsonify({'consulting': '없음'})
