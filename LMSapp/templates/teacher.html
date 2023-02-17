@@ -503,7 +503,7 @@
             <div class="info d-flex justify-content-center align-items-center flex-column">
                 <div class="d-flex justify-content-between flex-row w-100 pb-4 border-bottom">
                     <h5 class="d-flex justify-content-center align-items-center m-0" id="consulting_title">상담할 반을 선택해주세요</h3>
-                    <select id="work_done" class="form-select text-center w-25" name="work_done" onchange="consulting_view(this.value)">
+                    <select id="work_done" class="form-select text-center w-25" name="work_done" onchange="get_consulting(this.value)">
                         <option value=0 selected>상담할 반을 선택해주세요</option>
                         {% for ban in my_bans %}
                         {% set ban_regi = ban['register_no'] %}

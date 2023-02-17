@@ -67,7 +67,7 @@ class Consulting(db.Model):
     week_code = db.Column(db.Integer,nullable=True)
     missed = db.Column(db.DateTime(), nullable=False)
     # 관계 설정 
-    consultinghistories = db.relationship('ConsultingHistory',backref='consulting')
+    history = db.relationship('ConsultingHistory',backref='consulting')
 
 class ConsultingHistory(db.Model):
     __tablename__ = 'consultinghistory'
