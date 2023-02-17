@@ -238,18 +238,14 @@ async function get_consulting(student_id){
                         <span class="modal-body-select-label">부재중</span>
                         <label><input type="checkbox" id="missed${consulting_id}">부재중</label>
                     </div>
-                    `;
-                    $('#consulting_history_box').append(temp_consulting_contents_box);
-                }
-                let temp_ch_post_box = `
-                <p>✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
-                <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
+                    <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
                     <button class="btn btn-dark"
                         onclick="post_target_consulting(${consulting_id})"
                         style="margin-right:5px">저장</button>
-                </div>
-                `
-                $('#consulting_history_box').append(temp_ch_post_box);
+                    </div>
+                    `;
+                    $('#consulting_history_box').append(temp_consulting_contents_box);
+                }
             }
         }
     });
