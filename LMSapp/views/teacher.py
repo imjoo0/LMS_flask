@@ -164,15 +164,29 @@ def task(id):
                 target_task.append(task_data)
             return jsonify({'task' : target_task})
 
-# 선생님이 담당 중인 반 학생중 상담이 필요한 학생의 정보
-@bp.route("/mystudents/<int:ban_id>", methods=['GET','POST'])
-def mystudents(ban_id):
+# 선생님이 담당 중인 반 학생중 상담을 한 학생(is_done = 1) 상담을 하지 않은 학생(is_done = 0) 정보
+@bp.route("/mystudents/<int:ban_id>/<int:is_done>", methods=['GET','POST'])
+def mystudents(ban_id,is_done):
     if request.method == 'GET':
         my_students = callapi.get_students(ban_id)
+        consulting_student_list = []
         for student in my_students:
-            consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1)  & (Consulting.startdate <= current_time) & ( current_time <= Consulting.deadline )).all()
-            print(consultings)
-            
+            consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done == is_done)  & (Consulting.startdate <= current_time)).all()
+            if(len(consultings) != 0):
+                target_data = {}
+                target_data['s_id'] = student['register_no']
+                target_data['name'] = student['name'] + '(' + student['origin'] + ')'
+                target_data['mobileno'] = student['mobileno']
+                target_data['reco_book_code'] = student['reco_book_code']
+                target_data['consulting_num'] = len(consultings)
+                target_data['consultings'] = consultings
+                consulting_student_list.append(target_data)
+        if(len(consulting_student_list) != 0):
+            consulting_student_list.sort(key = lambda x:(-x['consulting_num']))
+            return jsonify({'consulting_student_list': consulting_student_list})
+        else:
+            return jsonify({'consulting_student_list': '없음'})
+
 # 반별 오늘 해야 할 상담 목록 
 @bp.route("/consulting/<int:id>", methods=['GET','POST'])
 def consulting(id):
