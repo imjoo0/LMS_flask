@@ -181,7 +181,7 @@ def consulting(id):
             target_data['consultings'] = []
 
             for consulting in consultings:
-                h=consulting.history
+                h=consulting.consultinghistories
                 print(h)
                 consulting_data = {}
                 consulting_data['c_id'] = consulting.id
