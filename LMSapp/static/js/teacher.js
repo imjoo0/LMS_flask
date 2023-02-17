@@ -253,7 +253,7 @@ async function get_consulting(student_id){
                     </div>
                 `;
                 $('#consulting_post_box').append(temp_post_box);
-                console.log(consulting_ids[0])
+                console.log(consulting_ids)
             }
         }
     });
