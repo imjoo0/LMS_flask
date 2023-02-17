@@ -242,7 +242,6 @@ async function get_consulting(student_id){
                     `;
                     $('#consulting_write_box').append(temp_consulting_contents_box);
                 }
-                console.log(consulting_ids)
                 let temp_post_box = `
                 <p>✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
                     <div class="modal-body-select-container">
@@ -251,9 +250,7 @@ async function get_consulting(student_id){
                     </div>
                     <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
                         <button class="btn btn-dark"
-                            onclick="${consulting_ids}.forEach((c_id) => {
-                                post_target_consulting(c_id);
-                            });"
+                            onclick="post_bulk_consultings(${consulting_ids})"
                             style="margin-right:5px">저장</button>
                     </div>
                 `;
@@ -264,7 +261,10 @@ async function get_consulting(student_id){
     // $('#today_consulting_box').show();
 }
 function post_bulk_consultings(consulting_ids){
-    
+    console.log(consulting_ids)
+    consulting_ids.array.forEach((c_id) => {
+        post_target_consulting(c_id);
+    });
 }
 function post_target_consulting(consulting){
     consulting_missed = $(`input:checkbox[id="missed"]`).is(":checked")
