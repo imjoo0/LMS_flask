@@ -162,15 +162,16 @@ async function get_consulting(ban_regi){
         url: "/teacher/mystudents/"+ban_regi+"/"+0,
         data: {},
         success: function (response) {
-            if(response["consultings"] == '없음'){
+            console.log(response['consulting_student_list'])
+            if(response["consulting_student_list"] == '없음'){
                 let temp_consulting_contents_box = `
                 <p> 오늘의 상담 업무를 완료했습니다 🎉</p>
                 `;
                 $('#today_consulting_box').html(temp_consulting_contents_box);
             }else{
                 $('#today_consulting_box').empty()
-                for(i=0;i<response["consulting"].length;i++){
-                    let target = response["consulting"][i]
+                for(i=0;i<response["consulting_student_list"].length;i++){
+                    let target = response["consulting_student_list"][i]
                     let student_name = target['name']
                     let register_no = target['s_id']
                     let mobileno = target['mobileno']

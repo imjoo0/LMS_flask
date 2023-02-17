@@ -167,6 +167,8 @@ def task(id):
 # 선생님이 담당 중인 반 학생중 상담을 한 학생(is_done = 1) 상담을 하지 않은 학생(is_done = 0) 정보
 @bp.route("/mystudents/<int:ban_id>/<int:is_done>", methods=['GET','POST'])
 def mystudents(ban_id,is_done):
+    print(type(is_done))
+    print(type(ban_id))
     if request.method == 'GET':
         my_students = callapi.get_students(ban_id)
         consulting_student_list = []
