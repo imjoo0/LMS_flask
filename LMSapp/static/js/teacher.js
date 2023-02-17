@@ -251,7 +251,7 @@ async function get_consulting(student_id){
                     </div>
                     <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
                         <button class="btn btn-dark"
-                            onclick="${consulting_ids}.array.forEach((c_id) => {
+                            onclick="${consulting_ids}.forEach((c_id) => {
                                 post_target_consulting(c_id);
                             });"
                             style="margin-right:5px">저장</button>
