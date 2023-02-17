@@ -212,13 +212,13 @@ async function get_consulting(student_id){
                 let consulting_ids = []
                 let r_target = response["consulting_list"]
                 for(i=0;i<r_target.length;i++){
-                    consulting_ids.push(consulting_id)
                     let target = r_target[i]
                     let category = target['category']
                     let consulting_id = target['c_id']
                     let contents = target['contents']
                     let consulting_missed = target['consulting_missed']
                     let deadline = target['deadline']
+                    consulting_ids.push(consulting_id)
                     let temp_consulting_contents_box = `
                     <p id=${consulting_id}>✅<strong>${category}</strong></br>${contents}</br>*마감:
                         ~${deadline}까지 | 부재중 : ${consulting_missed}</br></p>
@@ -252,7 +252,7 @@ async function get_consulting(student_id){
                             style="margin-right:5px">저장</button>
                     </div>
                 `;
-                $('#consulting_post_box').html(temp_post_box);
+                $('#consulting_post_box').append(temp_post_box);
             }
         }
     });
