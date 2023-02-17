@@ -198,7 +198,6 @@ async function get_consulting(student_id){
         url: "/teacher/consulting/"+student_id+"/"+0,
         data: {},
         success: function (response) {
-            console.log(response['consulting_list'])
             if(response["consulting_list"] == '없음'){
                 $('#consultinghistoryModalLabelt').html('진행 할 상담이 없습니다.')
             //     $('#consulting_list').hide();
