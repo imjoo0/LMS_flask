@@ -150,7 +150,7 @@ function consulting_history_view(ban_regi){
 async function get_consulting_student(ban_regi){
     if(ban_regi == 0){
         $('#consulting_student_list').hide();
-        $('#consulting_msg').hide();
+        $('#consulting_msg').html('상담할 반을 선택해주세요');
     }else{
         await $.ajax({
             type: "GET",
