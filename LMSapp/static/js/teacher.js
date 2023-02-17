@@ -259,14 +259,11 @@ async function get_consulting(student_id){
     // $('#today_consulting_box').show();
 }
 function post_bulk_consultings(consulting_ids){
-    console.log(consulting_ids)
     for(i=0;i<consulting_ids.length;i++){
-        console.log(consulting_ids[i])
         post_target_consulting(consulting_ids[i])
     }
 }
 function post_target_consulting(consulting){
-    consulting_id = String(consulting)
     consulting_missed = $(`input:checkbox[id="missed"]`).is(":checked")
     consulting_reason = $('#consulting_reason'+consulting_id).val()
     consulting_solution = $('#consulting_solution'+consulting_id).val()
