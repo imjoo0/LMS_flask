@@ -157,7 +157,6 @@ async function get_consulting_student(ban_regi){
             url: "/teacher/mystudents/"+ban_regi+"/"+0,
             data: {},
             success: function (response) {
-                console.log(response['consulting_student_list'])
                 if(response["consulting_student_list"] == '없음'){
                     $('#consulting_student_list').hide();
                     let temp_consulting_contents_box = `
@@ -200,7 +199,8 @@ async function get_consulting(student_id){
         data: {},
         success: function (response) {
             console.log(response['consulting_list'])
-            // if(response["consulting_list"] == '없음'){
+            if(response["consulting_list"] == '없음'){
+                $('#consultinghistoryModalLabelt').html('진행 할 상담이 없습니다.')
             //     $('#consulting_list').hide();
             //     let temp_consulting_contents_box = `
             //     <p> 오늘의 상담 업무를 완료했습니다 🎉</p>
@@ -348,7 +348,6 @@ async function get_done_task(){
                  $('#today_done_box').empty()
                 for(i=0;i<response["task"].length;i++){
                     let target = response["task"][i]
-                    console.log(target)
                     let temp_task_contents_box = `
                     <p>✅ ${target} </p>
                     `;
@@ -366,7 +365,6 @@ function get_update_done(){
     });
 }
 function update_done(target){
-    console.log(target)
     $.ajax({
             type: "POST",
 			url:'/teacher/'+target,
@@ -388,7 +386,6 @@ async function get_answer(q_id){
         url: "/teacher/question/"+q_id,
         data: {},
         success: function (response) {
-        console.log(response)
             // alert(response["title"])
         //     if (response["result"]=='문의가 전송되었습니다') {
         //     window.location.replace('/teacher')

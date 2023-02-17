@@ -300,16 +300,15 @@ aria-labelledby="consultinghistoryModalLabel" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="consultinghistoryModalLabel">
+            <h5 class="modal-title" id="consultinghistoryModalLabelt">
                 <img src="#" style="width: 30px;">&nbsp;&nbsp;OOO학생 상담일지 작성
             </h5>
             <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body py-4 px-5">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
-                <div class="d-flex justify-content-center mt-4 mb-2">
-                </div>
-                <div id="consulting_box${register_no}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
+            <div class="d-flex justify-content-center mt-4 mb-2">
+                <div id="consulting_history_box">
                     <strong>${student_name} 상담 ${consulting_num}건</strong> 📞${mobileno} | 추천도서:${student_reco_book_code}
                     <p id=${consulting_id}>✅<strong>${category}</strong></br>${contents}</br>*마감: ~${deadline}까지</br></p>
                         <div class="modal-body-select-container">
@@ -333,6 +332,7 @@ aria-labelledby="consultinghistoryModalLabel" aria-hidden="true">
                     <label><input type="checkbox" id="missed">부재중</label>
                 </div>
                 <p>✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
+            </div>
         </div>           
     </div>
 </div>
