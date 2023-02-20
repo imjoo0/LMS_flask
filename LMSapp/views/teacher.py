@@ -213,7 +213,7 @@ def consulting(id,is_done):
                 consulting_data = {}
                 consulting_data['c_id'] = consulting.id
                 consulting_data['deadline'] = consulting.deadline.strftime('%Y-%m-%d')
-                consulting_data['consulting_missed'] = consulting.missed
+                consulting_data['consulting_missed'] = consulting.missed.date()
                 category = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first()
                 if(consulting.category_id < 101):
                     consulting_data['category'] = str(consulting.week_code) + '주 미학습 상담을 진행해주세요 '
@@ -223,8 +223,8 @@ def consulting(id,is_done):
                     consulting_data['category'] = category.name
                     consulting_data['week_code'] = 0
                     consulting_data['contents'] = consulting.contents
-                if(consulting_data['consulting_missed'] < consulting.missed):
-                    consulting_data['consulting_missed'] = consulting.missed
+                if(consulting_data['consulting_missed'] < consulting.missed.date()):
+                    consulting_data['consulting_missed'] = consulting.missed.date()
                 if( (consulting_data['consulting_missed']- standard).days == 0):
                     consulting_data['consulting_missed'] = '없음'
                 elif( (consulting_data['consulting_missed']- Today).days == 0):
