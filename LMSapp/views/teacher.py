@@ -165,23 +165,35 @@ def task(id):
             return jsonify({'task' : target_task})
 
 # 선생님이 담당 중인 반 학생중 상담을 하지 않은 학생(is_done = 0) 상담을 한 학생(is_done = 1) 정보
-@bp.route("/mystudents/<int:ban_id>/<int:is_done>", methods=['GET','POST'])
+@bp.route("/mystudents/<int:ban_id>/<int:is_done>", methods=['GET'])
 def mystudents(ban_id,is_done):
-    print(type(is_done))
-    print(type(ban_id))
     if request.method == 'GET':
-        my_students = callapi.get_students(ban_id)
-        consulting_student_list = []
-        for student in my_students:
-            consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done == is_done)  & (Consulting.startdate <= current_time)).all()
-            if(len(consultings) != 0):
-                target_data = {}
-                target_data['s_id'] = student['register_no']
-                target_data['name'] = student['name'] + '(' + student['origin'] + ')'
-                target_data['mobileno'] = student['mobileno']
-                target_data['reco_book_code'] = student['reco_book_code']
-                target_data['consulting_num'] = len(consultings)
-                consulting_student_list.append(target_data)
+        if ban_id == -1:
+            my_students = callapi.get_mystudents(session['user_id'])
+            consulting_student_list = []
+            for student in my_students:
+                consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done == is_done)  & (Consulting.missed == Today) & (Consulting.startdate <= current_time) ).all()
+                if(len(consultings) != 0):
+                    target_data = {}
+                    target_data['s_id'] = student['register_no']
+                    target_data['name'] = student['name'] + '(' + student['origin'] + ')'
+                    target_data['mobileno'] = student['mobileno']
+                    target_data['reco_book_code'] = student['reco_book_code']
+                    target_data['consulting_num'] = len(consultings)
+                    consulting_student_list.append(target_data)
+        else:
+            my_students = callapi.get_students(ban_id)
+            consulting_student_list = []
+            for student in my_students:
+                consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done == is_done)  & (Consulting.startdate <= current_time) & (Consulting.missed != Today)).all()
+                if(len(consultings) != 0):
+                    target_data = {}
+                    target_data['s_id'] = student['register_no']
+                    target_data['name'] = student['name'] + '(' + student['origin'] + ')'
+                    target_data['mobileno'] = student['mobileno']
+                    target_data['reco_book_code'] = student['reco_book_code']
+                    target_data['consulting_num'] = len(consultings)
+                    consulting_student_list.append(target_data)
         if(len(consulting_student_list) != 0):
             consulting_student_list.sort(key = lambda x:(-x['consulting_num']))
             return jsonify({'consulting_student_list': consulting_student_list})
@@ -294,8 +306,6 @@ def done_consulting(ban_id,is_missed):
             consulting_list.sort(key = lambda x:(-x['consulting_num']))
             return jsonify({'consulting_history': consulting_list})
             
-  
-
 # 선생님 문의 저장 
 @bp.route('/question', methods=['POST'])
 def request_question():
