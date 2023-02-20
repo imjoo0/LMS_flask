@@ -231,7 +231,13 @@ function post_target_consulting(consulting,is_done){
     consulting_reason = $('#consulting_reason'+consulting).val()
     consulting_solution = $('#consulting_solution'+consulting).val()
     consulting_result = $('#consulting_result'+consulting).val()
-    console.log(type(consulting_reason))
+    if((consulting_reason == "")){
+        consulting_reason="noupdate"
+    }else if((consulting_solution == "")){
+        consulting_solution="noupdate"
+    }else if((consulting_result == "")){
+        consulting_result="noupdate"
+    }
     $.ajax({
             type: "POST",
 			url:'/teacher/consulting/'+consulting+'/'+is_done,

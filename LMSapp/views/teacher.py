@@ -259,12 +259,11 @@ def consulting(id,is_done):
                 db.session.add(new_history)
             else:
                 target_consulting_history = ConsultingHistory.query.filter(ConsultingHistory.consulting_id == id).first()
-                print(type(received_reason))
-                if(received_reason !=None):
+                if(received_reason !="noupdate"):
                     target_consulting_history.reason = received_reason
-                if(received_solution !=None):    
+                if(received_solution !="noupdate"):    
                     target_consulting_history.solution = received_solution
-                if(received_result !=None):    
+                if(received_result !="noupdate"):    
                     target_consulting_history.result = received_result
                 target_consulting_history.created_at = Today
             target_consulting.done = 1
