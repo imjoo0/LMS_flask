@@ -188,11 +188,11 @@ def mystudents(ban_id,is_done):
         else:
             return jsonify({'consulting_student_list': '없음'})
 
-# 학생에게 해야할 상담 목록 ( is_done = 0 ) 상담을 하지 않은 목록 (is_done = 1)
-@bp.route("/consulting/<int:student_id>/<int:is_done>", methods=['GET','POST'])
-def consulting(student_id,is_done):
+# 학생에게 해야할 상담 목록 ( is_done = 0 ) 상담을 한 목록 (is_done = 1)
+@bp.route("/consulting/<int:id>/<int:is_done>", methods=['GET','POST'])
+def consulting(id,is_done):
     if request.method == 'GET':
-        consultings = Consulting.query.filter((Consulting.student_id==student_id) & (Consulting.done == is_done)  & (Consulting.startdate <= current_time) & ( current_time <= Consulting.deadline )).all()
+        consultings = Consulting.query.filter((Consulting.student_id==id) & (Consulting.done == is_done)  & (Consulting.startdate <= current_time) & ( current_time <= Consulting.deadline )).all()
         if(len(consultings)!=0):
             consulting_list = []
             for consulting in consultings:
