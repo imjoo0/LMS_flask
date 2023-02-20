@@ -186,7 +186,7 @@ def mystudents(ban_id,is_done):
             my_students = callapi.get_students(ban_id)
             consulting_student_list = []
             for student in my_students:
-                consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done == is_done)  & (Consulting.startdate <= current_time) & (Consulting.missed != Today)).all()
+                consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done == is_done)  & (Consulting.startdate <= current_time) ).all()
                 if(len(consultings) != 0):
                     target_data = {}
                     target_data['s_id'] = student['register_no']
@@ -206,7 +206,10 @@ def mystudents(ban_id,is_done):
 def consulting(id,is_done):
     if request.method == 'GET':
         # (id-student_id)
-        consultings = Consulting.query.filter((Consulting.student_id==id) & (Consulting.done == is_done)  & (Consulting.startdate <= current_time) & ( current_time <= Consulting.deadline )).all()
+        if is_done == 0:
+            consultings = Consulting.query.filter((Consulting.student_id==id) & (Consulting.done == is_done)  & (Consulting.startdate <= current_time) & ( current_time <= Consulting.deadline )).all()
+        else :
+            consultings = Consulting.query.filter((Consulting.student_id==id) & (Consulting.done == is_done)).all()
         if(len(consultings)!=0):
             consulting_list = []
             for consulting in consultings:
@@ -246,8 +249,6 @@ def consulting(id,is_done):
         # 부재중 체크 (id-consulting_id)
         received_missed = request.form['consulting_missed']
         target_consulting = Consulting.query.get_or_404(id)
-        print(received_missed)
-        print(target_consulting)
         if received_missed == "true":
             target_consulting.missed = Today
             target_consulting.done = 0
@@ -268,54 +269,7 @@ def consulting(id,is_done):
             db.session.add(new_history)
             db.session.commit()
             return{'result':'상담일지 저장 완료'}
-    
-# 상담일지 확인  
-@bp.route("/done_consulting/<int:ban_id>/<int:is_missed>", methods=['GET','POST'])
-def done_consulting(ban_id,is_missed):
-    if request.method == 'GET':
-        my_students = callapi.get_students(ban_id)
-        consulting_list = []
-        for student in my_students:
-            if(is_missed == 0): # 완료한 상담. 
-                consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done == 1)).all()
-            else: # 부재중 상담
-                consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done != 1) & ( Consulting.missed != standard ) ).all()
-            target_data = {}
-            target_data['s_id'] = student['register_no']
-            target_data['name'] = student['name'] + '(' + student['origin'] + ')'
-            target_data['mobileno'] = student['mobileno']
-            target_data['reco_book_code'] = student['reco_book_code']   
-            target_data['kind'] = ''
-            target_data['consultings'] = []
-            for consulting in consultings:
-                consulting_data = {}
-                # if(ConsultingHistory(ConsultingHistory.consulting_id  == consulting.id).first() != None):
-                ch = ConsultingHistory.query.filter(ConsultingHistory.consulting_id  == consulting.id).first()
-                if ch != None:
-                    target_data['kind'] = '완료 상담'
-                    consulting_data['history'] = ch.reason + ch.solution + ch.result
-                else:
-                    target_data['kind'] = consulting.missed.strftime('%Y-%m-%d')
-                category = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first()
-                if(consulting.category_id < 101):
-                    consulting_data['category'] = str(consulting.week_code) + '주 미학습 상담 진행건 '
-                    consulting_data['contents'] = category.name +' '+ consulting.contents
-                else:
-                   consulting_data['category'] = category.name
-                   consulting_data['contents'] = consulting.contents
-                target_data['consultings'].append(consulting_data)
-            
-            if(len(target_data['consultings'])!=0):
-                # target_data['consultings'].sort(key = lambda x:(-(x['history'].created_at)))
-                target_data['consulting_num'] = len(target_data['consultings'])
-                consulting_list.append(target_data)
-        
-        if(len(consulting_list)==0):
-            return jsonify({'consulting_history': '없음'})
-        else: 
-            consulting_list.sort(key = lambda x:(-x['consulting_num']))
-            return jsonify({'consulting_history': consulting_list})
-            
+       
 # 선생님 문의 저장 
 @bp.route('/question', methods=['POST'])
 def request_question():
