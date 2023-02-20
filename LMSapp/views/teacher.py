@@ -264,9 +264,16 @@ def consulting(id,is_done):
             received_solution = request.form['consulting_solution']
             # 제공 가이드
             received_result = request.form['consulting_result']
-            new_history = ConsultingHistory(consulting_id=id,reason=received_reason,solution=received_solution,result=received_result,created_at=Today)
+            if(is_done == 0):
+                new_history = ConsultingHistory(consulting_id=id,reason=received_reason,solution=received_solution,result=received_result,created_at=Today)
+                db.session.add(new_history)
+            else:   
+                target_consulting_history = ConsultingHistory.query.get_or_404(consulting_id = id)
+                target_consulting_history.reason = received_reason
+                target_consulting_history.solution = received_solution
+                target_consulting_history.result = received_result
+                target_consulting_history.created_at = Today
             target_consulting.done = 1
-            db.session.add(new_history)
             db.session.commit()
             return{'result':'상담일지 저장 완료'}
        

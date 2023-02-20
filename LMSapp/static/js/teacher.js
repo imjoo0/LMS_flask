@@ -208,7 +208,7 @@ function get_consulting(student_id,is_done){
                     </div>
                     <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
                         <button class="btn btn-dark"
-                            onclick="post_bulk_consultings(${r_target.length})"
+                            onclick="post_bulk_consultings(${r_target.length},${is_done})"
                             style="margin-right:5px">저장</button>
                     </div>
                 `;
@@ -218,21 +218,21 @@ function get_consulting(student_id,is_done){
     });
     // $('#today_consulting_box').show();
 }
-function post_bulk_consultings(c_length){
+function post_bulk_consultings(c_length,is_done){
     for(i=0;i<c_length;i++){
         target = $('#target_consulting_id'+i).val()
         console.log(target)
-        post_target_consulting(target)
+        post_target_consulting(target,is_done)
     }
 }
-function post_target_consulting(consulting){
+function post_target_consulting(consulting,is_done){
     consulting_missed = $(`input:checkbox[id="missed"]`).is(":checked")
     consulting_reason = $('#consulting_reason'+consulting).val()
     consulting_solution = $('#consulting_solution'+consulting).val()
     consulting_result = $('#consulting_result'+consulting).val()
     $.ajax({
             type: "POST",
-			url:'/teacher/consulting/'+consulting+'/'+0,
+			url:'/teacher/consulting/'+consulting+'/'+is_done,
 			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
             data: {
                 consulting_reason:consulting_reason,
