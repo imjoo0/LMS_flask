@@ -15,19 +15,19 @@ $(document).ready(function () {
 })
 
 function get_consulting_history(){
-    let is_missed = $('#history_done option:selected').val()
+    let is_done = $('#history_done option:selected').val()
     let ban_regi = $('#history_ban option:selected').val()
-    if(is_missed == 0){
+    if(is_done == 1){
       $('#consulting_history_box').show()
       $('#missed_consulting_history_box').hide()
-    }else if(is_missed == 1){
+    }else if(is_done == 0){
       $('#consulting_history_box').hide()
       $('#missed_consulting_history_box').show()
     }else{
         $('#missed_consulting_history_box').hide()
         $('#consulting_history_box').hide()
     }
-    done_consulting_history_view(ban_regi,1)
+    done_consulting_history_view(ban_regi,is_done)
 }
 function change(id){
     new_id = 'consultinghistorydiary'+String(id)
