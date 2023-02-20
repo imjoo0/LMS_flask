@@ -16,7 +16,7 @@ $(document).ready(function () {
 
 function get_consulting_history(){
     let is_missed = $('#history_done option:selected').val()
-    let is_ban = $('#history_ban option:selected').val()
+    let ban_regi = $('#history_ban option:selected').val()
     if(is_missed == 0){
       $('#consulting_history_box').show()
       $('#missed_consulting_history_box').hide()
@@ -27,20 +27,20 @@ function get_consulting_history(){
         $('#missed_consulting_history_box').hide()
         $('#consulting_history_box').hide()
     }
-    done_consulting_history_view(is_ban,is_missed)
+    done_consulting_history_view(ban_regi,1)
 }
 function change(id){
     new_id = 'consultinghistorydiary'+String(id)
     $('#consultinghistorydiary').attr('id',new_id);
 }
 // 반이 선택 되면 모달창 뷰를 바꿔주는 함수 
-function done_consulting_history_view(is_ban,is_missed){
+function done_consulting_history_view(ban_regi,is_done){
     $.ajax({
         type: "GET",
-        url: "/teacher/done_consulting/"+is_ban+'/'+is_missed,
+        url: "/teacher/mystudents/"+ban_regi+'/'+is_done,
         data: {},
         success: function (response) {
-            if(response["consulting_history"] == '없음'){
+            if(response["consulting_student_list"] == '없음'){
                 $('#missed_consulting_history_box').hide()
                 $('#consulting_history_box').hide()
                 $('#h_title').show();
@@ -48,66 +48,24 @@ function done_consulting_history_view(is_ban,is_missed){
                 $('#h_title').hide();
                 $('#missed_consulting_history_student_list').empty()
                 $('#consulting_history_student_list').empty()
-                for(i=0;i<response["consulting_history"].length;i++){
-                    let target = response["consulting_history"][i]
+                for(i=0;i<response["consulting_student_list"].length;i++){
+                    let target = response["consulting_student_list"][i]
                     let student_name = target['name']
-                    let register_no = target['s_id']
+                    let student_id = target['s_id']
                     let mobileno = target['mobileno']
                     let student_reco_book_code = target['reco_book_code']
-                    if(target['kind'] != '완료 상담'){ // 부재중 상담
-                        let consulting_missed = target['kind']
-                        let temp_ch_contents_box = `
-                        <td class="col-3">${student_name}</td>
-                            <td class="col-3">${mobileno}</td>
-                            <td class="col-2">${student_reco_book_code}</td>
-                            <td class="col-2">${consulting_missed}</td>
-                            <td class="col-2" onclick="change(${register_no})">상담 수정</td>
-                        `;
-                        $('#missed_consulting_history_student_list').append(temp_ch_contents_box);
-
-                        $('#consultinghistorydiary'+register_no).empty()
-                        let target_consulting = target['consultings']
-                        for(j=0;j<target_consulting.length;j++){
-                            let target_consulting_data = target_consulting[j]
-                            let consulting_id = target_consulting_data['c_id']
-                            let contents = target_consulting_data['contents']
-                            let category = target_consulting_data['category']
-                            let deadline = target_consulting_data['deadline']
-                            let temp_consulting_box = `
-                            <p id=${consulting_id}>✅<strong>${category}</strong></br>${contents}</br>*마감: ~${deadline}까지</br></p>
-                            <div class="modal-body-select-container">
-                                <span class="modal-body-select-label">상담 사유</span>
-                                <input class="modal-body-select" type="text" size="50" id="consulting_reason${consulting_id}" style="width: 75%;">
-                            </div>
-                            <div class="modal-body-select-container">
-                                <span class="modal-body-select-label">제공한 가이드</span>
-                                <input class="modal-body-select" type="text" size="50" id="consulting_solution${consulting_id}" style="width: 75%;">
-                            </div>
-                            <div class="modal-body-select-container">
-                                <span class="modal-body-select-label">상담 결과</span>
-                                <textarea class="modal-body-select" type="text"rows="5" cols="25" id="consulting_result${consulting_id}" style="width: 75%;"></textarea>
-                            </div>
-                            <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
-                                <button class="btn btn-dark" onclick="post_target_consulting(${consulting_id},${register_no})" style="margin-right:5px">저장</button>
-                            </div>  
-                            `;
-                            $('#consultinghistorydiary'+register_no).append(temp_consulting_box);
-                        }
-                        
-                    }else{
-                        let consulting_num = target['consulting_num']
-                        let temp_ch_contents_box = `
-                        <td class="col-3">${student_name}</td>
-                            <td class="col-3">${mobileno}</td>
-                            <td class="col-2">${student_reco_book_code}</td>
-                            <td class="col-2">${consulting_num}</td>
-                            <td class="col-2" onclick="done_consulting_history_view('${ register_no }')">상담 내역 확인하기</td>
-                        `;
-                        $('#consulting_history_student_list').append(temp_ch_contents_box);
-                    }
-                    
+                    let consulting_num = target['consulting_num']
+                    let temp_consulting_contents_box = `
+                    <tr class="row">
+                    <td class="col-3">${student_name}</td>
+                    <td class="col-3">${mobileno}</td>
+                    <td class="col-2">${student_reco_book_code}</td>
+                    <td class="col-2">${consulting_num}</td>
+                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${0})">상담 실행</td> 
+                    </tr>
+                    `;
+                    $('#consulting_history_student_list').append(temp_consulting_contents_box);
                 }
-                
             }
         }
             // alert(response["title"])
