@@ -168,6 +168,7 @@ def task(id):
 @bp.route("/mystudents/<int:ban_id>/<int:is_done>", methods=['GET'])
 def mystudents(ban_id,is_done):
     if request.method == 'GET':
+        print(type(ban_id))
         if ban_id == -1:
             my_students = callapi.get_mystudents(session['user_id'])
             consulting_student_list = []
