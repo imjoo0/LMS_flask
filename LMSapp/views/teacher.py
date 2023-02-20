@@ -250,6 +250,7 @@ def consulting(id,is_done):
         print(target_consulting)
         if received_missed == "true":
             target_consulting.missed = Today
+            target_consulting.done = 0
             try:
                 db.session.commit()
                 return jsonify({'result': '부재중 처리 완료'})
