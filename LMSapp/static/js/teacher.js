@@ -50,6 +50,7 @@ function done_consulting_history_view(ban_id,is_done){
                 $('#h_title').show();
             }else{
                 $('#h_title').hide();
+                $('#consulting_history_box').show()
                 $('#consulting_history_student_list').empty()
                 for(i=0;i<response["consulting_student_list"].length;i++){
                     let target = response["consulting_student_list"][i]
