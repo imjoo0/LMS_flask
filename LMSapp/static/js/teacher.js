@@ -79,12 +79,12 @@ function done_consulting_history_view(ban_id,is_done){
 
 }
 
-async function get_consulting_student(ban_regi,is_done){
+function get_consulting_student(ban_regi,is_done){
     if(ban_regi == 0){
         $('#consulting_student_list').hide();
         $('#consulting_msg').html('상담할 반을 선택해주세요');
     }else{
-        await $.ajax({
+        $.ajax({
             type: "GET",
             url: "/teacher/mystudents/"+ban_regi+"/"+is_done,
             data: {},
@@ -124,8 +124,8 @@ async function get_consulting_student(ban_regi,is_done){
     
     $('#today_consulting_box').show();
 }
-async function get_consulting(student_id,is_done){
-    await $.ajax({
+function get_consulting(student_id,is_done){
+    $.ajax({
         type: "GET",
         url: "/teacher/consulting/"+student_id+"/"+is_done,
         data: {},
@@ -219,8 +219,6 @@ async function get_consulting(student_id,is_done){
     // $('#today_consulting_box').show();
 }
 function post_bulk_consultings(c_length){
-    console.log(c_length)
-    
     for(i=0;i<c_length;i++){
         target = $('#target_consulting_id'+i).val()
         console.log(target)
