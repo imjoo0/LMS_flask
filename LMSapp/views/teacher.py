@@ -259,6 +259,7 @@ def consulting(id,is_done):
                 db.session.add(new_history)
             else:
                 target_consulting_history = ConsultingHistory.query.filter(ConsultingHistory.consulting_id == id).first()
+                print(type(received_reason))
                 if(received_reason !=None):
                     target_consulting_history.reason = received_reason
                 if(received_solution !=None):    
