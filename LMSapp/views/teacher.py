@@ -231,6 +231,7 @@ def consulting(id,is_done):
                     consulting_data['consulting_missed'] = '오늘'
                 if(is_done == 1):
                     h = ConsultingHistory.query.filter(ConsultingHistory.id == consulting.id).first()
+                    print(h)
                     consulting_data['history_reason'] = h.reason
                     consulting_data['history_solution'] = h.solution
                     consulting_data['history_result'] = h.result
