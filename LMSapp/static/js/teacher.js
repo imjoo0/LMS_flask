@@ -180,7 +180,7 @@ async function get_consulting_student(ban_regi,is_done){
                         <td class="col-3">${mobileno}</td>
                         <td class="col-2">${student_reco_book_code}</td>
                         <td class="col-2">${consulting_num}</td>
-                        <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id})">상담 실행</td> 
+                        <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${0})">상담 실행</td> 
                         </tr>
                         `;
                         $('#today_consulting_box').append(temp_consulting_contents_box);
@@ -192,10 +192,10 @@ async function get_consulting_student(ban_regi,is_done){
     
     $('#today_consulting_box').show();
 }
-async function get_consulting(student_id){
+async function get_consulting(student_id,is_done){
     await $.ajax({
         type: "GET",
-        url: "/teacher/consulting/"+student_id+"/"+0,
+        url: "/teacher/consulting/"+student_id+"/"+is_done,
         data: {},
         success: function (response) {
             if(response["consulting_list"] == '없음'){
