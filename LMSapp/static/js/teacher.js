@@ -16,7 +16,7 @@ $(document).ready(function () {
 
 function get_consulting_history(){
     let is_done = $('#history_done option:selected').val()
-    let ban_regi = $('#history_ban option:selected').val()
+    let ban_id = $('#history_ban option:selected').val()
     if(is_done == 1){
       $('#consulting_history_box').show()
       $('#missed_consulting_history_box').hide()
@@ -27,17 +27,17 @@ function get_consulting_history(){
         $('#missed_consulting_history_box').hide()
         $('#consulting_history_box').hide()
     }
-    done_consulting_history_view(ban_regi,is_done)
+    done_consulting_history_view(ban_id,is_done)
 }
 function change(id){
     new_id = 'consultinghistorydiary'+String(id)
     $('#consultinghistorydiary').attr('id',new_id);
 }
 // 반이 선택 되면 모달창 뷰를 바꿔주는 함수 
-function done_consulting_history_view(ban_regi,is_done){
+function done_consulting_history_view(ban_id,is_done){
     $.ajax({
         type: "GET",
-        url: "/teacher/mystudents/"+ban_regi+'/'+is_done,
+        url: "/teacher/mystudents/"+ban_id+'/'+is_done,
         data: {},
         success: function (response) {
             if(response["consulting_student_list"] == '없음'){

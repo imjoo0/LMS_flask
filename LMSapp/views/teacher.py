@@ -205,6 +205,7 @@ def mystudents(ban_id,is_done):
 @bp.route("/consulting/<int:id>/<int:is_done>", methods=['GET','POST'])
 def consulting(id,is_done):
     if request.method == 'GET':
+        # (id-student_id)
         consultings = Consulting.query.filter((Consulting.student_id==id) & (Consulting.done == is_done)  & (Consulting.startdate <= current_time) & ( current_time <= Consulting.deadline )).all()
         if(len(consultings)!=0):
             consulting_list = []
@@ -235,7 +236,7 @@ def consulting(id,is_done):
             return jsonify({'consulting_list': '없음'})
             
     elif request.method =='POST':
-        # 부재중 체크 
+        # 부재중 체크 (id-consulting_id)
         received_missed = request.form['consulting_missed']
         target_consulting = Consulting.query.get_or_404(id)
         print(received_missed)
