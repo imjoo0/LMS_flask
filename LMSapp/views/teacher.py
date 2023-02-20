@@ -268,7 +268,7 @@ def consulting(id,is_done):
                 new_history = ConsultingHistory(consulting_id=id,reason=received_reason,solution=received_solution,result=received_result,created_at=Today)
                 db.session.add(new_history)
             else:   
-                target_consulting_history = ConsultingHistory.query.get_or_404(consulting_id = id)
+                target_consulting_history = ConsultingHistory.query.filter(ConsultingHistory.consulting_id == id).first()
                 target_consulting_history.reason = received_reason
                 target_consulting_history.solution = received_solution
                 target_consulting_history.result = received_result
