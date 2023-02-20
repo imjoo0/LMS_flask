@@ -244,7 +244,6 @@ function post_target_consulting(consulting){
             },
             success: function (response) {{
 				alert(response["result"])
-                return window.location.href='/'
 			}}
 		})
 }
