@@ -160,17 +160,17 @@ async function get_consulting(student_id,is_done){
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">상담 사유</span>
                         <input class="modal-body-select" type="text" size="50"
-                            id="consulting_reason${consulting_id}" style="width: 75%;"palceholder="${history_reason}">
+                            id="consulting_reason${consulting_id}" style="width: 75%;"placeholder="${history_reason}">
                     </div>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">제공한 가이드</span>
                         <input class="modal-body-select" type="text" size="50"
-                            id="consulting_solution${consulting_id}" style="width: 75%;" palceholder="${history_solution}">
+                            id="consulting_solution${consulting_id}" style="width: 75%;" placeholder="${history_solution}">
                     </div>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">상담 결과</span>
                         <textarea class="modal-body-select" type="text" rows="5" cols="25"
-                            id="consulting_result${consulting_id}" style="width: 75%;" palceholder="${history_result}"></textarea>
+                            id="consulting_result${consulting_id}" style="width: 75%;" placeholder="${history_result}"></textarea>
                     </div>
                     <p>상담 일시 : ${history_created}</p>
                     `;
