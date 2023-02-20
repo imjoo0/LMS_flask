@@ -147,14 +147,14 @@ function consulting_history_view(ban_regi){
     }
 }
 
-async function get_consulting_student(ban_regi){
+async function get_consulting_student(ban_regi,is_done){
     if(ban_regi == 0){
         $('#consulting_student_list').hide();
         $('#consulting_msg').html('상담할 반을 선택해주세요');
     }else{
         await $.ajax({
             type: "GET",
-            url: "/teacher/mystudents/"+ban_regi+"/"+0,
+            url: "/teacher/mystudents/"+ban_regi+"/"+is_done,
             data: {},
             success: function (response) {
                 if(response["consulting_student_list"] == '없음'){
