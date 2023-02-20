@@ -264,9 +264,9 @@ def consulting(id,is_done):
                 print(received_result)
                 if(received_reason !="noupdate"):
                     target_consulting_history.reason = received_reason
-                if(received_solution !="noupdate"):    
+                elif(received_solution !="noupdate"):    
                     target_consulting_history.solution = received_solution
-                if(received_result !="noupdate"):    
+                elif(received_result !="noupdate"):    
                     target_consulting_history.result = received_result
                 target_consulting_history.created_at = Today
             target_consulting.done = 1
