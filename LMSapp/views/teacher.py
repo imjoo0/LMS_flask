@@ -169,7 +169,7 @@ def task(id):
 def mystudents(ban_id,is_done):
     if request.method == 'GET':
         print(type(ban_id))
-        if ban_id == -1:
+        if ban_id == 1:
             my_students = callapi.get_mystudents(session['user_id'])
             consulting_student_list = []
             for student in my_students:
