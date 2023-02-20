@@ -209,7 +209,7 @@ def consulting(id,is_done):
         if is_done == 0:
             consultings = Consulting.query.filter((Consulting.student_id==id) & (Consulting.done == is_done)  & (Consulting.startdate <= current_time) & ( current_time <= Consulting.deadline )).all()
         else :
-            consultings = Consulting.query.filter((Consulting.student_id==id) & (Consulting.done == is_done)).all()
+            consultings = Consulting.query.filter((Consulting.student_id==id) & (Consulting.done == is_done) & (Consulting.startdate <= current_time)).all()
         if(len(consultings)!=0):
             consulting_list = []
             for consulting in consultings:
