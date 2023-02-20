@@ -231,6 +231,7 @@ function post_target_consulting(consulting,is_done){
     consulting_reason = $('#consulting_reason'+consulting).val()
     consulting_solution = $('#consulting_solution'+consulting).val()
     consulting_result = $('#consulting_result'+consulting).val()
+    console.log(consulting_reason)
     $.ajax({
             type: "POST",
 			url:'/teacher/consulting/'+consulting+'/'+is_done,
