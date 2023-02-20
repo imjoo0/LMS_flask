@@ -17,16 +17,6 @@ $(document).ready(function () {
 function get_consulting_history(){
     let is_done = $('#history_done option:selected').val()
     let ban_id = $('#history_ban option:selected').val()
-    if(is_done == 1){
-      $('#consulting_history_box').show()
-      $('#missed_consulting_history_box').hide()
-    }else if(is_done == 0){
-      $('#consulting_history_box').hide()
-      $('#missed_consulting_history_box').show()
-    }else{
-        $('#missed_consulting_history_box').hide()
-        $('#consulting_history_box').hide()
-    }
     done_consulting_history_view(ban_id,is_done)
 }
 function change(id){
@@ -41,12 +31,10 @@ function done_consulting_history_view(ban_id,is_done){
         data: {},
         success: function (response) {
             if(response["consulting_student_list"] == '없음'){
-                $('#missed_consulting_history_box').hide()
                 $('#consulting_history_box').hide()
                 $('#h_title').show();
             }else{
                 $('#h_title').hide();
-                $('#missed_consulting_history_student_list').empty()
                 $('#consulting_history_student_list').empty()
                 for(i=0;i<response["consulting_student_list"].length;i++){
                     let target = response["consulting_student_list"][i]
