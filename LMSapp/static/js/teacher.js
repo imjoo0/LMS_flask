@@ -14,16 +14,31 @@ $(document).ready(function () {
     $('#today_task_box').show();
 })
 
+
+//  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
+function change_question_kind(str){
+    if( str == "이반"){
+        $('#invisible_for_1').hide();
+        $('#invisible_for_2').show();
+        $('#question_box').show();
+    }else if( str == "퇴소" || str == "취소/환불"){
+        $('#invisible_for_2').hide();
+        $('#invisible_for_1').show();
+        $('#question_box').show();
+    }else{
+        $('#invisible_for_1').hide();
+        $('#invisible_for_2').hide();
+        $('#question_box').show();
+    }
+}
+
+// 진행한 상담 조회
 function get_consulting_history(){
     let is_done = $('#history_done option:selected').val()
     let ban_id = $('#history_ban option:selected').val()
     done_consulting_history_view(ban_id,is_done)
 }
-function change(id){
-    new_id = 'consultinghistorydiary'+String(id)
-    $('#consultinghistorydiary').attr('id',new_id);
-}
-// 반이 선택 되면 모달창 뷰를 바꿔주는 함수 
+
 function done_consulting_history_view(ban_id,is_done){
     $.ajax({
         type: "GET",
@@ -49,7 +64,7 @@ function done_consulting_history_view(ban_id,is_done){
                     <td class="col-3">${mobileno}</td>
                     <td class="col-2">${student_reco_book_code}</td>
                     <td class="col-2">${consulting_num}</td>
-                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${0})">상담 실행</td> 
+                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">상담일지 수정/작성</td> 
                     </tr>
                     `;
                     $('#consulting_history_student_list').append(temp_consulting_contents_box);
@@ -62,35 +77,6 @@ function done_consulting_history_view(ban_id,is_done){
         // }else {window.location.href='/'}
     });
 
-}
-
-
-//  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
-function change_question_kind(str){
-    if( str == "이반"){
-        $('#invisible_for_1').hide();
-        $('#invisible_for_2').show();
-        $('#question_box').show();
-    }else if( str == "퇴소" || str == "취소/환불"){
-        $('#invisible_for_2').hide();
-        $('#invisible_for_1').show();
-        $('#question_box').show();
-    }else{
-        $('#invisible_for_1').hide();
-        $('#invisible_for_2').hide();
-        $('#question_box').show();
-    }
-}
-
-function consulting_history_view(ban_regi){
-    ban_regi = Number(ban_regi)
-    if(ban_regi == 0){
-        $('#consulting_title').html('상담할 반을 선택해주세요 ')
-        $('#consulting_history_student_list').hide();
-    }else{
-        $('#consulting_title').html('오늘의 상담')
-        get_consulting(ban_regi)
-    }
 }
 
 async function get_consulting_student(ban_regi,is_done){
@@ -126,7 +112,7 @@ async function get_consulting_student(ban_regi,is_done){
                         <td class="col-3">${mobileno}</td>
                         <td class="col-2">${student_reco_book_code}</td>
                         <td class="col-2">${consulting_num}</td>
-                        <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${0})">상담 실행</td> 
+                        <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">상담 실행</td> 
                         </tr>
                         `;
                         $('#today_consulting_box').append(temp_consulting_contents_box);
@@ -162,6 +148,34 @@ async function get_consulting(student_id,is_done){
                     let contents = target['contents']
                     let consulting_missed = target['consulting_missed']
                     let deadline = target['deadline']
+                if(is_done == 1){
+                    let history_reason = target['history_reason']
+                    let history_solution = target['history_solution']
+                    let history_result = target['history_result']
+                    let history_created = target['history_created']
+                    let temp_consulting_contents_box = `
+                    <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
+                    <p >✅<strong>${category}</strong></br>${contents}</br>*마감:
+                        ~${deadline}까지 | 부재중 : ${consulting_missed}</br></p>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">상담 사유</span>
+                        <input class="modal-body-select" type="text" size="50"
+                            id="consulting_reason${consulting_id}" style="width: 75%;">${history_reason}
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">제공한 가이드</span>
+                        <input class="modal-body-select" type="text" size="50"
+                            id="consulting_solution${consulting_id}" style="width: 75%;">${history_solution}
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">상담 결과</span>
+                        <textarea class="modal-body-select" type="text" rows="5" cols="25"
+                            id="consulting_result${consulting_id}" style="width: 75%;">${history_result}</textarea>
+                    </div>
+                    <p>상담 일시 : ${history_created}</p>
+                    `;
+                    $('#consulting_write_box').append(temp_consulting_contents_box);
+                }else{
                     let temp_consulting_contents_box = `
                     <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
                     <p >✅<strong>${category}</strong></br>${contents}</br>*마감:
@@ -183,6 +197,8 @@ async function get_consulting(student_id,is_done){
                     </div>
                     `;
                     $('#consulting_write_box').append(temp_consulting_contents_box);
+                }
+                    
                 }
                 let temp_post_box = `
                 <p>✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>

@@ -168,7 +168,7 @@ def task(id):
 @bp.route("/mystudents/<int:ban_id>/<int:is_done>", methods=['GET'])
 def mystudents(ban_id,is_done):
     if request.method == 'GET':
-        print(type(ban_id))
+        # 오늘의 부재중 
         if ban_id == 1:
             my_students = callapi.get_mystudents(session['user_id'])
             consulting_student_list = []
@@ -213,7 +213,7 @@ def consulting(id,is_done):
                 consulting_data = {}
                 consulting_data['c_id'] = consulting.id
                 consulting_data['deadline'] = consulting.deadline.strftime('%Y-%m-%d')
-                consulting_data['consulting_missed'] = datetime.strptime('11110101',"%Y%m%d").date()
+                consulting_data['consulting_missed'] = consulting.missed
                 category = ConsultingCategory.query.filter(ConsultingCategory.id == consulting.category_id).first()
                 if(consulting.category_id < 101):
                     consulting_data['category'] = str(consulting.week_code) + '주 미학습 상담을 진행해주세요 '
@@ -229,6 +229,12 @@ def consulting(id,is_done):
                     consulting_data['consulting_missed'] = '없음'
                 elif( (consulting_data['consulting_missed']- Today).days == 0):
                     consulting_data['consulting_missed'] = '오늘'
+                if(is_done == 1):
+                    h = ConsultingHistory.query.filter(ConsultingHistory.id == consulting.id).first()
+                    consulting_data['history_reason'] = h.reason
+                    consulting_data['history_solution'] = h.solution
+                    consulting_data['history_result'] = h.result
+                    consulting_data['history_created'] = h.created_at.strftime('%Y-%m-%d')
                 consulting_list.append(consulting_data)
             consulting_list.sort(key = lambda x:(-x['week_code'],x['deadline']))
             return jsonify({'consulting_list': consulting_list})
