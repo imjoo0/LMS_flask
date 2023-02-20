@@ -267,9 +267,9 @@ function post_bulk_consultings(c_length){
 }
 function post_target_consulting(consulting){
     consulting_missed = $(`input:checkbox[id="missed"]`).is(":checked")
-    consulting_reason = $('#consulting_reason'+consulting_id).val()
-    consulting_solution = $('#consulting_solution'+consulting_id).val()
-    consulting_result = $('#consulting_result'+consulting_id).val()
+    consulting_reason = $('#consulting_reason'+consulting).val()
+    consulting_solution = $('#consulting_solution'+consulting).val()
+    consulting_result = $('#consulting_result'+consulting).val()
     $.ajax({
             type: "POST",
 			url:'/teacher/consulting/'+consulting+'/'+0,
