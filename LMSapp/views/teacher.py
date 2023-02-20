@@ -24,6 +24,7 @@ def home():
     if request.method =='GET':
         teacher_info = callapi.get_teacher_info(session['user_id'])
         mystudents_info = callapi.get_mystudents(session['user_id'])
+        total_student_num = len(mystudents_info)
         mybans_info = callapi.get_mybans(session['user_id'])
         all_ban_info = callapi.all_ban_info()
         all_task_category = TaskCategory.query.all()
@@ -50,17 +51,7 @@ def home():
 
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
 
-        return render_template('teacher.html',user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,students=mystudents_info, questions=my_questions,my_task_category=category_set,all_task_category=all_task_category,all_task_num=all_my_tasks, not_done_task_num=done_tasks,not_done_task_per=done_task_per)
-
-def taskcycle():
-    my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == 1)).all()
-    for task in my_tasks:
-        t = Task.query.filter(Task.id==task.task_id).all()[0]
-        if t.cycle != 7 and Today <= t.deadline.date():
-            task.done = 0
-            db.session.commit()
-        elif t.cycle == 7 and task.done==1:
-            db.session.delete(task)
+        return render_template('teacher.html',total_student_num=total_student_num,user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,students=mystudents_info, questions=my_questions,my_task_category=category_set,all_task_category=all_task_category,all_task_num=all_my_tasks, not_done_task_num=done_tasks,not_done_task_per=done_task_per)
 
 
 @bp.route('/api/get_teacher_ban', methods=['GET'])
