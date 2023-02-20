@@ -234,11 +234,11 @@ function post_target_consulting(consulting,is_done){
     console.log(typeof(consulting_reason))
     console.log(typeof(consulting_solution))
     console.log(typeof(consulting_result))
-    if((consulting_reason == "")){
+    if((consulting_reason.length != 0)){
         consulting_reason="noupdate"
-    }else if((consulting_solution == "")){
+    }else if((consulting_solution.length != 0)){
         consulting_solution="noupdate"
-    }else if((consulting_result == "")){
+    }else if((consulting_result.length != 0)){
         consulting_result="noupdate"
     }
     $.ajax({
