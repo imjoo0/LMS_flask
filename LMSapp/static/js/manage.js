@@ -132,7 +132,7 @@ function paginating(done_code){
                 <td class="col-3">${item.teacher_id}</td>
                 <td class="col-4">${item.contents}</td>
                 <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-                data-bs-target="#answer">✏️</button> <button>❌</button></td>`;
+                data-bs-target="#answer" onclick="get_question(${item.id})">✏️</button> <button>❌</button></td>`;
                 });
                 $('#alim-tr').html(dataHtml);
             }
@@ -140,7 +140,9 @@ function paginating(done_code){
         }
     }) 
 }
-
+function get_question(q_id){
+    console.log(q_id)
+}
 async function get_consulting(){
     let container = $('#consulting-pagination')
     var category_list = []
