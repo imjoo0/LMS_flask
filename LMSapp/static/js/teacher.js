@@ -267,17 +267,17 @@ function task_doneview(done_code){
     }
 }
 
-function get_task(done_code){
-    $.ajax({
+async function get_task(done_code){
+    await $.ajax({
         type: "GET",
         url: "/teacher/"+done_code,
         data: {},
         success: function (response) {
             if(response["task_category"] == '없음'){
                 if(done_code == 0){
-                    $('#task_category_msg').html('오늘의 업무가 없습니다');
+                    $('#task_category_msg0').html('오늘의 업무가 없습니다');
                 }else{
-                    $('#done_task_category_msg').html('완수한 업무가 없습니다.');
+                    $('#task_category_msg1').html('완수한 업무가 없습니다.');
                 }
             }else{
                 $('#task_category_msg'+done_code).empty();
@@ -347,34 +347,6 @@ function get_task(done_code){
     });
 }
 
-async function get_done_task(){
-    $('#task_title').html('완료한 업무')
-    $('#today_task_box').hide();
-    $('#today_done_box').show();
-
-    await $.ajax({
-        type: "GET",
-        url: "/teacher/taskdone",
-        data: {},
-        success: function (response) {
-            if(response["task"] == '없음'){
-                let temp_task_contents_box = `
-                <p> 오늘 완료한 업무가 없어요 😅</p>
-                `;
-                $('#today_done_box').html(temp_task_contents_box);
-            }else{
-                 $('#today_done_box').empty()
-                for(i=0;i<response["task"].length;i++){
-                    let target = response["task"][i]
-                    let temp_task_contents_box = `
-                    <p>✅ ${target} </p>
-                    `;
-                    $('#today_done_box').append(temp_task_contents_box);
-                }
-            }
-        }
-    });
-}
 function get_update_done(){
     $('input:checkbox[name=taskid]').each(function(index){
         if($(this).is(":checked")==true){
