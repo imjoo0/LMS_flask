@@ -275,7 +275,7 @@ async function get_task(done_code){
         url: "/teacher/"+done_code,
         data: {},
         success: function (response) {
-            if(response["task_category"] == '없음'){
+            if((response["task_category"] == '없음')||(response["target_task"].length == 0)){
                 if(done_code == 0){
                     $('#task_category_msg0').html('오늘의 업무가 없습니다');
                 }else{
