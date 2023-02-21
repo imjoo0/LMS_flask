@@ -27,33 +27,14 @@ def home():
         total_student_num = len(mystudents_info)
         mybans_info = callapi.get_mybans(session['user_id'])
         all_ban_info = callapi.all_ban_info()
-        
-        all_task_category = TaskCategory.query.all()
-        my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done != 1) ).all()
-        
+                
         all_my_tasks = len(TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all())
         done_tasks = len(TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == 1)).all())
         done_task_per = int((done_tasks/all_my_tasks)*100)
 
-        if len(my_tasks)!=0:
-            tc = []
-            for task in my_tasks:
-                t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & ( (Task.cycle == today_yoil) | (Task.cycle == 0))).first()
-                if(t != None):
-                    tc.append(t)
-            tc = list(set(tc))
-
-            category_set = []
-            for cate in tc:
-                category_set.append(cate.category_id)
-            category_set = list(set(category_set))
-        else:
-            category_set = '없음'
-
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
 
-        return render_template('teacher.html',total_student_num=total_student_num,user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,students=mystudents_info, questions=my_questions,my_task_category=category_set,all_task_category=all_task_category,all_task_num=all_my_tasks, not_done_task_num=done_tasks,not_done_task_per=done_task_per)
-
+        return render_template('teacher.html',total_student_num=total_student_num,user=teacher_info,my_bans=mybans_info,all_ban=all_ban_info,students=mystudents_info, questions=my_questions,all_task_num=all_my_tasks, not_done_task_num=done_tasks,not_done_task_per=done_task_per)
 
 @bp.route('/api/get_teacher_ban', methods=['GET'])
 def get_ban():
@@ -135,67 +116,14 @@ def task_category(done_code):
         return jsonify({'task_category' : category_set,'target_task':target_task})
         
     elif request.method =='POST':
-        target_task = TaskBan.query.get_or_404(id)
+        # done_code = 완료한 task의 id
+        target_task = TaskBan.query.get_or_404(done_code)
         target_task.done = 1
         try:
             db.session.commit()
             return jsonify({'result': '완료'})
         except:
             return jsonify({'result': '업무완료 실패'})
-        
-@bp.route("/<int:done_code>/<int:category_id>", methods=['GET','POST',])
-def task(done_code,category_id):
-    if request.method == 'GET':
-        my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code)).all()
-
-        tc = []
-        for task in my_tasks:
-            t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.category_id == category_id)).first()
-            # 오늘의 업무만 저장 
-            if t != None:
-                tc.append(t)
-        tc = list(set(tc))
-        
-        category_task = []
-        for task in tc:
-            if( task.cycle == today_yoil or task.cycle == 0 ) : # 주기가 월-금인 경우 
-                category_task.append(task)
-
-
-        # 우선순위 정렬 
-        category_task.sort(key=lambda x : (-x.priority, x.deadline)) 
-        
-        target_task = []
-        if(len(category_task)==0):
-            return jsonify({'task': '없음'})
-        else:
-            for task in category_task:
-                task_data = {}
-                task_data['contents'] = task.contents
-                task_data['url'] = task.url
-                task_data['priority'] = task.priority
-                task_data['deadline'] = task.deadline.strftime('%Y-%m-%d')
-                task_data['task_ban'] = []
-                for tb in my_tasks:
-                    if task.id == tb.task_id:
-                        data = {}
-                        data['id'] = tb.id
-                        data['done'] = tb.done
-                        ban = callapi.get_ban(tb.ban_id)
-                        data['ban'] = ban['ban_name']
-                        task_data['task_ban'].append(data)
-                target_task.append(task_data)
-            return jsonify({'task' : target_task})
-    
-    elif request.method =='POST':
-        target_task = TaskBan.query.get_or_404(id)
-        target_task.done = 1
-        try:
-            db.session.commit()
-            return jsonify({'result': '완료'})
-        except:
-            return jsonify({'result': '업무완료 실패'})
-   
         
 # 오늘 완료 한 업무  get
 @bp.route("/taskdone", methods=['GET'])
