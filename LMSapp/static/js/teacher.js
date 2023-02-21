@@ -16,7 +16,7 @@ $(document).ready(function () {
     get_task(0)
 })
 
-
+// 본원 문의 관련 함수 
 //  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
 function change_question_kind(str){
     if( str == "이반"){
@@ -31,16 +31,82 @@ function change_question_kind(str){
         $('#invisible_for_1').hide();
         $('#invisible_for_2').hide();
         $('#question_box').show();
+
     }
 }
+function go_back(){
+    $('#questiondetail_box').empty();
+    $('#questiondetail').hide();
+    $('#questionlist').show();
+}
+async function get_answer(q_id){
+    await $.ajax({
+       type: "GET",
+       url: "/teacher/question/"+q_id,
+       data: {},
+       success: function (response) {
+           // alert(response["title"])
+       //     if (response["result"]=='문의가 전송되었습니다') {
+       //     window.location.replace('/teacher')
+       // }else {window.location.href='/'}
+       category = response["category"]
+       title = response["title"]
+       contents = response["contents"]
+       teacher = response["teacher"]
+       teacher_e = response["teacher_e"]
+       create_date = response["create_date"]
+       answer = response['answer']
+       answer_at = response['answer_at']
 
-// 진행한 상담 조회
+       if(category == '일반문의'){
+           let temp_question_list = `
+           <ul>
+               <li>종류 : ${category} </li>
+               <li>제목 : ${title}</li>
+               <li>문의 : ${contents}</li>
+               <li>작성자 : ${teacher} ( ${teacher_e} )</li>
+               <li>작성일 : ${create_date}</li>
+               <li>답변 : ${answer}</li>
+               <li>답변일 : ${answer_at}</li>
+           </ul>
+           `;
+           $('#questiondetail_box').append(temp_question_list);
+       }
+       else{
+           ban = response["ban"]
+           student = response["student"]
+           student_origin = response["student_origin"]
+           reject = response["reject"]
+           answer = response["answer"]
+           answer_at = response["answer_at"]
+           let temp_question_list = `
+           <ul>
+               <li>종류 : ${category} </li>
+               <li>제목 : ${title}</li>
+               <li>문의 : ${contents}</li>
+               <li>작성자 : ${teacher} ( ${teacher_e} )</li>
+               <li>작성일 : ${create_date}</li>
+               <li>대상 반 | 학생: ${ban} ➖ ${student} ( ${student_origin} )</li>
+               <li>처리 : ${ reject } </li>
+               <li>응답 : ${answer} </li>
+               <li>응답일 : ${answer_at} </li>
+           </ul>
+           `;
+           $('#questiondetail_box').append(temp_question_list);
+       }
+       }
+   });
+   $('#questionlist').hide()
+   $('#questiondetail').show()
+}
+
+
+// 상담 수행 관련 함수
 function get_consulting_history(){
     let is_done = $('#history_done option:selected').val()
     let ban_id = $('#history_ban option:selected').val()
     done_consulting_history_view(ban_id,is_done)
 }
-
 function done_consulting_history_view(ban_id,is_done){
     $.ajax({
         type: "GET",
@@ -81,7 +147,6 @@ function done_consulting_history_view(ban_id,is_done){
     });
 
 }
-
 function get_consulting_student(ban_regi,is_done){
     if(ban_regi == 0){
         $('#consulting_student_list').hide();
@@ -255,6 +320,7 @@ function post_target_consulting(consulting,is_done){
 		})
 }
 
+// 오늘의 업무 관련 함수 
 function task_doneview(done_code){
     if(done_code == 0){
         $('#task_title').html('오늘의 업무')
@@ -268,7 +334,6 @@ function task_doneview(done_code){
         $('#today_task_box1').show();
     }
 }
-
 async function get_task(done_code){
     await $.ajax({
         type: "GET",
@@ -350,7 +415,6 @@ async function get_task(done_code){
         }
     });
 }
-
 function get_update_done(){
     $('input:checkbox[name=taskid]').each(function(index){
         if($(this).is(":checked")==true){
@@ -374,73 +438,7 @@ function update_done(target){
 		})
 }
 
-async function get_answer(q_id){
-     await $.ajax({
-        type: "GET",
-        url: "/teacher/question/"+q_id,
-        data: {},
-        success: function (response) {
-            // alert(response["title"])
-        //     if (response["result"]=='문의가 전송되었습니다') {
-        //     window.location.replace('/teacher')
-        // }else {window.location.href='/'}
-        category = response["category"]
-        title = response["title"]
-        contents = response["contents"]
-        teacher = response["teacher"]
-        teacher_e = response["teacher_e"]
-        create_date = response["create_date"]
-        answer = response['answer']
-        answer_at = response['answer_at']
-
-        if(category == '일반문의'){
-            let temp_question_list = `
-            <ul>
-                <li>종류 : ${category} </li>
-                <li>제목 : ${title}</li>
-                <li>문의 : ${contents}</li>
-                <li>작성자 : ${teacher} ( ${teacher_e} )</li>
-                <li>작성일 : ${create_date}</li>
-                <li>답변 : ${answer}</li>
-                <li>답변일 : ${answer_at}</li>
-            </ul>
-            `;
-            $('#questiondetail_box').append(temp_question_list);
-        }
-        else{
-            ban = response["ban"]
-            student = response["student"]
-            student_origin = response["student_origin"]
-            reject = response["reject"]
-            answer = response["answer"]
-            answer_at = response["answer_at"]
-            let temp_question_list = `
-            <ul>
-                <li>종류 : ${category} </li>
-                <li>제목 : ${title}</li>
-                <li>문의 : ${contents}</li>
-                <li>작성자 : ${teacher} ( ${teacher_e} )</li>
-                <li>작성일 : ${create_date}</li>
-                <li>대상 반 | 학생: ${ban} ➖ ${student} ( ${student_origin} )</li>
-                <li>처리 : ${ reject } </li>
-                <li>응답 : ${answer} </li>
-                <li>응답일 : ${answer_at} </li>
-            </ul>
-            `;
-            $('#questiondetail_box').append(temp_question_list);
-        }
-        }
-    });
-    $('#questionlist').hide()
-    $('#questiondetail').show()
-}
-
-function go_back(){
-    $('#questiondetail_box').empty();
-    $('#questiondetail').hide();
-    $('#questionlist').show();
-}
-
+// 남규님 
 function get_data(){
     $.ajax({
         type: "GET",
