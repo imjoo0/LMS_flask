@@ -298,7 +298,7 @@ async function get_task(done_code){
                     </details>`
                     $('#today_task_box'+done_code).append(temp_category);
                 }
-                if(response["target_task"] == '없음'){
+                if((response["target_task"] == '없음')||(response["target_task"].length == 0) ){
                     $('.task_msg0').html('오늘의 업무를 전부 완료했어요 😆');
                     $('.task_msg1').html('완수한 업무가 아직 없어요');
                 }else{
