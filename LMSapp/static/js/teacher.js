@@ -285,7 +285,7 @@ function get_task_category(done_code){
                     console.log(category)
                     let temp_category = `
                     <details>
-                    <summary onclick="get_task('${done_code},${c_id}')"><strong>${c_name}
+                    <summary><strong>${c_name}
                             업무 </strong></summary>
                     <div class="make_col" id="task_contents_box${c_id}">
                         <p class="task_msg"></p>
