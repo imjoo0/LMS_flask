@@ -280,13 +280,12 @@ function get_task_category(done_code){
                 $('#today_task_box').empty();
                 for(i=0;i<response["task_category"].length;i++){
                     let category = response["task_category"][i]
-                    let category_id = category['c_id']
-                    let category_name= category['c_name']
+                    console.log(category)
                     let temp_category = `
                     <details>
-                    <summary onclick="get_task('${category_id}')"><strong>${category_name}
+                    <summary onclick="get_task('${category}')"><strong>${category}
                             업무 </strong></summary>
-                    <div class="make_col" id="task_contents_box${category_id}"></div>
+                    <div class="make_col" id="task_contents_box${category}"></div>
                     </details>`
                     $('#today_task_box').append(temp_category);
                 }

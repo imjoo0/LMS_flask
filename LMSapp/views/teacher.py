@@ -106,11 +106,7 @@ def task_category(done_code):
 
             category_set = []
             for cate in tc:
-                c = TaskCategory.query.filter(TaskCategory.id == cate.category_id).first()
-                category_data = {}
-                category_data['c_id'] = c.id
-                category_data['c_name'] = c.name
-                category_set.append(category_data)
+                category_set.append(cate.category_id +'@'+(TaskCategory.query.filter(TaskCategory.id == cate.category_id).first().name))
             category_set = list(set(category_set))
         else:
             category_set = '없음'
