@@ -54,13 +54,16 @@ def home():
         return render_template('manage.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting, task_category=all_task_category, tasks=all_task, questions=all_questions)
 
 
-@bp.route('/api/get_all_questions', methods=['GET'])
-def get_all_questions():
+@bp.route('/api/get_all_questions/<int:done_code>', methods=['GET'])
+def get_all_questions(done_code):
     if request.method == 'GET':
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute('select id, title, contents, answer_id, teacher_id from question;')
+                if(done_code == 0):
+                    cur.execute('select id, title, contents, answer_id, teacher_id from question where answer_id IS NULL;')
+                else:
+                    cur.execute('select id, title, contents, answer_id, teacher_id from question where answer_id IS NOT NULL;')
                 all_questions = cur.fetchall();
         except:
             print('err')

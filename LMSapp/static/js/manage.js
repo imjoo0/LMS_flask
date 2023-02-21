@@ -107,10 +107,10 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list, consu
     });
 }
 
-function paginating(){
+function paginating(done_code){
     let container = $('#pagination')
     $.ajax({
-        url: '/manage/api/get_all_questions',
+        url: '/manage/api/get_all_questions/'+done_code,
         type: 'get',
         data: {},
         success: function(data){
@@ -548,8 +548,3 @@ function getBanInfo(b_id){
             }
     })
 }
-
-// // 반 id가 입력되면 view를 바꿔주는 함수 
-// function consulting_ban(b_id){
-
-// }
