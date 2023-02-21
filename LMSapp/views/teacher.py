@@ -107,14 +107,32 @@ def task_category(done_code):
             if(len(tc) == 0 ):
                 tc = '없음'
             else:
+                # 우선순위 정렬 
+                tc.sort(key=lambda x : (-x.priority, x.deadline)) 
+                target_task = []
                 category_set = []
                 for task in tc:
                     category_set.append(str(task.category_id) +'@'+(TaskCategory.query.filter(TaskCategory.id == task.category_id).first().name))
+                    task_data = {}
+                    task_data['contents'] = task.contents
+                    task_data['url'] = task.url
+                    task_data['priority'] = task.priority
+                    task_data['deadline'] = task.deadline.strftime('%Y-%m-%d')
+                    task_data['task_ban'] = []
+                    for tb in my_tasks:
+                        if task.id == tb.task_id:
+                            data = {}
+                            data['id'] = tb.id
+                            data['done'] = tb.done
+                            ban = callapi.get_ban(tb.ban_id)
+                            data['ban'] = ban['ban_name']
+                            task_data['task_ban'].append(data)
+                    target_task.append(task_data)
                 category_set = list(set(category_set))
         else:
             category_set = '없음'
-        return jsonify({'task_category' : category_set})
-    
+        return jsonify({'task_category' : category_set,'target_task':target_task})
+        
     elif request.method =='POST':
         target_task = TaskBan.query.get_or_404(id)
         target_task.done = 1
