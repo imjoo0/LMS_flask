@@ -231,16 +231,16 @@ function post_target_consulting(consulting,is_done){
     consulting_reason = $('#consulting_reason'+consulting).val()
     consulting_solution = $('#consulting_solution'+consulting).val()
     consulting_result = $('#consulting_result'+consulting).val()
-    console.log(typeof(consulting_reason))
-    console.log(typeof(consulting_solution))
-    console.log(typeof(consulting_result))
-    if((consulting_reason.length != 0)){
+    if((consulting_reason.length == 0)){
         consulting_reason="noupdate"
-    }else if((consulting_solution.length != 0)){
+    }else if((consulting_solution.length == 0)){
         consulting_solution="noupdate"
-    }else if((consulting_result.length != 0)){
+    }else if((consulting_result.length == 0)){
         consulting_result="noupdate"
     }
+    console.log(consulting_reason)
+    console.log(consulting_solution)
+    console.log(consulting_result)
     $.ajax({
             type: "POST",
 			url:'/teacher/consulting/'+consulting+'/'+is_done,
