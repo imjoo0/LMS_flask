@@ -114,6 +114,8 @@ def task_category(done_code):
         else:
             category_set = '없음'
             target_task = '없음'
+        print(category_set)
+        print(target_task)
         return jsonify({'task_category' : category_set,'target_task':target_task})
         
     elif request.method =='POST':
