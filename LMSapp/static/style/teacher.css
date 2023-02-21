@@ -283,5 +283,5 @@
         height: 100%;
     }
 
-#today_task_box,#today_done_box,#consulting_student_list{display: none}
+#today_done_box,#consulting_student_list{display: none}
 #h_title,#today_consulting_box,#missed_consulting_history_box{display: none}
