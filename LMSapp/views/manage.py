@@ -45,7 +45,7 @@ def get_all_questions(done_code):
         # finally:
         #     db.close()
 
-        return json.dumps(all_questions)
+        return jsonify({'all_questions':all_questions})
 
 @bp.route('/api/get_consulting', methods=['GET'])
 def get_consulting():
