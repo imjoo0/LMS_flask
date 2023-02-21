@@ -31,39 +31,21 @@ def home():
 @bp.route('/api/get_all_questions/<int:done_code>', methods=['GET'])
 def get_all_questions(done_code):
     if request.method == 'GET':
-        if(done_code == 0):
-            all_questions = Question.query.filter(Question.answer_id == None).all()
-        else:
-            all_questions = Question.query.filter(Question.answer_id != None).all()
-        data = []
-        for q in all_questions :
-            teacher_info = callapi.get_teacher_info_by_id(q.teacher_id)
-            a = Answer.query.filter(Answer.question_id == q.id).all()
-            return_data = {}
-            return_data['category'] = '일반문의' if q.category == 0 else '퇴소 요청' if q.category == 1 else '이반 요청'if q.category == 2 else '취소/환불 요청' 
-            return_data['title'] = q.title
-            return_data['contents'] = q.contents
-            return_data['create_date'] = q.create_date.strftime('%Y-%m-%d')
-            return_data['teacher'] = teacher_info['name']
-            return_data['teacher_e'] = teacher_info['engname']
-            return_data['answer'] = a.content if len(a)  > 0 else '✖️'
-            return_data['answer_at'] = a.created_at if len(a) > 0  else '✖️'
-            return_data['reject'] = a.reject_code if q.category != 0 and len(a) > 0 else ''
-            data.append(return_data)
-        # db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        # try:
-        #     with db.cursor() as cur:
-        #         if(done_code == 0):
-        #             cur.execute('select id, title, contents, answer_id, teacher_id from question where answer_id IS NULL;')
-        #         else:
-        #             cur.execute('select id, title, contents, answer_id, teacher_id from question where answer_id IS NOT NULL;')
-        #         all_questions = cur.fetchall();
-        # except:
-        #     print('err')
-        # finally:
-        #     db.close()
+        all_questions = Question.query.filter(Question.answer_id == None).all()
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                if(done_code == 0):
+                    cur.execute('select id, title, contents, answer_id, teacher_id from question where answer_id IS NULL;')
+                else:
+                    cur.execute('select id, title, contents, answer_id, teacher_id from question where answer_id IS NOT NULL;')
+                all_questions = cur.fetchall();
+        except:
+            print('err')
+        finally:
+            db.close()
 
-        return jsonify({'all_questions':data})
+        return json.dumps(all_questions)
 
 @bp.route('/api/get_consulting', methods=['GET'])
 def get_consulting():
