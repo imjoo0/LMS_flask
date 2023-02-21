@@ -235,7 +235,7 @@ function post_target_consulting(consulting,is_done){
         consulting_reason="noupdate"
     }if((consulting_solution.length == 0)){
         consulting_solution="noupdate"
-    }else if((consulting_result.length == 0)){
+    }if((consulting_result.length == 0)){
         consulting_result="noupdate"
     }
     $.ajax({
