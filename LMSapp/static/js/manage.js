@@ -141,7 +141,6 @@ function paginating(done_code){
     }) 
 }
 function get_question(q_id){ 
-    $('#answerModalLabel').html('')
     $.ajax({
         type: "GET",
         url: "/teacher/question/"+q_id,
@@ -155,6 +154,7 @@ function get_question(q_id){
             create_date = response["create_date"]
             answer = response['answer']
             answer_at = response['answer_at']
+            $('#answerModalLabel').html(`${teacher}(${teacher_e})문의`)
             if(category == '일반문의'){
                 let temp_question_list = `
                 <ul>
