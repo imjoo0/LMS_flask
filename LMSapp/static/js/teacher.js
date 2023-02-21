@@ -336,7 +336,7 @@ function get_task_category(done_code){
                     let temp_task_button = `
                     <button onclick="get_update_done()">업무 완료 저장</button>
                     `
-                    $('#today_task_box').html(temp_task_button)
+                    $('#today_task_box').append(temp_task_button)
                 }
             }
             
