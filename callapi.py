@@ -20,6 +20,12 @@ def get_teacher_info(teacher_id):
     if(len(result)>0):
         result = result[0]
     return result
+def get_teacher_info_by_id(teacher_id):
+    result = requests.post(config.api + 'get_teacher_info_by_id', headers=headers, data=json.dumps({'data':{'id': teacher_id}}))
+    result = result.json()
+    if(len(result)>0):
+        result = result[0]
+    return result
 
 def get_mystudents(teacher_id):
     result = requests.post(config.api + 'get_mystudents', headers=headers, data=json.dumps({'data':{'id': teacher_id}}))
