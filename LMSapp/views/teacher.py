@@ -90,15 +90,16 @@ def get_ban():
 def task_category(done_code):
     if request.method == 'GET':
         # done_code == 1 이면 완료한 업무 
-        # done_code == 0 이면 오늘의 업무 
-        my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code)).all()
+        # done_code == 0 이면 오늘의 업무
+        if(done_code == 1): 
+            my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code) & (TaskBan.created_at == Today)).all()
+        else: 
+            my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code)).all()
         if len(my_tasks)!=0:
             tc = []
             for task in my_tasks:
-                if(done_code == 1): 
-                    t = Task.query.filter((Task.id==task.task_id) & (Task.created_at == Today)).first()
-                else:
-                    t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline )).first()
+                t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline )).first()
+                
                 # 오늘의 업무만 저장 
                 if t != None:
                     tc.append(t)
