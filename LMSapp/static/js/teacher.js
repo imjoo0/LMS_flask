@@ -323,18 +323,21 @@ async function get_task(done_code){
                             `;
                             $('#task_contents_box'+category).append(temp_task_contents_box);
                         }
-                        $('#task_ban_box_incomplete'+i).empty()
-                        $('#task_ban_box_complete'+i).empty()
-                        let target_ban = target['task_ban']
-                        for(j=0;j<target_ban.length;j++){
-                            let target_ban_data = target_ban[j]
-                            let task_id = target_ban_data['id']
-                            let name = target_ban_data['ban']
-                            let temp_task_ban_box = `
-                            <label><input type="checkbox" name="taskid" value="${task_id}">${name}</label>
-                            `;
-                            $('#task_ban_box_incomplete'+i).append(temp_task_ban_box);
+                        if(done_code == 0){
+                            $('#task_ban_box_incomplete'+i).empty()
+                            $('#task_ban_box_complete'+i).empty()
+                            let target_ban = target['task_ban']
+                            for(j=0;j<target_ban.length;j++){
+                                let target_ban_data = target_ban[j]
+                                let task_id = target_ban_data['id']
+                                let name = target_ban_data['ban']
+                                let temp_task_ban_box = `
+                                <label><input type="checkbox" name="taskid" value="${task_id}">${name}</label>
+                                `;
+                                $('#task_ban_box_incomplete'+i).append(temp_task_ban_box);
+                            }
                         }
+                        
                     }
                     let temp_task_button = `
                     <button onclick="get_update_done()">업무 완료 저장</button>
