@@ -140,8 +140,59 @@ function paginating(done_code){
         }
     }) 
 }
-function get_question(q_id){
-    console.log(q_id)
+function get_question(q_id){ 
+    $('#answerModalLabel').html('')
+    $.ajax({
+        type: "GET",
+        url: "/teacher/question/"+q_id,
+        data: {},
+        success: function (response) {
+            category = response["category"]
+            title = response["title"]
+            contents = response["contents"]
+            teacher = response["teacher"]
+            teacher_e = response["teacher_e"]
+            create_date = response["create_date"]
+            answer = response['answer']
+            answer_at = response['answer_at']
+            if(category == '일반문의'){
+                let temp_question_list = `
+                <ul>
+                    <li>종류 : ${category} </li>
+                    <li>제목 : ${title}</li>
+                    <li>문의 : ${contents}</li>
+                    <li>작성자 : ${teacher} ( ${teacher_e} )</li>
+                    <li>작성일 : ${create_date}</li>
+                    <li>답변 : ${answer}</li>
+                    <li>답변일 : ${answer_at}</li>
+                </ul>
+                `;
+                $('#teacher_question').append(temp_question_list);
+            }
+            else{
+                ban = response["ban"]
+                student = response["student"]
+                student_origin = response["student_origin"]
+                reject = response["reject"]
+                answer = response["answer"]
+                answer_at = response["answer_at"]
+                let temp_question_list = `
+                <ul>
+                    <li>종류 : ${category} </li>
+                    <li>제목 : ${title}</li>
+                    <li>문의 : ${contents}</li>
+                    <li>작성자 : ${teacher} ( ${teacher_e} )</li>
+                    <li>작성일 : ${create_date}</li>
+                    <li>대상 반 | 학생: ${ban} ➖ ${student} ( ${student_origin} )</li>
+                    <li>처리 : ${ reject } </li>
+                    <li>응답 : ${answer} </li>
+                    <li>응답일 : ${answer_at} </li>
+                </ul>
+                `;
+                $('#teacher_question').append(temp_question_list);
+            }
+        }
+    });
 }
 async function get_consulting(){
     let container = $('#consulting-pagination')

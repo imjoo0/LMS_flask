@@ -11,26 +11,6 @@ import callapi
 
 bp = Blueprint('manage', __name__, url_prefix='/manage')
 
-# # json type not seriallizabel 해결 함수
-#     # object 인 경우 -> get_student(obj)
-# def get_student_json(student):
-#     return {
-#         'id': student['register_no'],
-#         'name': student['name'],
-#         'original': student['origin'],
-#         'mobileno': student['mobileno'],
-#         'parent_name_mobileno': '(' + student['pname'] + ')' + student['pmobileno'],
-#         'register_date': student['register_date'].strftime('%Y-%m-%d')
-#     }
-
-#     # datetime인 경우 json_default()
-
-# def json_default(value):
-#   if isinstance(value, datetime.date):
-#     return value.strftime('%Y-%m-%d')
-#   raise TypeError('not JSON serializable')
-# #   json_data = json.dumps(data, default=json_default) <- 사용시 이 포멧으로
-
 # 관리부서 메인 페이지
 # 테스트 계정 id : T0001 pw동일
 @bp.route("/", methods=['GET'])
@@ -38,18 +18,12 @@ def home():
     if request.method == 'GET':
         user = callapi.get_teacher_info(session['user_id'])
         all_ban = callapi.all_ban_info()
-        # ban_teacher= []
-        # for ban in all_ban:
-        #     ban_teacher.append(callapi.get_ban(ban['register_no']))
-        # print(ban_teacher)
         
         all_consulting_category = ConsultingCategory.query.filter(ConsultingCategory.id > 100).all()
         all_consulting = Consulting.query.all()
         all_task_category = TaskCategory.query.all()
         all_task = Task.query.all()
         all_questions = Question.query.order_by(Question.id.desc())
-        #page = request.args.get('page',type=int,default=1)
-        #all_questions = all_questions.paginate(page=page, per_page=10)
 
         return render_template('manage.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting, task_category=all_task_category, tasks=all_task, questions=all_questions)
 

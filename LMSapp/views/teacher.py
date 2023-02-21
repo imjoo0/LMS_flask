@@ -130,24 +130,6 @@ def task(done_code):
             return jsonify({'result': '완료'})
         except:
             return jsonify({'result': '업무완료 실패'})
-        
-# 오늘 완료 한 업무  get
-@bp.route("/taskdone", methods=['GET'])
-def taskdone():
-    if request.method == 'GET':
-        my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == 1)).all()
-
-        tc = []
-        for task in my_tasks:
-            t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline )).first()
-            # 오늘의 업무만 저장 
-            if t != None:
-                tc.append(t.contents)
-        tc = list(set(tc))
-        if(len(tc)==0):
-            return jsonify({'task': '없음'})
-        else:
-            return jsonify({'task' : tc})
 
 # 선생님이 담당 중인 반 학생중 상담을 하지 않은 학생(is_done = 0) 상담을 한 학생(is_done = 1) 정보
 @bp.route("/mystudents/<int:ban_id>/<int:is_done>", methods=['GET'])
@@ -298,10 +280,10 @@ def request_question():
 
 # 본원 답변 조회 
 @bp.route('/question/<int:id>', methods=['GET'])
-def answer(id):
+def question(id):
     if request.method == 'GET':
         q = Question.query.filter(Question.id == id).all()[0]
-        teacher_info = callapi.get_teacher_info(session['user_id'])
+        teacher_info = callapi.get_teacher_info(q.teacher_id)
         a = Answer.query.filter(Answer.question_id == q.id).all()
         return_data = {}
         return_data['category'] = '일반문의' if q.category == 0 else '퇴소 요청' if q.category == 1 else '이반 요청'if q.category == 2 else '취소/환불 요청' 
