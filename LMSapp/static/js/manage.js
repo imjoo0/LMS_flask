@@ -168,6 +168,7 @@ function get_question(q_id){
                 </ul>
                 `;
                 $('#teacher_question').html(temp_question_list);
+                l
             }
             else{
                 ban = response["ban"]
