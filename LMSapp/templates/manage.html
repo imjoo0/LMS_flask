@@ -437,6 +437,10 @@
             </div>
             <div class="info">
                 <div class="d-flex justify-content-center align-items-center flex-column w-100"> 
+                    <select id="question_view" class="form-select text-center w-25" name="question_view" onchange="question_view(this.value)">
+                    <option value=0 selected>미응답 문의</option>
+                    <option value=1>응답한 문의</option>
+                    </select>
                     <table class="table text-center" id="teacher_question" style="width:100%;">
                         <thead>
                             <tr class="row">
