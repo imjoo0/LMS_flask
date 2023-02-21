@@ -292,7 +292,7 @@ async function get_task(done_code){
                     <details>
                     <summary><strong>${c_name}
                             업무 </strong></summary>
-                    <div class="make_col" id="task_contents_box${c_id}@${done_code}">
+                    <div class="make_col" id="task_contents_box${c_id}">
                         <p class="task_msg${done_code}"></p>
                     </div>
                     </details>`
@@ -315,7 +315,7 @@ async function get_task(done_code){
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                             </form>
                             `;
-                            $('#task_contents_box'+category+'@'+done_code).append(temp_task_contents_box);
+                            $('#task_contents_box'+category).append(temp_task_contents_box);
                         }else{
                             let temp_task_contents_box = `
                             <p>✅ ${contents}  (마감 : ${deadline}) </p>
@@ -323,7 +323,7 @@ async function get_task(done_code){
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                             </form>
                             `;
-                            $('#task_contents_box'+category+'@'+done_code).append(temp_task_contents_box);
+                            $('#task_contents_box'+category).append(temp_task_contents_box);
                         }
                         if(done_code == 0){
                             $('#task_ban_box_incomplete'+i).empty()
@@ -339,7 +339,6 @@ async function get_task(done_code){
                                 $('#task_ban_box_incomplete'+i).append(temp_task_ban_box);
                             }
                         }
-                        
                     }
                     let temp_task_button = `
                     <button onclick="get_update_done()">업무 완료 저장</button>
