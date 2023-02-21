@@ -228,15 +228,20 @@ function post_bulk_consultings(c_length,is_done){
 }
 function post_target_consulting(consulting,is_done){
     consulting_missed = $(`input:checkbox[id="missed"]`).is(":checked")
-    consulting_reason = $('#consulting_reason'+consulting).val()
-    consulting_solution = $('#consulting_solution'+consulting).val()
-    consulting_result = $('#consulting_result'+consulting).val()
     if((consulting_reason.length == 0)){
         consulting_reason="noupdate"
-    }else if((consulting_solution.length == 0)){
+    }else{
+        consulting_reason = $('#consulting_reason'+consulting).val()
+    }
+    if((consulting_solution.length == 0)){
         consulting_solution="noupdate"
-    }else if((consulting_result.length == 0)){
+    }else{
+        consulting_solution = $('#consulting_solution'+consulting).val()
+    }
+    if((consulting_result.length == 0)){
         consulting_result="noupdate"
+    }else{
+        consulting_result = $('#consulting_result'+consulting).val()
     }
     $.ajax({
             type: "POST",

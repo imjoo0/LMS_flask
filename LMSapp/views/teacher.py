@@ -259,16 +259,14 @@ def consulting(id,is_done):
                 db.session.add(new_history)
             else:
                 target_consulting_history = ConsultingHistory.query.filter(ConsultingHistory.consulting_id == id).first()
-                print(received_reason)
-                print(received_solution)
-                print(received_result)
                 if(received_reason !="noupdate"):
                     target_consulting_history.reason = received_reason
-                elif(received_solution !="noupdate"):    
+                if(received_solution !="noupdate"):    
                     target_consulting_history.solution = received_solution
-                elif(received_result !="noupdate"):    
+                if(received_result !="noupdate"):    
                     target_consulting_history.result = received_result
-                target_consulting_history.created_at = Today
+                if((received_reason !="noupdate") or (received_solution !="noupdate") or (received_result !="noupdate")):
+                    target_consulting_history.created_at = Today
             target_consulting.done = 1
             db.session.commit()
             return{'result':'상담일지 저장 완료'}
