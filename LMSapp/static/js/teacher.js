@@ -222,7 +222,6 @@ function get_consulting(student_id,is_done){
 function post_bulk_consultings(c_length,is_done){
     for(i=0;i<c_length;i++){
         target = $('#target_consulting_id'+i).val()
-        console.log(target)
         post_target_consulting(target,is_done)
     }
 }
