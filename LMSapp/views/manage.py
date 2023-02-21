@@ -49,6 +49,7 @@ def get_all_questions(done_code):
             return_data['answer'] = a.content if len(a)  > 0 else '✖️'
             return_data['answer_at'] = a.created_at if len(a) > 0  else '✖️'
             return_data['reject'] = a.reject_code if q.category != 0 and len(a) > 0 else ''
+            data.append(return_data)
         # db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         # try:
         #     with db.cursor() as cur:
@@ -62,7 +63,7 @@ def get_all_questions(done_code):
         # finally:
         #     db.close()
 
-        return jsonify({'all_questions':all_questions})
+        return jsonify({'all_questions':data})
 
 @bp.route('/api/get_consulting', methods=['GET'])
 def get_consulting():
