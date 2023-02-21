@@ -74,10 +74,8 @@ def task_category(done_code):
         # done_code == 0 이면 오늘의 업무
         if(done_code == 1): 
             my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code) & (TaskBan.created_at == Today)).all()
-            print(my_tasks)
         else: 
             my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code)).all()
-            print(my_tasks)
         if len(my_tasks)!=0:
             tc = []
             for task in my_tasks:
@@ -86,8 +84,9 @@ def task_category(done_code):
                 # 오늘의 업무만 저장 
                 if t != None:
                     tc.append(t)
+            
+            tc = list(set(tc))
             if(len(tc) == 0 ):
-                tc = list(set(tc))
                 target_task = '없음'
                 category_set = '없음'
             else:
