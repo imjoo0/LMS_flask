@@ -350,8 +350,6 @@ async function get_task(done_code){
             
         }
     });
-    $('#today_task_box0').show();
-    $('#today_task_box1').hide();
 }
 
 function get_update_done(){
