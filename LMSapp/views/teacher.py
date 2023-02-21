@@ -114,6 +114,7 @@ def task_category(done_code):
                         print(my_tasks)
                         for tb in my_tasks:
                             if(tb.created_at == Today):
+                                print('여기')
                                 target_task.append(task_data)
                 category_set = list(set(category_set))
         else: 
