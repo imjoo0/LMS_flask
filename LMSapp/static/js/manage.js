@@ -167,7 +167,7 @@ function get_question(q_id){
                     <li>답변일 : ${answer_at}</li>
                 </ul>
                 `;
-                $('#teacher_question').append(temp_question_list);
+                $('#teacher_question').html(temp_question_list);
             }
             else{
                 ban = response["ban"]
@@ -189,7 +189,7 @@ function get_question(q_id){
                     <li>응답일 : ${answer_at} </li>
                 </ul>
                 `;
-                $('#teacher_question').append(temp_question_list);
+                $('#teacher_question').html(temp_question_list);
             }
         }
     });
