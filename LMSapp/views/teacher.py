@@ -254,11 +254,13 @@ def consulting(id,is_done):
             received_solution = request.form['consulting_solution']
             # 제공 가이드
             received_result = request.form['consulting_result']
-            if(is_done == 0):
+            
+            target_consulting_history = ConsultingHistory.query.filter(ConsultingHistory.consulting_id == id)
+            if((is_done == 0) and (target_consulting_history != None)):
                 new_history = ConsultingHistory(consulting_id=id,reason=received_reason,solution=received_solution,result=received_result,created_at=Today)
                 db.session.add(new_history)
             else:
-                target_consulting_history = ConsultingHistory.query.filter(ConsultingHistory.consulting_id == id).first()
+                target_consulting_history = target_consulting_history.first()
                 if(received_reason !="noupdate"):
                     target_consulting_history.reason = received_reason
                 if(received_solution !="noupdate"):    
