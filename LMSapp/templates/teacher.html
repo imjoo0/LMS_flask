@@ -92,13 +92,8 @@
                         </div>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">이반 요청 반</span>
-                            <select class="modal-body-select" name="new_ban_id">
-                                <option value="none" selected>이반 하려는 반을 선택해주세요</option>
-                                {% for ban in all_ban %}
-                                {% set ban_registerno = ban['register_no'] %}
-                                <option value={{ban_registerno}}>{{ ban['name'] }} ({{ ban['semester'] }}학기)</option>
-                                {% endfor %}
-                            </select>
+                            <input class="modal-body-select" type="text" size="50" name="new_ban_id"
+                                style="width: 75%;">
                         </div>
                     </div>
                     <!-- invisible_for_2 end -->
