@@ -86,9 +86,10 @@ def task_category(done_code):
                 # 오늘의 업무만 저장 
                 if t != None:
                     tc.append(t)
-            tc = list(set(tc))
             if(len(tc) == 0 ):
+                tc = list(set(tc))
                 target_task = '없음'
+                category_set = '없음'
             else:
                 # 우선순위 정렬 
                 tc.sort(key=lambda x : (-x.priority, x.deadline)) 
@@ -113,8 +114,7 @@ def task_category(done_code):
                             task_data['task_ban'].append(data)
                     target_task.append(task_data)
                 category_set = list(set(category_set))
-        else:
-            print('<<>>??????')        
+        else: 
             category_set = '없음'
             target_task = '없음'
         return jsonify({'task_category' : category_set,'target_task':target_task})
