@@ -113,7 +113,7 @@ def task_category(done_code):
                 category_set = list(set(category_set))
         else:
             category_set = '없음'
-        return jsonify({'task_category' : category_set},{'task':tc})
+        return jsonify({'task_category' : category_set})
     
     elif request.method =='POST':
         target_task = TaskBan.query.get_or_404(id)

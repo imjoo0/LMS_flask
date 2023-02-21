@@ -291,17 +291,6 @@ function get_task_category(done_code){
                     </details>`
                     $('#today_task_box').append(temp_category);
                 }
-                for(i=0;i<response["task"].length;i++){
-                    let target = response["task"][i]
-                    let category = target.category_id
-                    console.log(category)
-                    let temp_task = `
-                    <p>✅ ${target.contents}  (마감 : ${target.deadline}) </p>
-                        <form method="post" class="make_row" id="task_ban_box_incomplete${category_id}${i}">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
-                        </form>`
-                    $('#task_contents_box'+category).append(temp_task);
-                }
             }
         }
     });
