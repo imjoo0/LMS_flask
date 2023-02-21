@@ -11,6 +11,8 @@
 
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
+    $('#today_task_box0').show();
+    $('#today_task_box1').hide();
     get_task(0)
 })
 
@@ -348,6 +350,8 @@ async function get_task(done_code){
             
         }
     });
+    $('#today_task_box0').show();
+    $('#today_task_box1').hide();
 }
 
 function get_update_done(){
