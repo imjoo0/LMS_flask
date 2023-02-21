@@ -274,15 +274,18 @@ function get_task_category(done_code){
         data: {},
         success: function (response) {
             if(response["task_category"] == '없음'){
-                $('#task_category_msg').html('오늘의 업무가 없습니다');
+                if(done_code == 0){
+                    $('#task_category_msg').html('오늘의 업무가 없습니다');
+                }else{
+                    $('#done_task_category_msg').html('완수한 업무가 없습니다.');
+                }
             }else{
-                $('#task_category_msg').empty();
-                $('#today_task_box').empty();
+                $('#task_category_msg'+done_code).empty();
+                $('#today_task_box'+done_code).empty();
                 for(i=0;i<response["task_category"].length;i++){
                     let category = response["task_category"][i]
                     let c_id = category.split('@')[0]
                     let c_name = category.split('@')[1]
-                    console.log(category)
                     let temp_category = `
                     <details>
                     <summary><strong>${c_name}
@@ -291,9 +294,8 @@ function get_task_category(done_code){
                         <p class="task_msg"></p>
                     </div>
                     </details>`
-                    $('#today_task_box').append(temp_category);
+                    $('#today_task_box'+done_code).append(temp_category);
                 }
-                console.log(response['target_task'])
                 if(response["target_task"] == '없음'){
                     $('.task_msg').html('오늘의 업무를 전부 완료했어요 😆');
                 }else{
