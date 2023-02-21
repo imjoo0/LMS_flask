@@ -35,9 +35,9 @@ def get_all_questions(done_code):
         try:
             with db.cursor() as cur:
                 if(done_code == 0):
-                    cur.execute('select id, title, contents, create_date from question where answer_id IS NULL;')
+                    cur.execute('select id, title, contents, answer_id, teacher_id from question where answer_id IS NULL;')
                 else:
-                    cur.execute('select id, title, contents, create_date from question where answer_id IS NOT NULL;')
+                    cur.execute('select id, title, contents, answer_id, teacher_id from question where answer_id IS NOT NULL;')
                 all_questions = cur.fetchall();
         except:
             print('err')
