@@ -73,7 +73,7 @@ def task_category(done_code):
         # done_code == 1 이면 완료한 업무 
         # done_code == 0 이면 오늘의 업무
         if(done_code == 1): 
-            my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code) & (TaskBan.created_at.date() == Today)).all()
+            my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code) & (TaskBan.created_at == Today)).all()
         else: 
             my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code)).all()
         if len(my_tasks)!=0:
@@ -120,6 +120,7 @@ def task_category(done_code):
         # done_code = 완료한 task의 id
         target_task = TaskBan.query.get_or_404(done_code)
         target_task.done = 1
+        target_task.created_at = Today
         try:
             db.session.commit()
             return jsonify({'result': '완료'})
