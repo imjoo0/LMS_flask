@@ -161,7 +161,7 @@ function get_consulting(student_id,is_done){
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">상담 사유</span>
                         <input class="modal-body-select" type="text" size="50"
-                            id="consulting_reason${consulting_id}" style="width: 75%;"placeholder="${history_reason}">
+                            id="consulting_reason${consulting_id}" style="width: 75%;" placeholder="${history_reason}">
                     </div>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">제공한 가이드</span>
@@ -228,20 +228,15 @@ function post_bulk_consultings(c_length,is_done){
 }
 function post_target_consulting(consulting,is_done){
     consulting_missed = $(`input:checkbox[id="missed"]`).is(":checked")
+    consulting_reason = $('#consulting_reason'+consulting).val()
+    consulting_solution = $('#consulting_solution'+consulting).val()
+    consulting_result = $('#consulting_result'+consulting).val()
     if((consulting_reason.length == 0)){
         consulting_reason="noupdate"
-    }else{
-        consulting_reason = $('#consulting_reason'+consulting).val()
-    }
-    if((consulting_solution.length == 0)){
+    }if((consulting_solution.length == 0)){
         consulting_solution="noupdate"
-    }else{
-        consulting_solution = $('#consulting_solution'+consulting).val()
-    }
-    if((consulting_result.length == 0)){
+    }else if((consulting_result.length == 0)){
         consulting_result="noupdate"
-    }else{
-        consulting_result = $('#consulting_result'+consulting).val()
     }
     $.ajax({
             type: "POST",
