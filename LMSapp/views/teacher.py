@@ -112,7 +112,7 @@ def task_category(done_code):
                     target_task.append(task_data)
                 category_set = list(set(category_set))
         else:
-            print(my_tasks)        
+            print('<<>>??????')        
             category_set = '없음'
             target_task = '없음'
         return jsonify({'task_category' : category_set,'target_task':target_task})
