@@ -5,6 +5,10 @@ var globalCurrentPage = 1; //현재 페이지
 var data_list;
 var consultingData = [];
 var taskData = [];
+// 처음 get 할때 뿌려질 정보 보내는 함수 
+$(document).ready(function () {
+    paginating(0)   
+})
 
 function displayData(totalData, currentPage, dataPerPage,data_list, consulting) {
     let chartHtml = "";
@@ -136,8 +140,6 @@ function paginating(done_code){
         }
     }) 
 }
-
-paginating(0)
 
 async function get_consulting(){
     let container = $('#consulting-pagination')
