@@ -119,7 +119,7 @@ function paginating(done_code){
         data: {},
         success: function(data){
             container.pagination({
-            dataSource: JSON.parse(data),
+            dataSource: JSON.parse(data).filter(a => a.answer_id == null),
             prevText: '이전',
             nextText: '다음',
             pageClassName: 'float-end',
