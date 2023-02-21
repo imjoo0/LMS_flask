@@ -308,6 +308,7 @@ async function get_task(done_code){
                         let contents = target['contents']
                         let deadline = target['deadline']
                         let priority = target['priority']
+                        let where_to_go = String(done_code)+'#task_contents_box'+String(category)
                         if(priority > 2){
                             let temp_task_contents_box = `
                             <p>⭐우선업무: ${contents} (마감 : ${deadline})</p>
@@ -315,7 +316,7 @@ async function get_task(done_code){
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                             </form>
                             `;
-                            $(done_code+'#task_contents_box'+category).append(temp_task_contents_box);
+                            $(where_to_go).append(temp_task_contents_box);
                         }else{
                             let temp_task_contents_box = `
                             <p>✅ ${contents}  (마감 : ${deadline}) </p>
@@ -323,7 +324,7 @@ async function get_task(done_code){
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                             </form>
                             `;
-                            $(done_code+'#task_contents_box'+category).append(temp_task_contents_box);
+                            $(where_to_go).append(temp_task_contents_box);
                         }
                         if(done_code == 0){
                             $('#task_ban_box_incomplete'+i).empty()
