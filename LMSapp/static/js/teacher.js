@@ -256,13 +256,44 @@ function post_target_consulting(consulting,is_done){
 function task_doneview(done_code){
     if(done_code == 0){
         $('#task_title').html('오늘의 업무')
+        get_task_category(done_code)
         $('#today_task_box').show();
         $('#today_done_box').hide();
     }else if(done_code == 1){
-        get_done_task()
+        $('#task_title').html('오늘 완료한 업무')
+        get_task_category(done_code)
+        $('#today_task_box').hide();
+        $('#today_done_box').show();
     }
 }
 
+function get_task_category(done_code){
+    $.ajax({
+        type: "GET",
+        url: "/teacher/"+done_code,
+        data: {},
+        success: function (response) {
+            if(response["task_category"] == '없음'){
+                $('#task_category_msg').html('오늘의 업무가 없습니다');
+            }else{
+                $('#task_category_msg').empty();
+                $('#today_task_box').empty();
+                for(i=0;i<response["task_category"].length;i++){
+                    let category = response["task_category"][i]
+                    let category_id = category['c_id']
+                    let category_name= category['c_name']
+                    let temp_category = `
+                    <details>
+                    <summary onclick="get_task('${category_id}')"><strong>${category_name}
+                            업무 </strong></summary>
+                    <div class="make_col" id="task_contents_box${category_id}"></div>
+                    </details>`
+                    $('#today_task_box').append(temp_category);
+                }
+            }
+        }
+    });
+}
 async function get_task(category_id){
     await $.ajax({
         type: "GET",

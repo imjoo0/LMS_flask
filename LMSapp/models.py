@@ -112,3 +112,4 @@ class TaskBan(db.Model):
     teacher_id = db.Column(db.Integer,nullable=True)
     task_id = db.Column(db.Integer,db.ForeignKey('task.id'))
     done = db.Column(db.Integer, nullable=True)
+    created_at = db.Column(db.DateTime)

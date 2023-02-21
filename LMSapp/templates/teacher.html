@@ -303,6 +303,7 @@
         </div>
     </div>
 </div>
+
 <div class="container_box">
     <div id="user-info" class="border-bottom">
         <div class="d-flex justify-content-center flex-xl-row row-cols-xl-2 flex-column-reverse">
@@ -490,18 +491,9 @@
                             </select>
                     </div>
                     <div class="w-100 mt-4" id="today_task_box">
-                        {% if my_task_category=='없음' %}
-                        <p>오늘의 업무가 없습니다 :) </p>
-                        {% else %}
-                        {% for category in my_task_category %}
-                        <details>
-                            <summary onclick="get_task('{{category}}')"><strong>{{ all_task_category[category-1].name }}
-                                    업무 </strong></summary>
-                            <div class="make_col" id="task_contents_box{{category}}"></div>
-                        </details>
-                        {% endfor %}
+                        <p id="task_category_msg"></p>
+                        
                         <button onclick="get_update_done()">업무 완료 저장</button>
-                        {% endif %}
                     </div>
                     <div class="w-100 mt-4" id="today_done_box">
                     </div>
