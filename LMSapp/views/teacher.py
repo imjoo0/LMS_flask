@@ -110,9 +110,10 @@ def task_category(done_code):
                                 task_data['task_ban'].append(data)
                         target_task.append(task_data)
                     else:
-                        print('여기')
-                        print(my_tasks)
                         for tb in my_tasks:
+                            print(tb.created_at.date())
+                            print(tb.created_at)
+                            print(tb.created_at.strftime('%Y-%m-%d'))
                             if(tb.created_at.strftime('%Y-%m-%d') == Today):
                                 print('여기')
                                 target_task.append(task_data)
