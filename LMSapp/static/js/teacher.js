@@ -285,11 +285,22 @@ function get_task_category(done_code){
                     console.log(category)
                     let temp_category = `
                     <details>
-                    <summary onclick="get_task('${c_id}')"><strong>${c_name}
+                    <summary onclick="get_task('${done_code},${c_id}')"><strong>${c_name}
                             업무 </strong></summary>
                     <div class="make_col" id="task_contents_box${c_id}"></div>
                     </details>`
                     $('#today_task_box').append(temp_category);
+                }
+                for(i=0;i<response["task"].length;i++){
+                    let target = response["task"][i]
+                    let category = target.category_id
+                    console.log(category)
+                    let temp_task = `
+                    <p>✅ ${target.contents}  (마감 : ${target.deadline}) </p>
+                        <form method="post" class="make_row" id="task_ban_box_incomplete${category_id}${i}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
+                        </form>`
+                    $('#task_contents_box'+category).append(temp_task);
                 }
             }
         }
