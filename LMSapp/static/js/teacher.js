@@ -287,11 +287,54 @@ function get_task_category(done_code){
                     <details>
                     <summary onclick="get_task('${done_code},${c_id}')"><strong>${c_name}
                             업무 </strong></summary>
-                    <div class="make_col" id="task_contents_box${c_id}"></div>
+                    <div class="make_col" id="task_contents_box${c_id}">
+                        <p class="task_msg"></p>
+                    </div>
                     </details>`
                     $('#today_task_box').append(temp_category);
                 }
+                if(response["target_task"] == '없음'){
+                    $('.task_msg').html('오늘의 업무를 전부 완료했어요 😆');
+                }else{
+                    for(i=0;i<response["target_task"].length;i++){
+                        let target = target_task[i]
+                        let category = target['category']
+                        let contents = target['contents']
+                        let deadline = target['deadline']
+                        let priority = target['priority']
+                        if(priority > 2){
+                            let temp_task_contents_box = `
+                            <p>⭐우선업무: ${contents} (마감 : ${deadline})</p>
+                            <form method="post" class="make_row" id="task_ban_box_incomplete${i}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
+                            </form>
+                            `;
+                            $('#task_contents_box'+category).append(temp_task_contents_box);
+                        }else{
+                            let temp_task_contents_box = `
+                            <p>✅ ${contents}  (마감 : ${deadline}) </p>
+                            <form method="post" class="make_row" id="task_ban_box_incomplete${i}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
+                            </form>
+                            `;
+                            $('#task_contents_box'+category).append(temp_task_contents_box);
+                        }
+                        $('#task_ban_box_incomplete'+i).empty()
+                        $('#task_ban_box_complete'+i).empty()
+                        let target_ban = target['task_ban']
+                        for(j=0;j<target_ban.length;j++){
+                            let target_ban_data = target_ban[j]
+                            let task_id = target_ban_data['id']
+                            let name = target_ban_data['ban']
+                            let temp_task_ban_box = `
+                            <label><input type="checkbox" name="taskid" value="${task_id}">${name}</label>
+                            `;
+                            $('#task_ban_box_incomplete'+i).append(temp_task_ban_box);
+                        }
+                    }
+                }
             }
+            
         }
     });
 }

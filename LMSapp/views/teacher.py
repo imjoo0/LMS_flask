@@ -105,7 +105,7 @@ def task_category(done_code):
                     tc.append(t)
             tc = list(set(tc))
             if(len(tc) == 0 ):
-                tc = '없음'
+                target_task = '없음'
             else:
                 # 우선순위 정렬 
                 tc.sort(key=lambda x : (-x.priority, x.deadline)) 
@@ -114,6 +114,7 @@ def task_category(done_code):
                 for task in tc:
                     category_set.append(str(task.category_id) +'@'+(TaskCategory.query.filter(TaskCategory.id == task.category_id).first().name))
                     task_data = {}
+                    task_data['category'] = task.category_id
                     task_data['contents'] = task.contents
                     task_data['url'] = task.url
                     task_data['priority'] = task.priority
