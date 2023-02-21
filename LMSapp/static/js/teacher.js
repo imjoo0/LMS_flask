@@ -11,7 +11,7 @@
 
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
-    get_task_category(0)
+    get_task(0)
 })
 
 
@@ -256,18 +256,18 @@ function post_target_consulting(consulting,is_done){
 function task_doneview(done_code){
     if(done_code == 0){
         $('#task_title').html('오늘의 업무')
-        $('#today_task_box').show();
-        $('#today_done_box').hide();
-        get_task_category(done_code)
+        $('#today_task_box0').show();
+        $('#today_task_box1').hide();
+        get_task(done_code)
     }else if(done_code == 1){
         $('#task_title').html('오늘 완료한 업무')
-        get_task_category(done_code)
-        $('#today_task_box').hide();
-        $('#today_done_box').show();
+        get_task(done_code)
+        $('#today_task_box0').hide();
+        $('#today_task_box1').show();
     }
 }
 
-function get_task_category(done_code){
+function get_task(done_code){
     $.ajax({
         type: "GET",
         url: "/teacher/"+done_code,
@@ -291,13 +291,14 @@ function get_task_category(done_code){
                     <summary><strong>${c_name}
                             업무 </strong></summary>
                     <div class="make_col" id="task_contents_box${c_id}">
-                        <p class="task_msg"></p>
+                        <p class="task_msg${done_code}"></p>
                     </div>
                     </details>`
                     $('#today_task_box'+done_code).append(temp_category);
                 }
                 if(response["target_task"] == '없음'){
-                    $('.task_msg').html('오늘의 업무를 전부 완료했어요 😆');
+                    $('.task_msg0').html('오늘의 업무를 전부 완료했어요 😆');
+                    $('.task_msg1').html('완수한 업무가 아직 없어요');
                 }else{
                     for(i=0;i<response["target_task"].length;i++){
                         let target = response["target_task"][i]
