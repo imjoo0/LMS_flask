@@ -298,7 +298,7 @@ function get_task_category(done_code){
                     $('.task_msg').html('오늘의 업무를 전부 완료했어요 😆');
                 }else{
                     for(i=0;i<response["target_task"].length;i++){
-                        let target = target_task[i]
+                        let target = response["target_task"][i]
                         let category = target['category']
                         let contents = target['contents']
                         let deadline = target['deadline']
