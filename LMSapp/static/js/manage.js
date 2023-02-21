@@ -137,7 +137,7 @@ function paginating(done_code){
     }) 
 }
 
-paginating()
+paginating(0)
 
 async function get_consulting(){
     let container = $('#consulting-pagination')
