@@ -282,7 +282,7 @@ def request_question():
 @bp.route('/question/<int:id>', methods=['GET'])
 def question(id):
     if request.method == 'GET':
-        q = Question.query.filter(Question.id == id).all()[0]
+        q = Question.query.filter(Question.id == id).first()
         teacher_info = callapi.get_teacher_info_by_id(q.teacher_id)
         a = Answer.query.filter(Answer.question_id == q.id).all()
         return_data = {}
