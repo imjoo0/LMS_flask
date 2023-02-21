@@ -72,12 +72,7 @@ def task_category(done_code):
     if request.method == 'GET':
         # done_code == 1 이면 완료한 업무 
         # done_code == 0 이면 오늘의 업무
-        if(done_code == 1): 
-            my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == 1) & (TaskBan.created_at == Today)).all()
-            print(my_tasks)
-        else: 
-            my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == 0)).all()
-            print(my_tasks)
+        my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code)).all()
         if len(my_tasks)!=0:
             tc = []
             for task in my_tasks:
@@ -103,16 +98,21 @@ def task_category(done_code):
                     task_data['url'] = task.url
                     task_data['priority'] = task.priority
                     task_data['deadline'] = task.deadline.strftime('%Y-%m-%d')
-                    task_data['task_ban'] = []
-                    for tb in my_tasks:
-                        if task.id == tb.task_id:
-                            data = {}
-                            data['id'] = tb.id
-                            data['done'] = tb.done
-                            ban = callapi.get_ban(tb.ban_id)
-                            data['ban'] = ban['ban_name']
-                            task_data['task_ban'].append(data)
-                    target_task.append(task_data)
+                    if(done_code == 0):
+                        task_data['task_ban'] = []
+                        for tb in my_tasks:
+                            if task.id == tb.task_id:
+                                data = {}
+                                data['id'] = tb.id
+                                data['done'] = tb.done
+                                ban = callapi.get_ban(tb.ban_id)
+                                data['ban'] = ban['ban_name']
+                                task_data['task_ban'].append(data)
+                        target_task.append(task_data)
+                    else:
+                        for tb in my_tasks:
+                            if(tb.created_at == Today):
+                                target_task.append(task_data)
                 category_set = list(set(category_set))
         else: 
             category_set = '없음'
