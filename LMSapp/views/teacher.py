@@ -300,9 +300,9 @@ def question(id):
         return_data['teacher'] = teacher_info['name']
         return_data['teacher_e'] = teacher_info['engname']
         return_data['new_ban'] = q.new_ban_id
-        return_data['answer'] = a.content if len(a)  > 0 else '✖️'
-        return_data['answer_at'] = a.created_at if len(a) > 0  else '✖️'
-        return_data['reject'] = '반려' if q.category != 0 and len(a) > 0 and a.reject_code==0 else '승인'
+        return_data['answer'] = a.content if a.answer == 1 else '✖️'
+        return_data['answer_at'] = a.created_at if a.answer == 1  else '✖️'
+        return_data['reject'] = '승인' if q.category != 0 and a.answer == 1 and a.reject_code==1 else '✖️'
          
         if q.category != 0:
             s = callapi.get_student_info(q.student_id )
