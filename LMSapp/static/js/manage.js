@@ -248,7 +248,7 @@ function post_answer(q_id,code){
         },
         success: function (response) {{
             alert(response["result"])
-            window.location.replace('/manage')
+            window.location.replace('/')
         }}
     });
 }
