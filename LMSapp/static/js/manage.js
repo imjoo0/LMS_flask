@@ -238,7 +238,6 @@ function post_answer(q_id,code){
         o_ban_id = $('#o_ban_id'+code).val()
         console.log(o_ban_id)
     }
-    console.log(type(o_ban_id))
     $.ajax({
         type: "POST",
         url: "/teacher/question/"+q_id,
@@ -249,6 +248,7 @@ function post_answer(q_id,code){
         },
         success: function (response) {{
             alert(response["result"])
+            window.location.replace('/')
         }}
     });
 }
