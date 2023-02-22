@@ -233,6 +233,8 @@ function get_question(q_id){
 function post_answer(q_id,code){
     answer_title = $('#answer_title'+code).val()
     answer_contents = $('#answer_contents'+code).val()
+    console.log(answer_title)
+    console.log(answer_contents)
     o_ban_id = 0
     if(code != 1){
         o_ban_id = $('#o_ban_id'+code).val()

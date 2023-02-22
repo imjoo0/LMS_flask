@@ -291,7 +291,7 @@ def question(id):
     if request.method == 'GET':
         q = Question.query.filter(Question.id == id).first()
         teacher_info = callapi.get_teacher_info_by_id(q.teacher_id)
-        a = Answer.query.filter(Answer.question_id == q.id).first()
+        a = Answer.query.filter(Answer.question_id == id).first()
         return_data = {}
         return_data['category'] = '일반문의' if q.category == 0 else '퇴소 요청' if q.category == 1 else '이반 요청'if q.category == 2 else '취소/환불 요청' 
         return_data['title'] = q.title
