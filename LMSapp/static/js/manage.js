@@ -166,7 +166,7 @@ function get_question(q_id){
                     <li>답변 : ${answer}</li>
                     <li>답변일 : ${answer_at}</li>
                 </ul>
-                <div id="question_box">
+                <div>
                 <div class="modal-body-select-container">
                     <span class="modal-body-select-label">문의 제목</span>
                     <input class="modal-body-select" type="text" size="50" name="question_title"
