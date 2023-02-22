@@ -316,6 +316,7 @@ def question(id):
     
     elif request.method == 'POST':
         target_question = Question.query.get_or_404(id)
+        target_question.answer = 1
         answer_title = request.form['answer_title']
         answer_contents = request.form['answer_contents']
         o_ban_id = request.form['o_ban_id']
