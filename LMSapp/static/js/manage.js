@@ -236,7 +236,7 @@ function post_answer(q_id,code){
     if(code != 1){
         o_ban_id = $('#o_ban_id'+code).val()
     }else{
-        o_ban_id = x
+        o_ban_id = 'x'
     }
     $.ajax({
         type: "POST",
