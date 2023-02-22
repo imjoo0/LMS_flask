@@ -33,45 +33,34 @@
             </div>
 
             <div class="modal-header" id="teacher_question" style="color:white;">
-                
-            </div>
-            <div id="manage_answer">
-                <div id="invisible_for_2">
+                <div id="manage_answer_2">
                     <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">기존 반</span>
-                        <select class="modal-body-select" name="ban_id">
-                            <option value="none" selected>기존 반을 선택해주세요</option>
-                            {% for ban in my_bans %}
-                            {% set ban_registerno = ban['register_no'] %}
-                            <option value={{ban_registerno}}>{{ban['name']}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">대상 원생</span>
-                        <select id="student_list" class="modal-body-select" name="target_student">
-                            <option value="none" selected>원생을 선택해주세요</option>
-                            {% for student in students %}
-                            {% set student_registerno = student['register_no'] %}
-                            <option value={{student_registerno}}>{{ student['name'] }}({{ student['origin']}})
-                            </option>
-                            {% endfor %}
-
-                        </select>
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">상담 내용</span>
-                        <select class="modal-body-select" name="consulting_history">
-                            <option value="none" selected>상담을 우선 진행해주세요</option>
-                            <option value=0>for student</option>
-                        </select>
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">이반 요청 반</span>
-                        <input class="modal-body-select" type="text" size="50" name="new_ban_id"
+                        <span class="modal-body-select-label">답변 제목</span>
+                        <input class="modal-body-select" type="text" size="50" name="question_title"
                             style="width: 75%;">
+                        </div>
+                        <div class="modal-body-select-container">
+                            <span class="modal-body-select-label">답변 내용</span>
+                            <textarea id="question_contents" class="modal-body-select" type="text" rows="5" cols="25"
+                                name="question_contents" style="width: 75%;"></textarea>
+                        </div>
+                        <div class="modal-body-select-container">
+                            <span class="modal-body-select-label">이반 요청 결과</span>
+                            <select class="modal-body-select" name="o_ban_id">
+                                <option value="none" selected>이반 처리 결과를 선택해주세요</option>
+                                <option value="1">반려</option>
+                                {% for ban in my_bans %}
+                                {% set ban_registerno = ban['register_no'] %}
+                                <option value={{ban_registerno}}>{{ ban['name'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
                 </div>
+            </div>
+            
+            <div id="manage_answer">
+                
                 <!-- invisible_for_2 end -->
                 <!-- invisible_for_1 start -->
                 <div id="invisible_for_1">

@@ -166,7 +166,6 @@ function get_question(q_id){
                     <li>답변 : ${answer}</li>
                     <li>답변일 : ${answer_at}</li>
                 </ul>
-                <div>
                 <div class="modal-body-select-container">
                     <span class="modal-body-select-label">답변 제목</span>
                     <input class="modal-body-select" type="text" size="50" name="question_title"
@@ -181,7 +180,6 @@ function get_question(q_id){
                     <button class="btn btn-dark" type="submit" onclick="post_answer(${q_id})">저장</button>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin-top: 13px;">취소</button>
                 </div>
-                </div>
                 `;
                 $('#teacher_question').html(temp_question_list);
             }
@@ -192,8 +190,27 @@ function get_question(q_id){
                 reject = response["reject"]
                 answer = response["answer"]
                 answer_at = response["answer_at"]
-                let temp_question_list = `
-                <ul>
+                if( category == '이반 요청'){
+                    new_ban = response["new_ban"]
+                    let temp_question_list = `
+                    <ul>
+                        <li>종류 : ${category} </li>
+                        <li>제목 : ${title}</li>
+                        <li>문의 : ${contents}</li>
+                        <li>작성자 : ${teacher} ( ${teacher_e} )</li>
+                        <li>작성일 : ${create_date}</li>
+                        <li>대상 반 | 학생: ${ban} ➖ ${student} ( ${student_origin} )</li>
+                        <li>희망 이반 반: ${new_ban}</li>
+                        <li>처리 : ${ reject } </li>
+                        <li>응답 : ${answer} </li>
+                        <li>응답일 : ${answer_at} </li>
+                    </ul>
+                `;
+                $('#teacher_question').append(temp_question_list);
+                $('#manage_answer_2').show()
+                }else{
+                    let temp_question_list = `
+                    <ul>
                     <li>종류 : ${category} </li>
                     <li>제목 : ${title}</li>
                     <li>문의 : ${contents}</li>
@@ -203,9 +220,11 @@ function get_question(q_id){
                     <li>처리 : ${ reject } </li>
                     <li>응답 : ${answer} </li>
                     <li>응답일 : ${answer_at} </li>
-                </ul>
-                `;
-                $('#teacher_question').html(temp_question_list);
+                    </ul>
+                    `;
+
+                }
+                
             }
         }
     });

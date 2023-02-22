@@ -299,9 +299,10 @@ def question(id):
         return_data['create_date'] = q.create_date.strftime('%Y-%m-%d')
         return_data['teacher'] = teacher_info['name']
         return_data['teacher_e'] = teacher_info['engname']
+        return_data['new_ban'] = q.new_ban_id
         return_data['answer'] = a.content if len(a)  > 0 else '✖️'
         return_data['answer_at'] = a.created_at if len(a) > 0  else '✖️'
-        return_data['reject'] = a.reject_code if q.category != 0 and len(a) > 0 else ''
+        return_data['reject'] = a.reject_code if q.category != 0 and len(a) > 0 else '대기중'
          
         if q.category != 0:
             s = callapi.get_student_info(q.student_id )
