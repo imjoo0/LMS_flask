@@ -286,7 +286,7 @@ def request_question():
         return redirect('/')
 
 # 본원 답변 조회 
-@bp.route('/question/<int:id>', methods=['GET'])
+@bp.route('/question/<int:id>', methods=['GET','POST'])
 def question(id):
     if request.method == 'GET':
         q = Question.query.filter(Question.id == id).first()
@@ -313,6 +313,30 @@ def question(id):
             return_data['ban'] = b['ban_name']
 
         return jsonify(return_data)
+    
+    elif request.method == 'POST':
+        target_question = Question.query.get_or_404(id)
+        answer_title = request.form['answer_title']
+        answer_contents = request.form['answer_contents']
+        o_ban_id = request.form['o_ban_id']
+
+        if target_question.category == 0:
+            new_answer = Answer(content=answer_contents,title=answer_title,create_date=Today,reject_code=1,question_id = id)
+        else:
+            if target_question.category == 2:
+                if o_ban_id != 0 :
+                    new_switch_student = SwitchStudent(ban_id = target_question.ban_id,switch_ban_id=o_ban_id,teacher_id = target_question.teacher_id,student_id=target_question.student_id,created_at=Today)
+                    db.session.add(new_switch_student)
+                    db.session.commit()
+            else:
+                if o_ban_id != 0 :
+                    new_out_student = OutStudent(ban_id = target_question.ban_id,teacher_id = target_question.teacher_id,student_id=target_question.student_id,created_at=Today)
+                    db.session.add(new_out_student)
+                    db.session.commit()
+            new_answer = Answer(content=answer_contents,title=answer_title,create_date=Today,reject_code=o_ban_id,question_id = id)         
+        db.session.add(new_answer)
+        db.session.commit()
+        return redirect('/')
                     
 
 

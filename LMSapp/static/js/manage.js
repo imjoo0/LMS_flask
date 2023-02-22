@@ -153,8 +153,10 @@ function get_question(q_id){
             create_date = response["create_date"]
             answer = response['answer']
             answer_at = response['answer_at']
+            code = 0
             $('#answerModalLabel').html(`${teacher}(${teacher_e})선생님 ${category}`)
             if(category == '일반문의'){
+                code = 1
                 let temp_question_list = `
                 <ul>
                     <li>종류 : ${category} </li>
@@ -180,6 +182,7 @@ function get_question(q_id){
                 answer_at = response["answer_at"]
                 if( category == '이반 요청'){
                     new_ban = response["new_ban"]
+                    code = 2
                     let temp_question_list = `
                     <ul>
                         <li>종류 : ${category} </li>
@@ -199,6 +202,7 @@ function get_question(q_id){
                     $('#manage_answer_1').hide()
                     $('#manage_answer_3').hide()
                 }else{
+                    code = 3
                     let temp_question_list = `
                     <ul>
                     <li>종류 : ${category} </li>
@@ -219,11 +223,32 @@ function get_question(q_id){
                 }
             }
             let temp_button_box = `
-                <button class="btn btn-dark" type="submit" onclick="post_answer(${q_id})">저장</button>
+                <button class="btn btn-dark" type="submit" onclick="post_answer(${q_id},${code})">저장</button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
             `
             $('#button_box').html(temp_button_box);
         }
+    });
+}
+function post_answer(q_id,code){
+    answer_title = $('#answer_title'+code).val()
+    answer_contents = $('#answer_contents'+code).val()
+    if(code != 1){
+        o_ban_id = $('#o_ban_id'+code).val()
+    }else{
+        o_ban_id = x
+    }
+    $.ajax({
+        type: "POST",
+        url: "/teacher/question/"+q_id,
+        data: {
+            answer_title:answer_title,
+            answer_contents:answer_contents,
+            o_ban_id:o_ban_id
+        },
+        success: function (response) {{
+            alert(response["result"])
+        }}
     });
 }
 async function get_consulting(){
