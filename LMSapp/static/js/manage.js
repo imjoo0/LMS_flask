@@ -233,11 +233,12 @@ function get_question(q_id){
 function post_answer(q_id,code){
     answer_title = $('#answer_title'+code).val()
     answer_contents = $('#answer_contents'+code).val()
+    o_ban_id = 0
     if(code != 1){
         o_ban_id = $('#o_ban_id'+code).val()
-    }else{
-        o_ban_id = 'x'
+        console.log(o_ban_id)
     }
+    console.log(type(o_ban_id))
     $.ajax({
         type: "POST",
         url: "/teacher/question/"+q_id,
