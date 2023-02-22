@@ -191,10 +191,6 @@ function get_question(q_id){
                 `;
                 $('#teacher_question').html(temp_question_list);
             }
-            let temp_manage_answer = `
-            
-            `;
-            $('#manage_answer').html(temp_manage_answer);
         }
     });
 }
