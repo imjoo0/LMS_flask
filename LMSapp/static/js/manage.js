@@ -166,27 +166,24 @@ function get_question(q_id){
                     <li>답변 : ${answer}</li>
                     <li>답변일 : ${answer_at}</li>
                 </ul>
+                <div id="question_box">
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">문의 제목</span>
+                    <input class="modal-body-select" type="text" size="50" name="question_title"
+                        style="width: 75%;">
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">문의 내용</span>
+                    <textarea id="question_contents" class="modal-body-select" type="text" rows="5" cols="25"
+                        name="question_contents" style="width: 75%;"></textarea>
+                </div>
+                <div class="d-flex justify-content-center mt-4 mb-2">
+                    <button class="btn btn-dark" type="submit" onclick="post_answer()">저장</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin-top: 13px;">취소</button>
+                </div>
+                </div>
                 `;
                 $('#teacher_question').html(temp_question_list);
-                let temp_box = `
-                <div id="question_box">
-                        <div class="modal-body-select-container">
-                            <span class="modal-body-select-label">문의 제목</span>
-                            <input class="modal-body-select" type="text" size="50" name="question_title"
-                                style="width: 75%;">
-                        </div>
-                        <div class="modal-body-select-container">
-                            <span class="modal-body-select-label">문의 내용</span>
-                            <textarea id="question_contents" class="modal-body-select" type="text" rows="5" cols="25"
-                                name="question_contents" style="width: 75%;"></textarea>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-center mt-4 mb-2">
-                        <button class="btn btn-dark" type="submit">저장</button>
-                        <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin-top: 13px;">취소</button> -->
-                    </div>
-                `;
-                $('#manage_answer').html(temp_box)
             }
             else{
                 ban = response["ban"]
