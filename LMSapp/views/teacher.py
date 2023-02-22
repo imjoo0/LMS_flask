@@ -329,7 +329,6 @@ def question(id):
             if target_question.category == 2:
                 if o_ban_id != 0 :
                     print('여기가 찍히면 안됨')
-                    print(o_ban_id)
                     new_switch_student = SwitchStudent(ban_id = target_question.ban_id,switch_ban_id=o_ban_id,teacher_id = target_question.teacher_id,student_id=target_question.student_id,created_at=Today)
                     db.session.add(new_switch_student)
                     db.session.commit()
