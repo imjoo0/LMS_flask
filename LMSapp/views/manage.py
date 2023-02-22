@@ -30,6 +30,7 @@ def home():
 @bp.route('/api/get_all_questions/<int:done_code>', methods=['GET'])
 def get_all_questions(done_code):
     if request.method == 'GET':
+        all_questions = []
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
