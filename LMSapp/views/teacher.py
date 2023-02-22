@@ -336,7 +336,7 @@ def question(id):
             new_answer = Answer(content=answer_contents,title=answer_title,create_date=Today,reject_code=o_ban_id,question_id = id)         
         db.session.add(new_answer)
         db.session.commit()
-        return redirect('/')
+        return jsonify({'result': '문의 답변 저장 완료'})
                     
 
 
