@@ -73,7 +73,7 @@
                         <span class="modal-body-select-label">이반 요청 결과</span>
                         <select class="modal-body-select" id="o_ban_id2">
                             <option value="none" selected>이반 처리 결과를 선택해주세요</option>
-                            <option value="0">반려</option>
+                            <option value=0>반려</option>
                             {% for ban in all_ban %}
                             {% set ban_registerno = ban['register_no'] %}
                             <option value={{ban_registerno}}>{{ ban['name'] }}</option>
@@ -98,8 +98,8 @@
                         <span class="modal-body-select-label">요청 처리 결과</span>
                         <select class="modal-body-select" id="o_ban_id3">
                             <option value="none" selected>이반 처리 결과를 선택해주세요</option>
-                            <option value="0">반려</option>
-                            <option value="1">승인</option>
+                            <option value=0>반려</option>
+                            <option value=1>승인</option>
                         </select>
                     </div>
                 </div>
