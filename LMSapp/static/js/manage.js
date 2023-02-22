@@ -166,22 +166,11 @@ function get_question(q_id){
                     <li>답변 : ${answer}</li>
                     <li>답변일 : ${answer_at}</li>
                 </ul>
-                <div class="modal-body-select-container">
-                    <span class="modal-body-select-label">답변 제목</span>
-                    <input class="modal-body-select" type="text" size="50" name="question_title"
-                        style="width: 75%;">
-                </div>
-                <div class="modal-body-select-container">
-                    <span class="modal-body-select-label">답변 내용</span>
-                    <textarea id="question_contents" class="modal-body-select" type="text" rows="5" cols="25"
-                        name="question_contents" style="width: 75%;"></textarea>
-                </div>
-                <div class="d-flex justify-content-center mt-4 mb-2">
-                    <button class="btn btn-dark" type="submit" onclick="post_answer(${q_id})">저장</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin-top: 13px;">취소</button>
-                </div>
                 `;
                 $('#teacher_question').html(temp_question_list);
+                $('#manage_answer_1').show()
+                $('#manage_answer_2').hide()
+                $('#manage_answer_3').hide()
             }
             else{
                 ban = response["ban"]
@@ -205,9 +194,11 @@ function get_question(q_id){
                         <li>응답 : ${answer} </li>
                         <li>응답일 : ${answer_at} </li>
                     </ul>
-                `;
-                $('#teacher_question').append(temp_question_list);
-                $('#manage_answer_2').show()
+                    `;
+                    $('#teacher_question').html(temp_question_list);
+                    $('#manage_answer_2').show()
+                    $('#manage_answer_1').hide()
+                    $('#manage_answer_3').hide()
                 }else{
                     let temp_question_list = `
                     <ul>
@@ -222,7 +213,10 @@ function get_question(q_id){
                     <li>응답일 : ${answer_at} </li>
                     </ul>
                     `;
-
+                    $('#teacher_question').html(temp_question_list);
+                    $('#manage_answer_3').show()
+                    $('#manage_answer_1').hide()
+                    $('#manage_answer_2').hide()
                 }
                 
             }
