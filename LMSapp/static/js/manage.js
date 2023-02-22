@@ -168,9 +168,6 @@ function get_question(q_id){
                 </ul>
                 `;
                 $('#teacher_question').html(temp_question_list);
-                $('#invisible_for_2').hide()
-                $('#invisible_for_1').hide()
-                $('#question_box').show()
             }
             else{
                 ban = response["ban"]
