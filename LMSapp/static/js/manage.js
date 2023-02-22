@@ -168,7 +168,9 @@ function get_question(q_id){
                 </ul>
                 `;
                 $('#teacher_question').html(temp_question_list);
-                l
+                $('#invisible_for_2').hide()
+                $('#invisible_for_1').hide()
+                $('#question_box').show()
             }
             else{
                 ban = response["ban"]
@@ -192,6 +194,10 @@ function get_question(q_id){
                 `;
                 $('#teacher_question').html(temp_question_list);
             }
+            let temp_manage_answer = `
+            
+            `;
+            $('#manage_answer').html(temp_manage_answer);
         }
     });
 }

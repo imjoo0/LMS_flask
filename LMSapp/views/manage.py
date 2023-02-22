@@ -5,7 +5,6 @@ from flask import Blueprint, render_template, jsonify, request, redirect, url_fo
 import config
 import json
 import callapi
-from flask_paginate import Pagination, get_page_parameter, get_page_args
 import pymysql
 import callapi
 

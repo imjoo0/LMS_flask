@@ -16,6 +16,7 @@ $(document).ready(function () {
     get_task(0)
 })
 
+
 // 본원 문의 관련 함수 
 //  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
 function change_question_kind(str){
