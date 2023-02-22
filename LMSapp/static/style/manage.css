@@ -167,3 +167,6 @@
 .cursor-pointer {
   cursor: pointer;
 }
+#manage_answer_1,#manage_answer_2,#manage_answer_3{
+  display: none;
+}
