@@ -220,7 +220,7 @@ function get_question(q_id){
             }
             let temp_button_box = `
                 <button class="btn btn-dark" type="submit" onclick="post_answer(${q_id})">저장</button>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin-top: 13px;">취소</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
             `
             $('#button_box').html(temp_button_box);
         }
