@@ -124,7 +124,6 @@ def task(done_code):
         else: 
             category_set = '없음'
             target_task = '없음'
-        print(target_task)
         return jsonify({'task_category' : category_set,'target_task':target_task})
         
     elif request.method =='POST':
@@ -302,7 +301,7 @@ def question(id):
         return_data['new_ban'] = q.new_ban_id
         return_data['answer'] = a.content if q.answer == 1 else '✖️'
         return_data['answer_at'] = a.created_at if q.answer == 1  else '✖️'
-        return_data['reject'] = '승인' if q.category != 0 and q.answer == 1 and a.reject_code!=0 else '✖️'
+        return_data['reject'] = '승인' if (q.category != 0 and q.answer == 1 and a.reject_code != '0') else '✖️'
          
         if q.category != 0:
             s = callapi.get_student_info(q.student_id )
@@ -320,15 +319,12 @@ def question(id):
         answer_title = request.form['answer_title']
         answer_contents = request.form['answer_contents']
         o_ban_id = request.form['o_ban_id']
-        print(o_ban_id)
-        print(type(o_ban_id))
         if target_question.category == 0:
-            new_answer = Answer(content=answer_contents,title=answer_title,created_at=Today,reject_code=1,question_id = id)
+            new_answer = Answer(content=answer_contents,title=answer_title,created_at=Today,reject_code=0,question_id = id)
         else:
             new_answer = Answer(content=answer_contents,title=answer_title,created_at=Today,reject_code=o_ban_id,question_id = id)  
             if target_question.category == 2:
                 if o_ban_id != '0' :
-                    print('여기가 찍히면 안됨')
                     new_switch_student = SwitchStudent(ban_id = target_question.ban_id,switch_ban_id=o_ban_id,teacher_id = target_question.teacher_id,student_id=target_question.student_id,created_at=Today)
                     db.session.add(new_switch_student)
                     db.session.commit()
