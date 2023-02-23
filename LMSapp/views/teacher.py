@@ -329,11 +329,11 @@ def question(id):
         o_ban_id = int(request.form['o_ban_id'])
         new_answer = Answer(content=answer_contents,title=answer_title,created_at=Today,reject_code=o_ban_id,question_id = id)
         db.session.add(new_answer)
-        if target_question.category == 2 and o_ban_id != '0' :    
+        if target_question.category == 2 and o_ban_id != 0 :    
             new_switch_student = SwitchStudent(ban_id = target_question.ban_id,switch_ban_id=o_ban_id,teacher_id = target_question.teacher_id,student_id=target_question.student_id,created_at=Today)
             db.session.add(new_switch_student)
             # db.session.commit()
-        elif(target_question.category != 2 and o_ban_id != '0' ):
+        elif(target_question.category != 2 and o_ban_id != 0 ):
             new_out_student = OutStudent(ban_id = target_question.ban_id,teacher_id = target_question.teacher_id,student_id=target_question.student_id,created_at=Today)
             db.session.add(new_out_student)
             # db.session.commit()
