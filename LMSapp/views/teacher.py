@@ -34,14 +34,18 @@ def home():
         mystudents_info = callapi.get_mystudents(session['user_id'])
         total_student_num = len(mystudents_info)
         mybans_info = callapi.get_mybans(session['user_id'])
-                
+
+        # 졸업 / 퇴소 한 학생 
+        outstudent_num = len(OutStudent.query.filter(OutStudent.teacher_id == teacher_info['register_no']).all())
+        print(outstudent_num)   
+
         all_my_tasks = len(TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all())
         done_tasks = len(TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == 1)).all())
         done_task_per = int((done_tasks/all_my_tasks)*100)
 
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
 
-        return render_template('teacher.html',total_student_num=total_student_num,user=teacher_info,my_bans=mybans_info,students=mystudents_info, questions=my_questions,all_task_num=all_my_tasks, not_done_task_num=done_tasks,not_done_task_per=done_task_per)
+        return render_template('teacher.html',outstudent_num=outstudent_num,total_student_num=total_student_num,user=teacher_info,my_bans=mybans_info,students=mystudents_info, questions=my_questions,all_task_num=all_my_tasks, not_done_task_num=done_tasks,not_done_task_per=done_task_per)
 
 @bp.route('/api/get_teacher_ban', methods=['GET'])
 def get_ban():
