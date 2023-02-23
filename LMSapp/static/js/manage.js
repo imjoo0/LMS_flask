@@ -528,7 +528,8 @@ function getBanInfo(b_id){
             let all_s_student = response['switch_student']['data'].length;
             let all_o_student = response['out_student']['data'].length;
             let notice = response['notice']
-            let consulting = response['consulting']['data']
+            let consulting = response['consulting']['data'].filter(a => a.ban_id == b_id).length;
+            let all_c_student = response['consulting']['data'].length;
             let consulting_ixl = consulting.filter(a => a.category_id == 1).length
             let consulting_reading = consulting.filter(a => a.category_id == 4).length
             let consulting_speacial = consulting.filter(a => a.category_id == 3).length
@@ -573,9 +574,9 @@ function getBanInfo(b_id){
                     </tr>
                     <tr class="row">
                         <td class="col-3">${students_num}</td>
-                        <td class="col-3">${switch_student}(${(switch_student/all_s_student*100).toFixed(2)}%)</td>
-                        <td class="col-3">${out_student}(${(out_student/all_o_student*100).toFixed(2)}%)</td>
-                        <td class="col-3">${consulting.length}(${(consulting.length/all_o_student*100).toFixed(2)}%) </td>
+                        <td class="col-3">${switch_student}(${Math.ceil(switch_student/all_s_student*100)}%)</td>
+                        <td class="col-3">${out_student}(${Math.ceil(out_student/all_o_student*100)}%)</td>
+                        <td class="col-3">${consulting}(${Math.ceil(consulting/all_c_student*100)}%) </td>
                     </tr>
                 </tbody>
             </table>
