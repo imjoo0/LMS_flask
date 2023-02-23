@@ -259,7 +259,7 @@ def consulting(id,is_done):
 def request_question():
     if request.method == 'GET':
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
-        return render_template('teacher.html',questions=my_questions,)
+        return render_template(questions=my_questions,)
     elif request.method == 'POST':
         question_category = request.form['question_category']
         title = request.form['question_title']
