@@ -46,6 +46,7 @@ def home():
             ttc += len(Consulting.query.filter(b['register_no'] == Consulting.ban_id).all())
             c = Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.done==1)).all()
             ttd += len(c)
+        print(c)
         for consulting in c :
             print(consulting.history)
         print(all_history)
