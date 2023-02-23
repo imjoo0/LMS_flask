@@ -8,9 +8,6 @@ var taskData = [];
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
     paginating(0) 
-    $('#manage_answer_1').hide()  
-    $('#manage_answer_2').hide()  
-    $('#manage_answer_3').hide()  
 })
 
 function displayData(totalData, currentPage, dataPerPage,data_list, consulting) {
@@ -221,7 +218,14 @@ function get_question(q_id,done_code){
             }
             $('#teacher_question').html(temp_question_list);
             if(done_code == 0){
-                $('#manage_answer_'+code).show()
+                for(i=1;i<4;i++){
+                    if(i == code){
+                        $('#manage_answer_'+code).show()
+                    }
+                    else{
+                        $('#manage_answer_'+code).hide()
+                    }
+                }
                 let temp_button_box = `
                 <button class="btn btn-dark" type="submit" onclick="post_answer(${q_id},${code})">저장</button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
@@ -230,9 +234,6 @@ function get_question(q_id,done_code){
             }
         }
     });
-    $('#manage_answer_1').hide()  
-    $('#manage_answer_2').hide()  
-    $('#manage_answer_3').hide()  
 }
 function post_answer(q_id,code){
     answer_title = $('#answer_title'+code).val()
