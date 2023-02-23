@@ -218,7 +218,7 @@ function get_question(q_id,done_code){
                 }
             }
             $('#teacher_question').html(temp_question_list);
-            if(done_code == '0'){
+            if(done_code == 0){
                 $('#manage_answer_'+code).show()
                 let temp_button_box = `
                 <button class="btn btn-dark" type="submit" onclick="post_answer(${q_id},${code})">저장</button>
