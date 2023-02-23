@@ -289,10 +289,9 @@ def request_question():
 def question(id):
     if request.method == 'GET':
         q = Question.query.filter(Question.id == id).first()
-        
-
         teacher_info = callapi.get_teacher_info_by_id(q.teacher_id)
         a = Answer.query.filter(Answer.question_id == id).first()
+        print(a)
         return_data = {}
         if q.category == 0: return_data['category'] = '일반문의' 
         elif q.category == 1 : return_data['category'] ='퇴소 요청' 
@@ -306,7 +305,7 @@ def question(id):
         return_data['new_ban'] = q.new_ban_id
         if q.answer == 1 :return_data['answer'] = a.content
         else: return_data['answer'] = '✖️'
-        if q.answer == 1:return_data['answer_at'] = a.created_at
+        if q.answer == 1:return_data['answer_at'] = a.created_at.strftime('%Y-%m-%d')
         else:return_data['answer_at'] = '✖️'
         if (q.category != 0 and q.answer == 1 and a.reject_code != 0): return_data['reject'] = '승인'
         elif(q.answer == 0): return_data['reject'] = '대기중'
