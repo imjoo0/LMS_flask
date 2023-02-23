@@ -519,10 +519,6 @@ function getBanInfo(b_id){
             let teacher_email = response['teacher_email']
             let answer = Number(response['answer_alim'])
             let all_alim = Number(response['all_alim'])
-            let s_statis = 0
-            let o_statis = 0
-            let c_statis = 0
-            let uc_statis = 0
             let answer_rate =  function(answer, all) {
                 if(Object.is(answer/all, NaN)) return 0;
                 else return answer/all*100;
@@ -534,9 +530,6 @@ function getBanInfo(b_id){
             let all_o_student = response['out_student']['data'].length;
             let notice = response['notice']
             let consulting = response['consulting']['data'].filter(a => a.ban_id == b_id)
-
-            let all_consulting = consulting.length;
-            let done_consulting = consulting.filter(a => a.done == 1).length;
 
             let u_consulting = response['consulting']['data'].filter(a => a.category_id < 100);
             let all_uc_consulting = u_consulting.length;
@@ -598,8 +591,8 @@ function getBanInfo(b_id){
             data_list = response['student_info']
             totalData = students_num
 
-            displayData(totalData, 1, dataPerPage,data_list, consulting);
-            paging(totalData, dataPerPage, pageCount, 1,data_list, consulting);
+            displayData(totalData, 1, dataPerPage,data_list, u_consulting_my);
+            paging(totalData, dataPerPage, pageCount, 1,data_list, u_consulting_my);
 
             let temp_ban_statistics = `
             <table class="table text-center" id="unlearned" style="margin-left:1%; margin-right: 4%;width: 40%;">
