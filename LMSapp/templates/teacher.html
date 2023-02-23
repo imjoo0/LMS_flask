@@ -190,9 +190,8 @@
                             <td class="col-5">{{ question.title }} </td>
                             {% if question.answer == 0 %}
                             <td class="col-2"> 미응답 </td>
-                            <td class="col-2"> 
-                                <p onclick="get_answer('{{question.id}}')">✏️</p>
-                                <p onclick="get_answer('{{question.id}}')">❌</p>
+                            <td class="col-2 make_col"> 
+                                <p onclick="get_answer('{{question.id}}')">✏️</p><p onclick="get_answer('{{question.id}}')">❌</p>
                             </td>
                             {% else %}
                             <td class="col-2" onclick="get_answer('{{question.id}}')"> ✔️ </td>
