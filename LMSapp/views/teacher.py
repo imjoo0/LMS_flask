@@ -46,18 +46,30 @@ def home():
             ttc += len(Consulting.query.filter(b['register_no'] == Consulting.ban_id).all())
             ttd += len(Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.done==1)).all())
         cp = round((ttd/ttc)*100)
-        unlearned_cp = round((unlearned_ttc/unlearned_ttd)*100)
-
+        if(unlearned_ttd != 0):
+            unlearned_cp = round((unlearned_ttc/unlearned_ttd)*100)
+        else:
+            unlearned_cp = 0
         # 졸업 / 퇴소 한 학생 
         outstudent_num = len(OutStudent.query.filter(OutStudent.teacher_id == teacher_info['register_no']).all())
-        outstudent_num_p = round((outstudent_num / len(OutStudent.query.all()))*100)
+        if(outstudent_num != 0):
+            outstudent_num_p = round((outstudent_num / len(OutStudent.query.all()))*100)
+        else:
+            outstudent_num_p = 0
         # 이반 한 학생  
         switchstudent_num = len(SwitchStudent.query.filter(SwitchStudent.teacher_id == teacher_info['register_no']).all())
-        switchstudent_num_p = round((switchstudent_num / len(SwitchStudent.query.all()))*100)
+        if(switchstudent_num != 0):
+            switchstudent_num_p = round((switchstudent_num / len(SwitchStudent.query.all()))*100)
+        else:
+            switchstudent_num_p = 0
         # 업무 개수
         total_todo = len(TaskBan.query.filter(TaskBan.teacher_id == teacher_info['register_no']).all())
         total_done = len((TaskBan.query.filter((TaskBan.teacher_id == teacher_info['register_no']) & ( TaskBan.done==1)) ).all())
-        ttp = round(total_done/total_todo*100)
+        if(total_todo != 0):
+            ttp = round(total_done/total_todo*100)
+        else:
+            ttp = 0
+        
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
 
         return render_template('teacher.html',unlearned_ttd=unlearned_ttd,unlearned_ttc=unlearned_ttc,unlearned_cp=unlearned_cp,cp=cp,ttc=ttc,ttd=ttd,total_todo=total_todo,total_done=total_done,ttp=ttp,switchstudent_num=switchstudent_num,switchstudent_num_p=switchstudent_num_p,outstudent_num_p=outstudent_num_p,outstudent_num=outstudent_num,total_student_num=total_student_num,user=teacher_info,my_bans=mybans_info,students=mystudents_info, questions=my_questions)
