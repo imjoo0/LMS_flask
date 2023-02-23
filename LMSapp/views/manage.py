@@ -230,16 +230,16 @@ def get_ban(id):
     if request.method == 'GET':
         target_ban = callapi.get_ban(id)
         if target_ban:
-            # switchstudent_num_p = 0
-            # # 이반 한 학생  
-            # switchstudent_num = len(SwitchStudent.query.filter(SwitchStudent.ban_id == id).all())
-            # if(switchstudent_num != 0):
-            #     switchstudent_num_p = round((switchstudent_num / len(SwitchStudent.query.all()))*100)
+            switchstudent_num_p = 0
+            # 이반 한 학생  
+            switchstudent_num = len(SwitchStudent.query.filter(SwitchStudent.ban_id == id).all())
+            if(switchstudent_num != 0):
+                switchstudent_num_p = round((switchstudent_num / len(SwitchStudent.query.all()))*100)
             #  # 졸업 / 퇴소 한 학생
-            # outstudent_num_p = 0
-            # outstudent_num = len(OutStudent.query.filter(OutStudent.ban_id == id).all())
-            # if(outstudent_num != 0): 
-            #     outstudent_num_p = round((outstudent_num / len(OutStudent.query.all()))*100)
+            outstudent_num_p = 0
+            outstudent_num = len(OutStudent.query.filter(OutStudent.ban_id == id).all())
+            if(outstudent_num != 0): 
+                outstudent_num_p = round((outstudent_num / len(OutStudent.query.all()))*100)
             # # 미학습 발생 
             # unlearned_ttc = 0
             # unlearned_ttd = len(Consulting.query.filter((Consulting.category_id < 100)&(Consulting.ban_id==id)).all()) 
@@ -253,10 +253,6 @@ def get_ban(id):
 
             try:
                 with db.cursor() as cur:
-                    cur.execute(f'select id, ban_id, switch_ban_id, teacher_id, student_id from switchstudent where ban_id={id}')
-                    switch_student['status'] = 200
-                    switch_student['data'] = cur.fetchall()
-
                     cur.execute(f"select id, ban_id, category_id, student_id, contents, date_format(startdate, '%Y-%m-%d') as startdate, date_format(deadline, '%Y-%m-%d') as deadline, week_code, done, missed from consulting where ban_id={id}")
                     consulting['status'] = 200
                     consulting['data'] = cur.fetchall()
@@ -298,10 +294,10 @@ def get_ban(id):
             'consulting': consulting,
             'task': task,
             # # chart 
-            # 'switchstudent_num' :switchstudent_num,
-            # 'switchstudent_num_p':switchstudent_num_p,
-            # 'outstudent_num':outstudent_num,
-            # 'outstudent_num_p':outstudent_num_p,
+            'switchstudent_num' :switchstudent_num,
+            'switchstudent_num_p':switchstudent_num_p,
+            'outstudent_num':outstudent_num,
+            'outstudent_num_p':outstudent_num_p,
             # 'unlearned_ttd':unlearned_ttd,
             # 'unlearned_ttc':unlearned_ttc
         })

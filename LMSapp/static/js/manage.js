@@ -523,9 +523,8 @@ function getBanInfo(b_id){
                 if(Object.is(answer/all, NaN)) return 0;
                 else return answer/all*100;
             }
-            let switch_student = response['switch_student']['data'].filter(a => a.category==0).length;
-            let exit_student = response['switch_student']['data'].filter(a => a.category==1).length;
-            let all_student = switch_student + exit_student + students_num;
+            let switch_student = response['switchstudent_num']
+            let exit_student = response['outstudent_num']
             let notice = response['notice']
             let consulting = response['consulting']['data']
             let consulting_ixl = consulting.filter(a => a.category_id == 1).length
@@ -535,10 +534,8 @@ function getBanInfo(b_id){
             let consulting_homepage = consulting.filter(a => a.category_id == 2).length
             let consulting_intoreading = consulting.filter(a => a.category_id == 5 || a.category_id == 7).length
             let task = response['task']['data']
-            // let switchstudent_num = response['switchstudent_num']
-            // let switchstudent_num_p = response['switchstudent_num_p']
-            // let outstudent_num = response['outstudent_num']
-            // let outstudent_num_p = response['outstudent_num_p']
+            let switchstudent_num_p = response['switchstudent_num_p']
+            let outstudent_num_p = response['outstudent_num_p']
             // let unlearned_ttd = response['unlearned_ttd']
             // let unlearned_ttc = response['unlearned_ttc']
 
@@ -572,8 +569,8 @@ function getBanInfo(b_id){
                     </tr>
                     <tr class="row">
                         <td class="col-3">${students_num}</td>
-                        <td class="col-3">${switch_student}(${(switch_student/all_student*100).toFixed(2)}%)</td>
-                        <td class="col-3">${exit_student}(${(exit_student/all_student*100).toFixed(2)}%)</td>
+                        <td class="col-3">${switch_student}(${switchstudent_num_p}%)</td>
+                        <td class="col-3">${exit_student}(${outstudent_num_p}%)</td>
                         <td class="col-3">${consulting.length}(${(consulting.length/all_student*100).toFixed(2)}%) </td>
                     </tr>
                 </tbody>
