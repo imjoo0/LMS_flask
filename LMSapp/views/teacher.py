@@ -41,7 +41,7 @@ def home():
 
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
 
-        return render_template('teacher.html',total_student_num=total_student_num,user=teacher_info,my_bans=mybans_info,students=mystudents_info, all_task_num=all_my_tasks, not_done_task_num=done_tasks,not_done_task_per=done_task_per)
+        return render_template('teacher.html',total_student_num=total_student_num,user=teacher_info,my_bans=mybans_info,students=mystudents_info, questions=my_questions,all_task_num=all_my_tasks, not_done_task_num=done_tasks,not_done_task_per=done_task_per)
 
 @bp.route('/api/get_teacher_ban', methods=['GET'])
 def get_ban():
@@ -255,12 +255,9 @@ def consulting(id,is_done):
             return{'result':'상담일지 저장 완료'}
        
 # 선생님 문의 저장 
-@bp.route('/question', methods=['GET','POST'])
+@bp.route('/question', methods=['POST'])
 def request_question():
-    if request.method == 'GET':
-        my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
-        return render_template(questions=my_questions,)
-    elif request.method == 'POST':
+    if request.method == 'POST':
         question_category = request.form['question_category']
         title = request.form['question_title']
         contents = request.form['question_contents']
