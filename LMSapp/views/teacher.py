@@ -44,7 +44,7 @@ def home():
         # 업무 개수
         total_todo = len(TaskBan.query.filter(TaskBan.teacher_id == teacher_info['register_no']).all())
         total_done = len((TaskBan.query.filter((TaskBan.teacher_id == teacher_info['register_no']) & ( TaskBan.done==1)) ).all())
-        ttp = total_done/total_todo*100
+        ttp = round(total_done/total_todo*100)
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
 
         return render_template('teacher.html',total_todo=total_todo,total_done=total_done,ttp=ttp,switchstudent_num=switchstudent_num,switchstudent_num_p=switchstudent_num_p,outstudent_num_p=outstudent_num_p,outstudent_num=outstudent_num,total_student_num=total_student_num,user=teacher_info,my_bans=mybans_info,students=mystudents_info, questions=my_questions)
