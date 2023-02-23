@@ -262,7 +262,7 @@ def get_ban(id):
                     switch_student['status'] = 200
                     switch_student['data'] = cur.fetchall()
 
-                    cur.execute(f"select id, ban_id, category_id, student_id, contents, date_format(startdate, '%Y-%m-%d') as startdate, date_format(deadline, '%Y-%m-%d') as deadline, week_code, done, missed from consulting")
+                    cur.execute(f"select id, ban_id, category_id, student_id, contents, date_format(startdate, '%Y-%m-%d') as startdate, date_format(deadline, '%Y-%m-%d') as deadline, week_code, done, missed from consulting where category_id < 100")
                     consulting['status'] = 200
                     consulting['data'] = cur.fetchall()
 
