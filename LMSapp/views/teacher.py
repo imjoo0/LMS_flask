@@ -42,7 +42,9 @@ def home():
         switchstudent_num = len(SwitchStudent.query.filter(SwitchStudent.teacher_id == teacher_info['register_no']).all())
         switchstudent_num_p = round((switchstudent_num / len(SwitchStudent.query.all()))*100)
         
-        all_my_tasks = len(TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all())
+        # 업무 
+        print(Task.query.filter(Task.startdate <= Today).bans)
+        all_my_tasks = len(TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno'])).all())
         done_tasks = len(TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == 1)).all())
         done_task_per = int((done_tasks/all_my_tasks)*100)
 
