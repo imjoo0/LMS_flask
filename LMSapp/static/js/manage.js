@@ -140,6 +140,9 @@ function paginating(done_code){
     }) 
 }
 function get_question(q_id){ 
+    $('#manage_answer_1').hide()
+    $('#manage_answer_2').hide()
+    $('#manage_answer_3').hide()
     $.ajax({
         type: "GET",
         url: "/teacher/question/"+q_id,
@@ -154,10 +157,11 @@ function get_question(q_id){
             answer = response['answer']
             answer_at = response['answer_at']
             code = 0
+            temp_question_list = ''
             $('#answerModalLabel').html(`${teacher}(${teacher_e})선생님 ${category}`)
             if(category == '일반문의'){
                 code = 1
-                let temp_question_list = `
+                temp_question_list = `
                 <ul>
                     <li>종류 : ${category} </li>
                     <li>제목 : ${title}</li>
@@ -168,10 +172,6 @@ function get_question(q_id){
                     <li>답변일 : ${answer_at}</li>
                 </ul>
                 `;
-                $('#teacher_question').html(temp_question_list);
-                $('#manage_answer_1').show()
-                $('#manage_answer_2').hide()
-                $('#manage_answer_3').hide()
             }
             else{
                 ban = response["ban"]
@@ -179,11 +179,12 @@ function get_question(q_id){
                 student_origin = response["student_origin"]
                 reject = response["reject"]
                 answer = response["answer"]
+                console.log(answer)
                 answer_at = response["answer_at"]
                 if( category == '이반 요청'){
                     new_ban = response["new_ban"]
                     code = 2
-                    let temp_question_list = `
+                    temp_question_list = `
                     <ul>
                         <li>종류 : ${category} </li>
                         <li>제목 : ${title}</li>
@@ -197,13 +198,9 @@ function get_question(q_id){
                         <li>응답일 : ${answer_at} </li>
                     </ul>
                     `;
-                    $('#teacher_question').html(temp_question_list);
-                    $('#manage_answer_2').show()
-                    $('#manage_answer_1').hide()
-                    $('#manage_answer_3').hide()
                 }else{
                     code = 3
-                    let temp_question_list = `
+                    temp_question_list = `
                     <ul>
                     <li>종류 : ${category} </li>
                     <li>제목 : ${title}</li>
@@ -216,12 +213,10 @@ function get_question(q_id){
                     <li>응답일 : ${answer_at} </li>
                     </ul>
                     `;
-                    $('#teacher_question').html(temp_question_list);
-                    $('#manage_answer_3').show()
-                    $('#manage_answer_1').hide()
-                    $('#manage_answer_2').hide()
                 }
             }
+            $('#teacher_question').html(temp_question_list);
+            $('#manage_answer_'+code).show()
             let temp_button_box = `
                 <button class="btn btn-dark" type="submit" onclick="post_answer(${q_id},${code})">저장</button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
