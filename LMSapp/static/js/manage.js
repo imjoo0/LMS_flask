@@ -530,7 +530,7 @@ function getBanInfo(b_id){
             let notice = response['notice']
             let consulting = response['consulting']['data']
             let u_consulting = consulting.filter(a => a.ban_id == b_id).length;
-            let all_c_student = response['consulting']['data'].length;
+            let all_c_student = consulting.length;
             let consulting_ixl = consulting.filter(a => a.category_id == 1).length
             let consulting_reading = consulting.filter(a => a.category_id == 4).length
             let consulting_speacial = consulting.filter(a => a.category_id == 3).length
