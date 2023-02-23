@@ -237,7 +237,7 @@ def get_ban(id):
 
             try:
                 with db.cursor() as cur:
-                    cur.execute(f'select id, ban_id, switch_ban_id, teacher_id, student_id, category from switchstudent where ban_id={id}')
+                    cur.execute(f'select id, ban_id, switch_ban_id, teacher_id, student_id from switchstudent where ban_id={id}')
                     switch_student['status'] = 200
                     switch_student['data'] = cur.fetchall()
 
