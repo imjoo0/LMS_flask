@@ -112,6 +112,7 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list, consu
 }
 
 function paginating(done_code){
+    console.log(done_code)
     let container = $('#pagination')
     $.ajax({
         url: '/manage/api/get_all_questions/'+done_code,
