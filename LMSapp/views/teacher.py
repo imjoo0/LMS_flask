@@ -289,19 +289,27 @@ def request_question():
 def question(id):
     if request.method == 'GET':
         q = Question.query.filter(Question.id == id).first()
+        
+
         teacher_info = callapi.get_teacher_info_by_id(q.teacher_id)
         a = Answer.query.filter(Answer.question_id == id).first()
         return_data = {}
-        return_data['category'] = '일반문의' if q.category == 0 else '퇴소 요청' if q.category == 1 else '이반 요청'if q.category == 2 else '취소/환불 요청' 
+        if q.category == 0: return_data['category'] = '일반문의' 
+        elif q.category == 1 : return_data['category'] ='퇴소 요청' 
+        elif q.category == 2: return_data['category'] ='이반 요청' 
+        else: return_data['category'] = '취소/환불 요청' 
         return_data['title'] = q.title
         return_data['contents'] = q.contents
         return_data['create_date'] = q.create_date.strftime('%Y-%m-%d')
         return_data['teacher'] = teacher_info['name']
         return_data['teacher_e'] = teacher_info['engname']
         return_data['new_ban'] = q.new_ban_id
-        return_data['answer'] = a.content if q.answer == 1 else '✖️'
-        return_data['answer_at'] = a.created_at if q.answer == 1  else '✖️'
-        return_data['reject'] = '승인' if (q.category != 0 and q.answer == 1 and a.reject_code != 0) else '반려'
+        if q.answer == 1 :return_data['answer'] = a.content
+        else: return_data['answer'] = '✖️'
+        if q.answer == 1:return_data['answer_at'] = a.created_at
+        else:return_data['answer_at'] = '✖️'
+        if (q.category != 0 and q.answer == 1 and a.reject_code != 0): return_data['reject'] = '승인' 
+        else: return_data['reject'] = '반려'
         print(return_data['answer'])
         if q.category != 0:
             s = callapi.get_student_info(q.student_id )
