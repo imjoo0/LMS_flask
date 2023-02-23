@@ -129,7 +129,7 @@ def task(done_code):
         else: 
             category_set = '없음'
             target_task = '없음'
-        return jsonify({'task_category' : category_set,'target_task':target_task,'total_todo':total_todo})
+        return jsonify({'task_category' : category_set,'target_task':target_task})
         
     elif request.method =='POST':
         # done_code = 완료한 task의 id
