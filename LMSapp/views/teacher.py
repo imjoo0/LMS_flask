@@ -41,7 +41,7 @@ def home():
 
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
 
-        return render_template('teacher.html',total_student_num=total_student_num,user=teacher_info,my_bans=mybans_info,students=mystudents_info, questions=my_questions,all_task_num=all_my_tasks, not_done_task_num=done_tasks,not_done_task_per=done_task_per)
+        return render_template('teacher.html',total_student_num=total_student_num,user=teacher_info,my_bans=mybans_info,students=mystudents_info, all_task_num=all_my_tasks, not_done_task_num=done_tasks,not_done_task_per=done_task_per)
 
 @bp.route('/api/get_teacher_ban', methods=['GET'])
 def get_ban():
@@ -255,9 +255,12 @@ def consulting(id,is_done):
             return{'result':'상담일지 저장 완료'}
        
 # 선생님 문의 저장 
-@bp.route('/question', methods=['POST'])
+@bp.route('/question', methods=['GET','POST'])
 def request_question():
-    if request.method == 'POST':
+    if request.method == 'GET':
+        my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
+        return render_template('teacher.html',questions=my_questions,)
+    elif request.method == 'POST':
         question_category = request.form['question_category']
         title = request.form['question_title']
         contents = request.form['question_contents']
@@ -338,8 +341,26 @@ def question(id):
         db.session.commit()
         return jsonify({'result': '문의 답변 저장 완료'})
                     
-
-
+@bp.route('/question/update/<int:id>',method=['POST'])
+def question_update(id):
+    if request.method == 'POST':
+        target_question = Question.query.get_or_404(id)
+        answer_title = request.form['answer_title']
+        answer_contents = request.form['answer_contents']
+        o_ban_id = int(request.form['o_ban_id'])
+        new_answer = Answer(content=answer_contents,title=answer_title,created_at=Today,reject_code=o_ban_id,question_id = id)
+        db.session.add(new_answer)
+        if target_question.category == 2 and o_ban_id != 0 :    
+            new_switch_student = SwitchStudent(ban_id = target_question.ban_id,switch_ban_id=o_ban_id,teacher_id = target_question.teacher_id,student_id=target_question.student_id,created_at=Today)
+            db.session.add(new_switch_student)
+            # db.session.commit()
+        elif(target_question.category != 2 and o_ban_id != 0 ):
+            new_out_student = OutStudent(ban_id = target_question.ban_id,teacher_id = target_question.teacher_id,student_id=target_question.student_id,created_at=Today)
+            db.session.add(new_out_student)
+            # db.session.commit()
+        db.session.commit()
+    return jsonify({'result': '문의 답변 저장 완료'})
+                    
 
 
 # 문의 / 답변 조회 
