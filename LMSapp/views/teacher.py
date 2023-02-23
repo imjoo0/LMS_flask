@@ -38,11 +38,16 @@ def home():
         #  상담 차트
         ttc = 0
         ttd = 0
+        unlearned_ttc = 0
+        unlearned_ttd = len(Consulting.query.filter(Consulting.category_id < 100).all())
         for b in mybans_info:
+            unlearned_ttc += len(Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.category_id < 100)).all())
+
             ttc += len(Consulting.query.filter(b['register_no'] == Consulting.ban_id).all())
             ttd += len(Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.done==1)).all())
         cp = round((ttd/ttc)*100)
-        
+        unlearned_cp = round((unlearned_ttc/unlearned_ttd)*100)
+
         # 졸업 / 퇴소 한 학생 
         outstudent_num = len(OutStudent.query.filter(OutStudent.teacher_id == teacher_info['register_no']).all())
         outstudent_num_p = round((outstudent_num / len(OutStudent.query.all()))*100)
@@ -55,7 +60,7 @@ def home():
         ttp = round(total_done/total_todo*100)
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
 
-        return render_template('teacher.html',cp=cp,ttc=ttc,ttd=ttd,total_todo=total_todo,total_done=total_done,ttp=ttp,switchstudent_num=switchstudent_num,switchstudent_num_p=switchstudent_num_p,outstudent_num_p=outstudent_num_p,outstudent_num=outstudent_num,total_student_num=total_student_num,user=teacher_info,my_bans=mybans_info,students=mystudents_info, questions=my_questions)
+        return render_template('teacher.html',unlearned_ttd=unlearned_ttd,unlearned_ttc=unlearned_ttc,unlearned_cp=unlearned_cp,cp=cp,ttc=ttc,ttd=ttd,total_todo=total_todo,total_done=total_done,ttp=ttp,switchstudent_num=switchstudent_num,switchstudent_num_p=switchstudent_num_p,outstudent_num_p=outstudent_num_p,outstudent_num=outstudent_num,total_student_num=total_student_num,user=teacher_info,my_bans=mybans_info,students=mystudents_info, questions=my_questions)
 
 @bp.route('/api/get_teacher_ban', methods=['GET'])
 def get_ban():
