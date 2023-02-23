@@ -41,15 +41,13 @@ def home():
         # 이반 한 학생  
         switchstudent_num = len(SwitchStudent.query.filter(SwitchStudent.teacher_id == teacher_info['register_no']).all())
         switchstudent_num_p = round((switchstudent_num / len(SwitchStudent.query.all()))*100)
-        
-        # 업무 
-        all_my_tasks = len(TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno'])).all())
-        done_tasks = len(TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == 1)).all())
-        done_task_per = int((done_tasks/all_my_tasks)*100)
-
+        # 업무 개수
+        total_todo = len(TaskBan.query.filter(TaskBan.teacher_id == teacher_info['register_no']).all())
+        total_done = len((TaskBan.query.filter(TaskBan.teacher_id == teacher_info['register_no'])&TaskBan.done==1).all())
+        ttp = total_done/total_todo*100
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
 
-        return render_template('teacher.html',switchstudent_num=switchstudent_num,switchstudent_num_p=switchstudent_num_p,outstudent_num_p=outstudent_num_p,outstudent_num=outstudent_num,total_student_num=total_student_num,user=teacher_info,my_bans=mybans_info,students=mystudents_info, questions=my_questions,all_task_num=all_my_tasks, not_done_task_num=done_tasks,not_done_task_per=done_task_per)
+        return render_template('teacher.html',total_todo=total_todo,total_done=total_done,ttp=ttp,switchstudent_num=switchstudent_num,switchstudent_num_p=switchstudent_num_p,outstudent_num_p=outstudent_num_p,outstudent_num=outstudent_num,total_student_num=total_student_num,user=teacher_info,my_bans=mybans_info,students=mystudents_info, questions=my_questions,all_task_num=all_my_tasks, not_done_task_num=done_tasks,not_done_task_per=done_task_per)
 
 @bp.route('/api/get_teacher_ban', methods=['GET'])
 def get_ban():
@@ -95,7 +93,6 @@ def task(done_code):
             tc = []
             for task in my_tasks:
                 t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
-                total_todo = len(Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time)).all())
                 # 오늘의 업무만 저장 
                 if t != None:
                     tc.append(t)

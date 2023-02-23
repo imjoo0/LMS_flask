@@ -412,12 +412,12 @@
                         <table class="table text-center" id="unlearned">
                             <tbody style="width:100%;">
                                 <tr class="row">
-                                    <th class="col-6">업무</th>
+                                    <th class="col-6">업무 | 완수율</th>
                                     <th class="col-6">상담</th>
                                 </tr>
                                 <tr id="classreport-row" class="row">
-                                    <td class="col-3"> {{ not_done_task_num }}/{{all_task_num}}</td>
-                                    <td class="col-3"> {{ not_done_task_per }}</td>
+                                    <td class="col-3" id="task_chart">{{total_done}}/{{total_todo}}</td>
+                                    <td class="col-3"> {{ ttp }}%</td>
                                     <td class="col-3"> 임시3/10 </td>
                                     <td class="col-3"> 5% </td>
                                 </tr>
