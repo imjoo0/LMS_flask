@@ -218,11 +218,9 @@ function get_question(q_id,done_code){
             }
             $('#teacher_question').html(temp_question_list);
             if(done_code == 0){
+                $('#manage_answer_'+code).show()
                 for(i=1;i<4;i++){
-                    if(i == code){
-                        $('#manage_answer_'+i).show()
-
-                    }else{
+                    if(i != code){
                         $('#manage_answer_'+i).hide()
                     }
                 }
@@ -231,6 +229,10 @@ function get_question(q_id,done_code){
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
                 `
                 $('#button_box').html(temp_button_box);
+            }else{
+                $('#manage_answer_1').hide()
+                $('#manage_answer_2').hide()
+                $('#manage_answer_3').hide()
             }
         }
     });
