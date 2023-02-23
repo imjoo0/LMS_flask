@@ -530,28 +530,18 @@ function getBanInfo(b_id){
             // 이반 학생 
             let switch_student = response['switch_student']['data'].filter(a => a.ban_id == b_id).length;
             let all_s_student = response['switch_student']['data'].length;
-            if( all_s_student != 0){
-                s_statis = Math.ceil(switch_student/all_s_student*100)
-            }
             let out_student = response['out_student']['data'].filter(a => a.ban_id == b_id).length;
             let all_o_student = response['out_student']['data'].length;
-            if( all_o_student != 0){
-                o_statis = Math.ceil(out_student/all_o_student*100)
-            }
             let notice = response['notice']
             let consulting = response['consulting']['data'].filter(a => a.ban_id == b_id)
 
             let all_consulting = consulting.length;
             let done_consulting = consulting.filter(a => a.done == 1).length;
-            if( all_consulting != 0){
-                c_statis = Math.ceil(done_consulting/all_consulting*100)
-            }
+
             let u_consulting = response['consulting']['data'].filter(a => a.category_id < 100);
-            let all_u_consulting = u_consulting.length;
+            let all_uc_consulting = u_consulting.length;
             let u_consulting_my = u_consulting.filter(a => a.ban_id == b_id);
-            if( all_u_consulting != 0){
-                uc_statis = Math.ceil(u_consulting_my.length/all_u_consulting*100)
-            }
+
             let consulting_ixl = u_consulting_my.filter(a => a.category_id == 1).length
             let consulting_reading = u_consulting_my.filter(a => a.category_id == 4).length
             let consulting_speacial = u_consulting_my.filter(a => a.category_id == 3).length
@@ -596,9 +586,9 @@ function getBanInfo(b_id){
                     </tr>
                     <tr class="row">
                         <td class="col-3">${students_num}</td>
-                        <td class="col-3">${switch_student}(${s_statis}%)</td>
-                        <td class="col-3">${out_student}(${o_statis}%)</td>
-                        <td class="col-3">${u_consulting}(${uc_statis}%) </td>
+                        <td class="col-3">${switch_student}(${answer_rate(switch_student, all_s_student).toFixed(2)}%)</td>
+                        <td class="col-3">${out_student}(${answer_rate(out_student, all_o_student).toFixed(2)}%)</td>
+                        <td class="col-3">${u_consulting_my}(${answer_rate(u_consulting_my.length, all_uc_consulting).toFixed(2)}%) </td>
                     </tr>
                 </tbody>
             </table>
@@ -626,12 +616,12 @@ function getBanInfo(b_id){
                             <th class="col-2">인투리딩</th>
                         </tr>
                         <tr class="row">
-                            <td class="col-2">${consulting_ixl}(${answer_rate(consulting_ixl, consulting.length).toFixed(2)}%)</td>
-                            <td class="col-2">${consulting_reading}(${answer_rate(consulting_reading, consulting.length).toFixed(1)}%)</td>
-                            <td class="col-2">${consulting_speacial}(${answer_rate(consulting_speacial, consulting.length).toFixed(1)}%) </td>
-                            <td class="col-2">${consulting_writing}(${answer_rate(consulting_writing, consulting.length).toFixed(1)}%) </td>
-                            <td class="col-2">${consulting_homepage}(${answer_rate(consulting_homepage, consulting.length).toFixed(1)}%) </td>
-                            <td class="col-2">${consulting_intoreading}(${answer_rate(consulting_intoreading, consulting.length).toFixed(1)}%) </td>
+                            <td class="col-2">${consulting_ixl}(${answer_rate(consulting_ixl, u_consulting_my.length).toFixed(2)}%)</td>
+                            <td class="col-2">${consulting_reading}(${answer_rate(consulting_reading, u_consulting_my.length).toFixed(1)}%)</td>
+                            <td class="col-2">${consulting_speacial}(${answer_rate(consulting_speacial, u_consulting_my.length).toFixed(1)}%) </td>
+                            <td class="col-2">${consulting_writing}(${answer_rate(consulting_writing, u_consulting_my.length).toFixed(1)}%) </td>
+                            <td class="col-2">${consulting_homepage}(${answer_rate(consulting_homepage, u_consulting_my.length).toFixed(1)}%) </td>
+                            <td class="col-2">${consulting_intoreading}(${answer_rate(consulting_intoreading, u_consulting_my.length).toFixed(1)}%) </td>
                         </tr>
                     </tbody>
                 </table>
