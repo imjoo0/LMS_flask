@@ -1,6 +1,6 @@
 var _chart = document.querySelector(".chart");
 var _chartBar = document.querySelectorAll(".chart-bar");
-var color = ["#9986dd", "#fbb871", "#bd72ac", "#f599dc"]; //색상
+var color = ["#9986dd", "#fbb871", "#bd72ac"]; //색상
 var newDeg = []; //차트 deg
 function insertAfter(newNode, referenceNode) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
