@@ -128,8 +128,9 @@ function paginating(done_code){
                 var dataHtml = '';
                 $.each(data, function (index, item){
                 dataHtml +=  `
-                <td class="col-5">${item.title}</td>
-                <td class="col-5">${item.contents}</td>
+                <td class="col-2">${item.category}</td>
+                <td class="col-4">${item.title}</td>
+                <td class="col-4">${item.contents}</td>
                 <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
                 data-bs-target="#answer" onclick="get_question(${item.id})">✏️</button> <button>❌</button></td>`;
                 });

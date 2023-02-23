@@ -35,9 +35,9 @@ def get_all_questions(done_code):
         try:
             with db.cursor() as cur:
                 if(done_code == 0):
-                    cur.execute('select id, title, contents, answer from question where answer != 1;')
+                    cur.execute('select id, category, title, contents, answer from question where answer != 1;')
                 else:
-                    cur.execute('select id, title, contents, answer from question where answer = 1;')
+                    cur.execute('select id, category, title, contents, answer from question where answer = 1;')
                 all_questions = cur.fetchall();
         except:
             print('err')
