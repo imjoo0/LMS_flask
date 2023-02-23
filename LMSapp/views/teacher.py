@@ -43,7 +43,6 @@ def home():
         switchstudent_num_p = round((switchstudent_num / len(SwitchStudent.query.all()))*100)
         
         # 업무 
-        print(Task.query.filter(Task.startdate <= Today).id)
         all_my_tasks = len(TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno'])).all())
         done_tasks = len(TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == 1)).all())
         done_task_per = int((done_tasks/all_my_tasks)*100)
@@ -96,7 +95,7 @@ def task(done_code):
             tc = []
             for task in my_tasks:
                 t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
-
+                total_todo = len(Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time)).all())
                 # 오늘의 업무만 저장 
                 if t != None:
                     tc.append(t)
@@ -133,7 +132,7 @@ def task(done_code):
         else: 
             category_set = '없음'
             target_task = '없음'
-        return jsonify({'task_category' : category_set,'target_task':target_task})
+        return jsonify({'task_category' : category_set,'target_task':target_task,'total_todo':total_todo})
         
     elif request.method =='POST':
         # done_code = 완료한 task의 id
