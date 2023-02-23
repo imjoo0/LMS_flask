@@ -42,14 +42,18 @@ def home():
         unlearned_ttd = len(Consulting.query.filter(Consulting.category_id < 100).all())
         for b in mybans_info:
             unlearned_ttc += len(Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.category_id < 100)).all())
-
             ttc += len(Consulting.query.filter(b['register_no'] == Consulting.ban_id).all())
             ttd += len(Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.done==1)).all())
-        cp = round((ttd/ttc)*100)
+
+        if(ttc != 0):
+            cp = round((ttd/ttc)*100)
+        else:
+            cp = 0
         if(unlearned_ttd != 0):
             unlearned_cp = round((unlearned_ttc/unlearned_ttd)*100)
         else:
             unlearned_cp = 0
+        
         # 졸업 / 퇴소 한 학생 
         outstudent_num = len(OutStudent.query.filter(OutStudent.teacher_id == teacher_info['register_no']).all())
         if(outstudent_num != 0):
