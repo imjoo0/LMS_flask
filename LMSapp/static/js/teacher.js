@@ -450,5 +450,3 @@ function get_data(){
         } 
     });
 }
-
-get_data()

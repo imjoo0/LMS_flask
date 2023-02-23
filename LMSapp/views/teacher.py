@@ -39,12 +39,15 @@ def home():
         ttc = 0
         ttd = 0
         unlearned_ttc = 0
+        all_history = []
         unlearned_ttd = len(Consulting.query.filter(Consulting.category_id < 100).all())
         for b in mybans_info:
             unlearned_ttc += len(Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.category_id < 100)).all())
             ttc += len(Consulting.query.filter(b['register_no'] == Consulting.ban_id).all())
-            ttd += len(Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.done==1)).all())
-
+            c = Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.done==1)).all()
+            ttd += len(c)
+            all_history.append(c.history)
+        print(all_history)
         if(ttc != 0):
             cp = round((ttd/ttc)*100)
         else:
