@@ -7,7 +7,10 @@ var consultingData = [];
 var taskData = [];
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
-    paginating(0)   
+    paginating(0) 
+    $('#manage_answer_1').hide()  
+    $('#manage_answer_2').hide()  
+    $('#manage_answer_3').hide()  
 })
 
 function displayData(totalData, currentPage, dataPerPage,data_list, consulting) {
@@ -112,7 +115,6 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list, consu
 }
 
 function paginating(done_code){
-    console.log(done_code)
     let container = $('#pagination')
     $.ajax({
         url: '/manage/api/get_all_questions/'+done_code,
@@ -146,7 +148,6 @@ function paginating(done_code){
     }) 
 }
 function get_question(q_id,done_code){ 
-    console.log(done_code)
     $.ajax({
         type: "GET",
         url: "/teacher/question/"+q_id,
