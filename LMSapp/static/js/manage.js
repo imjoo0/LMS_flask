@@ -535,6 +535,12 @@ function getBanInfo(b_id){
             let consulting_homepage = consulting.filter(a => a.category_id == 2).length
             let consulting_intoreading = consulting.filter(a => a.category_id == 5 || a.category_id == 7).length
             let task = response['task']['data']
+            // let switchstudent_num = response['switchstudent_num']
+            // let switchstudent_num_p = response['switchstudent_num_p']
+            // let outstudent_num = response['outstudent_num']
+            // let outstudent_num_p = response['outstudent_num_p']
+            // let unlearned_ttd = response['unlearned_ttd']
+            // let unlearned_ttc = response['unlearned_ttc']
 
             let temp_title = `<h1> ${ban_name} 현황</h1>`
             $('#label_title').append(temp_title);

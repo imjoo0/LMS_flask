@@ -230,6 +230,22 @@ def get_ban(id):
     if request.method == 'GET':
         target_ban = callapi.get_ban(id)
         if target_ban:
+            # switchstudent_num_p = 0
+            # # 이반 한 학생  
+            # switchstudent_num = len(SwitchStudent.query.filter(SwitchStudent.ban_id == id).all())
+            # if(switchstudent_num != 0):
+            #     switchstudent_num_p = round((switchstudent_num / len(SwitchStudent.query.all()))*100)
+            #  # 졸업 / 퇴소 한 학생
+            # outstudent_num_p = 0
+            # outstudent_num = len(OutStudent.query.filter(OutStudent.ban_id == id).all())
+            # if(outstudent_num != 0): 
+            #     outstudent_num_p = round((outstudent_num / len(OutStudent.query.all()))*100)
+            # # 미학습 발생 
+            # unlearned_ttc = 0
+            # unlearned_ttd = len(Consulting.query.filter((Consulting.category_id < 100)&(Consulting.ban_id==id)).all()) 
+            # if(unlearned_ttd != 0):
+            #     unlearned_ttc = round((unlearned_ttd / len(Consulting.query.filter(Consulting.category_id < 100).all()))*100)
+
             db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
             switch_student = {}
             consulting = {}
@@ -280,7 +296,14 @@ def get_ban(id):
             'switch_student': switch_student,
             'notice': notice,
             'consulting': consulting,
-            'task': task
+            'task': task,
+            # # chart 
+            # 'switchstudent_num' :switchstudent_num,
+            # 'switchstudent_num_p':switchstudent_num_p,
+            # 'outstudent_num':outstudent_num,
+            # 'outstudent_num_p':outstudent_num_p,
+            # 'unlearned_ttd':unlearned_ttd,
+            # 'unlearned_ttc':unlearned_ttc
         })
         else:
             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
