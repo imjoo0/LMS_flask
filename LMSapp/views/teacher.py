@@ -46,7 +46,8 @@ def home():
             ttc += len(Consulting.query.filter(b['register_no'] == Consulting.ban_id).all())
             c = Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.done==1)).all()
             ttd += len(c)
-            all_history.append(c.history)
+        for consulting in c :
+            all_history.append(consulting.history)
         print(all_history)
         if(ttc != 0):
             cp = round((ttd/ttc)*100)
