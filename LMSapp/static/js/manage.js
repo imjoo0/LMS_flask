@@ -136,7 +136,7 @@ function paginating(done_code){
                     <td class="col-4">${item.title}</td>
                     <td class="col-4">${item.contents}</td>
                     <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-                    data-bs-target="#answer" onclick="get_question(${item.id})">✏️</button> <button>❌</button></td>`;
+                    data-bs-target="#answer" onclick="get_question(${item.id},${done_code})">✏️</button> <button>❌</button></td>`;
                 });
                 $('#alim-tr').html(dataHtml);
             }
@@ -144,7 +144,7 @@ function paginating(done_code){
         }
     }) 
 }
-function get_question(q_id){ 
+function get_question(q_id,done_code){ 
     $('#manage_answer_1').hide()
     $('#manage_answer_2').hide()
     $('#manage_answer_3').hide()
@@ -221,12 +221,14 @@ function get_question(q_id){
                 }
             }
             $('#teacher_question').html(temp_question_list);
-            $('#manage_answer_'+code).show()
-            let temp_button_box = `
+            if(done_code == 0){
+                $('#manage_answer_'+code).show()
+                let temp_button_box = `
                 <button class="btn btn-dark" type="submit" onclick="post_answer(${q_id},${code})">저장</button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
-            `
-            $('#button_box').html(temp_button_box);
+                `
+                $('#button_box').html(temp_button_box);
+            }
         }
     });
 }
