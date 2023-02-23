@@ -191,8 +191,8 @@
                             {% if question.answer == 0 %}
                             <td class="col-2"> 미응답 </td>
                             <td class="col-2">
-                                <div class="make_row">
-                                    <p onclick="get_answer('{{question.id}}')">✏️</p><p onclick="get_answer('{{question.id}}')">❌</p></div> 
+                                <td class="col-1"  onclick="get_answer('{{question.id}}')">✏️</td>
+                                <td class="col-1"  onclick="get_answer('{{question.id}}')">❌</td>
                             </td>
                             {% else %}
                             <td class="col-2" onclick="get_answer('{{question.id}}')"> ✔️ </td>
