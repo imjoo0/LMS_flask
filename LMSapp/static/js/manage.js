@@ -523,9 +523,10 @@ function getBanInfo(b_id){
                 if(Object.is(answer/all, NaN)) return 0;
                 else return answer/all*100;
             }
-            let switch_student = response['switch_student']['data'].filter(a => a.category==0).length;
-            let exit_student = response['switch_student']['data'].filter(a => a.category==1).length;
-            let all_student = switch_student + exit_student + students_num;
+            let switch_student = response['switch_student']['data'].filter(a => a.ban_id == b_id).length;
+            let out_student = response['out_student']['data'].filter(a => a.ban_id == b_id).length;
+            let all_s_student = response['switch_student']['data'].length;
+            let all_o_student = response['out_student']['data'].length;
             let notice = response['notice']
             let consulting = response['consulting']['data']
             let consulting_ixl = consulting.filter(a => a.category_id == 1).length
@@ -572,9 +573,9 @@ function getBanInfo(b_id){
                     </tr>
                     <tr class="row">
                         <td class="col-3">${students_num}</td>
-                        <td class="col-3">${switch_student}(${(switch_student/all_student*100).toFixed(2)}%)</td>
-                        <td class="col-3">${exit_student}(${(exit_student/all_student*100).toFixed(2)}%)</td>
-                        <td class="col-3">${consulting.length}(${(consulting.length/all_student*100).toFixed(2)}%) </td>
+                        <td class="col-3">${switch_student}(${(switch_student/all_s_student*100).toFixed(2)}%)</td>
+                        <td class="col-3">${out_student}(${(out_student/all_o_student*100).toFixed(2)}%)</td>
+                        <td class="col-3">${consulting.length}(${(consulting.length/all_o_student*100).toFixed(2)}%) </td>
                     </tr>
                 </tbody>
             </table>

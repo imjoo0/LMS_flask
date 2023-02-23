@@ -248,12 +248,17 @@ def get_ban(id):
 
             db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
             switch_student = {}
+            out_student = {}
             consulting = {}
             task = {}
 
             try:
                 with db.cursor() as cur:
-                    cur.execute(f'select id, ban_id, switch_ban_id, teacher_id, student_id from switchstudent where ban_id={id}')
+                    cur.execute(f'select id, ban_id from outchstudent')
+                    switch_student['status'] = 200
+                    out_student['data'] = cur.fetchall()
+
+                    cur.execute(f'select id, ban_id from switchstudent')
                     switch_student['status'] = 200
                     switch_student['data'] = cur.fetchall()
 
@@ -294,6 +299,7 @@ def get_ban(id):
             'all_alim' : alimnote['all'],
             'answer_alim' : alimnote['answer'],
             'switch_student': switch_student,
+            'out_student': out_student,
             'notice': notice,
             'consulting': consulting,
             'task': task,
