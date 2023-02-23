@@ -173,7 +173,8 @@
                             <th class="col-3">종류</th>
                             <th class="col-5">제목</th>
                             <th class="col-2">답변</th>
-                            <th class="col-2">수정/삭제</th>
+                            <th class="col-1">수정</th>
+                            <th class="col-1">삭제</th>
                         </tr>
                         {% if questions is iterable %}
                         {% for question in questions %}
@@ -190,13 +191,12 @@
                             <td class="col-5">{{ question.title }} </td>
                             {% if question.answer == 0 %}
                             <td class="col-2"> 미응답 </td>
-                            <td class="col-2">
-                                <td class="col-1"  onclick="get_answer('{{question.id}}')">✏️</td>
-                                <td class="col-1"  onclick="get_answer('{{question.id}}')">❌</td>
-                            </td>
+                            <td class="col-1"  onclick="get_answer('{{question.id}}')">✏️</td>
+                            <td class="col-1"  onclick="get_answer('{{question.id}}')">❌</td>
                             {% else %}
                             <td class="col-2" onclick="get_answer('{{question.id}}')"> ✔️ </td>
-                            <td class="col-2"> ❌ </td>
+                            <td class="col-1"></td>
+                            <td class="col-1"> ❌ </td>
                             {% endif %}
                         </tr>
                         {% endfor %}
