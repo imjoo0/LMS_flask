@@ -37,10 +37,10 @@ def home():
 
         # 졸업 / 퇴소 한 학생 
         outstudent_num = len(OutStudent.query.filter(OutStudent.teacher_id == teacher_info['register_no']).all())
-        outstudent_num_p = (outstudent_num / len(OutStudent.query.all()))*100
+        outstudent_num_p = round((outstudent_num / len(OutStudent.query.all()))*100)
         # 이반 한 학생  
         switchstudent_num = len(SwitchStudent.query.filter(SwitchStudent.teacher_id == teacher_info['register_no']).all())
-        switchstudent_num_p = (switchstudent_num / len(SwitchStudent.query.all()))*100
+        switchstudent_num_p = round((switchstudent_num / len(SwitchStudent.query.all()))*100)
         
         all_my_tasks = len(TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all())
         done_tasks = len(TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == 1)).all())
