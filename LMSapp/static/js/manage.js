@@ -144,9 +144,9 @@ function paginating(done_code){
         }
     }) 
 }
-async function get_question(q_id,done_code){ 
+function get_question(q_id,done_code){ 
     console.log(done_code)
-    await $.ajax({
+    $.ajax({
         type: "GET",
         url: "/teacher/question/"+q_id,
         data: {},
