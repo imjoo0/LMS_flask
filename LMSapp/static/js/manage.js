@@ -519,24 +519,45 @@ function getBanInfo(b_id){
             let teacher_email = response['teacher_email']
             let answer = Number(response['answer_alim'])
             let all_alim = Number(response['all_alim'])
+            let s_statis = 0
+            let o_statis = 0
+            let c_statis = 0
+            let uc_statis = 0
             let answer_rate =  function(answer, all) {
                 if(Object.is(answer/all, NaN)) return 0;
                 else return answer/all*100;
             }
+            // 이반 학생 
             let switch_student = response['switch_student']['data'].filter(a => a.ban_id == b_id).length;
-            let out_student = response['out_student']['data'].filter(a => a.ban_id == b_id).length;
             let all_s_student = response['switch_student']['data'].length;
+            if( all_s_student != 0){
+                s_statis = Math.ceil(switch_student/all_s_student*100)
+            }
+            let out_student = response['out_student']['data'].filter(a => a.ban_id == b_id).length;
             let all_o_student = response['out_student']['data'].length;
+            if( all_o_student != 0){
+                o_statis = Math.ceil(out_student/all_o_student*100)
+            }
             let notice = response['notice']
-            let consulting = response['consulting']['data']
-            let u_consulting = consulting.filter(a => a.ban_id == b_id).length;
-            let all_c_student = consulting.length;
-            let consulting_ixl = consulting.filter(a => a.category_id == 1).length
-            let consulting_reading = consulting.filter(a => a.category_id == 4).length
-            let consulting_speacial = consulting.filter(a => a.category_id == 3).length
-            let consulting_writing = consulting.filter(a => a.category_id == 6).length
-            let consulting_homepage = consulting.filter(a => a.category_id == 2).length
-            let consulting_intoreading = consulting.filter(a => a.category_id == 5 || a.category_id == 7).length
+            let consulting = response['consulting']['data'].filter(a => a.ban_id == b_id)
+
+            let all_consulting = consulting.length;
+            let done_consulting = consulting.filter(a => a.done == 1).length;
+            if( all_consulting != 0){
+                c_statis = Math.ceil(done_consulting/all_consulting*100)
+            }
+            let u_consulting = response['consulting']['data'].filter(a => a.category_id < 100);
+            let all_u_consulting = u_consulting.length;
+            let u_consulting_my = u_consulting.filter(a => a.ban_id == b_id);
+            if( all_u_consulting != 0){
+                uc_statis = Math.ceil(u_consulting_my.length/all_u_consulting*100)
+            }
+            let consulting_ixl = u_consulting_my.filter(a => a.category_id == 1).length
+            let consulting_reading = u_consulting_my.filter(a => a.category_id == 4).length
+            let consulting_speacial = u_consulting_my.filter(a => a.category_id == 3).length
+            let consulting_writing = u_consulting_my.filter(a => a.category_id == 6).length
+            let consulting_homepage = u_consulting_my.filter(a => a.category_id == 2).length
+            let consulting_intoreading = u_consulting_my.filter(a => a.category_id == 5 || a.category_id == 7).length
             let task = response['task']['data']
             // let switchstudent_num = response['switchstudent_num']
             // let switchstudent_num_p = response['switchstudent_num_p']
@@ -544,7 +565,7 @@ function getBanInfo(b_id){
             // let outstudent_num_p = response['outstudent_num_p']
             // let unlearned_ttd = response['unlearned_ttd']
             // let unlearned_ttc = response['unlearned_ttc']
-
+            
             let temp_title = `<h1> ${ban_name} 현황</h1>`
             $('#label_title').append(temp_title);
 
@@ -575,9 +596,9 @@ function getBanInfo(b_id){
                     </tr>
                     <tr class="row">
                         <td class="col-3">${students_num}</td>
-                        <td class="col-3">${switch_student}(${Math.ceil(switch_student/all_s_student*100)}%)</td>
-                        <td class="col-3">${out_student}(${Math.ceil(out_student/all_o_student*100)}%)</td>
-                        <td class="col-3">${u_consulting}(${Math.ceil(u_consulting/all_c_student*100)}%) </td>
+                        <td class="col-3">${switch_student}(${s_statis}%)</td>
+                        <td class="col-3">${out_student}(${o_statis}%)</td>
+                        <td class="col-3">${u_consulting}(${uc_statis}%) </td>
                     </tr>
                 </tbody>
             </table>
