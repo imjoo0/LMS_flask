@@ -218,15 +218,12 @@ function get_question(q_id,done_code){
             }
             $('#teacher_question').html(temp_question_list);
             if(done_code == 0){
-                console.log('찍')
                 for(i=1;i<4;i++){
                     if(i == code){
-                        $('#manage_answer_'+code).show()
-                        console.log(i)
+                        $('#manage_answer_'+i).show()
 
-                    }
-                    else{
-                        $('#manage_answer_'+code).hide()
+                    }else{
+                        $('#manage_answer_'+i).hide()
                     }
                 }
                 let temp_button_box = `
