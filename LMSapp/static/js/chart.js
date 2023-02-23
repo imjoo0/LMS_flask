@@ -8,10 +8,9 @@ function insertAfter(newNode, referenceNode) {
 
 function chartLabel() {
   temp_html = `
-                    <span class="chart-total-text1">졸업 학생 수</span>
-                    <span class="chart-total-text2">퇴소 학생 수</span>
-                    <span class="chart-total-text3">이반 학생 수 </span>
-                    <span class="chart-total-text4">관리중인 학생 수</span>`;
+                    <span class="chart-total-text1">졸업*퇴소 학생 수</span>
+                    <span class="chart-total-text2">이반 학생 수</span>
+                    <span class="chart-total-text3">관리중인 학생 수</span>`;
   $('.chart-total').append(temp_html);
 }
 

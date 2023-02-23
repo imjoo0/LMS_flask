@@ -37,7 +37,8 @@ def home():
 
         # 졸업 / 퇴소 한 학생 
         outstudent_num = len(OutStudent.query.filter(OutStudent.teacher_id == teacher_info['register_no']).all())
-        print(outstudent_num)   
+        # 이반 한 학생  
+        switchstudent_num = len(SwitchStudent.query.filter(SwitchStudent.teacher_id == teacher_info['register_no']).all())
 
         all_my_tasks = len(TaskBan.query.filter(TaskBan.teacher_id==session['user_registerno']).all())
         done_tasks = len(TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == 1)).all())
@@ -45,7 +46,7 @@ def home():
 
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
 
-        return render_template('teacher.html',outstudent_num=outstudent_num,total_student_num=total_student_num,user=teacher_info,my_bans=mybans_info,students=mystudents_info, questions=my_questions,all_task_num=all_my_tasks, not_done_task_num=done_tasks,not_done_task_per=done_task_per)
+        return render_template('teacher.html',switchstudent_num=switchstudent_num,outstudent_num=outstudent_num,total_student_num=total_student_num,user=teacher_info,my_bans=mybans_info,students=mystudents_info, questions=my_questions,all_task_num=all_my_tasks, not_done_task_num=done_tasks,not_done_task_per=done_task_per)
 
 @bp.route('/api/get_teacher_ban', methods=['GET'])
 def get_ban():
