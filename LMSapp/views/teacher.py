@@ -43,7 +43,7 @@ def home():
         switchstudent_num_p = round((switchstudent_num / len(SwitchStudent.query.all()))*100)
         # 업무 개수
         total_todo = len(TaskBan.query.filter(TaskBan.teacher_id == teacher_info['register_no']).all())
-        total_done = len((TaskBan.query.filter(TaskBan.teacher_id == teacher_info['register_no'])&TaskBan.done==1).all())
+        total_done = len((TaskBan.query.filter(TaskBan.teacher_id == teacher_info['register_no']) &( TaskBan.done==1)).all())
         ttp = total_done/total_todo*100
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
 
