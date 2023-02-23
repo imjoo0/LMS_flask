@@ -230,6 +230,9 @@ function get_question(q_id,done_code){
             }
         }
     });
+    $('#manage_answer_1').hide()  
+    $('#manage_answer_2').hide()  
+    $('#manage_answer_3').hide()  
 }
 function post_answer(q_id,code){
     answer_title = $('#answer_title'+code).val()
