@@ -308,7 +308,8 @@ def question(id):
         else: return_data['answer'] = '✖️'
         if q.answer == 1:return_data['answer_at'] = a.created_at
         else:return_data['answer_at'] = '✖️'
-        if (q.category != 0 and q.answer == 1 and a.reject_code != 0): return_data['reject'] = '승인' 
+        if (q.category != 0 and q.answer == 1 and a.reject_code != 0): return_data['reject'] = '승인'
+        elif(q.answer == 0): return_data['reject'] = '대기중'
         else: return_data['reject'] = '반려'
         print(return_data['answer'])
         if q.category != 0:
