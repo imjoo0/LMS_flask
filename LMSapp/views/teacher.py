@@ -48,8 +48,7 @@ def home():
             ttd += len(c)
         print(c)
         for consulting in c :
-            print(consulting.history)
-        print(all_history)
+            all_history.append(consulting.history)
         if(ttc != 0):
             cp = round((ttd/ttc)*100)
         else:
