@@ -301,7 +301,7 @@ def question(id):
         return_data['new_ban'] = q.new_ban_id
         return_data['answer'] = a.content if q.answer == 1 else '✖️'
         return_data['answer_at'] = a.created_at if q.answer == 1  else '✖️'
-        return_data['reject'] = '승인' if (q.category != 0 and q.answer == 1 and a.reject_code != '0') else '✖️'
+        return_data['reject'] = '승인' if (q.category != 0 and q.answer == 1 and a.reject_code != 0) else '반려'
          
         if q.category != 0:
             s = callapi.get_student_info(q.student_id )
