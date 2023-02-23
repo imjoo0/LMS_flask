@@ -127,6 +127,10 @@ function paginating(done_code){
             callback: function (data, pagination){
                 var dataHtml = '';
                 $.each(data, function (index, item){
+                    if( q.category == 0){item.category = '일반문의' } 
+                    else if (q.category == 1 ){item.category ='퇴소 요청' } 
+                    else if( q.category == 2){item.category ='이반 요청' } 
+                    else{item.category = '취소/환불 요청' } 
                 dataHtml +=  `
                 <td class="col-2">${item.category}</td>
                 <td class="col-4">${item.title}</td>
