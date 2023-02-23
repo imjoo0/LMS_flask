@@ -26,10 +26,10 @@
         <div class="d-flex justify-content-center flex-xl-row row-cols-xl-2 flex-column-reverse">
             <div class="p-lg-5 p-1 pb-4">
                 <div class="d-flex justify-content-between flex-row row-cols-2 mb-4">
-                    
+                    <p>안녕</p>
                 </div>
                 <div class="d-flex justify-content-between flex-row row-cols-2">
-                                
+                    <p>안녕</p>          
                 </div>
             </div> 
             <div class="d-flex justify-content-start align-items-center p-lg-5 py-3">
@@ -60,6 +60,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>            
         </div>
     </div>
@@ -79,87 +80,6 @@
             </div>
         </div>        
     </div>
-
-    <section id="statistics">
-        <div class="make_row">
-            <div class="label" id="default_title">
-                <h1> 반 현황 검색 </h1>
-            </div>
-            <div class="label" id="label_title">
-
-            </div>
-            <select name="target_ban" onchange="getBanInfo(this.value)">
-                <optgroup>
-                    <option value="none" disabled selected>반을 선택해주세요</option>
-                    {% for ban in all_ban %}
-                    {% set ban_regi = ban['register_no']  %}
-                    <option value={{ban_regi}}>{{ban['name']}} ({{ban['semester']}}학기)</option>
-                    {% endfor %}
-                </optgroup>
-            </select>
-        </div>
-        <div class="make_col">
-            <div id="profile_data">
-
-            </div>
-            <div id="ban_data">
-
-            </div>
-            <table class="table text-center" style="width:100%;" id="student_data">
-                <tr class="row" style="background: #DCE6F2;">
-                    <th class="col-12" id="displayCount"></th>
-                </tr>
-                <tr class="row" style="background:#DCE6F2;">
-                    <th class="col-2">원생 정보</th>
-                    <th class="col-2">연락처</th>
-                    <th class="col-3">부모님 정보</th>
-                    <th class="col-2">추천도서</th>
-                    <th class="col-2">미학습</th>
-                    <th class="col-1">상세</th>
-                </tr>
-                <tr id="s_data" class="row">
-
-                </tr>
-            </table>
-            <ul id="pagingul"></ul>
-
-            <div id="ban_statistics" class="make_row">
-
-            </div>
-
-            <!-- <div class="make_row" id="request_box">
-                    <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-                    data-bs-target="#request_consulting">상담 요청 하기</button>
-                    <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#my_consulting_request" onclick="get_consulting()" style="margin-right: 20px;">요청중인 상담 보기</button>
-                    <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-                    data-bs-target="#request_task">업무 요청 하기</button>
-                    <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" onclick="get_task()"
-                    data-bs-target="#my_task_request">요청중인 업무 보기</button>    
-            </div> -->
-        </div>
-
-    </section>
-    <section id="work">
-        <div class="make_col">
-            <div class="label" id="default_title">
-                <h1> 선생님 문의 현황 </h1>
-            </div>
-            <table class="table text-center" id="teacher_question" style="width:100%;">
-                    <thead>
-                        <tr class="row">
-                            <th class="col-3">종류</th>
-                            <th class="col-3">선생님</th>
-                            <th class="col-4">제목</th>
-                            <th class="col-2">응답</th>
-                        </tr>
-                    </thead>
-                <tbody >
-                    <tr id="alim-tr" class="row"></tr>
-                </tbody>
-            </table>
-            <div id="pagination" class="py-5 text-center"></div>
-        </div>
-    </section>
 </div>
 
 {% block jspart %}
