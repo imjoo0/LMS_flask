@@ -40,9 +40,6 @@ def draw_chart():
                                'intoread_num':intoread_num,'writing_num':writing_num,'intoread_num':intoread_num,
                                'switch_num':switch_num,'outstudent_num':outstudent_num,'unlearned_num':unlearned_num})
 
-
-
-
 @bp.route("/sodata", methods=['GET'])
 def get_sodata():
     if request.method == 'GET':
@@ -74,6 +71,7 @@ def get_sodata():
                     data['out_data'] = str(od) +'('+ str(round((od/total_o)*100)) + '%)' if(total_o != 0) else 0
                     data['switch_data'] = str(sd) +'('+ str(round((sd/total_s)*100)) + '%)' if(total_s != 0) else 0
                     sodata.append(data)
+                sodata.sort(key=lambda x:(-x['out_data'],-x['switch_data']))
             else:
                  sodata = '없음'
             return jsonify({'sodata': sodata})
