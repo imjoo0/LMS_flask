@@ -133,9 +133,13 @@ function sodata(){
             $('#outstudent_num').css('background-color','#D99694');
             $('#on').html(`퇴소 학생 수: ${on}명`);
             data_list = response['sodata']
-            totalData = data_list.length
-            so_displayData(totalData, 1, dataPerPage,data_list);
-            so_paging(totalData, dataPerPage, pageCount, 1,data_list);
+            if(data_list == '없음'){
+                $("#sd_data").html('퇴소 / 이반 발생이 없었습니다 😆');
+            }else{
+                totalData = data_list.length
+                so_displayData(totalData, 1, dataPerPage,data_list);
+                so_paging(totalData, dataPerPage, pageCount, 1,data_list);
+            }
         }
     }) 
     
@@ -270,9 +274,13 @@ function uldata(){
             $('#in').html(`인투리딩: ${wn}`);
 
             data_list = response['uldata']
-            totalData = data_list.length
-            ul_displayData(totalData, 1, dataPerPage,data_list);
-            ul_paging(totalData, dataPerPage, pageCount, 1,data_list);
+            if(data_list == '없음'){
+                $("#ul_data").html('미학습 발생 원생이 없었습니다 😆');
+            }else{
+                totalData = data_list.length
+                ul_displayData(totalData, 1, dataPerPage,data_list);
+                ul_paging(totalData, dataPerPage, pageCount, 1,data_list);
+            }
         }
     }) 
     
