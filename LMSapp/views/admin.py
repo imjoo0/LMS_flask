@@ -67,14 +67,16 @@ def get_sodata():
                 for ban in target_ban:
                     od = OutStudent.query.filter(OutStudent.ban_id==ban).all()
                     sd = SwitchStudent.query.filter(SwitchStudent.ban_id==ban).all()
+                    odd = round((od/total_o)*100)
+                    sdd = round((sd/total_s)*100)
                     data = {}
                     b = callapi.get_ban(ban)
                     data['register_no'] = b['register_no']
                     data['ban_name'] = b['ban_name']
                     data['semester'] = b['semester']
                     data['teacher_name'] = b['teacher_name'] +'('+b['teacher_engname'] + ')'
-                    data['out_data'] = str(len(od)) +'('+ str(round((od/total_o)*100)) + '%)' if(total_o != 0) else 0
-                    data['switch_data'] = str(len(sd)) +'('+ str(round((sd/total_s)*100)) + '%)' if(total_s != 0) else 0
+                    data['out_data'] = str(len(od)) +'('+ str(odd) + '%)' if(total_o != 0) else 0
+                    data['switch_data'] = str(len(sd)) +'('+ str(sdd) + '%)' if(total_s != 0) else 0
                     sodata.append(data)
             else:
                  sodata = '없음'
