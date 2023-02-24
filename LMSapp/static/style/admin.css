@@ -1,14 +1,15 @@
 .progress_box{
     width: 100%;
 }
-.progress_box > span{
-    width: 30%;
+.progress_msg{
+    width: 20%;
     font-size: 20px;
+    color:white;
 }
 .progress-bar {
-    width: 70%;
+    width: 80%;
     height: 30px;
-    background-color: #dedede;
+    background-color:white;
     font-weight: 600;
     font-size: .8rem;
     margin-top: 5px;
