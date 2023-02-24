@@ -20,7 +20,8 @@ def home():
         all_ban = callapi.all_ban_info()
         total = 0
         for b in all_ban:
-            total += get_ban(b['register_no'])['student_num']
+            target = get_ban(b['register_no'])
+            total += target['student_num']
         print(total)
         switch_num = len(SwitchStudent.query.all())
         outStudent_num = len(OutStudent.query.all())
