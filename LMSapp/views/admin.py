@@ -5,7 +5,6 @@ from flask import Blueprint, render_template, jsonify, request, redirect, url_fo
 import config
 import json
 import callapi
-from flask_paginate import Pagination, get_page_parameter, get_page_args
 import pymysql
 import callapi
 
@@ -13,9 +12,6 @@ bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 # 관리자 메인 페이지
 # 테스트 계정 id : admin2 pw동일
-s = SwitchStudent.query.all()
-o = OutStudent.query.all()
-
 @bp.route("/", methods=['GET'])
 def home():
     if request.method == 'GET':
@@ -30,8 +26,8 @@ def home():
     
 @bp.route('/chart',methods =['GET'])
 def draw_chart():
-        switch_num = len(s)
-        outstudent_num = len(o)
+        switch_num = len(SwitchStudent.query.all())
+        outstudent_num = len(OutStudent.query.all())
         unlearned_num = len(Consulting.query.filter(Consulting.category_id<100).all())
         ixl_num = len(Consulting.query.filter(Consulting.category_id==1).all())
         sread_num = len(Consulting.query.filter(Consulting.category_id==3).all())
@@ -51,8 +47,8 @@ def draw_chart():
 def get_sodata():
     if request.method == 'GET':
             target_ban = []
-            total_o = len(o)
-            total_s = len(s)
+            total_o = len(OutStudent.query.all())
+            total_s = len(SwitchStudent.query.all())
             for sd in s:
                   target_ban.append(sd.ban_id)
             target_ban = list(set(target_ban))
