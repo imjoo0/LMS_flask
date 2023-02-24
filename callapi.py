@@ -125,8 +125,8 @@ def get_all_student_num():
         result = result[0]
     return result
 
-def get_all_ban():
-    result = requests.post(config.api + 'get_all_ban', headers=headers, data=json.dumps({'data':{}}))
+def get_all_teacher():
+    result = requests.post(config.api + 'get_all_teacher', headers=headers, data=json.dumps({'data':{}}))
     result = result.json()
     if(len(result)>0):
         result = result[0]
