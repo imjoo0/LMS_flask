@@ -31,15 +31,14 @@ def draw_chart():
         outstudent_num = len(OutStudent.query.all())
         unlearned_num = len(Consulting.query.filter(Consulting.category_id<100).all())
         ixl_num = len(Consulting.query.filter(Consulting.category_id==1).all())
-        hpage_num = len(Consulting.query.filter(Consulting.category_id==2).all())
         sread_num = len(Consulting.query.filter(Consulting.category_id==3).all())
         read_num = len(Consulting.query.filter(Consulting.category_id==4).all())
-        tintoread_num = len(Consulting.query.filter(Consulting.category_id==5).all())
+        intoread_num = len(Consulting.query.filter(Consulting.category_id==5).all()) + len(Consulting.query.filter(Consulting.category_id==7).all())
         writing_num = len(Consulting.query.filter(Consulting.category_id==6).all())
-        intoread_num = len(Consulting.query.filter(Consulting.category_id==7).all())
 
-        return jsonify({'ixl_num':ixl_num,'hpage_num':hpage_num,'sread_num':sread_num,'read_num':read_num,
-                               'tintoread_num':tintoread_num,'writing_num':writing_num,'intoread_num':intoread_num,
+
+        return jsonify({'ixl_num':ixl_num,'sread_num':sread_num,'read_num':read_num,
+                               'intoread_num':intoread_num,'writing_num':writing_num,'intoread_num':intoread_num,
                                'switch_num':switch_num,'outstudent_num':outstudent_num,'unlearned_num':unlearned_num})
 
 

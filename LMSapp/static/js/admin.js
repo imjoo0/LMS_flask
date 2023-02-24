@@ -31,6 +31,38 @@ function draw_chart(){
             $('#total_num').css('width',`${100}%`);
             $('#total_num').css('background-color','#B9CDE5');
             $('#tn').html(`총 학생 수: ${100}명`);
+
+            un = response['unlearned_num']
+            $('#unlearned_num').css('width',`${un}%`);
+            $('#unlearned_num').css('background-color','#EBF1DE');
+            $('#un').html(`미학습발생 수: ${un}`);
+
+            ixln = response['ixl_num']
+            $('#ixl_num').css('width',`${ixln}%`);
+            $('#ixl_num').css('background-color','#D7E4BD');
+            $('#ixln').html(`IXL미학습: ${ixln}`);
+
+            sn = response['sread_num']
+            $('#sread_num').css('width',`${sn}%`);
+            $('#sread_num').css('background-color','#C3D69B');
+            $('#sn').html(`리특미진행: ${sn}`);
+
+            rn = response['read_num']
+            $('#read_num').css('width',`${rn}%`);
+            $('#read_num').css('background-color','#77933C');
+            $('#rn').html(`리딩부진: ${rn}`);
+
+            intor = response['intoread_num']
+            $('#intoread_num').css('width',`${intor}%`);
+            $('#intoread_num').css('background-color','#4F6228');
+            $('#in').html(`인투리딩: ${intor}`);
+
+            wn = response['writing_num']
+            $('#writing_num').css('width',`${wn}%`);
+            $('#writing_num').css('background-color','#262F13');
+            $('#in').html(`인투리딩: ${wn}`);
+
+
         }
     }) 
 }
