@@ -2,12 +2,12 @@
     width: 100%;
 }
 .progress_msg{
-    width: 30%;
+    width: 40%;
     font-size: 20px;
     color:white;
 }
 .progress-bar {
-    width: 70%;
+    width: 60%;
     height: 30px;
     background-color:white;
     font-weight: 600;
