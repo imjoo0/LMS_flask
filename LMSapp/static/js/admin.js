@@ -81,13 +81,13 @@ function so_paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
         pageHtml += "<li><a class='cursor-pointer' id='next' > 다음 </a></li>";
     }
 
-    $("#pagingul").html(pageHtml);
+    $("#pagingul1").html(pageHtml);
     let displayCount = "";
     displayCount = " 퇴소 이반 현황 1 - " + totalPage + " 페이지 / " + totalData + "건";
     $("#displayCount").text(displayCount);
 
     //페이징 번호 클릭 이벤트 
-    $("#pagingul li a").click(function () {
+    $("#pagingul1 li a").click(function () {
         let $id = $(this).attr("id");
         selectedPage = $(this).text();
 
@@ -201,13 +201,13 @@ function ul_paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
         pageHtml += "<li><a class='cursor-pointer' id='next' > 다음 </a></li>";
     }
 
-    $("#pagingul").html(pageHtml);
+    $("#pagingul2").html(pageHtml);
     let displayCount = "";
     displayCount = " 미학습 발생 현황 1 - " + totalPage + " 페이지 / " + totalData + "건";
     $("#displayCount").text(displayCount);
 
     //페이징 번호 클릭 이벤트 
-    $("#pagingul li a").click(function () {
+    $("#pagingul2 li a").click(function () {
         let $id = $(this).attr("id");
         selectedPage = $(this).text();
 
@@ -342,13 +342,13 @@ function t_paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
         pageHtml += "<li><a class='cursor-pointer' id='next' > 다음 </a></li>";
     }
 
-    $("#pagingul").html(pageHtml);
+    $("#pagingul3").html(pageHtml);
     let displayCount = "";
     displayCount = " 선생님 현황 1 - " + totalPage + " 페이지 / " + totalData + "건";
     $("#displayCount").text(displayCount);
 
     //페이징 번호 클릭 이벤트 
-    $("#pagingul li a").click(function () {
+    $("#pagingul3 li a").click(function () {
         let $id = $(this).attr("id");
         selectedPage = $(this).text();
 
