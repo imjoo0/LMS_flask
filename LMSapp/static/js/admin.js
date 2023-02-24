@@ -30,7 +30,7 @@ function draw_chart(){
             // tn = response['total_num']
             $('#total_num').css('width',`${100}%`);
             $('#total_num').css('background-color','#B9CDE5');
-            $('#tn').html(`퇴소 학생 수: ${100}명`);
+            $('#tn').html(`총 학생 수: ${100}명`);
         }
     }) 
 }
