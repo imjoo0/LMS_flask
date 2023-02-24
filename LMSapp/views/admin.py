@@ -73,8 +73,8 @@ def get_sodata():
                     data['ban_name'] = b['ban_name']
                     data['semester'] = b['semester']
                     data['teacher_name'] = b['teacher_name'] +'('+b['teacher_engname'] + ')'
-                    data['out_data'] = len(od) +'('+ (od/total_o)*100 + '%)' if(total_o != 0) else 0
-                    data['switch_data'] = len(sd) +'('+ (sd/total_s)*100 + '%)' if(total_s != 0) else 0
+                    data['out_data'] = str(len(od)) +'('+ str(round((od/total_o)*100)) + '%)' if(total_o != 0) else 0
+                    data['switch_data'] = str(len(sd)) +'('+ str(round((sd/total_s)*100)) + '%)' if(total_s != 0) else 0
                     sodata.append(data)
             else:
                  sodata = '없음'
