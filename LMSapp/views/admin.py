@@ -69,6 +69,8 @@ def get_uldata():
             read_num = len(Consulting.query.filter(Consulting.category_id==4).all())
             intoread_num = len(Consulting.query.filter(Consulting.category_id==5).all()) + len(Consulting.query.filter(Consulting.category_id==7).all())
             writing_num = len(Consulting.query.filter(Consulting.category_id==6).all())
+            print(sread_num)
+            print(writing_num)
 
             total_ul = len(ul)
 
@@ -102,11 +104,9 @@ def get_teacher_data():
             ul = Consulting.query.filter(Consulting.category_id<100).all()
             ixl_num = len(Consulting.query.filter(Consulting.category_id==1).all())
             sread_num = len(Consulting.query.filter(Consulting.category_id==3).all())
-            print(sread_num)
             read_num = len(Consulting.query.filter(Consulting.category_id==4).all())
             intoread_num = len(Consulting.query.filter(Consulting.category_id==5).all()) + len(Consulting.query.filter(Consulting.category_id==7).all())
             writing_num = len(Consulting.query.filter(Consulting.category_id==6).all())
-            print(writing_num)
 
             total_ul = len(ul)
 
