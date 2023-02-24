@@ -289,16 +289,14 @@ function t_displayData(totalData, currentPage, dataPerPage,data_list) {
     ) {
         target = data_list[i]
         let t_register_no = target['teacher_register_no'];
-        let register_no = target['register_no'];
         let teacher_mobileno = target['teacher_mobileno'];
         let teacher_email = target['teacher_email'];
-        let teacher_name = target['teacher_name']
-        let student_num = target['student_num'];
+        let teacher_name = target['teacher_name'] +'('+target['teacher_engname']+')'
         chartHtml +=`
         <th class="col-2">${teacher_name}</th>
         <th class="col-2">${teacher_email}</th>
         <th class="col-2">${teacher_mobileno}</th>
-        <th class="col-2">${student_num}</th>
+        <th class="col-2">88</th>
         <th class="col-2">상담완수율</th>
         <th class="col-2">알림장 응답율</th>
         <td class="col-1" a href="#">✔️</td><br>
