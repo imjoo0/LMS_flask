@@ -19,7 +19,7 @@ function draw_chart(){
         success: function(response){
             sn = response['switch_num']
             $('#switch_num').css('width',`${sn}%`);
-            $('#switch_num').css('background-color','#B9CDE5');
+            $('#switch_num').css('background-color','#95B3D7');
             $('#sn').html(`이반 학생 수: ${sn}명`);
 
             on = response['outstudent_num']
