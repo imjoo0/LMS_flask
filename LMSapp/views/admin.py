@@ -76,5 +76,7 @@ def get_sodata():
                     sodata.append(data)
             else:
                  sodata = '없음'
+
+            print(sodata)
             return jsonify({'sodata': sodata})
 
