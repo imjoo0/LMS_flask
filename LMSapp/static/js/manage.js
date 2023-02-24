@@ -326,22 +326,22 @@ async function sort_consulting(value){
         }
     })
     await container.pagination({
-            dataSource: data,
-            prevText: '이전',
-            nextText: '다음',
-            pageSize: 10,
-            callback: function (data, pagination){
-                var dataHtml = '';
-                $.each(data, function (index, consulting){
-                    dataHtml +=  `
-                        <td class="col-3">${consulting.startdate} ~ ${consulting.deadline}</td>
-                        <td class="col-2">${consulting.name}</td>
-                        <td class="col-1"> 미진행 </td>
-                        <td class="col-4"> ${consulting.contents}</td>
-                        <td class="col-2"> <button onclick="update_consulting(${consulting.id})">✏️</button> 
-                        <button onclick="delete_consulting(${consulting.id})">❌</button></td>`;
-                    });
-    $('#tr-row').html(dataHtml);      
+        dataSource: data,
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 10,
+        callback: function (data, pagination){
+            var dataHtml = '';
+            $.each(data, function (index, consulting){
+                dataHtml +=  `
+                    <td class="col-3">${consulting.startdate} ~ ${consulting.deadline}</td>
+                    <td class="col-2">${consulting.name}</td>
+                    <td class="col-1"> 미진행 </td>
+                    <td class="col-4"> ${consulting.contents}</td>
+                    <td class="col-2"> <button onclick="update_consulting(${consulting.id})">✏️</button> 
+                    <button onclick="delete_consulting(${consulting.id})">❌</button></td>`;
+                });
+                $('#tr-row').html(dataHtml);      
         }
     })
 }

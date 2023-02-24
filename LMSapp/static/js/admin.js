@@ -3,8 +3,6 @@ var dataPerPage = 6;
 var pageCount = 10; //페이징에 나타낼 페이지 수
 var globalCurrentPage = 1; //현재 페이지
 var data_list;
-var consultingData = [];
-var taskData = [];
 
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
@@ -64,7 +62,7 @@ function draw_chart(){
         }
     }) 
 }
-function displayData(totalData, currentPage, dataPerPage,data_list) {
+function so_displayData(totalData, currentPage, dataPerPage,data_list) {
     let chartHtml = "";
 
     //Number로 변환하지 않으면 아래에서 +를 할 경우 스트링 결합이 되어버림.. 
@@ -98,7 +96,7 @@ function displayData(totalData, currentPage, dataPerPage,data_list) {
     $("#sd_data").html(chartHtml);
 }
 
-function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
+function so_paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
     totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
 
     if (totalPage < pageCount) {
@@ -167,8 +165,8 @@ function sodata(){
             data_list = response['sodata']
             totalData = sodata.length
 
-            displayData(totalData, 1, dataPerPage,data_list, u_consulting_my);
-            paging(totalData, dataPerPage, pageCount, 1,data_list, u_consulting_my);
+            so_displayData(totalData, 1, dataPerPage,data_list, u_consulting_my);
+            so_paging(totalData, dataPerPage, pageCount, 1,data_list, u_consulting_my);
         }
     }) 
     
