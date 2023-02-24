@@ -279,7 +279,7 @@ function get_teacher_data(){
         type: 'GET',
         data: {},
         success: function(response){
-            tn = response['total']
+            tn = response['total']['total_student']
             $('#total_num').css('width',`${tn}%`);
             $('#total_num').css('background-color','#B9CDE5');
             $('#tn').html(`총 학생 수: ${tn}명`);
