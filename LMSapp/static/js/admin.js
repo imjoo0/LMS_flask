@@ -302,7 +302,7 @@ function t_displayData(totalData, currentPage, dataPerPage,data_list) {
         <td class="col-1" a href="#">✔️</td><br>
         `;
     } 
-    $("#ul_data").html(chartHtml);
+    $("#t_data").html(chartHtml);
 }
 
 function t_paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
