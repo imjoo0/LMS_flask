@@ -59,7 +59,6 @@ def get_sodata():
             list(set(target_oban))
             list(set(target_sban))
             if(len(target_sban) != 0 or len(target_oban) != 0):
-                print('찍히나')
                 target_ban = target_sban.copy()
                 target_ban.extend(target_oban)
                 list(set(target_oban))
@@ -78,7 +77,5 @@ def get_sodata():
                     sodata.append(data)
             else:
                  sodata = '없음'
-
-            print(sodata)
             return jsonify({'sodata': sodata})
 

@@ -164,7 +164,8 @@ function sodata(){
         success: function(response){
             data_list = response['sodata']
             totalData = sodata.length
-
+            console.log(totalData)
+            console.log(data_list)
             so_displayData(totalData, 1, dataPerPage,data_list);
             so_paging(totalData, dataPerPage, pageCount, 1,data_list);
         }
