@@ -6,23 +6,12 @@ var data_list;
 
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
-    draw_chart()
+    $('#total_num').css('width',`${100}%`);
+    $('#total_num').css('background-color','#B9CDE5');
+    $('#tn').html(`총 학생 수: ${100}명`);
     sodata()
     uldata()
 })
-function draw_chart(){
-    $.ajax({
-        url: '/admin/chart',
-        type: 'GET',
-        data: {},
-        success: function(response){
-            // tn = response['total_num']
-            $('#total_num').css('width',`${100}%`);
-            $('#total_num').css('background-color','#B9CDE5');
-            $('#tn').html(`총 학생 수: ${100}명`);
-        }
-    }) 
-}
 function so_displayData(totalData, currentPage, dataPerPage,data_list) {
     let chartHtml = "";
 
