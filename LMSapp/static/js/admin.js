@@ -344,7 +344,7 @@ function t_paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
 
     $("#pagingul").html(pageHtml);
     let displayCount = "";
-    displayCount = " 미학습 발생 현황 1 - " + totalPage + " 페이지 / " + totalData + "건";
+    displayCount = " 선생님 현황 1 - " + totalPage + " 페이지 / " + totalData + "건";
     $("#displayCount").text(displayCount);
 
     //페이징 번호 클릭 이벤트 

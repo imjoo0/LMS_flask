@@ -94,9 +94,4 @@ def get_teacher_data():
     if request.method == 'GET':
         all_ban = callapi.get_all_teacher()
         total = callapi.get_all_student_num()
-
-        print(total)
-        print(all_ban)
-        for teacher in all_ban:
-             teacher
         return jsonify({'all_ban': all_ban,'total':total})
