@@ -163,7 +163,7 @@ function sodata(){
         data: {},
         success: function(response){
             data_list = response['sodata']
-            totalData = sodata.length
+            totalData = data_list.length
             console.log(totalData)
             console.log(data_list)
             so_displayData(totalData, 1, dataPerPage,data_list);
