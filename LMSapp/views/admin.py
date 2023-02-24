@@ -86,6 +86,42 @@ def get_uldata():
                     data['ban_name'] = b['ban_name']
                     data['semester'] = b['semester']
                     data['teacher_name'] = b['teacher_name'] +'('+b['teacher_engname'] + ')'
+                    data['ul'] = ul
+                    data['ul_data'] = str(ud) +'('+ str(round((ud/total_ul)*100)) + '%)' if(total_ul != 0) else 0
+                    uldata.append(data)
+                uldata.sort(key = lambda x:-x['ul'])
+            else:
+                 uldata = '없음'
+            return jsonify({'uldata': uldata,'unlearned_num':total_ul,'ixl_num':ixl_num,'sread_num':sread_num,'read_num':read_num,
+                               'intoread_num':intoread_num,'writing_num':writing_num,'intoread_num':intoread_num})
+
+@bp.route("/teacher_data", methods=['GET'])
+def get_teacher_data():
+    if request.method == 'GET':
+            target_ulban = []
+            ul = Consulting.query.filter(Consulting.category_id<100).all()
+            ixl_num = len(Consulting.query.filter(Consulting.category_id==1).all())
+            sread_num = len(Consulting.query.filter(Consulting.category_id==3).all())
+            read_num = len(Consulting.query.filter(Consulting.category_id==4).all())
+            intoread_num = len(Consulting.query.filter(Consulting.category_id==5).all()) + len(Consulting.query.filter(Consulting.category_id==7).all())
+            writing_num = len(Consulting.query.filter(Consulting.category_id==6).all())
+
+            total_ul = len(ul)
+
+            for u in ul:
+                target_ulban.append(u.ban_id)
+
+            if len(target_ulban) != 0:
+                target_ulban = list(set(target_ulban))
+                uldata = []
+                for ban in target_ulban:
+                    ud = len(Consulting.query.filter((Consulting.ban_id==ban) & (Consulting.category_id<100)).all())
+                    data = {}
+                    b = callapi.get_ban(ban)
+                    data['register_no'] = b['register_no']
+                    data['ban_name'] = b['ban_name']
+                    data['semester'] = b['semester']
+                    data['teacher_name'] = b['teacher_name'] +'('+b['teacher_engname'] + ')'
                     data['ul_data'] = str(ud) +'('+ str(round((ud/total_ul)*100)) + '%)' if(total_ul != 0) else 0
                     uldata.append(data)
             else:
