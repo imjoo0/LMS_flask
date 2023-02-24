@@ -272,6 +272,97 @@ function uldata(){
     }) 
     
 }
+function t_displayData(totalData, currentPage, dataPerPage,data_list) {
+    let chartHtml = "";
+
+    //Number로 변환하지 않으면 아래에서 +를 할 경우 스트링 결합이 되어버림.. 
+    currentPage = Number(currentPage);
+    dataPerPage = Number(dataPerPage);
+    let last_item = (currentPage - 1) * dataPerPage + dataPerPage;
+    if( last_item > totalData){
+        last_item = totalData
+    }
+    for (
+        var i = (currentPage - 1) * dataPerPage; //11*5 = 55
+        i < last_item; // 55+5
+        i++
+    ) {
+        target = data_list[i]
+        let t_register_no = target['teacher_register_no'];
+        let ban_name = target['ban_name'];
+        let semester = target['semester'];
+        let teacher_name = target['teacher_name']
+        let ul_data = target['ul_data'];
+        chartHtml +=`
+        <td class="col-3">${ban_name} </td>
+        <td class="col-2">${semester}</td>
+        <td class="col-3">${teacher_name} </td>
+        <td class="col-3">${ul_data}</td><br>
+        <td class="col-1" a href="#">✔️</td><br>
+        `;
+    } 
+    $("#ul_data").html(chartHtml);
+}
+
+function t_paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
+    totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
+
+    if (totalPage < pageCount) {
+        pageCount = totalPage;
+    }
+
+    let pageGroup = Math.ceil(currentPage / pageCount); // 페이지 그룹 1/10 1~10까지는 '1' , 11~20 까지는 2 , 21~30까지는 3 
+    let last = pageGroup * pageCount; //화면에 보여질 마지막 페이지 번호
+
+    if (last > totalPage) {
+        last = totalPage;
+    }
+    let first = last - (pageCount - 1); //화면에 보여질 첫번째 페이지 번호
+    let next = last + 1;
+    let prev = first - 1;
+
+    let pageHtml = "";
+
+    if (prev > 0) {
+        pageHtml += "<li><a class='cursor-pointer' id='prev'> 이전 </a></li>";
+    }
+
+    //페이징 번호 표시 
+    for (var i = first; i <= last; i++) {
+        if (currentPage == i) {
+            pageHtml +=
+                "<li class='on'><a class='cursor-pointer' id='" + i + "'>" + i + "</a></li>";
+        } else {
+            pageHtml += "<li><a class='cursor-pointer' id='" + i + "'>" + i + "</a></li>";
+        }
+    }
+
+    if (last < totalPage) {
+        pageHtml += "<li><a class='cursor-pointer' id='next' > 다음 </a></li>";
+    }
+
+    $("#pagingul").html(pageHtml);
+    let displayCount = "";
+    displayCount = " 미학습 발생 현황 1 - " + totalPage + " 페이지 / " + totalData + "건";
+    $("#displayCount").text(displayCount);
+
+    //페이징 번호 클릭 이벤트 
+    $("#pagingul li a").click(function () {
+        let $id = $(this).attr("id");
+        selectedPage = $(this).text();
+
+        if ($id == "next") selectedPage = next;
+        if ($id == "prev") selectedPage = prev;
+
+        //전역변수에 선택한 페이지 번호를 담는다...
+        globalCurrentPage = selectedPage;
+
+        //페이징 표시 재호출
+        paging(totalData, dataPerPage, pageCount, selectedPage, data_list);
+        //글 목록 표시 재호출
+        displayData(totalData, selectedPage, dataPerPage,data_list);
+    });
+}
 
 function get_teacher_data(){
     $.ajax({
@@ -286,11 +377,11 @@ function get_teacher_data(){
 
             data_list = response['all_ban']
             if(data_list == '없음'){
-                $("#ul_data_box").html('미학습 발생 원생이 없었습니다 😆');
+                $("#t_data_box").html('정규반을 진행중인 선생님이 없습니다');
             }else{
                 totalData = data_list.length
-                ul_displayData(totalData, 1, dataPerPage,data_list);
-                ul_paging(totalData, dataPerPage, pageCount, 1,data_list);
+                t_displayData(totalData, 1, dataPerPage,data_list);
+                t_paging(totalData, dataPerPage, pageCount, 1,data_list);
             }
         }
     }) 
