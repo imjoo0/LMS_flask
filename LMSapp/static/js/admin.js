@@ -289,15 +289,18 @@ function t_displayData(totalData, currentPage, dataPerPage,data_list) {
     ) {
         target = data_list[i]
         let t_register_no = target['teacher_register_no'];
-        let ban_name = target['ban_name'];
-        let semester = target['semester'];
+        let register_no = target['register_no'];
+        let teacher_mobileno = target['teacher_mobileno'];
+        let teacher_email = target['teacher_email'];
         let teacher_name = target['teacher_name']
-        let ul_data = target['ul_data'];
+        let student_num = target['student_num'];
         chartHtml +=`
-        <td class="col-3">${ban_name} </td>
-        <td class="col-2">${semester}</td>
-        <td class="col-3">${teacher_name} </td>
-        <td class="col-3">${ul_data}</td><br>
+        <th class="col-2">${teacher_name}</th>
+        <th class="col-2">${teacher_email}</th>
+        <th class="col-2">${teacher_mobileno}</th>
+        <th class="col-2">${student_num}</th>
+        <th class="col-2">상담완수율</th>
+        <th class="col-2">알림장 응답율</th>
         <td class="col-1" a href="#">✔️</td><br>
         `;
     } 
