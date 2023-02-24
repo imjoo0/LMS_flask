@@ -23,21 +23,6 @@ def home():
         #     print(target)
             # total += target['student_num']
         return render_template('admin.html', user=user,all_ban=all_ban)
-    
-@bp.route('/chart',methods =['GET'])
-def draw_chart():
-        switch_num = len(SwitchStudent.query.all())
-        outstudent_num = len(OutStudent.query.all())
-        unlearned_num = len(Consulting.query.filter(Consulting.category_id<100).all())
-        ixl_num = len(Consulting.query.filter(Consulting.category_id==1).all())
-        sread_num = len(Consulting.query.filter(Consulting.category_id==3).all())
-        read_num = len(Consulting.query.filter(Consulting.category_id==4).all())
-        intoread_num = len(Consulting.query.filter(Consulting.category_id==5).all()) + len(Consulting.query.filter(Consulting.category_id==7).all())
-        writing_num = len(Consulting.query.filter(Consulting.category_id==6).all())
-
-
-        return jsonify({'ixl_num':ixl_num,'sread_num':sread_num,'read_num':read_num,
-                               'intoread_num':intoread_num,'writing_num':writing_num,'intoread_num':intoread_num,'unlearned_num':unlearned_num})
 
 @bp.route("/sodata", methods=['GET'])
 def get_sodata():
@@ -73,4 +58,38 @@ def get_sodata():
             else:
                  sodata = '없음'
             return jsonify({'sodata': sodata,'switch_num':total_s,'outstudent_num':total_o})
+
+@bp.route("/uldata", methods=['GET'])
+def get_uldata():
+    if request.method == 'GET':
+            target_ulban = []
+            ul = Consulting.query.filter(Consulting.category_id<100).all()
+            ixl_num = len(Consulting.query.filter(Consulting.category_id==1).all())
+            sread_num = len(Consulting.query.filter(Consulting.category_id==3).all())
+            read_num = len(Consulting.query.filter(Consulting.category_id==4).all())
+            intoread_num = len(Consulting.query.filter(Consulting.category_id==5).all()) + len(Consulting.query.filter(Consulting.category_id==7).all())
+            writing_num = len(Consulting.query.filter(Consulting.category_id==6).all())
+
+            total_ul = len(ul)
+
+            for u in ul:
+                target_ulban.append(u.ban_id)
+
+            if len(target_ban) != 0:
+                target_ban = list(set(target_ulban))
+                uldata = []
+                for ban in target_ban:
+                    ud = len(Consulting.query.filter((Consulting.ban_id==ban) & (Consulting.category_id<100)).all())
+                    data = {}
+                    b = callapi.get_ban(ban)
+                    data['register_no'] = b['register_no']
+                    data['ban_name'] = b['ban_name']
+                    data['semester'] = b['semester']
+                    data['teacher_name'] = b['teacher_name'] +'('+b['teacher_engname'] + ')'
+                    data['ul_data'] = str(ud) +'('+ str(round((ud/total_ul)*100)) + '%)' if(total_ul != 0) else 0
+                    uldata.append(data)
+            else:
+                 uldata = '없음'
+            return jsonify({'uldata': uldata,'unlearned_num':total_ul,'ixl_num':ixl_num,'sread_num':sread_num,'read_num':read_num,
+                               'intoread_num':intoread_num,'writing_num':writing_num,'intoread_num':intoread_num})
 
