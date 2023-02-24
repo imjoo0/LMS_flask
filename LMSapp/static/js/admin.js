@@ -5,11 +5,23 @@ var globalCurrentPage = 1; //현재 페이지
 var data_list;
 var consultingData = [];
 var taskData = [];
+
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
     paginating(0) 
+    draw_chart()
 })
-
+function draw_chart(){
+    $.ajax({
+        url: '/admin/chart',
+        type: 'GET',
+        data: {},
+        success: function(response){
+            sn = response['switch_num']
+            $('#switch_num').css('width',`${sn}%`);
+        }
+    }) 
+}
 function displayData(totalData, currentPage, dataPerPage,data_list, consulting) {
     let chartHtml = "";
 

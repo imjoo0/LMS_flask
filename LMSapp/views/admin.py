@@ -23,7 +23,10 @@ def home():
         #     target = get_ban(b['register_no'])
         #     print(target)
             # total += target['student_num']
-        
+        return render_template('admin.html', user=user,all_ban=all_ban)
+    
+@bp.route('/chart',methods =['GET'])
+def draw_chart():
         switch_num = len(SwitchStudent.query.all())
         outStudent_num = len(OutStudent.query.all())
         unlearned_num = len(Consulting.query.filter(Consulting.category_id<100).all())
@@ -35,10 +38,10 @@ def home():
         writing_num = len(Consulting.query.filter(Consulting.category_id==6).all())
         intoread_num = len(Consulting.query.filter(Consulting.category_id==7).all())
 
+        return jsonify({'ixl_num':ixl_num,'hpage_num':hpage_num,'sread_num':sread_num,'read_num':read_num,
+                               'tintoread_num':tintoread_num,'writing_num':writing_num,'intoread_num':intoread_num,
+                               'switch_num':switch_num,'outStudent_num':outStudent_num,'unlearned_num':unlearned_num})
 
-        return render_template('admin.html', user=user, ixl_num=ixl_num,hpage_num=hpage_num,sread_num=sread_num,read_num=read_num,
-                               tintoread_num=tintoread_num,writing_num=writing_num,intoread_num=intoread_num,
-                               all_ban=all_ban,total=total,switch_num=switch_num,outStudent_num=outStudent_num,unlearned_num=unlearned_num)
 
 
 
