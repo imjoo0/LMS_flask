@@ -121,6 +121,8 @@ def get_notice(ban_id):
 def get_all_student_num():
     result = requests.post(config.api + 'get_all_student_num', headers=headers, data=json.dumps({'data':{}}))
     result = result.json()
+    if(len(result)>0):
+        result = result[0]
     return result
 
 def get_all_ban():
