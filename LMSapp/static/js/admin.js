@@ -61,8 +61,6 @@ function draw_chart(){
             $('#writing_num').css('width',`${wn}%`);
             $('#writing_num').css('background-color','#262F13');
             $('#in').html(`인투리딩: ${wn}`);
-
-
         }
     }) 
 }
