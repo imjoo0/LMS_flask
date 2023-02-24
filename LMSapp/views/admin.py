@@ -58,6 +58,7 @@ def get_sodata():
             for od in o:
                  target_oban.append(od.ban_id)
             if(len(target_sban) != 0 and len(target_oban)):
+                print('찍히나')
                 target_ban = target_sban.copy()
                 target_ban.extend(target_oban)
                 list(set(target_oban))
