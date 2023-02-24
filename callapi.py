@@ -117,3 +117,15 @@ def get_notice(ban_id):
     result = requests.post(config.api + 'get_notice', headers=headers, data=json.dumps({'data':{'id': ban_id}}))
     result = result.json()
     return result
+
+def get_all_student_num():
+    result = requests.post(config.api + 'get_all_student_num', headers=headers, data=json.dumps({'data':{}}))
+    result = result.json()
+    return result
+
+def get_all_ban():
+    result = requests.post(config.api + 'get_all_ban', headers=headers, data=json.dumps({'data':{}}))
+    result = result.json()
+    if(len(result)>0):
+        result = result[0]
+    return result

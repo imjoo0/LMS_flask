@@ -6,9 +6,7 @@ var data_list;
 
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
-    $('#total_num').css('width',`${100}%`);
-    $('#total_num').css('background-color','#B9CDE5');
-    $('#tn').html(`총 학생 수: ${100}명`);
+    get_teacher_data()
     sodata()
     uldata()
 })
@@ -263,6 +261,30 @@ function uldata(){
             $('#in').html(`인투리딩: ${wn}`);
 
             data_list = response['uldata']
+            if(data_list == '없음'){
+                $("#ul_data_box").html('미학습 발생 원생이 없었습니다 😆');
+            }else{
+                totalData = data_list.length
+                ul_displayData(totalData, 1, dataPerPage,data_list);
+                ul_paging(totalData, dataPerPage, pageCount, 1,data_list);
+            }
+        }
+    }) 
+    
+}
+
+function get_teacher_data(){
+    $.ajax({
+        url: '/admin/teacher_data',
+        type: 'GET',
+        data: {},
+        success: function(response){
+            tn = response['total']
+            $('#total_num').css('width',`${tn}%`);
+            $('#total_num').css('background-color','#B9CDE5');
+            $('#tn').html(`총 학생 수: ${tn}명`);
+
+            data_list = response['all_ban']
             if(data_list == '없음'){
                 $("#ul_data_box").html('미학습 발생 원생이 없었습니다 😆');
             }else{
