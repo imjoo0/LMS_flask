@@ -165,8 +165,8 @@ function sodata(){
             data_list = response['sodata']
             totalData = sodata.length
 
-            so_displayData(totalData, 1, dataPerPage,data_list, u_consulting_my);
-            so_paging(totalData, dataPerPage, pageCount, 1,data_list, u_consulting_my);
+            so_displayData(totalData, 1, dataPerPage,data_list);
+            so_paging(totalData, dataPerPage, pageCount, 1,data_list);
         }
     }) 
     
