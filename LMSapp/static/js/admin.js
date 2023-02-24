@@ -15,16 +15,6 @@ function draw_chart(){
         type: 'GET',
         data: {},
         success: function(response){
-            sn = response['switch_num']
-            $('#switch_num').css('width',`${sn}%`);
-            $('#switch_num').css('background-color','#95B3D7');
-            $('#sn').html(`이반 학생 수: ${sn}명`);
-
-            on = response['outstudent_num']
-            $('#outstudent_num').css('width',`${on}%`);
-            $('#outstudent_num').css('background-color','#D99694');
-            $('#on').html(`퇴소 학생 수: ${on}명`);
-
             // tn = response['total_num']
             $('#total_num').css('width',`${100}%`);
             $('#total_num').css('background-color','#B9CDE5');
@@ -162,6 +152,15 @@ function sodata(){
         type: 'GET',
         data: {},
         success: function(response){
+            sn = response['switch_num']
+            $('#switch_num').css('width',`${sn}%`);
+            $('#switch_num').css('background-color','#95B3D7');
+            $('#sn').html(`이반 학생 수: ${sn}명`);
+
+            on = response['outstudent_num']
+            $('#outstudent_num').css('width',`${on}%`);
+            $('#outstudent_num').css('background-color','#D99694');
+            $('#on').html(`퇴소 학생 수: ${on}명`);
             data_list = response['sodata']
             totalData = data_list.length
             so_displayData(totalData, 1, dataPerPage,data_list);
