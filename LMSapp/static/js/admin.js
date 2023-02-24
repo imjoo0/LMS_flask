@@ -298,7 +298,7 @@ function t_displayData(totalData, currentPage, dataPerPage,data_list) {
         <th class="col-2">${teacher_mobileno}</th>
         <th class="col-2">88</th>
         <th class="col-2">상담완수율</th>
-        <th class="col-2">알림장 응답율</th>
+        <th class="col-1">알림장 응답율</th>
         <td class="col-1" a href="#">✔️</td><br>
         `;
     } 
