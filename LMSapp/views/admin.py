@@ -54,7 +54,6 @@ def get_sodata():
             total_s = len(s)
             for sd in s:
                   target_sban.append(sd.ban_id)
-            target_sban = list(set(target_oban))
             for od in o:
                  target_oban.append(od.ban_id)
             if(len(target_sban) != 0 and len(target_oban)):
