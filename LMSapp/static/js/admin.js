@@ -26,6 +26,11 @@ function draw_chart(){
             $('#outstudent_num').css('width',`${on}%`);
             $('#outstudent_num').css('background-color','#D99694');
             $('#on').html(`퇴소 학생 수: ${on}명`);
+
+            // tn = response['total_num']
+            $('#total_num').css('width',`${100}%`);
+            $('#total_num').css('background-color','#B9CDE5');
+            $('#tn').html(`퇴소 학생 수: ${100}명`);
         }
     }) 
 }
