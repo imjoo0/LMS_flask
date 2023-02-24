@@ -46,13 +46,21 @@ def draw_chart():
 @bp.route("/sodata", methods=['GET'])
 def get_sodata():
     if request.method == 'GET':
-            target_ban = []
-            total_o = len(OutStudent.query.all())
-            total_s = len(SwitchStudent.query.all())
+            target_sban = []
+            target_oban = []
+            o = OutStudent.query.all()
+            total_o = len(o)
+            s = SwitchStudent.query.all()
+            total_s = len(s)
             for sd in s:
-                  target_ban.append(sd.ban_id)
-            target_ban = list(set(target_ban))
-            if(len(target_ban) != 0):
+                  target_sban.append(sd.ban_id)
+            target_sban = list(set(target_oban))
+            for od in o:
+                 target_oban.append(od.ban_id)
+            if(len(target_sban) != 0 and len(target_oban)):
+                target_ban = target_sban.copy()
+                target_ban.extend(target_oban)
+                list(set(target_oban))
                 sodata = []
                 for ban in target_ban:
                     od = OutStudent.query.filter(OutStudent.ban_id==ban).all()
@@ -63,8 +71,8 @@ def get_sodata():
                     data['ban_name'] = b['ban_name']
                     data['semester'] = b['semester']
                     data['teacher_name'] = b['teacher_name'] +'('+b['teacher_engname'] + ')'
-                    data['out_data'] = len(od) +'('+ (od/total_o)*100 + '%)'
-                    data['switch_data'] = len(sd) +'('+ (sd/total_s)*100 + '%)'
+                    data['out_data'] = len(od) +'('+ (od/total_o)*100 + '%)' if(total_o != 0) else 0
+                    data['switch_data'] = len(sd) +'('+ (sd/total_s)*100 + '%)' if(total_s != 0) else 0
                     sodata.append(data)
             else:
                  sodata = '없음'
