@@ -96,4 +96,6 @@ def get_teacher_data():
         total = callapi.get_all_student_num()
         print(total)
         print(all_ban)
+
+        
         return jsonify({'all_ban': all_ban,'total':total})
