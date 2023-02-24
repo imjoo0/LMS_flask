@@ -86,8 +86,8 @@ function so_displayData(totalData, currentPage, dataPerPage,data_list) {
         let switch_data = target['switch_data'];
         chartHtml +=`
         <td class="col-2">${ban_name} </td>
-        <td class="col-3">${semester}</td>
-        <td class="col-2">${teacher_name} </td>
+        <td class="col-2">${semester}</td>
+        <td class="col-3">${teacher_name} </td>
         <td class="col-2">${out_data}</td><br>
         <td class="col-2">${switch_data}</td><br>
         <td class="col-1" a href="#">✔️</td><br>
