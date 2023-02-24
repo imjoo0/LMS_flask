@@ -8,8 +8,8 @@ var taskData = [];
 
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
-    paginating(0) 
     draw_chart()
+    sodata()
 })
 function draw_chart(){
     $.ajax({
@@ -64,7 +64,7 @@ function draw_chart(){
         }
     }) 
 }
-function displayData(totalData, currentPage, dataPerPage,data_list, consulting) {
+function displayData(totalData, currentPage, dataPerPage,data_list) {
     let chartHtml = "";
 
     //Number로 변환하지 않으면 아래에서 +를 할 경우 스트링 결합이 되어버림.. 
@@ -80,32 +80,25 @@ function displayData(totalData, currentPage, dataPerPage,data_list, consulting) 
         i++
     ) {
         target = data_list[i]
-        let name = target['name'];
-        let original = target['origin'];
-        let mobileno = target['mobileno'];
-        let parent_name_mobileno = target['pname'] +'('+target['pmobileno']+')';
-        let reco_book_code = target['reco_book_code'];
-        if( reco_book_code == null){
-            reco_book_code = '✖️'
-        }
-         let answer_rate =  function(answer, all) {
-                if(Object.is(answer/all, NaN)) return 0;
-                else return answer/all*100;
-            }
-        let unlearned = consulting.filter( a => a.student_id == target.register_no).length;
+        let register_no = target['register_no'];
+        let ban_name = target['ban_name'];
+        let semester = target['semester'];
+        let teacher_name = target['teacher_name']
+        let out_data = target['out_data'];
+        let switch_data = target['switch_data'];
         chartHtml +=`
-        <td class="col-2">${name}(${original})</td>
-        <td class="col-2">${mobileno} </td>
-        <td class="col-3">${parent_name_mobileno}</td>
-        <td class="col-2">${reco_book_code} </td>
-        <td class="col-2">${unlearned}(${answer_rate(unlearned, consulting.length).toFixed(1)}%)</td><br>
+        <td class="col-2">${ban_name} </td>
+        <td class="col-3">${semester}</td>
+        <td class="col-2">${teacher_name} </td>
+        <td class="col-2">${out_data}</td><br>
+        <td class="col-2">${switch_data}</td><br>
         <td class="col-1" a href="#">✔️</td><br>
         `;
     } 
-    $("#s_data").html(chartHtml);
+    $("#sd_data").html(chartHtml);
 }
 
-function paging(totalData, dataPerPage, pageCount, currentPage, data_list, consulting) {
+function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
     totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
 
     if (totalPage < pageCount) {
@@ -144,7 +137,7 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list, consu
 
     $("#pagingul").html(pageHtml);
     let displayCount = "";
-    displayCount = " 원생 명단 1 - " + totalPage + " 페이지 / " + totalData + "건";
+    displayCount = " 퇴소 이반 현황 1 - " + totalPage + " 페이지 / " + totalData + "건";
     $("#displayCount").text(displayCount);
 
     //페이징 번호 클릭 이벤트 
@@ -159,42 +152,24 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list, consu
         globalCurrentPage = selectedPage;
 
         //페이징 표시 재호출
-        paging(totalData, dataPerPage, pageCount, selectedPage, data_list, consulting);
+        paging(totalData, dataPerPage, pageCount, selectedPage, data_list);
         //글 목록 표시 재호출
-        displayData(totalData, selectedPage, dataPerPage,data_list, consulting);
+        displayData(totalData, selectedPage, dataPerPage,data_list);
     });
 }
 
-function paginating(done_code){
-    let container = $('#pagination')
+function sodata(){
     $.ajax({
-        url: '/manage/api/get_all_questions/'+done_code,
-        type: 'get',
+        url: '/admin/sodata',
+        type: 'GET',
         data: {},
-        success: function(data){
-            container.pagination({
-            dataSource: JSON.parse(data),
-            prevText: '이전',
-            nextText: '다음',
-            pageClassName: 'float-end',
-            pageSize: 5,
-            callback: function (data, pagination){
-                var dataHtml = '';
-                $.each(data, function (index, item){
-                    if( item.category == 0){item.category = '일반문의' } 
-                    else if (item.category == 1 ){item.category ='퇴소 요청' } 
-                    else if( item.category == 2){item.category ='이반 요청' } 
-                    else{item.category = '취소/환불 요청' } 
-                    dataHtml +=  `
-                    <td class="col-2">${item.category}</td>
-                    <td class="col-4">${item.title}</td>
-                    <td class="col-4">${item.contents}</td>
-                    <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-                    data-bs-target="#answer" onclick="get_question(${item.id},${done_code})">✏️</button> <button>❌</button></td>`;
-                });
-                $('#alim-tr').html(dataHtml);
-            }
-        })
+        success: function(response){
+            data_list = response['sodata']
+            totalData = sodata.length
+
+            displayData(totalData, 1, dataPerPage,data_list, u_consulting_my);
+            paging(totalData, dataPerPage, pageCount, 1,data_list, u_consulting_my);
         }
     }) 
+    
 }
