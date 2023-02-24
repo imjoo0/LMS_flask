@@ -28,7 +28,7 @@ def home():
 @bp.route('/chart',methods =['GET'])
 def draw_chart():
         switch_num = len(SwitchStudent.query.all())
-        outStudent_num = len(OutStudent.query.all())
+        outstudent_num = len(OutStudent.query.all())
         unlearned_num = len(Consulting.query.filter(Consulting.category_id<100).all())
         ixl_num = len(Consulting.query.filter(Consulting.category_id==1).all())
         hpage_num = len(Consulting.query.filter(Consulting.category_id==2).all())
@@ -40,7 +40,7 @@ def draw_chart():
 
         return jsonify({'ixl_num':ixl_num,'hpage_num':hpage_num,'sread_num':sread_num,'read_num':read_num,
                                'tintoread_num':tintoread_num,'writing_num':writing_num,'intoread_num':intoread_num,
-                               'switch_num':switch_num,'outStudent_num':outStudent_num,'unlearned_num':unlearned_num})
+                               'switch_num':switch_num,'outstudent_num':outstudent_num,'unlearned_num':unlearned_num})
 
 
 
