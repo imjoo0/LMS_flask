@@ -19,9 +19,9 @@ def home():
         user = callapi.get_teacher_info(session['user_id'])
         all_ban = callapi.all_ban_info()
         total = 0
-        for b in all_ban:
-            target = get_ban(b['register_no'])
-            print(target)
+        # for b in all_ban:
+        #     target = get_ban(b['register_no'])
+        #     print(target)
             # total += target['student_num']
         
         switch_num = len(SwitchStudent.query.all())
