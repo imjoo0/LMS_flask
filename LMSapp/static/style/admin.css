@@ -21,3 +21,33 @@
     text-align: center;
     color: #111;
 }
+
+#pagingul1,#pagingul2,#pagingul3{
+    text-align: center;
+    margin-left: 3px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    background-color: #DCE6F2;
+    border-right: 0;
+    padding-left: 0;
+}
+
+#pagingul1,#pagingul2,#pagingul3 li {
+    text-align: center;
+    float: left;
+    list-style: none;
+}
+
+#pagingul1,#pagingul2,#pagingul3 li a {
+    display: block;
+    font-size: 14px;
+    color: black;
+    padding: 9px 12px;
+    border-right: solid 1px #ccc;
+    box-sizing: border-box;
+    text-decoration-line: none;
+}
+
+#pagingul1,#pagingul2,#pagingul3 li.on {
+    background:#ccc;
+}
