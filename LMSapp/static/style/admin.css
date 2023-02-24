@@ -1,3 +1,10 @@
+.progress_box{
+    width: 100%;
+}
+.progress_box > span{
+    width: 30%;
+    font-size: 20px;
+}
 .progress-bar {
     width: 70%;
     height: 30px;
