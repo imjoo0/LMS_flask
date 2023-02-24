@@ -376,7 +376,8 @@ function get_teacher_data(){
             $('#total_num').css('background-color','#B9CDE5');
             $('#tn').html(`총 학생 수: ${tn}명`);
 
-            data_list = response['all_ban']
+            data_list = response['all_teacher']
+            console.log(data_list)
             if(data_list == '없음'){
                 $("#t_data_box").html('정규반을 진행중인 선생님이 없습니다');
             }else{

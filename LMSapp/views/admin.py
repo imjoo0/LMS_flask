@@ -46,9 +46,12 @@ def get_sodata():
                 data['ban_name'] = b['ban_name']
                 data['semester'] = b['semester']
                 data['teacher_name'] = b['teacher_name'] +'('+b['teacher_engname'] + ')'
+                data['standard'] = od+sd
                 data['out_data'] = str(od) +'('+ str(round((od/total_o)*100)) + '%)' if(total_o != 0) else 0
                 data['switch_data'] = str(sd) +'('+ str(round((sd/total_s)*100)) + '%)' if(total_s != 0) else 0
                 sodata.append(data)
+            sodata.sort(key = lambda x:-x['standard'])
+
         else:
                 sodata = '없음'
         return jsonify({'sodata': sodata,'switch_num':total_s,'outstudent_num':total_o})
@@ -80,10 +83,10 @@ def get_uldata():
                 data['ban_name'] = b['ban_name']
                 data['semester'] = b['semester']
                 data['teacher_name'] = b['teacher_name'] +'('+b['teacher_engname'] + ')'
-                data['ul'] = ul
+                data['standard'] = ud
                 data['ul_data'] = str(ud) +'('+ str(round((ud/total_ul)*100)) + '%)' if(total_ul != 0) else 0
                 uldata.append(data)
-            uldata.sort(key = lambda x:-x['ul'])
+            uldata.sort(key = lambda x:-x['standard'])
         else:
                 uldata = '없음'
         return jsonify({'uldata': uldata,'unlearned_num':total_ul,'ixl_num':ixl_num,'sread_num':sread_num,'read_num':read_num,
@@ -92,6 +95,6 @@ def get_uldata():
 @bp.route("/teacher_data", methods=['GET'])
 def get_teacher_data():
     if request.method == 'GET':
-        all_ban = callapi.get_all_teacher()
+        all_teacher = callapi.get_all_teacher()
         total = callapi.get_all_student_num()
-        return jsonify({'all_ban': all_ban,'total':total})
+        return jsonify({'all_teacher': all_teacher,'total':total})
