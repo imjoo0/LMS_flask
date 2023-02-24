@@ -56,12 +56,11 @@ def get_sodata():
                   target_sban.append(sd.ban_id)
             for od in o:
                  target_oban.append(od.ban_id)
-            list(set(target_oban))
-            list(set(target_sban))
+
             if(len(target_sban) != 0 or len(target_oban) != 0):
                 target_ban = target_sban.copy()
                 target_ban.extend(target_oban)
-                list(set(target_oban))
+                target_ban = list(set(target_ban))
                 sodata = []
                 for ban in target_ban:
                     od = len(OutStudent.query.filter(OutStudent.ban_id==ban).all())
