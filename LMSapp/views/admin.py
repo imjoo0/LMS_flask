@@ -21,8 +21,9 @@ def home():
         total = 0
         for b in all_ban:
             target = get_ban(b['register_no'])
-            total += target['student_num']
-        print(total)
+            print(target)
+            # total += target['student_num']
+        
         switch_num = len(SwitchStudent.query.all())
         outStudent_num = len(OutStudent.query.all())
         unlearned_num = len(Consulting.query.filter(Consulting.category_id<100).all())
