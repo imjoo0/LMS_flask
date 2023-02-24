@@ -64,14 +64,8 @@
             <div class="info-title">
                 <span>Class Statistics</span>
             </div>
-            <div class="info">
-                <select class="form-select" name="target_ban" onchange="getBanInfo(this.value)">
-                    <option value="none" selected>반을 선택해주세요</option>
-                    {% for ban in all_ban %}
-                    {% set ban_regi = ban['register_no']  %}
-                    <option value={{ban_regi}}>{{ban['name']}} ({{ban['semester']}}학기)</option>
-                    {% endfor %}
-                </select>
+            <div class="progress-bar">
+                <div class="progress"></div>
             </div>
         </div>        
     </div>

@@ -18,20 +18,25 @@ def home():
     if request.method == 'GET':
         user = callapi.get_teacher_info(session['user_id'])
         all_ban = callapi.all_ban_info()
-        # ban_teacher= []
-        # for ban in all_ban:
-        #     ban_teacher.append(callapi.get_ban(ban['register_no']))
-        # print(ban_teacher)
-        
-        all_consulting_category = ConsultingCategory.query.filter(ConsultingCategory.id > 100).all()
-        all_consulting = Consulting.query.all()
-        all_task_category = TaskCategory.query.all()
-        all_task = Task.query.all()
-        all_questions = Question.query.order_by(Question.id.desc())
-        #page = request.args.get('page',type=int,default=1)
-        #all_questions = all_questions.paginate(page=page, per_page=10)
+        total = 0
+        for b in all_ban:
+            total += get_ban(b['register_no'])['student_num']
+        print(total)
+        switch_num = len(SwitchStudent.query.all())
+        outStudent_num = len(OutStudent.query.all())
+        unlearned_num = len(Consulting.query.filter(Consulting.category_id<100).all())
+        ixl_num = len(Consulting.query.filter(Consulting.category_id==1).all())
+        hpage_num = len(Consulting.query.filter(Consulting.category_id==2).all())
+        sread_num = len(Consulting.query.filter(Consulting.category_id==3).all())
+        read_num = len(Consulting.query.filter(Consulting.category_id==4).all())
+        tintoread_num = len(Consulting.query.filter(Consulting.category_id==5).all())
+        writing_num = len(Consulting.query.filter(Consulting.category_id==6).all())
+        intoread_num = len(Consulting.query.filter(Consulting.category_id==7).all())
 
-        return render_template('admin.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting, task_category=all_task_category, tasks=all_task, questions=all_questions)
+
+        return render_template('admin.html', user=user, ixl_num=ixl_num,hpage_num=hpage_num,sread_num=sread_num,read_num=read_num,
+                               tintoread_num=tintoread_num,writing_num=writing_num,intoread_num=intoread_num,
+                               all_ban=all_ban,total=total,switch_num=switch_num,outStudent_num=outStudent_num,unlearned_num=unlearned_num)
 
 
 
