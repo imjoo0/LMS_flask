@@ -75,10 +75,10 @@ def get_uldata():
             for u in ul:
                 target_ulban.append(u.ban_id)
 
-            if len(target_ban) != 0:
-                target_ban = list(set(target_ulban))
+            if len(target_ulban) != 0:
+                target_ulban = list(set(target_ulban))
                 uldata = []
-                for ban in target_ban:
+                for ban in target_ulban:
                     ud = len(Consulting.query.filter((Consulting.ban_id==ban) & (Consulting.category_id<100)).all())
                     data = {}
                     b = callapi.get_ban(ban)
