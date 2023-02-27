@@ -541,8 +541,15 @@ function getTeacherInfo(t_id){
             let total_todo = chart['total_todo']
             let total_done = chart['total_done']
             let task_p = chart['ttp']
-            $('#task_chart').html(`${total_todo}/${total_done}`)
+            $('#task_chart').html(`${total_done}/${total_todo}`)
             $('#task_p').html(`${task_p}%`)
+
+            // 상담
+            let ttc = chart['ttc']
+            let ttd = chart['ttd']
+            let cp = chart['cp']
+            $('#consulting_chart').html(`${ttc}/${ttd}`)
+            $('#cp').html(`${cp}%`)
 
 
 
