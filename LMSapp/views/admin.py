@@ -98,6 +98,5 @@ def get_teacher_data():
         all_teacher = callapi.get_all_teacher()
         total = callapi.get_all_student_num()
 
-        for t in all_teacher:
-             print(t)
+        all_teacher.sort(key = lambda x:(-x['total_student_num']))
         return jsonify({'all_teacher': all_teacher,'total':total})
