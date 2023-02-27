@@ -449,7 +449,7 @@
                     <table class="table text-center" id="class_list" style="width:100%;">
                         <tbody style="width:100%;">
                             <tr class="row">
-                                <th class="col-4">반이름</th>
+                                <th class="col-3">반이름</th>
                                 <th class="col-2">학기</th>
                                 <th class="col-2">원생 수</th>
                                 <th class="col-1">퇴소</th>
@@ -459,13 +459,13 @@
                             </tr>
                             {% for ban in my_bans %}
                             <tr class="row">
-                                <td class="col-4">{{ ban['name'] }}</td>
+                                <td class="col-3">{{ ban['name'] }}</td>
                                 <td class="col-2">{{ ban['semester'] }}학기</td>
                                 <td class="col-2">{{ ban['total_student_num'] }}명</td>
                                 <td class="col-1"> {{ban['out_s']}}건</td>
                                 <td class="col-1"> {{ban['switch_s']}}건</td>
                                 <td class="col-1"> {{ban['unlearned']}}건</td>
-                                <td class="col-1"> 임시3 (5%) </td>
+                                <td class="col-2"> 임시3 (5%) </td>
                             </tr>
                             {% endfor %}
                         </tbody>
