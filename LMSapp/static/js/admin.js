@@ -555,7 +555,7 @@ function getTeacherInfo(t_id){
             let unlearned_ttc = chart['unlearned_ttc']
             let unlearned_ttd = chart['unlearned_ttd']
             let unlearned_cp = chart['unlearned_cp']
-            $('#unlearned_chart').html(`${unlearned_ttc}/${unlearned_ttd}`)
+            $('#unlearned_chart').html(`${unlearned_ttd}/${unlearned_ttc}`)
             $('#unlearned_cp').html(`${unlearned_cp}%`)
 
             // 내 반
