@@ -548,14 +548,14 @@ function getTeacherInfo(t_id){
             let ttc = chart['ttc']
             let ttd = chart['ttd']
             let cp = chart['cp']
-            $('#consulting_chart').html(`${ttc}/${ttd}`)
+            $('#consulting_chart').html(`${ttd}/${ttc}`)
             $('#cp').html(`${cp}%`)
 
             // 미학습 상담
             let unlearned_ttc = chart['unlearned_ttc']
             let unlearned_ttd = chart['unlearned_ttd']
             let unlearned_cp = chart['unlearned_cp']
-            $('#unlearned_chart').html(`${unlearned_ttd}/${unlearned_ttc}`)
+            $('#unlearned_chart').html(`${unlearned_ttc}/${unlearned_ttd}`)
             $('#unlearned_cp').html(`${unlearned_cp}%`)
 
             // 내 반
