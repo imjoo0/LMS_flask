@@ -10,7 +10,7 @@ $(document).ready(function () {
     sodata()
     uldata()
 })
-function so_displayData(totalData, currentPage, dataPerPage,data_list) {
+function displayData(totalData, currentPage, dataPerPage,data_list,data_num) {
     let chartHtml = "";
 
     //Number로 변환하지 않으면 아래에서 +를 할 경우 스트링 결합이 되어버림.. 
@@ -20,31 +20,64 @@ function so_displayData(totalData, currentPage, dataPerPage,data_list) {
     if( last_item > totalData){
         last_item = totalData
     }
-    for (
-        var i = (currentPage - 1) * dataPerPage; //11*5 = 55
+    for (var i = (currentPage - 1) * dataPerPage; //11*5 = 55
         i < last_item; // 55+5
-        i++
-    ) {
-        target = data_list[i]
-        let register_no = target['register_no'];
-        let ban_name = target['ban_name'];
-        let semester = target['semester'];
-        let teacher_name = target['teacher_name']
-        let out_data = target['out_data'];
-        let switch_data = target['switch_data'];
-        chartHtml +=`
-        <td class="col-2">${ban_name} </td>
-        <td class="col-2">${semester}</td>
-        <td class="col-3">${teacher_name} </td>
-        <td class="col-2">${out_data}</td><br>
-        <td class="col-2">${switch_data}</td><br>
-        <td class="col-1" a href="#">✔️</td><br>
-        `;
-    } 
-    $("#sd_data").html(chartHtml);
+        i++){
+        if(data_num == 1){
+            // 퇴소 이반 현황 
+            target = data_list[i]
+            let register_no = target['register_no'];
+            let ban_name = target['ban_name'];
+            let semester = target['semester'];
+            let teacher_name = target['teacher_name']
+            let out_data = target['out_data'];
+            let switch_data = target['switch_data'];
+            chartHtml +=`
+            <td class="col-2">${ban_name} </td>
+            <td class="col-2">${semester}</td>
+            <td class="col-3">${teacher_name} </td>
+            <td class="col-2">${out_data}</td><br>
+            <td class="col-2">${switch_data}</td><br>
+            <td class="col-1" a href="#">✔️</td><br>
+            `;
+        }else if(data_num == 2){
+            // 미학습 발생 현황
+            target = data_list[i]
+            let register_no = target['register_no'];
+            let ban_name = target['ban_name'];
+            let semester = target['semester'];
+            let teacher_name = target['teacher_name']
+            let ul_data = target['ul_data'];
+            chartHtml +=`
+            <td class="col-3">${ban_name} </td>
+            <td class="col-2">${semester}</td>
+            <td class="col-3">${teacher_name} </td>
+            <td class="col-3">${ul_data}</td><br>
+            <td class="col-1" a href="#">✔️</td><br>
+            `;
+        }else{
+            target = data_list[i]
+            let t_register_no = target['teacher_register_no'];
+            let teacher_mobileno = target['teacher_mobileno'];
+            let teacher_email = target['teacher_email'];
+            let teacher_name = target['teacher_name'] +'('+target['teacher_engname']+')'
+            chartHtml +=`
+            <th class="col-2">${teacher_name}</th>
+            <th class="col-2">${teacher_email}</th>
+            <th class="col-2">${teacher_mobileno}</th>
+            <th class="col-2">88</th>
+            <th class="col-2">상담완수율</th>
+            <th class="col-1">알림장 응답율</th>
+            <td class="col-1" a href="#">✔️</td><br>
+            `;
+        } 
+    }
+    
+    $("#static_data"+data_num).html(chartHtml);  
+       
 }
 
-function so_paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
+function paging(totalData, dataPerPage, pageCount, currentPage, data_list,data_num) {
     totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
 
     if (totalPage < pageCount) {
@@ -83,11 +116,17 @@ function so_paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
 
     $("#pagingul1").html(pageHtml);
     let displayCount = "";
-    displayCount = " 퇴소 이반 현황 1 - " + totalPage + " 페이지 / " + totalData + "건";
-    $("#displayCount").text(displayCount);
+    if(data_num == 1){
+        displayCount = " 퇴소 이반 현황 1 - " + totalPage + " 페이지 / " + totalData + "건";
+    }else if(data_num == 2){
+        displayCount = " 미학습 발생 현황 1 - " + totalPage + " 페이지 / " + totalData + "건";
+    }else{
+        displayCount = " 선생님 현황 1 - " + totalPage + " 페이지 / " + totalData + "건";
+    }
+    $("#displayCount"+data_num).text(displayCount);
 
     //페이징 번호 클릭 이벤트 
-    $("#pagingul1 li a").click(function () {
+    $(`#pagingul${data_num} li a`).click(function () {
         let $id = $(this).attr("id");
         selectedPage = $(this).text();
 
@@ -98,9 +137,9 @@ function so_paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
         globalCurrentPage = selectedPage;
 
         //페이징 표시 재호출
-        paging(totalData, dataPerPage, pageCount, selectedPage, data_list);
+        paging(totalData, dataPerPage, pageCount, selectedPage, data_list,data_num);
         //글 목록 표시 재호출
-        displayData(totalData, selectedPage, dataPerPage,data_list);
+        displayData(totalData, selectedPage, dataPerPage,data_list,data_num);
     });
 }
 
@@ -124,104 +163,12 @@ function sodata(){
                 $("#so_data").html('퇴소 / 이반 발생이 없었습니다 😆');
             }else{
                 totalData = data_list.length
-                so_displayData(totalData, 1, dataPerPage,data_list);
-                so_paging(totalData, dataPerPage, pageCount, 1,data_list);
+                displayData(totalData, 1, dataPerPage,data_list,1);
+                paging(totalData, dataPerPage, pageCount, 1,data_list,1);
             }
         }
     }) 
     
-}
-
-function ul_displayData(totalData, currentPage, dataPerPage,data_list) {
-    let chartHtml = "";
-
-    //Number로 변환하지 않으면 아래에서 +를 할 경우 스트링 결합이 되어버림.. 
-    currentPage = Number(currentPage);
-    dataPerPage = Number(dataPerPage);
-    let last_item = (currentPage - 1) * dataPerPage + dataPerPage;
-    if( last_item > totalData){
-        last_item = totalData
-    }
-    for (
-        var i = (currentPage - 1) * dataPerPage; //11*5 = 55
-        i < last_item; // 55+5
-        i++
-    ) {
-        target = data_list[i]
-        let register_no = target['register_no'];
-        let ban_name = target['ban_name'];
-        let semester = target['semester'];
-        let teacher_name = target['teacher_name']
-        let ul_data = target['ul_data'];
-        chartHtml +=`
-        <td class="col-3">${ban_name} </td>
-        <td class="col-2">${semester}</td>
-        <td class="col-3">${teacher_name} </td>
-        <td class="col-3">${ul_data}</td><br>
-        <td class="col-1" a href="#">✔️</td><br>
-        `;
-    } 
-    $("#ul_data").html(chartHtml);
-}
-
-function ul_paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
-    totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
-
-    if (totalPage < pageCount) {
-        pageCount = totalPage;
-    }
-
-    let pageGroup = Math.ceil(currentPage / pageCount); // 페이지 그룹 1/10 1~10까지는 '1' , 11~20 까지는 2 , 21~30까지는 3 
-    let last = pageGroup * pageCount; //화면에 보여질 마지막 페이지 번호
-
-    if (last > totalPage) {
-        last = totalPage;
-    }
-    let first = last - (pageCount - 1); //화면에 보여질 첫번째 페이지 번호
-    let next = last + 1;
-    let prev = first - 1;
-
-    let pageHtml = "";
-
-    if (prev > 0) {
-        pageHtml += "<li><a class='cursor-pointer' id='prev'> 이전 </a></li>";
-    }
-
-    //페이징 번호 표시 
-    for (var i = first; i <= last; i++) {
-        if (currentPage == i) {
-            pageHtml +=
-                "<li class='on'><a class='cursor-pointer' id='" + i + "'>" + i + "</a></li>";
-        } else {
-            pageHtml += "<li><a class='cursor-pointer' id='" + i + "'>" + i + "</a></li>";
-        }
-    }
-
-    if (last < totalPage) {
-        pageHtml += "<li><a class='cursor-pointer' id='next' > 다음 </a></li>";
-    }
-
-    $("#pagingul2").html(pageHtml);
-    let displayCount = "";
-    displayCount = " 미학습 발생 현황 1 - " + totalPage + " 페이지 / " + totalData + "건";
-    $("#displayCount").text(displayCount);
-
-    //페이징 번호 클릭 이벤트 
-    $("#pagingul2 li a").click(function () {
-        let $id = $(this).attr("id");
-        selectedPage = $(this).text();
-
-        if ($id == "next") selectedPage = next;
-        if ($id == "prev") selectedPage = prev;
-
-        //전역변수에 선택한 페이지 번호를 담는다...
-        globalCurrentPage = selectedPage;
-
-        //페이징 표시 재호출
-        paging(totalData, dataPerPage, pageCount, selectedPage, data_list);
-        //글 목록 표시 재호출
-        displayData(totalData, selectedPage, dataPerPage,data_list);
-    });
 }
 
 function uldata(){
@@ -265,104 +212,12 @@ function uldata(){
                 $("#ul_data_box").html('미학습 발생 원생이 없었습니다 😆');
             }else{
                 totalData = data_list.length
-                ul_displayData(totalData, 1, dataPerPage,data_list);
-                ul_paging(totalData, dataPerPage, pageCount, 1,data_list);
+                displayData(totalData, 1, dataPerPage,data_list,2);
+                paging(totalData, dataPerPage, pageCount, 1,data_list,2);
             }
         }
     }) 
     
-}
-function t_displayData(totalData, currentPage, dataPerPage,data_list) {
-    let chartHtml = "";
-
-    //Number로 변환하지 않으면 아래에서 +를 할 경우 스트링 결합이 되어버림.. 
-    currentPage = Number(currentPage);
-    dataPerPage = Number(dataPerPage);
-    let last_item = (currentPage - 1) * dataPerPage + dataPerPage;
-    if( last_item > totalData){
-        last_item = totalData
-    }
-    for (
-        var i = (currentPage - 1) * dataPerPage; //11*5 = 55
-        i < last_item; // 55+5
-        i++
-    ) {
-        target = data_list[i]
-        let t_register_no = target['teacher_register_no'];
-        let teacher_mobileno = target['teacher_mobileno'];
-        let teacher_email = target['teacher_email'];
-        let teacher_name = target['teacher_name'] +'('+target['teacher_engname']+')'
-        chartHtml +=`
-        <th class="col-2">${teacher_name}</th>
-        <th class="col-2">${teacher_email}</th>
-        <th class="col-2">${teacher_mobileno}</th>
-        <th class="col-2">88</th>
-        <th class="col-2">상담완수율</th>
-        <th class="col-1">알림장 응답율</th>
-        <td class="col-1" a href="#">✔️</td><br>
-        `;
-    } 
-    $("#t_data").html(chartHtml);
-}
-
-function t_paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
-    totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
-
-    if (totalPage < pageCount) {
-        pageCount = totalPage;
-    }
-
-    let pageGroup = Math.ceil(currentPage / pageCount); // 페이지 그룹 1/10 1~10까지는 '1' , 11~20 까지는 2 , 21~30까지는 3 
-    let last = pageGroup * pageCount; //화면에 보여질 마지막 페이지 번호
-
-    if (last > totalPage) {
-        last = totalPage;
-    }
-    let first = last - (pageCount - 1); //화면에 보여질 첫번째 페이지 번호
-    let next = last + 1;
-    let prev = first - 1;
-
-    let pageHtml = "";
-
-    if (prev > 0) {
-        pageHtml += "<li><a class='cursor-pointer' id='prev'> 이전 </a></li>";
-    }
-
-    //페이징 번호 표시 
-    for (var i = first; i <= last; i++) {
-        if (currentPage == i) {
-            pageHtml +=
-                "<li class='on'><a class='cursor-pointer' id='" + i + "'>" + i + "</a></li>";
-        } else {
-            pageHtml += "<li><a class='cursor-pointer' id='" + i + "'>" + i + "</a></li>";
-        }
-    }
-
-    if (last < totalPage) {
-        pageHtml += "<li><a class='cursor-pointer' id='next' > 다음 </a></li>";
-    }
-
-    $("#pagingul3").html(pageHtml);
-    let displayCount = "";
-    displayCount = " 선생님 현황 1 - " + totalPage + " 페이지 / " + totalData + "건";
-    $("#displayCount").text(displayCount);
-
-    //페이징 번호 클릭 이벤트 
-    $("#pagingul3 li a").click(function () {
-        let $id = $(this).attr("id");
-        selectedPage = $(this).text();
-
-        if ($id == "next") selectedPage = next;
-        if ($id == "prev") selectedPage = prev;
-
-        //전역변수에 선택한 페이지 번호를 담는다...
-        globalCurrentPage = selectedPage;
-
-        //페이징 표시 재호출
-        paging(totalData, dataPerPage, pageCount, selectedPage, data_list);
-        //글 목록 표시 재호출
-        displayData(totalData, selectedPage, dataPerPage,data_list);
-    });
 }
 
 function get_teacher_data(){
@@ -382,8 +237,8 @@ function get_teacher_data(){
                 $("#t_data_box").html('정규반을 진행중인 선생님이 없습니다');
             }else{
                 totalData = data_list.length
-                t_displayData(totalData, 1, dataPerPage,data_list);
-                t_paging(totalData, dataPerPage, pageCount, 1,data_list);
+                displayData(totalData, 1, dataPerPage,data_list,3);
+                paging(totalData, dataPerPage, pageCount, 1,data_list,3);
             }
         }
     }) 
