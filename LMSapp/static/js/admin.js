@@ -412,8 +412,7 @@ function getBanInfo(b_id){
                 </tr>
             </table>
             `;
-            $('#profile_data').empty();
-            $('#profile_data').append(temp_profile_data);
+            $('#profile_data').html(temp_profile_data);
 
 
             let temp_ban_data = `
