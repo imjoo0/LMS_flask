@@ -398,7 +398,7 @@ function getBanInfo(b_id){
             // let unlearned_ttc = response['unlearned_ttc']
             
             let temp_title = `<h1> ${ban_name} 현황</h1>`
-            $('#label_title').append(temp_title);
+            $('#label_title').html(temp_title);
 
             let temp_profile_data = `
             <table border="0">
