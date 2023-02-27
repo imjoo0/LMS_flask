@@ -571,11 +571,11 @@ function getTeacherInfo(t_id){
 
                 let temp_baninfo = `
                     <td class="col-2">${name}</td>
-                    <td class="col-1">${semester}</td>
-                    <td class="col-1">${total_student_num}</td>
-                    <td class="col-2"> ${out_s}</td>
-                    <td class="col-2"> ${switch_s}</td>
-                    <td class="col-2"> ${unlearned}  </td>
+                    <td class="col-1">${semester}학기</td>
+                    <td class="col-1">${total_student_num}명</td>
+                    <td class="col-2"> ${out_s}건</td>
+                    <td class="col-2"> ${switch_s}건</td>
+                    <td class="col-2"> ${unlearned}건</td>
                     <td class="col-2"> 임시3 (5%) </td>
                 `;
                 $('#mybaninfo').append(temp_baninfo);
