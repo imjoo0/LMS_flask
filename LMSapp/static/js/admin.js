@@ -562,9 +562,9 @@ function getTeacherInfo(t_id){
             let my_bans = response['my_bans'] 
             $('#mybaninfo').empty();
             for(i=0;i<my_bans.length;i++){
-                let name = my_bans['name'];
-                let semester = my_bans['semester'];
-                let total_student_num = my_bans['total_student_num'];
+                let name = my_bans[i]['name'];
+                let semester = my_bans[i]['semester'];
+                let total_student_num = my_bans[i]['total_student_num'];
 
                 let temp_baninfo = `
                     <td class="col-2">${name}</td>
