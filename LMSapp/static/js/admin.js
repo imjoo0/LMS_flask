@@ -536,7 +536,6 @@ function getTeacherInfo(t_id){
             $('#ss').attr('data-deg',`${ss}`)
             $('#tt').attr('data-deg',`${tt}`)
             $('#ttper').attr('data-deg',`${ttp}`)
-            chartDraw()
         },
         error:function(xhr, status, error){
                 alert(xhr.responseText);
