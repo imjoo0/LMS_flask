@@ -207,7 +207,7 @@ function uldata(){
             wn = response['writing_num']
             $('#writing_num').css('width',`${wn}%`);
             $('#writing_num').css('background-color','#262F13');
-            $('#in').html(`인투리딩: ${wn}`);
+            $('#writingn').html(`인투리딩: ${wn}`);
 
             data_list = response['uldata']
             if(data_list == '없음'){
