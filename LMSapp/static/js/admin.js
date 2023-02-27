@@ -530,6 +530,7 @@ function getTeacherInfo(t_id){
 
             let total_s_num = response['teacher_info']['total_student_num']
             let os = response['chart_data']['os']
+            let ss = response['chart_data']['ss']
             let temp_chart  = `
             <div class="chartWrap">               
             <div class="chart">
