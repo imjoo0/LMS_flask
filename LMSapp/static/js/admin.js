@@ -522,7 +522,7 @@ function getTeacherInfo(t_id){
                 $('#teacherModalLabel').html(no_data_title);
                 return
             }
-            console.log(response)
+            let chart = response['chart_data']
             let name = response['teacher_info']['name'] + '(' + response['teacher_info']['engname'] + ')';
             let mobileno = response['teacher_info']['mobileno'];
             let email = response['teacher_info']['email']
@@ -530,12 +530,22 @@ function getTeacherInfo(t_id){
             let ttp = tt/360*100
             $('#teachertitle').html(name + '선생님 현황 ( '+ mobileno +' | '+ email + ' )');
             $('#total_s_num').html(`Total:${tt}`)
-            let os = response['chart_data']['outstudent_num']
-            let ss = response['chart_data']['switchstudent_num']
+            let os = chart['outstudent_num']
+            let ss = chart['switchstudent_num']
             $('#os').attr('data-deg',`${os}`)
             $('#ss').attr('data-deg',`${ss}`)
             $('#tt').attr('data-deg',`${tt}`)
             $('#ttper').attr('data-deg',`${ttp}`)
+
+            // 업무
+            let total_todo = chart['total_todo']
+            let total_done = chart['total_done']
+            let task_p = chart['ttp']
+            $('#task_chart').html(`${total_todo}/${total_done}`)
+            $('#task_p').html(`${task_p}%`)
+
+
+
         },
         error:function(xhr, status, error){
                 alert(xhr.responseText);

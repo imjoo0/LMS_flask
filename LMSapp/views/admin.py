@@ -154,5 +154,4 @@ def get_teacher(t_id):
             chart_data['ttp'] = round(chart_data['total_done']/chart_data['total_todo']*100)
         else:
             chart_data['ttp'] = 0
-        print(teacher)
         return jsonify({'teacher_info': teacher,'chart_data':chart_data,'my_bans':mybans_info})
