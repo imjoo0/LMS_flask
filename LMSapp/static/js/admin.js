@@ -246,6 +246,7 @@ function get_teacher_data(){
     
 }
 
+
 function displayData2(totalData2, currentPage, dataPerPage,data_list2, consulting) {
     let chartHtml = "";
 
@@ -284,7 +285,7 @@ function displayData2(totalData2, currentPage, dataPerPage,data_list2, consultin
         <td class="col-1" a href="#">✔️</td><br>
         `;
     } 
-    $("#s_data").html(chartHtml);
+    $("#s_data").append(chartHtml);
 }
 
 function paging2(totalData2, dataPerPage, pageCount, currentPage, data_list2, consulting) {
