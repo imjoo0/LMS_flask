@@ -64,11 +64,10 @@ function displayData(totalData, currentPage, dataPerPage,data_list,data_num) {
             let name = target['name'] +'('+target['engname']+')'
             chartHtml +=`
             <th class="col-2">${name}</th>
-            <th class="col-2">${email}</th>
+            <th class="col-3">${email}</th>
             <th class="col-2">${mobileno}</th>
             <th class="col-2">${total_student_num}</th>
-            <th class="col-2">상담완수율</th>
-            <th class="col-1">알림장 응답율</th>
+            <th class="col-2">알림장 응답율</th>
             <td class="col-1" a href="#">✔️</td><br>
             `;
         } 
