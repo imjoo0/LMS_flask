@@ -530,8 +530,8 @@ function getTeacherInfo(t_id){
             let ttp = tt/360*100
             $('#teachertitle').html(name + '선생님 현황 ( '+ mobileno +' | '+ email + ' )');
             $('#total_s_num').html(`Total:${tt}`)
-            let os = response['chart_data']['os']
-            let ss = response['chart_data']['os']
+            let os = response['chart_data']['outstudent_num']
+            let ss = response['chart_data']['switchstudent_num']
             $('#os').attr('data-deg',`${os}`)
             $('#ss').attr('data-deg',`${ss}`)
             $('#tt').attr('data-deg',`${tt}`)

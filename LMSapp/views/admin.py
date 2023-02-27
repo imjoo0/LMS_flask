@@ -106,9 +106,53 @@ def get_teacher(t_id):
     if request.method == 'GET':
         teacher = callapi.get_teacher_info_by_id(t_id)
         chart_data = {}
-        chart_data['ss'] = len(SwitchStudent.query.filter(SwitchStudent.teacher_id == teacher['register_no']).all())
-        chart_data['os'] = len(OutStudent.query.filter(OutStudent.teacher_id == teacher['register_no']).all())
+        # chart_data['ss'] = len(SwitchStudent.query.filter(SwitchStudent.teacher_id == teacher['register_no']).all())
+        # chart_data['os'] = len(OutStudent.query.filter(OutStudent.teacher_id == teacher['register_no']).all())
+        mybans_info = callapi.get_mybans(teacher['user_id'])
+        
+        #  상담 차트
+        chart_data['ttc'] = 0
+        chart_data['ttd'] = 0
+        chart_data['unlearned_ttc'] = 0
+        # 미학습 총 발생 건수 
+        chart_data['unlearned_ttd'] = len(Consulting.query.filter(Consulting.category_id < 100).all())
+        for b in mybans_info:
+            # 나한테 발생한 미학습 총 건수 
+            chart_data['unlearned_ttc'] += len(Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.category_id < 100)).all()) 
+            # 선생님 해야하는 상담 수 
+            chart_data['ttc'] += len(Consulting.query.filter(b['register_no'] == Consulting.ban_id).all())
+            # 선생님 상담 완수 건수 
+            c = Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.done==1)).all()
+            chart_data['ttd'] += len(c)
 
-        my_ban = callapi.get_mybans(teacher['user_id'])
+        if(chart_data['ttc'] != 0):
+            # 선생님 상담 완수율 
+            chart_data['cp'] = round((chart_data['ttd']/chart_data['ttc'])*100)
+        else:
+            chart_data['cp'] = 0
+        if  chart_data['unlearned_ttd'] != 0:
+            chart_data['unlearned_cp'] = round((chart_data['unlearned_ttc'] / chart_data['unlearned_ttd'])*100)
+        else:
+            chart_data['unlearned_cp'] = 0
+        
+        # 졸업 / 퇴소 한 학생 
+        chart_data['outstudent_num'] = len(OutStudent.query.filter(OutStudent.teacher_id == teacher['register_no']).all())
+        if(chart_data['outstudent_num'] != 0):
+            chart_data['outstudent_num_p'] = round((chart_data['outstudent_num'] / len(OutStudent.query.all()))*100)
+        else:
+            chart_data['outstudent_num_p'] = 0
+        # 이반 한 학생  
+        chart_data['switchstudent_num'] = len(SwitchStudent.query.filter(SwitchStudent.teacher_id == teacher['register_no']).all())
+        if(chart_data['switchstudent_num'] != 0):
+            chart_data['switchstudent_num_p'] = round((chart_data['switchstudent_num'] / len(SwitchStudent.query.all()))*100)
+        else:
+            chart_data['switchstudent_num_p'] = 0
+        # 업무 개수
+        chart_data['total_todo'] = len(TaskBan.query.filter(TaskBan.teacher_id == teacher['register_no']).all())
+        chart_data['total_done'] = len((TaskBan.query.filter((TaskBan.teacher_id == teacher['register_no']) & ( TaskBan.done==1)) ).all())
+        if(chart_data['total_todo'] != 0):
+            chart_data['ttp'] = round(chart_data['total_done']/chart_data['total_todo']*100)
+        else:
+            chart_data['ttp'] = 0
         print(teacher)
-        return jsonify({'teacher_info': teacher,'chart_data':chart_data})
+        return jsonify({'teacher_info': teacher,'chart_data':chart_data,'my_bans':mybans_info})
