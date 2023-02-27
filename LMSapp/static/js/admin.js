@@ -57,15 +57,16 @@ function displayData(totalData, currentPage, dataPerPage,data_list,data_num) {
             `;
         }else{
             target = data_list[i]
-            let t_register_no = target['teacher_register_no'];
-            let teacher_mobileno = target['teacher_mobileno'];
-            let teacher_email = target['teacher_email'];
-            let teacher_name = target['teacher_name'] +'('+target['teacher_engname']+')'
+            let register_no = target['register_no'];
+            let mobileno = target['mobileno'];
+            let email = target['email'];
+            let total_student_num = target['total_student_num'];
+            let name = target['name'] +'('+target['engname']+')'
             chartHtml +=`
-            <th class="col-2">${teacher_name}</th>
-            <th class="col-2">${teacher_email}</th>
-            <th class="col-2">${teacher_mobileno}</th>
-            <th class="col-2">88</th>
+            <th class="col-2">${name}</th>
+            <th class="col-2">${email}</th>
+            <th class="col-2">${mobileno}</th>
+            <th class="col-2">${total_student_num}</th>
             <th class="col-2">상담완수율</th>
             <th class="col-1">알림장 응답율</th>
             <td class="col-1" a href="#">✔️</td><br>
@@ -232,7 +233,6 @@ function get_teacher_data(){
             $('#tn').html(`총 학생 수: ${tn}명`);
 
             data_list = response['all_teacher']
-            console.log(data_list)
             if(data_list == '없음'){
                 $("#t_data_box").html('정규반을 진행중인 선생님이 없습니다');
             }else{
