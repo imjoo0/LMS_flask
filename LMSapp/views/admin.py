@@ -104,6 +104,6 @@ def get_teacher_data():
 @bp.route("/<int:t_id>", methods=['GET'])
 def get_teacher(t_id):
     if request.method == 'GET':
-        all_teacher = callapi.get_teacher_info_by_id(t_id)
-        print(all_teacher)
-        return jsonify({'all_teacher': all_teacher})
+        teacher = callapi.get_teacher_info_by_id(t_id)
+        print(teacher)
+        return jsonify({'teacher_info': teacher})

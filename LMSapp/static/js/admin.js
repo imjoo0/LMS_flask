@@ -523,9 +523,9 @@ function getTeacherInfo(t_id){
                 return
             }
             console.log(response)
-            let name = response['name'] + '(' + response['engname'] + ')';
-            let mobileno = response['mobileno'];
-            let email = response['email']
+            let name = response['teacher_info']['name'] + '(' + response['teacher_info']['engname'] + ')';
+            let mobileno = response['teacher_info']['mobileno'];
+            let email = response['teacher_info']['email']
             $('#teachertitle').html(name);
             $('#t_mobileno').html(mobileno);
             $('#t_email').html(email);
