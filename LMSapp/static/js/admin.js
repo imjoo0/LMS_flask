@@ -285,7 +285,7 @@ function displayData2(totalData2, currentPage, dataPerPage,data_list2, consultin
         <td class="col-1" a href="#">✔️</td><br>
         `;
     } 
-    $("#s_data").append(chartHtml);
+    $("#s_data").html(chartHtml);
 }
 
 function paging2(totalData2, dataPerPage, pageCount, currentPage, data_list2, consulting) {
@@ -348,6 +348,8 @@ function paging2(totalData2, dataPerPage, pageCount, currentPage, data_list2, co
     });
 }
 function getBanInfo(b_id){
+    $('#student_data').show();
+    $('#pagingul').show();
     $.ajax({
         type: "GET",
         url: "/manage/ban/"+b_id,
