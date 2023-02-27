@@ -114,7 +114,7 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list,data_n
         pageHtml += "<li><a class='cursor-pointer' id='next' > 다음 </a></li>";
     }
 
-    $("#pagingul1").html(pageHtml);
+    $("#pagingul"+data_num).html(pageHtml);
     let displayCount = "";
     if(data_num == 1){
         displayCount = " 퇴소 이반 현황 1 - " + totalPage + " 페이지 / " + totalData + "건";
