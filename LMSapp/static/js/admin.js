@@ -519,18 +519,16 @@ function getTeacherInfo(t_id){
         success: function (response) {
             if (response['status'] == 400){
                 let no_data_title = `<h1> ${response.text} </h1>`
-                $('#s_data').html(no_data_title);
-                $('#pagingul').hide();
+                $('#teacherModalLabel').html(no_data_title);
                 return
             }
             console.log(response)
             let name = response['name'] + '(' + response['engname'] + ')';
             let mobileno = response['mobileno'];
             let email = response['email']
-            $('#teacherModalLabel').html(name);
+            $('#teachertitle').html(name);
             $('#t_mobileno').html(mobileno);
             $('#t_email').html(email);
-
             
         },
         error:function(xhr, status, error){
