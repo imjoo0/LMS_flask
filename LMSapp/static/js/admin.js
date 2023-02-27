@@ -433,7 +433,7 @@ function getBanInfo(b_id){
                 </tbody>
             </table>
             `;
-            $('#ban_data').append(temp_ban_data);
+            $('#ban_data').html(temp_ban_data);
 
             data_list2 = response['student_info']
             totalData2 = students_num
@@ -500,27 +500,7 @@ function getBanInfo(b_id){
                 </table>      
             `;
 
-            $('#ban_statistics').append(temp_ban_statistics);
-
-            // 상담요청시 뷰 바꿔주는 부분 
-            let temp_target_ban = `
-            <p> 선택 - ${ban_name} <a></p>
-            `;
-            $('#target_bans').html(temp_target_ban);
-
-            // 전체 학생 대상 진행 append 
-            let target_all_student = `<option value="전체학생">✔️ ${ban_name}반 전체 학생 대상 진행</option>`;
-            $('#target_a_student').append(target_all_student)
-            
-            $('#target_student').empty();
-            for (var i = 0; i < totalData; i++) {
-                target = data_list[i]
-                let id = target['register_no']
-                let name = target['name'];
-                let original = target['origin'];
-                let temp_target_student = `<option value="${id}"> ${name} ( ${original} )</option>`;
-                $('#target_student').append(temp_target_student)
-            } 
+            $('#ban_statistics').html(temp_ban_statistics);
         },
         error:function(xhr, status, error){
                 alert(xhr.responseText);
