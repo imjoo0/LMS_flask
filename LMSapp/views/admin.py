@@ -28,9 +28,9 @@ def get_sodata():
         s = SwitchStudent.query.all()
         total_s = len(s)
         for sd in s:
-                target_sban.append(sd.ban_id)
+            target_sban.append(sd.ban_id)
         for od in o:
-                target_oban.append(od.ban_id)
+            target_oban.append(od.ban_id)
 
         if(len(target_sban) != 0 or len(target_oban) != 0):
             target_ban = target_sban.copy()

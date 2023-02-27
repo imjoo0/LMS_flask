@@ -551,7 +551,35 @@ function getTeacherInfo(t_id){
             $('#consulting_chart').html(`${ttc}/${ttd}`)
             $('#cp').html(`${cp}%`)
 
+            // 미학습 상담
+            let unlearned_ttc = chart['unlearned_ttc']
+            let unlearned_ttd = chart['unlearned_ttd']
+            let unlearned_cp = chart['unlearned_cp']
+            $('#unlearned_chart').html(`${unlearned_ttc}/${unlearned_ttd}`)
+            $('#unlearned_cp').html(`${unlearned_cp}%`)
 
+            // 내 반
+            let my_bans = response['my_bans'] 
+            $('#mybaninfo').empty();
+            for(i=0;i<my_bans.length;i++){
+                let name = my_bans['name'];
+                let semester = my_bans['semester'];
+                let total_student_num = my_bans['total_student_num'];
+
+                let temp_baninfo = `
+                    <td class="col-2">${name}</td>
+                    <td class="col-1">${semester}</td>
+                    <td class="col-1">${total_student_num}</td>
+                    <td class="col-2"> {{outstudent_num}} ({{outstudent_num_p}}%) </td>
+                    <td class="col-2"> {{switchstudent_num}} ({{switchstudent_num_p}}%)
+                    </td>
+                    <td class="col-2"> {{unlearned_ttc}} ({{unlearned_cp}}%) </td>
+                    <td class="col-2"> 임시3 (5%) </td>
+                `;
+                $('#mybaninfo').append(temp_baninfo);
+
+            }
+                                
 
         },
         error:function(xhr, status, error){

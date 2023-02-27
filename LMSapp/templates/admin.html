@@ -98,22 +98,18 @@
                     </div>
                     <div class="info">
                         <div class="total_table" style="width:90%">
-                            <!-- <table class="table text-center" id="unlearned">
+                            <table class="table text-center" id="unlearned">
                                 <tbody style="width:100%;">
                                     <tr class="row">
-                                        <th class="col-3">IXL</th>
-                                        <th class="col-3">리딩</th>
-                                        <th class="col-3">리특</th>
-                                        <th class="col-3">라이팅</th>
+                                        <th class="col-6">미학습 발생건</th>
+                                        <th class="col-6">미학습 발생율</th>
                                     </tr>
                                     <tr id="totalreport-row" class="row">
-                                        <td class="col-3"> 임시3 (5%) </td>
-                                        <td class="col-3"> 임시3 (5%) </td>
-                                        <td class="col-3"> 임시3 (5%) </td>
-                                        <td class="col-3"> 임시3 (5%) </td>
+                                        <td class="col-6" id="unlearned_chart"></td>
+                                        <td class="col-6" id="unlearned_cp"></td>
                                     </tr>
                                 </tbody>
-                            </table> -->
+                            </table>
                             <table class="table text-center" id="unlearned">
                                 <tbody style="width:100%;">
                                     <tr class="row">
@@ -123,7 +119,7 @@
                                     <tr id="classreport-row" class="row">
                                         <td class="col-3" id="task_chart"></td>
                                         <td class="col-3" id="task_p"></td>
-                                        <td class="col-3" id="consulting_chart"> {{ttd}}/{{ttc}} </td>
+                                        <td class="col-3" id="consulting_chart"></td>
                                         <td class="col-3"id="cp"></td>
                                     </tr>
                                 </tbody>
@@ -135,7 +131,7 @@
                                         <th class="col-6">문의 | 응답율</th>
                                     </tr>
                                     <tr class="row">
-                                        <td class="col-6"> {{questions|length}} </td>
+                                        <td class="col-6">임시0</td>
                                         <td class="col-3"> 임시3/10 </td>
                                         <td class="col-3"> 5% </td>
                                     </tr>
@@ -160,18 +156,8 @@
                                     <th class="col-2">미학습</th>
                                     <th class="col-2">문의 미응답</th>
                                 </tr>
-                                {% for ban in my_bans %}
-                                <tr class="row">
-                                    <td class="col-2">{{ ban['name'] }}({{ban['register_no']}})</td>
-                                    <td class="col-1">{{ ban['semester'] }}</td>
-                                    <td class="col-1">{{ ban['total_student_num'] }}</td>
-                                    <td class="col-2"> {{outstudent_num}} ({{outstudent_num_p}}%) </td>
-                                    <td class="col-2"> {{switchstudent_num}} ({{switchstudent_num_p}}%)
-                                    </td>
-                                    <td class="col-2"> {{unlearned_ttc}} ({{unlearned_cp}}%) </td>
-                                    <td class="col-2"> 임시3 (5%) </td>
+                                <tr class="row" id="mybaninfo">
                                 </tr>
-                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
