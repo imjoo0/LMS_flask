@@ -526,7 +526,7 @@ function getTeacherInfo(t_id){
             let name = response['teacher_info']['name'] + '(' + response['teacher_info']['engname'] + ')';
             let mobileno = response['teacher_info']['mobileno'];
             let email = response['teacher_info']['email']
-            $('#teachertitle').html(name);
+            $('#teachertitle').html(name + '선생님');
             $('#t_mobileno').html(mobileno);
             $('#t_email').html(email);
             
