@@ -189,15 +189,15 @@ function uldata(){
             $('#ixl_num').css('background-color','#D7E4BD');
             $('#ixln').html(`IXL미학습: ${ixln}`);
 
-            sn = response['sread_num']
-            $('#sread_num').css('width',`${sn}%`);
+            sreadn = response['sread_num']
+            $('#sread_num').css('width',`${sreadn}%`);
             $('#sread_num').css('background-color','#C3D69B');
-            $('#sn').html(`리특미진행: ${sn}`);
+            $('#sreadn').html(`리특미진행: ${sreadn}`);
 
-            rn = response['read_num']
-            $('#read_num').css('width',`${rn}%`);
+            readn = response['read_num']
+            $('#read_num').css('width',`${readn}%`);
             $('#read_num').css('background-color','#77933C');
-            $('#rn').html(`리딩부진: ${rn}`);
+            $('#readn').html(`리딩부진: ${readn}`);
 
             intor = response['intoread_num']
             $('#intoread_num').css('width',`${intor}%`);
