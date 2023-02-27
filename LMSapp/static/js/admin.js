@@ -565,15 +565,17 @@ function getTeacherInfo(t_id){
                 let name = my_bans[i]['name'];
                 let semester = my_bans[i]['semester'];
                 let total_student_num = my_bans[i]['total_student_num'];
+                let out_s = my_bans[i]['out_s'];
+                let switch_s = my_bans[i]['switch_s'];
+                let unlearned = my_bans[i]['unlearned'];
 
                 let temp_baninfo = `
                     <td class="col-2">${name}</td>
                     <td class="col-1">${semester}</td>
                     <td class="col-1">${total_student_num}</td>
-                    <td class="col-2"> {{outstudent_num}} ({{outstudent_num_p}}%) </td>
-                    <td class="col-2"> {{switchstudent_num}} ({{switchstudent_num_p}}%)
-                    </td>
-                    <td class="col-2"> {{unlearned_ttc}} ({{unlearned_cp}}%) </td>
+                    <td class="col-2"> ${out_s}</td>
+                    <td class="col-2"> ${switch_s}</td>
+                    <td class="col-2"> ${unlearned}  </td>
                     <td class="col-2"> 임시3 (5%) </td>
                 `;
                 $('#mybaninfo').append(temp_baninfo);

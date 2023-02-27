@@ -106,6 +106,7 @@ def get_teacher(t_id):
     if request.method == 'GET':
         teacher = callapi.get_teacher_info_by_id(t_id)
         chart_data = {}
+        ban_data = []
         # chart_data['ss'] = len(SwitchStudent.query.filter(SwitchStudent.teacher_id == teacher['register_no']).all())
         # chart_data['os'] = len(OutStudent.query.filter(OutStudent.teacher_id == teacher['register_no']).all())
         mybans_info = callapi.get_mybans(teacher['user_id'])
@@ -117,13 +118,25 @@ def get_teacher(t_id):
         # 미학습 총 발생 건수 
         chart_data['unlearned_ttd'] = len(Consulting.query.filter(Consulting.category_id < 100).all())
         for b in mybans_info:
+            data = {}
+            data['name'] = b['name']
+            data['semester'] = b['semester']
+            data['total_student_num'] = b['total_student_num']
+            data['out_s'] = len(OutStudent.query.filter(OutStudent.ban_id == b['register_no']).all())
+            data['switch_s'] = len(SwitchStudent.query.filter(SwitchStudent.ban_id == b['register_no']).all())
+            data['unlearned'] = len(Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.category_id < 100)).all()) 
+
             # 나한테 발생한 미학습 총 건수 
-            chart_data['unlearned_ttc'] += len(Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.category_id < 100)).all()) 
+            chart_data['unlearned_ttc'] += data['unlearned']
             # 선생님 해야하는 상담 수 
             chart_data['ttc'] += len(Consulting.query.filter(b['register_no'] == Consulting.ban_id).all())
             # 선생님 상담 완수 건수 
             c = Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.done==1)).all()
             chart_data['ttd'] += len(c)
+
+            ban_data.append(data)
+
+
 
         if(chart_data['ttc'] != 0):
             # 선생님 상담 완수율 
@@ -154,4 +167,4 @@ def get_teacher(t_id):
             chart_data['ttp'] = round(chart_data['total_done']/chart_data['total_todo']*100)
         else:
             chart_data['ttp'] = 0
-        return jsonify({'teacher_info': teacher,'chart_data':chart_data,'my_bans':mybans_info})
+        return jsonify({'teacher_info': teacher,'chart_data':chart_data,'my_bans':ban_data})
