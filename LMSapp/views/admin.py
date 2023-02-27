@@ -105,6 +105,10 @@ def get_teacher_data():
 def get_teacher(t_id):
     if request.method == 'GET':
         teacher = callapi.get_teacher_info_by_id(t_id)
+        chart_data = {}
+        chart_data['ss'] = len(SwitchStudent.query.filter(SwitchStudent.teacher_id == teacher['register_no']).all())
+        chart_data['os'] = len(OutStudent.query.filter(OutStudent.teacher_id == teacher['register_no']).all())
+
         my_ban = callapi.get_mybans(teacher['user_id'])
         print(teacher)
-        return jsonify({'teacher_info': teacher})
+        return jsonify({'teacher_info': teacher,'chart_data':chart_data})

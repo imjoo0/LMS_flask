@@ -527,7 +527,23 @@ function getTeacherInfo(t_id){
             let mobileno = response['teacher_info']['mobileno'];
             let email = response['teacher_info']['email']
             $('#teachertitle').html(name + '선생님 현황 ( '+ mobileno +' | '+ email + ' )');
-            $('#total_s_num').html('Total:'+response['teacher_info']['total_student_num'])
+
+            let total_s_num = response['teacher_info']['total_student_num']
+            let os = response['chart_data']['os']
+            let temp_chart  = `
+            <div class="chartWrap">               
+            <div class="chart">
+                <div class="chart-total">
+                    <span class="chart-total-num" id="total_s_num"><br>Total:${total_s_num}</span>
+                </div>
+            </div>
+            <div class="chart-bar" data-deg="${os}"></div>
+            <div class="chart-bar" data-deg="${ss}"></div>
+            <div class="chart-bar" data-deg="${total_s_num}"></div>
+            <div class="chart-bar" data-deg="${total_s_num/360*100}"></div>
+            </div>
+            `;
+            $('#teacher_chart').html(temp_chart)
         },
         error:function(xhr, status, error){
                 alert(xhr.responseText);
