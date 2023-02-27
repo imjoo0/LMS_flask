@@ -527,6 +527,7 @@ function getTeacherInfo(t_id){
             let mobileno = response['teacher_info']['mobileno'];
             let email = response['teacher_info']['email']
             $('#teachertitle').html(name + '선생님 현황 ( '+ mobileno +' | '+ email + ' )');
+            $('#total_s_num').html('Total:'+response['teacher_info']['total_student_num'])
         },
         error:function(xhr, status, error){
                 alert(xhr.responseText);
