@@ -246,22 +246,22 @@ function get_teacher_data(){
     
 }
 
-function displayData2(totalData, currentPage, dataPerPage,data_list, consulting) {
+function displayData2(totalData2, currentPage, dataPerPage,data_list2, consulting) {
     let chartHtml = "";
 
     //Number로 변환하지 않으면 아래에서 +를 할 경우 스트링 결합이 되어버림.. 
     currentPage = Number(currentPage);
     dataPerPage = Number(dataPerPage);
     let last_item = (currentPage - 1) * dataPerPage + dataPerPage;
-    if( last_item > totalData){
-        last_item = totalData
+    if( last_item > totalData2){
+        last_item = totalData2
     }
     for (
         var i = (currentPage - 1) * dataPerPage; //11*5 = 55
         i < last_item; // 55+5
         i++
     ) {
-        target = data_list[i]
+        target = data_list2[i]
         let name = target['name'];
         let original = target['origin'];
         let mobileno = target['mobileno'];
@@ -287,8 +287,8 @@ function displayData2(totalData, currentPage, dataPerPage,data_list, consulting)
     $("#s_data").html(chartHtml);
 }
 
-function paging2(totalData, dataPerPage, pageCount, currentPage, data_list, consulting) {
-    totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
+function paging2(totalData2, dataPerPage, pageCount, currentPage, data_list2, consulting) {
+    totalPage = Math.ceil(totalData2 / dataPerPage); //총 페이지 수
 
     if (totalPage < pageCount) {
         pageCount = totalPage;
@@ -326,7 +326,7 @@ function paging2(totalData, dataPerPage, pageCount, currentPage, data_list, cons
 
     $("#pagingul").html(pageHtml);
     let displayCount = "";
-    displayCount = " 원생 명단 1 - " + totalPage + " 페이지 / " + totalData + "건";
+    displayCount = " 원생 명단 1 - " + totalPage + " 페이지 / " + totalData2 + "건";
     $("#displayCount").text(displayCount);
 
     //페이징 번호 클릭 이벤트 
@@ -341,9 +341,9 @@ function paging2(totalData, dataPerPage, pageCount, currentPage, data_list, cons
         globalCurrentPage = selectedPage;
 
         //페이징 표시 재호출
-        paging2(totalData, dataPerPage, pageCount, selectedPage, data_list, consulting);
+        paging2(totalData2, dataPerPage, pageCount, selectedPage, data_list2, consulting);
         //글 목록 표시 재호출
-        displayData2(totalData, selectedPage, dataPerPage,data_list, consulting);
+        displayData2(totalData2, selectedPage, dataPerPage,data_list2, consulting);
     });
 }
 function getBanInfo(b_id){
