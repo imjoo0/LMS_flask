@@ -545,6 +545,11 @@ function getTeacherInfo(t_id){
             </div>
             `;
             $('#teacher_chart').html(temp_chart)
+            var _chart = document.querySelector(".chart");
+            var _chartBar = document.querySelectorAll(".chart-bar");
+            var color = ["#9986dd", "#fbb871", "#bd72ac"]; //색상
+            var newDeg = []; //차트 deg
+            chartDraw(..._chartBar,...newDeg,..._chart)
         },
         error:function(xhr, status, error){
                 alert(xhr.responseText);
@@ -552,23 +557,20 @@ function getTeacherInfo(t_id){
     })
     chartDraw();
 }
-var _chart = document.querySelector(".chart");
-var _chartBar = document.querySelectorAll(".chart-bar");
-var color = ["#9986dd", "#fbb871", "#bd72ac"]; //색상
-var newDeg = []; //차트 deg
+
 function insertAfter(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
   
 function chartLabel() {
-temp_html = `
-                    <span class="chart-total-text1">퇴소 학생 수</span>
-                    <span class="chart-total-text2">이반 학생 수</span>
-                    <span class="chart-total-text3">관리중인 학생 수</span>`;
-$('.chart-total').append(temp_html);
+    temp_html = `
+        <span class="chart-total-text1">퇴소 학생 수</span>
+        <span class="chart-total-text2">이반 학생 수</span>
+        <span class="chart-total-text3">관리중인 학생 수</span>`;
+    $('.chart-total').html(temp_html);
 }
   
-function chartDraw() {
+function chartDraw(_chartBar,newDeg,_chart) {
 for (var i = 0; i < _chartBar.length; i++) {
     var _num = _chartBar[i].dataset.deg;
     newDeg.push(_num);
