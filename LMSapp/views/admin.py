@@ -106,5 +106,5 @@ def get_teacher(t_id):
     if request.method == 'GET':
         teacher = callapi.get_teacher_info_by_id(t_id)
         my_ban = callapi.get_mybans(teacher['user_id'])
-        print(my_ban)
+        print(teacher)
         return jsonify({'teacher_info': teacher})
