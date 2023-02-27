@@ -526,72 +526,20 @@ function getTeacherInfo(t_id){
             let name = response['teacher_info']['name'] + '(' + response['teacher_info']['engname'] + ')';
             let mobileno = response['teacher_info']['mobileno'];
             let email = response['teacher_info']['email']
+            let tt = response['teacher_info']['total_student_num']
+            let ttp = tt/360*100
             $('#teachertitle').html(name + '선생님 현황 ( '+ mobileno +' | '+ email + ' )');
-
-            let total_s_num = response['teacher_info']['total_student_num']
+            $('#total_s_num').html(`Total:${tt}`)
             let os = response['chart_data']['os']
-            let ss = response['chart_data']['ss']
-            let temp_chart  = `
-            <div class="chartWrap">               
-                <div class="chart">
-                    <div class="chart-total">
-                        <span class="chart-total-num" id="total_s_num"><br>Total:${total_s_num}</span>
-                    </div>
-                </div>
-                <div class="chart-bar" data-deg="${os}"></div>
-                <div class="chart-bar" data-deg="${ss}"></div>
-                <div class="chart-bar" data-deg="${total_s_num}"></div>
-                <div class="chart-bar" data-deg="${total_s_num/360*100}"></div>
-            </div>
-            `;
-            $('#teacher_chart').html(temp_chart)
-            var _chart = document.querySelector(".chart");
-            var _chartBar = document.querySelectorAll(".chart-bar");
-            var color = ["#9986dd", "#fbb871", "#bd72ac"]; //색상
-            var newDeg = []; //차트 deg
-            chartDraw(..._chartBar,...newDeg,..._chart)
+            let ss = response['chart_data']['os']
+            $('#os').attr('data-deg',`${os}`)
+            $('#ss').attr('data-deg',`${ss}`)
+            $('#tt').attr('data-deg',`${tt}`)
+            $('#ttper').attr('data-deg',`${tt/360*100}`)
+            chartDraw()
         },
         error:function(xhr, status, error){
                 alert(xhr.responseText);
             }
     })
-    chartDraw();
 }
-
-function insertAfter(newNode, referenceNode) {
-    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-}
-  
-function chartLabel() {
-    temp_html = `
-        <span class="chart-total-text1">퇴소 학생 수</span>
-        <span class="chart-total-text2">이반 학생 수</span>
-        <span class="chart-total-text3">관리중인 학생 수</span>`;
-    $('.chart-total').html(temp_html);
-}
-  
-function chartDraw(_chartBar,newDeg,_chart) {
-for (var i = 0; i < _chartBar.length; i++) {
-    var _num = _chartBar[i].dataset.deg;
-    newDeg.push(_num);
-}
-
-var num = newDeg.length - newDeg.length;
-_chart.style.background =
-    "conic-gradient(#9986dd " +
-    newDeg[num] +
-    "deg, #fbb871 " +
-    newDeg[num] +
-    "deg " +
-    newDeg[num + 1] +
-    "deg, #bd72ac " +
-    newDeg[1] +
-    "deg " +
-    newDeg[2] +
-    "deg, #f599dc " +
-    newDeg[2] +
-    "deg )";
-
-chartLabel();
-}
-  
