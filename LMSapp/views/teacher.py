@@ -34,17 +34,26 @@ def home():
         mystudents_info = callapi.get_mystudents(session['user_id'])
         total_student_num = len(mystudents_info)
         mybans_info = callapi.get_mybans(session['user_id'])
-        
+        ban_data = []
         #  상담 차트
         ttc = 0
         ttd = 0
         unlearned_ttc = 0
         unlearned_ttd = len(Consulting.query.filter(Consulting.category_id < 100).all())
         for b in mybans_info:
-            unlearned_ttc += len(Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.category_id < 100)).all())
+            data = {}
+            data['name'] = b['name']
+            data['semester'] = b['semester']
+            data['total_student_num'] = b['total_student_num']
+            data['out_s'] = len(OutStudent.query.filter(OutStudent.ban_id == b['register_no']).all())
+            data['switch_s'] = len(SwitchStudent.query.filter(SwitchStudent.ban_id == b['register_no']).all())
+            data['unlearned'] = len(Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.category_id < 100)).all()) 
+            unlearned_ttc += data['unlearned']
             ttc += len(Consulting.query.filter(b['register_no'] == Consulting.ban_id).all())
             c = Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.done==1)).all()
             ttd += len(c)
+
+            ban_data.append(data)
 
         if(ttc != 0):
             cp = round((ttd/ttc)*100)
@@ -77,7 +86,7 @@ def home():
         
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
 
-        return render_template('teacher.html',unlearned_ttd=unlearned_ttd,unlearned_ttc=unlearned_ttc,unlearned_cp=unlearned_cp,cp=cp,ttc=ttc,ttd=ttd,total_todo=total_todo,total_done=total_done,ttp=ttp,switchstudent_num=switchstudent_num,switchstudent_num_p=switchstudent_num_p,outstudent_num_p=outstudent_num_p,outstudent_num=outstudent_num,total_student_num=total_student_num,user=teacher_info,my_bans=mybans_info,students=mystudents_info, questions=my_questions)
+        return render_template('teacher.html',unlearned_ttd=unlearned_ttd,unlearned_ttc=unlearned_ttc,unlearned_cp=unlearned_cp,cp=cp,ttc=ttc,ttd=ttd,total_todo=total_todo,total_done=total_done,ttp=ttp,switchstudent_num=switchstudent_num,switchstudent_num_p=switchstudent_num_p,outstudent_num_p=outstudent_num_p,outstudent_num=outstudent_num,total_student_num=total_student_num,user=teacher_info,my_bans=ban_data,students=mystudents_info, questions=my_questions)
 
 @bp.route('/api/get_teacher_ban', methods=['GET'])
 def get_ban():
