@@ -32,9 +32,10 @@
             </div>
             <div class="modal-body py-4 px-5">
                 <div class="info">
-                    <div class="d-flex justify-content-center align-items-center flex-column w-100"> 
+                    <div class="d-flex justify-content-center align-items-center flex-column w-100">
                         <div class="d-flex justify-content-start align-items-start w-100" style="overflow: scroll;">
-                            <div class="d-flex justify-content-center align-items-center flex-column mt-4" style="width: 1362px important;">
+                            <div class="d-flex justify-content-center align-items-center flex-column mt-4"
+                                style="width: 1362px important;">
                                 <div id="profile_data" class="w-100"></div>
                                 <div id="ban_data" class="w-100"></div>
                                 <table class="table text-center" style="width:100%;" id="student_data">
@@ -68,127 +69,191 @@
         <div class="modal-content">
             <div class="modal-header">
                 <p class="modal-title" id="teacherModalLabel"></p>
-                <div class="user-contact">
-                    <div class="mt-2">
-                        <i class="fa-regular fa-envelope"></i>
-                        <span id="t_email">&nbsp;&nbsp;</span>
-                    </div>
-                    <div class="mt-3">
-                        <i class="fa-solid fa-mobile-screen-button"></i>
-                        <span id="t_mobileno">&nbsp;&nbsp;</span>
-                    </div>
-                </div>
                 <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            
-        </div>
-    </div>
-</div>
-
-<div class="container_box">
-    <div id="user-info" class="border-bottom">
-        <div class="d-flex justify-content-center flex-xl-row row-cols-xl-2 flex-column-reverse">
-            <div class="d-flex justify-content-start align-items-center p-lg-5 py-3">
-                <div class="user-detail">
-                    <div class="manage-user-detail-deco"></div>
-                    <div class="user-name">
-                        <img src="https://purpleacademy.net/free_project/public/image/teacher-profile.png">
-                        <div class="d-flex justify-content-center align-items-center flex-column">
-                            <span>{{ user['engname'] }}님 안녕하세요</span>
-                            <div class="mt-2">
-                                <a href="#" class="me-1" data-bs-toggle="modal" data-bs-target="#sign-out">
-                                    <i class="fas fa-sign-out-alt text-danger fa-lg fs-6"></i>
-                                </a>
-                                <a href="#" class="ms-1" data-bs-toggle="modal" data-bs-target="#">
-                                    <i class="fa-solid fa-gear text-primary fa-lg fs-6"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+            <div class="modal-body py-4 px-5">
+                <div class="info">
                     <div class="user-contact">
                         <div class="mt-2">
                             <i class="fa-regular fa-envelope"></i>
-                            <span>&nbsp;&nbsp;{{ user['email'] }}</span>
+                            <span id="t_email">&nbsp;&nbsp;</span>
                         </div>
                         <div class="mt-3">
-                            <i class="fa-solid fa-briefcase"></i>
-                            <span>&nbsp;&nbsp;관리자</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="d-flex justify-content-center flex-xl-row row-cols-xl-2 flex-column-reverse">
-            <div id="ban-statistics" class="p-lg-5 p-1 pb-4">
-                <div class="info-container">
-                    <div class="progress_box make_row">
-                        <span class="progress_msg" id="tn"></span>
-                        <div class="progress-bar">
-                            <div class="progress" id="total_num"></div>
-                        </div>
-                    </div>
-                    <div class="progress_box make_row">
-                        <span class="progress_msg" id="sn"></span>
-                        <div class="progress-bar">
-                            <div class="progress" id="switch_num"></div>
-                        </div>
-                    </div>
-                    <div class="progress_box make_row">
-                        <span class="progress_msg" id="on"></span>
-                        <div class="progress-bar">
-                            <div class="progress" id="outstudent_num"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="ban-statistics" class="p-lg-5 p-1 pb-4">
-                <div class="info-container">
-                    <div class="progress_box make_row">
-                        <span class="progress_msg" id="un"></span>
-                        <div class="progress-bar">
-                            <div class="progress" id="unlearned_num"></div>
-                        </div>
-                    </div>
-                    <div class="progress_box make_row">
-                        <span class="progress_msg" id="ixln"></span>
-                        <div class="progress-bar">
-                            <div class="progress" id="ixl_num"></div>
-                        </div>
-                    </div>
-                    <div class="progress_box make_row">
-                        <span class="progress_msg" id="sn"></span>
-                        <div class="progress-bar">
-                            <div class="progress" id="sread_num"></div>
-                        </div>
-                    </div>
-                    <div class="progress_box make_row">
-                        <span class="progress_msg" id="rn"></span>
-                        <div class="progress-bar">
-                            <div class="progress" id="read_num"></div>
-                        </div>
-                    </div>
-                    <div class="progress_box make_row">
-                        <span class="progress_msg" id="in"></span>
-                        <div class="progress-bar">
-                            <div class="progress" id="intoread_num"></div>
-                        </div>
-                    </div>
-                    <div class="progress_box make_row">
-                        <span class="progress_msg" id="wn"></span>
-                        <div class="progress-bar">
-                            <div class="progress" id="writing_num"></div>
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                            <span id="t_mobileno">&nbsp;&nbsp;</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="make_row">
-        <!-- 퇴소 이반 현황 -->
-        <div class="info-container">
+
+    <div class="container_box">
+        <div id="user-info" class="border-bottom">
+            <div class="d-flex justify-content-center flex-xl-row row-cols-xl-2 flex-column-reverse">
+                <div class="d-flex justify-content-start align-items-center p-lg-5 py-3">
+                    <div class="user-detail">
+                        <div class="manage-user-detail-deco"></div>
+                        <div class="user-name">
+                            <img src="https://purpleacademy.net/free_project/public/image/teacher-profile.png">
+                            <div class="d-flex justify-content-center align-items-center flex-column">
+                                <span>{{ user['engname'] }}님 안녕하세요</span>
+                                <div class="mt-2">
+                                    <a href="#" class="me-1" data-bs-toggle="modal" data-bs-target="#sign-out">
+                                        <i class="fas fa-sign-out-alt text-danger fa-lg fs-6"></i>
+                                    </a>
+                                    <a href="#" class="ms-1" data-bs-toggle="modal" data-bs-target="#">
+                                        <i class="fa-solid fa-gear text-primary fa-lg fs-6"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="user-contact">
+                            <div class="mt-2">
+                                <i class="fa-regular fa-envelope"></i>
+                                <span>&nbsp;&nbsp;{{ user['email'] }}</span>
+                            </div>
+                            <div class="mt-3">
+                                <i class="fa-solid fa-briefcase"></i>
+                                <span>&nbsp;&nbsp;관리자</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="d-flex justify-content-center flex-xl-row row-cols-xl-2 flex-column-reverse">
+                <div id="ban-statistics" class="p-lg-5 p-1 pb-4">
+                    <div class="info-container">
+                        <div class="progress_box make_row">
+                            <span class="progress_msg" id="tn"></span>
+                            <div class="progress-bar">
+                                <div class="progress" id="total_num"></div>
+                            </div>
+                        </div>
+                        <div class="progress_box make_row">
+                            <span class="progress_msg" id="sn"></span>
+                            <div class="progress-bar">
+                                <div class="progress" id="switch_num"></div>
+                            </div>
+                        </div>
+                        <div class="progress_box make_row">
+                            <span class="progress_msg" id="on"></span>
+                            <div class="progress-bar">
+                                <div class="progress" id="outstudent_num"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="ban-statistics" class="p-lg-5 p-1 pb-4">
+                    <div class="info-container">
+                        <div class="progress_box make_row">
+                            <span class="progress_msg" id="un"></span>
+                            <div class="progress-bar">
+                                <div class="progress" id="unlearned_num"></div>
+                            </div>
+                        </div>
+                        <div class="progress_box make_row">
+                            <span class="progress_msg" id="ixln"></span>
+                            <div class="progress-bar">
+                                <div class="progress" id="ixl_num"></div>
+                            </div>
+                        </div>
+                        <div class="progress_box make_row">
+                            <span class="progress_msg" id="sn"></span>
+                            <div class="progress-bar">
+                                <div class="progress" id="sread_num"></div>
+                            </div>
+                        </div>
+                        <div class="progress_box make_row">
+                            <span class="progress_msg" id="rn"></span>
+                            <div class="progress-bar">
+                                <div class="progress" id="read_num"></div>
+                            </div>
+                        </div>
+                        <div class="progress_box make_row">
+                            <span class="progress_msg" id="in"></span>
+                            <div class="progress-bar">
+                                <div class="progress" id="intoread_num"></div>
+                            </div>
+                        </div>
+                        <div class="progress_box make_row">
+                            <span class="progress_msg" id="wn"></span>
+                            <div class="progress-bar">
+                                <div class="progress" id="writing_num"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="make_row">
+            <!-- 퇴소 이반 현황 -->
+            <div class="info-container">
+                <div class="info-title">
+                    <span>퇴소 / 이반 현황</span>
+                </div>
+                <div class="info">
+                    <div class="d-flex justify-content-center align-items-center flex-column w-100">
+                        <div class="d-flex justify-content-start align-items-start w-100" style="overflow: scroll;">
+                            <div class="d-flex justify-content-center align-items-center flex-column mt-4"
+                                style="width: 1362px important;">
+
+                                <table class="table text-center" style="width:100%;" id="so_data">
+                                    <tr class="row" style="background: #DCE6F2;">
+                                        <th class="col-12" id="displayCount1"></th>
+                                    </tr>
+                                    <tr class="row" style="background:#DCE6F2;">
+                                        <th class="col-2">반 이름</th>
+                                        <th class="col-2">학기</th>
+                                        <th class="col-3">담임 T</th>
+                                        <th class="col-2">이반 발생</th>
+                                        <th class="col-2">퇴소 발생</th>
+                                        <th class="col-1">상세</th>
+                                    </tr>
+                                    <tr id="static_data1" class="row"></tr>
+                                </table>
+                                <ul id="pagingul1"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 미학습 발생 현황 -->
+            <div class="info-container" style="margin-left: 20px;">
+                <div class="info-title">
+                    <span>미학습 발생 현황</span>
+                </div>
+                <div class="info">
+                    <div class="d-flex justify-content-center align-items-center flex-column w-100">
+                        <div class="d-flex justify-content-start align-items-start w-100" style="overflow: scroll;">
+                            <div class="d-flex justify-content-center align-items-center flex-column mt-4"
+                                style="width: 1362px important;">
+
+                                <table class="table text-center" style="width:100%;" id="ul_data_box">
+                                    <tr class="row" style="background: #DCE6F2;">
+                                        <th class="col-12" id="displayCount2"></th>
+                                    </tr>
+                                    <tr class="row" style="background:#DCE6F2;">
+                                        <th class="col-3">반 이름</th>
+                                        <th class="col-2">학기</th>
+                                        <th class="col-3">담임 T</th>
+                                        <th class="col-3">미학습발생</th>
+                                        <th class="col-1">상세</th>
+                                    </tr>
+                                    <tr id="static_data2" class="row"></tr>
+                                </table>
+                                <ul id="pagingul2"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 선생님 관리 현황 -->
+        <div class="info-container" style="margin-top: 10px;">
             <div class="info-title">
-                <span>퇴소 / 이반 현황</span>
+                <span>선생님 관리 현황</span>
             </div>
             <div class="info">
                 <div class="d-flex justify-content-center align-items-center flex-column w-100">
@@ -196,94 +261,32 @@
                         <div class="d-flex justify-content-center align-items-center flex-column mt-4"
                             style="width: 1362px important;">
 
-                            <table class="table text-center" style="width:100%;" id="so_data">
+                            <table class="table text-center" style="width:100%;" id="t_data_box">
                                 <tr class="row" style="background: #DCE6F2;">
-                                    <th class="col-12" id="displayCount1"></th>
+                                    <th class="col-12" id="displayCount3"></th>
                                 </tr>
                                 <tr class="row" style="background:#DCE6F2;">
-                                    <th class="col-2">반 이름</th>
-                                    <th class="col-2">학기</th>
-                                    <th class="col-3">담임 T</th>
-                                    <th class="col-2">이반 발생</th>
-                                    <th class="col-2">퇴소 발생</th>
+                                    <th class="col-2">선생님 이름</th>
+                                    <th class="col-3">이메일</th>
+                                    <th class="col-2">연락처</th>
+                                    <th class="col-2">관리중인 학생 수</th>
+                                    <th class="col-2">알림장 응답율</th>
                                     <th class="col-1">상세</th>
                                 </tr>
-                                <tr id="static_data1" class="row"></tr>
+                                <tr id="static_data3" class="row"></tr>
                             </table>
-                            <ul id="pagingul1"></ul>
+                            <ul id="pagingul3"></ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- 미학습 발생 현황 -->
-        <div class="info-container" style="margin-left: 20px;">
-            <div class="info-title">
-                <span>미학습 발생 현황</span>
-            </div>
-            <div class="info">
-                <div class="d-flex justify-content-center align-items-center flex-column w-100">
-                    <div class="d-flex justify-content-start align-items-start w-100" style="overflow: scroll;">
-                        <div class="d-flex justify-content-center align-items-center flex-column mt-4"
-                            style="width: 1362px important;">
 
-                            <table class="table text-center" style="width:100%;" id="ul_data_box">
-                                <tr class="row" style="background: #DCE6F2;">
-                                    <th class="col-12" id="displayCount2"></th>
-                                </tr>
-                                <tr class="row" style="background:#DCE6F2;">
-                                    <th class="col-3">반 이름</th>
-                                    <th class="col-2">학기</th>
-                                    <th class="col-3">담임 T</th>
-                                    <th class="col-3">미학습발생</th>
-                                    <th class="col-1">상세</th>
-                                </tr>
-                                <tr id="static_data2" class="row"></tr>
-                            </table>
-                            <ul id="pagingul2"></ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- 선생님 관리 현황 -->
-    <div class="info-container" style="margin-top: 10px;">
-        <div class="info-title">
-            <span>선생님 관리 현황</span>
-        </div>
-        <div class="info">
-            <div class="d-flex justify-content-center align-items-center flex-column w-100">
-                <div class="d-flex justify-content-start align-items-start w-100" style="overflow: scroll;">
-                    <div class="d-flex justify-content-center align-items-center flex-column mt-4"
-                        style="width: 1362px important;">
-
-                        <table class="table text-center" style="width:100%;" id="t_data_box">
-                            <tr class="row" style="background: #DCE6F2;">
-                                <th class="col-12" id="displayCount3"></th>
-                            </tr>
-                            <tr class="row" style="background:#DCE6F2;">
-                                <th class="col-2">선생님 이름</th>
-                                <th class="col-3">이메일</th>
-                                <th class="col-2">연락처</th>
-                                <th class="col-2">관리중인 학생 수</th>
-                                <th class="col-2">알림장 응답율</th>
-                                <th class="col-1">상세</th>
-                            </tr>
-                            <tr id="static_data3" class="row"></tr>
-                        </table>
-                        <ul id="pagingul3"></ul>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
-</div>
+    {% block jspart %}
+    <script type="text/javascript" src="../static/js/admin.js"></script>
+    {% endblock %}
 
-{% block jspart %}
-<script type="text/javascript" src="../static/js/admin.js"></script>
-{% endblock %}
-
-{% endautoescape %}
-{% endblock %}
+    {% endautoescape %}
+    {% endblock %}

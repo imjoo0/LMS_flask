@@ -523,6 +523,7 @@ function getTeacherInfo(t_id){
                 $('#pagingul').hide();
                 return
             }
+            console.log(response)
             let name = response['name'] + '(' + response['engname'] + ')';
             let mobileno = response['mobileno'];
             let email = response['email']
