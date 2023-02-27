@@ -510,3 +510,4 @@ function getBanInfo(b_id){
             }
     })
 }
+
