@@ -46,7 +46,7 @@ def get_sodata():
                 data['ban_name'] = b['ban_name']
                 data['semester'] = b['semester']
                 data['teacher_name'] = b['teacher_name'] +'('+b['teacher_engname'] + ')'
-                data['standard'] = od+sd
+                data['standard'] = round((od/total_o)*100)+round((sd/total_s)*100)
                 data['out_data'] = str(od) +'('+ str(round((od/total_o)*100)) + '%)' if(total_o != 0) else 0
                 data['switch_data'] = str(sd) +'('+ str(round((sd/total_s)*100)) + '%)' if(total_s != 0) else 0
                 sodata.append(data)
