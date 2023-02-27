@@ -101,7 +101,7 @@ def get_teacher_data():
         all_teacher.sort(key = lambda x:(-x['total_student_num']))
         return jsonify({'all_teacher': all_teacher,'total':total})
 
-@bp.route("/teacher_data/<int:t_id>", methods=['GET'])
+@bp.route("/<int:t_id>", methods=['GET'])
 def get_teacher_data(t_id):
     if request.method == 'GET':
         all_teacher = callapi.get_teacher_info_by_id(t_id)

@@ -514,7 +514,7 @@ function getBanInfo(b_id){
 function getTeacherInfo(t_id){
     $.ajax({
         type: "GET",
-        url: "/admin/teacher_data/"+t_id,
+        url: "/admin/"+t_id,
         data: {},
         success: function (response) {
             // let target_ban = response['target_ban']
