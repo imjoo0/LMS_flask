@@ -533,15 +533,15 @@ function getTeacherInfo(t_id){
             let ss = response['chart_data']['ss']
             let temp_chart  = `
             <div class="chartWrap">               
-            <div class="chart">
-                <div class="chart-total">
-                    <span class="chart-total-num" id="total_s_num"><br>Total:${total_s_num}</span>
+                <div class="chart">
+                    <div class="chart-total">
+                        <span class="chart-total-num" id="total_s_num"><br>Total:${total_s_num}</span>
+                    </div>
                 </div>
-            </div>
-            <div class="chart-bar" data-deg="${os}"></div>
-            <div class="chart-bar" data-deg="${ss}"></div>
-            <div class="chart-bar" data-deg="${total_s_num}"></div>
-            <div class="chart-bar" data-deg="${total_s_num/360*100}"></div>
+                <div class="chart-bar" data-deg="${os}"></div>
+                <div class="chart-bar" data-deg="${ss}"></div>
+                <div class="chart-bar" data-deg="${total_s_num}"></div>
+                <div class="chart-bar" data-deg="${total_s_num/360*100}"></div>
             </div>
             `;
             $('#teacher_chart').html(temp_chart)
@@ -550,4 +550,46 @@ function getTeacherInfo(t_id){
                 alert(xhr.responseText);
             }
     })
+    chartDraw();
 }
+var _chart = document.querySelector(".chart");
+var _chartBar = document.querySelectorAll(".chart-bar");
+var color = ["#9986dd", "#fbb871", "#bd72ac"]; //색상
+var newDeg = []; //차트 deg
+function insertAfter(newNode, referenceNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+  
+function chartLabel() {
+temp_html = `
+                    <span class="chart-total-text1">퇴소 학생 수</span>
+                    <span class="chart-total-text2">이반 학생 수</span>
+                    <span class="chart-total-text3">관리중인 학생 수</span>`;
+$('.chart-total').append(temp_html);
+}
+  
+function chartDraw() {
+for (var i = 0; i < _chartBar.length; i++) {
+    var _num = _chartBar[i].dataset.deg;
+    newDeg.push(_num);
+}
+
+var num = newDeg.length - newDeg.length;
+_chart.style.background =
+    "conic-gradient(#9986dd " +
+    newDeg[num] +
+    "deg, #fbb871 " +
+    newDeg[num] +
+    "deg " +
+    newDeg[num + 1] +
+    "deg, #bd72ac " +
+    newDeg[1] +
+    "deg " +
+    newDeg[2] +
+    "deg, #f599dc " +
+    newDeg[2] +
+    "deg )";
+
+chartLabel();
+}
+  
