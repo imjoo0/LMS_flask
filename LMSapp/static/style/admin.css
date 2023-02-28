@@ -56,7 +56,18 @@
     display:inline-block;
     width: 300px;
     height: 300px;
+    position: absolute;
     border-radius: 50%;
     transition: 0.3s;
   }
-  
+  .chart-total-num{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: relative;
+    font-size:1.3rem;
+    font-weight:bold;
+    color: #333;
+    z-index: 1;
+    display: inline-block;
+    }
