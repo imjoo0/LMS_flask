@@ -419,11 +419,10 @@ def comment(id,is_coco):
     
     elif request.method == 'POST':
         # target_question = Question.query.get_or_404(id)
-        comment_contents = request.form['comment_contents']
-        try:
-            new_comment = Comment(contents=comment_contents,user_id=session['user_registerno'],question_id=id,created_at=Today)
-            db.session.add(new_comment)
-            db.session.commit()
-            return jsonify({'result': '댓글 작성 완료'})
-        
+        comment_contents = request.form['comment_contents'] 
+        new_comment = Comment(contents=comment_contents,user_id=session['user_registerno'],question_id=id,created_at=Today)
+        db.session.add(new_comment)
+        db.session.commit()
+        return jsonify({'result': '댓글 작성 완료'})
+    
  
