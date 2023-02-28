@@ -529,10 +529,11 @@ function getTeacherInfo(t_id){
             let email = response['teacher_info']['email']
             let tt = response['teacher_info']['total_student_num']
             $('#teachertitle').html(name + '선생님 현황 ( '+ mobileno +' | '+ email + ' )');
-            $('#total_s_num').html(`관리중 :${tt} 이반 학생 수:${ss} 퇴소 학생 수:${os}`)
             let os = chart['outstudent_num']
             let ss = chart['switchstudent_num']
             let ttp = tt+os+ss
+            
+            $('#total_s_num').html(`관리중 :${tt} 이반 학생 수:${ss} 퇴소 학생 수:${os}`)
             
             $('.pie-chart1').css("background",`conic-gradient(#B9CDE5, #B9CDE5 ${tt/ttp*100}%, #D99694 ${tt/ttp*100}%, #D99694 ${tt/ttp*100+ss/ttp*100}%, #2B2B2B ${tt/ttp*100+ss/ttp*100}%, #2B2B2B)`)
 
