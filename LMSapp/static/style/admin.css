@@ -71,3 +71,14 @@
     z-index: 1;
     display: inline-block;
     }
+
+    .chart-total-text1{
+        position: relative;
+        z-index: 1;
+        right:130px;
+        }
+    .chart-total-text2{
+        position: relative;
+        z-index: 1;
+        top:60px;right:250px;
+        }

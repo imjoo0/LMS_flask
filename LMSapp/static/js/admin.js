@@ -550,6 +550,9 @@ function getTeacherInfo(t_id){
             $('#total_s_num').html(`관리중 :${tt}`)
             let os = chart['outstudent_num']
             let ss = chart['switchstudent_num']
+            
+            $('.chart-total-text1').html(`퇴소 학생 수:${os}`)
+            $('.chart-total-text2').html(`이반 학생 수:${ss}`)
             var i=1;
             var func1 = setInterval(function(){
                 if(i<tt){
