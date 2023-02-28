@@ -53,33 +53,10 @@
 }
 /* 원형 차트 */
 .pie-chart1 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: transparent!important;
-    width:100%;
-    z-index: 1;
+    display:inline-block;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    transition: 0.3s;
   }
-
-    .pie-chart1 span{
-    position: absolute;
-    color:#777;
-    }
-    .chart-num{
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size:1.3rem;
-    font-weight:bold;
-    color: #333;
-    }
-    .chart-text1{
-    top:-150px;right:-10px;
-    }
-    .chart-text2{
-    top:-50px;right:-70px;
-    }
-    .chart-text3{
-    top:120px;right:30px;
-    }
+  
