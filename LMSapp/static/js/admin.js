@@ -536,7 +536,7 @@ function getTeacherInfo(t_id){
             
             $('.chart-total-text1').html(`퇴소 학생 수:${os}`)
             $('.chart-total-text2').html(`이반 학생 수:${ss}`)
-            $('.pie-chart1').css('background',`conic-gradient(#B9CDE5 0%, #B9CDE5 ${tt/ttp*100}%, #D99694 ${tt/ttp*100}%, #D99694 ${ss/ttp*100}%, #2B2B2B ${os/ttp*100}%, #2B2B2B 100%);`)
+            $('.pie-chart1').css('background',`conic-gradient(#B9CDE5, #B9CDE5 ${tt/ttp*100}%, #D99694 ${tt/ttp*100}%, #D99694 ${ss/ttp*100}%, #2B2B2B ${os/ttp*100}%, #2B2B2B);`)
 
             // 업무
             let total_todo = chart['total_todo']
