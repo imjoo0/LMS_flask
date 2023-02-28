@@ -12,21 +12,7 @@ $(document).ready(function () {
     sodata()
     uldata()
 })
-function color1(i){
-    $(".pie-chart1").css({
-        "background":"conic-gradient(#B9CDE5 0% "+i+"%, #ffffff "+i+"% 100%)"
-        });
-}
-function color2(i){
-    $(".pie-chart1").css({
-        "background":"conic-gradient(#B9CDE5 0% 25%, #D99694 25% "+i+"%, #ffffff "+i+"% 100%)"
-        });
-}
-function color3(i){
-    $(".pie-chart1").css({
-        "background":"conic-gradient(#B9CDE5 0% 25%, #ffc33b 25% 70%, #2B2B2B 70% "+i+"%, #ffffff "+i+"% 100%)"
-        });
-}
+
 function displayData(totalData, currentPage, dataPerPage,data_list,data_num) {
     let chartHtml = "";
 
@@ -542,30 +528,15 @@ function getTeacherInfo(t_id){
             let mobileno = response['teacher_info']['mobileno'];
             let email = response['teacher_info']['email']
             let tt = response['teacher_info']['total_student_num']
-            // let ttp = tt/360*100
             $('#teachertitle').html(name + '선생님 현황 ( '+ mobileno +' | '+ email + ' )');
             $('#total_s_num').html(`관리중 :${tt}`)
             let os = chart['outstudent_num']
             let ss = chart['switchstudent_num']
+            let ttp = tt+os+ss
             
             $('.chart-total-text1').html(`퇴소 학생 수:${os}`)
             $('.chart-total-text2').html(`이반 학생 수:${ss}`)
-            var i=0;
-            var func1 = setInterval(function(){
-                if(i<os){ 
-                    color3(i);
-                    i++;
-                } else if(i<ss){
-                    color2(i);
-                    i++;
-                } else if(i<tt){
-                    color1(i);
-                    i++;
-                } else {
-                    clearInterval(func1);
-                }
-            },10); 
-            //  10ms 마다 반복 
+            $('.pie-chart1').css('background',`conic-gradient(#B9CDE5 0%, #B9CDE5 ${tt/ttp*100}%, #D99694 ${tt/ttp*100}%, #D99694 ${ss/ttp*100}%, #2B2B2B ${os/ttp*100}%, #2B2B2B 100%);`)
 
             // 업무
             let total_todo = chart['total_todo']
