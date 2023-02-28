@@ -124,7 +124,6 @@ function post_comment(q_id,teacher_id,is_coco){
 			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
             data: {
                 comment_contents:comment_contents,
-                writer_info:writer_info,
                 user_id:user_id
             },
             success: function (response) {{
