@@ -550,16 +550,16 @@ function getTeacherInfo(t_id){
             
             $('.chart-total-text1').html(`퇴소 학생 수:${os}`)
             $('.chart-total-text2').html(`이반 학생 수:${ss}`)
-            var i=1;
+            var i=0;
             var func1 = setInterval(function(){
-                if(i<tt){ 
-                    color1(i);
+                if(i<os){ 
+                    color3(i);
                     i++;
                 } else if(i<ss){
                     color2(i);
                     i++;
-                } else if(i<os){
-                    color3(i);
+                } else if(i<tt){
+                    color1(i);
                     i++;
                 } else {
                     clearInterval(func1);
