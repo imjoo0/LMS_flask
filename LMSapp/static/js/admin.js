@@ -14,19 +14,19 @@ $(document).ready(function () {
 })
 function color1(i){
     $(".pie-chart1").css({
-        "background":"conic-gradient(#2B2B2B 0% "+i+"%, #2B2B2B "+i+"% 100%)"
+        "background":"conic-gradient(#2B2B2B 0% "+i+"%, #ffffff "+i+"% 100%)"
         });
     
 }
 function color2(i){
     $(".pie-chart1").css({
-        "background":"conic-gradient(#D99694 0% 25%, #ffc33b 25% "+i+"%, #D99694 "+i+"% 100%)"
+        "background":"conic-gradient(#D99694 0% 25%, #ffc33b 25% "+i+"%, #ffffff "+i+"% 100%)"
         });
      
 }
 function color3(i){
     $(".pie-chart1").css({
-        "background":"conic-gradient(#B9CDE5 0% 25%, #ffc33b 25% 70%, #21f3d6 70% "+i+"%, #B9CDE5 "+i+"% 100%)"
+        "background":"conic-gradient(#B9CDE5 0% 25%, #ffc33b 25% 70%, #21f3d6 70% "+i+"%, #ffffff "+i+"% 100%)"
         });
      
 }
