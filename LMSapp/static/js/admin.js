@@ -547,7 +547,7 @@ function getTeacherInfo(t_id){
             let tt = response['teacher_info']['total_student_num']
             // let ttp = tt/360*100
             $('#teachertitle').html(name + '선생님 현황 ( '+ mobileno +' | '+ email + ' )');
-            $('#total_s_num').html(`Total:${tt}`)
+            $('#total_s_num').html(`관리중 :${tt}`)
             let os = chart['outstudent_num']
             let ss = chart['switchstudent_num']
             var i=1;
