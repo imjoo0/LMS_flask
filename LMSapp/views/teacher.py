@@ -425,7 +425,5 @@ def comment(id,is_coco):
             db.session.add(new_comment)
             db.session.commit()
             return jsonify({'result': '댓글 작성 완료'})
-        except:
-            return jsonify({'result': '댓글 작성 실패'})
         
  
