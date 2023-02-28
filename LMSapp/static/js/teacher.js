@@ -59,6 +59,9 @@ async function get_answer(q_id){
        answer_at = response['answer_at']
        teacher_id = response['teacher_registerno']
        writer = `${teacher}+'('+${teacher_e}+')'`
+       
+        console.log(writer)
+        console.log(typeof(writer))
        let temp_comment = `     
         <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents"
         placeholder="댓글을 남겨주세요">
@@ -110,7 +113,6 @@ async function get_answer(q_id){
 // 문의 댓글 기능 
 function post_comment(q_id,writer,teacher_id,is_coco){
     comment_contents = $('#comment_contents').val()
-    console.log(writer)
     writer_info = writer
     user_id = teacher_id
     if((comment_contents.length == 0)){
