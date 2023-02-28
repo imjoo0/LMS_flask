@@ -242,46 +242,26 @@
     position: relative;
     }
     
-    .chart-total{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background:gray;
-    width:100%;
-    z-index: 1;
-    }
-    .chart-total span{
-    position: absolute;
-    color:#777;
-    }
-    .chart-total-num{
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size:1.3rem;
-    font-weight:bold;
-    color: #333;
-    }
-    .chart-total-text1{
-    top:-150px;right:-10px;
-    }
-    .chart-total-text2{
-    top:-50px;right:-70px;
-    }
-    .chart-total-text3{
-    top:120px;right:30px;
-    }
-    .chart-total-text4{
-    top:0;left:-70px;
-    }
-
-    .chart-explain{
-        position: relative;
-        margin:5%;
-        width: 100%;
-        height: 100%;
-    }
+   /* 원형 차트 */
+.pie-chart1 {
+  display:inline-block;
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+.chart-total-num{
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: relative;
+  font-size:1rem;
+  font-weight:bold;
+  color: #333;
+  z-index: 1;
+  display: inline-block;
+  }
 
 #today_done_box,#consulting_student_list{display: none}
 #h_title,#today_consulting_box,#missed_consulting_history_box{display: none}
