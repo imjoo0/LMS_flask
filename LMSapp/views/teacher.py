@@ -343,6 +343,7 @@ def question(id):
         return_data['title'] = q.title
         return_data['contents'] = q.contents
         return_data['create_date'] = q.create_date.strftime('%Y-%m-%d')
+        return_data['teacher_registerno'] = q.teacher_id
         return_data['teacher'] = teacher_info['name']
         return_data['teacher_e'] = teacher_info['engname']
         return_data['new_ban'] = q.new_ban_id
@@ -382,11 +383,48 @@ def question(id):
         db.session.commit()
         return jsonify({'result': '문의 답변 저장 완료'})
                     
+# 댓글 작성 / 조회 
+@bp.route('/comment/<int:id>/<int:is_coco>', methods=['GET','POST'])
+def comment(id,is_coco):
+    if request.method == 'GET':
+        q = Question.query.filter(Question.id == id).first()
+        teacher_info = callapi.get_teacher_info_by_id(q.teacher_id)
+        a = Answer.query.filter(Answer.question_id == id).first()
+        return_data = {}
+        if q.category == 0: return_data['category'] = '일반문의' 
+        elif q.category == 1 : return_data['category'] ='퇴소 요청' 
+        elif q.category == 2: return_data['category'] ='이반 요청' 
+        else: return_data['category'] = '취소/환불 요청' 
+        return_data['title'] = q.title
+        return_data['contents'] = q.contents
+        return_data['create_date'] = q.create_date.strftime('%Y-%m-%d')
+        return_data['teacher'] = teacher_info['name']
+        return_data['teacher_e'] = teacher_info['engname']
+        return_data['new_ban'] = q.new_ban_id
+        if q.answer == 1 :return_data['answer'] = a.content
+        else: return_data['answer'] = '✖️'
+        if q.answer == 1:return_data['answer_at'] = a.created_at.strftime('%Y-%m-%d')
+        else:return_data['answer_at'] = '✖️'
+        if (q.category != 0 and q.answer == 1 and a.reject_code != 0): return_data['reject'] = '승인'
+        elif(q.answer == 0): return_data['reject'] = '대기중'
+        else: return_data['reject'] = '반려'
+        if q.category != 0:
+            s = callapi.get_student_info(q.student_id )
+            b = callapi.get_ban(q.ban_id )    
 
+            return_data['student'] = s['name']
+            return_data['student_origin'] = s['origin']
+            return_data['ban'] = b['ban_name']
 
-# 문의 / 답변 조회 
-# @bp.route('/question/<int:id>', methods=['GET','POST'])
-# def question(id):
-#     question = Question()
-#     if request.method == 'GET':
-#         return hello
+        return jsonify(return_data)
+    
+    elif request.method == 'POST':
+        target_question = Question.query.get_or_404(id)
+        comment_contents = request.form['comment_contents']
+        writer_info = request.form['writer_info']
+        user_id = request.form['user_id']
+        new_comment = Comment(contents=comment_contents,user_id=user_id,question_id=id,parent_id=is_coco,created_at=Today,writer_info=writer_info)
+        db.session.add(new_comment)
+        db.session.commit()
+        return jsonify({'result': '댓글 작성 완료'})
+ 
