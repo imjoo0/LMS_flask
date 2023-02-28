@@ -536,11 +536,10 @@ function getTeacherInfo(t_id){
             let osp = tt/ttp*100
             let ssp = ss/ttp*100
             let tp = tt/ttp*100
-            let temp_css = `conic-gradient(#B9CDE5, #B9CDE5 ${tp}%, #D99694 ${ssp}%, #D99694 ${ssp}%, #2B2B2B ${osp}%, #2B2B2B)`
             
             $('.chart-total-text1').html(`퇴소 학생 수:${os}`)
             $('.chart-total-text2').html(`이반 학생 수:${ss}`)
-            $('#target_chart').style('background',temp_css)
+            $('.pie-chart1').css("background",`conic-gradient(#B9CDE5, #B9CDE5 ${tp}%, #D99694 ${ssp}%, #D99694 ${ssp}%, #2B2B2B ${osp}%, #2B2B2B);`)
 
             // 업무
             let total_todo = chart['total_todo']
