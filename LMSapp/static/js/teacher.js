@@ -65,7 +65,7 @@ async function get_answer(q_id){
        let temp_comment = `     
         <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents"
         placeholder="댓글을 남겨주세요">
-        <button onclick="post_comment(${q_id},${writer},${teacher_id},${0})">등록</button>
+        <button onclick="post_comment(${q_id},"${writer}",${teacher_id},${0})">등록</button>
         `;
         $('#comment_post_box').html(temp_comment)
        if(category == '일반문의'){
