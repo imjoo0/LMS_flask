@@ -552,13 +552,13 @@ function getTeacherInfo(t_id){
             let ss = chart['switchstudent_num']
             var i=1;
             var func1 = setInterval(function(){
-                if(i<tt){
+                if(i<os){
                     color1(i);
                     i++;
                 } else if(i<ss){
                     color2(i);
                     i++;
-                } else if(i<os){
+                } else if(i<tt){
                     color3(i);
                     i++;
                 } else {
