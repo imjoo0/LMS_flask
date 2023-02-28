@@ -58,7 +58,7 @@ async function get_answer(q_id){
        answer = response['answer']
        answer_at = response['answer_at']
        teacher_id = response['teacher_registerno']
-       writer = `${teacher}+'('+${teacher_e}+')'`
+       writer = teacher+'('+teacher_e+')'
        
         console.log(writer)
         console.log(typeof(writer))
