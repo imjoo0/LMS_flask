@@ -12,6 +12,24 @@ $(document).ready(function () {
     sodata()
     uldata()
 })
+function color1(i){
+    $(".pie-chart1").css({
+        "background":"conic-gradient(#8b22ff 0% "+i+"%, #ffffff "+i+"% 100%)"
+        });
+    
+}
+function color2(i){
+    $(".pie-chart1").css({
+        "background":"conic-gradient(#8b22ff 0% 25%, #ffc33b 25% "+i+"%, #ffffff "+i+"% 100%)"
+        });
+     
+}
+function color3(i){
+    $(".pie-chart1").css({
+        "background":"conic-gradient(#8b22ff 0% 25%, #ffc33b 25% 70%, #21f3d6 70% "+i+"%, #ffffff "+i+"% 100%)"
+        });
+     
+}
 function displayData(totalData, currentPage, dataPerPage,data_list,data_num) {
     let chartHtml = "";
 
@@ -536,6 +554,21 @@ function getTeacherInfo(t_id){
             $('#ss').attr('data-deg',`${ss}`)
             $('#tt').attr('data-deg',`${tt}`)
             $('#ttper').attr('data-deg',`${ttp}`)
+            var i=1;
+            var func1 = setInterval(function(){
+                if(i<26){
+                    color1(i);
+                    i++;
+                } else if(i<70){
+                    color2(i);
+                    i++;
+                } else if(i<101){
+                    color3(i);
+                    i++;
+                } else {
+                    clearInterval(func1);
+                }
+            },10);
 
             // 업무
             let total_todo = chart['total_todo']
