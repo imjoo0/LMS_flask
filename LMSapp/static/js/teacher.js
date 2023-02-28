@@ -32,7 +32,6 @@ function change_question_kind(str){
         $('#invisible_for_1').hide();
         $('#invisible_for_2').hide();
         $('#question_box').show();
-
     }
 }
 function go_back(){

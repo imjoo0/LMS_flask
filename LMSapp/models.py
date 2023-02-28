@@ -15,8 +15,22 @@ class Question(db.Model):
     # consulting_history = db.Column(db.Integer,db.ForeignKey('consulting_history.id'))
     student_id = db.Column(db.Integer,nullable=True)
     create_date = db.Column(db.DateTime(), nullable=False)
+    comments = db.relationship("Comment", back_populates="question")
     
     answer = db.Column(db.Integer,nullable=True)
+
+class Comment(db.Model):
+    __tablename__ = 'comment'
+    id = db.Column(db.Integer, primary_key=True)
+    contents = db.Column(db.Text())
+    user_id = db.Column(db.Integer, nullable=False)
+    question_id = db.Column(db.Integer, db.ForeignKey('question.id'))
+    parent_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
+    created_at = db.Column(db.DateTime(), nullable=False)
+    # 관계설정
+    question = db.relationship("Question", back_populates="comments")
+    parent = db.relationship("Comment", remote_side=[id])
+    children = db.relationship("Comment", remote_side=[parent_id])
 
 class Answer(db.Model):
     __tablename__ = 'answer'
