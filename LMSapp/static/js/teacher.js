@@ -65,7 +65,7 @@ async function get_answer(q_id){
        let temp_comment = `     
         <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents"
         placeholder="댓글을 남겨주세요">
-        <button onclick="post_comment(${q_id},${writer},${teacher_id},${0})">등록</button>
+        <button onclick="post_comment(${q_id},${teacher_id},${0})">등록</button>
         `;
         $('#comment_post_box').html(temp_comment)
        if(category == '일반문의'){
@@ -111,11 +111,9 @@ async function get_answer(q_id){
    $('#questiondetail').show()
 }
 // 문의 댓글 기능 
-function post_comment(q_id,writer,teacher_id,is_coco){
+function post_comment(q_id,teacher_id,is_coco){
     comment_contents = $('#comment_contents').val()
     console.log('여기')
-    console.log(writer)
-    writer_info = writer
     user_id = teacher_id
     if((comment_contents.length == 0)){
         alert('댓글 내용을 입력해주세요')
