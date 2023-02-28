@@ -168,10 +168,13 @@
                     <div id="questiondetail_box" style="width:100%;"></div>
                     <div id="comment_box">
                         <div class="notice_message">
-                            <p>👇 업무을 시작해야 하는 날짜를 2022-01-01 형식으로 적어주세요</p>
-                            <input class="border rounded-0 form-control form-control-sm" type="text" name="comment"
-                                placeholder="2023-01-01">
-                        </div>    
+                            <p>👇Comment </p>
+                            <div class="make_row">
+                                <input class="border rounded-0 form-control form-control-sm" type="text" name="comment"
+                                    placeholder="댓글을 남겨주세요">
+                                <button>남기기</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <table class="table text-center" id="questionlist" style="width:100%;">
@@ -198,8 +201,8 @@
                             <td class="col-5">{{ question.title }} </td>
                             {% if question.answer == 0 %}
                             <td class="col-2"> 미응답 </td>
-                            <td class="col-1"  onclick="update_question('{{question.id}}')">✏️</td>
-                            <td class="col-1"  onclick="get_answer('{{question.id}}')">❌</td>
+                            <td class="col-1" onclick="update_question('{{question.id}}')">✏️</td>
+                            <td class="col-1" onclick="get_answer('{{question.id}}')">❌</td>
                             {% else %}
                             <td class="col-2" onclick="get_answer('{{question.id}}')"> ✔️ </td>
                             <td class="col-1"></td>
@@ -302,7 +305,7 @@
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
                 <div class="d-flex justify-content-center mt-4 mb-2">
                     <div id="consulting_write_box">
-                        
+
                     </div>
                 </div>
             </div>
@@ -498,7 +501,7 @@
                     </div>
                     <div class="w-100 mt-4" id="today_task_box0">
                         <p id="task_category_msg0"></p>
-                        
+
                     </div>
                     <div class="w-100 mt-4" id="today_task_box1">
                         <p id="task_category_msg1"></p>
@@ -515,7 +518,8 @@
                     <div class="d-flex justify-content-between flex-row w-100 pb-4 border-bottom">
                         <h5 class="d-flex justify-content-center align-items-center m-0" id="consulting_title">상담할 반을
                             선택해주세요</h3>
-                            <select class="form-select text-center w-25" onchange="get_consulting_student(this.value,0)">
+                            <select class="form-select text-center w-25"
+                                onchange="get_consulting_student(this.value,0)">
                                 <option value=0 selected>상담할 반을 선택해주세요</option>
                                 {% for ban in my_bans %}
                                 {% set ban_regi = ban['register_no'] %}
