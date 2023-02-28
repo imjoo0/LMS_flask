@@ -373,11 +373,14 @@
                     <div class="total_chart">
                         <div class="chartWrap">
                             <div class="chart">
-                                <div class="pie-chart1" style="background: conic-gradient('#B9CDE5, #B9CDE5 {{total_student_num/outstudent_num+switchstudent_num+outstudent_num*100}}%, #D99694 {{total_student_num/outstudent_num+switchstudent_num+outstudent_num*100}}%, #D99694 {{switchstudent_num+ttotal_student_num/outstudent_num+switchstudent_num+outstudent_num}}%, #2B2B2B {{switchstudent_num+ttotal_student_num/outstudent_num+switchstudent_num+outstudent_num}}%, #2B2B2B');">
-                                    <span class="chart-total-num" id="total_s_num"><br>
-                                        관리중: {{total_student_num}}</br>이반 학생 수: {{switchstudent_num}}</br>퇴소 학생 수: {{outstudent_num}}
-                                    </span>
-                                </div>   
+                                <div class="chart-total">
+                                    <span class="chart-total-num">Total:{{ total_student_num }}<br></span>
+                                </div>
+                            </div>
+                            <div class="chart-bar" data-deg="{{outstudent_num}}"></div>
+                            <div class="chart-bar" data-deg="{{switchstudent_num}}"></div>
+                            <div class="chart-bar" data-deg="{{total_student_num}}"></div>
+                            <div class="chart-bar" data-deg="{{total_student_num}}/360*100">
                             </div>
                         </div>
                     </div>
