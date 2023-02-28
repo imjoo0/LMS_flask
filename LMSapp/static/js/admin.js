@@ -533,7 +533,7 @@ function getTeacherInfo(t_id){
             let ss = chart['switchstudent_num']
             let ttp = tt+os+ss
             
-            $('#total_s_num').html(`관리중 :${tt}</br>이반 학생 수:${ss}</br>퇴소 학생 수:${os}`)
+            $('#total_s_num').html(`관리중: ${tt}</br>이반 학생 수: ${ss}</br>퇴소 학생 수: ${os}`)
             
             $('.pie-chart1').css("background",`conic-gradient(#B9CDE5, #B9CDE5 ${tt/ttp*100}%, #D99694 ${tt/ttp*100}%, #D99694 ${tt/ttp*100+ss/ttp*100}%, #2B2B2B ${tt/ttp*100+ss/ttp*100}%, #2B2B2B)`)
 
