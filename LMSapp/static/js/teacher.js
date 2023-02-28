@@ -110,6 +110,7 @@ async function get_answer(q_id){
 // 문의 댓글 기능 
 function post_comment(q_id,writer,teacher_id,is_coco){
     comment_contents = $('#comment_contents').val()
+    console.log(writer)
     writer_info = writer
     user_id = teacher_id
     if((comment_contents.length == 0)){
