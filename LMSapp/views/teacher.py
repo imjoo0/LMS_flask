@@ -343,7 +343,6 @@ def question(id):
         return_data['title'] = q.title
         return_data['contents'] = q.contents
         return_data['create_date'] = q.create_date.strftime('%Y-%m-%d')
-        return_data['teacher_registerno'] = q.teacher_id
         return_data['teacher'] = teacher_info['name']
         return_data['teacher_e'] = teacher_info['engname']
         return_data['new_ban'] = q.new_ban_id
@@ -419,12 +418,14 @@ def comment(id,is_coco):
         return jsonify(return_data)
     
     elif request.method == 'POST':
-        target_question = Question.query.get_or_404(id)
+        # target_question = Question.query.get_or_404(id)
         comment_contents = request.form['comment_contents']
-        writer_info = request.form['writer_info']
-        user_id = request.form['user_id']
-        new_comment = Comment(contents=comment_contents,user_id=user_id,question_id=id,parent_id=is_coco,created_at=Today,writer_info=writer_info)
-        db.session.add(new_comment)
-        db.session.commit()
-        return jsonify({'result': '댓글 작성 완료'})
+        try:
+            new_comment = Comment(contents=comment_contents,user_id=session['user_registerno'],question_id=id,parent_id=is_coco,created_at=Today)
+            db.session.add(new_comment)
+            db.session.commit()
+            return jsonify({'result': '댓글 작성 완료'})
+        except:
+            return jsonify({'result': '댓글 작성 실패'})
+        
  
