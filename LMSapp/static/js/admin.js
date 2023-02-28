@@ -14,19 +14,19 @@ $(document).ready(function () {
 })
 function color1(i){
     $(".pie-chart1").css({
-        "background":"conic-gradient(#8b22ff 0% "+i+"%, #ffffff "+i+"% 100%)"
+        "background":"conic-gradient(#B9CDE5 0% "+i+"%, #ffffff "+i+"% 100%)"
         });
     
 }
 function color2(i){
     $(".pie-chart1").css({
-        "background":"conic-gradient(#8b22ff 0% 25%, #ffc33b 25% "+i+"%, #ffffff "+i+"% 100%)"
+        "background":"conic-gradient(#D99694 0% 25%, #ffc33b 25% "+i+"%, #ffffff "+i+"% 100%)"
         });
      
 }
 function color3(i){
     $(".pie-chart1").css({
-        "background":"conic-gradient(#8b22ff 0% 25%, #ffc33b 25% 70%, #21f3d6 70% "+i+"%, #ffffff "+i+"% 100%)"
+        "background":"conic-gradient(#2B2B2B 0% 25%, #ffc33b 25% 70%, #21f3d6 70% "+i+"%, #ffffff "+i+"% 100%)"
         });
      
 }
@@ -545,24 +545,20 @@ function getTeacherInfo(t_id){
             let mobileno = response['teacher_info']['mobileno'];
             let email = response['teacher_info']['email']
             let tt = response['teacher_info']['total_student_num']
-            let ttp = tt/360*100
+            // let ttp = tt/360*100
             $('#teachertitle').html(name + '선생님 현황 ( '+ mobileno +' | '+ email + ' )');
             $('#total_s_num').html(`Total:${tt}`)
             let os = chart['outstudent_num']
             let ss = chart['switchstudent_num']
-            $('#os').attr('data-deg',`${os}`)
-            $('#ss').attr('data-deg',`${ss}`)
-            $('#tt').attr('data-deg',`${tt}`)
-            $('#ttper').attr('data-deg',`${ttp}`)
             var i=1;
             var func1 = setInterval(function(){
-                if(i<26){
+                if(i<tt){
                     color1(i);
                     i++;
-                } else if(i<70){
+                } else if(i<ss){
                     color2(i);
                     i++;
-                } else if(i<101){
+                } else if(i<os){
                     color3(i);
                     i++;
                 } else {
