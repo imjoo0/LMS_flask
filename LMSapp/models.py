@@ -27,7 +27,6 @@ class Comment(db.Model):
     question_id = db.Column(db.Integer, db.ForeignKey('question.id'))
     parent_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
     created_at = db.Column(db.DateTime(), nullable=False)
-    writer_info = db.Column(db.String(100))
     # 관계설정
     question = db.relationship("Question", back_populates="comments")
     parent = db.relationship("Comment", remote_side=[id])
