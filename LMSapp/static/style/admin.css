@@ -53,11 +53,6 @@
 }
 /* 원형 차트 */
 .pie-chart1 {
-    display:inline-block;
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    transition: 0.3s;
     position: absolute;
     top: 50%;
     left: 50%;
