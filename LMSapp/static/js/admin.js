@@ -16,19 +16,16 @@ function color1(i){
     $(".pie-chart1").css({
         "background":"conic-gradient(#B9CDE5 0% "+i+"%, #ffffff "+i+"% 100%)"
         });
-    
 }
 function color2(i){
     $(".pie-chart1").css({
-        "background":"conic-gradient(#D99694 0% 25%, #ffc33b 25% "+i+"%, #ffffff "+i+"% 100%)"
+        "background":"conic-gradient(#B9CDE5 0% 25%, #D99694 25% "+i+"%, #ffffff "+i+"% 100%)"
         });
-     
 }
 function color3(i){
     $(".pie-chart1").css({
-        "background":"conic-gradient(#2B2B2B 0% 25%, #ffc33b 25% 70%, #21f3d6 70% "+i+"%, #ffffff "+i+"% 100%)"
+        "background":"conic-gradient(#B9CDE5 0% 25%, #ffc33b 25% 70%, #2B2B2B 70% "+i+"%, #ffffff "+i+"% 100%)"
         });
-     
 }
 function displayData(totalData, currentPage, dataPerPage,data_list,data_num) {
     let chartHtml = "";
@@ -555,7 +552,7 @@ function getTeacherInfo(t_id){
             $('.chart-total-text2').html(`이반 학생 수:${ss}`)
             var i=1;
             var func1 = setInterval(function(){
-                if(i<tt){
+                if(i<tt){ 
                     color1(i);
                     i++;
                 } else if(i<ss){
@@ -567,7 +564,8 @@ function getTeacherInfo(t_id){
                 } else {
                     clearInterval(func1);
                 }
-            },10);
+            },10); 
+            //  10ms 마다 반복 
 
             // 업무
             let total_todo = chart['total_todo']
