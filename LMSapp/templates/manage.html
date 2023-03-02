@@ -316,6 +316,7 @@
                                 <optgroup label="업무 진행 반 선택">
                                     <option value="none" selected>진행 반 선택</option>
                                     <option value="전체 반">✔️ 전체 대상 진행 ( 저장 클릭 후 조금 기다려 주세요 ) </option>
+                                    <option value="plusalpha">✔️ Plus / alpha 반 진행 </option>
                                     {% for bt in all_ban %}
                                     <option value="{{ bt['register_no'] }}">{{ bt['name'] }}</option>
                                     {% endfor %}

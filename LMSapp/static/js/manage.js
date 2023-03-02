@@ -719,7 +719,7 @@ function getBanInfo(b_id){
             } 
         },
         error:function(xhr, status, error){
-                alert(xhr.responseText);
+                alert('xhr.responseText');
             }
     })
 }
