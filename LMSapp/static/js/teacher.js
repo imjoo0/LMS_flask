@@ -82,7 +82,6 @@ async function get_answer(q_id){
                     `;
                     $('#comments').append(temp_comments);
                 }else{
-                    console.log('여기가 찍히나용')
                     let temp_comments = `
                     <p class="c_comment"> ➖ ${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
                     `;
@@ -135,6 +134,7 @@ async function get_answer(q_id){
 }
 // 문의 댓글 기능 
 function post_comment(q_id,is_coco){
+    let comment_contents = ''
     if(is_coco == 0 ){
         comment_contents = $('#comment_contents').val()
     }else{
