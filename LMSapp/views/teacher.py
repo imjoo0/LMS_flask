@@ -358,6 +358,7 @@ def question(id):
             return_data['student'] = s['name']
             return_data['student_origin'] = s['origin']
             return_data['ban'] = b['ban_name']
+            print(q.consulting_history)
         return_data['comment'] = []
         for comment in c :
             comment_data = {}
