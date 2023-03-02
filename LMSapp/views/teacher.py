@@ -368,7 +368,7 @@ def question(id):
             comment_data['c_contents'] = comment.contents
             comment_data['c_created_at'] = comment.created_at.strftime('%Y-%m-%d')
             comment_data['parent_id'] = comment.parent_id
-            if(question.teacher_id == comment.user_id):
+            if(q.teacher_id == comment.user_id):
                 comment_data['writer'] = return_data['teacher']
             else:
                 comment_data['writer'] = '본원'
