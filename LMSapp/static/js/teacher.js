@@ -321,7 +321,7 @@ function get_consulting(student_id,is_done){
     });
     // $('#today_consulting_box').show();
 }
-function get_consulting_history(student_id,is_done){
+function attach_consulting_history(student_id,is_done){
     $.ajax({
         type: "GET",
         url: "/teacher/consulting/"+student_id+"/"+is_done,

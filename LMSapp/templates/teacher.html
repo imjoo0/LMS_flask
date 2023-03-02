@@ -73,7 +73,7 @@
                         </div>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">대상 원생</span>
-                            <select id="student_list" class="modal-body-select" name="target_student" onchange="get_consulting_history(this.value,1)">
+                            <select id="student_list" class="modal-body-select" name="target_student" onchange="attach_consulting_history(this.value,1)">
                                 <option value="none" selected>원생을 선택해주세요</option>
                                 {% for student in students %}
                                 {% set student_registerno = student['register_no'] %}
@@ -226,7 +226,7 @@
                         <option value=1>완료한 상담</option>
                         <option value=0>미진행 상담</option>
                     </select>
-                    <button onclick="get_consulting()">검색</button>
+                    <button onclick="get_consulting_history()">검색</button>
                 </div>
 
                 <p id="h_title">진행 내역이 없습니다! 😂</p>
