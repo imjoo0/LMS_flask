@@ -74,24 +74,24 @@ async function get_answer(q_id){
                 writer = comments[i]['writer']
                 parent_id = comments[i]['parent_id']
 
-                if(parent_id == 0 ){
+                if(parent_id == 0){
                     let temp_comments = `
                     <div id="for_comment${c_id}">
                         <p class="p_comment">${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
-                        <details>
+                        <details style="margin-top:0px;margin-right:5px;font-size:0.7rem;">
+                    </div>
                         <summary><strong>대댓글 달기</strong></summary>
                             <input class="border rounded-0 form-control form-control-sm" type="text" id="co_comment_contents"
                             placeholder=" 대댓글 ">
                             <button onclick="post_comment(${q_id},${c_id})">등록</button>
                         </details>
-                    </div>
                     `;
                     $('#comments').append(temp_comments);
                 }else{
                     let temp_comments = `
                     <p class="c_comment">${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
                     `;
-                    $(`#for_comment${c_id}`).append(temp_comments);
+                    $(`#for_comment${parent_id}`).append(temp_comments);
                 }
                 
             }
