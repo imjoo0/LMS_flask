@@ -6,14 +6,6 @@ function insertAfter(newNode, referenceNode) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
-function chartLabel() {
-  temp_html = `
-    <span class="chart-total-text1">퇴소 학생 수</span>
-    <span class="chart-total-text2">이반 학생 수</span>
-    <span class="chart-total-text3">관리중인 학생 수</span>`;
-  $('.chart-total').append(temp_html);
-}
-
 function chartDraw() {
   for (var i = 0; i < _chartBar.length; i++) {
     var _num = _chartBar[i].dataset.deg;
@@ -35,8 +27,6 @@ function chartDraw() {
     "deg, #B9CDE5 " +
     newDeg[2] +
     "deg )";
-
-  chartLabel();
 }
 
 chartDraw();
