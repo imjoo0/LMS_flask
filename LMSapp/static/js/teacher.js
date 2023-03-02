@@ -78,6 +78,9 @@ async function get_answer(q_id){
                     let temp_comments = `
                     <div id="for_comment${c_id}">
                         <p class="p_comment">${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
+                        <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents"
+                        placeholder=" 대댓글 ">
+                        <button onclick="post_comment(${q_id},${c_id})">등록</button>
                     </div>
                     `;
                     $('#comments').append(temp_comments);
