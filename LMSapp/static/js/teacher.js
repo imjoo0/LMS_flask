@@ -321,7 +321,7 @@ function get_consulting(student_id,is_done){
 }
 function get_consulting_history(student_id,is_done){
     $.ajax({
-        type: "POST",
+        type: "GET",
         url: "/teacher/consulting/"+student_id+"/"+is_done,
         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
         data: {},
