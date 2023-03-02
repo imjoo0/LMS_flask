@@ -89,7 +89,7 @@ async function get_answer(q_id){
                     $('#comments').append(temp_comments);
                 }else{
                     let temp_comments = `
-                    <p class="c_comment">${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
+                    <p class="c_comment"> ➖ ${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
                     `;
                     $(`#for_comment${parent_id}`).append(temp_comments);
                 }
