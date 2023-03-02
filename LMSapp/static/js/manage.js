@@ -478,7 +478,7 @@ async function delete_consulting(idx){
             data: {},
             success: function(data){
                 if (data.status == 200){
-                    alert(`성공`)
+                    alert(`삭제되었습니다.`)
                 }else {
                     alert(`실패 ${data.status} ${data.text}`)
                 }
@@ -501,7 +501,7 @@ async function delete_task(idx){
             data: {},
             success: function(data){
                 if (data.status == 200){
-                    alert(`성공`)
+                    alert(`삭제되었습니다.`)
                 }else {
                     alert(`실패 ${data.status} ${data.text}`)
                 }
