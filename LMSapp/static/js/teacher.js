@@ -70,7 +70,7 @@ async function get_answer(q_id){
 
                 if(parent_id == 0){
                     let temp_comments = `
-                    <div id="for_comment${c_id}">
+                    <div id="for_comment${c_id}" style="margin-top:10px">
                         <p class="p_comment">${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
                     </div>
                     <details style="margin-top:0px;margin-right:5px;font-size:0.9rem;">
@@ -82,6 +82,7 @@ async function get_answer(q_id){
                     `;
                     $('#comments').append(temp_comments);
                 }else{
+                    console.log('여기가 찍히나용')
                     let temp_comments = `
                     <p class="c_comment"> ➖ ${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
                     `;
