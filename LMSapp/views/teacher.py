@@ -42,7 +42,7 @@ def home():
         unlearned_ttd = len(Consulting.query.filter(Consulting.category_id < 100).all())
         for b in mybans_info:
             data = {}
-            data['b_register_no'] = b['register_no']
+            data['register_no'] = b['register_no']
             data['name'] = b['name']
             data['semester'] = b['semester']
             data['total_student_num'] = b['total_student_num']

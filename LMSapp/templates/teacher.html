@@ -66,7 +66,7 @@
                             <select class="modal-body-select" name="ban_id">
                                 <option value="none" selected>기존 반을 선택해주세요</option>
                                 {% for ban in my_bans %}
-                                {% set ban_registerno = ban['b_register_no'] %}
+                                {% set ban_registerno = ban['register_no'] %}
                                 <option value={{ban_registerno}}>{{ban['name']}}</option>
                                 {% endfor %}
                             </select>
