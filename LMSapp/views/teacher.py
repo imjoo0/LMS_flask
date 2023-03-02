@@ -366,7 +366,7 @@ def question(id):
             comment_data = {}
             comment_data['c_id'] = comment.id
             comment_data['c_contents'] = comment.contents
-            comment_data['c_created_at'] = comment.created_at
+            comment_data['c_created_at'] = comment.created_at.strftime('%Y-%m-%d')
             comment_data['parent_id'] = comment.parent_id
             return_data['comment'].append(comment_data)
 
