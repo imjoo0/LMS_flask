@@ -313,8 +313,7 @@ def request_question():
         elif question_category == '이반':
             ban_id = request.form['ban_id']
             student_id = request.form['target_student'] 
-            new_ban = request.form['new_ban_id']
-            new_question = Question(category=2,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,new_ban_id=new_ban,create_date=create_date,answer=0)
+            new_question = Question(category=2,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,create_date=create_date,answer=0)
         elif question_category == '퇴소':
             ban_id = request.form['o_ban_id']
             student_id = request.form['o_target_student'] 
