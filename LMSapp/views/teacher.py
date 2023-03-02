@@ -368,7 +368,7 @@ def question(id):
             if(q.teacher_id == comment.user_id):
                 comment_data['writer'] = return_data['teacher']
             else:
-                comment_data['writer'] = '본원'
+                comment_data['writer'] = '퍼플'
             return_data['comment'].append(comment_data)
 
         return jsonify(return_data)
