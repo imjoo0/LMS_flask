@@ -231,6 +231,8 @@ function get_consulting(student_id,is_done){
         url: "/teacher/consulting/"+student_id+"/"+is_done,
         data: {},
         success: function (response) {
+            console.log(student_id)
+            console.log(is_done)
             if(response["consulting_list"] == '없음'){
                 $('#consultinghistoryModalLabelt').html('진행 할 상담이 없습니다.')
             //     $('#consulting_list').hide();

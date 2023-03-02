@@ -225,7 +225,6 @@ def consulting(id,is_done):
     if request.method == 'GET':
         # (id-student_id) / 미래에 해야하는 상담은 제외
         consultings = Consulting.query.filter((Consulting.student_id==id) & (Consulting.done == is_done)  & (Consulting.startdate <= current_time)).all()
-
         if(len(consultings)!=0):
             print(consultings)
             consulting_list = []
