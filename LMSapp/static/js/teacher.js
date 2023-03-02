@@ -344,7 +344,6 @@ function attach_consulting_history(student_id,is_done){
                     $('#h_select_box').append(temp_consulting_contents_box)                    
                 }
             }
-            window.location.replace('/teacher')
         }
     });
 }
