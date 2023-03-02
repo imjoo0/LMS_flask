@@ -73,21 +73,18 @@
                         </div>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">대상 원생</span>
-                            <select id="student_list" class="modal-body-select" name="target_student">
+                            <select id="student_list" class="modal-body-select" name="target_student" onchange="get_consulting_history(this.value,1)">
                                 <option value="none" selected>원생을 선택해주세요</option>
                                 {% for student in students %}
                                 {% set student_registerno = student['register_no'] %}
                                 <option value={{student_registerno}}>{{ student['name'] }}({{ student['origin']}})
                                 </option>
                                 {% endfor %}
-
                             </select>
                         </div>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">상담 내용</span>
-                            <select class="modal-body-select" name="consulting_history">
-                                <option value="none" selected>상담을 우선 진행해주세요</option>
-                                <option value=0>for student</option>
+                            <select class="modal-body-select" name="consulting_history" id="h_select_box">
                             </select>
                         </div>
                     </div>

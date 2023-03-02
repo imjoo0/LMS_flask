@@ -319,6 +319,33 @@ function get_consulting(student_id,is_done){
     });
     // $('#today_consulting_box').show();
 }
+function get_consulting_history(student_id,is_done){
+    $.ajax({
+        type: "POST",
+        url: "/teacher/consulting/"+student_id+"/"+is_done,
+        // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+        data: {},
+        success: function (response) {
+            if(response['consulting_list'] == '없음'){
+                let temp_consulting_contents_box = `<option value="none" selected>상담을 우선 진행해주세요</option>`;
+                $('#h_select_box').append(temp_consulting_contents_box)
+            }else{
+                $('#h_select_box').empty();
+                let r_target = response["consulting_list"]
+                for(i=0;i<r_target.length;i++){
+                    let h_id = target['history_id']
+                    let consulting = target['contents']
+                    let history_result = target['history_result']
+                    let temp_consulting_contents_box = `
+                     <option value=${h_id}>${consulting} 상담 - 상담결과: ${history_result}</option>
+                    `;
+                    $('#h_select_box').append(temp_consulting_contents_box)                    
+                }
+            }
+            window.location.replace('/teacher')
+        }
+    });
+}
 function post_bulk_consultings(c_length,is_done){
     for(i=0;i<c_length;i++){
         target = $('#target_consulting_id'+i).val()
