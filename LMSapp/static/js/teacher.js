@@ -71,18 +71,19 @@ async function get_answer(q_id){
                 c_id = comments[i]['c_id']
                 c_contents = comments[i]['c_contents']
                 c_created_at = comments[i]['c_created_at']
+                writer = comments[i]['writer']
                 parent_id = comments[i]['parent_id']
 
                 if(parent_id == 0 ){
                     let temp_comments = `
                     <div id="for_comment${c_id}">
-                        <p class="p_comment">${c_contents}  (작성 : ${c_created_at})</p>
+                        <p class="p_comment">${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
                     </div>
                     `;
                     $('#comments').append(temp_comments);
                 }else{
                     let temp_comments = `
-                    <p class="c_comment">${c_contents}  (작성 : ${c_created_at})</p>
+                    <p class="c_comment">${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
                     `;
                     $(`#for_comment${c_id}`).append(temp_comments);
                 }
