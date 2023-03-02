@@ -345,7 +345,6 @@ def question(id):
         return_data['create_date'] = q.create_date.strftime('%Y-%m-%d')
         return_data['teacher'] = teacher_info['name']
         return_data['teacher_e'] = teacher_info['engname']
-        return_data['new_ban'] = q.new_ban_id
         if q.answer == 1 :return_data['answer'] = a.content
         else: return_data['answer'] = '✖️'
         if q.answer == 1:return_data['answer_at'] = a.created_at.strftime('%Y-%m-%d')
@@ -356,7 +355,6 @@ def question(id):
         if q.category != 0:
             s = callapi.get_student_info(q.student_id )
             b = callapi.get_ban(q.ban_id )    
-
             return_data['student'] = s['name']
             return_data['student_origin'] = s['origin']
             return_data['ban'] = b['ban_name']

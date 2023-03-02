@@ -20,17 +20,11 @@ $(document).ready(function () {
 // 본원 문의 관련 함수 
 //  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
 function change_question_kind(str){
-    if( str == "이반"){
-        $('#invisible_for_1').hide();
-        $('#invisible_for_2').show();
-        $('#question_box').show();
-    }else if( str == "퇴소" || str == "취소/환불"){
+    if( str == "일반"){
         $('#invisible_for_2').hide();
-        $('#invisible_for_1').show();
         $('#question_box').show();
     }else{
-        $('#invisible_for_1').hide();
-        $('#invisible_for_2').hide();
+        $('#invisible_for_2').show();
         $('#question_box').show();
     }
 }
