@@ -4,7 +4,6 @@ function post_comment(q_id,is_coco){
     if(is_coco == 0 ){
         comment_contents = $('#comment_contents').val()
     }else{
-        console.log('여기만 찍혀야 되는데')
         comment_contents = $(`#comment_contents${is_coco}`).val()
     }
     if((comment_contents.length == 0)){
