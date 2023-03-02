@@ -75,7 +75,7 @@ async function get_answer(q_id){
                     </div>
                     <details style="margin-top:0px;margin-right:5px;font-size:0.9rem;">
                         <summary><strong>대댓글 달기</strong></summary>
-                            <input class="border rounded-0 form-control form-control-sm" type="text" id="co_comment_contents"
+                            <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents${c_id}"
                             placeholder=" 대댓글 ">
                             <button onclick="post_comment(${q_id},${c_id})">등록</button>
                         </details>
@@ -138,7 +138,8 @@ function post_comment(q_id,is_coco){
     if(is_coco == 0 ){
         comment_contents = $('#comment_contents').val()
     }else{
-        comment_contents = $('#co_comment_contents').val()
+        console.log('여기만 찍혀야 되는데')
+        comment_contents = $(`#comment_contents${is_coco}`).val()
     }
     if((comment_contents.length == 0)){
         alert('댓글 내용을 입력해주세요')
