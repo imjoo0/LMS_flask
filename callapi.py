@@ -62,6 +62,20 @@ def all_ban_info():
         else:
             i['semester'] = i['semester'] 
     return result
+def plus_alpha_info():
+    result = requests.post(config.api + 'get_plusalpha_ban', headers=headers, data=json.dumps({'data':{}}))
+    result = result.json()
+    # register_no / name / semester 
+    for i in result:
+        if ((i['semester']-13)%3) == 1:
+            i['semester'] = 1
+        elif ((i['semester']-13)%3) == 2:
+            i['semester'] = 5
+        elif ((i['semester']-13)%3) == 0:
+            i['semester'] = 9
+        else:
+            i['semester'] = i['semester'] 
+    return result
 
 # ban_registerno 반 PK 아이디 
 def get_ban(ban_id):
