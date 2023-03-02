@@ -78,9 +78,12 @@ async function get_answer(q_id){
                     let temp_comments = `
                     <div id="for_comment${c_id}">
                         <p class="p_comment">${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
-                        <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents"
-                        placeholder=" 대댓글 ">
-                        <button onclick="post_comment(${q_id},${c_id})">등록</button>
+                        <details>
+                        <summary><strong>대댓글 달기</strong></summary>
+                            <input class="border rounded-0 form-control form-control-sm" type="text" id="co_comment_contents"
+                            placeholder=" 대댓글 ">
+                            <button onclick="post_comment(${q_id},${c_id})">등록</button>
+                        </details>
                     </div>
                     `;
                     $('#comments').append(temp_comments);
@@ -137,7 +140,11 @@ async function get_answer(q_id){
 }
 // 문의 댓글 기능 
 function post_comment(q_id,is_coco){
-    comment_contents = $('#comment_contents').val()
+    if(is_coco == 0 ){
+        comment_contents = $('#comment_contents').val()
+    }else{
+        comment_contents = $('#co_comment_contents').val()
+    }
     if((comment_contents.length == 0)){
         alert('댓글 내용을 입력해주세요')
     }
