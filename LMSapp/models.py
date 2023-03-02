@@ -11,7 +11,7 @@ class Question(db.Model):
     contents = db.Column(db.Text(), nullable=False)
     teacher_id = db.Column(db.Integer,nullable=True)
     ban_id = db.Column(db.Integer,nullable=True)
-    # consulting_history = db.Column(db.Integer,db.ForeignKey('consulting_history.id'))
+    consulting_history = db.Column(db.Integer,db.ForeignKey('consulting_history.id'))
     student_id = db.Column(db.Integer,nullable=True)
     create_date = db.Column(db.DateTime(), nullable=False)
     comments = db.relationship("Comment", back_populates="question")

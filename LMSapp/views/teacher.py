@@ -314,13 +314,14 @@ def request_question():
         else :
             ban_id = request.form['ban_id']
             student_id = request.form['target_student'] 
+            history_id = request.form['consulting_history']
             if question_category == '퇴소':
                 cateory = 1
             elif question_category == '이반':
                 cateory = 2
             else:
                 cateory = 3
-            new_question = Question(category=cateory,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,create_date=create_date,answer=0)
+            new_question = Question(consulting_history=history_id,category=cateory,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,create_date=create_date,answer=0)
             
         db.session.add(new_question)
         db.session.commit()

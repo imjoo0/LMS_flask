@@ -339,7 +339,7 @@ function attach_consulting_history(student_id,is_done){
                     let consulting = target[i]['contents']
                     let history_result = target[i]['history_result']
                     let temp_consulting_contents_box = `
-                     <option value=${h_id}>${consulting} 상담 - 상담결과: ${history_result}</option>
+                     <option value=${h_id}>${consulting} - 상담결과: ${history_result}</option>
                     `;
                     $('#h_select_box').append(temp_consulting_contents_box)                    
                 }
