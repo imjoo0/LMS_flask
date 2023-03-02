@@ -223,12 +223,11 @@ def mystudents(ban_id,is_done):
 @bp.route("/consulting/<int:id>/<int:is_done>", methods=['GET','POST'])
 def consulting(id,is_done):
     if request.method == 'GET':
-        # (id-student_id)
-        if is_done == 0:
-            consultings = Consulting.query.filter((Consulting.student_id==id) & (Consulting.done == is_done)  & (Consulting.startdate <= current_time) & ( current_time <= Consulting.deadline )).all()
-        else :
-            consultings = Consulting.query.filter((Consulting.student_id==id) & (Consulting.done == is_done) & (Consulting.startdate <= current_time)).all()
+        # (id-student_id) / 미래에 해야하는 상담은 제외
+        consultings = Consulting.query.filter((Consulting.student_id==id) & (Consulting.done == is_done)  & (Consulting.startdate <= current_time)).all()
+
         if(len(consultings)!=0):
+            print(consultings)
             consulting_list = []
             for consulting in consultings:
                 consulting_data = {}

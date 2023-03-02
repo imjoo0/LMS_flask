@@ -375,7 +375,7 @@ async function get_task(done_code){
         success: function (response) {
             if((response["task_category"] == '없음')||(response["target_task"].length == 0)){
                 if(done_code == 0){
-                    $('#task_category_msg0').html('오늘의 업무를 전부 완료했어요 😆');
+                    $('#task_category_msg0').html('오늘의 업무 끝 😆');
                 }else{
                     $('#task_category_msg1').html('완수한 업무가 없어요');
                 }
