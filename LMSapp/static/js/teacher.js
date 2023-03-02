@@ -333,8 +333,8 @@ function attach_consulting_history(student_id,is_done){
                 $('#h_select_box').append(temp_consulting_contents_box)
             }else{
                 $('#h_select_box').empty();
-                let r_target = response["consulting_list"]
-                for(i=0;i<r_target.length;i++){
+                let target = response["consulting_list"]
+                for(i=0;i<target.length;i++){
                     let h_id = target[i]['history_id']
                     let consulting = target[i]['contents']
                     let history_result = target[i]['history_result']
