@@ -19,10 +19,10 @@ today_yoil = current_time.weekday() + 1
 standard = datetime.strptime('11110101',"%Y%m%d").date()
 
 # def task_cycle(){
-#     UPDATE taskban A LEFT JOIN task B
-#     ON A.task_id= B.id 
-#     SET A.done = 0
-#     WHERE date_format(A.created_at, '%Y-%m-%d') < date_format(curdate(),'%Y-%m-%d') AND B.cycle < 6 AND A.done = 1
+    # UPDATE taskban A LEFT JOIN task B
+    # ON A.task_id= B.id 
+    # SET A.done = 0
+    # WHERE date_format(A.created_at, '%Y-%m-%d') < date_format(curdate(),'%Y-%m-%d') AND B.cycle < 6 AND A.done = 1
 # }
 
 # 선생님 메인 페이지
