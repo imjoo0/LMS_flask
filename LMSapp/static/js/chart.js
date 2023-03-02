@@ -1,6 +1,6 @@
 var _chart = document.querySelector(".chart");
 var _chartBar = document.querySelectorAll(".chart-bar");
-var color = ["#B9CDE5", "#D99694", "#2B2B2B"]; //색상
+var color = ["#2B2B2B", "#D99694", "#B9CDE5"]; //색상
 var newDeg = []; //차트 deg
 function insertAfter(newNode, referenceNode) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
@@ -22,17 +22,17 @@ function chartDraw() {
 
   var num = newDeg.length - newDeg.length;
   _chart.style.background =
-    "conic-gradient(#B9CDE5 " +
+    "conic-gradient(#2B2B2B " +
     newDeg[num] +
     "deg, #D99694 " +
     newDeg[num] +
     "deg " +
     newDeg[num + 1] +
-    "deg, #2B2B2B " +
+    "deg, #B9CDE5 " +
     newDeg[1] +
     "deg " +
     newDeg[2] +
-    "deg, #2B2B2B " +
+    "deg, #B9CDE5 " +
     newDeg[2] +
     "deg )";
 
