@@ -82,3 +82,10 @@
         z-index: 1;
         top:60px;right:250px;
         }
+
+.p_comment{
+    margin-bottom: 0px;
+}
+.c_comment{
+    margin-right:15px;
+}

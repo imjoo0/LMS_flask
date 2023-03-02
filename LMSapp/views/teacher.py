@@ -335,6 +335,7 @@ def question(id):
         q = Question.query.filter(Question.id == id).first()
         teacher_info = callapi.get_teacher_info_by_id(q.teacher_id)
         a = Answer.query.filter(Answer.question_id == id).first()
+        c = Comment.query.filter(Comment.question_id == id).all()
         return_data = {}
         if q.category == 0: return_data['category'] = '일반문의' 
         elif q.category == 1 : return_data['category'] ='퇴소 요청' 
@@ -360,6 +361,14 @@ def question(id):
             return_data['student'] = s['name']
             return_data['student_origin'] = s['origin']
             return_data['ban'] = b['ban_name']
+        return_data['comment'] = []
+        for comment in c :
+            comment_data = {}
+            comment_data['c_id'] = comment.id
+            comment_data['c_contents'] = comment.contents
+            comment_data['c_created_at'] = comment.created_at
+            comment_data['parent_id'] = comment.parent_id
+            return_data['comment'].append(comment_data)
 
         return jsonify(return_data)
     
@@ -386,7 +395,7 @@ def question(id):
 @bp.route('/comment/<int:id>/<int:is_coco>', methods=['GET','POST'])
 def comment(id,is_coco):
     if request.method == 'GET':
-        q = Question.query.filter(Question.id == id).first()
+        q = Comment.query.filter(Comment.question_id == id).all()
         teacher_info = callapi.get_teacher_info_by_id(q.teacher_id)
         a = Answer.query.filter(Answer.question_id == id).first()
         return_data = {}
@@ -410,7 +419,7 @@ def comment(id,is_coco):
         if q.category != 0:
             s = callapi.get_student_info(q.student_id )
             b = callapi.get_ban(q.ban_id )    
-
+            
             return_data['student'] = s['name']
             return_data['student_origin'] = s['origin']
             return_data['ban'] = b['ban_name']

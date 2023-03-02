@@ -57,12 +57,38 @@ async function get_answer(q_id){
        create_date = response["create_date"]
        answer = response['answer']
        answer_at = response['answer_at']
+       comments = response['comment']
        let temp_comment = `     
         <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents"
         placeholder="댓글을 남겨주세요">
         <button onclick="post_comment(${q_id},${0})">등록</button>
         `;
         $('#comment_post_box').html(temp_comment)
+       
+        $('#comments').empty()
+        if( comments.length != 0 ){
+            for(i=0;i<comments.length;i++){
+                c_id = comments[i]['c_id']
+                c_contents = comments[i]['c_contents']
+                c_created_at = comments[i]['c_created_at']
+                parent_id = comments[i]['parent_id']
+
+                if(parent_id == 0 ){
+                    let temp_comments = `
+                    <div id="for_comment${c_id}">
+                        <p class="p_comment">${c_contents} | 작성 : ${c_created_at}</p>
+                    </div>
+                    `;
+                    $('#comments').append(temp_comments);
+                }else{
+                    let temp_comments = `
+                    <p class="c_comment">${c_contents}| 작성 : ${c_created_at}</p>
+                    `;
+                    $(`#for_comment${c_id}`).append(temp_comments);
+                }
+                
+            }
+       }
        if(category == '일반문의'){
            let temp_question_list = `
            <ul>
@@ -120,6 +146,7 @@ function post_comment(q_id,is_coco){
             },
             success: function (response) {{
 				alert(response["result"])
+                get_comment(q_id,is_coco)
 			}}
 		})
 }
