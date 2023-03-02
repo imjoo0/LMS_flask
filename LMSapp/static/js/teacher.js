@@ -78,8 +78,8 @@ async function get_answer(q_id){
                     let temp_comments = `
                     <div id="for_comment${c_id}">
                         <p class="p_comment">${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
-                        <details style="margin-top:0px;margin-right:5px;font-size:0.7rem;">
                     </div>
+                    <details style="margin-top:0px;margin-right:5px;font-size:0.9rem;">
                         <summary><strong>대댓글 달기</strong></summary>
                             <input class="border rounded-0 form-control form-control-sm" type="text" id="co_comment_contents"
                             placeholder=" 대댓글 ">
