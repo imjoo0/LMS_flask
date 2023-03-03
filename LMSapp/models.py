@@ -149,7 +149,7 @@ class TaskBan(Base):
     
     def get_taskbaninfo(self):
         result = (
-            msession.query(Task).join(TaskBan).options(
+            msession.query(Task).join(self).options(
                 joinedload(Task.taskban)
             ).filter(Task.id == self.task_id).all()
         )
