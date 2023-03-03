@@ -128,6 +128,8 @@ def task(done_code):
         # done_code == 1 이면 완료한 업무 
         # done_code == 0 이면 오늘의 업무
         teacher = session['user_registerno']
+        print(type(teacher))
+        print(teacher)
         t = Task.get_taskbaninfo(teacher,done_code)
         print(t)
 
