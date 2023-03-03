@@ -128,7 +128,9 @@ class Task(Base):
     @classmethod
     def get_taskbaninfo(cls,teacher):
         bans = msession.query(cls).join(TaskBan).options(contains_eager(cls.taskban)).filter(TaskBan.teacher_id==teacher).all()
-        return bans
+        bans_list = [bans.__dict__ for ban in bans]  # Convert SQLAlchemy objects to Python dictionaries
+        json_data = json.dumps(bans_list)
+        return json_data
 
         
 
