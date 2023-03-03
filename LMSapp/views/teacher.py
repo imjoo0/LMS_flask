@@ -124,6 +124,7 @@ def get_ban():
 @bp.route("/<int:done_code>", methods=['GET','POST'])
 def task(done_code):
     if request.method == 'GET':
+        tb_query = TaskBan.query()
         # done_code == 1 이면 완료한 업무 
         # done_code == 0 이면 오늘의 업무
         if(done_code == 1): 
