@@ -129,6 +129,8 @@ def task(done_code):
             my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code) & (TaskBan.created_at == Today)).all()
         else: 
             my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code)).all()
+        
+        print(my_tasks)
         if len(my_tasks)!=0:
             tc = []
             for task in my_tasks:
