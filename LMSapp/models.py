@@ -5,6 +5,7 @@ from datetime import datetime
 #  join 기능
 from sqlalchemy import select 
 
+session = Session()
 class Question(db.Model):
     __tablename__ = 'question'
     
