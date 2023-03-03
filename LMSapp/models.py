@@ -95,14 +95,6 @@ class ConsultingHistory(db.Model):
     solution = db.Column(db.Text)
     result = db.Column(db.Text)
     created_at = db.Column(db.DateTime)
-
-class TaskCategory(db.Model):
-    __tablename__ = 'taskcategory'
-    
-    id=db.Column(db.Integer,primary_key=True)
-    name = db.Column(db.String(45), nullable=True)
-    tasks = db.relationship('Task', backref='taskcategory')
-
 class Task(Base):
     __tablename__ = 'task'
     
@@ -118,6 +110,13 @@ class Task(Base):
 
     # 관계 설정 
     bans = db.relationship('TaskBan')
+    
+class TaskCategory(db.Model):
+    __tablename__ = 'taskcategory'
+    
+    id=db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(45), nullable=True)
+    tasks = db.relationship('Task', backref='taskcategory')
 
 class TaskBan(Base):
     __tablename__ = 'taskban'
