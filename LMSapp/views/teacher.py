@@ -130,7 +130,6 @@ def task(done_code):
         else: 
             my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code)).all()
         
-        print(my_tasks)
         if len(my_tasks)!=0:
             tc = []
             for task in my_tasks:
@@ -140,7 +139,6 @@ def task(done_code):
                     tc.append(t)
             
             tc = list(set(tc))
-            print(tc)
             if(len(tc) == 0 ):
                 target_task = '없음'
                 category_set = '없음'
@@ -229,7 +227,6 @@ def consulting(id,is_done):
         # (id-student_id) / 미래에 해야하는 상담은 제외
         consultings = Consulting.query.filter((Consulting.student_id==id) & (Consulting.done == is_done)  & (Consulting.startdate <= current_time)).all()
         if(len(consultings)!=0):
-            print(consultings)
             consulting_list = []
             for consulting in consultings:
                 consulting_data = {}
@@ -361,7 +358,6 @@ def question(id):
             return_data['student'] = s['name']
             return_data['student_origin'] = s['origin']
             return_data['ban'] = b['ban_name']
-            print(q.consulting_history)
         return_data['comment'] = []
         for comment in c :
             comment_data = {}
