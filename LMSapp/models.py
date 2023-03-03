@@ -4,7 +4,7 @@ from datetime import datetime
 import json
 #  join 기능
 from sqlalchemy import select , and_
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import joinedload,contains_eager
 
 msession = Session()
 
@@ -126,24 +126,11 @@ class Task(Base):
         return msession.query(cls)
     
     @classmethod
-    def get_taskbaninfo(cls,teacher,done_code):
-        stmt = (
-            select(cls).select_from(TaskBan.join(cls)).options(joinedload(TaskBan.tasks)).filter(cls.id == TaskBan.task_id).all()
-        )
-        result = msession.execute(stmt).scalars().all()
+    def get_taskbaninfo(cls,teacher):
+        bans = msession.query(cls).join(TaskBan).options(contains_eager(cls.taskban)).filter(TaskBan.teacher_id==teacher).all()
+        return bans
 
-        # data = []
-        # for row in result:
-        #     data.append({
-        #         'id': row.id,
-        #         'contents': row.contents,
-        #         'ban': {
-        #             'id': row.taskban_id,
-        #             'created_at': row.taskban_createdat
-        #         }
-        #     })
-
-        return result
+        
 
 
 class TaskBan(Base):

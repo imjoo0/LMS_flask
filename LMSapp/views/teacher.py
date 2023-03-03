@@ -130,7 +130,7 @@ def task(done_code):
         teacher = session['user_registerno']
         print(type(teacher))
         print(teacher)
-        t = Task.get_taskbaninfo(teacher,done_code)
+        t = Task.get_taskbaninfo(teacher)
         print(t)
 
         if(done_code == 1): 
