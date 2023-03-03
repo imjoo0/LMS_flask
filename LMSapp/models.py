@@ -121,8 +121,8 @@ class Task(Base):
     bans = db.relationship('TaskBan')
 
     @classmethod
-    def query(self):
-        return session.query(self)
+    def query():
+        return session.query(Task)
 
 
 class TaskBan(Base):
