@@ -130,6 +130,7 @@ def task(done_code):
         else: 
             my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code)).all()
         
+        my_tasks.get_baninfo()
         if len(my_tasks)!=0:
             tc = []
             for task in my_tasks:
