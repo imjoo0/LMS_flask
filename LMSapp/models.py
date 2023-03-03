@@ -142,21 +142,21 @@ class TaskBan(Base):
     
 # task 와 taskban 조인하는 함수 
 # 세션 클래스 사용 , sqlalchemy에서 조인 수행 
-# def get_join_tb_result():
-#     with Session() as msession:
-#         result = msession.query(Task).options(joinedload(Task.bans)).all()
-#         return [dict(id=row.id, contents=row.contents, content=row.bans.ban_id) for row in result]
+def get_join_tb_result():
+    with Session() as msession:
+        result = msession.query(Task).options(joinedload(Task.bans)).all()
+        return [dict(id=row.id, contents=row.contents, content=row.bans.ban_id) for row in result]
     
-def get_taskbaninfo(cls,teacher,done):
-    stmt = select(Task.contents , cls.ban_id).\
-            join(Task).\
-            where(Task.id == cls.task_id and cls.teacher_id == teacher and cls.done == done)
-    result = msession.execute(stmt).fetchall()
+# def get_taskbaninfo(cls,teacher,done):
+#     stmt = select(Task.contents , cls.ban_id).\
+#             join(Task).\
+#             where(Task.id == cls.task_id and cls.teacher_id == teacher and cls.done == done)
+#     result = msession.execute(stmt).fetchall()
 
-    json_result = json.dumps([dict(row) for row in result])
+#     json_result = json.dumps([dict(row) for row in result])
 
-    print(json_result)
-    return json_result
+#     print(json_result)
+#     return json_result
 
 
 
