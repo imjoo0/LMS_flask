@@ -105,7 +105,7 @@ class TaskCategory(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(45), nullable=True)
 
-class Task(Base):
+class Task(db.Model):
     __tablename__ = 'task'
     
     id=db.Column(db.Integer,primary_key=True)
@@ -121,9 +121,9 @@ class Task(Base):
     # 관계 설정 
     taskban = db.relationship('TaskBan')
 
-    @classmethod
-    def query(cls):
-        return msession.query(cls)
+    # @classmethod
+    # def query(cls):
+    #     return msession.query(cls)
     
     # @classmethod
     # def get_taskbaninfo(cls,teacher):
@@ -135,7 +135,7 @@ class Task(Base):
         
 
 
-class TaskBan(Base):
+class TaskBan(db.Model):
     __tablename__ = 'taskban'
 
     id=db.Column(db.Integer,primary_key=True)
@@ -147,9 +147,9 @@ class TaskBan(Base):
 
     tasks = db.relationship('Task')
 
-    @classmethod
-    def query(cls):
-        return msession.query(cls)
+    # @classmethod
+    # def query(cls):
+    #     return msession.query(cls)
     
 # task 와 taskban 조인하는 함수 
 # 세션 클래스 사용 , sqlalchemy에서 조인 수행 

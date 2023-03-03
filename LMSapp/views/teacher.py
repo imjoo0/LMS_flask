@@ -78,9 +78,8 @@ def home():
         else:
             switchstudent_num_p = 0
         # 업무 개수
-        tb_query = TaskBan.query()
-        total_todo = len(tb_query.filter(TaskBan.teacher_id == teacher_info['register_no']).all())
-        total_done = len((tb_query.filter((TaskBan.teacher_id == teacher_info['register_no']) & ( TaskBan.done==1)) ).all())
+        total_todo = len(TaskBan.query.filter(TaskBan.teacher_id == teacher_info['register_no']).all())
+        total_done = len((TaskBan.query.filter((TaskBan.teacher_id == teacher_info['register_no']) & ( TaskBan.done==1)) ).all())
         if(total_todo != 0):
             ttp = round(total_done/total_todo*100)
         else:
@@ -124,7 +123,6 @@ def get_ban():
 @bp.route("/<int:done_code>", methods=['GET','POST'])
 def task(done_code):
     if request.method == 'GET':
-        tb_query = TaskBan.query()
         # done_code == 1 이면 완료한 업무 
         # done_code == 0 이면 오늘의 업무
         # teacher = session['user_registerno']
@@ -134,13 +132,13 @@ def task(done_code):
         # print(t)
 
         if(done_code == 1): 
-            my_tasks = tb_query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code) & (TaskBan.created_at == Today)).all()
+            my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code) & (TaskBan.created_at == Today)).all()
         else: 
-            my_tasks = tb_query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code)).all()
+            my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code)).all()
         if len(my_tasks)!=0:
             tc = []
             for task in my_tasks:
-                t = Task.query().filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
+                t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
                 # 오늘의 업무만 저장 
                 if t != None:
                     tc.append(t)
@@ -181,7 +179,7 @@ def task(done_code):
         
     elif request.method =='POST':
         # done_code = 완료한 task의 id
-        target_task = tb_query.get_or_404(done_code)
+        target_task = TaskBan.query.get_or_404(done_code)
         target_task.done = 1
         target_task.created_at = Today
         try:
