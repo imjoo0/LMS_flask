@@ -111,7 +111,6 @@ class Task(Base):
 
     # 관계 설정 
     bans = db.relationship('TaskBan')
-    categories = db.relationship('TaskCategory')
 
 class TaskBan(Base):
     __tablename__ = 'taskban'
