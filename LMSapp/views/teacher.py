@@ -78,7 +78,8 @@ def home():
         else:
             switchstudent_num_p = 0
         # 업무 개수
-        total_todo = len(TaskBan.query(TaskBan)(TaskBan.teacher_id == teacher_info['register_no']))
+        tb_query = TaskBan.query(TaskBan)
+        total_todo = len(tb_query.filter(TaskBan.teacher_id == teacher_info['register_no']).all())
         total_done = len((TaskBan.query.filter((TaskBan.teacher_id == teacher_info['register_no']) & ( TaskBan.done==1)) ).all())
         if(total_todo != 0):
             ttp = round(total_done/total_todo*100)
