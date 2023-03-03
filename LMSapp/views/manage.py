@@ -21,7 +21,7 @@ def home():
         all_consulting_category = ConsultingCategory.query.filter(ConsultingCategory.id > 100).all()
         all_consulting = Consulting.query.all()
         all_task_category = TaskCategory.query.all()
-        all_task = Task.get_all_tasks().all()
+        all_task = Task.get_all_tasks()
         all_questions = Question.query.order_by(Question.id.desc())
 
         return render_template('manage.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting, task_category=all_task_category, tasks=all_task, questions=all_questions)
