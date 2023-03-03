@@ -138,6 +138,7 @@ def task(done_code):
                     tc.append(t)
             
             tc = list(set(tc))
+            print(tc)
             if(len(tc) == 0 ):
                 target_task = '없음'
                 category_set = '없음'
@@ -410,7 +411,6 @@ def comment(id,is_coco):
         return_data['create_date'] = q.create_date.strftime('%Y-%m-%d')
         return_data['teacher'] = teacher_info['name']
         return_data['teacher_e'] = teacher_info['engname']
-        return_data['new_ban'] = q.new_ban_id
         if q.answer == 1 :return_data['answer'] = a.content
         else: return_data['answer'] = '✖️'
         if q.answer == 1:return_data['answer_at'] = a.created_at.strftime('%Y-%m-%d')
