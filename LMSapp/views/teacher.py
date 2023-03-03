@@ -129,8 +129,8 @@ def task(done_code):
         # done_code == 0 이면 오늘의 업무
         t = TaskBan.get_taskbaninfo(TaskBan,session['user_registerno'])
         print(t)
-        for ta in t:
-            print(ta)
+        # for ta in t:
+        #     print(ta)
         if(done_code == 1): 
             my_tasks = tb_query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code) & (TaskBan.created_at == Today)).all()
         else: 
