@@ -1,7 +1,7 @@
 from LMSapp import db,Base,Session
 from sqlalchemy.sql import func
 from datetime import datetime
-
+import json
 #  join 기능
 from sqlalchemy import select 
 
@@ -145,9 +145,12 @@ class TaskBan(Base):
         stmt = select(Task.contents , TaskBan.ban_id).\
                 join(Task).\
                 where(Task.id == TaskBan.task_id and TaskBan.teacher_id == teacher and TaskBan.done == done)
-        result = msession.execute(stmt)
-        
-        return result
+        result = msession.execute(stmt).fetchall()
+
+        json_result = json.dumps([dict(row) for row in result])
+
+        print(json_result)
+        return json_result
 
 
 
