@@ -460,7 +460,7 @@ async function get_task(done_code){
                                 let task_id = target_ban_data['id']
                                 let name = target_ban_data['ban']
                                 let temp_task_ban_box = `
-                                <label><input type="checkbox" name="taskid" value="${task_id}">${name}</label></br>
+                                <label><input type="checkbox" name="taskid" value="${task_id}"/>${name}</label>
                                 `;
                                 $('#task_ban_box_incomplete'+i).append(temp_task_ban_box);
                             }
