@@ -78,7 +78,7 @@ def home():
         else:
             switchstudent_num_p = 0
         # 업무 개수
-        tb_query = TaskBan.query(TaskBan)
+        tb_query = TaskBan.query()
         total_todo = len(tb_query.filter(TaskBan.teacher_id == teacher_info['register_no']).all())
         total_done = len((TaskBan.query.filter((TaskBan.teacher_id == teacher_info['register_no']) & ( TaskBan.done==1)) ).all())
         if(total_todo != 0):
