@@ -128,7 +128,7 @@ class Task(Base):
     @classmethod
     def get_taskbaninfo(cls,teacher,done_code):
         query = msession.query(cls.id, cls.contents, cls.category_id,cls.url,cls.startdate,cls.deadline,cls.cycle,cls.priority,TaskBan.id.label('taskban_id'), TaskBan.created_at.label('taskban_createdat'))
-        query = query.join(TaskBan).options(joinedload(cls.taskban)).all()
+        query = query.join(TaskBan).options(joinedload(cls.taskban))
         result = query.filter(TaskBan.teacher_id == teacher).all()
 
         data = []
