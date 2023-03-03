@@ -145,7 +145,7 @@ class TaskBan(Base):
         stmt = select(Task.contents , TaskBan.ban_id).\
                 join(Task).\
                 where(Task.id == TaskBan.task_id and TaskBan.teacher_id == teacher and TaskBan.done == done)
-        result = msession.execute(stmt).fetchall()
+        result = msession.execute(stmt)
         
         return result
 
