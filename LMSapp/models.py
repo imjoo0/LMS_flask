@@ -5,6 +5,8 @@ from datetime import datetime
 #  join 기능
 from sqlalchemy import select 
 
+session = Session()
+
 class Question(db.Model):
     __tablename__ = 'question'
     
@@ -101,7 +103,7 @@ class TaskCategory(db.Model):
     
     id=db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(45), nullable=True)
-    
+
 class Task(Base):
     __tablename__ = 'task'
     
@@ -118,6 +120,11 @@ class Task(Base):
     # 관계 설정 
     bans = db.relationship('TaskBan')
 
+    @classmethod
+    def query(cls):
+        return session.query(cls)
+
+
 class TaskBan(Base):
     __tablename__ = 'taskban'
 
@@ -130,8 +137,8 @@ class TaskBan(Base):
 
     # task 와 taskban 조인하는 함수 
     # 세션 클래스 사용 , sqlalchemy에서 조인 수행 
+    @classmethod
     def get_baninfo():
-        session = Session()
 
         stmt = select(Task.contents, TaskBan.ban_id).\
                 join(TaskBan).\
