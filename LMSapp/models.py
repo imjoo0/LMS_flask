@@ -125,12 +125,12 @@ class Task(Base):
     def query(cls):
         return msession.query(cls)
     
-    @classmethod
-    def get_taskbaninfo(cls,teacher):
-        bans = msession.query(cls).join(TaskBan).options(contains_eager(cls.taskban)).filter(TaskBan.teacher_id==teacher).fetchall()
-        for ban in bans:
-            print(ban)
-        return bans
+    # @classmethod
+    # def get_taskbaninfo(cls,teacher):
+    #     bans = msession.query(cls).join(TaskBan).options(contains_eager(cls.taskban)).filter(TaskBan.teacher_id==teacher).fetchall()
+    #     for ban in bans:
+    #         print(ban)
+    #     return bans
 
         
 
