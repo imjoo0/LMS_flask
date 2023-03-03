@@ -122,7 +122,10 @@ class Task(Base):
 
     @classmethod
     def query(cls):
-        return Session().query(cls).all()
+        return session.query(cls)
+    
+    def get_all_tasks():
+        return session.query(Task).all()
 
 
 class TaskBan(Base):
