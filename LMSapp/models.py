@@ -1,6 +1,9 @@
-from LMSapp import db
+from LMSapp import db,Base,Session
 from sqlalchemy.sql import func
 from datetime import datetime
+
+#  join 기능
+from sqlalchemy import select 
 
 class Question(db.Model):
     __tablename__ = 'question'
@@ -102,7 +105,7 @@ class TaskCategory(db.Model):
     tasks = db.relationship('Task', backref='taskcategory')
 
 
-class Task(db.Model):
+class Task(Base):
     __tablename__ = 'task'
     
     id=db.Column(db.Integer,primary_key=True)
@@ -118,7 +121,7 @@ class Task(db.Model):
     # 관계 설정 
     bans = db.relationship('TaskBan')
 
-class TaskBan(db.Model):
+class TaskBan(Base):
     __tablename__ = 'taskban'
 
     id=db.Column(db.Integer,primary_key=True)
@@ -127,3 +130,20 @@ class TaskBan(db.Model):
     task_id = db.Column(db.Integer,db.ForeignKey('task.id'))
     done = db.Column(db.Integer, nullable=True)
     created_at = db.Column(db.DateTime)
+
+    # 관계 설정
+    tasks = db.relationship('Task')
+
+    # task 와 taskban 조인하는 함수 
+    # 세션 클래스 사용 , sqlalchemy에서 조인 수행 
+    def get_baninfo():
+        session = Session()
+
+        stmt = select(Task.contents, TaskBan.ban_id).\
+                join(TaskBan).\
+                where(Task.id == TaskBan.ban_id)
+        result = session.execute(stmt)
+        for row in result:
+            print(row)
+
+
