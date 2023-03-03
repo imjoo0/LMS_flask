@@ -5,7 +5,7 @@ from datetime import datetime
 #  join 기능
 from sqlalchemy import select 
 
-session = Session()
+msession = Session()
 class Question(db.Model):
     __tablename__ = 'question'
     
@@ -121,8 +121,8 @@ class Task(Base):
 
     @classmethod
     def query(cls):
-        session = Session()
-        return session.query(cls)
+        msession = Session()
+        return msession.query(cls)
 
 
 class TaskBan(Base):
@@ -137,19 +137,19 @@ class TaskBan(Base):
 
     @classmethod
     def query(cls):
-        session.close()
-        session = Session()
-        return session.query(cls)
+        msession.close()
+        msession = Session()
+        return msession.query(cls)
     
     # task 와 taskban 조인하는 함수 
     # 세션 클래스 사용 , sqlalchemy에서 조인 수행 
     def get_taskbaninfo(self,teacher):
-        session.close()
-        session = Session()
+        msession.close()
+        msession = Session()
         stmt = select(Task.contents , TaskBan.ban_id).\
                 join(Task).\
                 where(Task.id == TaskBan.task_id and TaskBan.teacher_id == teacher)
-        result = session.execute(stmt)
+        result = msession.execute(stmt)
         
         return result
 
