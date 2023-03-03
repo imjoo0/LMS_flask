@@ -122,8 +122,8 @@ class Task(Base):
     taskban = db.relationship('TaskBan')
 
     @classmethod
-    def query(cls):
-        return msession.query(cls)
+    def query(self):
+        return msession.query(self)
 
 
 class TaskBan(Base):
@@ -137,8 +137,8 @@ class TaskBan(Base):
     created_at = db.Column(db.DateTime)
 
     @classmethod
-    def query(cls):
-        return msession.query(cls)
+    def query(self):
+        return msession.query(self)
     
 # task 와 taskban 조인하는 함수 
 # 세션 클래스 사용 , sqlalchemy에서 조인 수행 
