@@ -127,7 +127,8 @@ def task(done_code):
         tb_query = TaskBan.query()
         # done_code == 1 이면 완료한 업무 
         # done_code == 0 이면 오늘의 업무
-        t = Task.get_taskbaninfo(session['user_registerno'],done_code)
+        teacher = session['user_register_no']
+        t = Task.get_taskbaninfo(teacher,done_code)
         print(t)
 
         if(done_code == 1): 
