@@ -127,22 +127,23 @@ class Task(Base):
     
     @classmethod
     def get_taskbaninfo(cls,teacher,done_code):
-        query = msession.query(cls.id, cls.contents, cls.category_id,cls.url,cls.startdate,cls.deadline,cls.cycle,cls.priority,TaskBan.id.label('taskban_id'), TaskBan.created_at.label('taskban_createdat'))
-        query = query.join(TaskBan).options(joinedload(cls.taskban))
-        result = query.filter(and_(TaskBan.teacher_id == teacher,TaskBan.done==done_code)).all()
+        stmt = (
+            select(cls).select_from(TaskBan.join(cls)).options(joinedload(TaskBan.tasks)).filter(cls.id == TaskBan.task_id).all()
+        )
+        result = msession.execute(stmt).scalars().all()
 
-        data = []
-        for row in result:
-            data.append({
-                'id': row.id,
-                'contents': row.contents,
-                'ban': {
-                    'id': row.taskban_id,
-                    'created_at': row.taskban_createdat
-                }
-            })
+        # data = []
+        # for row in result:
+        #     data.append({
+        #         'id': row.id,
+        #         'contents': row.contents,
+        #         'ban': {
+        #             'id': row.taskban_id,
+        #             'created_at': row.taskban_createdat
+        #         }
+        #     })
 
-        return data
+        return result
 
 
 class TaskBan(Base):
@@ -154,6 +155,8 @@ class TaskBan(Base):
     task_id = db.Column(db.Integer,db.ForeignKey('task.id'))
     done = db.Column(db.Integer, nullable=True)
     created_at = db.Column(db.DateTime)
+
+    tasks = db.relationship('Task')
 
     @classmethod
     def query(cls):
