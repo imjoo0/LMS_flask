@@ -127,15 +127,15 @@ def task(done_code):
         tb_query = TaskBan.query()
         # done_code == 1 이면 완료한 업무 
         # done_code == 0 이면 오늘의 업무
+
         if(done_code == 1): 
             my_tasks = tb_query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code) & (TaskBan.created_at == Today)).all()
         else: 
             my_tasks = tb_query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code)).all()
-        
+        print(my_tasks)
         if len(my_tasks)!=0:
             tc = []
             for task in my_tasks:
-                task.get_baninfo()
                 t = Task.query().filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
                 # 오늘의 업무만 저장 
                 if t != None:
