@@ -147,7 +147,7 @@ class TaskBan(Base):
 #         result = msession.query(Task).options(joinedload(Task.bans)).all()
 #         return [dict(id=row.id, contents=row.contents, bans=TaskBan.ban_id) for row in result]
     
-    def get_taskbaninfo(self,teacher,done):
+    def get_taskbaninfo(self):
         result = (
             msession.query(Task).join(TaskBan).options(
                 joinedload(Task.taskban)
