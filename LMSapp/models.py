@@ -144,11 +144,10 @@ class TaskBan(Base):
     def get_taskbaninfo(self,teacher):
         stmt = select(Task.contents , TaskBan.ban_id).\
                 join(Task).\
-                where(Task.id == TaskBan.ban_id and TaskBan.teacher_id == teacher)
+                where(Task.id == TaskBan.task_id and TaskBan.teacher_id == teacher)
         result = msession.execute(stmt)
-        rows = result.fetchall()
         
-        return rows
+        return result
 
 
 
