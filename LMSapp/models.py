@@ -141,8 +141,8 @@ class TaskBan(Base):
     
     # task 와 taskban 조인하는 함수 
     # 세션 클래스 사용 , sqlalchemy에서 조인 수행 
+    @classmethod
     def get_baninfo():
-
         stmt = select(Task.contents, TaskBan.ban_id).\
                 join(TaskBan).\
                 where(Task.id == TaskBan.ban_id)
