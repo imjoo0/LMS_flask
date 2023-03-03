@@ -3,7 +3,7 @@ from sqlalchemy.sql import func
 from datetime import datetime
 import json
 #  join 기능
-from sqlalchemy import select 
+from sqlalchemy import select , and_
 from sqlalchemy.orm import joinedload
 
 msession = Session()
