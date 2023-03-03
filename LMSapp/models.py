@@ -96,6 +96,13 @@ class ConsultingHistory(db.Model):
     result = db.Column(db.Text)
     created_at = db.Column(db.DateTime)
 
+class TaskCategory(db.Model):
+    __tablename__ = 'taskcategory'
+    
+    id=db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(45), nullable=True)
+    tasks = db.relationship('Task', backref='taskcategory')
+
 class Task(Base):
     __tablename__ = 'task'
     
@@ -112,13 +119,6 @@ class Task(Base):
     # 관계 설정 
     bans = db.relationship('TaskBan')
 
-class TaskCategory(db.Model):
-    __tablename__ = 'taskcategory'
-    
-    id=db.Column(db.Integer,primary_key=True)
-    name = db.Column(db.String(45), nullable=True)
-    tasks = db.relationship('Task', backref='taskcategory')
-
 class TaskBan(Base):
     __tablename__ = 'taskban'
 
@@ -128,9 +128,6 @@ class TaskBan(Base):
     task_id = db.Column(db.Integer,db.ForeignKey('task.id'))
     done = db.Column(db.Integer, nullable=True)
     created_at = db.Column(db.DateTime)
-
-    # 관계 설정
-    tasks = db.relationship('Task')
 
     # task 와 taskban 조인하는 함수 
     # 세션 클래스 사용 , sqlalchemy에서 조인 수행 
