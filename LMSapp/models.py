@@ -149,8 +149,7 @@ class TaskBan(Base):
         result = msession.execute(stmt)
         rows = result.fetchall()
         
-        for row in rows:
-            print(row)
+        return rows
 
 
 
