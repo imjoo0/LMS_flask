@@ -1,13 +1,17 @@
 from LMSapp import db
 from sqlalchemy.sql import func
 from datetime import datetime
-# import json
+import json
 #  join 기능
-# from LMSapp import Base,Session
-# from sqlalchemy import select , and_
-# from sqlalchemy.orm import joinedload,contains_eager
+from LMSapp import Base,Session
+from sqlalchemy import select , and_
+from sqlalchemy.orm import joinedload,contains_eager
 
 # msession = Session()
+
+# 날짜
+current_time = datetime.now()
+Today = current_time.date()
 
 class Question(db.Model):
     __tablename__ = 'question'
@@ -132,6 +136,15 @@ class Task(db.Model):
     #     for ban in bans:
     #         print(ban)
     #     return bans
+    def get_today_task_info(self):
+
+        return {
+            'id':self.id,
+            'category_id':self.category_id,
+            'contents':self.contents,
+            'deadline':self.deadline,
+            'priority':self.priority,
+        }
 
         
 
