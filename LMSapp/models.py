@@ -122,8 +122,27 @@ class Task(Base):
     taskban = db.relationship('TaskBan')
 
     @classmethod
-    def query(self):
-        return msession.query(self)
+    def query(cls):
+        return msession.query(cls)
+    
+    @classmethod
+    def get_taskbaninfo(cls,msession,teacher,is_done):
+        query = msession.query(cls.id, cls.contents, cls.category_id,cls.url,cls.startdate,cls.deadline,cls.cycle,cls.priority,TaskBan.id.label('taskban_id'), TaskBan.created_at.label('taskban_createdat'))
+        query = query.join(TaskBan).options(joinedload(cls.taskban))
+        result = query.filter((TaskBan.done == is_done)and(TaskBan.teacher_id == teacher)).all()
+
+        data = []
+        for row in result:
+            data.append({
+                'id': row.id,
+                'contents': row.contents,
+                'ban': {
+                    'id': row.taskban_id,
+                    'created_at': row.taskban_createdat
+                }
+            })
+
+        return data
 
 
 class TaskBan(Base):
@@ -137,8 +156,8 @@ class TaskBan(Base):
     created_at = db.Column(db.DateTime)
 
     @classmethod
-    def query(self):
-        return msession.query(self)
+    def query(cls):
+        return msession.query(cls)
     
 # task 와 taskban 조인하는 함수 
 # 세션 클래스 사용 , sqlalchemy에서 조인 수행 
@@ -146,14 +165,7 @@ class TaskBan(Base):
 #     with Session() as msession:
 #         result = msession.query(Task).options(joinedload(Task.bans)).all()
 #         return [dict(id=row.id, contents=row.contents, bans=TaskBan.ban_id) for row in result]
-    @classmethod
-    def get_taskbaninfo(self):
-        result = (
-            msession.query(Task).join(self).options(
-                joinedload(Task.taskban)
-            ).filter(Task.id == self.task_id).all()
-        )
-        return result
+    
 
 
 
