@@ -138,6 +138,10 @@ class TaskBan(Base):
     done = db.Column(db.Integer, nullable=True)
     created_at = db.Column(db.DateTime)
 
+    @classmethod
+    def query(cls):
+        return msession.query(cls)
+    
     # task 와 taskban 조인하는 함수 
     # 세션 클래스 사용 , sqlalchemy에서 조인 수행 
     def get_baninfo():
