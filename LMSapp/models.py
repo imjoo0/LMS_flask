@@ -1,12 +1,13 @@
-from LMSapp import db,Base,Session
+from LMSapp import db
 from sqlalchemy.sql import func
 from datetime import datetime
 # import json
 #  join 기능
+# from LMSapp import Base,Session
 # from sqlalchemy import select , and_
 # from sqlalchemy.orm import joinedload,contains_eager
 
-msession = Session()
+# msession = Session()
 
 class Question(db.Model):
     __tablename__ = 'question'
