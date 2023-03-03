@@ -141,10 +141,10 @@ class TaskBan(Base):
     
     # task 와 taskban 조인하는 함수 
     # 세션 클래스 사용 , sqlalchemy에서 조인 수행 
-    def get_taskbaninfo(self,teacher,is_done):
+    def get_taskbaninfo(self,teacher):
         stmt = select(Task.contents , TaskBan.ban_id).\
-               msession.query(Task,TaskBan).join(Task).filter(Task.id ==TaskBan.task_id).\
-               where(TaskBan.teacher_id == teacher and TaskBan.done == is_done)
+                join(Task).\
+                where(Task.id == TaskBan.ban_id and TaskBan.teacher_id == teacher)
         result = msession.execute(stmt)
         rows = result.fetchall()
         
