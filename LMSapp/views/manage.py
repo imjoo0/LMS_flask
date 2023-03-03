@@ -213,20 +213,20 @@ def request_task():
         if received_target_ban == '전체 반':
             target_class = callapi.all_ban_info()
             for c in target_class:
-                new_task = TaskBan(ban_id=c['register_no'],teacher_id=c['teacher_register_no'], task_id=task.id )
+                new_task = TaskBan(ban_id=c['register_no'],teacher_id=c['teacher_register_no'], task_id=task.id ,done=0)
                 db.session.add(new_task)
                 db.session.commit()
         elif received_target_ban == 'plusalpha':
             target_class = callapi.plus_alpha_info()
             for c in target_class:
-                new_task = TaskBan(ban_id=c['register_no'],teacher_id=c['teacher_register_no'], task_id=task.id )
+                new_task = TaskBan(ban_id=c['register_no'],teacher_id=c['teacher_register_no'], task_id=task.id,done=0)
                 db.session.add(new_task)
                 db.session.commit()
         # 개별 반 선택 된 경우 
         else:
             target_teacher = callapi.get_ban(received_target_ban)
             target_teacher =  target_teacher['teacher_register_no']
-            new_task = TaskBan(ban_id=received_target_ban,teacher_id=target_teacher, task_id=task.id)
+            new_task = TaskBan(ban_id=received_target_ban,teacher_id=target_teacher, task_id=task.id,done=0)
             db.session.add(new_task)
             db.session.commit()
         return redirect('/')
