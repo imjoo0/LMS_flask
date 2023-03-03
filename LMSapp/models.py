@@ -147,8 +147,9 @@ class TaskBan(Base):
                 join(TaskBan).\
                 where(Task.id == TaskBan.ban_id and TaskBan.teacher_id == teacher)
         result = msession.execute(stmt)
+        rows = result.fetchall()
         
-        for row in result:
+        for row in rows:
             print(row)
 
 
