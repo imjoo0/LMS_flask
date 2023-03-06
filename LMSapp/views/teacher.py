@@ -341,10 +341,21 @@ def question(id):
         a = Answer.query.filter(Answer.question_id == id).first()
         c = Comment.query.filter(Comment.question_id == id).all()
         return_data = {}
-        if q.category == 0: return_data['category'] = '일반문의' 
-        elif q.category == 1 : return_data['category'] ='퇴소 요청' 
-        elif q.category == 2: return_data['category'] ='이반 요청' 
-        else: return_data['category'] = '취소/환불 요청' 
+        if q.category == 0:
+            return_data['category'] = '일반문의' 
+            return_data['history'] = '없음'
+        else:
+            h = ConsultingHistory.query.filter(ConsultingHistory.id == q.consulting_history).first()
+            return_data['history'] = {}
+            return_data['history']['id'] = h.consulting_id
+            return_data['history']['reason'] = h.reason
+            return_data['history']['solution'] = h.solution
+            return_data['history']['result'] = h.result
+            return_data['history']['created_at'] = h.created_at.strftime('%Y-%m-%d')
+            if q.category == 1 : 
+                return_data['category'] ='퇴소 요청' 
+            elif q.category == 2: return_data['category'] ='이반 요청' 
+            else: return_data['category'] = '취소/환불 요청' 
         return_data['title'] = q.title
         return_data['contents'] = q.contents
         return_data['create_date'] = q.create_date.strftime('%Y-%m-%d')

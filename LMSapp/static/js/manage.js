@@ -145,6 +145,7 @@ function paginating(done_code){
     }) 
 }
 function get_question(q_id,done_code){ 
+    $('#consulting_history_attach').hide()
     $.ajax({
         type: "GET",
         url: "/teacher/question/"+q_id,
@@ -158,6 +159,7 @@ function get_question(q_id,done_code){
             create_date = response["create_date"]
             answer = response['answer']
             answer_at = response['answer_at']
+            history = response['history']
             code = 0
             temp_question_list = ''
             $('#answerModalLabel').html(`${teacher}(${teacher_e})선생님 ${category}`)
@@ -218,7 +220,21 @@ function get_question(q_id,done_code){
             }
             $('#teacher_question').html(temp_question_list);
             if(done_code == 0){
-                
+                let history = response['history']
+                if(history != '없음' && code != 1){
+                    $('#consulting_history_attach').show()
+                    let reason = history['reason']
+                    let solution = history['solution']
+                    let result = history['result']
+                    let created_at = history['created_at']
+                    let temp_his = `
+                    <td class="col-3">${reason}</td>
+                    <td class="col-3">${solution}</td>
+                    <td class="col-3">${result}</td>
+                    <td class="col-3">${created_at}</td>
+                    `;
+                    $('#history_attach').html(temp_his);
+                }
                 $('#comment_box').hide()
                 $('#manage_answer_'+code).show()
                 for(i=1;i<4;i++){
@@ -237,45 +253,43 @@ function get_question(q_id,done_code){
                 $('#manage_answer_3').hide()
                 $('#comment_box').show()
                 comments = response['comment']
-       let temp_comment = `     
-        <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents"
-        placeholder="댓글을 남겨주세요">
-        <button onclick="post_comment(${q_id},${0})">등록</button>
-        `;
-        $('#comment_post_box').html(temp_comment)
-       
-        $('#comments').empty()
-        if( comments.length != 0 ){
-            for(i=0;i<comments.length;i++){
-                c_id = comments[i]['c_id']
-                c_contents = comments[i]['c_contents']
-                c_created_at = comments[i]['c_created_at']
-                writer = comments[i]['writer']
-                parent_id = comments[i]['parent_id']
-
-                if(parent_id == 0){
-                    let temp_comments = `
-                    <div id="for_comment${c_id}" style="margin-top:10px">
-                        <p class="p_comment">${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
-                    </div>
-                    <details style="margin-top:0px;margin-right:5px;font-size:0.9rem;">
-                        <summary><strong>대댓글 달기</strong></summary>
-                            <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents${c_id}"
-                            placeholder=" 대댓글 ">
-                            <button onclick="post_comment(${q_id},${c_id})">등록</button>
-                        </details>
-                    `;
-                    $('#comments').append(temp_comments);
-                }else{
-                    let temp_comments = `
-                    <p class="c_comment"> ➖ ${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
-                    `;
-                    $(`#for_comment${parent_id}`).append(temp_comments);
-                }
+                let temp_comment = `     
+                <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents"
+                placeholder="댓글을 남겨주세요">
+                <button onclick="post_comment(${q_id},${0})">등록</button>
+                `;
+                $('#comment_post_box').html(temp_comment)
                 
-            }
-       }
+                $('#comments').empty()
+                if( comments.length != 0 ){
+                    for(i=0;i<comments.length;i++){
+                        c_id = comments[i]['c_id']
+                        c_contents = comments[i]['c_contents']
+                        c_created_at = comments[i]['c_created_at']
+                        writer = comments[i]['writer']
+                        parent_id = comments[i]['parent_id']
 
+                        if(parent_id == 0){
+                            let temp_comments = `
+                            <div id="for_comment${c_id}" style="margin-top:10px">
+                                <p class="p_comment">${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
+                            </div>
+                            <details style="margin-top:0px;margin-right:5px;font-size:0.9rem;">
+                                <summary><strong>대댓글 달기</strong></summary>
+                                    <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents${c_id}"
+                                    placeholder=" 대댓글 ">
+                                    <button onclick="post_comment(${q_id},${c_id})">등록</button>
+                                </details>
+                            `;
+                            $('#comments').append(temp_comments);
+                        }else{
+                            let temp_comments = `
+                            <p class="c_comment"> ➖ ${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
+                            `;
+                            $(`#for_comment${parent_id}`).append(temp_comments);
+                        }
+                    }
+                }
             }
         }
     });
