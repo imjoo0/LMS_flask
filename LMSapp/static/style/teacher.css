@@ -289,6 +289,6 @@
 #mystudent_name_list{
   display: none;
 }
-#get_mystudent_name_list a:hover + #mystudent_name_list{
+#get_mystudent_name_list:hover + #mystudent_name_list{
   display: block;
 }
