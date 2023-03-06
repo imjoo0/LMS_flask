@@ -214,8 +214,8 @@ async function get_answer(q_id){
    $('#questiondetail').show()
 }
 // 문의 수정 함수 
-function update_question(q_id){
-
+function delete_question(q_id){
+    alert('정말 삭제하시겠습니까?');
 }
 // 상담 수행 관련 함수
 function get_consulting_history(){
