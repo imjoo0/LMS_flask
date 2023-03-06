@@ -291,4 +291,5 @@
 }
 .total_chart:hover + #mystudent_name_list{
   display: block;
+  width: 100%;
 }
