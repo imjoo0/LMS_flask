@@ -359,16 +359,16 @@
                         <tbody style="width:100%;">
                             <tr class="row">
                                 <th class="col-3">반 이름</th>
-                                <th class="col-3">원번</th>
                                 <th class="col-3">이름</th>
                                 <th class="col-3">연락처</th>
+                                <th class="col-2">상세보기</th>
                             </tr>
                             {% for s in students %}
                             <tr id="totalreport-row" class="row">
                                 <td class="col-3">{{ s['classname'] }}</td>
-                                <td class="col-3">{{ s['origin'] }}</td>
                                 <td class="col-3">{{ s['name'] }}({{s['nick_name']}})</td>
                                 <td class="col-3">{{ s['mobileno'] }}</td>
+                                <td class="col-2">✅</td>
                             </tr>
                             {%endfor%}
                         </tbody>
