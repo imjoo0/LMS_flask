@@ -409,7 +409,7 @@ def question(id):
         return jsonify({'result': '문의 답변 저장 완료'})
 
 @bp.route('/delete_question/<int:id>', methods=['POST'])
-def question(id):
+def del_question(id):
     if request.method == 'POST':
         target_question = Question.query.get_or_404(id)
         db.session.delete(target_question)
