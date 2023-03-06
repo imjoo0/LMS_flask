@@ -290,6 +290,7 @@
   display: none;
 }
 .total_chart:hover + #mystudent_name_list{
-  display: block;
+  display: flex;
   width: 100%;
+
 }
