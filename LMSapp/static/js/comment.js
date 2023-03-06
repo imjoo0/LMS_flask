@@ -18,7 +18,6 @@ function post_comment(q_id,is_coco){
             },
             success: function (response) {{
 				alert(response["result"])
-                get_comment(q_id,is_coco)
 			}}
 		})
 }
