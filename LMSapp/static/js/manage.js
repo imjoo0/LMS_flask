@@ -228,7 +228,7 @@ function get_question(q_id,done_code){
                     let result = history['result']
                     let created_at = history['created_at']
                     let temp_his = `
-                    <h1>진행한 상담 내용</h1>
+                    <h3>진행한 상담 내용</h1>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">상담 사유</span>
                         <p>${reason}</p>
