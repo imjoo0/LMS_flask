@@ -429,7 +429,6 @@ async function get_task(done_code){
                     $('.task_msg0').html('오늘의 업무를 전부 완료했어요 😆');
                     $('.task_msg1').html('완수한 업무가 없어요');
                 }else{
-                    $('#today_task_box'+done_code).empty()
                     for(i=0;i<response["target_task"].length;i++){
                         let target = response["target_task"][i]
                         let category = target['category']
@@ -467,11 +466,12 @@ async function get_task(done_code){
                                 $('#task_ban_box_incomplete'+i).append(temp_task_ban_box);
                             }
                         }
+                        
+                        let temp_task_button = `
+                        <button onclick="get_update_done()">업무 완료 저장</button>
+                        `
+                        $('#today_task_box0').append(temp_task_button)
                     }
-                    let temp_task_button = `
-                    <button onclick="get_update_done()">업무 완료 저장</button>
-                    `
-                    $('#today_task_box0').append(temp_task_button)
                 }
             }
             
