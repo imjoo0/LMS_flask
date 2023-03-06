@@ -228,12 +228,25 @@ function get_question(q_id,done_code){
                     let result = history['result']
                     let created_at = history['created_at']
                     let temp_his = `
-                    <td class="col-3">${reason}</td>
-                    <td class="col-3">${solution}</td>
-                    <td class="col-3">${result}</td>
-                    <td class="col-3">${created_at}</td>
+                    <h1>진행한 상담 내용</h1>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">상담 사유</span>
+                        <p>${reason}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">제공한 가이드</span>
+                        <p>${solution}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">상담 결과</span>
+                        <p>${result}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">상담 일시</span>
+                        <p>${created_at}</p>
+                    </div>
                     `;
-                    $('#history_attach').html(temp_his);
+                    $('#consulting_history_attach').html(temp_his);
                 }
                 $('#comment_box').hide()
                 $('#manage_answer_'+code).show()
