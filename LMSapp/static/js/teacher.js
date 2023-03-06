@@ -223,6 +223,7 @@ async function delete_question(q_id){
         data: {},
         success: function(data){
             alert(data)
+            history.go(0)
         },
         error: function(xhr, status, error){
             alert(xhr.responseText);
