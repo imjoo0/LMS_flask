@@ -286,7 +286,7 @@ function get_question(q_id,done_code){
                         <p>${created_at}</p>
                     </div>
                     `;
-                    $('#consulting_history_student_list').html(temp_his);
+                    $('#cha').html(temp_his);
             }
             let temp_answer_list = `
             <div class="modal-body-select-container">
