@@ -286,6 +286,9 @@
 #today_done_box,#consulting_student_list{display: none}
 #h_title,#today_consulting_box,#missed_consulting_history_box{display: none}
 
-#show_mystudent_name_list{
+#mystudent_name_list{
   display: none;
+}
+.total_chart:hover + #mystudent_name_list{
+  display: block;
 }
