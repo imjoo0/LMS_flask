@@ -32,6 +32,32 @@ function go_back(){
     $('#questiondetail').hide();
     $('#questionlist').show();
 }
+function get_ban_student(b_id){
+    $.ajax({
+        type: "GET",
+        url: "/manage/ban/"+b_id,
+        data: {},
+        success: function (response) {
+            // let target_ban = response['target_ban']
+            if (response['status'] == 400){
+                return
+            }
+            data_list = response['student_info']
+            
+            $('#student_list').empty()
+            for (var i = 0; i < data_list.length; i++) {
+                target = data_list[i]
+                let id = target['register_no']
+                let name = target['name'];
+                let temp_target_student = `<option value="${id}"> ${name} </option>`;
+                $('#student_list').append(temp_target_student)
+            } 
+        },
+        error:function(xhr, status, error){
+                alert('xhr.responseText');
+            }
+    })
+}
 async function get_answer(q_id){
     await $.ajax({
        type: "GET",

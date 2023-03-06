@@ -63,7 +63,7 @@
                     <div id="invisible_for_2">
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">기존 반</span>
-                            <select class="modal-body-select" name="ban_id">
+                            <select class="modal-body-select" name="ban_id" onchange="get_ban_student(this.value)">
                                 <option value="none" selected>기존 반을 선택해주세요</option>
                                 {% for ban in my_bans %}
                                 {% set ban_registerno = ban['register_no'] %}
@@ -75,11 +75,6 @@
                             <span class="modal-body-select-label">대상 원생</span>
                             <select id="student_list" class="modal-body-select" name="target_student" onchange="attach_consulting_history(this.value,1)">
                                 <option value="none" selected>원생을 선택해주세요</option>
-                                {% for student in students %}
-                                {% set student_registerno = student['register_no'] %}
-                                <option value={{student_registerno}}>{{ student['name'] }}({{ student['origin']}})
-                                </option>
-                                {% endfor %}
                             </select>
                         </div>
                         <div class="modal-body-select-container">
