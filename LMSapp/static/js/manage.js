@@ -167,42 +167,32 @@ function get_question(q_id,done_code){
                 code = 1
                 temp_question_list = `
                 <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">문의 종류</span>
-                        <p>${category}</p>
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">제목</span>
-                        <p>${title}</p>
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">내용</span>
-                        <p>${contents}</p>
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">작성자</span>
-                        <p>${teacher} ( ${teacher_e} )</p>
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">작성일</span>
-                        <p>${create_date}</p>
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">응답</span>
-                        <p>${answer}</p>
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">응답일</span>
-                        <p>${answer_at}</p>
-                    </div>
-                `;
+                    <span class="modal-body-select-label">문의 종류</span>
+                    <p>${category}</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">제목</span>
+                    <p>${title}</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">내용</span>
+                    <p>${contents}</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">작성자</span>
+                    <p>${teacher} ( ${teacher_e} )</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">작성일</span>
+                    <p>${create_date}</p>
+                </div>
+            `;
             }
             else{
                 ban = response["ban"]
                 student = response["student"]
                 student_origin = response["student_origin"]
                 reject = response["reject"]
-                answer = response["answer"]
-                answer_at = response["answer_at"]
                 if( category == '이반 요청'){
                     new_ban = response["new_ban"]
                     code = 2
@@ -239,14 +229,6 @@ function get_question(q_id,done_code){
                         <span class="modal-body-select-label">처리</span>
                         <p>${reject}</p>
                     </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">응답</span>
-                        <p>${answer}</p>
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">응답일</span>
-                        <p>${answer_at}</p>
-                    </div>
                     `;
                 }else{
                     code = 3
@@ -279,18 +261,20 @@ function get_question(q_id,done_code){
                         <span class="modal-body-select-label">처리</span>
                         <p>${reject}</p>
                     </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">응답</span>
-                        <p>${answer}</p>
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">응답일</span>
-                        <p>${answer_at}</p>
-                    </div>
                     `;
                 }
             }
+            let temp_answer_list = `
+            <div class="modal-body-select-container">
+            <span class="modal-body-select-label">응답</span>
+            <p>${answer}</p>
+            </div>
+            <div class="modal-body-select-container">
+                <span class="modal-body-select-label">응답일</span>
+                <p>${answer_at}</p>
+            </div>`
             $('#teacher_question').html(temp_question_list);
+            $('#teacher_answer').html(temp_answer_list);
             if(done_code == 0){
                 let history = response['history']
                 if(history != '없음' && code != 1){
