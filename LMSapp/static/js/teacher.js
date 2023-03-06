@@ -412,6 +412,7 @@ async function get_task(done_code){
                 $('#task_category_msg'+done_code).empty();
                 $('#today_task_box'+done_code).empty();
                 for(i=0;i<response["task_category"].length;i++){
+                    console.log( response["task_category"][i])
                     let category = response["task_category"][i]
                     let c_id = category.split('@')[0]
                     let c_name = category.split('@')[1]
