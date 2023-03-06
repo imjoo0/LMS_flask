@@ -188,18 +188,34 @@ function get_question(q_id,done_code){
                     new_ban = response["new_ban"]
                     code = 2
                     temp_question_list = `
-                    <ul>
-                        <li>종류 : ${category} </li>
-                        <li>제목 : ${title}</li>
-                        <li>문의 : ${contents}</li>
-                        <li>작성자 : ${teacher} ( ${teacher_e} )</li>
-                        <li>작성일 : ${create_date}</li>
-                        <li>대상 반 | 학생: ${ban} ➖ ${student} ( ${student_origin} )</li>
-                        <li>희망 이반 반: ${new_ban}</li>
-                        <li>처리 : ${ reject } </li>
-                        <li>응답 : ${answer} </li>
-                        <li>응답일 : ${answer_at} </li>
-                    </ul>
+                    <tbody style="width:100%;">
+                        <thead>
+                            <tr class="row">
+                                <th class="col-1">문의 종류</th>
+                                <th class="col-1">제목</th>
+                                <th class="col-1">내용</th>
+                                <th class="col-1">작성자</th>
+                                <th class="col-1">작성일</th>
+                                <th class="col-2">대상 반 | 학생</th>
+                                <th class="col-2">희망 이반 반</th>
+                                <th class="col-1">처리</th>
+                                <th class="col-1">응답</th>
+                                <th class="col-1">응답일</th>
+                            </tr>
+                        </thead>
+                        <tr class="row">
+                            <td class="col-1">${category}</td>
+                            <td class="col-1">${title}</td>
+                            <td class="col-1">${contents}</td>
+                            <td class="col-1">${teacher} ( ${teacher_e} )</td>
+                            <td class="col-1">${create_date}</td>
+                            <td class="col-2">${ban} ➖ ${student} ( ${student_origin} )</td>
+                            <td class="col-2">${new_ban}</td>
+                            <td class="col-1">${ reject }</td>
+                            <td class="col-1">${answer}</td>
+                            <td class="col-1">${answer_at}</td>
+                        </tr>
+                    </tbody>
                     `;
                 }else{
                     code = 3
@@ -228,7 +244,6 @@ function get_question(q_id,done_code){
                     let result = history['result']
                     let created_at = history['created_at']
                     let temp_his = `
-                    <h3>진행한 상담 내용</h1>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">상담 사유</span>
                         <p>${reason}</p>
