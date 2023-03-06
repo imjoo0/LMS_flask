@@ -429,9 +429,9 @@ async function get_task(done_code){
                     $('.task_msg0').html('오늘의 업무를 전부 완료했어요 😆');
                     $('.task_msg1').html('완수한 업무가 없어요');
                 }else{
+                    $('#today_task_box0').empty()
                     for(i=0;i<response["target_task"].length;i++){
                         let target = response["target_task"][i]
-                        console.log(target)
                         let category = target['category']
                         let contents = target['contents']
                         let deadline = target['deadline']
@@ -471,7 +471,7 @@ async function get_task(done_code){
                     let temp_task_button = `
                     <button onclick="get_update_done()">업무 완료 저장</button>
                     `
-                    $('#today_task_box0').html(temp_task_button)
+                    $('#today_task_box0').append(temp_task_button)
                 }
             }
             
