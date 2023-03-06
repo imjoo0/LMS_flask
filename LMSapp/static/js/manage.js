@@ -159,7 +159,6 @@ function get_question(q_id,done_code){
             create_date = response["create_date"]
             answer = response['answer']
             answer_at = response['answer_at']
-            history = response['history']
             code = 0
             temp_question_list = ''
             $('#answerModalLabel').html(`${teacher}(${teacher_e})선생님 ${category}`)
@@ -264,29 +263,30 @@ function get_question(q_id,done_code){
                     `;
                 }
                 $('#consulting_history_attach').show()
-                    let reason = history['reason']
-                    let solution = history['solution']
-                    let result = history['result']
-                    let created_at = history['created_at']
-                    let temp_his = `
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">상담 사유</span>
-                        <p>${reason}</p>
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">제공한 가이드</span>
-                        <p>${solution}</p>
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">상담 결과</span>
-                        <p>${result}</p>
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">상담 일시</span>
-                        <p>${created_at}</p>
-                    </div>
-                    `;
-                    $('#cha').html(temp_his);
+                let history = response['history']
+                let reason = history['reason']
+                let solution = history['solution']
+                let result = history['result']
+                let created_at = history['created_at']
+                let temp_his = `
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">상담 사유</span>
+                    <p>${reason}</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">제공한 가이드</span>
+                    <p>${solution}</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">상담 결과</span>
+                    <p>${result}</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">상담 일시</span>
+                    <p>${created_at}</p>
+                </div>
+                `;
+                $('#cha').html(temp_his);
             }
             let temp_answer_list = `
             <div class="modal-body-select-container">
