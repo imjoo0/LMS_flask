@@ -213,8 +213,10 @@ async function get_answer(q_id){
    $('#questionlist').hide()
    $('#questiondetail').show()
 }
+// 문의 수정 함수 
+function update_question(q_id){
 
-
+}
 // 상담 수행 관련 함수
 function get_consulting_history(){
     let is_done = $('#history_done option:selected').val()
