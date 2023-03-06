@@ -28,7 +28,6 @@ function change_question_kind(str){
     }
 }
 function go_back(){
-    $('#questiondetail_box').empty();
     $('#questiondetail').hide();
     $('#questionlist').show();
 }
@@ -64,6 +63,7 @@ async function get_answer(q_id){
        url: "/teacher/question/"+q_id,
        data: {},
        success: function (response) {
+        $('#question')
         category = response["category"]
         title = response["title"]
         contents = response["contents"]
