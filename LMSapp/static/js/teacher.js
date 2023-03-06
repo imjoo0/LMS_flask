@@ -64,26 +64,22 @@ async function get_answer(q_id){
        url: "/teacher/question/"+q_id,
        data: {},
        success: function (response) {
-           // alert(response["title"])
-       //     if (response["result"]=='문의가 전송되었습니다') {
-       //     window.location.replace('/teacher')
-       // }else {window.location.href='/'}
-       category = response["category"]
-       title = response["title"]
-       contents = response["contents"]
-       teacher = response["teacher"]
-       teacher_e = response["teacher_e"]
-       create_date = response["create_date"]
-       answer = response['answer']
-       answer_at = response['answer_at']
-       comments = response['comment']
-       let temp_comment = `     
+        category = response["category"]
+        title = response["title"]
+        contents = response["contents"]
+        teacher = response["teacher"]
+        teacher_e = response["teacher_e"]
+        create_date = response["create_date"]
+        answer = response['answer']
+        answer_at = response['answer_at']
+        comments = response['comment']
+        let temp_comment = `     
         <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents"
         placeholder="댓글을 남겨주세요">
         <button onclick="post_comment(${q_id},${0})">등록</button>
         `;
         $('#comment_post_box').html(temp_comment)
-       
+    
         $('#comments').empty()
         if( comments.length != 0 ){
             for(i=0;i<comments.length;i++){
@@ -140,6 +136,7 @@ async function get_answer(q_id){
                 </div>
             `;
         }else{
+            $('#consulting_history_attach').show()
             ban = response["ban"]
             student = response["student"]
             student_origin = response["student_origin"]
@@ -174,7 +171,6 @@ async function get_answer(q_id){
                     <p>${reject}</p>
                 </div>
             `;
-            $('#consulting_history_attach').show()
             let history = response['history']
             let reason = history['reason']
             let solution = history['solution']
