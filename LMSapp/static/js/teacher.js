@@ -218,7 +218,7 @@ async function delete_question(q_id){
     var con_val = confirm('정말 삭제하시겠습니까?')
     if(con_val == true){
     await $.ajax({
-        url: '/teacher_question/delete/' + q_id ,
+        url: '/teacher/question_delete/' + q_id ,
         type: 'POST',
         data: {},
         success: function(data){
