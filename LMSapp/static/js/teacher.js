@@ -415,17 +415,15 @@ async function get_task(done_code){
                     let category = response["task_category"][i]
                     let c_id = category.split('@')[0]
                     let c_name = category.split('@')[1]
-                    if(c_id != 13){
-                        let temp_category = `
-                        <details>
-                        <summary><strong>${c_name}
-                                업무 </strong></summary>
-                        <div class="make_col" id="task_contents_box${done_code}${c_id}">
-                            <p class="task_msg${done_code}"></p>
-                        </div>
-                        </details>`;
-                        $('#today_task_box'+done_code).append(temp_category);
-                    }
+                    let temp_category = `
+                    <details>
+                    <summary><strong>${c_name}
+                            업무 </strong></summary>
+                    <div class="make_col" id="task_contents_box${done_code}${c_id}">
+                        <p class="task_msg${done_code}"></p>
+                    </div>
+                    </details>`;
+                    $('#today_task_box'+done_code).append(temp_category);
                 }
                 if((response["target_task"] == '없음')||(response["target_task"].length == 0) ){
                     $('.task_msg0').html('오늘의 업무를 전부 완료했어요 😆');
@@ -437,34 +435,23 @@ async function get_task(done_code){
                         let contents = target['contents']
                         let deadline = target['deadline']
                         let priority = target['priority']
-                        if(category == 13){
+                        if(priority > 2){
                             let temp_task_contents_box = `
-                            <p>⭐ ${contents}</p>
+                            <p>⭐우선업무: ${contents} (마감 : ${deadline})</p>
                             <form method="post" class="make_row" id="task_ban_box_incomplete${i}">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                             </form>
                             `;
                             $('#task_contents_box'+done_code+category).append(temp_task_contents_box);
                         }else{
-                            if(priority > 2){
-                                let temp_task_contents_box = `
-                                <p>⭐우선업무: ${contents} (마감 : ${deadline})</p>
-                                <form method="post" class="make_row" id="task_ban_box_incomplete${i}">
-                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
-                                </form>
-                                `;
-                                $('#task_contents_box'+done_code+category).append(temp_task_contents_box);
-                            }else{
-                                let temp_task_contents_box = `
-                                <p>✅ ${contents}  (마감 : ${deadline}) </p>
-                                <form method="post" class="make_row" id="task_ban_box_incomplete${i}">
-                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
-                                </form>
-                                `;
-                                $('#task_contents_box'+done_code+category).append(temp_task_contents_box);
-                            }
+                            let temp_task_contents_box = `
+                            <p>✅ ${contents}  (마감 : ${deadline}) </p>
+                            <form method="post" class="make_row" id="task_ban_box_incomplete${i}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
+                            </form>
+                            `;
+                            $('#task_contents_box'+done_code+category).append(temp_task_contents_box);
                         }
-                        
                         if(done_code == 0){
                             $('#task_ban_box_incomplete'+i).empty()
                             $('#task_ban_box_complete'+i).empty()
