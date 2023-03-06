@@ -285,3 +285,10 @@
 
 #today_done_box,#consulting_student_list{display: none}
 #h_title,#today_consulting_box,#missed_consulting_history_box{display: none}
+
+#mystudent_name_list{
+  display: none;
+}
+#get_mystudent_name_list:hover + #mystudent_name_list{
+  display: block;
+}
