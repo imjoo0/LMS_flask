@@ -21,3 +21,23 @@ function post_comment(q_id,is_coco){
 			}}
 		})
 }
+
+// 문의 삭제 함수 
+async function delete_question(q_id){
+    var con_val = confirm('정말 삭제하시겠습니까?')
+    if(con_val == true){
+    await $.ajax({
+        type: 'POST',
+        url: '/teacher/delete_question/' + q_id ,
+        data: {},
+        success: function(data){
+            alert(data)
+            history.go(0)
+        },
+        error: function(xhr, status, error){
+            alert(xhr.responseText);
+        }
+    })
+    get_consulting()
+    }
+}

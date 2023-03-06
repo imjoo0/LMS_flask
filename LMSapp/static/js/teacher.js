@@ -213,25 +213,7 @@ async function get_answer(q_id){
    $('#questionlist').hide()
    $('#questiondetail').show()
 }
-// 문의 수정 함수 
-async function delete_question(q_id){
-    var con_val = confirm('정말 삭제하시겠습니까?')
-    if(con_val == true){
-    await $.ajax({
-        type: 'POST',
-        url: '/teacher/delete_question/' + q_id ,
-        data: {},
-        success: function(data){
-            alert(data)
-            history.go(0)
-        },
-        error: function(xhr, status, error){
-            alert(xhr.responseText);
-        }
-    })
-    get_consulting()
-    }
-}
+
 // 상담 수행 관련 함수
 function get_consulting_history(){
     let is_done = $('#history_done option:selected').val()
