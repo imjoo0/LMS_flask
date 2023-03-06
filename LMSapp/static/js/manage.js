@@ -188,34 +188,46 @@ function get_question(q_id,done_code){
                     new_ban = response["new_ban"]
                     code = 2
                     temp_question_list = `
-                    <tbody style="width:100%;">
-                        <thead>
-                            <tr class="row">
-                                <th class="col-1">문의 종류</th>
-                                <th class="col-1">제목</th>
-                                <th class="col-1">내용</th>
-                                <th class="col-1">작성자</th>
-                                <th class="col-1">작성일</th>
-                                <th class="col-2">대상 반 | 학생</th>
-                                <th class="col-2">희망 이반 반</th>
-                                <th class="col-1">처리</th>
-                                <th class="col-1">응답</th>
-                                <th class="col-1">응답일</th>
-                            </tr>
-                        </thead>
-                        <tr class="row">
-                            <td class="col-1">${category}</td>
-                            <td class="col-1">${title}</td>
-                            <td class="col-1">${contents}</td>
-                            <td class="col-1">${teacher} ( ${teacher_e} )</td>
-                            <td class="col-1">${create_date}</td>
-                            <td class="col-2">${ban} ➖ ${student} ( ${student_origin} )</td>
-                            <td class="col-2">${new_ban}</td>
-                            <td class="col-1">${ reject }</td>
-                            <td class="col-1">${answer}</td>
-                            <td class="col-1">${answer_at}</td>
-                        </tr>
-                    </tbody>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">문의 종류</span>
+                        <p>${category}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">제목</span>
+                        <p>${title}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">내용</span>
+                        <p>${contents}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">작성자</span>
+                        <p>${teacher} ( ${teacher_e} )</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">작성일</span>
+                        <p>${create_date}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">대상 반 | 학생</span>
+                        <p>${ban} ➖ ${student} ( ${student_origin} )</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">희망 이반 반</span>
+                        <p>${new_ban}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">처리</span>
+                        <p>${reject}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">응답</span>
+                        <p>${answer}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">응답일</span>
+                        <p>${answer_at}</p>
+                    </div>
                     `;
                 }else{
                     code = 3
