@@ -377,6 +377,7 @@ function post_target_consulting(consulting,is_done){
             },
             success: function (response) {{
 				alert(response["result"])
+                window.location.reload()
 			}}
 		})
 }
