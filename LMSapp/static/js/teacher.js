@@ -412,10 +412,11 @@ async function get_task(done_code){
                 $('#task_category_msg'+done_code).empty();
                 $('#today_task_box'+done_code).empty();
                 for(i=0;i<response["task_category"].length;i++){
-                    console.log( response["task_category"][i])
                     let category = response["task_category"][i]
                     let c_id = category.split('@')[0]
                     let c_name = category.split('@')[1]
+                    console.log( c_id)
+                    console.log( c_name)
                     let temp_category = `
                     <details>
                     <summary><strong>${c_name}
@@ -423,7 +424,8 @@ async function get_task(done_code){
                     <div class="make_col" id="task_contents_box${done_code}${c_id}">
                         <p class="task_msg${done_code}"></p>
                     </div>
-                    </details>`
+                    </details>`;
+                    console.log(temp_category)
                     $('#today_task_box'+done_code).append(temp_category);
                 }
                 if((response["target_task"] == '없음')||(response["target_task"].length == 0) ){
