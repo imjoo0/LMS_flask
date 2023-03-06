@@ -166,15 +166,34 @@ function get_question(q_id,done_code){
             if(category == '일반문의'){
                 code = 1
                 temp_question_list = `
-                <ul>
-                    <li>종류 : ${category} </li>
-                    <li>제목 : ${title}</li>
-                    <li>문의 : ${contents}</li>
-                    <li>작성자 : ${teacher} ( ${teacher_e} )</li>
-                    <li>작성일 : ${create_date}</li>
-                    <li>답변 : ${answer}</li>
-                    <li>답변일 : ${answer_at}</li>
-                </ul>
+                <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">문의 종류</span>
+                        <p>${category}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">제목</span>
+                        <p>${title}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">내용</span>
+                        <p>${contents}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">작성자</span>
+                        <p>${teacher} ( ${teacher_e} )</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">작성일</span>
+                        <p>${create_date}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">응답</span>
+                        <p>${answer}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">응답일</span>
+                        <p>${answer_at}</p>
+                    </div>
                 `;
             }
             else{
@@ -232,17 +251,42 @@ function get_question(q_id,done_code){
                 }else{
                     code = 3
                     temp_question_list = `
-                    <ul>
-                    <li>종류 : ${category} </li>
-                    <li>제목 : ${title}</li>
-                    <li>문의 : ${contents}</li>
-                    <li>작성자 : ${teacher} ( ${teacher_e} )</li>
-                    <li>작성일 : ${create_date}</li>
-                    <li>대상 반 | 학생: ${ban} ➖ ${student} ( ${student_origin} )</li>
-                    <li>처리 : ${ reject } </li>
-                    <li>응답 : ${answer} </li>
-                    <li>응답일 : ${answer_at} </li>
-                    </ul>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">문의 종류</span>
+                        <p>${category}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">제목</span>
+                        <p>${title}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">내용</span>
+                        <p>${contents}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">작성자</span>
+                        <p>${teacher} ( ${teacher_e} )</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">작성일</span>
+                        <p>${create_date}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">대상 반 | 학생</span>
+                        <p>${ban} ➖ ${student} ( ${student_origin} )</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">처리</span>
+                        <p>${reject}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">응답</span>
+                        <p>${answer}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">응답일</span>
+                        <p>${answer_at}</p>
+                    </div>
                     `;
                 }
             }
