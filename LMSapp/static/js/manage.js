@@ -263,22 +263,7 @@ function get_question(q_id,done_code){
                     </div>
                     `;
                 }
-            }
-            let temp_answer_list = `
-            <div class="modal-body-select-container">
-            <span class="modal-body-select-label">응답</span>
-            <p>${answer}</p>
-            </div>
-            <div class="modal-body-select-container">
-                <span class="modal-body-select-label">응답일</span>
-                <p>${answer_at}</p>
-            </div>`
-            $('#teacher_question').html(temp_question_list);
-            $('#teacher_answer').html(temp_answer_list);
-            if(done_code == 0){
-                let history = response['history']
-                if(history != '없음' && code != 1){
-                    $('#consulting_history_attach').show()
+                $('#consulting_history_attach').show()
                     let reason = history['reason']
                     let solution = history['solution']
                     let result = history['result']
@@ -301,8 +286,20 @@ function get_question(q_id,done_code){
                         <p>${created_at}</p>
                     </div>
                     `;
-                    $('#consulting_history_attach').html(temp_his);
-                }
+                    $('#consulting_history_student_list').html(temp_his);
+            }
+            let temp_answer_list = `
+            <div class="modal-body-select-container">
+            <span class="modal-body-select-label">응답</span>
+            <p>${answer}</p>
+            </div>
+            <div class="modal-body-select-container">
+                <span class="modal-body-select-label">응답일</span>
+                <p>${answer_at}</p>
+            </div>`
+            $('#teacher_question').html(temp_question_list);
+            $('#teacher_answer').html(temp_answer_list);
+            if(done_code == 0){
                 $('#comment_box').hide()
                 $('#manage_answer_'+code).show()
                 for(i=1;i<4;i++){
