@@ -415,8 +415,6 @@ async function get_task(done_code){
                     let category = response["task_category"][i]
                     let c_id = category.split('@')[0]
                     let c_name = category.split('@')[1]
-                    console.log( c_id)
-                    console.log( c_name)
                     let temp_category = `
                     <details>
                     <summary><strong>${c_name}
@@ -425,7 +423,6 @@ async function get_task(done_code){
                         <p class="task_msg${done_code}"></p>
                     </div>
                     </details>`;
-                    console.log(temp_category)
                     $('#today_task_box'+done_code).append(temp_category);
                 }
                 if((response["target_task"] == '없음')||(response["target_task"].length == 0) ){
@@ -434,6 +431,7 @@ async function get_task(done_code){
                 }else{
                     for(i=0;i<response["target_task"].length;i++){
                         let target = response["target_task"][i]
+                        console.log(target)
                         let category = target['category']
                         let contents = target['contents']
                         let deadline = target['deadline']
