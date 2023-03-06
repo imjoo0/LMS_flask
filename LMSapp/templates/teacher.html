@@ -46,7 +46,7 @@
                 <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body py-4 px-5">
-                <form action="/teacher/question" method="POST">
+                <form action="/teacher/question" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">문의 종류</span>
@@ -82,6 +82,8 @@
                             <select class="modal-body-select" name="consulting_history" id="h_select_box">
                             </select>
                         </div>
+                        <input type="file" name="file">
+                        <input type="submit" value="Upload">
                     </div>
                     <!-- invisible_for_2 end -->
                     <div id="question_box">
