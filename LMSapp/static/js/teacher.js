@@ -43,7 +43,7 @@ function get_ban_student(b_id){
                 return
             }
             data_list = response['student_info']
-            
+
             $('#student_list').empty()
             for (var i = 0; i < data_list.length; i++) {
                 target = data_list[i]
@@ -114,44 +114,104 @@ async function get_answer(q_id){
                 }
                 
             }
-       }
-       if(category == '일반문의'){
-           let temp_question_list = `
-           <ul>
-               <li>종류 : ${category} </li>
-               <li>제목 : ${title}</li>
-               <li>문의 : ${contents}</li>
-               <li>작성자 : ${teacher} ( ${teacher_e} )</li>
-               <li>작성일 : ${create_date}</li>
-               <li>답변 : ${answer}</li>
-               <li>답변일 : ${answer_at}</li>
-           </ul>
-           `;
-           $('#questiondetail_box').append(temp_question_list);
-       }
-       else{
-           ban = response["ban"]
-           student = response["student"]
-           student_origin = response["student_origin"]
-           reject = response["reject"]
-           answer = response["answer"]
-           answer_at = response["answer_at"]
-           let temp_question_list = `
-           <ul>
-               <li>종류 : ${category} </li>
-               <li>제목 : ${title}</li>
-               <li>문의 : ${contents}</li>
-               <li>작성자 : ${teacher} ( ${teacher_e} )</li>
-               <li>작성일 : ${create_date}</li>
-               <li>대상 반 | 학생: ${ban} ➖ ${student} ( ${student_origin} )</li>
-               <li>처리 : ${ reject } </li>
-               <li>응답 : ${answer} </li>
-               <li>응답일 : ${answer_at} </li>
-           </ul>
-           `;
-           $('#questiondetail_box').append(temp_question_list);
-       }
-       }
+        }
+        if(category == '일반문의'){
+            $('#consulting_history_attach').hide()
+            temp_question_list = `
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">문의 종류</span>
+                    <p>${category}</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">제목</span>
+                    <p>${title}</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">내용</span>
+                    <p>${contents}</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">작성자</span>
+                    <p>${teacher} ( ${teacher_e} )</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">작성일</span>
+                    <p>${create_date}</p>
+                </div>
+            `;
+        }else{
+            ban = response["ban"]
+            student = response["student"]
+            student_origin = response["student_origin"]
+            reject = response["reject"]
+            temp_question_list = `
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">문의 종류</span>
+                    <p>${category}</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">제목</span>
+                    <p>${title}</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">내용</span>
+                    <p>${contents}</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">작성자</span>
+                    <p>${teacher} ( ${teacher_e} )</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">작성일</span>
+                    <p>${create_date}</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">대상 반 | 학생</span>
+                    <p>${ban} ➖ ${student} ( ${student_origin} )</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">처리</span>
+                    <p>${reject}</p>
+                </div>
+            `;
+            $('#consulting_history_attach').show()
+            let history = response['history']
+            let reason = history['reason']
+            let solution = history['solution']
+            let result = history['result']
+            let created_at = history['created_at']
+            let temp_his = `
+            <div class="modal-body-select-container">
+                <span class="modal-body-select-label">상담 사유</span>
+                <p>${reason}</p>
+            </div>
+            <div class="modal-body-select-container">
+                <span class="modal-body-select-label">제공한 가이드</span>
+                <p>${solution}</p>
+            </div>
+            <div class="modal-body-select-container">
+                <span class="modal-body-select-label">상담 결과</span>
+                <p>${result}</p>
+            </div>
+            <div class="modal-body-select-container">
+                <span class="modal-body-select-label">상담 일시</span>
+                <p>${created_at}</p>
+            </div>
+            `;
+            $('#cha').html(temp_his);
+        }
+        let temp_answer_list = `
+        <div class="modal-body-select-container">
+        <span class="modal-body-select-label">응답</span>
+        <p>${answer}</p>
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">응답일</span>
+            <p>${answer_at}</p>
+        </div>`
+        $('#teacher_answer').html(temp_answer_list);
+        $('#teacher_question').html(temp_question_list);
+    }
 
    });
    $('#questionlist').hide()
