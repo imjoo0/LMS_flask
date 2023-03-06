@@ -407,7 +407,16 @@ def question(id):
             # db.session.commit()
         db.session.commit()
         return jsonify({'result': '문의 답변 저장 완료'})
-                    
+
+@bp.route('/question/delete/<int:id>', methods=['POST'])
+def question(id):
+    if request.method == 'POST':
+        target_question = Question.query.get_or_404(id)
+        db.session.delete(target_question)
+        db.session.commit()
+        return jsonify('삭제 완료')
+ 
+
 # 댓글 작성 / 조회 
 @bp.route('/comment/<int:id>/<int:is_coco>', methods=['GET','POST'])
 def comment(id,is_coco):

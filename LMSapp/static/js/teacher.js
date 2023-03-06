@@ -214,8 +214,22 @@ async function get_answer(q_id){
    $('#questiondetail').show()
 }
 // 문의 수정 함수 
-function delete_question(q_id){
-    alert('정말 삭제하시겠습니까?');
+async function delete_question(q_id){
+    var con_val = confirm('정말 삭제하시겠습니까?')
+    if(con_val == true){
+    await $.ajax({
+        url: '/teacher/question/delete/' + q_id ,
+        type: 'POST',
+        data: {},
+        success: function(data){
+            alert(data)
+        },
+        error: function(xhr, status, error){
+            alert(xhr.responseText);
+        }
+    })
+    get_consulting()
+    }
 }
 // 상담 수행 관련 함수
 function get_consulting_history(){

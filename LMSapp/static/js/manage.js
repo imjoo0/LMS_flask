@@ -548,25 +548,25 @@ async function sort_task(value){
 
 async function delete_consulting(idx){
    const csrf = $('#csrf_token').val();
-    var con_val = confirm('정말 삭제하시겠습니까?')
-    if(con_val == true){
-        await $.ajax({
-            url: '/manage/api/delete_consulting/' + idx ,
-            type: 'get',
-            headers: {'content-type': 'application/json'},
-            data: {},
-            success: function(data){
-                if (data.status == 200){
-                    alert(`삭제되었습니다.`)
-                }else {
-                    alert(`실패 ${data.status} ${data.text}`)
-                }
-            },
-            error: function(xhr, status, error){
-                alert(xhr.responseText);
+   var con_val = confirm('정말 삭제하시겠습니까?')
+   if(con_val == true){
+    await $.ajax({
+        url: '/manage/api/delete_consulting/' + idx ,
+        type: 'get',
+        headers: {'content-type': 'application/json'},
+        data: {},
+        success: function(data){
+            if (data.status == 200){
+                alert(`삭제되었습니다.`)
+            }else {
+                alert(`실패 ${data.status} ${data.text}`)
             }
-        })
-        get_consulting()
+        },
+        error: function(xhr, status, error){
+            alert(xhr.responseText);
+        }
+    })
+    get_consulting()
     }
 }
 
