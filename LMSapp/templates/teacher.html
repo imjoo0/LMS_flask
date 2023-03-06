@@ -340,7 +340,7 @@
                 <div class="info-title">
                     <span>Total Chart</span>
                 </div>
-                <div class="info" style="overflow: scroll;">
+                <div class="info make_col" style="overflow: scroll;">
                     <div class="total_chart">
                         <div class="chartWrap">
                             <div class="chart">
@@ -366,7 +366,7 @@
                             {% for s in students %}
                             <tr id="totalreport-row" class="row">
                                 <td class="col-3">{{ s['origin'] }}</td>
-                                <td class="col-3">{{ s['name'] }}({{nick_name}})</td>
+                                <td class="col-3">{{ s['name'] }}</td>
                                 <td class="col-3">{{ s['mobileno'] }}</td>
                                 <td class="col-3"> 임시3 (5%) </td>
                             </tr>
