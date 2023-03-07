@@ -23779,3 +23779,732 @@ NameError: name 'pymysql' is not defined
  * Restarting with stat
  * Debugger is active!
  * Debugger PIN: 784-800-180
+ * Serving Flask app 'LMSapp'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:6725
+ * Running on http://172.31.37.184:6725
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [15/Feb/2023 08:43:12] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [15/Feb/2023 08:43:12] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 08:43:12] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [15/Feb/2023 08:43:12] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [15/Feb/2023 08:43:12] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 08:43:12] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 08:43:12] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 08:43:12] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 08:43:12] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 08:43:12] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 08:43:12] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 08:43:12] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 08:43:12] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [15/Feb/2023 08:43:13] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [15/Feb/2023 08:47:21] "GET /teacher/8 HTTP/1.1" 200 -
+118.131.85.245 - - [15/Feb/2023 08:47:23] "GET /teacher/8 HTTP/1.1" 200 -
+118.131.85.245 - - [15/Feb/2023 08:47:24] "GET /teacher/taskdone HTTP/1.1" 200 -
+118.131.85.245 - - [15/Feb/2023 15:10:21] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 15:10:21] "GET /static/style/teacher.css HTTP/1.1" 200 -
+118.131.85.245 - - [15/Feb/2023 15:10:21] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 15:10:21] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 15:10:21] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [15/Feb/2023 15:10:21] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 15:10:21] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 15:10:21] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 15:10:21] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 15:10:21] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 15:10:21] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 15:10:22] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [15/Feb/2023 15:10:22] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [15/Feb/2023 15:10:22] "GET /static/style/images/favicon.ico HTTP/1.1" 404 -
+118.131.85.245 - - [15/Feb/2023 19:41:42] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 19:41:42] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 19:41:42] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 19:41:42] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 19:41:42] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 19:41:42] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 19:41:42] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 19:41:42] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 19:41:42] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 19:41:42] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 19:41:42] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [15/Feb/2023 19:41:42] "GET /static/style/images/favicon.ico HTTP/1.1" 404 -
+118.131.85.245 - - [15/Feb/2023 19:41:42] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [15/Feb/2023 19:41:42] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:01:58] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [16/Feb/2023 00:01:58] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:01:58] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:01:58] "GET /static/style/login.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:01:58] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:01:58] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:01:58] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:01:58] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:01:58] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:01:58] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:01:58] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [16/Feb/2023 00:01:58] "GET /favicon.ico HTTP/1.1" 404 -
+118.131.85.245 - - [16/Feb/2023 00:01:59] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:01:59] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:01:59] "GET /static/style/images/favicon.ico HTTP/1.1" 404 -
+118.131.85.245 - - [16/Feb/2023 00:02:03] "POST /login HTTP/1.1" 302 -
+118.131.85.245 - - [16/Feb/2023 00:02:03] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [16/Feb/2023 00:02:04] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:02:04] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:02:04] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:02:04] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:02:04] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:02:04] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:02:04] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:02:04] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:02:04] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:02:04] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:02:04] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:02:04] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:02:05] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:02:05] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:02:10] "GET /teacher/8 HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:02:17] "GET /teacher/consulting/1664 HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:02:18] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:08:56] "GET /done_consulting/1992 HTTP/1.1" 404 -
+118.131.85.245 - - [16/Feb/2023 00:08:57] "GET /done_consulting/1664 HTTP/1.1" 404 -
+118.131.85.245 - - [16/Feb/2023 00:08:58] "GET /done_consulting/-1 HTTP/1.1" 404 -
+118.131.85.245 - - [16/Feb/2023 00:09:03] "GET /done_consulting/1992 HTTP/1.1" 404 -
+118.131.85.245 - - [16/Feb/2023 00:10:59] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:10:59] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:10:59] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:10:59] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:10:59] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:10:59] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:10:59] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:10:59] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:10:59] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:10:59] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:10:59] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:10:59] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:11:00] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:11:00] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:11:29] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:11:29] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:11:29] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:11:29] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:11:29] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:11:29] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:11:29] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:11:29] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:11:29] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:11:29] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:11:29] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:11:29] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:11:29] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:11:29] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:12:38] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:12:38] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:12:38] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:12:38] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:12:38] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:12:38] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:12:38] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:12:38] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:12:38] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:12:38] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:12:38] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:12:38] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:12:38] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:12:38] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:13:47] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:13:47] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:13:47] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:13:47] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:13:47] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:13:47] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:13:47] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:13:47] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:13:47] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:13:47] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:13:47] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:13:47] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:13:47] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:13:48] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:14:11] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:14:11] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:14:11] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:14:11] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:14:11] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:14:11] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:14:11] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:14:11] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:14:11] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:14:11] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:14:11] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:14:11] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:14:11] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:14:12] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:15:00] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:15:00] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:15:00] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:15:00] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:15:00] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:15:00] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:15:00] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:15:00] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:15:00] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:15:00] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:15:00] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:15:00] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 00:15:00] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 00:15:00] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 04:09:04] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 04:09:04] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:04] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:04] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:04] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:04] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:04] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:04] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:04] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:04] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:04] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:04] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:04] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 04:09:04] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 04:09:09] "GET /done_consulting/ HTTP/1.1" 404 -
+118.131.85.245 - - [16/Feb/2023 04:09:11] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:11] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:47] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 04:09:47] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:47] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:47] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 04:09:47] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:47] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:47] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:47] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:47] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:47] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:47] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:47] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:09:47] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 04:09:47] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 04:15:46] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 04:15:46] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:15:46] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:15:46] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 04:15:47] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:15:47] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:15:47] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:15:47] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:15:47] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:15:47] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:15:47] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:15:47] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [16/Feb/2023 04:15:47] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 04:15:47] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [16/Feb/2023 04:15:50] "GET /done_consulting/1992/1 HTTP/1.1" 404 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py', reloading
+err
+err
+err
+err
+err
+err
+err
+err
+err
+err
+err
+err
+err
+err
+err
+err
+err
+err
+err
+err
+err
+err
+err
+err
+err
+err
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [16/Feb/2023 04:47:32] "GET /done_consulting/1992/1 HTTP/1.1" 404 -
+ * Serving Flask app 'LMSapp'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:6725
+ * Running on http://172.31.37.184:6725
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [17/Feb/2023 00:11:02] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [17/Feb/2023 00:11:02] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [17/Feb/2023 00:11:02] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [17/Feb/2023 00:11:02] "GET /static/style/login.css HTTP/1.1" 304 -
+118.131.85.245 - - [17/Feb/2023 00:11:02] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [17/Feb/2023 00:11:02] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [17/Feb/2023 00:11:02] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [17/Feb/2023 00:11:02] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [17/Feb/2023 00:11:02] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [17/Feb/2023 00:11:02] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [17/Feb/2023 00:11:02] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [17/Feb/2023 00:11:02] "GET /favicon.ico HTTP/1.1" 404 -
+118.131.85.245 - - [17/Feb/2023 00:11:03] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [17/Feb/2023 00:11:03] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [17/Feb/2023 00:11:03] "GET /static/style/images/favicon.ico HTTP/1.1" 404 -
+118.131.85.245 - - [17/Feb/2023 00:11:08] "POST /login HTTP/1.1" 302 -
+118.131.85.245 - - [17/Feb/2023 00:11:08] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [17/Feb/2023 00:11:09] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [17/Feb/2023 00:11:09] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [17/Feb/2023 00:11:09] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [17/Feb/2023 00:11:09] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [17/Feb/2023 00:11:09] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [17/Feb/2023 00:11:09] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [17/Feb/2023 00:11:09] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [17/Feb/2023 00:11:09] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [17/Feb/2023 00:11:09] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [17/Feb/2023 00:11:09] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [17/Feb/2023 00:11:09] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [17/Feb/2023 00:11:09] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [17/Feb/2023 00:11:10] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [17/Feb/2023 00:11:10] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [17/Feb/2023 00:11:14] "GET /teacher/done_consulting/1992/1 HTTP/1.1" 200 -
+118.131.85.245 - - [17/Feb/2023 00:11:19] "GET /teacher/done_consulting/1664/1 HTTP/1.1" 200 -
+118.131.85.245 - - [17/Feb/2023 00:11:42] "GET /teacher/consulting/1992 HTTP/1.1" 200 -
+118.131.85.245 - - [17/Feb/2023 00:11:43] "GET /teacher/consulting/1664 HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py", line 211, in consulting
+    consulting_list.sort(key = lambda x:(-x['consulting_num'],x['consulting_missed']))
+TypeError: '<' not supported between instances of 'str' and 'datetime.date'
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py', reloading
+err
+err
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+ * Serving Flask app 'LMSapp'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:6725
+ * Running on http://172.31.37.184:6725
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [21/Feb/2023 00:02:42] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [21/Feb/2023 00:02:42] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:02:42] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:42] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:42] "GET /static/style/login.css HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:42] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:42] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:42] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:42] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:42] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:42] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [21/Feb/2023 00:02:43] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:02:43] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:43] "GET /static/style/images/favicon.ico HTTP/1.1" 404 -
+118.131.85.245 - - [21/Feb/2023 00:02:48] "POST /login HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/main_views.py", line 42, in login
+    if form.validate_on_submit():
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask_wtf/form.py", line 86, in validate_on_submit
+    return self.is_submitted() and self.validate(extra_validators)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/wtforms/form.py", line 329, in validate
+    return super().validate(extra)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/wtforms/form.py", line 146, in validate
+    if not field.validate(self, extra):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/wtforms/fields/core.py", line 242, in validate
+    stop_validation = self._run_validation_chain(form, chain)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/wtforms/fields/core.py", line 262, in _run_validation_chain
+    validator(form, self)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/forms.py", line 29, in __call__
+    raise ValueError('비밀번호 틀림')
+ValueError: 비밀번호 틀림
+118.131.85.245 - - [21/Feb/2023 00:02:48] "GET /login?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:48] "GET /login?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:48] "GET /login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:48] "GET /login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:56] "POST /login HTTP/1.1" 302 -
+118.131.85.245 - - [21/Feb/2023 00:02:56] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [21/Feb/2023 00:02:57] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:02:57] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:57] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:57] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:57] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:57] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:57] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:57] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:57] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:57] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:57] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:57] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:02:57] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:02:57] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:02:58] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:03:00] "GET /teacher/mystudents/1664/0 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:03:01] "GET /teacher/consulting/46876/0 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:03:06] "GET /teacher/mystudents/1/0 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:04:12] "GET /teacher/mystudents/1664/0 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:05:59] "GET /teacher/consulting/46876/0 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:06:03] "GET /teacher/mystudents/1664/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:06:06] "GET /teacher/consulting/46863/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:12:37] "POST /teacher/consulting/1/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:12:37] "POST /teacher/consulting/52/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:12:41] "GET /teacher/consulting/46863/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:16:16] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:16:16] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:16] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:16] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:16:16] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:16] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:16] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:16] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:16] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:16] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:16] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:16] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:16] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:16:16] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:16:17] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:16:19] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:19] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:25] "GET /teacher/mystudents/1664/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:16:26] "GET /teacher/consulting/46863/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:16:43] "POST /teacher/consulting/1/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:16:43] "POST /teacher/consulting/52/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:16:51] "GET /teacher/consulting/46863/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:16:59] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:16:59] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:59] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:59] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:59] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:59] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:59] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:59] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:59] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:59] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:59] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:59] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:16:59] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:16:59] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:17:00] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:17:03] "GET /teacher/mystudents/1664/0 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:17:04] "GET /teacher/consulting/46876/0 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:17:08] "GET /teacher/mystudents/1664/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:17:09] "GET /teacher/consulting/46863/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:17:27] "POST /teacher/consulting/52/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:17:27] "POST /teacher/consulting/1/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:17:32] "GET /teacher/consulting/46863/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:17:37] "GET /teacher/consulting/46863/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:20:17] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:20:17] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:20:17] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:20:17] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:20:17] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:20:17] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:20:17] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:20:18] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:20:18] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:20:18] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:20:18] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:20:18] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:20:18] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:20:18] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:20:18] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:20:23] "GET /teacher/mystudents/1664/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:20:24] "GET /teacher/consulting/46863/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:20:35] "POST /teacher/consulting/1/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:20:35] "POST /teacher/consulting/52/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:20:42] "GET /teacher/consulting/46863/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:20:46] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:20:46] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:20:46] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:20:46] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:20:46] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:20:46] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:20:46] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:20:46] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:20:46] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:20:46] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:20:46] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:20:46] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:20:46] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:20:46] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:20:47] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:20:51] "GET /teacher/mystudents/1664/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:20:52] "GET /teacher/consulting/46863/1 HTTP/1.1" 200 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/teacher.py', reloading
+err
+err
+noupdate
+
+
+
+
+
+err
+err
+ 수정
+ 수정
+noupdate
+ 수정
+ 수정
+ 수정
+err
+err
+noupdate
+ㅇㄴㄹㅇㄹ
+ㅇㄴㄹㄴㅇㄹㄴ
+제 스 장
+ㄹㄴㅇㄹㄴㅇ
+얘만 수정할게 요
+err
+err
+1번 수정 사항
+1번 수정 사항
+1번 수정 사항
+1번 수정 사항
+1번 수정 사항
+1번 수정 사항
+err
+err
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [21/Feb/2023 00:26:42] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:26:42] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:26:42] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:26:42] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:26:42] "GET /static/js/teacher.js HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:26:42] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:26:42] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:26:42] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:26:42] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:26:42] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:26:42] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:26:42] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:26:42] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:26:43] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:26:43] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:26:49] "GET /teacher/mystudents/1664/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:26:51] "GET /teacher/consulting/46863/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:27:36] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:27:36] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:27:36] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:27:36] "GET /static/js/teacher.js HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:27:36] "GET /static/js/chart.js HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:27:36] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:27:36] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:27:36] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:27:36] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:27:36] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:27:36] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:27:36] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [21/Feb/2023 00:27:36] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:27:36] "GET /teacher/api/get_teacher_ban HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:27:36] "GET /teacher/ HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:27:41] "GET /teacher/mystudents/1664/1 HTTP/1.1" 200 -
+118.131.85.245 - - [21/Feb/2023 00:27:42] "GET /teacher/consulting/46863/1 HTTP/1.1" 200 -
+ * Serving Flask app 'LMSapp'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:6725
+ * Running on http://172.31.37.184:6725
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
+118.131.85.245 - - [24/Feb/2023 09:02:13] "GET /admin/ HTTP/1.1" 200 -
+118.131.85.245 - - [24/Feb/2023 09:02:13] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [24/Feb/2023 09:02:13] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [24/Feb/2023 09:02:13] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [24/Feb/2023 09:02:13] "GET /static/style/admin.css HTTP/1.1" 304 -
+118.131.85.245 - - [24/Feb/2023 09:02:13] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [24/Feb/2023 09:02:13] "GET /static/js/admin.js HTTP/1.1" 304 -
+118.131.85.245 - - [24/Feb/2023 09:02:13] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [24/Feb/2023 09:02:13] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [24/Feb/2023 09:02:13] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [24/Feb/2023 09:02:13] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [24/Feb/2023 09:02:13] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [24/Feb/2023 09:02:13] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [24/Feb/2023 09:02:13] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [24/Feb/2023 09:02:13] "GET /admin/uldata HTTP/1.1" 200 -
+118.131.85.245 - - [24/Feb/2023 09:02:13] "GET /admin/uldata HTTP/1.1" 200 -
+118.131.85.245 - - [24/Feb/2023 09:02:14] "GET /admin/teacher_data HTTP/1.1" 200 -
+118.131.85.245 - - [24/Feb/2023 09:02:14] "GET /admin/sodata HTTP/1.1" 200 -
+118.131.85.245 - - [24/Feb/2023 09:02:14] "GET /admin/sodata HTTP/1.1" 200 -
+118.131.85.245 - - [24/Feb/2023 09:02:14] "GET /admin/teacher_data HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:06:58] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [27/Feb/2023 00:06:58] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:06:58] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:06:58] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:06:58] "GET /static/style/login.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:06:58] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:06:58] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:06:58] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:06:58] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:06:58] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [27/Feb/2023 00:06:58] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:06:58] "GET /favicon.ico HTTP/1.1" 404 -
+118.131.85.245 - - [27/Feb/2023 00:06:59] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:06:59] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [27/Feb/2023 00:06:59] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:06:59] "GET /static/style/images/favicon.ico HTTP/1.1" 404 -
+118.131.85.245 - - [27/Feb/2023 00:07:02] "POST /login HTTP/1.1" 302 -
+118.131.85.245 - - [27/Feb/2023 00:07:02] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [27/Feb/2023 00:07:03] "GET /manage/ HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2548, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.8/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/iamjoo0/LMS/LMSapp/views/manage.py", line 19, in home
+    all_ban = callapi.all_ban_info()
+  File "/home/ubuntu/iamjoo0/LMS/callapi.py", line 56, in all_ban_info
+    if ((i['semester']-13)%3) == 1:
+TypeError: string indices must be integers
+118.131.85.245 - - [27/Feb/2023 00:07:03] "GET /manage/?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:07:03] "GET /manage/?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:07:03] "GET /manage/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:07:03] "GET /manage/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:36] "GET /manage/ HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:14:36] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:36] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:36] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:36] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:36] "GET /static/js/manage.js HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:14:36] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:36] "GET /static/style/images/conversation.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:36] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:36] "GET /static/style/images/note.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:36] "GET /static/style/images/user.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:36] "GET /static/style/images/order.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:36] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:36] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:36] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:36] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:36] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:36] "GET /manage/api/get_all_questions/0 HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:14:36] "GET /manage/api/get_all_questions/0 HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:14:45] "GET /manage/api/get_all_questions/1 HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:14:52] "GET /logout HTTP/1.1" 302 -
+118.131.85.245 - - [27/Feb/2023 00:14:52] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [27/Feb/2023 00:14:52] "GET /login HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:14:52] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:52] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:52] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:52] "GET /static/style/login.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:52] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:52] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:52] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:52] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:52] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:52] "GET /static/js/login.js HTTP/1.1" 404 -
+118.131.85.245 - - [27/Feb/2023 00:14:55] "POST /login HTTP/1.1" 302 -
+118.131.85.245 - - [27/Feb/2023 00:14:55] "GET / HTTP/1.1" 302 -
+118.131.85.245 - - [27/Feb/2023 00:14:55] "GET /admin/ HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:14:55] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:55] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:55] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:55] "GET /static/style/admin.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:55] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:55] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:55] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:55] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:55] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:55] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:55] "GET /static/js/admin.js HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:55] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:55] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:14:55] "GET /admin/uldata HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:14:55] "GET /admin/uldata HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:14:55] "GET /admin/sodata HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:14:55] "GET /admin/teacher_data HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:14:56] "GET /admin/sodata HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:14:56] "GET /admin/teacher_data HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:36:18] "GET /admin/ HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:36:18] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:36:18] "GET /static/style/admin.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:36:18] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:36:18] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:36:18] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:36:18] "GET /static/js/admin.js HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:36:18] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:36:18] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:36:18] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:36:18] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:36:18] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:36:18] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:36:18] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:36:18] "GET /admin/uldata HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:36:18] "GET /admin/uldata HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:36:18] "GET /admin/teacher_data HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:36:18] "GET /admin/sodata HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:36:19] "GET /admin/sodata HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:36:19] "GET /admin/teacher_data HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:38:32] "GET /admin/ HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:38:32] "GET /static/style/style.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:38:32] "GET /static/style/paginate.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:38:32] "GET /static/style/manage.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:38:32] "GET /static/style/admin.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:38:32] "GET /static/style/teacher.css HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:38:32] "GET /static/js/admin.js HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:38:32] "GET /static/js/script.js HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:38:32] "GET /static/style/font/PretendardVariable.woff2 HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:38:32] "GET /static/style/images/home-button.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:38:32] "GET /static/style/images/purple_logo_03.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:38:32] "GET /static/style/images/instagram.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:38:32] "GET /static/style/images/youtube.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:38:32] "GET /static/style/images/naver_cafe.png HTTP/1.1" 304 -
+118.131.85.245 - - [27/Feb/2023 00:38:32] "GET /admin/uldata HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:38:32] "GET /admin/uldata HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:38:33] "GET /admin/teacher_data HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:38:33] "GET /admin/sodata HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:38:33] "GET /admin/sodata HTTP/1.1" 200 -
+118.131.85.245 - - [27/Feb/2023 00:38:33] "GET /admin/teacher_data HTTP/1.1" 200 -
+ * Detected change in '/home/ubuntu/iamjoo0/LMS/LMSapp/views/admin.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 784-800-180
