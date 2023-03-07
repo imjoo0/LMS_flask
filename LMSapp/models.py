@@ -33,6 +33,7 @@ class Attachments(db.Model):
     mime_type = db.Column(db.Text())
     data = db.Column(db.LargeBinary)
     file_name = db.Column(db.String(200))
+    question = db.relationship('Question', backref=db.backref('attachments', lazy='dynamic'))
 
 class Comment(db.Model):
     __tablename__ = 'comment'
