@@ -19,13 +19,7 @@ class File(Base):
 
     def __repr__(self):
         return f"<File(id={self.id}, filename='{self.filename}', mimetype='{self.mimetype}')>"
-    
-    def upload_file(filename, mimetype, data):
-        aession = Aession()
-        file = File(filename=filename, mimetype=mimetype, data=data)
-        aession.add(file)
-        aession.commit()
-        aession.close()
+
 
 class Question(db.Model):
     __tablename__ = 'question'
