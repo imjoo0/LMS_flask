@@ -1,6 +1,7 @@
 from flask import Blueprint,render_template, jsonify, request,redirect,url_for,flash
 import config 
 from datetime import datetime, timedelta, date
+from werkzeug.utils import secure_filename
 
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 
@@ -328,15 +329,8 @@ def request_question():
         contents = request.form['question_contents']
         teacher = session['user_registerno']
         file = request.files['file-upload']
-        if file:
-            filename = file.filename.encode('euc-kr').decode('utf-8')
-            mimetype = file.mimetype.encode('euc-kr').decode('utf-8')
-            data = file.read()
-            aession = Aession()
-            file_model = File(filename = filename,mimetype=mimetype,data=data)
-            aession.add(file_model)
-            aession.commit()
-            aession.close()
+        file.save(secure_filename(file.filename))
+        
         create_date = datetime.now().date()
         file = request.files['file']
         filename = file.filename

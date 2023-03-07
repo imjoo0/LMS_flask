@@ -20,7 +20,7 @@ csrf = CSRFProtect()
 def create_app():
     app = Flask(__name__)
     app.config.from_object(config) # config.py 파일에 작성한 항목을 읽기 위해
-    
+
     # orm
     db.init_app(app)
     csrf.init_app(app)
