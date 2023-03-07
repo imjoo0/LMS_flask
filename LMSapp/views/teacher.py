@@ -8,7 +8,7 @@ bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 file_upload = FileUpload()
 
 from flask import session  # 세션
-from LMSapp import Aession,app
+from LMSapp import Aession
 from LMSapp.models import *
 from LMSapp.views import *
 import json
@@ -318,7 +318,7 @@ def save_attachment(file, filename, mimetype):
     db.session.commit()
 
     # 파일 저장
-    save_path = os.path.join(app.config['UPLOAD_FOLDER'], str(attachment.id))
+    save_path = os.path.join(config['UPLOAD_FOLDER'], str(attachment.id))
     with open(save_path, 'wb') as f:
         f.write(attachment.data)
         
