@@ -364,10 +364,9 @@ def question(id):
     if request.method == 'GET':
         q = Question.query.filter(Question.id == id).first()
         attach = q.attachment
-        print(attach)
-        if attach is None:
+        if attach is None or attach.length() == 0:
             return_data['attach'] = "없음"
-        return_data['attach'] = attach.file_name
+        return_data['attach'] = attach[0].file_name
         teacher_info = callapi.get_teacher_info_by_id(q.teacher_id)
         a = Answer.query.filter(Answer.question_id == id).first()
         c = Comment.query.filter(Comment.question_id == id).all()
