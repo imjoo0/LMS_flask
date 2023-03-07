@@ -1,6 +1,7 @@
 from flask import Blueprint,render_template, jsonify, request,redirect,url_for,flash
 import config 
 from datetime import datetime, timedelta, date
+# file-upload 로 자동 바꿈 방지 모듈 
 from werkzeug.utils import secure_filename
 from flask_file_upload import FileUpload
 from io import BytesIO
@@ -316,22 +317,20 @@ def download_file(q_id):
         return "File not found."
     return send_file(BytesIO(attachment.data), mimetype=attachment.mime_type, as_attachment=True)
 
-def save_attachment(file, filename, mimetype, q_id):
-    print(file.name)
-    print(filename)
+def save_attachment(file, q_id):
     attachment = Attachments(
-        file_name=filename,
-        mime_type=mimetype,
+        file_name=secure_filename(file.name),
+        mime_type=file.mimetype,
         data=file.read(),
         question_id = q_id
     )
     db.session.add(attachment)
     db.session.commit()
 
-    # 파일 저장
-    save_path = os.path.join(config.UPLOAD_FOLDER, "question_attachement")
-    with open(save_path, 'wb') as f:
-        f.write(attachment.data)
+    # # 파일 저장
+    # save_path = os.path.join(config.UPLOAD_FOLDER, "question_attachement")
+    # with open(save_path, 'wb') as f:
+    #     f.write(attachment.data)
         
 # 선생님 문의 저장 
 @bp.route('/question', methods=['POST'])
@@ -361,7 +360,7 @@ def request_question():
         
         db.session.add(new_question)
         db.session.commit()
-        save_attachment(file,file.name,file.mimetype,new_question.id)
+        save_attachment(file,new_question.id)
         return redirect('/')
 
 # 본원 답변 조회 
