@@ -236,7 +236,7 @@ function get_question(q_id,done_code){
                     </div>
                     <div class="modal-body-select-container">
                     <span class="modal-body-select-label">첨부파일</span>
-                    <a href="/teacher/downloadfile/question/${q_id}" download="${attach}">Download</a>
+                    <a href="/teacher/downloadfile/question/${q_id}" download="${attach}">${attach}</a>
                     </div>
                     `;
                 }else{
@@ -272,7 +272,7 @@ function get_question(q_id,done_code){
                     </div>
                     <div class="modal-body-select-container">
                     <span class="modal-body-select-label">첨부파일</span>
-                    <a href="/teacher/downloadfile/question/${q_id}" download="${attach}">Download</a>
+                    <a href="/teacher/downloadfile/question/${q_id}" download="${attach}">${attach}</a>
                     </div>
                     `;
                 }
