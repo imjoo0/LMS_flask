@@ -329,7 +329,7 @@ def request_question():
         teacher = session['user_registerno']
         file = request.files['file-upload']
         if file:
-            filename = file.filename.decode('utf-8')
+            filename = file.filename
             mimetype = file.mimetype.decode('utf-8')
             data = file.read()
             aession = Aession()
