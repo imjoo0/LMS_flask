@@ -317,7 +317,7 @@ def download_file(q_id):
         return "File not found."
     return send_file(BytesIO(attachment.data),as_attachment=True, mimetype=attachment.mime_type )
 
-def save_attachment(file, q_id):
+def save_attachment(file, q_id, uploadto):
     attachment = Attachments(
         file_name=secure_filename(file.filename),
         mime_type=file.mimetype,
@@ -328,9 +328,9 @@ def save_attachment(file, q_id):
     db.session.commit()
 
     # # 파일 저장
-    # save_path = os.path.join(config.UPLOAD_FOLDER, "question_attachement")
-    # with open(save_path, 'wb') as f:
-    #     f.write(attachment.data)
+    save_path = os.path.join(config.UPLOAD_FOLDER, uploadto)
+    with open(save_path, 'wb') as f:
+        f.write(attachment.data)
         
 # 선생님 문의 저장 
 @bp.route('/question', methods=['POST'])
@@ -360,7 +360,7 @@ def request_question():
         
         db.session.add(new_question)
         db.session.commit()
-        save_attachment(file,new_question.id)
+        save_attachment(file,new_question.id,'question_attachement/')
         return redirect('/')
 
 # 본원 답변 조회 
