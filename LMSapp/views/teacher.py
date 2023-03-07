@@ -317,11 +317,10 @@ def download_file(q_id):
         return "File not found."
     return send_file(BytesIO(attachment.data), mimetype=attachment.mime_type, as_attachment=True)
 
-def save_attachment(file, q_id):
-    print(file.name)
-    print(secure_filename(file.name))
+def save_attachment(file,file_name, q_id):
+    print(file_name)
     attachment = Attachments(
-        file_name=secure_filename(file.name),
+        file_name=file_name,
         mime_type=file.mimetype,
         data=file.read(),
         question_id = q_id
@@ -362,7 +361,9 @@ def request_question():
         
         db.session.add(new_question)
         db.session.commit()
-        save_attachment(file,new_question.id)
+        
+        file_name=secure_filename(file.name)  
+        save_attachment(file,file_name,new_question.id)
         return redirect('/')
 
 # 본원 답변 조회 
