@@ -363,15 +363,15 @@ def request_question():
 def question(id):
     if request.method == 'GET':
         q = Question.query.filter(Question.id == id).first()
+        teacher_info = callapi.get_teacher_info_by_id(q.teacher_id)
+        a = Answer.query.filter(Answer.question_id == id).first()
+        c = Comment.query.filter(Comment.question_id == id).all()
+        return_data = {}
         attach = q.attachment
         if attach is None or len(attach) == 0:
             return_data['attach'] = "없음"
         else:
             return_data['attach'] = attach[0].file_name
-        teacher_info = callapi.get_teacher_info_by_id(q.teacher_id)
-        a = Answer.query.filter(Answer.question_id == id).first()
-        c = Comment.query.filter(Comment.question_id == id).all()
-        return_data = {}
         if q.category == 0:
             return_data['category'] = '일반문의' 
             return_data['history'] = '없음'
