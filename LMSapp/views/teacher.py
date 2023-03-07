@@ -312,7 +312,7 @@ def save_attachment(file, filename, mimetype):
         filename=filename,
         mimetype=mimetype,
         data=file.read(),
-        created_at=datetime.utcnow()
+        question_id = 1
     )
     db.session.add(attachment)
     db.session.commit()
@@ -349,9 +349,6 @@ def request_question():
                 cateory = 3
             new_question = Question(consulting_history=history_id,category=cateory,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,create_date=create_date,answer=0)
         
-        file_upload.add_files(new_question,files ={
-            "attachments":file
-        })    
         db.session.add(new_question)
         db.session.commit()
         return redirect('/')
