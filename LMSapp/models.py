@@ -21,7 +21,7 @@ class Question(db.Model):
     student_id = db.Column(db.Integer,nullable=True)
     create_date = db.Column(db.DateTime(), nullable=False)
     comments = db.relationship("Comment", back_populates="question")
-    attachments = db.relationship('Attachment', back_populates='question', lazy=True)
+    attachments = db.relationship('Attachments', back_populates='question', lazy=True)
     answer = db.Column(db.Integer,nullable=True)
 
 @file_upload.Model
