@@ -14,7 +14,7 @@ class File(Base):
     id = Column(Integer, primary_key=True)
     filename = Column(String(255), nullable=False)
     mimetype = Column(String(50), nullable=False)
-    data = Column(String(4294000000), nullable=False)
+    data = Column(db.Text(), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     def __repr__(self):
@@ -26,7 +26,7 @@ class File(Base):
         aession.add(file)
         aession.commit()
         aession.close()
-        
+
 class Question(db.Model):
     __tablename__ = 'question'
     
