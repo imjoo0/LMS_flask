@@ -11,7 +11,7 @@ from LMSapp.models import *
 from LMSapp.views import *
 import json
 import pymysql
-
+import os
 import callapi
 
 current_time = datetime.now()
@@ -329,7 +329,7 @@ def request_question():
         contents = request.form['question_contents']
         teacher = session['user_registerno']
         file = request.files['file-upload']
-        file.save(secure_filename(file.filename))
+        file.save(os.path.join(config['UPLOAD_FOLDER'], file.filename))
         create_date = datetime.now().date()
         
         if question_category == '일반':
