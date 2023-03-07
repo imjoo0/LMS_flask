@@ -5,6 +5,7 @@ from datetime import datetime, timedelta, date
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 
 from flask import session  # 세션
+from LMSapp import Aession
 from LMSapp.models import *
 from LMSapp.views import *
 import json
@@ -24,6 +25,21 @@ standard = datetime.strptime('11110101',"%Y%m%d").date()
     # SET A.done = 0
     # WHERE date_format(A.created_at, '%Y-%m-%d') < date_format(curdate(),'%Y-%m-%d') AND B.cycle < 6 AND A.done = 1
 # }
+@bp.route('/upload', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        file = request.files['file-upload']
+        if file:
+            filename = file.filename
+            mimetype = file.mimetype
+            data = file.read()
+            aession = Aession()
+            file_model = File()
+            file_model.upload_file(filename, data)
+            aession.add(file_model)
+            aession.commit()
+            aession.close()
+    return render_template('upload.html')
 
 # 선생님 메인 페이지
 # 테스트 계정 id : T1031 pw동일  
@@ -311,6 +327,17 @@ def request_question():
         title = request.form['question_title']
         contents = request.form['question_contents']
         teacher = session['user_registerno']
+        file = request.files['file-upload']
+        if file:
+            filename = file.filename
+            mimetype = file.mimetype
+            data = file.read()
+            aession = Aession()
+            file_model = File()
+            file_model.upload_file(filename, data)
+            aession.add(file_model)
+            aession.commit()
+            aession.close()
         create_date = datetime.now().date()
         file = request.files['file']
         filename = file.filename

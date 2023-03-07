@@ -3,12 +3,30 @@ from sqlalchemy.sql import func
 from datetime import datetime
 # import json
 #  join 기능
-# from LMSapp import Base,Session
-# from sqlalchemy import select , and_
-# from sqlalchemy.orm import joinedload,contains_eager
+from LMSapp import Base,Aession
+from sqlalchemy import select , and_
+from sqlalchemy.orm import joinedload,contains_eager
+from sqlalchemy import Column, Integer, String, DateTime
 
 # msession = Session()
+class File(Base):
+    __tablename__ = 'files'
+    id = Column(Integer, primary_key=True)
+    filename = Column(String(255), nullable=False)
+    mimetype = Column(String(50), nullable=False)
+    data = Column(String(4294000000), nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
 
+    def __repr__(self):
+        return f"<File(id={self.id}, filename='{self.filename}', mimetype='{self.mimetype}')>"
+    
+    def upload_file(filename, mimetype, data):
+        aession = Aession()
+        file = File(filename=filename, mimetype=mimetype, data=data)
+        aession.add(file)
+        aession.commit()
+        aession.close()
+        
 class Question(db.Model):
     __tablename__ = 'question'
     

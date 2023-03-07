@@ -97,6 +97,10 @@
                             <textarea id="question_contents" class="modal-body-select" type="text" rows="5" cols="25"
                                 name="question_contents" style="width: 75%;"></textarea>
                         </div>
+                        <div class="modal-body-select-container">
+                            <span class="modal-body-select-label">첨부 파일</span>
+                            <input type="file" id="file-upload" name="file-upload">
+                        </div>
                     </div>
                     <div class="d-flex justify-content-center mt-4 mb-2">
                         <button class="btn btn-dark" type="submit">저장</button>
@@ -381,7 +385,7 @@
                                 <th class="col-3">반 이름</th>
                                 <th class="col-3">이름</th>
                                 <th class="col-3">연락처</th>
-                                <th class="col-2">상세보기</th>
+                                <th class="col-2">상담하기</th>
                             </tr>
                             {% for s in students %}
                             <tr id="totalreport-row" class="row">
