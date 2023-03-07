@@ -160,6 +160,7 @@ function get_question(q_id,done_code){
             create_date = response["create_date"]
             answer = response['answer']
             answer_at = response['answer_at']
+            attach = response['attach']
             code = 0
             temp_question_list = ''
             $('#answerModalLabel').html(`${teacher}(${teacher_e})선생님 ${category}`)
@@ -185,6 +186,10 @@ function get_question(q_id,done_code){
                 <div class="modal-body-select-container">
                     <span class="modal-body-select-label">작성일</span>
                     <p>${create_date}</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">첨부파일</span>
+                    <a href="/teacher/downloadfile/question/${q_id}" download="${attach}">Download</a>
                 </div>
             `;
             }
@@ -229,6 +234,10 @@ function get_question(q_id,done_code){
                         <span class="modal-body-select-label">처리</span>
                         <p>${reject}</p>
                     </div>
+                    <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">첨부파일</span>
+                    <a href="/teacher/downloadfile/question/${q_id}" download="${attach}">Download</a>
+                    </div>
                     `;
                 }else{
                     code = 3
@@ -260,6 +269,10 @@ function get_question(q_id,done_code){
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">처리</span>
                         <p>${reject}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">첨부파일</span>
+                    <a href="/teacher/downloadfile/question/${q_id}" download="${attach}">Download</a>
                     </div>
                     `;
                 }

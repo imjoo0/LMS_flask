@@ -7,7 +7,7 @@ from flask_file_upload import FileUpload
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 file_upload = FileUpload()
 
-from flask import session  # 세션
+from flask import session,send_file 
 from LMSapp import Aession
 from LMSapp.models import *
 from LMSapp.views import *
@@ -363,7 +363,10 @@ def request_question():
 def question(id):
     if request.method == 'GET':
         q = Question.query.filter(Question.id == id).first()
-        print(q.attachment)
+        attach = q.attachment[0]
+        if attach is None:
+            return_data['attach'] = "없음"
+        return_data['attach'] = attach.file_name
         teacher_info = callapi.get_teacher_info_by_id(q.teacher_id)
         a = Answer.query.filter(Answer.question_id == id).first()
         c = Comment.query.filter(Comment.question_id == id).all()
