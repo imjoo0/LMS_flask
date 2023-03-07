@@ -364,7 +364,7 @@ def question(id):
     if request.method == 'GET':
         q = Question.query.filter(Question.id == id).first()
         attach = q.attachment
-        if attach is None or attach.length() == 0:
+        if attach is None or len(attach) == 0:
             return_data['attach'] = "없음"
         else:
             return_data['attach'] = attach[0].file_name
