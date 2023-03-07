@@ -8,19 +8,6 @@ from sqlalchemy import select , and_
 from sqlalchemy.orm import joinedload,contains_eager
 from sqlalchemy import Column, Integer, String, DateTime, LargeBinary
 
-# msession = Session()
-class File(Base):
-    __tablename__ = 'files'
-    id = Column(Integer, primary_key=True)
-    filename = Column(String(65535), nullable=False)
-    mimetype = Column(String(65535), nullable=False)
-    data = Column(String(65535), nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
-
-    def __repr__(self):
-        return f"<File(id={self.id}, filename='{self.filename}', mimetype='{self.mimetype}')>"
-
-@file_upload.Model
 class Question(db.Model):
     __tablename__ = 'question'
     
@@ -34,11 +21,18 @@ class Question(db.Model):
     student_id = db.Column(db.Integer,nullable=True)
     create_date = db.Column(db.DateTime(), nullable=False)
     comments = db.relationship("Comment", back_populates="question")
-    attachments = file_upload.Column()
-    attachments__mime_type = db.Column(db.String(255), nullable=True)
-    attachments__ext = db.Column(db.String(100), nullable=True)
-    attachments__file_name = db.Column(db.String(100), nullable=True)
+    attachments = db.relationship('Attachment', back_populates='question', lazy=True)
     answer = db.Column(db.Integer,nullable=True)
+
+@file_upload.Model
+class Attachments(db.Model):
+    __tablename__ = 'attachment'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    question_id = db.Column(db.Integer, db.ForeignKey('question.id'), nullable=False)
+    mime_type = db.Column(db.Text())
+    ext = db.Column(db.Text())
+    file_name = db.Column(db.String(200))
 
 class Comment(db.Model):
     __tablename__ = 'comment'

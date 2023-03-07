@@ -349,8 +349,8 @@ def request_question():
                 cateory = 3
             new_question = Question(consulting_history=history_id,category=cateory,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,create_date=create_date,answer=0)
         
-        file_upload.add_files(new_question,files = {
-            "attachements":file
+        file_upload.add_files(new_question,files ={
+            "attachments":file
         })    
         db.session.add(new_question)
         db.session.commit()
