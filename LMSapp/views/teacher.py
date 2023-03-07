@@ -448,6 +448,9 @@ def question(id):
 def del_question(id):
     if request.method == 'POST':
         target_question = Question.query.get_or_404(id)
+        target_attach = Attachments.query.filter(Attachments.question_id == id).first()
+        if target_attach != None:
+            db.session.delete(target_attach)
         db.session.delete(target_question)
         db.session.commit()
         return jsonify('삭제 완료')
