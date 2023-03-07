@@ -323,7 +323,7 @@ def save_attachment(file, filename, mimetype, q_id):
     db.session.commit()
 
     # 파일 저장
-    save_path = os.path.join(config.UPLOAD_FOLDER, str(attachment.id))
+    save_path = os.path.join(config.UPLOAD_FOLDER, "question_attachement")
     with open(save_path, 'wb') as f:
         f.write(attachment.data)
         
