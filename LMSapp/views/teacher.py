@@ -329,12 +329,11 @@ def request_question():
         teacher = session['user_registerno']
         file = request.files['file-upload']
         if file:
-            filename = file.filename
-            mimetype = file.mimetype.decode('utf-8')
+            filename = file.filename.encode('euc-kr').decode('utf-8')
+            mimetype = file.mimetype.encode('euc-kr').decode('utf-8')
             data = file.read()
             aession = Aession()
-            file_model = File()
-            file_model.upload_file(filename, data)
+            file_model = File(filename = filename,mimetype=mimetype,data=data)
             aession.add(file_model)
             aession.commit()
             aession.close()
