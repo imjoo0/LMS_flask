@@ -308,6 +308,11 @@ def consulting(id,is_done):
             return{'result':'상담일지 저장 완료'}
 
 def save_attachment(file, filename, mimetype, q_id):
+    print(file.name)
+    print("mimetype입닝당")
+    print(file.mimetype)
+    print("mimetype입니다")
+    print(mimetype)
     attachment = Attachments(
         file_name=filename,
         mime_type=mimetype,
