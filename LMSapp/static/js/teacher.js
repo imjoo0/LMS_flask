@@ -73,6 +73,7 @@ async function get_answer(q_id){
         answer = response['answer']
         answer_at = response['answer_at']
         comments = response['comment']
+        attach = response['attach']
         let temp_comment = `     
         <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents"
         placeholder="댓글을 남겨주세요">
@@ -134,6 +135,10 @@ async function get_answer(q_id){
                     <span class="modal-body-select-label">작성일</span>
                     <p>${create_date}</p>
                 </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">첨부파일</span>
+                    <a href="/teacher/downloadfile/question/${q_id}" download="${attach}">${attach}</a>
+                </div>
             `;
         }else{
             $('#consulting_history_attach').show()
@@ -169,6 +174,10 @@ async function get_answer(q_id){
                 <div class="modal-body-select-container">
                     <span class="modal-body-select-label">처리</span>
                     <p>${reject}</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">첨부파일</span>
+                    <a href="/teacher/downloadfile/question/${q_id}" download="${attach}">${attach}</a>
                 </div>
             `;
             let history = response['history']
