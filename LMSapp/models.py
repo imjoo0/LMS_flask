@@ -29,7 +29,7 @@ class Attachments(db.Model):
     __tablename__ = 'attachment'
     
     id = db.Column(db.Integer, primary_key=True)
-    question_id = db.Column(db.Integer, db.ForeignKey('question.id'), nullable=False,ondelete='CASCADE')
+    question_id = db.Column(db.Integer, db.ForeignKey('question.id'), nullable=False)
     mime_type = db.Column(db.Text())
     data = db.Column(db.LargeBinary)
     file_name = db.Column(db.String(200))
