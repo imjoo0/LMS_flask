@@ -317,7 +317,7 @@ def save_attachment(file, filename, mimetype, q_id):
         file_name=filename,
         mime_type=mimetype,
         data=file.read(),
-        f_id = q_id
+        question_id = q_id
     )
     db.session.add(attachment)
     db.session.commit()
@@ -355,6 +355,7 @@ def request_question():
         
         db.session.add(new_question)
         db.session.commit()
+        print(new_question.id)
         save_attachment(file,file.name,file.mimetype,new_question.id)
         return redirect('/')
 
