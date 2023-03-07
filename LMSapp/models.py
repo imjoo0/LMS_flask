@@ -1,4 +1,4 @@
-from LMSapp import db
+from LMSapp import db, file_upload
 from sqlalchemy.sql import func
 from datetime import datetime
 # import json
@@ -20,7 +20,7 @@ class File(Base):
     def __repr__(self):
         return f"<File(id={self.id}, filename='{self.filename}', mimetype='{self.mimetype}')>"
 
-
+@file_upload.Model
 class Question(db.Model):
     __tablename__ = 'question'
     
@@ -34,7 +34,7 @@ class Question(db.Model):
     student_id = db.Column(db.Integer,nullable=True)
     create_date = db.Column(db.DateTime(), nullable=False)
     comments = db.relationship("Comment", back_populates="question")
-    
+    attachments = file_upload.Column(nullable=True)
     answer = db.Column(db.Integer,nullable=True)
 
 class Comment(db.Model):

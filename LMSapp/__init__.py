@@ -4,6 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+# 파일 업로드
+from flask_file_upload.file_upload import FileUpload
 
 import config
 from flask_wtf.csrf import CSRFProtect  # csrf
@@ -14,16 +16,18 @@ db = SQLAlchemy()
 engine = create_engine('mysql+pymysql://purple:wjdgus00@127.0.0.1:3306/LMS?charset=utf8', echo=True)
 Aession = sessionmaker(bind=engine)
 Base = declarative_base(bind=engine)
+file_upload = FileUpload()
 
 csrf = CSRFProtect()
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__,static_folder="static")
     app.config.from_object(config) # config.py 파일에 작성한 항목을 읽기 위해
-    
+
     # orm
     db.init_app(app)
     csrf.init_app(app)
+    file_upload.init_app(app, db)
 
     from . import models
 

@@ -2,8 +2,10 @@ from flask import Blueprint,render_template, jsonify, request,redirect,url_for,f
 import config 
 from datetime import datetime, timedelta, date
 from werkzeug.utils import secure_filename
+from flask_file_upload import FileUpload
 
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
+file_upload = FileUpload()
 
 from flask import session  # 세션
 from LMSapp import Aession
@@ -328,9 +330,9 @@ def request_question():
         title = request.form['question_title']
         contents = request.form['question_contents']
         teacher = session['user_registerno']
-        file = request.files['file-upload']
-        file.save(secure_filename(file.filename))
         create_date = datetime.now().date()
+        # 첨부 파일 처리 
+        file = request.files['file-upload']
         
         if question_category == '일반':
             cateory = 0
@@ -346,7 +348,10 @@ def request_question():
             else:
                 cateory = 3
             new_question = Question(consulting_history=history_id,category=cateory,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,create_date=create_date,answer=0)
-            
+        
+        file_upload.add_files(new_question,files = {
+            "attachements":file
+        })    
         db.session.add(new_question)
         db.session.commit()
         return redirect('/')
