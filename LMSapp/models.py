@@ -12,9 +12,9 @@ from sqlalchemy import Column, Integer, String, DateTime, LargeBinary
 class File(Base):
     __tablename__ = 'files'
     id = Column(Integer, primary_key=True)
-    filename = Column(LargeBinary, nullable=False)
-    mimetype = Column(LargeBinary, nullable=False)
-    data = Column(LargeBinary, nullable=False)
+    filename = Column(String(65535), nullable=False)
+    mimetype = Column(String(65535), nullable=False)
+    data = Column(String(65535), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     def __repr__(self):
