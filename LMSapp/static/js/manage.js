@@ -199,7 +199,6 @@ function get_question(q_id,done_code){
                 student_origin = response["student_origin"]
                 reject = response["reject"]
                 if( category == '이반 요청'){
-                    new_ban = response["new_ban"]
                     code = 2
                     temp_question_list = `
                     <div class="modal-body-select-container">
@@ -225,10 +224,6 @@ function get_question(q_id,done_code){
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">대상 반 | 학생</span>
                         <p>${ban} ➖ ${student} ( ${student_origin} )</p>
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">희망 이반 반</span>
-                        <p>${new_ban}</p>
                     </div>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">처리</span>
