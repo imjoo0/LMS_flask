@@ -307,12 +307,12 @@ def consulting(id,is_done):
             db.session.commit()
             return{'result':'상담일지 저장 완료'}
 
-def save_attachment(file, filename, mimetype):
+def save_attachment(file, filename, mimetype, q_id):
     attachment = Attachments(
         filename=filename,
         mimetype=mimetype,
         data=file.read(),
-        question_id = 1
+        question_id = q_id
     )
     db.session.add(attachment)
     db.session.commit()
@@ -333,7 +333,6 @@ def request_question():
         create_date = datetime.now().date()
         # 첨부 파일 처리 
         file = request.files['file-upload']
-        save_attachment(file,file.name,file.mimetype)
         if question_category == '일반':
             cateory = 0
             new_question = Question(category=cateory,title=title,contents=contents,teacher_id=teacher,create_date=create_date,answer=0)
@@ -349,6 +348,8 @@ def request_question():
                 cateory = 3
             new_question = Question(consulting_history=history_id,category=cateory,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,create_date=create_date,answer=0)
         
+        save_attachment(file,file.name,file.mimetype,new_question.id)
+
         db.session.add(new_question)
         db.session.commit()
         return redirect('/')
