@@ -309,8 +309,8 @@ def consulting(id,is_done):
 
 def save_attachment(file, filename, mimetype, q_id):
     attachment = Attachments(
-        filename=filename,
-        mimetype=mimetype,
+        file_name=filename,
+        mime_type=mimetype,
         data=file.read(),
         question_id = q_id
     )
