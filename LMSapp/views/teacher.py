@@ -355,9 +355,7 @@ def request_question():
         
         db.session.add(new_question)
         db.session.commit()
-        print('새 모드')
-        print(new_question)
-        save_attachment(file,file.name,file.mimetype,last_data.id)
+        save_attachment(file,file.name,file.mimetype,new_question.id)
         return redirect('/')
 
 # 본원 답변 조회 
