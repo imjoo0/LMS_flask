@@ -12,8 +12,8 @@ from sqlalchemy import Column, Integer, String, DateTime
 class File(Base):
     __tablename__ = 'files'
     id = Column(Integer, primary_key=True)
-    filename = Column(String(255), nullable=False)
-    mimetype = Column(String(50), nullable=False)
+    filename = Column(db.Text(), nullable=False)
+    mimetype = Column(db.Text(), nullable=False)
     data = Column(db.Text(), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
