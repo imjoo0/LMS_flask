@@ -318,6 +318,8 @@ def download_file(q_id):
     return send_file(BytesIO(attachment.data), mimetype=attachment.mime_type, as_attachment=True)
 
 def save_attachment(file, q_id):
+    print(file.name)
+    print(secure_filename(file.name))
     attachment = Attachments(
         file_name=secure_filename(file.name),
         mime_type=file.mimetype,
