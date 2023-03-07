@@ -315,7 +315,7 @@ def download_file(q_id):
     attachment = Attachments.query.filter_by(question_id=q_id).first()
     if attachment is None:
         return "File not found."
-    return send_file(BytesIO(attachment.data),as_attachment=True)
+    return send_file(BytesIO(attachment.data),as_attachment=True, mimetype=attachment.mime_type )
 
 def save_attachment(file, q_id):
     attachment = Attachments(
