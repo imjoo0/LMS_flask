@@ -34,7 +34,7 @@ class Question(db.Model):
     student_id = db.Column(db.Integer,nullable=True)
     create_date = db.Column(db.DateTime(), nullable=False)
     comments = db.relationship("Comment", back_populates="question")
-    attachments = file_upload.Column(nullable=True)
+    attachments = file_upload.Column()
     answer = db.Column(db.Integer,nullable=True)
 
 class Comment(db.Model):
