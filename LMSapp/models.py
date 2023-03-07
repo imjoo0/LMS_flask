@@ -35,6 +35,7 @@ class Question(db.Model):
     create_date = db.Column(db.DateTime(), nullable=False)
     comments = db.relationship("Comment", back_populates="question")
     attachments = file_upload.Column()
+    attachments__mime_type = Column(String(255), nullable=True)
     answer = db.Column(db.Integer,nullable=True)
 
 class Comment(db.Model):
