@@ -6,15 +6,15 @@ from datetime import datetime
 from LMSapp import Base,Aession
 from sqlalchemy import select , and_
 from sqlalchemy.orm import joinedload,contains_eager
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, LargeBinary
 
 # msession = Session()
 class File(Base):
     __tablename__ = 'files'
     id = Column(Integer, primary_key=True)
-    filename = Column(String(65535), nullable=False)
-    mimetype = Column(String(65535), nullable=False)
-    data = Column(String(65535), nullable=False)
+    filename = Column(LargeBinary, nullable=False)
+    mimetype = Column(LargeBinary, nullable=False)
+    data = Column(LargeBinary, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     def __repr__(self):
