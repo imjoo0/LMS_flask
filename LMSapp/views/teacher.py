@@ -8,13 +8,13 @@ bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 file_upload = FileUpload()
 
 from flask import session  # 세션
-from LMSapp import Aession
+from LMSapp import Aession,app
 from LMSapp.models import *
 from LMSapp.views import *
 import json
 import pymysql
 
-import callapi
+import callapi,os
 
 current_time = datetime.now()
 Today = current_time.date()
@@ -28,21 +28,6 @@ standard = datetime.strptime('11110101',"%Y%m%d").date()
     # SET A.done = 0
     # WHERE date_format(A.created_at, '%Y-%m-%d') < date_format(curdate(),'%Y-%m-%d') AND B.cycle < 6 AND A.done = 1
 # }
-@bp.route('/upload', methods=['GET', 'POST'])
-def upload():
-    if request.method == 'POST':
-        file = request.files['file-upload']
-        if file:
-            filename = file.filename
-            mimetype = file.mimetype
-            data = file.read()
-            aession = Aession()
-            file_model = File()
-            file_model.upload_file(filename, data)
-            aession.add(file_model)
-            aession.commit()
-            aession.close()
-    return render_template('upload.html')
 
 # 선생님 메인 페이지
 # 테스트 계정 id : T1031 pw동일  
@@ -321,7 +306,22 @@ def consulting(id,is_done):
             target_consulting.done = 1
             db.session.commit()
             return{'result':'상담일지 저장 완료'}
-       
+
+def save_attachment(file, filename, mimetype):
+    attachment = Attachments(
+        filename=filename,
+        mimetype=mimetype,
+        data=file.read(),
+        created_at=datetime.utcnow()
+    )
+    db.session.add(attachment)
+    db.session.commit()
+
+    # 파일 저장
+    save_path = os.path.join(app.config['UPLOAD_FOLDER'], str(attachment.id))
+    with open(save_path, 'wb') as f:
+        f.write(attachment.data)
+        
 # 선생님 문의 저장 
 @bp.route('/question', methods=['POST'])
 def request_question():
@@ -333,7 +333,7 @@ def request_question():
         create_date = datetime.now().date()
         # 첨부 파일 처리 
         file = request.files['file-upload']
-        
+        save_attachment(file,file.name,file.mimetype)
         if question_category == '일반':
             cateory = 0
             new_question = Question(category=cateory,title=title,contents=contents,teacher_id=teacher,create_date=create_date,answer=0)
