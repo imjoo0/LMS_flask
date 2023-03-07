@@ -363,6 +363,7 @@ def request_question():
 def question(id):
     if request.method == 'GET':
         q = Question.query.filter(Question.id == id).first()
+        print(q.attachment)
         teacher_info = callapi.get_teacher_info_by_id(q.teacher_id)
         a = Answer.query.filter(Answer.question_id == id).first()
         c = Comment.query.filter(Comment.question_id == id).all()
