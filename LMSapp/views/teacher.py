@@ -453,7 +453,7 @@ def del_question(id):
         if target_attach != None:
             db.session.delete(target_attach)
         if target_answer != None:
-            db.session.delete(target_attach)
+            db.session.delete(target_answer)
         db.session.delete(target_question)
         db.session.commit()
         return jsonify('삭제 완료')
