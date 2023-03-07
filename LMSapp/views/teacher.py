@@ -330,15 +330,8 @@ def request_question():
         teacher = session['user_registerno']
         file = request.files['file-upload']
         file.save(secure_filename(file.filename))
-        
         create_date = datetime.now().date()
-        file = request.files['file']
-        filename = file.filename
-        mime_type = file.content_type
-        data = file.read()
-        new_file = File(name=filename, mime_type=mime_type, data=data)
-        db.session.add(new_file)
-        db.session.commit()
+        
         if question_category == '일반':
             cateory = 0
             new_question = Question(category=cateory,title=title,contents=contents,teacher_id=teacher,create_date=create_date,answer=0)
