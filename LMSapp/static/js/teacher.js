@@ -13,7 +13,6 @@
 $(document).ready(function () {
     $('#today_task_box0').show();
     $('#today_task_box1').hide();
-    get_task(0)
 })
 
 // 본원 문의 관련 함수 
