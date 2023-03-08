@@ -1,7 +1,7 @@
 from LMSapp import db, file_upload
 from sqlalchemy.sql import func
 from datetime import datetime
-import json
+from flask import jsonify
 # import json
 #  join 기능
 # from LMSapp import Base,Aession
@@ -167,12 +167,13 @@ class TaskBan(db.Model):
 
     @classmethod
     def get_teacher_task(cls,teacher_id,done):
+        result = []
+        #  해야 하는 업무들 가져오기 (task_id가 중복되지 않도록)
         t_id = [value for (value,) in list(set(cls.query.filter(teacher_id == teacher_id , done == done).with_entities(cls.task_id).all()))]
-        print(t_id)
-        # t_id = list(set(t_id))
-        # json_result = json.dumps([{'task_id':r.task_id} for r in t_id])
-        # print(json_result)
-        return t_id
+        for t in t_id:
+            task = Task.query.filter((Task.id==t) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
+            result.append(jsonify({'task': task.__dict__}))
+        return result
 
     # @classmethod
     # def query(cls):
