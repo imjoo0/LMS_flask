@@ -151,8 +151,8 @@ def task(done_code):
             # category_set = list(set(category_set))
         else: 
             target_task = '없음'
-        return render_template('teacher.html',mt = mt)
-        # return jsonify({'target_task':target_task})
+        # return render_template('teacher.html',mt = mt)
+        return jsonify({'target_task':target_task})
         
     elif request.method =='POST':
         # done_code = 완료한 task의 id
