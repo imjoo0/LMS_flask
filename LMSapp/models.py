@@ -135,7 +135,7 @@ class Task(db.Model):
     cycle = db.Column(db.Integer, nullable=True)
 
     # 관계 설정 
-    taskban = db.relationship('TaskBan')
+    taskban = db.relationship('TaskBan',backref='task',lazy=True)
     # @classmethod
     # def query(cls):
     #     return msession.query(cls)
@@ -146,10 +146,12 @@ class Task(db.Model):
     #     for ban in bans:
     #         print(ban)
     #     return bans
-    @classmethod
-    def get_task_contents(cls,task_id):
-        cls.query.filter((id==task_id) & (cls.startdate <= current_time) & ( current_time <= cls.deadline ) & (cls.cycle == today_yoil or cls.cycle == 0)).first()
-
+    # @classmethod
+    # def get_task_contents(cls,task_id):
+    #     data = {}
+    #     t = cls.query.filter((id==task_id) & (cls.startdate <= current_time) & ( current_time <= cls.deadline ) & (cls.cycle == today_yoil or cls.cycle == 0)).first()
+    #     if t != None:
+    #         data['']
         
 
 
@@ -163,7 +165,7 @@ class TaskBan(db.Model):
     done = db.Column(db.Integer, nullable=True)
     created_at = db.Column(db.DateTime)
 
-    tasks = db.relationship('Task')
+    tasks = db.relationship('Task',backref='taskbans',lazy=True)
 
     @classmethod
     def get_teacher_task(cls,teacher_id,done):
