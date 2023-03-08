@@ -146,15 +146,12 @@ class Task(db.Model):
     #     for ban in bans:
     #         print(ban)
     #     return bans
-    # @classmethod
-    # def get_task_contents(cls,task_id):
-    #     data = {}
-    #     t = cls.query.filter((id==task_id) & (cls.startdate <= current_time) & ( current_time <= cls.deadline ) & (cls.cycle == today_yoil or cls.cycle == 0)).first()
-    #     if t != None:
-    #         data['']
+    @classmethod
+    def get_task_contents(cls,task_id):
+        t = cls.query.filter((id==task_id) & (cls.startdate <= current_time) & ( current_time <= cls.deadline ) & (cls.cycle == today_yoil or cls.cycle == 0)).first()
+        if t != None:
+            print(t.taskban)
         
-
-
 class TaskBan(db.Model):
     __tablename__ = 'taskban'
 
@@ -170,6 +167,7 @@ class TaskBan(db.Model):
     @classmethod
     def get_teacher_task(cls,teacher_id,done):
         return cls.query.filter(teacher_id == teacher_id , done == done).all()
+
     # @classmethod
     # def query(cls):
     #     return msession.query(cls)
