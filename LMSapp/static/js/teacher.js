@@ -358,7 +358,7 @@ async function get_task(done_code,c_id){
                         <details>
                             <summary onclick="get_taskban(${id},${i})">✅:<strong>${contents}</strong>(마감 : ${deadline})</summary>
                             <div class="make_col" id="task_ban_box_incomplete${i}">
-
+                                <label><input type="checkbox" name="taskid" value="${id}"/>${id}</label>
                             </div>
                         </details> 
                         `;
@@ -398,7 +398,7 @@ function get_update_done(){
 function update_done(target){
     $.ajax({
             type: "POST",
-			url:'/teacher/'+target,
+			url:'/teacher/'+target+'/'+0,
 			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
             data: {},
             success: function (response) {{

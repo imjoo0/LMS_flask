@@ -130,7 +130,7 @@ def task(done_code,category_id):
             mt.sort(key=lambda x : (-x.priority, x.deadline)) 
             for task in mt:
                 task_data = {}
-                task_data['category'] = task.id
+                task_data['id'] = task.id
                 task_data['contents'] = task.contents
                 task_data['url'] = task.url
                 task_data['priority'] = task.priority
