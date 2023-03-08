@@ -208,8 +208,8 @@ async function get_question(q_id,done_code){
         if(done_code == 0){
             console.log(code)
             $('#manage_answer_1').show()
+            $('#comment_box').hide()
             if(code == 1){
-                $('#comment_box').hide()
                 $('#manage_answer_2').hide()
                 $('#manage_answer_3').hide()
             }else if(code == 2){
