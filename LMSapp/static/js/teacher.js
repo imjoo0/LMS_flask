@@ -324,19 +324,18 @@ function task_doneview(done_code){
 async function get_task(done_code,c_id){
     await $.ajax({
         type: "GET",
-        url: "/teacher/"+done_code+"/"+c_id,
+        url: "/teacher/"+done_code+"/",
         data: {},
         success: function (response) {
             if((response["target_task"] == '없음')||(response["target_task"].length == 0)){
                 if(done_code == 0){
-                    $('#task_category_msg0').html('오늘의 업무 끝 😆');
-                    $('#task_category_msg1').empty()
+                    $('#today_task_box0').html('오늘의 업무 끝 😆');
+                    $('#today_task_box1').empty()
                 }else{
-                    $('#task_category_msg1').html('완수한 업무가 없어요');
-                    $('#task_category_msg0').empty()
+                    $('#today_task_box1').html('완수한 업무가 없어요');
+                    $('#today_task_box0').empty()
                 }
             }else{
-                $('#task_category_msg'+done_code).empty();
                 $('#today_task_box'+done_code).empty();
                 for(i=0;i<response["target_task"].length;i++){
                     let target = response["target_task"][i]
@@ -352,7 +351,7 @@ async function get_task(done_code,c_id){
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                         </form>
                         `;
-                        $('#task_contents_box'+done_code+c_id).append(temp_task_contents_box);
+                        $('#today_task_box'+done_code).append(temp_task_contents_box);
                     }else{
                         let temp_task_contents_box = `
                         <p>✅ ${contents}  (마감 : ${deadline}) </p>
@@ -360,7 +359,7 @@ async function get_task(done_code,c_id){
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
                         </form>
                         `;
-                        $('#task_contents_box'+done_code+c_id).append(temp_task_contents_box);
+                        $('#today_task_box'+done_code).append(temp_task_contents_box);
                     }
                 }
                 let temp_task_button = `
