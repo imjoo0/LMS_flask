@@ -1,6 +1,7 @@
 from LMSapp import db, file_upload
 from sqlalchemy.sql import func
 from datetime import datetime
+import json
 # import json
 #  join 기능
 # from LMSapp import Base,Aession
@@ -167,7 +168,8 @@ class TaskBan(db.Model):
     @classmethod
     def get_teacher_task(cls,teacher_id,done):
         t_id = cls.query.filter(teacher_id == teacher_id , done == done).with_entities(cls.task_id).all()
-        print(t_id)
+        json_result = json.dumps([{'task_id':r.task_id} for r in t_id])
+        print(json_result)
         return t_id
 
     # @classmethod
