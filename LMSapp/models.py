@@ -167,8 +167,7 @@ class TaskBan(db.Model):
 
     @classmethod
     def get_teacher_task(cls,teacher_id,done):
-        t_id = list(set(cls.query.filter(teacher_id == teacher_id , done == done).with_entities(cls.task_id).all()))
-        t_id = [value for (value,) in t_id]
+        t_id = [value for (value,) in list(set(cls.query.filter(teacher_id == teacher_id , done == done).with_entities(cls.task_id).all()))]
         print(t_id)
         # t_id = list(set(t_id))
         # json_result = json.dumps([{'task_id':r.task_id} for r in t_id])
