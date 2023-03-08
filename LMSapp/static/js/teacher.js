@@ -344,7 +344,7 @@ async function get_task(done_code){
                     let contents = target['contents']
                     let deadline = target['deadline']
                     let priority = target['priority']
-                    $(`#${c_id}`).empty()
+                    $(`#${c_id}`).show()
                     if(priority > 2){
                         let temp_task_contents_box = `
                         <p>⭐우선업무: ${contents} (마감 : ${deadline})</p>
