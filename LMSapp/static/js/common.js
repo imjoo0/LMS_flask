@@ -243,8 +243,8 @@ async function get_question(q_id,done_code){
 
 // 본원 답변 기능 
 function post_answer(q_id,code){
-    answer_title = $('#answer_title'+code).val()
-    answer_contents = $('#answer_contents'+code).val()
+    answer_title = $('#answer_title').val()
+    answer_contents = $('#answer_contents').val()
     o_ban_id = 0
     if(code != 1){
         o_ban_id = $('#o_ban_id'+code).val()
