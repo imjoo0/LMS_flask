@@ -166,7 +166,7 @@ class TaskBan(db.Model):
 
     @classmethod
     def get_teacher_task(cls,teacher_id,done):
-        t_id = cls.query.filter(teacher_id == teacher_id , done == done, id).all()
+        t_id = cls.query.filter(teacher_id == teacher_id , done == done).query(cls.task_id).all()
         print(t_id)
         return t_id
 
