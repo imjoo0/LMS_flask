@@ -146,6 +146,9 @@ class Task(db.Model):
     #     for ban in bans:
     #         print(ban)
     #     return bans
+    @classmethod
+    def get_task_contents(cls,task_id):
+        cls.query.filter((id==task_id) & (cls.startdate <= current_time) & ( current_time <= cls.deadline ) & (cls.cycle == today_yoil or cls.cycle == 0)).first()
 
         
 
@@ -173,7 +176,7 @@ class TaskBan(db.Model):
 # 세션 클래스 사용 , sqlalchemy에서 조인 수행 
 # def get_join_tb_result():
 #     with Session() as msession:
-#         result = msession.query(Task).options(joinedload(Task.bans)).all()
+#         result = msession.query(Task).options(joinedload(cls.bans)).all()
 #         return [dict(id=row.id, contents=row.contents, bans=TaskBan.ban_id) for row in result]
     
 
