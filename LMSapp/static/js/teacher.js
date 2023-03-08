@@ -396,7 +396,7 @@ async function get_taskban(task_id,i){
         success: function (response) {
             $('#task_ban_box_incomplete'+i).empty();
             for(i=0;i<response.length;i++){
-                print(response[i])
+                console.log(response[i])
                 let id = response[i]['id']
                 let ban_name = response[i]['ban']
                 let temp_task_ban_box = `
