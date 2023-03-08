@@ -554,7 +554,6 @@ async function sort_task(value){
     })
 }
 
-
 async function delete_consulting(idx){
    const csrf = $('#csrf_token').val();
    var con_val = confirm('정말 삭제하시겠습니까?')

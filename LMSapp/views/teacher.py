@@ -5,6 +5,7 @@ from datetime import datetime, timedelta, date
 from werkzeug.utils import secure_filename
 from flask_file_upload import FileUpload
 from io import BytesIO
+import common
 
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 file_upload = FileUpload()
@@ -310,28 +311,6 @@ def consulting(id,is_done):
             return{'result':'상담일지 저장 완료'}
 
 
-@bp.route('/downloadfile/question/<int:q_id>')
-def download_file(q_id):
-    attachment = Attachments.query.filter_by(question_id=q_id).first()
-    if attachment is None:
-        return "File not found."
-    return send_file(BytesIO(attachment.data),as_attachment=True, mimetype=attachment.mime_type,download_name=attachment.file_name )
-
-def save_attachment(file, q_id):
-    attachment = Attachments(
-        file_name=secure_filename(file.filename),
-        mime_type=file.mimetype,
-        data=file.read(),
-        question_id = q_id
-    )
-    db.session.add(attachment)
-    db.session.commit()
-
-    # # # 파일 저장
-    # save_path = os.path.join(config.UPLOAD_FOLDER, uploadto)
-    # with open(save_path, 'wb') as f:
-    #     f.write(attachment.data)
-        
 # 선생님 문의 저장 
 @bp.route('/question', methods=['POST'])
 def request_question():
@@ -360,7 +339,7 @@ def request_question():
         
         db.session.add(new_question)
         db.session.commit()
-        save_attachment(file,new_question.id)
+        common.save_attachment(file,new_question.id)
         return redirect('/')
 
 # 본원 답변 조회 

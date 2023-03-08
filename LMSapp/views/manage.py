@@ -7,6 +7,7 @@ import json
 import callapi
 import pymysql
 import callapi
+import common
 
 bp = Blueprint('manage', __name__, url_prefix='/manage')
 
@@ -154,7 +155,9 @@ def request_consulting():
         received_consulting_startdate = request.form['consulting_date']
         #  상담을 마무리할 마감일 저장
         received_consulting_deadline = request.form['consulting_deadline']
-        
+        # 첨부 파일 저장 
+        file = request.files['file-upload']
+        common.save_attachment(file,new_question.id)
         # 전체 반이 선택 된 경우
         if received_target_ban == '전체 반':
             target_class = callapi.all_ban_info()
