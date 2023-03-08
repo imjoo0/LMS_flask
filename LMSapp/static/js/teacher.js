@@ -324,7 +324,7 @@ function task_doneview(done_code){
 async function get_task(done_code,c_id){
     await $.ajax({
         type: "GET",
-        url: "/teacher/"+done_code+"/",
+        url: "/teacher/"+done_code+"/"+c_id,
         data: {},
         success: function (response) {
             if((response["target_task"] == '없음')||(response["target_task"].length == 0)){
