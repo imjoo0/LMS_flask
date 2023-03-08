@@ -132,7 +132,6 @@ def task(done_code):
         # t = Task.get_taskbaninfo(teacher)
         # print(t)
         mt = TaskBan.get_teacher_task(session['user_registerno'],0)
-        print(mt.tasks)
         if(done_code == 1): 
             my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code) & (TaskBan.created_at == Today)).all()
         else: 
