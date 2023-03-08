@@ -397,6 +397,7 @@ function get_taskban(task_id,i){
                 let target = response['target_taskban'][i]
                 let id = target['id']
                 let ban_name = target['ban']
+                console.log(target["ban"])
                 let temp_task_ban_box = `
                 <label><input type="checkbox" name="taskid" value="${id}"/>${ban_name}</label>
                 `;
