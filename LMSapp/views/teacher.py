@@ -125,7 +125,7 @@ def get_ban():
 def task(done_code):
     if request.method == 'GET':
         mt = TaskBan.get_teacher_task(session['user_registerno'],0)
-        print(mt)
+        target_task = []
         if len(mt)!=0:   
             mt.sort(key=lambda x : (-x.priority, x.deadline)) 
             for task in mt:

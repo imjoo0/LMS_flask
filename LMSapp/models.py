@@ -177,7 +177,6 @@ class TaskBan(db.Model):
         if len(t_id)!=0:
             for t in t_id:
                 task = Task.query.filter((Task.id==t) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
-                print(task.taskban)
                 if task != None:
                     result.append(task)
         return result
