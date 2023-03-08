@@ -339,49 +339,51 @@ async function get_task(done_code,c_id){
                 $('#today_task_box'+done_code).empty();
                 for(i=0;i<response["target_task"].length;i++){
                     let target = response["target_task"][i]
-                    let c_id = target['category']
+                    let id = target['id']
                     let contents = target['contents']
                     let deadline = target['deadline']
                     let priority = target['priority']
-                    $(`#${c_id}`).show()
                     if(priority > 2){
                         let temp_task_contents_box = `
-                        <p>⭐우선업무: ${contents} (마감 : ${deadline})</p>
-                        <form method="post" class="make_row" id="task_ban_box_incomplete${i}">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
-                        </form>
+                        <details>
+                            <summary onclick="get_taskban(${id},${i})">⭐우선업무:<strong>${contents}</strong>(마감 : ${deadline})</summary>
+                            <div class="make_col" id="task_ban_box_incomplete${i}">
+
+                            </div>
+                        </details>  
                         `;
                         $('#today_task_box'+done_code).append(temp_task_contents_box);
                     }else{
                         let temp_task_contents_box = `
-                        <p>✅ ${contents}  (마감 : ${deadline}) </p>
-                        <form method="post" class="make_row" id="task_ban_box_incomplete${i}">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;"/>
-                        </form>
+                        <details>
+                            <summary onclick="get_taskban(${id},${i})">✅:<strong>${contents}</strong>(마감 : ${deadline})</summary>
+                            <div class="make_col" id="task_ban_box_incomplete${i}">
+
+                            </div>
+                        </details> 
                         `;
                         $('#today_task_box'+done_code).append(temp_task_contents_box);
                     }
                 }
-                let temp_task_button = `
-                <button onclick="get_update_done()">업무 완료 저장</button>
-                `
-                $('#today_task_box0').append(temp_task_button)
-                        
-                        
-                        // if(done_code == 0){
-                        //     $('#task_ban_box_incomplete'+i).empty()
-                        //     $('#task_ban_box_complete'+i).empty()
-                        //     let target_ban = target['task_ban']
-                        //     for(j=0;j<target_ban.length;j++){
-                        //         let target_ban_data = target_ban[j]
-                        //         let task_id = target_ban_data['id']
-                        //         let name = target_ban_data['ban']
-                        //         let temp_task_ban_box = `
-                        //         <label><input type="checkbox" name="taskid" value="${task_id}"/>${name}</label>
-                        //         `;
-                        //         $('#task_ban_box_incomplete'+i).append(temp_task_ban_box);
-                        //     }
-                        // }             
+                if(done_code == 0){
+                    let temp_task_button = `
+                    <button onclick="get_update_done()">업무 완료 저장</button>
+                    `
+                    $('#today_task_box0').append(temp_task_button)
+
+                    // $('#task_ban_box_incomplete'+i).empty()
+                    // $('#task_ban_box_complete'+i).empty()
+                    // let target_ban = target['task_ban']
+                    // for(j=0;j<target_ban.length;j++){
+                    //     let target_ban_data = target_ban[j]
+                    //     let task_id = target_ban_data['id']
+                    //     let name = target_ban_data['ban']
+                    //     let temp_task_ban_box = `
+                    //     <label><input type="checkbox" name="taskid" value="${task_id}"/>${name}</label>
+                    //     `;
+                    //     $('#task_ban_box_incomplete'+i).append(temp_task_ban_box);
+                    // }
+                }             
             }
         }
     });
