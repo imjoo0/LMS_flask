@@ -169,6 +169,7 @@ def task(done_code,category_id):
 def taskban(task_id):
     if request.method == 'GET':
         tb = TaskBan.get_ban(session['user_registerno'],task_id)
+        print(tb)
         return tb
 
 # 선생님이 담당 중인 반 학생중 상담을 하지 않은 학생(is_done = 0) 상담을 한 학생(is_done = 1) 정보
