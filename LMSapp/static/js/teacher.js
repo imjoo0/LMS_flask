@@ -330,12 +330,14 @@ async function get_task(done_code){
             if((response["target_task"] == '없음')||(response["target_task"].length == 0)){
                 if(done_code == 0){
                     $('#task_category_msg0').html('오늘의 업무 끝 😆');
+                    $('#task_category_msg1').empty()
                 }else{
                     $('#task_category_msg1').html('완수한 업무가 없어요');
+                    $('#task_category_msg0').empty()
                 }
             }else{
                 $('#task_category_msg'+done_code).empty();
-                $('#today_task_box'+done_code).empty();
+                $('#task_contents_box'+done_code).empty();
                 for(i=0;i<response["target_task"].length;i++){
                     let target = response["target_task"][i]
                     let c_id = target['category']
