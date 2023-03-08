@@ -5,7 +5,7 @@ from datetime import datetime, timedelta, date
 from werkzeug.utils import secure_filename
 from flask_file_upload import FileUpload
 from io import BytesIO
-import common
+from LMSapp.views import common
 
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 file_upload = FileUpload()

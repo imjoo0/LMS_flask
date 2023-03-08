@@ -7,7 +7,7 @@ import json
 import callapi
 import pymysql
 import callapi
-import common
+from LMSapp.views import common
 
 bp = Blueprint('manage', __name__, url_prefix='/manage')
 
