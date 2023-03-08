@@ -499,6 +499,11 @@
                                 <option value=1>완료한 업무</option>
                             </select>
                     </div>
+                    <div class="w-100 mt-4" id="today_task_box">
+                        {% for m in mt %}
+                        {{m.contents}}
+                        {% endfor %}
+                    </div>
                     <div class="w-100 mt-4" id="today_task_box0">
                         <p id="task_category_msg0"></p>
 
