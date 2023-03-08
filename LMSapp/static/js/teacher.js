@@ -397,7 +397,7 @@ async function get_taskban(task_id,i){
             $('#task_ban_box_incomplete'+i).empty();
             for(i=0;i<response.length;i++){
                 let id = response[i]['id']
-                let ban_name = response[i]['ban_name']
+                let ban_name = response[i]['ban']
                 let temp_task_ban_box = `
                 <label><input type="checkbox" name="taskid" value="${id}"/>${ban_name}</label>
                 `;
