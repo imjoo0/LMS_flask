@@ -37,7 +37,7 @@ def get_all_questions(done_code):
                     cur.execute('select id, category, title, contents, answer from question where answer != 1;')
                 else:
                     cur.execute('select id, category, title, contents, answer from question where answer = 1;')
-                all_questions = cur.fetchall();
+                all_questions = cur.fetchall()
         except:
             print('err')
         finally:
@@ -53,7 +53,7 @@ def get_consulting():
         try:
             with db.cursor() as cur:
                 cur.execute("select consulting.id, consulting.ban_id, consulting.category_id, consulting.student_id, consulting.contents, consulting.week_code, consulting.done, consulting.category_id, date_format(consulting.startdate, '%Y-%m-%d') as startdate, date_format(consulting.deadline, '%Y-%m-%d') as deadline, consultingcategory.name from consulting left join consultingcategory on consultingcategory.id = consulting.category_id;")
-                all_consulting = cur.fetchall();
+                all_consulting = cur.fetchall()
         except Exception as e:
             print(e)
         finally:

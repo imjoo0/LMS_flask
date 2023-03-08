@@ -7,6 +7,11 @@ from datetime import datetime
 # from sqlalchemy import select , and_
 # from sqlalchemy.orm import joinedload,contains_eager
 # from sqlalchemy import Column, Integer, String, DateTime, LargeBinary
+current_time = datetime.now()
+Today = current_time.date()
+today_yoil = current_time.weekday() + 1
+
+standard = datetime.strptime('11110101',"%Y%m%d").date()
 
 class Question(db.Model):
     __tablename__ = 'question'
@@ -131,7 +136,6 @@ class Task(db.Model):
 
     # 관계 설정 
     taskban = db.relationship('TaskBan')
-
     # @classmethod
     # def query(cls):
     #     return msession.query(cls)
@@ -158,6 +162,10 @@ class TaskBan(db.Model):
 
     tasks = db.relationship('Task')
 
+    @classmethod
+    def get_teacher_task(cls,teacher_id,done):
+
+        return cls.query.filter_by((teacher_id = teacher_id) and (done == done))
     # @classmethod
     # def query(cls):
     #     return msession.query(cls)
