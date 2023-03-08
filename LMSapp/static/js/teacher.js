@@ -356,9 +356,8 @@ async function get_task(done_code,c_id){
                     }else{
                         let temp_task_contents_box = `
                         <details>
-                            <summary onclick="get_taskban(${id},${i})">✅:<strong>${contents}</strong>(마감 : ${deadline})</summary>
+                            <summary onclick="get_taskban(${id},${i})">✅<strong>${contents}</strong>(마감 : ${deadline})</summary>
                             <div class="make_col" id="task_ban_box_incomplete${i}">
-                                <label><input type="checkbox" name="taskid" value="${id}"/>${id}</label>
                             </div>
                         </details> 
                         `;
