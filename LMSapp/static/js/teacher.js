@@ -388,7 +388,7 @@ async function get_task(done_code,c_id){
     });
 }
 
-async function get_taskban(task_id){
+async function get_taskban(task_id,i){
     await $.ajax({
         type: "GET",
         url: "/teacher/"+task_id,
