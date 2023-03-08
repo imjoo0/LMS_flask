@@ -137,7 +137,6 @@ def task(done_code):
                 task_data['deadline'] = task.deadline.strftime('%Y-%m-%d')
                 target_task.append(task_data)
                 # if(done_code == 0):
-                #     task_data['task_ban'] = task.taskban
 
                 #     for tb in my_tasks:
                 #         if task.id == tb.task_id:
@@ -151,6 +150,7 @@ def task(done_code):
             # category_set = list(set(category_set))
         else: 
             target_task = '없음'
+        print(target_task)
         return jsonify({'target_task':target_task})
         
     elif request.method =='POST':
