@@ -208,16 +208,16 @@ async function get_question(q_id,done_code){
         if(done_code == 0){
             if(code == 1){
                 $('#comment_box').hide()
-                $('#manage_answer_'+1).show()
-                $('#manage_answer_'+2).hide()
-                $('#manage_answer_'+3).hide()
+                $('#manage_answer_1').show()
+                $('#manage_answer_2').hide()
+                $('#manage_answer_3').hide()
             }
             if(code == 2){
-                $('#manage_answer_'+2).show()
-                $('#manage_answer_'+3).hide()
+                $('#manage_answer_2').show()
+                $('#manage_answer_3').hide()
             }else{
-                $('#manage_answer_'+3).show()
-                $('#manage_answer_'+2).hide()
+                $('#manage_answer_3').show()
+                $('#manage_answer_2').hide()
             }
             
             let temp_button_box = `
