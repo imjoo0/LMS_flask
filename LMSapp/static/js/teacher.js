@@ -337,7 +337,7 @@ async function get_task(done_code){
                 }
             }else{
                 $('#task_category_msg'+done_code).empty();
-                $('#task_task_box'+done_code).empty();
+                $('#today_task_box'+done_code).empty();
                 for(i=0;i<response["target_task"].length;i++){
                     let target = response["target_task"][i]
                     let c_id = target['category']
