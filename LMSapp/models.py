@@ -3,10 +3,10 @@ from sqlalchemy.sql import func
 from datetime import datetime
 # import json
 #  join 기능
-from LMSapp import Base,Aession
-from sqlalchemy import select , and_
-from sqlalchemy.orm import joinedload,contains_eager
-from sqlalchemy import Column, Integer, String, DateTime, LargeBinary
+# from LMSapp import Base,Aession
+# from sqlalchemy import select , and_
+# from sqlalchemy.orm import joinedload,contains_eager
+# from sqlalchemy import Column, Integer, String, DateTime, LargeBinary
 
 class Question(db.Model):
     __tablename__ = 'question'

@@ -83,16 +83,6 @@
                 </div>
                 <div id="manage_answer_2">
                     <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">답변 제목</span>
-                        <input class="modal-body-select" type="text" size="50" id="answer_title2"
-                            style="width: 75%;">
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">답변 내용</span>
-                        <textarea id="answer_contents2" class="modal-body-select" type="text" rows="5" cols="25"
-                            name="answer_contents2" style="width: 75%;"></textarea>
-                    </div>
-                    <div class="modal-body-select-container">
                         <span class="modal-body-select-label">이반 요청 결과</span>
                         <select class="modal-body-select" id="o_ban_id2">
                             <option value="none" selected>이반 처리 결과를 선택해주세요</option>
@@ -105,16 +95,6 @@
                     </div>
                 </div>
                 <div id="manage_answer_3">
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">답변 제목</span>
-                        <input class="modal-body-select" type="text" size="50" id="answer_title3"
-                            style="width: 75%;">
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">답변 내용</span>
-                        <textarea id="answer_contents3" class="modal-body-select" type="text" rows="5" cols="25"
-                            name="answer_contents3" style="width: 75%;"></textarea>
-                    </div>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">요청 처리 결과</span>
                         <select class="modal-body-select" id="o_ban_id3">
@@ -576,7 +556,7 @@
 
 {% block jspart %}
 <script type="text/javascript" src="../static/js/manage.js"></script>
-<script type="text/javascript" src="../static/js/comment.js"></script>
+<script type="text/javascript" src="../static/js/common.js"></script>
 {% endblock %}
 
 {% endautoescape %}
