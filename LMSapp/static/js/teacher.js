@@ -155,8 +155,6 @@ function get_consulting(student_id,is_done){
         url: "/teacher/consulting/"+student_id+"/"+is_done,
         data: {},
         success: function (response) {
-            console.log(student_id)
-            console.log(is_done)
             if(response["consulting_list"] == '없음'){
                 $('#consultinghistoryModalLabelt').html('진행 할 상담이 없습니다.')
             //     $('#consulting_list').hide();
@@ -394,6 +392,7 @@ function get_taskban(task_id,i){
         data: {},
         success: function (response) {
             $('#task_ban_box_incomplete'+i).empty();
+            console.log(response['target_taskban'])
             for(i=0;i<response['target_taskban'].length;i++){
                 let target = response['target_taskban'][i]
                 let id = target['id']
