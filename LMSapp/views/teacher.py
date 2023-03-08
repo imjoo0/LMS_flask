@@ -35,7 +35,7 @@ def home():
         mystudents_info = callapi.get_mystudents(session['user_id'])
         total_student_num = len(mystudents_info)
         mybans_info = callapi.get_mybans(session['user_id'])
-        alltaskcategory = TaskCategory.all()
+        alltaskcategory = TaskCategory.query.all()
         ban_data = []
         #  상담 차트
         ttc = 0
