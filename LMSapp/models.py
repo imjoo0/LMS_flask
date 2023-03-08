@@ -172,7 +172,8 @@ class TaskBan(db.Model):
         t_id = [value for (value,) in list(set(cls.query.filter(teacher_id == teacher_id , done == done).with_entities(cls.task_id).all()))]
         for t in t_id:
             task = Task.query.filter((Task.id==t) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
-            result.append(jsonify({'task': task.__dict__}))
+            result.append(task)
+            # result.append(jsonify({'task': task.__dict__}))
         return result
 
     # @classmethod
