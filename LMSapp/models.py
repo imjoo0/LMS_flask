@@ -3,6 +3,7 @@ from sqlalchemy.sql import func
 from datetime import datetime
 from flask import jsonify
 import json
+import callapi
 #  join 기능
 # from LMSapp import Base,Aession
 # from sqlalchemy import select , and_
@@ -184,8 +185,8 @@ class TaskBan(db.Model):
     @classmethod
     def get_ban(cls,teacher_id,task_id):
         #  해야 하는 업무들 가져오기 (task_id가 중복되지 않도록)
-        tb = cls.query.filter(teacher_id == teacher_id ,cls.task_id == task_id).with_entities(cls.id,cls.ban_id).all()
-        tb = [{'id':taskbanlist[0], 'ban_id':taskbanlist[1]} for taskbanlist in tb]
+        tb = cls.query.filter(cls.teacher_id == teacher_id ,cls.task_id == task_id, cls.done==0).with_entities(cls.id,cls.ban_id).all()
+        tb = [{'id':taskbanlist[0], 'ban_id':callapi.get_ban(taskbanlist[1])['ban_name']} for taskbanlist in tb]
         tb = json.dumps(tb)
         return tb
 
