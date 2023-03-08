@@ -124,60 +124,34 @@ def get_ban():
 @bp.route("/<int:done_code>", methods=['GET','POST'])
 def task(done_code):
     if request.method == 'GET':
-        # done_code == 1 이면 완료한 업무 
-        # done_code == 0 이면 오늘의 업무
-        # teacher = session['user_registerno']
-        # print(type(teacher))
-        # print(teacher)
-        # t = Task.get_taskbaninfo(teacher)
-        # print(t)
         mt = TaskBan.get_teacher_task(session['user_registerno'],0)
         print(mt)
-        if(done_code == 1): 
-            my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code) & (TaskBan.created_at == Today)).all()
+        if len(mt)!=0:   
+            mt.sort(key=lambda x : (-x.priority, x.deadline)) 
+            for task in mt:
+                task_data = {}
+                task_data['category'] = TaskCategory.query.filter(TaskCategory.id == task.category_id).first().name
+                task_data['contents'] = task.contents
+                task_data['url'] = task.url
+                task_data['priority'] = task.priority
+                task_data['deadline'] = task.deadline.strftime('%Y-%m-%d')
+                print(task.taskban)
+                # if(done_code == 0):
+                #     task_data['task_ban'] = task.taskban
+
+                #     for tb in my_tasks:
+                #         if task.id == tb.task_id:
+                #             data = {}
+                #             data['id'] = tb.id
+                #             data['done'] = tb.done
+                #             ban = callapi.get_ban(tb.ban_id)
+                #             data['ban'] = ban['ban_name']
+                #             task_data['task_ban'].append(data)
+            #     # target_task.append(task_data)
+            # category_set = list(set(category_set))
         else: 
-            my_tasks = TaskBan.query.filter((TaskBan.teacher_id==session['user_registerno']) & (TaskBan.done == done_code)).all()
-        if len(my_tasks)!=0:
-            tc = []
-            for task in my_tasks:
-                t = Task.query.filter((Task.id==task.task_id) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
-                # 오늘의 업무만 저장 
-                if t != None:
-                    tc.append(t)
-            
-            tc = list(set(tc))
-            if(len(tc) == 0 ):
-                target_task = '없음'
-                category_set = '없음'
-            else:
-                # 우선순위 정렬 
-                tc.sort(key=lambda x : (-x.priority, x.deadline)) 
-                target_task = []
-                category_set = []
-                for task in tc:
-                    category_set.append(str(task.category_id) +'@'+(TaskCategory.query.filter(TaskCategory.id == task.category_id).first().name))
-                    task_data = {}
-                    task_data['category'] = task.category_id
-                    task_data['contents'] = task.contents
-                    task_data['url'] = task.url
-                    task_data['priority'] = task.priority
-                    task_data['deadline'] = task.deadline.strftime('%Y-%m-%d')
-                    if(done_code == 0):
-                        task_data['task_ban'] = []
-                        for tb in my_tasks:
-                            if task.id == tb.task_id:
-                                data = {}
-                                data['id'] = tb.id
-                                data['done'] = tb.done
-                                ban = callapi.get_ban(tb.ban_id)
-                                data['ban'] = ban['ban_name']
-                                task_data['task_ban'].append(data)
-                    target_task.append(task_data)
-                category_set = list(set(category_set))
-        else: 
-            category_set = '없음'
             target_task = '없음'
-        return jsonify({'task_category' : category_set,'target_task':target_task})
+        return jsonify({'target_task':target_task})
         
     elif request.method =='POST':
         # done_code = 완료한 task의 id

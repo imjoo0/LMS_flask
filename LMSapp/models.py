@@ -147,10 +147,6 @@ class Task(db.Model):
     #         print(ban)
     #     return bans
 
-def encode_task(obj):
-    if isinstance(obj, Task):
-        return {"contents": obj.contents, "category": obj.category_id,"url": obj.url, "priority": obj.priority,"deadline":obj.deadline}
-    return obj
         
 class TaskBan(db.Model):
     __tablename__ = 'taskban'
@@ -168,12 +164,16 @@ class TaskBan(db.Model):
     def get_teacher_task(cls,teacher_id,done):
         result = []
         #  해야 하는 업무들 가져오기 (task_id가 중복되지 않도록)
-        t_id = [value for (value,) in list(set(cls.query.filter(teacher_id == teacher_id , done == done).with_entities(cls.task_id).all()))]
-        for t in t_id:
-            task = Task.query.filter((Task.id==t) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
-            if task != None:
-                result.append(task)
-                # result.append(jsonify({'task': task.__dict__}))
+        if done == 1:
+            t_id = [value for (value,) in list(set(cls.query.filter(teacher_id == teacher_id , done == done, cls.created_at == Today).with_entities(cls.task_id).all()))]
+        else:
+            t_id = [value for (value,) in list(set(cls.query.filter(teacher_id == teacher_id , done == done).with_entities(cls.task_id).all()))]
+        if len(t_id)!=0:
+            for t in t_id:
+                task = Task.query.filter((Task.id==t) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
+                if task != None:
+                    result.append(task)
+                    # result.append(jsonify({'task': task.__dict__}))
         return result
 
     # @classmethod
