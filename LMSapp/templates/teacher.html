@@ -500,7 +500,28 @@
                             </select>
                     </div>
                     <div class="w-100 mt-4">
-                        <p id="task_category_msg0"></p>
+                        <table class="table text-center" style="width:100%;">
+                            <tbody style="width:100%;">
+                                <thead>
+                                    <tr class="row">
+                                        <th class="col-12">업무종류</th>
+                                    </tr>
+                                </thead>
+                                <tr class="row">
+                                    <td class="col-1">월말리포트</td>
+                                    <td class="col-1">추천도서</td>
+                                    <td class="col-1">리딩특공대</td>
+                                    <td class="col-1">IXL</td>
+                                    <td class="col-1">르네상스</td>
+                                    <td class="col-1">plus/alpha 수업</td>
+                                    <td class="col-1">상담</td>
+                                    <td class="col-1">상담준비</td>
+                                    <td class="col-1">기타</td>
+                                    <td class="col-1">공지</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
                         {% for category in alltaskcategory %}
                         <details>
                             <summary class="task_summary" id="{{category.id}}"><strong>{{category.name}}
