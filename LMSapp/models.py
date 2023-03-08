@@ -146,11 +146,11 @@ class Task(db.Model):
     #     for ban in bans:
     #         print(ban)
     #     return bans
-    @classmethod
-    def get_task_contents(cls,task_id):
-        t = cls.query.filter((id==task_id) & (cls.startdate <= current_time) & ( current_time <= cls.deadline ) & (cls.cycle == today_yoil or cls.cycle == 0)).first()
-        if t != None:
-            print(t.taskban)
+
+def encode_task(obj):
+    if isinstance(obj, Task):
+        return {"contents": obj.contents, "category": obj.category_id,"url": obj.url, "priority": obj.priority,"deadline":obj.deadline}
+    return obj
         
 class TaskBan(db.Model):
     __tablename__ = 'taskban'
@@ -172,7 +172,7 @@ class TaskBan(db.Model):
         for t in t_id:
             task = Task.query.filter((Task.id==t) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
             if task != None:
-                result.append(json.dumps(task))
+                result.append(json.dumps(task,default=encode_task))
                 # result.append(jsonify({'task': task.__dict__}))
         return result
 
