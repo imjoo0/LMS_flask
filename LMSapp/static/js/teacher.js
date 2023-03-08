@@ -321,8 +321,8 @@ function task_doneview(done_code){
         $('#today_task_box1').show();
     }
 }
-async function get_task(done_code,c_id){
-    await $.ajax({
+function get_task(done_code,c_id){
+    $.ajax({
         type: "GET",
         url: "/teacher/"+done_code+"/"+c_id,
         data: {},
@@ -388,8 +388,8 @@ async function get_task(done_code,c_id){
     });
 }
 
-async function get_taskban(task_id,i){
-    await $.ajax({
+function get_taskban(task_id,i){
+    $.ajax({
         type: "GET",
         url: "/teacher/"+task_id,
         data: {},
