@@ -135,7 +135,7 @@ def task(done_code):
                 task_data['url'] = task.url
                 task_data['priority'] = task.priority
                 task_data['deadline'] = task.deadline.strftime('%Y-%m-%d')
-                
+                target_task.append(task_data)
                 # if(done_code == 0):
                 #     task_data['task_ban'] = task.taskban
 
