@@ -343,15 +343,6 @@ async function get_task(done_code){
                     let contents = target['contents']
                     let deadline = target['deadline']
                     let priority = target['priority']
-                    let temp_category = `
-                    <details>
-                    <summary><strong>${c_name}
-                            업무 </strong></summary>
-                    <div class="make_col" id="task_contents_box${done_code}${c_id}">
-                        <p class="task_msg${done_code}"></p>
-                    </div>
-                    </details>`;
-                    $('#today_task_box'+done_code).append(temp_category);
                     if(priority > 2){
                         let temp_task_contents_box = `
                         <p>⭐우선업무: ${contents} (마감 : ${deadline})</p>

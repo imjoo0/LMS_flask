@@ -35,6 +35,7 @@ def home():
         mystudents_info = callapi.get_mystudents(session['user_id'])
         total_student_num = len(mystudents_info)
         mybans_info = callapi.get_mybans(session['user_id'])
+        alltaskcategory = TaskCategory.all()
         ban_data = []
         #  상담 차트
         ttc = 0
@@ -88,7 +89,7 @@ def home():
         
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
 
-        return render_template('teacher.html',unlearned_ttd=unlearned_ttd,unlearned_ttc=unlearned_ttc,unlearned_cp=unlearned_cp,cp=cp,ttc=ttc,ttd=ttd,total_todo=total_todo,total_done=total_done,ttp=ttp,switchstudent_num=switchstudent_num,switchstudent_num_p=switchstudent_num_p,outstudent_num_p=outstudent_num_p,outstudent_num=outstudent_num,total_student_num=total_student_num,user=teacher_info,my_bans=ban_data,students=mystudents_info, questions=my_questions)
+        return render_template('teacher.html',unlearned_ttd=unlearned_ttd,unlearned_ttc=unlearned_ttc,unlearned_cp=unlearned_cp,cp=cp,ttc=ttc,ttd=ttd,total_todo=total_todo,total_done=total_done,ttp=ttp,switchstudent_num=switchstudent_num,switchstudent_num_p=switchstudent_num_p,outstudent_num_p=outstudent_num_p,outstudent_num=outstudent_num,total_student_num=total_student_num,user=teacher_info,my_bans=ban_data,students=mystudents_info, questions=my_questions,alltaskcategory=alltaskcategory)
 
 @bp.route('/api/get_teacher_ban', methods=['GET'])
 def get_ban():
