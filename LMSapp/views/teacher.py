@@ -121,10 +121,10 @@ def get_ban():
         return json.dumps(result)        
 
 # 오늘 해야 할 업무 카테고리
-@bp.route("/<int:done_code>", methods=['GET','POST'])
-def task(done_code):
+@bp.route("/<int:done_code>/<int:category_id>", methods=['GET','POST'])
+def task(done_code,category_id):
     if request.method == 'GET':
-        mt = TaskBan.get_teacher_task(session['user_registerno'],0)
+        mt = TaskBan.get_teacher_task(session['user_registerno'],0,category_id)
         target_task = []
         if len(mt)!=0:   
             mt.sort(key=lambda x : (-x.priority, x.deadline)) 

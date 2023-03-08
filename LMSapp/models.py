@@ -162,7 +162,7 @@ class TaskBan(db.Model):
     tasks = db.relationship('Task',backref='taskbans',lazy=True)
 
     @classmethod
-    def get_teacher_task(cls,teacher_id,done):
+    def get_teacher_task(cls,teacher_id,done,cid):
         result = []
         #  해야 하는 업무들 가져오기 (task_id가 중복되지 않도록)
         if done == 1:
@@ -176,7 +176,7 @@ class TaskBan(db.Model):
             # print(all_todo_list)
         if len(t_id)!=0:
             for t in t_id:
-                task = Task.query.filter((Task.id==t) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
+                task = Task.query.filter((Task.id==t) & (Task.category_id == cid) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
                 if task != None:
                     result.append(task)
         return result
