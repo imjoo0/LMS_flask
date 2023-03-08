@@ -504,41 +504,26 @@
                             <tbody style="width:100%;">
                                 <thead>
                                     <tr class="row">
-                                        <th class="col-1">월말리포트</th>
-                                        <th class="col-1">추천도서</th>
-                                        <th class="col-1">리딩특공대</th>
-                                        <th class="col-1">IXL</th>
-                                        <th class="col-1">르네상스</th>
-                                        <th class="col-1">plus/alpha 수업</th>
-                                        <th class="col-1">상담</th>
-                                        <th class="col-1">상담준비</th>
-                                        <th class="col-1">공지</th>
-                                        <th class="col-1">알림장문의응답</th>
-                                        <th class="col-1">요청</th>
-                                        <th class="col-1">기타</th>
+                                        <th class="col-1" onclick="get_task(0,1)">월말리포트</th>
+                                        <th class="col-1" onclick="get_task(0,2)">추천도서</th>
+                                        <th class="col-1" onclick="get_task(0,3)">리딩특공대</th>
+                                        <th class="col-1" onclick="get_task(0,4)">IXL</th>
+                                        <th class="col-1" onclick="get_task(0,5)">르네상스</th>
+                                        <th class="col-1" onclick="get_task(0,6)">plus/alpha 수업</th>
+                                        <th class="col-1" onclick="get_task(0,7)">상담</th>
+                                        <th class="col-1" onclick="get_task(0,11)">상담준비</th>
+                                        <th class="col-1" onclick="get_task(0,9)">공지</th>
+                                        <th class="col-1" onclick="get_task(0,8)">알림장문의응답</th>
+                                        <th class="col-1" onclick="get_task(0,10)">요청</th>
+                                        <th class="col-1" onclick="get_task(0,12)">기타</th>
                                     </tr>
                                 </thead>
                                 <tr class="row">
-
+                                    <td class="col-12" id="today_task_box0"></td>
+                                    <td class="col-12" id="today_task_box1"></td>
                                 </tr>
                             </tbody>
                         </table>
-                        {% for category in alltaskcategory %}
-                        <details>
-                            <summary class="task_summary" id="{{category.id}}"><strong>{{category.name}}
-                                    업무 </strong></summary>
-                            <div id="today_task_box0">
-                                <div class="make_col" id="task_contents_box0{{category.id}}">
-                                    <p class="task_category_msg0"></p>
-                                </div>
-                            </div>
-                            <div id="today_task_box1">
-                                <div class="make_col" id="task_contents_box1{{category.id}}">
-                                    <p class="task_category_msg1"></p>
-                                </div>
-                            </div>
-                        </details>
-                        {% endfor %}
                     </div>
                 </div>
             </div>
