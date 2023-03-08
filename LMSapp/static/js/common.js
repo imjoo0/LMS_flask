@@ -212,8 +212,7 @@ async function get_question(q_id,done_code){
                 $('#comment_box').hide()
                 $('#manage_answer_2').hide()
                 $('#manage_answer_3').hide()
-            }
-            if(code == 2){
+            }else if(code == 2){
                 $('#manage_answer_2').show()
                 $('#manage_answer_3').hide()
             }else{
