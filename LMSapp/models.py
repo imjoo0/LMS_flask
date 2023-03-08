@@ -172,7 +172,7 @@ class TaskBan(db.Model):
         for t in t_id:
             task = Task.query.filter((Task.id==t) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
             if task != None:
-                result.append(json.dumps(task,default=encode_task))
+                result.append(task)
                 # result.append(jsonify({'task': task.__dict__}))
         return result
 
