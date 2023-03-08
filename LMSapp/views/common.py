@@ -12,6 +12,13 @@ from flask import send_file
 from LMSapp.models import *
 from LMSapp.views import *
 
+# 날짜 
+current_time = datetime.now()
+Today = current_time.date()
+today_yoil = current_time.weekday() + 1
+
+standard = datetime.strptime('11110101',"%Y%m%d").date()
+
 def save_attachment(file, q_id):
     attachment = Attachments(
         file_name=secure_filename(file.filename),
