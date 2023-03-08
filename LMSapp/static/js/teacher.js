@@ -137,7 +137,7 @@ async function get_answer(q_id){
                 </div>
                 <div class="modal-body-select-container">
                     <span class="modal-body-select-label">첨부파일</span>
-                    <a href="/teacher/downloadfile/question/${q_id}" download="${attach}">${attach}</a>
+                    <a href="/common/downloadfile/question/${q_id}" download="${attach}">${attach}</a>
                 </div>
             `;
         }else{
@@ -177,7 +177,7 @@ async function get_answer(q_id){
                 </div>
                 <div class="modal-body-select-container">
                     <span class="modal-body-select-label">첨부파일</span>
-                    <a href="/teacher/downloadfile/question/${q_id}" download="${attach}">${attach}</a>
+                    <a href="/common/downloadfile/question/${q_id}" download="${attach}">${attach}</a>
                 </div>
             `;
             let history = response['history']
