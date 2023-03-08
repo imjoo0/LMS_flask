@@ -186,7 +186,7 @@ class TaskBan(db.Model):
     def get_ban(cls,teacher_id,task_id):
         #  해야 하는 업무들 가져오기 (task_id가 중복되지 않도록)
         tb = cls.query.filter(cls.teacher_id == teacher_id ,cls.task_id == task_id, cls.done==0).with_entities(cls.id,cls.ban_id).all()
-        tb = [{'id':taskbanlist[0], 'ban_id':callapi.get_ban(taskbanlist[1])['ban_name']} for taskbanlist in tb]
+        tb = [{'id':taskbanlist[0], 'ban':callapi.get_ban(taskbanlist[1])['ban_name']} for taskbanlist in tb]
         tb = json.dumps(tb)
         return tb
 

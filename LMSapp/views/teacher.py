@@ -169,20 +169,7 @@ def task(done_code,category_id):
 def taskban(task_id):
     if request.method == 'GET':
         tb = TaskBan.get_ban(session['user_registerno'],task_id)
-        print(tb)
-        target_task = []
-        return jsonify({'target_task':target_task})
-        
-    elif request.method =='POST':
-        # done_code = 완료한 task의 id
-        target_task = TaskBan.query.get_or_404(done_code)
-        target_task.done = 1
-        target_task.created_at = Today
-        try:
-            db.session.commit()
-            return jsonify({'result': '완료'})
-        except:
-            return jsonify({'result': '업무완료 실패'})
+        return tb
 
 # 선생님이 담당 중인 반 학생중 상담을 하지 않은 학생(is_done = 0) 상담을 한 학생(is_done = 1) 정보
 @bp.route("/mystudents/<int:ban_id>/<int:is_done>", methods=['GET'])
