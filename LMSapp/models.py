@@ -1,8 +1,7 @@
 from LMSapp import db, file_upload
 from sqlalchemy.sql import func
 from datetime import datetime
-from flask import jsonify
-# import json
+import json
 #  join 기능
 # from LMSapp import Base,Aession
 # from sqlalchemy import select , and_
@@ -173,7 +172,7 @@ class TaskBan(db.Model):
         for t in t_id:
             task = Task.query.filter((Task.id==t) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
             if task != None:
-                result.append(task)
+                result.append(json.dumps(task))
                 # result.append(jsonify({'task': task.__dict__}))
         return result
 
