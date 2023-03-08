@@ -1,6 +1,7 @@
 from LMSapp import db, file_upload
 from sqlalchemy.sql import func
 from datetime import datetime
+from flask import jsonify
 import json
 #  join 기능
 # from LMSapp import Base,Aession
@@ -167,13 +168,15 @@ class TaskBan(db.Model):
         if done == 1:
             t_id = [value for (value,) in list(set(cls.query.filter(teacher_id == teacher_id , done == done, cls.created_at == Today).with_entities(cls.task_id).all()))]
         else:
-            t_id = [value for (value,) in list(set(cls.query.filter(teacher_id == teacher_id , done == done).with_entities(cls.task_id).all()))]
+            tb = cls.query.filter(teacher_id == teacher_id , done == done)
+            all_todo_list = tb.with_entities(cls.id,cls.ban_id).all()
+            t_id = [value for (value,) in list(set(tb.with_entities(cls.task_id).all()))]
         if len(t_id)!=0:
             for t in t_id:
                 task = Task.query.filter((Task.id==t) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
                 if task != None:
                     result.append(task)
-                    # result.append(jsonify({'task': task.__dict__}))
+                    result.append(jsonify({'taskban': all_todo_list.__dict__}))
         return result
 
     # @classmethod
