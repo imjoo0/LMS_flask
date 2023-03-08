@@ -338,8 +338,7 @@ async function get_task(done_code){
                 $('#today_task_box'+done_code).empty();
                 for(i=0;i<response["target_task"].length;i++){
                     let target = response["target_task"][i]
-                    let c_id = target['category'].split('@')[0]
-                    let c_name = target['category'].split('@')[1]
+                    let c_id = target['category']
                     let contents = target['contents']
                     let deadline = target['deadline']
                     let priority = target['priority']
