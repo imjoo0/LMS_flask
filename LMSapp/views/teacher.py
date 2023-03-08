@@ -168,33 +168,9 @@ def task(done_code,category_id):
 @bp.route("/<int:task_id>", methods=['GET','POST'])
 def taskban(task_id):
     if request.method == 'GET':
-        mt = TaskBan.get_ban(session['user_registerno'],task_id)
+        tb = TaskBan.get_ban(session['user_registerno'],task_id)
+        print(tb)
         target_task = []
-        if len(mt)!=0:   
-            mt.sort(key=lambda x : (-x.priority, x.deadline)) 
-            for task in mt:
-                task_data = {}
-                task_data['id'] = task.id
-                task_data['contents'] = task.contents
-                task_data['url'] = task.url
-                task_data['priority'] = task.priority
-                task_data['deadline'] = task.deadline.strftime('%Y-%m-%d')
-                target_task.append(task_data)
-                # if(done_code == 0):
-
-                #     for tb in my_tasks:
-                #         if task.id == tb.task_id:
-                #             data = {}
-                #             data['id'] = tb.id
-                #             data['done'] = tb.done
-                #             ban = callapi.get_ban(tb.ban_id)
-                #             data['ban'] = ban['ban_name']
-                #             task_data['task_ban'].append(data)
-            #     # target_task.append(task_data)
-            # category_set = list(set(category_set))
-        else: 
-            target_task = '없음'
-        # return render_template('teacher.html',mt = mt)
         return jsonify({'target_task':target_task})
         
     elif request.method =='POST':
