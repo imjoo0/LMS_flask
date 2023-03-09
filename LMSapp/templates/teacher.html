@@ -465,7 +465,7 @@
                                 <th class="col-1">퇴소</th>
                                 <th class="col-1">이반</th>
                                 <th class="col-1">미학습</th>
-                                <th class="col-2">문의 미응답</th>
+                                <th class="col-2">상세확인</th>
                             </tr>
                             {% for ban in my_bans %}
                             <tr class="row">
@@ -475,7 +475,7 @@
                                 <td class="col-1"> {{ban['out_s']}}건</td>
                                 <td class="col-1"> {{ban['switch_s']}}건</td>
                                 <td class="col-1"> {{ban['unlearned']}}건</td>
-                                <td class="col-2"> 임시3 (5%) </td>
+                                <td class="col-2">📝</td>
                             </tr>
                             {% endfor %}
                         </tbody>

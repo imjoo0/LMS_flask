@@ -126,7 +126,6 @@ def task_category(done_code):
     if request.method == 'GET':
         target_cate = []
         result = TaskBan.get_task_category(session['user_registerno'],done_code)
-        print(result)
         if len(result['cate_data']) != 0:   
             for cate in result['cate_data']:
                 cate_data = {}
