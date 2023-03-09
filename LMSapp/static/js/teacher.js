@@ -346,8 +346,9 @@ async function task_doneview(done_code){
                     let temp_for_task = `
                     <td class="col-${range}" id="for_task${category_id}"></td>
                     `;
-                    $('#bobobob'+done_code).append(temp_for_task)
+                    $('#today_task_box'+done_code).append(temp_for_task)
                 }
+                $('#empty_div').empty()
                 for(i=0;i<response["target_task"].length;i++){
                     let target = response["target_task"][i]
                     let id = target['id']
@@ -355,6 +356,9 @@ async function task_doneview(done_code){
                     let contents = target['contents']
                     let deadline = target['deadline']
                     let priority = target['priority']
+                    let temp_div = `
+                    <div id="empty_div"></>
+                    `;
                     if(priority > 2){
                         let temp_task_contents_box = `
                         <details>
@@ -364,7 +368,8 @@ async function task_doneview(done_code){
                             </div>
                         </details>  
                         `;
-                        $('#for_task'+category).append(temp_task_contents_box);
+                        $('#empty_div').append(temp_task_contents_box);
+                        $('#for_task'+category).append(temp_div);
                     }else{
                         let temp_task_contents_box = `
                         <details>
@@ -373,10 +378,10 @@ async function task_doneview(done_code){
                             </div>
                         </details> 
                         `;
-                        $('#for_task'+category).append(temp_task_contents_box);
+                        $('#empty_div').append(temp_task_contents_box);
+                        $('#for_task'+category).append(temp_div);
                     }
                 }
-                $('#bobobob'+done_code).empty()
             }
         }
     });
