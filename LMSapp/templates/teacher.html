@@ -307,7 +307,7 @@
             </div>
             <div class="modal-body py-4 px-5">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
-                <div class="d-flex justify-content-center mb-2">
+                <div class="d-flex justify-content-center mb-2" id="teachers_student_list">
                     <div class="d-flex justify-content-start align-items-start w-100" style="overflow: scroll;">
                         <div class="d-flex justify-content-center align-items-center flex-column" style="width: 1362px important;">
                             <div id="profile_data" class="w-100"></div>
@@ -322,7 +322,7 @@
                                     <th class="col-3">부모님 정보</th>
                                     <th class="col-2">추천도서</th>
                                     <th class="col-2">미학습</th>
-                                    <th class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory">상담 실시</th>
+                                    <th class="col-1">상담 실시</th>
                                 </tr>
                                 <tr id="s_data" class="row"></tr>
                             </table>

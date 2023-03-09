@@ -1,3 +1,42 @@
+// 처음 get 할때 뿌려질 정보 보내는 함수 
+$(document).ready(function () {
+    paginating(0) 
+})
+
+function paginating(done_code){
+    let container = $('#pagination')
+    $.ajax({
+        url: '/manage/api/get_all_questions/'+done_code,
+        type: 'get',
+        data: {},
+        success: function(data){
+            container.pagination({
+            dataSource: JSON.parse(data),
+            prevText: '이전',
+            nextText: '다음',
+            pageClassName: 'float-end',
+            pageSize: 5,
+            callback: function (data, pagination){
+                var dataHtml = '';
+                $.each(data, function (index, item){
+                    if( item.category == 0){item.category = '일반문의' } 
+                    else if (item.category == 1 ){item.category ='퇴소 요청' } 
+                    else if( item.category == 2){item.category ='이반 요청' } 
+                    else{item.category = '취소/환불 요청' } 
+                    dataHtml +=  `
+                    <td class="col-2">${item.category}</td>
+                    <td class="col-4">${item.title}</td>
+                    <td class="col-4">${item.contents}</td>
+                    <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
+                    data-bs-target="#answer" onclick="get_question(${item.id},${done_code})">✏️</button> 
+                    <button onclick="delete_question(${item.id})">❌</button></td>`;
+                });
+                $('#alim-tr').html(dataHtml);
+            }
+        })
+        }
+    }) 
+}
 async function get_consulting(){
     let container = $('#consulting-pagination')
     var category_list = []

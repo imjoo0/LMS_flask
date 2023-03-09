@@ -5,11 +5,9 @@ var globalCurrentPage = 1; //현재 페이지
 var data_list;
 var consultingData = [];
 var taskData = [];
-// 처음 get 할때 뿌려질 정보 보내는 함수 
-$(document).ready(function () {
-    paginating(0) 
-})
+function plusconsulting(student_id){
 
+}
 function displayData(totalData, currentPage, dataPerPage,data_list, consulting) {
     let chartHtml = "";
 
@@ -26,6 +24,7 @@ function displayData(totalData, currentPage, dataPerPage,data_list, consulting) 
         i++
     ) {
         target = data_list[i]
+        let register_no = target['register_no']
         let name = target['name'];
         let original = target['origin'];
         let mobileno = target['mobileno'];
@@ -45,7 +44,7 @@ function displayData(totalData, currentPage, dataPerPage,data_list, consulting) 
         <td class="col-3">${parent_name_mobileno}</td>
         <td class="col-2">${reco_book_code} </td>
         <td class="col-2">${unlearned}(${answer_rate(unlearned, consulting.length).toFixed(1)}%)</td><br>
-        <td class="col-1" a href="#">✔️</td><br>
+        <td class="col-1" onclick="plusconsulting(${register_no})">✔️</td><br>
         `;
     } 
     $("#s_data").html(chartHtml);
@@ -109,41 +108,6 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list, consu
         //글 목록 표시 재호출
         displayData(totalData, selectedPage, dataPerPage,data_list, consulting);
     });
-}
-
-function paginating(done_code){
-    let container = $('#pagination')
-    $.ajax({
-        url: '/manage/api/get_all_questions/'+done_code,
-        type: 'get',
-        data: {},
-        success: function(data){
-            container.pagination({
-            dataSource: JSON.parse(data),
-            prevText: '이전',
-            nextText: '다음',
-            pageClassName: 'float-end',
-            pageSize: 5,
-            callback: function (data, pagination){
-                var dataHtml = '';
-                $.each(data, function (index, item){
-                    if( item.category == 0){item.category = '일반문의' } 
-                    else if (item.category == 1 ){item.category ='퇴소 요청' } 
-                    else if( item.category == 2){item.category ='이반 요청' } 
-                    else{item.category = '취소/환불 요청' } 
-                    dataHtml +=  `
-                    <td class="col-2">${item.category}</td>
-                    <td class="col-4">${item.title}</td>
-                    <td class="col-4">${item.contents}</td>
-                    <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-                    data-bs-target="#answer" onclick="get_question(${item.id},${done_code})">✏️</button> 
-                    <button onclick="delete_question(${item.id})">❌</button></td>`;
-                });
-                $('#alim-tr').html(dataHtml);
-            }
-        })
-        }
-    }) 
 }
 
 async function getBanInfo(b_id){
