@@ -177,9 +177,6 @@ class TaskBan(db.Model):
         if len(t_id)!=0:
             for t in t_id:
                 task = Task.query.filter((Task.id==t) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
-                tb = TaskBan.query.filter(TaskBan.task_id == task.id).with_entities(TaskBan.id,TaskBan.ban_id).all()
-                tb = [{'id':taskbanlist[0], 'ban':callapi.get_ban(taskbanlist[1])['ban_name']} for taskbanlist in tb]
-                result['ban_data']  = json.dumps(tb)
                 if task != None:
                     result['task_data'].append(task)
                     result['cate_data'].append(task.categories)            
