@@ -396,10 +396,10 @@ function get_taskban(task_id,i){
             for(i=0;i<response['target_taskban'].length;i++){
                 let target = response['target_taskban'][i]
                 let id = target["id"]
-                let ban_name = target['ban']
+                let ban = target["ban"]
                 console.log(target["ban"])
                 let temp_task_ban_box = `
-                <label><input type="checkbox" name="taskid" value="${id}"/>${ban_name}</label>
+                <label><input type="checkbox" name="taskid" value="${id}"/>${ban}</label>
                 `;
                 $('#task_ban_box_incomplete'+i).append(temp_task_ban_box);
             }
