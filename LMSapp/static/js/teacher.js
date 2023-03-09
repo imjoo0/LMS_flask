@@ -312,7 +312,7 @@ async function task_doneview(done_code){
         $('#today_task_box0').show();
         $('#today_task_box1').hide();
         $('#task_button').show()
-    }else if(done_code == 1){
+    }else{
         $('#task_title').html('오늘 완료한 업무')
         $('#today_task_box0').hide();
         $('#today_task_box1').show();
@@ -342,18 +342,17 @@ async function task_doneview(done_code){
                     `;
                     $('#cate_menu').append(temp_cate_menu)
                     let temp_for_task = `
-                    <td class="col-${range}" id="for_task${category_id}"></td>
+                    <td class="col-${range}" id="for_task${done_code}${category_id}"></td>
                     `;
                     $('#today_task_box'+done_code).append(temp_for_task)
-                    $('#for_task'+category_id).empty()
+                    $('#for_task'+done_code+category_id).empty()
                 }
                 for(i=0;i<response["target_task"].length;i++){
-                    let target = response["target_task"][i]
-                    let id = target['id']
-                    let category = target['category']
-                    let contents = target['contents']
-                    let deadline = target['deadline']
-                    let priority = target['priority']
+                    let id = response["target_task"][i]['id']
+                    let category = response["target_task"][i]['category']
+                    let contents = response["target_task"][i]['contents']
+                    let deadline = response["target_task"][i]['deadline']
+                    let priority = response["target_task"][i]['priority']
                     if(priority > 2){
                         let temp_task_contents_box = `
                         <details>
@@ -363,7 +362,7 @@ async function task_doneview(done_code){
                             </div>
                         </details>  
                         `;
-                        $('#for_task'+category).append(temp_task_contents_box);
+                        $('#for_task'+done_code+category).append(temp_task_contents_box);
                     }else{
                         let temp_task_contents_box = `
                         <details>
@@ -372,14 +371,13 @@ async function task_doneview(done_code){
                             </div>
                         </details> 
                         `;
-                        $('#for_task'+category).append(temp_task_contents_box);
+                        $('#for_task'+done_code+category).append(temp_task_contents_box);
                     }
                 }
             }
         }
     });
 }
-
 function get_taskban(task_id,idx){
     $.ajax({
         type: "GET",
