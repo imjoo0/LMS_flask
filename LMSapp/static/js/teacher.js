@@ -348,7 +348,6 @@ async function task_doneview(done_code){
                     `;
                     $('#today_task_box'+done_code).append(temp_for_task)
                 }
-                $('#today_task_box'+done_code).empty();
                 for(i=0;i<response["target_task"].length;i++){
                     let target = response["target_task"][i]
                     let id = target['id']
@@ -374,7 +373,7 @@ async function task_doneview(done_code){
                             </div>
                         </details> 
                         `;
-                        $('#today_task_box'+done_code).append(temp_task_contents_box);
+                        $('#for_task'+category).append(temp_task_contents_box);
                     }
                 }
             }
