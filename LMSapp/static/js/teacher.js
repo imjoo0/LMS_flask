@@ -31,6 +31,11 @@ function change_question_kind(str){
 function go_back(){
     $('#questiondetail').hide();
     $('#questionlist').show();
+    $('#teachers_student_list').show();
+    $('#make_plus_consulting').hide();
+    $('#banstudentlistModalLabel').html('원생목록')
+
+
 }
 function get_ban_student(b_id){
     $.ajax({
@@ -308,7 +313,7 @@ function post_target_consulting(consulting,is_done){
 function plusconsulting(student_id){
     $('#teachers_student_list').hide();
     $('#make_plus_consulting').show();
-    $('#banstudentlistModalLabel').html('상담일지 작성')
+    $('#banstudentlistModalLabel').html('추가 상담 상담일지 작성')
 
 }
 // 오늘의 업무 관련 함수 
