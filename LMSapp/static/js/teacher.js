@@ -320,9 +320,9 @@ function plusconsulting(student_id,b_id){
     $('#plusconsulting_button_box').html(temp_button)
 }
 function plusconsulting_history(student_id,b_id){
-    consulting_reason = $('#consulting_reason'+consulting).val()
-    consulting_solution = $('#consulting_solution'+consulting).val()
-    consulting_result = $('#consulting_result'+consulting).val()
+    consulting_reason = $('#consulting_reason').val()
+    consulting_solution = $('#consulting_solution').val()
+    consulting_result = $('#consulting_result').val()
     $.ajax({
         type: "POST",
         url:'/teacher/plus_consulting/'+student_id+'/'+b_id,
