@@ -305,7 +305,10 @@ function post_target_consulting(consulting,is_done){
 			}}
 		})
 }
+function plusconsulting(student_id){
+    $('#teachers_student_list').hide();
 
+}
 // 오늘의 업무 관련 함수 
 async function task_doneview(done_code){
     if(done_code == 0){
