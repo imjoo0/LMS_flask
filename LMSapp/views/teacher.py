@@ -134,7 +134,7 @@ def task_category(done_code):
                 target_cate.append(cate_data)
         target_task = []
         if len(result['task_data'])!=0:   
-            for task in result['cate_data']:
+            for task in result['task_data']:
                 task_data = {}
                 task_data['id'] = task.id
                 task_data['category'] = task.category_id
