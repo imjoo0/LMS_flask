@@ -358,8 +358,8 @@ async function task_doneview(done_code){
                     if(priority > 2){
                         let temp_task_contents_box = `
                         <details>
-                            <summary onclick="get_taskban(${id},${i})">⭐우선업무:<strong>${contents}</strong>(마감 : ${deadline})</summary>
-                            <div class="make_col" id="task_ban_box_incomplete${i}">
+                            <summary onclick="get_taskban(${id},${done_code})">⭐우선업무:<strong>${contents}</strong>(마감 : ${deadline})</summary>
+                            <div class="make_row" id="task_ban_box_incomplete${done_code}${id}">
                             </div>
                         </details>  
                         `;
@@ -367,8 +367,8 @@ async function task_doneview(done_code){
                     }else{
                         let temp_task_contents_box = `
                         <details>
-                            <summary onclick="get_taskban(${id},${i})">✅<strong>${contents}</strong>(마감 : ${deadline})</summary>
-                            <div class="make_col" id="task_ban_box_incomplete${i}">
+                            <summary onclick="get_taskban(${id},${done_code})">✅<strong>${contents}</strong>(마감 : ${deadline})</summary>
+                            <div class="make_row" id="task_ban_box_incomplete${done_code}${id}">
                             </div>
                         </details> 
                         `;
@@ -385,7 +385,7 @@ function get_taskban(task_id,idx){
         url: "/teacher/taskban/"+task_id,
         data: {},
         success: function (response) {
-            $('#task_ban_box_incomplete'+idx).empty();
+            $(`#task_ban_box_incomplete${idx}${task_id}`).empty();
             console.log(response['target_taskban'])
             for(i=0;i<response['target_taskban'].length;i++){
                 let target = response['target_taskban'][i]
@@ -394,7 +394,7 @@ function get_taskban(task_id,idx){
                 let temp_task_ban_box = `
                 <label><input type="checkbox" name="taskid" value="${id}"/>${ban}</label>
                 `;
-                $('#task_ban_box_incomplete'+idx).append(temp_task_ban_box);
+                $(`#task_ban_box_incomplete${idx}${task_id}`).append(temp_task_ban_box);
             }
         }
         
