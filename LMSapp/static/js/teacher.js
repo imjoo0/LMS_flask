@@ -385,7 +385,7 @@ function get_task(done_code,c_id){
     });
 }
 
-function get_taskban(task_id,i){
+function get_taskban(task_id,idx){
     $.ajax({
         type: "GET",
         url: "/teacher/"+task_id,
@@ -400,7 +400,7 @@ function get_taskban(task_id,i){
                 let temp_task_ban_box = `
                 <label><input type="checkbox" name="taskid" value="${id}"/>${ban}</label>
                 `;
-                $('#task_ban_box_incomplete'+i).append(temp_task_ban_box);
+                $('#task_ban_box_incomplete'+idx).append(temp_task_ban_box);
             }
         }
         
