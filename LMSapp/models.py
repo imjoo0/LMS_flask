@@ -123,6 +123,8 @@ class TaskCategory(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(45), nullable=True)
 
+    tasks = db.relationship('Task',backref = 'categories',lazy=True)
+
 class Task(db.Model):
     __tablename__ = 'task'
     
@@ -164,7 +166,7 @@ class TaskBan(db.Model):
 
     @classmethod
     def get_task_category(cls,teacher_id,done):
-        task_data = []
+        cate_data = []
         #  해야 하는 업무들 가져오기 (task_id가 중복되지 않도록)
         if done == 1:
             t_id = [value for (value,) in list(set(cls.query.filter(teacher_id == teacher_id , done == done, cls.created_at == Today).with_entities(cls.task_id).all()))]
@@ -172,14 +174,15 @@ class TaskBan(db.Model):
             t_id = [value for (value,) in list(set(cls.query.filter(teacher_id == teacher_id , done == done).with_entities(cls.task_id).all()))]
         if len(t_id)!=0:
             for t in t_id:
-                task = Task.query.filter((Task.id==t) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
-                if task != None:
-                    data = {}
-                    data['category_id'] = task.category_id
-                    data['category_name'] = TaskCategory.query.filter(TaskCategory.id == task.category_id).first().name
-                    data['task'] = task.id
-                    task_data.append(data)
-        return task_data
+                categories = Task.query.filter((Task.id==t) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first().categories
+                print(categories)
+        #         if category != None:
+        #             data = {}
+        #             data['category_id'] = task.category_id
+        #             data['category_name'] = TaskCategory.query.filter(TaskCategory.id == task.category_id).first().name
+        #             data['task'] = task.id
+        #             task_data.append(data)
+        # return task_data
     
     @classmethod
     def get_task(cls,teacher_id,done,cid):
