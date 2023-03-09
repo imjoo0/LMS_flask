@@ -310,13 +310,33 @@ function post_target_consulting(consulting,is_done){
 			}}
 		})
 }
-function plusconsulting(student_id,name){
+function plusconsulting(student_id,b_id){
     $('#teachers_student_list').hide();
     $('#make_plus_consulting').show();
-    $('#banstudentlistModalLabel').html(`${name} 추가 상담 상담일지 작성`)
-
-
-
+    $('#banstudentlistModalLabel').html('추가 상담 상담일지 작성')
+    let temp_button = `
+    <button class="btn btn-dark" onclick=plusconsulting_history(${student_id},${b_id})>저장</button>
+    `;
+    $('#plusconsulting_button_box').html(temp_button)
+}
+function plusconsulting_history(student_id,b_id){
+    consulting_reason = $('#consulting_reason'+consulting).val()
+    consulting_solution = $('#consulting_solution'+consulting).val()
+    consulting_result = $('#consulting_result'+consulting).val()
+    $.ajax({
+        type: "POST",
+        url:'/teacher/plus_consulting/'+student_id+'/'+b_id,
+        // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+        data: {
+            consulting_reason:consulting_reason,
+            consulting_solution:consulting_solution,
+            consulting_result:consulting_result
+        },
+        success: function (response) {{
+            alert(response["result"])
+            window.location.reload()
+        }}
+    })
 }
 // 오늘의 업무 관련 함수 
 async function task_doneview(done_code){

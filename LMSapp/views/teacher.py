@@ -281,6 +281,30 @@ def consulting(id,is_done):
             db.session.commit()
             return{'result':'상담일지 저장 완료'}
 
+# 추가 상담 실행 함수 
+@bp.route("/plus_consulting/<int:student_id>/<int:b_id>", methods=['POST'])
+def plus_consulting(student_id,b_id):
+    if request.method =='POST':
+        # 상담부터 생성
+        newconsulting =  ConsultingHistory(ban_id=b_id,category_id=110,student_id=student_id,startdate=Today,deadline=Today,done=0,missed=standard)
+        db.session.add(newconsulting)
+        # 상담 사유
+        received_reason = request.form['consulting_reason']
+        # 제공 가이드
+        received_solution = request.form['consulting_solution']
+        # 제공 가이드
+        received_result = request.form['consulting_result']
+            
+        target_consulting_history = ConsultingHistory.query.filter(ConsultingHistory.consulting_id == newconsulting.id).first()
+        if(target_consulting_history == None):
+            new_history = ConsultingHistory(consulting_id=id,reason=received_reason,solution=received_solution,result=received_result,created_at=Today)
+            db.session.add(new_history)
+            newconsulting.done = 1
+            db.session.commit()
+            return{'result':'상담일지 저장 완료'}
+        else:
+            return{'result':'상담일지 저장 실패'}
+
 
 # 선생님 문의 저장 
 @bp.route('/question', methods=['POST'])

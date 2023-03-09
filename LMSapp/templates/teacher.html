@@ -334,22 +334,24 @@
                     </div>
                 </div>
                 <div id="make_plus_consulting">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
                     <button type="button" class="btn btn-back" onclick="go_back()">원생 목록으로 돌아가기🔙 </button>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">상담 사유</span>
                         <input class="modal-body-select" type="text" size="50"
-                            id="consulting_reason${consulting_id}" style="width: 75%;">
+                            id="consulting_reason" style="width: 75%;">
                     </div>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">제공한 가이드</span>
                         <input class="modal-body-select" type="text" size="50"
-                            id="consulting_solution${consulting_id}" style="width: 75%;">
+                            id="consulting_solution" style="width: 75%;">
                     </div>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">상담 결과</span>
                         <textarea class="modal-body-select" type="text" rows="5" cols="25"
-                            id="consulting_result${consulting_id}" style="width: 75%;"></textarea>
+                            id="consulting_result" style="width: 75%;"></textarea>
                     </div>
+                    <div class="d-flex justify-content-center mt-4 mb-2" id="plusconsulting_button_box"></div>
                 </div>
             </div>
         </div>

@@ -6,7 +6,7 @@ var data_list;
 var consultingData = [];
 var taskData = [];
 
-function displayData(totalData, currentPage, dataPerPage,data_list, consulting) {
+function displayData(totalData, currentPage, dataPerPage,data_list, consulting,b_id) {
     let chartHtml = "";
 
     //Number로 변환하지 않으면 아래에서 +를 할 경우 스트링 결합이 되어버림.. 
@@ -42,7 +42,7 @@ function displayData(totalData, currentPage, dataPerPage,data_list, consulting) 
         <td class="col-3">${parent_name_mobileno}</td>
         <td class="col-2">${reco_book_code} </td>
         <td class="col-2">${unlearned}(${answer_rate(unlearned, consulting.length).toFixed(1)}%)</td><br>
-        <td class="col-1" onclick="plusconsulting(${register_no},${name})">✔️</td><br>
+        <td class="col-1" onclick="plusconsulting(${register_no},${b_id})">✔️</td><br>
         `;
     } 
     $("#s_data").html(chartHtml);
@@ -227,7 +227,7 @@ async function getBanInfo(b_id){
             data_list = response['student_info']
             totalData = students_num
 
-            displayData(totalData, 1, dataPerPage,data_list, u_consulting_my);
+            displayData(totalData, 1, dataPerPage,data_list, u_consulting_my,b_id);
             paging(totalData, dataPerPage, pageCount, 1,data_list, u_consulting_my);
 
             let temp_ban_statistics = `
