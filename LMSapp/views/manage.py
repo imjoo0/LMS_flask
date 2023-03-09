@@ -61,7 +61,6 @@ def get_consulting():
 
         return json.dumps(all_consulting)
 
-
 @bp.route('/api/get_task', methods=['GET'])
 def get_task():
     if request.method == 'GET':

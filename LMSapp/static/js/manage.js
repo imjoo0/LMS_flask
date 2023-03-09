@@ -129,7 +129,7 @@ async function sort_consulting(value){
 async function get_task(){
     let container = $('#task-pagination')
     var category_list = []
-await $.ajax({
+    await $.ajax({
         url: '/manage/api/get_task',
         type: 'get',
         data: {},
