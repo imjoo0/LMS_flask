@@ -5,7 +5,9 @@ var globalCurrentPage = 1; //현재 페이지
 var data_list;
 var consultingData = [];
 var taskData = [];
-function plusconsulting(student_id){
+
+async function plusconsulting(student_id){
+    $('#teachers_student_list').hide();
 
 }
 function displayData(totalData, currentPage, dataPerPage,data_list, consulting) {
