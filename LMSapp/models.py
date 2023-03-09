@@ -166,7 +166,9 @@ class TaskBan(db.Model):
 
     @classmethod
     def get_task_category(cls,teacher_id,done):
-        cate_data = []
+        result = {}
+        result['task_data'] = []
+        result['cate_data'] = []
         #  해야 하는 업무들 가져오기 (task_id가 중복되지 않도록)
         if done == 1:
             t_id = [value for (value,) in list(set(cls.query.filter(teacher_id == teacher_id , done == done, cls.created_at == Today).with_entities(cls.task_id).all()))]
@@ -174,12 +176,14 @@ class TaskBan(db.Model):
             t_id = [value for (value,) in list(set(cls.query.filter(teacher_id == teacher_id , done == done).with_entities(cls.task_id).all()))]
         if len(t_id)!=0:
             for t in t_id:
-                category = Task.query.filter((Task.id==t) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first().categories
-                if category != None:
-                    cate_data.append(category)
-            cate_data=list(set(cate_data))
-            print(cate_data)
-        return cate_data
+                task = Task.query.filter((Task.id==t) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
+                if task != None:
+                    result['task_data'].append(task)
+                    result['cate_data'].append(task.categories)            
+            print(result)
+            result['cate_data'] = list(set(result['cate_data']))
+            print(result)
+        return result
     
     @classmethod
     def get_task(cls,teacher_id,done,cid):

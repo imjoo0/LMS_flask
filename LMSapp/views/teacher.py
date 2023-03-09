@@ -125,6 +125,7 @@ def get_ban():
 def task_category(done_code):
     if request.method == 'GET':
         mt = TaskBan.get_task_category(session['user_registerno'],done_code)
+        print('pythomn')
         print(mt)
         # target_task = []
         # if len(mt)!=0:   
