@@ -348,7 +348,6 @@ async function task_doneview(done_code){
                     `;
                     $('#bobobob'+done_code).append(temp_for_task)
                 }
-                $('#bobobob'+done_code).empty()
                 for(i=0;i<response["target_task"].length;i++){
                     let target = response["target_task"][i]
                     let id = target['id']
@@ -377,6 +376,7 @@ async function task_doneview(done_code){
                         $('#for_task'+category).append(temp_task_contents_box);
                     }
                 }
+                $('#bobobob'+done_code).empty()
             }
         }
     });
