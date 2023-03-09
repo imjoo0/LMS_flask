@@ -174,15 +174,11 @@ class TaskBan(db.Model):
             t_id = [value for (value,) in list(set(cls.query.filter(teacher_id == teacher_id , done == done).with_entities(cls.task_id).all()))]
         if len(t_id)!=0:
             for t in t_id:
-                categories = Task.query.filter((Task.id==t) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first().categories
-                print(categories)
-        #         if category != None:
-        #             data = {}
-        #             data['category_id'] = task.category_id
-        #             data['category_name'] = TaskCategory.query.filter(TaskCategory.id == task.category_id).first().name
-        #             data['task'] = task.id
-        #             task_data.append(data)
-        # return task_data
+                category = Task.query.filter((Task.id==t) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first().categories
+                if category != None:
+                    cate_data.append(category)
+            cate_data=list(set(cate_data))
+        return cate_data
     
     @classmethod
     def get_task(cls,teacher_id,done,cid):
