@@ -146,7 +146,7 @@ function paginating(done_code){
     }) 
 }
 
-function getBanInfo(b_id){
+async function getBanInfo(b_id){
     $('#label_title').empty();
     $('#profile_data').empty();
     $('#ban_data').empty();
@@ -173,7 +173,7 @@ function getBanInfo(b_id){
     }
     //$('#profile_data').html('Loading Data...');
 
-    $.ajax({
+    await $.ajax({
         type: "GET",
         url: "/manage/ban/"+b_id,
         data: {},
