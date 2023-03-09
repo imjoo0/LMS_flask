@@ -306,7 +306,6 @@ function post_target_consulting(consulting,is_done){
 
 // 오늘의 업무 관련 함수 
 async function task_doneview(done_code){
-    $('#empty_div').empty()
     if(done_code == 0){
         $('#task_title').html('오늘의 업무')
         $('#today_task_box0').show();
