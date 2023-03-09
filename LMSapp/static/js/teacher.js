@@ -313,7 +313,7 @@ function post_target_consulting(consulting,is_done){
 function plusconsulting(student_id,name){
     $('#teachers_student_list').hide();
     $('#make_plus_consulting').show();
-    $('#banstudentlistModalLabel').html(name+' 추가 상담 상담일지 작성')
+    $('#banstudentlistModalLabel').html(`${name} 추가 상담 상담일지 작성`)
 
 
 
