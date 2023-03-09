@@ -334,6 +334,7 @@ async function task_doneview(done_code){
                 $('#cate_menu').empty()
                 for(i=0;i<response['target_cate'].length;i++){
                     let range = response['target_cate'].length/12;
+                    console.log(range)
                     let category_id = response['target_cate'][i]['id'];
                     let name = response['target_cate'][i]['name'];
                     let temp_cate_menu = `
