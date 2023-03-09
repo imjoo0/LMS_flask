@@ -121,7 +121,7 @@ def get_ban():
         return json.dumps(result)        
 
 # 오늘 해야 할 업무들의 카데고리
-@bp.route("/category/<int:done_code>", methods=['GET'])
+@bp.route("/task/<int:done_code>", methods=['GET'])
 def task_category(done_code):
     if request.method == 'GET':
         target_cate = []
@@ -148,39 +148,6 @@ def task_category(done_code):
             target_task = '없음'
         # return render_template('teacher.html',mt = mt)
         return jsonify({'target_task':target_task,'target_cate':target_cate})
-        
-# 오늘 해야 할 특정 카데고리의 업무
-@bp.route("/<int:done_code>/<int:category_id>", methods=['GET','POST'])
-def task(done_code,category_id):
-    if request.method == 'GET':
-        mt = TaskBan.get_task(session['user_registerno'],0,category_id)
-        target_task = []
-        if len(mt)!=0:   
-            for task in mt:
-                task_data = {}
-                task_data['id'] = task.id
-                task_data['contents'] = task.contents
-                task_data['url'] = task.url
-                task_data['priority'] = task.priority
-                task_data['deadline'] = task.deadline.strftime('%Y-%m-%d')
-                target_task.append(task_data)
-                # if(done_code == 0):
-
-                #     for tb in my_tasks:
-                #         if task.id == tb.task_id:
-                #             data = {}
-                #             data['id'] = tb.id
-                #             data['done'] = tb.done
-                #             ban = callapi.get_ban(tb.ban_id)
-                #             data['ban'] = ban['ban_name']
-                #             task_data['task_ban'].append(data)
-            #     # target_task.append(task_data)
-            target_task.sort(key=lambda x: (-x['priority'],x['deadline']))
-        else: 
-            target_task = '없음'
-        # return render_template('teacher.html',mt = mt)
-        return jsonify({'target_task':target_task})
-        
     elif request.method =='POST':
         # done_code = 완료한 task의 id
         target_task = TaskBan.query.get_or_404(done_code)
@@ -190,10 +157,10 @@ def task(done_code,category_id):
             db.session.commit()
             return jsonify({'result': '완료'})
         except:
-            return jsonify({'result': '업무완료 실패'})
+            return jsonify({'result': '업무완료 실패'})    
 
 # 오늘 해야할 업무의 반 이름들 
-@bp.route("/<int:task_id>", methods=['GET','POST'])
+@bp.route("/taskban/<int:task_id>", methods=['GET','POST'])
 def taskban(task_id):
     if request.method == 'GET':
         tb = json.loads(TaskBan.get_ban(session['user_registerno'],task_id))

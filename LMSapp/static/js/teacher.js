@@ -320,7 +320,7 @@ async function task_doneview(done_code){
     }
     await $.ajax({
         type: "GET",
-        url: "/teacher/category/"+done_code,
+        url: "/teacher/task/"+done_code,
         data: {},
         success: function (response) {
             if((response["target_task"] == '없음')||(response["target_task"].length == 0)){
@@ -383,7 +383,7 @@ async function task_doneview(done_code){
 function get_taskban(task_id,idx){
     $.ajax({
         type: "GET",
-        url: "/teacher/"+task_id,
+        url: "/teacher/taskban/"+task_id,
         data: {},
         success: function (response) {
             $('#task_ban_box_incomplete'+idx).empty();
@@ -412,7 +412,7 @@ function get_update_done(){
 function update_done(target){
     $.ajax({
             type: "POST",
-			url:'/teacher/'+target+'/'+0,
+			url:'/teacher/task'+target+'/'+0,
 			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
             data: {},
             success: function (response) {{
