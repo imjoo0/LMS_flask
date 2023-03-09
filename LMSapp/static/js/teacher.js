@@ -349,6 +349,7 @@ async function task_doneview(done_code){
                     $(`#fortask${done_code}${category_id}`).empty()
                 }
                 for(i=0;i<response["target_task"].length;i++){
+                    console.log(response["target_task"])
                     let id = response["target_task"][i]['id']
                     let category = response["target_task"][i]['category']
                     let contents = response["target_task"][i]['contents']
