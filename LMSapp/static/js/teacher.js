@@ -322,64 +322,73 @@ async function task_doneview(done_code){
         url: "/teacher/category/"+done_code,
         data: {},
         success: function (response) {
-            // if((response["target_task"] == '없음')||(response["target_task"].length == 0)){
-            //     if(done_code == 0){
-            //         $('#today_task_box0').html('오늘의 업무 끝 😆');
-            //         $('#today_task_box1').empty()
-            //     }else{
-            //         $('#today_task_box1').html('완수한 업무가 없어요');
-            //         $('#today_task_box0').empty()
-            //     }
-            // }else{
-            //     $('#today_task_box'+done_code).empty();
-            //     for(i=0;i<response["target_task"].length;i++){
-            //         let target = response["target_task"][i]
-            //         let id = target['id']
-            //         let contents = target['contents']
-            //         let deadline = target['deadline']
-            //         let priority = target['priority']
-            //         if(priority > 2){
-            //             let temp_task_contents_box = `
-            //             <details>
-            //                 <summary onclick="get_taskban(${id},${i})">⭐우선업무:<strong>${contents}</strong>(마감 : ${deadline})</summary>
-            //                 <div class="make_col" id="task_ban_box_incomplete${i}">
+            if((response["target_task"] == '없음')||(response["target_task"].length == 0)){
+                if(done_code == 0){
+                    $('#today_task_box0').html('오늘의 업무 끝 😆');
+                    $('#today_task_box1').empty()
+                }else{
+                    $('#today_task_box1').html('완수한 업무가 없어요');
+                    $('#today_task_box0').empty()
+                }
+            }else{
+                $('#cate_menu').empty()
+                for(i=0;i<response['target_cate'].length;i++){
+                    let range = response['target_cate'].length/12;
+                    let category_id = response['target_cate'][i]['id'];
+                    let name = response['target_cate'][i]['name'];
+                    let temp_cate_menu = `
+                    <th class="col-${range}" onclick="get_task(0,${category_id})">${name}</th>
+                    `;
+                    $('#cate_menu').append(temp_cate_menu)
+                }
+                $('#today_task_box'+done_code).empty();
+                for(i=0;i<response["target_task"].length;i++){
+                    let target = response["target_task"][i]
+                    let id = target['id']
+                    let contents = target['contents']
+                    let deadline = target['deadline']
+                    let priority = target['priority']
+                    if(priority > 2){
+                        let temp_task_contents_box = `
+                        <details>
+                            <summary onclick="get_taskban(${id},${i})">⭐우선업무:<strong>${contents}</strong>(마감 : ${deadline})</summary>
+                            <div class="make_col" id="task_ban_box_incomplete${i}">
 
-            //                 </div>
-            //             </details>  
-            //             `;
-            //             $('#today_task_box'+done_code).append(temp_task_contents_box);
-            //         }else{
-            //             let temp_task_contents_box = `
-            //             <details>
-            //                 <summary onclick="get_taskban(${id},${i})">✅<strong>${contents}</strong>(마감 : ${deadline})</summary>
-            //                 <div class="make_col" id="task_ban_box_incomplete${i}">
-            //                 </div>
-            //             </details> 
-            //             `;
-            //             $('#today_task_box'+done_code).append(temp_task_contents_box);
-            //         }
-            //     }
-            //     if(done_code == 0){
-            //         let temp_task_button = `
-            //         <button onclick="get_update_done()">업무 완료 저장</button>
-            //         `
-            //         $('#today_task_box0').append(temp_task_button)
+                            </div>
+                        </details>  
+                        `;
+                        $('#today_task_box'+done_code).append(temp_task_contents_box);
+                    }else{
+                        let temp_task_contents_box = `
+                        <details>
+                            <summary onclick="get_taskban(${id},${i})">✅<strong>${contents}</strong>(마감 : ${deadline})</summary>
+                            <div class="make_col" id="task_ban_box_incomplete${i}">
+                            </div>
+                        </details> 
+                        `;
+                        $('#today_task_box'+done_code).append(temp_task_contents_box);
+                    }
+                }
+                if(done_code == 0){
+                    let temp_task_button = `
+                    <button onclick="get_update_done()">업무 완료 저장</button>
+                    `
+                    $('#today_task_box0').append(temp_task_button)
 
-            //         // $('#task_ban_box_incomplete'+i).empty()
-            //         // $('#task_ban_box_complete'+i).empty()
-            //         // let target_ban = target['task_ban']
-            //         // for(j=0;j<target_ban.length;j++){
-            //         //     let target_ban_data = target_ban[j]
-            //         //     let task_id = target_ban_data['id']
-            //         //     let name = target_ban_data['ban']
-            //         //     let temp_task_ban_box = `
-            //         //     <label><input type="checkbox" name="taskid" value="${task_id}"/>${name}</label>
-            //         //     `;
-            //         //     $('#task_ban_box_incomplete'+i).append(temp_task_ban_box);
-            //         // }
-            //     }             
-            // }
-            console.log(response['target_task'])
+                    // $('#task_ban_box_incomplete'+i).empty()
+                    // $('#task_ban_box_complete'+i).empty()
+                    // let target_ban = target['task_ban']
+                    // for(j=0;j<target_ban.length;j++){
+                    //     let target_ban_data = target_ban[j]
+                    //     let task_id = target_ban_data['id']
+                    //     let name = target_ban_data['ban']
+                    //     let temp_task_ban_box = `
+                    //     <label><input type="checkbox" name="taskid" value="${task_id}"/>${name}</label>
+                    //     `;
+                    //     $('#task_ban_box_incomplete'+i).append(temp_task_ban_box);
+                    // }
+                }             
+            }
         }
     });
 }

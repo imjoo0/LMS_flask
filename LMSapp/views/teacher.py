@@ -124,46 +124,30 @@ def get_ban():
 @bp.route("/category/<int:done_code>", methods=['GET'])
 def task_category(done_code):
     if request.method == 'GET':
-        mt = TaskBan.get_task_category(session['user_registerno'],done_code)
-        print('pythomn')
-        print(mt)
-        # target_task = []
-        # if len(mt)!=0:   
-        #     for task in mt:
-        #         task_data = {}
-        #         task_data['id'] = task.id
-        #         task_data['contents'] = task.contents
-        #         task_data['url'] = task.url
-        #         task_data['priority'] = task.priority
-        #         task_data['deadline'] = task.deadline.strftime('%Y-%m-%d')
-        #         target_task.append(task_data)
-        #         # if(done_code == 0):
-
-        #         #     for tb in my_tasks:
-        #         #         if task.id == tb.task_id:
-        #         #             data = {}
-        #         #             data['id'] = tb.id
-        #         #             data['done'] = tb.done
-        #         #             ban = callapi.get_ban(tb.ban_id)
-        #         #             data['ban'] = ban['ban_name']
-        #         #             task_data['task_ban'].append(data)
-        #     #     # target_task.append(task_data)
-        #     target_task.sort(key=lambda x: (-x['priority'],x['deadline']))
-        # else: 
-        #     target_task = '없음'
+        target_cate = []
+        result = TaskBan.get_task_category(session['user_registerno'],done_code)
+        if len(result['cate_data']) != 0:   
+            for cate in result['cate_data']:
+                cate_data = {}
+                cate_data['id'] = cate.id
+                cate_data['name'] = cate.name
+                target_cate.append(cate_data)
+        target_task = []
+        if len(result['task_data'])!=0:   
+            for task in result['cate_data']:
+                task_data = {}
+                task_data['id'] = task.id
+                task_data['category'] = task.category_id
+                task_data['contents'] = task.contents
+                task_data['url'] = task.url
+                task_data['priority'] = task.priority
+                task_data['deadline'] = task.deadline.strftime('%Y-%m-%d')
+                target_task.append(task_data)
+            target_task.sort(key=lambda x: (-x['priority'],x['deadline']))
+        else: 
+            target_task = '없음'
         # return render_template('teacher.html',mt = mt)
-        return jsonify({'target_task':mt})
-        
-    elif request.method =='POST':
-        # done_code = 완료한 task의 id
-        target_task = TaskBan.query.get_or_404(done_code)
-        target_task.done = 1
-        target_task.created_at = Today
-        try:
-            db.session.commit()
-            return jsonify({'result': '완료'})
-        except:
-            return jsonify({'result': '업무완료 실패'})
+        return jsonify({'target_task':target_task,'target_cate':target_cate})
         
 # 오늘 해야 할 특정 카데고리의 업무
 @bp.route("/<int:done_code>/<int:category_id>", methods=['GET','POST'])
