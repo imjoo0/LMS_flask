@@ -353,7 +353,6 @@ async function task_doneview(done_code){
                     $(`#for_task${done_code}${category_id}`).empty()
                 }
                 for(i=0;i<response["target_task"].length;i++){
-                    console.log(response["target_task"])
                     let id = response["target_task"][i]['id']
                     let category = response["target_task"][i]['category']
                     let contents = response["target_task"][i]['contents']
@@ -390,7 +389,6 @@ function get_taskban(task_id,idx){
         data: {},
         success: function (response) {
             $(`#task_ban_box_incomplete${idx}${task_id}`).empty();
-            console.log(response['target_taskban'])
             for(i=0;i<response['target_taskban'].length;i++){
                 let target = response['target_taskban'][i]
                 let id = target["id"]
