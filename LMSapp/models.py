@@ -163,18 +163,32 @@ class TaskBan(db.Model):
     tasks = db.relationship('Task',backref='taskbans',lazy=True)
 
     @classmethod
-    def get_teacher_task(cls,teacher_id,done,cid):
+    def get_task_category(cls,teacher_id,done):
+        task_data = []
+        #  해야 하는 업무들 가져오기 (task_id가 중복되지 않도록)
+        if done == 1:
+            t_id = [value for (value,) in list(set(cls.query.filter(teacher_id == teacher_id , done == done, cls.created_at == Today).with_entities(cls.task_id).all()))]
+        else:
+            t_id = [value for (value,) in list(set(cls.query.filter(teacher_id == teacher_id , done == done).with_entities(cls.task_id).all()))]
+        if len(t_id)!=0:
+            for t in t_id:
+                task = Task.query.filter((Task.id==t) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
+                if task != None:
+                    data = {}
+                    data['category_id'] = task.category_id
+                    data['category_name'] = TaskCategory.query.filter(TaskCategory.id == task.category_id).first().name
+                    data['task'] = task.id
+                    task_data.append(data)
+        return task_data
+    
+    @classmethod
+    def get_task(cls,teacher_id,done,cid):
         result = []
         #  해야 하는 업무들 가져오기 (task_id가 중복되지 않도록)
         if done == 1:
             t_id = [value for (value,) in list(set(cls.query.filter(teacher_id == teacher_id , done == done, cls.created_at == Today).with_entities(cls.task_id).all()))]
         else:
-            tb = cls.query.filter(teacher_id == teacher_id , done == done)
-            # all_todo_list = tb.with_entities(cls.id,cls.ban_id,cls.task_id).all()
-            # all_todo_list = [{'id':taskbanlist[0], 'ban_id':taskbanlist[1], 'task_id':taskbanlist[2]} for taskbanlist in all_todo_list]
-            # all_todo_list = json.dumps(all_todo_list)
-            t_id = [value for (value,) in list(set(tb.with_entities(cls.task_id).all()))]
-            # print(all_todo_list)
+            t_id = [value for (value,) in list(set(cls.query.filter(teacher_id == teacher_id , done == done).with_entities(cls.task_id).all()))]
         if len(t_id)!=0:
             for t in t_id:
                 task = Task.query.filter((Task.id==t) & (Task.category_id == cid) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
