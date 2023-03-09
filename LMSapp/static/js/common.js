@@ -42,7 +42,7 @@ function displayData(totalData, currentPage, dataPerPage,data_list, consulting,b
         <td class="col-3">${parent_name_mobileno}</td>
         <td class="col-2">${reco_book_code} </td>
         <td class="col-2">${unlearned}(${answer_rate(unlearned, consulting.length).toFixed(1)}%)</td><br>
-        <td class="col-1" onclick="plusconsulting(${register_no},${b_id})">✔️</td><br>
+        <td class="col-1" onclick="plusconsulting(${register_no},${b_id})">📝</td><br>
         `;
     } 
     $("#s_data").html(chartHtml);
