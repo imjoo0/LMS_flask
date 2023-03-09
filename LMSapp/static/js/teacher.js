@@ -348,6 +348,7 @@ async function task_doneview(done_code){
                     `;
                     $('#today_task_box'+done_code).append(temp_for_task)
                 }
+                $('.task_box').empty()
                 for(i=0;i<response["target_task"].length;i++){
                     let target = response["target_task"][i]
                     let id = target['id']
