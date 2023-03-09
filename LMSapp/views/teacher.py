@@ -285,8 +285,10 @@ def consulting(id,is_done):
 @bp.route("/plus_consulting/<int:student_id>/<int:b_id>", methods=['POST'])
 def plus_consulting(student_id,b_id):
     if request.method =='POST':
+         # 상담 사유
+        received_contents = request.form['consulting_contents']
         # 상담부터 생성
-        newconsulting =  Consulting(ban_id=b_id,category_id=110,student_id=student_id,startdate=Today,deadline=Today,done=0,missed=standard)
+        newconsulting =  Consulting(ban_id=b_id,category_id=110,student_id=student_id,contents=received_contents,startdate=Today,deadline=Today,done=0,missed=standard)
         db.session.add(newconsulting)
         db.session.commit()
         # 상담 사유

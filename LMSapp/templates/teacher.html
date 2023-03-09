@@ -80,6 +80,7 @@
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">상담 내용</span>
                             <select class="modal-body-select" name="consulting_history" id="h_select_box">
+                                <option value="none" selected>관련상담일지를 선택해주세요</option>
                             </select>
                         </div>
                     </div>
@@ -336,6 +337,11 @@
                 <div id="make_plus_consulting">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
                     <button type="button" class="btn btn-back" onclick="go_back()">원생 목록으로 돌아가기🔙 </button>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">상담 제목</span>
+                        <input class="modal-body-select" type="text" size="50"
+                            id="plus_consulting_contents" style="width: 75%;">
+                    </div>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">상담 사유</span>
                         <input class="modal-body-select" type="text" size="50"

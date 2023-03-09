@@ -320,6 +320,7 @@ function plusconsulting(student_id,b_id){
     $('#plusconsulting_button_box').html(temp_button)
 }
 function plusconsulting_history(student_id,b_id){
+    consulting_contents = $('#plus_consulting_contents').val()
     consulting_reason = $('#plus_consulting_reason').val()
     consulting_solution = $('#plus_consulting_solution').val()
     consulting_result = $('#plus_consulting_result').val()
@@ -328,6 +329,7 @@ function plusconsulting_history(student_id,b_id){
         url:'/teacher/plus_consulting/'+student_id+'/'+b_id,
         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
         data: {
+            consulting_contents:consulting_contents,
             consulting_reason:consulting_reason,
             consulting_solution:consulting_solution,
             consulting_result:consulting_result
