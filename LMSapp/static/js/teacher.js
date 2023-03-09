@@ -13,6 +13,7 @@
 $(document).ready(function () {
     $('#today_task_box0').show();
     $('#today_task_box1').hide();
+    task_doneview(0)
 })
 
 // 본원 문의 관련 함수 
@@ -385,7 +386,7 @@ function get_taskban(task_id,idx){
         url: "/teacher/"+task_id,
         data: {},
         success: function (response) {
-            $('#task_ban_box_incomplete'+i).empty();
+            $('#task_ban_box_incomplete'+idx).empty();
             console.log(response['target_taskban'])
             for(i=0;i<response['target_taskban'].length;i++){
                 let target = response['target_taskban'][i]
