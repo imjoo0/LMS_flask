@@ -286,6 +286,7 @@ def consulting(id,is_done):
 def plus_consulting(student_id,b_id):
     if request.method =='POST':
         # 상담부터 생성
+        print(type(b_id))
         newconsulting =  ConsultingHistory(ban_id=b_id,category_id=110,student_id=student_id,startdate=Today,deadline=Today,done=0,missed=standard)
         db.session.add(newconsulting)
         # 상담 사유
