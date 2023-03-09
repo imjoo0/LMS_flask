@@ -345,7 +345,7 @@ async function task_doneview(done_code){
                     <td class="col-${range}" id="for_task${done_code}${category_id}"></td>
                     `;
                     $('#today_task_box'+done_code).append(temp_for_task)
-                    $('#for_task'+done_code+category_id).empty()
+                    $(`#fortask${done_code}${category_id}`).empty()
                 }
                 for(i=0;i<response["target_task"].length;i++){
                     let id = response["target_task"][i]['id']
@@ -362,7 +362,7 @@ async function task_doneview(done_code){
                             </div>
                         </details>  
                         `;
-                        $('#for_task'+done_code+category).append(temp_task_contents_box);
+                        $(`#fortask${done_code}${category}`).append(temp_task_contents_box);
                     }else{
                         let temp_task_contents_box = `
                         <details>
@@ -371,7 +371,7 @@ async function task_doneview(done_code){
                             </div>
                         </details> 
                         `;
-                        $('#for_task'+done_code+category).append(temp_task_contents_box);
+                        $(`#fortask${done_code}${category}`).append(temp_task_contents_box);
                     }
                 }
             }
