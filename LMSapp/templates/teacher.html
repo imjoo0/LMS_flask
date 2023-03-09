@@ -507,7 +507,6 @@
                                 <th class="col-2">상세확인</th>
                             </tr>
                             {% for ban in my_bans %}
-                            {% set bid = ban['register_no'] %}
                             <tr class="row">
                                 <td class="col-3">{{ ban['name'] }}</td>
                                 <td class="col-2">{{ ban['semester'] }}학기</td>
@@ -605,6 +604,7 @@
         {% block jspart %}
         <script type="text/javascript" src="../static/js/teacher.js"></script>
         <script type="text/javascript" src="../static/js/common.js"></script>
+        <script type="text/javascript" src="../static/js/manage.js"></script>
         <script type="text/javascript" src="../static/js/chart.js"></script>
         {% endblock %}
 
