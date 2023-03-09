@@ -310,12 +310,14 @@ async function task_doneview(done_code){
         $('#task_title').html('오늘의 업무')
         $('#today_task_box0').show();
         $('#today_task_box1').hide();
+        $('#task_button').show()
         get_task(done_code)
     }else if(done_code == 1){
         $('#task_title').html('오늘 완료한 업무')
         get_task(done_code)
         $('#today_task_box0').hide();
         $('#today_task_box1').show();
+        $('#task_button').hide()
     }
     await $.ajax({
         type: "GET",
@@ -332,20 +334,25 @@ async function task_doneview(done_code){
                 }
             }else{
                 $('#cate_menu').empty()
+                let range = 12/response['target_cate'].length;
                 for(i=0;i<response['target_cate'].length;i++){
-                    let range = 12/response['target_cate'].length;
                     console.log(range)
                     let category_id = response['target_cate'][i]['id'];
                     let name = response['target_cate'][i]['name'];
                     let temp_cate_menu = `
-                    <th class="col-${range}" onclick="get_task(0,${category_id})">${name}</th>
+                    <th class="col-${range}">${name}</th>
                     `;
                     $('#cate_menu').append(temp_cate_menu)
+                    let temp_for_task = `
+                    <td class="col-${range}" id="for_task${category_id}"></td>
+                    `;
+                    $('#today_task_box'+done_code).append(temp_for_task)
                 }
                 $('#today_task_box'+done_code).empty();
                 for(i=0;i<response["target_task"].length;i++){
                     let target = response["target_task"][i]
                     let id = target['id']
+                    let category = target['category']
                     let contents = target['contents']
                     let deadline = target['deadline']
                     let priority = target['priority']
@@ -358,7 +365,7 @@ async function task_doneview(done_code){
                             </div>
                         </details>  
                         `;
-                        $('#today_task_box'+done_code).append(temp_task_contents_box);
+                        $('#for_task'+category).append(temp_task_contents_box);
                     }else{
                         let temp_task_contents_box = `
                         <details>
@@ -370,25 +377,6 @@ async function task_doneview(done_code){
                         $('#today_task_box'+done_code).append(temp_task_contents_box);
                     }
                 }
-                if(done_code == 0){
-                    let temp_task_button = `
-                    <button onclick="get_update_done()">업무 완료 저장</button>
-                    `
-                    $('#today_task_box0').append(temp_task_button)
-
-                    // $('#task_ban_box_incomplete'+i).empty()
-                    // $('#task_ban_box_complete'+i).empty()
-                    // let target_ban = target['task_ban']
-                    // for(j=0;j<target_ban.length;j++){
-                    //     let target_ban_data = target_ban[j]
-                    //     let task_id = target_ban_data['id']
-                    //     let name = target_ban_data['ban']
-                    //     let temp_task_ban_box = `
-                    //     <label><input type="checkbox" name="taskid" value="${task_id}"/>${name}</label>
-                    //     `;
-                    //     $('#task_ban_box_incomplete'+i).append(temp_task_ban_box);
-                    // }
-                }             
             }
         }
     });
