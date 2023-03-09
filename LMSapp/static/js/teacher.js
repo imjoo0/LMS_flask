@@ -346,9 +346,9 @@ async function task_doneview(done_code){
                     let temp_for_task = `
                     <td class="col-${range}" id="for_task${category_id}"></td>
                     `;
-                    $('#today_task_box'+done_code).append(temp_for_task)
+                    $('#task_box'+done_code).append(temp_for_task)
                 }
-                $('.task_box').empty()
+                $('#task_box'+done_code).empty()
                 for(i=0;i<response["target_task"].length;i++){
                     let target = response["target_task"][i]
                     let id = target['id']
