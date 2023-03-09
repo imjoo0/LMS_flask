@@ -412,7 +412,7 @@ function get_update_done(){
 function update_done(target){
     $.ajax({
             type: "POST",
-			url:'/teacher/task'+target+'/'+0,
+			url:'/teacher/task/'+target,
 			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
             data: {},
             success: function (response) {{
