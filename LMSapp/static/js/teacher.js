@@ -395,6 +395,7 @@ function get_taskban(task_id,i){
             console.log(response['target_taskban'])
             for(i=0;i<response['target_taskban'].length;i++){
                 let target = response['target_taskban'][i]
+                console.log(target)
                 let id = target["id"]
                 let ban = target["ban"]
                 console.log(target["ban"])
