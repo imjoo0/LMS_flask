@@ -307,6 +307,8 @@ function post_target_consulting(consulting,is_done){
 }
 function plusconsulting(student_id){
     $('#teachers_student_list').hide();
+    $('#make_plus_consulting').show();
+    $('#banstudentlistModalLabel').html('상담일지 작성')
 
 }
 // 오늘의 업무 관련 함수 

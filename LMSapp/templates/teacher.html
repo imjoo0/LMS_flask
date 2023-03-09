@@ -334,23 +334,21 @@
                     </div>
                 </div>
                 <div id="make_plus_consulting">
-                    <div class="modal-dialog modal-dialog-centered modal-xl">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="consultinghistoryModalLabelt">
-                                    <img src="#" style="width: 30px;">&nbsp;&nbsp;상담일지 작성
-                                </h5>
-                                <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="modal-body py-4 px-5">
-                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
-                                <div class="d-flex justify-content-center mt-4 mb-2">
-                                    <div id="consulting_write_box">
-                
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <button type="button" class="btn btn-back" onclick="go_back()">다른 문의조회🔙 </button>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">상담 사유</span>
+                        <input class="modal-body-select" type="text" size="50"
+                            id="consulting_reason${consulting_id}" style="width: 75%;">
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">제공한 가이드</span>
+                        <input class="modal-body-select" type="text" size="50"
+                            id="consulting_solution${consulting_id}" style="width: 75%;">
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">상담 결과</span>
+                        <textarea class="modal-body-select" type="text" rows="5" cols="25"
+                            id="consulting_result${consulting_id}" style="width: 75%;"></textarea>
                     </div>
                 </div>
             </div>
