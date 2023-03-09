@@ -333,6 +333,7 @@ async function task_doneview(done_code){
                 }
             }else{
                 $('#cate_menu').empty()
+                $('#today_task_box'+done_code).empty()
                 let range = 12/response['target_cate'].length;
                 for(i=0;i<response['target_cate'].length;i++){
                     let category_id = response['target_cate'][i]['id'];
@@ -358,7 +359,6 @@ async function task_doneview(done_code){
                         <details>
                             <summary onclick="get_taskban(${id},${i})">⭐우선업무:<strong>${contents}</strong>(마감 : ${deadline})</summary>
                             <div class="make_col" id="task_ban_box_incomplete${i}">
-
                             </div>
                         </details>  
                         `;
