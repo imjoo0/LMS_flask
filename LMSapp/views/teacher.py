@@ -121,7 +121,7 @@ def get_ban():
         return json.dumps(result)        
 
 # 오늘 해야 할 업무들의 카데고리
-@bp.route("/task/<int:done_code>", methods=['GET'])
+@bp.route("/task/<int:done_code>", methods=['GET','POST'])
 def task_category(done_code):
     if request.method == 'GET':
         target_cate = []
@@ -160,7 +160,7 @@ def task_category(done_code):
             return jsonify({'result': '업무완료 실패'})    
 
 # 오늘 해야할 업무의 반 이름들 
-@bp.route("/taskban/<int:task_id>", methods=['GET','POST'])
+@bp.route("/taskban/<int:task_id>", methods=['GET'])
 def taskban(task_id):
     if request.method == 'GET':
         tb = json.loads(TaskBan.get_ban(session['user_registerno'],task_id))
