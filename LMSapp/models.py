@@ -172,6 +172,7 @@ class TaskBan(db.Model):
         #  해야 하는 업무들 가져오기 (task_id가 중복되지 않도록)
         if done == 1:
             t_id = [value for (value,) in list(set(cls.query.filter(teacher_id == teacher_id , done == done, cls.created_at == Today).with_entities(cls.task_id).all()))]
+            print(t_id)
         else:
             t_id = [value for (value,) in list(set(cls.query.filter(teacher_id == teacher_id , done == done).with_entities(cls.task_id).all()))]
         if len(t_id)!=0:
@@ -180,9 +181,7 @@ class TaskBan(db.Model):
                 if task != None:
                     result['task_data'].append(task)
                     result['cate_data'].append(task.categories)            
-            print(result)
             result['cate_data'] = list(set(result['cate_data']))
-            print(result)
         return result
     
     @classmethod
