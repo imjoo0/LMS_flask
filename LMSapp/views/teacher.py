@@ -288,7 +288,6 @@ def plus_consulting(student_id,b_id):
         # 상담부터 생성
         newconsulting =  Consulting(ban_id=b_id,category_id=110,student_id=student_id,startdate=Today,deadline=Today,done=0,missed=standard)
         db.session.add(newconsulting)
-        db.session.commit()
         # 상담 사유
         received_reason = request.form['consulting_reason']
         # 제공 가이드
@@ -296,15 +295,11 @@ def plus_consulting(student_id,b_id):
         # 제공 가이드
         received_result = request.form['consulting_result']
             
-        target_consulting_history = ConsultingHistory.query.filter(ConsultingHistory.consulting_id == newconsulting.id).first()
-        if(target_consulting_history == None):
-            new_history = ConsultingHistory(consulting_id=id,reason=received_reason,solution=received_solution,result=received_result,created_at=Today)
-            db.session.add(new_history)
-            newconsulting.done = 1
-            db.session.commit()
-            return{'result':'상담일지 저장 완료'}
-        else:
-            return{'result':'상담일지 저장 실패'}
+        new_history = ConsultingHistory(consulting_id=newconsulting.id,reason=received_reason,solution=received_solution,result=received_result,created_at=Today)
+        db.session.add(new_history)
+        newconsulting.done = 1
+        db.session.commit()
+        return{'result':'상담일지 저장 완료'}
 
 
 # 선생님 문의 저장 
