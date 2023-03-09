@@ -392,6 +392,7 @@ function get_taskban(task_id,i){
         data: {},
         success: function (response) {
             $('#task_ban_box_incomplete'+i).empty();
+            console.log(response['target_taskban'])
             for(i=0;i<response['target_taskban'].length;i++){
                 let target = response['target_taskban'][i]
                 let id = target["id"]
