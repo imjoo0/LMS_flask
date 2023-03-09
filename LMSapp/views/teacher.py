@@ -127,7 +127,7 @@ def task(done_code,category_id):
         mt = TaskBan.get_teacher_task(session['user_registerno'],0,category_id)
         target_task = []
         if len(mt)!=0:   
-            mt.sort(key=lambda x : (-x.priority, x.deadline)) 
+            category_set = []
             for task in mt:
                 task_data = {}
                 task_data['id'] = task.id
@@ -135,6 +135,7 @@ def task(done_code,category_id):
                 task_data['url'] = task.url
                 task_data['priority'] = task.priority
                 task_data['deadline'] = task.deadline.strftime('%Y-%m-%d')
+                category_set.append(task,category_id)
                 target_task.append(task_data)
                 # if(done_code == 0):
 
@@ -147,11 +148,12 @@ def task(done_code,category_id):
                 #             data['ban'] = ban['ban_name']
                 #             task_data['task_ban'].append(data)
             #     # target_task.append(task_data)
-            # category_set = list(set(category_set))
+            category_set = list(set(category_set))
+            target_task.sort(key=lambda x: (-x['priority'],x['deadline']))
         else: 
             target_task = '없음'
         # return render_template('teacher.html',mt = mt)
-        return jsonify({'target_task':target_task})
+        return jsonify({'target_task':target_task,'category_set':category_set})
         
     elif request.method =='POST':
         # done_code = 완료한 task의 id

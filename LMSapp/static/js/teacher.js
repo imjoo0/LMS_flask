@@ -333,6 +333,20 @@ function get_task(done_code,c_id){
                     $('#today_task_box0').empty()
                 }
             }else{
+                console.log(response['category_set'])
+                let total_num = response['category_set'].length
+                $('#cate_menu').empty();
+                for(i=0;i<total_num;i++){
+                    let range = 12/total_num
+                    let id = response['category_set'][i]
+
+                    let temp_cate_menu = `
+                    th class="col-${range}" onclick="get_task(0,${id})">월말리포트</th>
+                    `;
+
+                    $('#cate_menu').append(temp_cate_menu);
+
+                }
                 $('#today_task_box'+done_code).empty();
                 for(i=0;i<response["target_task"].length;i++){
                     let target = response["target_task"][i]
