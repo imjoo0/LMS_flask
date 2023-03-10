@@ -81,9 +81,18 @@ def get_task():
 @bp.route("/taskban/<int:task_id>", methods=['GET'])
 def taskban(task_id):
     if request.method == 'GET':
-        tb = TaskBan.get_allban(task_id)
-        print(tb)
-        return jsonify({'target_taskban':tb})
+        result = []
+        tb = TaskBan.query.filter(TaskBan.task_id == task_id).all()
+        for t in tb:
+            b = callapi.get_ban(t.ban_id)
+            data = {}
+            data['id'] = t.id
+            data['ban'] = b['ban_name']
+            data['teacher_name'] = b['teacher_name'] + '(' +b['teacher_engname'] +')'
+            data['done'] = t.done
+            result.append(data)
+        return result
+        # return jsonify({'target_taskban':tb})
 
 @bp.route('/api/update_consulting', methods=['GET'])
 def update_task():

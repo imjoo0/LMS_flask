@@ -190,20 +190,6 @@ class TaskBan(db.Model):
         tb = [{'id':taskbanlist[0], 'ban':callapi.get_ban(taskbanlist[1])['ban_name']} for taskbanlist in tb]
         tb = json.dumps(tb)
         return tb
-    
-    @classmethod
-    def get_allban(cls,task_id):
-        result = []
-        tb = cls.query.filter(cls.task_id == task_id).all()
-        for t in tb:
-            b = callapi.get_ban(t.ban_id)
-            data = {}
-            data['id'] = t.id
-            data['ban'] = b['ban_name']
-            data['teacher_name'] = b['teacher_name'] + '(' +b['teacher_engname'] +')'
-            data['done'] = t.done
-            result.append(data)
-        return result
 
     # @classmethod
     # def query(cls):
