@@ -253,7 +253,7 @@ function get_taskban(task_id){
                 <td class="col-4">${done}</td>
                 <td class="col-4">✖️</td>
                 `;
-                $('#whttaskban_list').append(temp_task_ban_box);
+                $('#taskban_list').append(temp_task_ban_box);
             }
         } 
     });
