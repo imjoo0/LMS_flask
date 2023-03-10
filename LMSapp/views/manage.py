@@ -74,6 +74,7 @@ def get_task():
             print(e)
         finally:
             db.close()
+        print(all_task)
 
         return json.dumps(all_task)
 
