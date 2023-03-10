@@ -89,6 +89,7 @@ def taskban(task_id):
             data = {}
             data['id'] = t.id
             data['done'] = t.done
+            data['name'] = b.ban_name
             result.append(data)
         return result
         # return jsonify({'target_taskban':tb})
