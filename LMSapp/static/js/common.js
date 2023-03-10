@@ -539,8 +539,6 @@ async function get_question(q_id,done_code){
             }
             
             let temp_button_box = `
-            <span class="modal-body-select-label">첨부 파일</span>
-            <input type="file" id="file-upload" name="file-upload">
             <button class="btn btn-dark" type="submit" onclick="post_answer(${q_id},${code})">저장</button>
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
             `
