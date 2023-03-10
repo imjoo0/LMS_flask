@@ -165,7 +165,7 @@ async function get_task(){
                     <td class="col-3">${ task.startdate } ~ ${ task.deadline } (${progress})</td>               
                     <td class="col-3">${task.name}업무</td>          
                     <td class="col-4"> ${task.contents}</td>
-                    <td class="col-2" onclick="get_taskban(${task.id})"> <button>✏️</button>
+                    <td class="col-2"> <button onclick="get_taskban(${task.id})">✏️</button>
                     <button onclick="delete_task(${task.id})">❌</button></td>`;
                     });
                 category_set = new Set(category_list)
@@ -219,7 +219,7 @@ async function sort_task(value){
                     <td class="col-3">${ task.startdate } ~ ${ task.deadline } (${progress})</td>              
                     <td class="col-3">${task.name}업무</td>    
                     <td class="col-4"> ${task.contents}</td>
-                    <td class="col-2" onclick="get_taskban(${task.id})"> <button>✏️</button>
+                    <td class="col-2"> <button onclick="get_taskban(${task.id})">✏️</button>
                     <button onclick="delete_task(${task.id})">❌</button></td>`;
                     });
 
