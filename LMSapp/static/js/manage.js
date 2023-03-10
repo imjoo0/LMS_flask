@@ -97,7 +97,6 @@ async function update_consulting(idx){
     })
 }
 
-
 async function sort_consulting(value){
     var dataHtml = '';
     let container = $('#consulting-pagination')
@@ -185,7 +184,6 @@ async function get_task(){
 })
 }
 
-
 async function sort_task(value){
     var dataHtml = '';
     let container = $('#task-pagination')
@@ -258,6 +256,7 @@ function get_taskban(task_id){
         } 
     });
 }
+
 async function delete_consulting(idx){
    const csrf = $('#csrf_token').val();
    var con_val = confirm('정말 삭제하시겠습니까?')
