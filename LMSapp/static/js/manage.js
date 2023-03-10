@@ -188,7 +188,11 @@ async function sort_task(value){
     var dataHtml = '';
     let container = $('#task-pagination')
     const data = taskData.filter((e)=>{
-        return e.name == value;
+        if(value == none){
+            get_task()
+        }else{
+            return e.name == value;
+        }
     })
     await container.pagination({
             dataSource: data,
