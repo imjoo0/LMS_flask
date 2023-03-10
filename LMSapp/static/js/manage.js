@@ -235,20 +235,24 @@ function get_taskban(task_id){
     $('#for_taskban_list').show();
     $.ajax({
         type: "GET",
-        url: "/teacher/taskban/"+task_id,
+        url: "/manage/taskban/"+task_id,
         data: {},
         success: function (response) {
             $('#taskban_list').empty();
-            console.log(response['target_taskban'])
             for(i=0;i<response['target_taskban'].length;i++){
                 let target = response['target_taskban'][i]
                 let id = target["id"]
                 let ban = target["ban"]
+                let done = target["done"]
+                if(done == 0){
+                    done = '미진행' 
+                }else{
+                    done = '진행완료'
+                }
                 let temp_task_ban_box = `
-                <td class="col-3">${ban}</td>
-                <td class="col-3">OOO</td>
-                <td class="col-4">done</td>
-                <td class="col-2">delete</td>
+                <td class="col-4">${ban}</td>
+                <td class="col-4">${done}</td>
+                <td class="col-4">✖️</td>
                 `;
                 $('#taskban_list').append(temp_task_ban_box);
             }

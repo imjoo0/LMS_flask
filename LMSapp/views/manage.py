@@ -77,6 +77,13 @@ def get_task():
 
         return json.dumps(all_task)
 
+# 오늘 해야할 업무의 반 이름들 
+@bp.route("/taskban/<int:task_id>", methods=['GET'])
+def taskban(task_id):
+    if request.method == 'GET':
+        tb = json.loads(TaskBan.get_allban(task_id))
+        return jsonify({'target_taskban':tb})
+
 @bp.route('/api/update_consulting', methods=['GET'])
 def update_task():
     if request.method == 'GET':
