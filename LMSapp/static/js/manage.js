@@ -158,9 +158,8 @@ async function get_task(){
                     progress = '마감'
                 }
                 dataHtml +=  `
-                    <td class="col-3">${ task.startdate } ~ ${ task.deadline }</td>               
-                    <td class="col-2">${task.name}</td>               
-                    <td class="col-1"> ${progress}</td>
+                    <td class="col-3">${ task.startdate } ~ ${ task.deadline } (${progress})</td>               
+                    <td class="col-3">${task.name}</td>          
                     <td class="col-4"> ${task.contents}</td>
                     <td class="col-2"> <button>✏️</button>
                     <button onclick="delete_task(${task.id})">❌</button></td>`;
@@ -199,9 +198,8 @@ async function sort_task(value){
                 var idxHtml = `<option value="none" selected>카테고리를 선택해주세요</option>`;
                 $.each(data, function (index, task){
                     dataHtml +=  `
-                    <td class="col-3">${ task.startdate } ~ ${ task.deadline }</td>               
-                    <td class="col-2">${task.name}</td>               
-                    <td class="col-1"> ${progress}</td>
+                    <td class="col-3">${ task.startdate } ~ ${ task.deadline } (${progress})</td>              
+                    <td class="col-3">${task.name}</td>    
                     <td class="col-4"> ${task.contents}</td>
                     <td class="col-2"> <button>✏️</button>
                     <button onclick="delete_task(${task.id})">❌</button></td>`;
