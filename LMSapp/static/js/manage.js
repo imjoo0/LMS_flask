@@ -1,3 +1,4 @@
+const today = new Date();
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
     paginating(0) 
@@ -114,7 +115,8 @@ async function sort_consulting(value){
             $.each(data, function (index, consulting){
                 dataHtml +=  `
                     <td class="col-3">${consulting.startdate} ~ ${consulting.deadline}</td>
-                    <td class="col-3">${consulting.name}</td>
+                    <td class="col-2">${consulting.name}</td>
+                    <td class="col-1"> 미진행 </td>
                     <td class="col-4"> ${consulting.contents}</td>
                     <td class="col-2"> <button onclick="update_consulting(${consulting.id})">✏️</button> 
                     <button onclick="delete_consulting(${consulting.id})">❌</button></td>`;
@@ -147,9 +149,18 @@ async function get_task(){
                 var dataHtml = '';
                 var idxHtml = `<option value="" selected>카테고리를 선택해주세요</option><option value="none">전체</option>`;
                 $.each(data, function (index, task){
+                let progress = '';
+                if(today < task.startdate ){
+                    progress = '예정'
+                }else if( task.startdate <= today <= task.deadline){
+                    progress = '진행 중'
+                }else{
+                    progress = '마감'
+                }
                 dataHtml +=  `
                     <td class="col-3">${ task.startdate } ~ ${ task.deadline }</td>               
-                    <td class="col-3">${task.name}</td>          
+                    <td class="col-2">${task.name}</td>               
+                    <td class="col-1"> ${progress}</td>
                     <td class="col-4"> ${task.contents}</td>
                     <td class="col-2"> <button>✏️</button>
                     <button onclick="delete_task(${task.id})">❌</button></td>`;
@@ -189,7 +200,8 @@ async function sort_task(value){
                 $.each(data, function (index, task){
                     dataHtml +=  `
                     <td class="col-3">${ task.startdate } ~ ${ task.deadline }</td>               
-                    <td class="col-3">${task.name}</td>        
+                    <td class="col-2">${task.name}</td>               
+                    <td class="col-1"> ${progress}</td>
                     <td class="col-4"> ${task.contents}</td>
                     <td class="col-2"> <button>✏️</button>
                     <button onclick="delete_task(${task.id})">❌</button></td>`;
