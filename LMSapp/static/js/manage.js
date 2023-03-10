@@ -49,6 +49,7 @@ await $.ajax({
         type: 'get',
         data: {},
         success: function(data){
+            console.log(data)
             $.each([...JSON.parse(data)], function (idx, val){
                 category_list.push(val.name)
             });
@@ -113,6 +114,7 @@ async function sort_consulting(value){
         nextText: '다음',
         pageSize: 10,
         callback: function (data, pagination){
+            console.log(data)
             var dataHtml = '';
             $.each(data, function (index, consulting){
                 dataHtml +=  `

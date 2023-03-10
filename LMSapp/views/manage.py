@@ -42,7 +42,7 @@ def get_all_questions(done_code):
             print('err')
         finally:
             db.close()
-
+        
         return json.dumps(all_questions)
 
 @bp.route('/api/get_consulting', methods=['GET'])
