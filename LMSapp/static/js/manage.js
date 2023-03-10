@@ -163,7 +163,7 @@ async function get_task(){
                     <td class="col-3">${ task.startdate } ~ ${ task.deadline } (${progress})</td>               
                     <td class="col-3">${task.name}업무</td>          
                     <td class="col-4"> ${task.contents}</td>
-                    <td class="col-2"> <button>✏️</button>
+                    <td class="col-2" onclick="get_taskban(${task.id})"> <button>✏️</button>
                     <button onclick="delete_task(${task.id})">❌</button></td>`;
                     });
                 category_set = new Set(category_list)
@@ -217,7 +217,7 @@ async function sort_task(value){
                     <td class="col-3">${ task.startdate } ~ ${ task.deadline } (${progress})</td>              
                     <td class="col-3">${task.name}업무</td>    
                     <td class="col-4"> ${task.contents}</td>
-                    <td class="col-2"> <button>✏️</button>
+                    <td class="col-2" onclick="get_taskban(${task.id})"> <button>✏️</button>
                     <button onclick="delete_task(${task.id})">❌</button></td>`;
                     });
 
@@ -226,6 +226,32 @@ async function sort_task(value){
     })
 }
 
+async function get_taskban(task_id){
+    console.log(task_id)
+    $('#taskModalLabel').html('반 별 진행 내역');
+    $('#for_task_list').hide();
+    $('#for_taskban_list').show();
+    await $.ajax({
+        type: "GET",
+        url: "/teacher/taskban/"+task_id,
+        data: {},
+        success: function (response) {
+            $(`#taskban_list`).empty();
+            for(i=0;i<response['target_taskban'].length;i++){
+                let target = response['target_taskban'][i]
+                let id = target["id"]
+                let ban = target["ban"]
+                let temp_task_ban_box = `
+                <td class="col-3">${ban}</td>
+                <td class="col-3">OOO</td>
+                <td class="col-4">done</td>
+                <td class="col-2">delete</td>
+                `;
+                $('#taskban_list').append(temp_task_ban_box);
+            }
+        } 
+    });
+}
 async function delete_consulting(idx){
    const csrf = $('#csrf_token').val();
    var con_val = confirm('정말 삭제하시겠습니까?')

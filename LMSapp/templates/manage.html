@@ -133,27 +133,50 @@
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
 
-            <div class="modal-header">
-                <select id="task-category-select" onchange="sort_task(this.value)" class="form-select" aria-label="Default select example">
-                    <optgroup id="task-option">
-                    </optgroup>
-                </select>
+            <div id="for_task_list">
+                <div class="modal-header">
+                    <select id="task-category-select" onchange="sort_task(this.value)" class="form-select" aria-label="Default select example">
+                        <optgroup id="task-option">
+                        </optgroup>
+                    </select>
+                </div>
+                <div>
+                    <table class="table text-center" id="task_list" style="width:100%;">
+                        <tbody  style="width:100%;">
+                            <thead>
+                                <tr class="row">
+                                    <th class="col-3">날짜</th>
+                                    <th class="col-3">종류</th>
+                                    <th class="col-4">내용</th>
+                                    <th class="col-2">상세|삭제</th>
+                                </tr>
+                            </thead>
+                                <tr id="task-tr" class="row"></tr>
+                            </tbody>
+                    </table>
+                    <div id="task-pagination" class="py-5"></div>
+                </div>
             </div>
-            <div>
-                <table class="table text-center" id="task_list" style="width:100%;">
-                    <tbody  style="width:100%;">
-                        <thead>
-                            <tr class="row">
-                                <th class="col-3">날짜</th>
-                                <th class="col-3">종류</th>
-                                <th class="col-4">내용</th>
-                                <th class="col-2">수정/삭제</th>
-                            </tr>
-                        </thead>
-                            <tr id="task-tr" class="row"></tr>
-                        </tbody>
-                </table>
-                <div id="task-pagination" class="py-5"></div>
+            <div id="for_taskban_list">
+                <div class="modal-header">
+                    <h1>안녕안녕</h1>
+                </div>
+                <div>
+                    <table class="table text-center"style="width:100%;">
+                        <tbody  style="width:100%;">
+                            <thead>
+                                <tr class="row">
+                                    <th class="col-3">반</th>
+                                    <th class="col-3">담당 T</th>
+                                    <th class="col-4">진행</th>
+                                    <th class="col-2">삭제</th>
+                                </tr>
+                            </thead>
+                                <tr  id="taskban_list" class="row"></tr>
+                            </tbody>
+                    </table>
+                    <div id="task-pagination" class="py-5"></div>
+                </div>
             </div>
         </div>
     </div>
