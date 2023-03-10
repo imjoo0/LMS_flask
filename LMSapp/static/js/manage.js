@@ -114,8 +114,7 @@ async function sort_consulting(value){
             $.each(data, function (index, consulting){
                 dataHtml +=  `
                     <td class="col-3">${consulting.startdate} ~ ${consulting.deadline}</td>
-                    <td class="col-2">${consulting.name}</td>
-                    <td class="col-1"> 미진행 </td>
+                    <td class="col-3">${consulting.name}</td>
                     <td class="col-4"> ${consulting.contents}</td>
                     <td class="col-2"> <button onclick="update_consulting(${consulting.id})">✏️</button> 
                     <button onclick="delete_consulting(${consulting.id})">❌</button></td>`;
@@ -150,8 +149,7 @@ async function get_task(){
                 $.each(data, function (index, task){
                 dataHtml +=  `
                     <td class="col-3">${ task.startdate } ~ ${ task.deadline }</td>               
-                    <td class="col-2">${task.name}</td>               
-                    <td class="col-1"> ${task.done} </td>
+                    <td class="col-3">${task.name}</td>          
                     <td class="col-4"> ${task.contents}</td>
                     <td class="col-2"> <button>✏️</button>
                     <button onclick="delete_task(${task.id})">❌</button></td>`;
