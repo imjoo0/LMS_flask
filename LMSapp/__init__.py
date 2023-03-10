@@ -23,6 +23,24 @@ file_upload = FileUpload()
 
 csrf = CSRFProtect()
 
+# 스케줄러 생성
+from apscheduler.schedulers.background import BackgroundScheduler
+from datetime import datetime, timedelta
+import mysql.connector
+
+scheduler = BackgroundScheduler()
+
+# 스케줄러에 작업 추가 매일 12시마다 실행 
+@scheduler.scheduled_job('cron', hour='0')
+def update_database():
+    today = datetime.today().strftime('%Y-%m-%d')
+    # 데이터베이스 업데이트 작업 수행
+    cursor = config.dbinfo.cursor()
+    query= "UPDATE taskban A LEFT JOIN task B ON A.task_id= B.id SET A.done = 0 WHERE date_format(A.created_at, '%Y-%m-%d') < %s AND B.cycle < 6 AND A.done = 1"
+    cursor.execute(query, (today,))
+    config.dbinfo.commit()
+    cursor.close()
+
 def create_app():
     app = Flask(__name__,static_folder="static")
     app.config.from_object(config) # config.py 파일에 작성한 항목을 읽기 위해
