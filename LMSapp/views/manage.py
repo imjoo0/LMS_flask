@@ -82,6 +82,7 @@ def get_task():
 def taskban(task_id):
     if request.method == 'GET':
         tb = json.loads(TaskBan.get_allban(task_id))
+        print(tb)
         return jsonify({'target_taskban':tb})
 
 @bp.route('/api/update_consulting', methods=['GET'])

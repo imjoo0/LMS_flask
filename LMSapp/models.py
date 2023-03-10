@@ -197,6 +197,7 @@ class TaskBan(db.Model):
         tb = cls.query.filter(cls.task_id == task_id).with_entities(cls.id,cls.ban_id,cls.done).all()
         tb = [{'id':taskbanlist[0], 'ban':callapi.get_ban(taskbanlist[1])['ban_name'] , 'done':taskbanlist[2]} for taskbanlist in tb]
         tb = json.dumps(tb)
+        print(tb)
         return tb
 
     # @classmethod
