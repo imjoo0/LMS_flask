@@ -26,7 +26,6 @@ csrf = CSRFProtect()
 # 스케줄러 생성
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime, timedelta
-import mysql.connector
 
 scheduler = BackgroundScheduler()
 

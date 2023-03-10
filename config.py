@@ -1,4 +1,5 @@
 from os.path import join, dirname, realpath
+import mysql.connector
 
 SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://purple:wjdgus00@127.0.0.1:3306/LMS'
 
