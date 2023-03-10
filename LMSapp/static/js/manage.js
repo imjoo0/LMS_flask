@@ -149,6 +149,9 @@ async function get_task(){
                 var dataHtml = '';
                 var idxHtml = `<option value="" selected>카테고리를 선택해주세요</option><option value="none">전체</option>`;
                 $.each(data, function (index, task){
+                console.log(today)
+                console.log(task.startdate)
+                console.log(typeof(task.startdate))
                 let progress = '';
                 if(today < task.startdate ){
                     progress = '예정'
