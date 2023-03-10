@@ -3,7 +3,10 @@ const today = new Date();
 $(document).ready(function () {
     paginating(0) 
 })
-
+function go_back(){
+    $('#for_taskban_list').hide();
+    $('#for_task_list').show();
+}
 function paginating(done_code){
     let container = $('#pagination')
     $.ajax({
@@ -125,7 +128,6 @@ async function sort_consulting(value){
         }
     })
 }
-
 
 async function get_task(){
     let container = $('#task-pagination')

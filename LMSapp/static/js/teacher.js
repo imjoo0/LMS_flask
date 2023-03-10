@@ -34,8 +34,6 @@ function go_back(){
     $('#teachers_student_list').show();
     $('#make_plus_consulting').hide();
     $('#banstudentlistModalLabel').html('원생목록')
-
-
 }
 function get_ban_student(b_id){
     $.ajax({
