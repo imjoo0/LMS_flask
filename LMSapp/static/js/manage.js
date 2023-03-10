@@ -149,13 +149,12 @@ async function get_task(){
                 var dataHtml = '';
                 var idxHtml = `<option value="" selected>카테고리를 선택해주세요</option><option value="none">전체</option>`;
                 $.each(data, function (index, task){
-                console.log(today)
-                console.log(task.startdate)
-                console.log(typeof(task.startdate))
                 let progress = '';
-                if(today < task.startdate ){
+                let startdate = new Date(task.startdate)
+                let deadline = new Date(task.deadline)
+                if(today < startdate ){
                     progress = '예정'
-                }else if( task.startdate <= today <= task.deadline){
+                }else if( startdate <= today <= deadline){
                     progress = '진행 중'
                 }else{
                     progress = '마감'
@@ -200,6 +199,16 @@ async function sort_task(value){
                 var dataHtml = '';
                 var idxHtml = `<option value="none" selected>카테고리를 선택해주세요</option>`;
                 $.each(data, function (index, task){
+                let progress = '';
+                let startdate = new Date(task.startdate)
+                let deadline = new Date(task.deadline)
+                if(today < startdate ){
+                    progress = '예정'
+                }else if( startdate <= today <= deadline){
+                    progress = '진행 중'
+                }else{
+                    progress = '마감'
+                }
                     dataHtml +=  `
                     <td class="col-3">${ task.startdate } ~ ${ task.deadline } (${progress})</td>              
                     <td class="col-3">${task.name}</td>    
