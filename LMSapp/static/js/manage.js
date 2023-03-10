@@ -237,7 +237,7 @@ function get_taskban(task_id){
         url: "/manage/taskban/"+task_id,
         data: {},
         success: function (response) {
-            $('#taskban_list').empty();
+            let temp_task_ban_box ='';
             for(i=0;i<response['target_taskban'].length;i++){
                 let target = response['target_taskban'][i]
                 let id = target["id"]
@@ -248,12 +248,12 @@ function get_taskban(task_id){
                 }else{
                     done = '진행완료'
                 }
-                let temp_task_ban_box = `
+                temp_task_ban_box += `
                 <td class="col-4">${ban}</td>
                 <td class="col-4">${done}</td>
                 <td class="col-4">✖️</td>
                 `;
-                $('#taskban_list').append(temp_task_ban_box);
+                $('#taskban_list').html(temp_task_ban_box);
             }
         } 
     });
