@@ -196,9 +196,11 @@ class TaskBan(db.Model):
         result = []
         tb = cls.query.filter(cls.task_id == task_id).all()
         for t in tb:
+            b = callapi.get_ban(t.ban_id)
             data = {}
             data['id'] = t.id
-            data['ban'] = callapi.get_ban(t.ban_id)['ban_name']
+            data['ban'] = b['ban_name']
+            data['teacher_name'] = b['teacher_name'] + '(' +b['teacher_engname'] +')'
             data['done'] = t.done
             result.append(data)
         return result
