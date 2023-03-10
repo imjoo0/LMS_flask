@@ -563,20 +563,18 @@ async function get_question(q_id,done_code){
 function post_answer(q_id,code){
     answer_title = $('#answer_title').val()
     answer_contents = $('#answer_contents').val()
-    var form_data = new FormData();
-    file_data = $('#afile-upload').prop('files')[0]
     o_ban_id = 0
     if(code != 1){
         o_ban_id = $('#o_ban_id'+code).val()
     }
-    form_data.append('file',file_data);
-    form_data.append('answer_title',answer_title);
-    form_data.append('answer_contents',answer_contents);
-    form_data.append('o_ban_id',o_ban_id);
     $.ajax({
         type: "POST",
         url: "/common/question/"+q_id,
-        data:form_data,
+        data: {
+            answer_title:answer_title,
+            answer_contents:answer_contents,
+            o_ban_id:o_ban_id
+        },
         success: function (response) {{
             alert(response["result"])
             window.location.replace('/')
