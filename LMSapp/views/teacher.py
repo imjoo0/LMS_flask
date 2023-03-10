@@ -336,6 +336,33 @@ def request_question():
         common.save_attachment(file,new_question.id)
         return redirect('/')
 
+    if request.method == 'POST':
+        question_category = request.form['question_category']
+        title = request.form['question_title']
+        contents = request.form['question_contents']
+        teacher = session['user_registerno']
+        create_date = datetime.now().date()
+        # 첨부 파일 처리 
+        file = request.files['file-upload']
+        if question_category == '일반':
+            cateory = 0
+            new_question = Question(category=cateory,title=title,contents=contents,teacher_id=teacher,create_date=create_date,answer=0)
+        else :
+            ban_id = request.form['ban_id']
+            student_id = request.form['target_student'] 
+            history_id = request.form['consulting_history']
+            if question_category == '퇴소':
+                cateory = 1
+            elif question_category == '이반':
+                cateory = 2
+            else:
+                cateory = 3
+            new_question = Question(consulting_history=history_id,category=cateory,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,create_date=create_date,answer=0)
+        
+        db.session.add(new_question)
+        db.session.commit()
+        common.save_attachment(file,new_question.id)
+        return redirect('/')
 
 # 댓글 작성 / 조회 
 @bp.route('/comment/<int:id>/<int:is_coco>', methods=['GET','POST'])

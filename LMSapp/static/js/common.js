@@ -537,7 +537,17 @@ async function get_question(q_id,done_code){
                 $('#manage_answer_3').show()
                 $('#manage_answer_2').hide()
             }
-            
+            let temp_file = `
+            <form action="/manage/answer/${q_id}" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
+            <div class="modal-body-select-container">
+                <span class="modal-body-select-label">첨부 파일</span>
+                <input type="file" id="afile-upload" name="file-upload">
+                <button type="submit">👉업로드</button>
+            </div>
+            </form>
+            `
+            $('#fileforbox').html(temp_file);
             let temp_button_box = `
             <button class="btn btn-dark" type="submit" onclick="post_answer(${q_id},${code})">저장</button>
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>

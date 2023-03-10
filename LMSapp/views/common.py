@@ -29,6 +29,12 @@ def save_attachment(file, q_id):
     db.session.add(attachment)
     db.session.commit()
 
+@bp.route('/uploads')
+def upload_file():
+    file = request.files['file-upload']
+    save_attachment(file)
+
+
 @bp.route('/downloadfile/question/<int:q_id>')
 def download_file(q_id):
     attachment = Attachments.query.filter_by(question_id=q_id).first()

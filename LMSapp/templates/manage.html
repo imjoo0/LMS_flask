@@ -115,14 +115,7 @@
                         </div>
                     </div>
                 </div>
-                <form action="/teacher/question" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">첨부 파일</span>
-                        <input type="file" id="afile-upload" name="file-upload">
-                        <button type="submit">👉업로드</button>
-                    </div>
-                </form>
+                <div id="fileforbox"></div>
                 <div class="d-flex justify-content-center mt-4 mb-2" id="button_box">
                 </div>
             </div> 
