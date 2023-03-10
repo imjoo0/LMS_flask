@@ -147,7 +147,7 @@ async function get_task(){
             pageSize: 10,
             callback: function (data, pagination){
                 var dataHtml = '';
-                var idxHtml = `<option value="" selected>카테고리를 선택해주세요</option><option value="none">전체</option>`;
+                var idxHtml = `<option value="" selected>카테고리를 선택해주세요</option><option value="전체">전체</option>`;
                 $.each(data, function (index, task){
                 let progress = '';
                 let startdate = new Date(task.startdate)
@@ -161,7 +161,7 @@ async function get_task(){
                 }
                 dataHtml +=  `
                     <td class="col-3">${ task.startdate } ~ ${ task.deadline } (${progress})</td>               
-                    <td class="col-3">${task.name}</td>          
+                    <td class="col-3">${task.name}업무</td>          
                     <td class="col-4"> ${task.contents}</td>
                     <td class="col-2"> <button>✏️</button>
                     <button onclick="delete_task(${task.id})">❌</button></td>`;
@@ -188,8 +188,8 @@ async function sort_task(value){
     var dataHtml = '';
     let container = $('#task-pagination')
     const data = taskData.filter((e)=>{
-        if(value == none){
-            get_task()
+        if(value == "전체"){
+            return get_task()
         }else{
             return e.name == value;
         }
@@ -215,7 +215,7 @@ async function sort_task(value){
                 }
                     dataHtml +=  `
                     <td class="col-3">${ task.startdate } ~ ${ task.deadline } (${progress})</td>              
-                    <td class="col-3">${task.name}</td>    
+                    <td class="col-3">${task.name}업무</td>    
                     <td class="col-4"> ${task.contents}</td>
                     <td class="col-2"> <button>✏️</button>
                     <button onclick="delete_task(${task.id})">❌</button></td>`;
