@@ -229,7 +229,6 @@ async function sort_task(value){
 }
 
 function get_taskban(task_id){
-    console.log(task_id)
     $('#taskModalLabel').html('반 별 진행 내역');
     $('#for_task_list').hide();
     $('#for_taskban_list').show();
