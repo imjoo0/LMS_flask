@@ -136,6 +136,7 @@ async function get_task(){
         success: function(data){
             $.each([...JSON.parse(data)], function (idx, val){
                 category_list.push(val.name)
+                // 카테고리의 이름만 저장 
             });
             taskData = JSON.parse(data);
             container.pagination({
@@ -150,7 +151,7 @@ async function get_task(){
                 dataHtml +=  `
                     <td class="col-3">${ task.startdate } ~ ${ task.deadline }</td>               
                     <td class="col-2">${task.name}</td>               
-                    <td class="col-1"> 미진행 </td>
+                    <td class="col-1"> ${task.done} </td>
                     <td class="col-4"> ${task.contents}</td>
                     <td class="col-2"> <button>✏️</button>
                     <button onclick="delete_task(${task.id})">❌</button></td>`;
@@ -191,7 +192,7 @@ async function sort_task(value){
                     dataHtml +=  `
                     <td class="col-3">${ task.startdate } ~ ${ task.deadline }</td>               
                     <td class="col-2">${task.name}</td>               
-                    <td class="col-1"> 미진행 </td>
+                    <td class="col-1"> ${task.done} </td>
                     <td class="col-4"> ${task.contents}</td>
                     <td class="col-2"> <button>✏️</button>
                     <button onclick="delete_task(${task.id})">❌</button></td>`;
