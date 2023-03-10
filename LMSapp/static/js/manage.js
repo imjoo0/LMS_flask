@@ -189,8 +189,7 @@ async function sort_task(value){
                 $.each(data, function (index, task){
                     dataHtml +=  `
                     <td class="col-3">${ task.startdate } ~ ${ task.deadline }</td>               
-                    <td class="col-2">${task.name}</td>               
-                    <td class="col-1"> ${task.done} </td>
+                    <td class="col-3">${task.name}</td>        
                     <td class="col-4"> ${task.contents}</td>
                     <td class="col-2"> <button>✏️</button>
                     <button onclick="delete_task(${task.id})">❌</button></td>`;
