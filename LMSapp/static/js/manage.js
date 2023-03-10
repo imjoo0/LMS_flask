@@ -44,6 +44,7 @@ function paginating(done_code){
 async function get_consulting(){
     let container = $('#consulting-pagination')
     var category_list = []
+    var contents_list = []
 await $.ajax({
         url: '/manage/api/get_consulting',
         type: 'get',
@@ -51,17 +52,20 @@ await $.ajax({
         success: function(data){
             $.each([...JSON.parse(data)], function (idx, val){
                 category_list.push(val.name)
+                contents_list.push(val.name)
             });
-            consultingData = data;
+            contents_set = new Set(contents_list)
+            contents_list = [...contents_set]
+            consultingData = contents_list;
             container.pagination({
-            dataSource: JSON.parse(data),
+            dataSource: JSON.parse(contents_list),
             prevText: '이전',
             nextText: '다음',
             pageSize: 10,
-            callback: function (data, pagination){
+            callback: function (contents_list, pagination){
                 var dataHtml = '';
                 var idxHtml = `<option value="none">전체</option>`;
-                $.each(data, function (index, consulting){
+                $.each(contents_list, function (index, consulting){
                 dataHtml +=  `
                     <td class="col-3">${consulting.startdate} ~ ${consulting.deadline}</td>
                     <td class="col-2">${consulting.name}</td>
