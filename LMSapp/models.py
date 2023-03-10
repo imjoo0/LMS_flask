@@ -193,10 +193,15 @@ class TaskBan(db.Model):
     
     @classmethod
     def get_allban(cls,task_id):
-        #  해야 하는 업무들 가져오기 (task_id가 중복되지 않도록)
+        result = []
         tb = cls.query.filter(cls.task_id == task_id).all()
-        tb = json.dumps(tb)
-        return tb
+        for t in tb:
+            data = {}
+            data['id'] = t.id
+            data['ban'] = callapi.get_ban(t.ban_id)['ban_name']
+            data['done'] = t.done
+            result.append(data)
+        return result
 
     # @classmethod
     # def query(cls):
