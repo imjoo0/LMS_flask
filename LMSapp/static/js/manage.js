@@ -150,7 +150,7 @@ async function get_task(){
             pageSize: 10,
             callback: function (data, pagination){
                 var dataHtml = '';
-                var idxHtml = `<option value="" selected>카테고리를 선택해주세요</option><option value="전체">전체</option>`;
+                var idxHtml = `<option value="" selected>카테고리를 선택해주세요</option><option value="none">전체</option>`;
                 $.each(data, function (index, task){
                 let progress = '';
                 let startdate = new Date(task.startdate)
@@ -190,8 +190,8 @@ async function sort_task(value){
     var dataHtml = '';
     let container = $('#task-pagination')
     const data = taskData.filter((e)=>{
-        if(value == "전체"){
-            return get_task()
+        if(value == 'none'){
+            return e.name
         }else{
             return e.name == value;
         }
