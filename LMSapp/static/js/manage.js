@@ -157,7 +157,7 @@ async function get_task(){
                 let deadline = new Date(task.deadline)
                 if(today < startdate ){
                     progress = '예정'
-                }else if( startdate <= today <= deadline){
+                }else if((startdate <= today) && (today <= deadline)){
                     progress = '진행 중'
                 }else{
                     progress = '마감'
@@ -210,7 +210,7 @@ async function sort_task(value){
                 let deadline = new Date(task.deadline)
                 if(today < startdate ){
                     progress = '예정'
-                }else if( startdate <= today <= deadline){
+                }else if((startdate <= today) && (today <= deadline)){
                     progress = '진행 중'
                 }else{
                     progress = '마감'
