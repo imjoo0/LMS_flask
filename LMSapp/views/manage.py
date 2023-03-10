@@ -81,7 +81,7 @@ def get_task():
 @bp.route("/taskban/<int:task_id>", methods=['GET'])
 def taskban(task_id):
     if request.method == 'GET':
-        tb = json.loads(TaskBan.get_allban(task_id))
+        tb = TaskBan.get_allban(task_id)
         print(tb)
         return jsonify({'target_taskban':tb})
 
