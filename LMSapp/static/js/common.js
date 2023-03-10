@@ -525,7 +525,6 @@ async function get_question(q_id,done_code){
         $('#teacher_question').html(temp_question_list);
 
         if(done_code == 0){
-            console.log(code)
             $('#manage_answer_1').show()
             $('#comment_box').hide()
             if(code == 1){
@@ -540,6 +539,12 @@ async function get_question(q_id,done_code){
             }
             
             let temp_button_box = `
+            <div class="d-flex justify-content-center mt-4 mb-2" id="button_box">
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">첨부 파일</span>
+                    <input type="file" id="file-upload" name="file-upload">
+                </div>
+            </div>
             <button class="btn btn-dark" type="submit" onclick="post_answer(${q_id},${code})">저장</button>
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
             `
