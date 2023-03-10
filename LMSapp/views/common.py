@@ -109,6 +109,7 @@ def question(id):
         answer_title = request.form['answer_title']
         answer_contents = request.form['answer_contents']
         file = request.files['file']
+        print('file:')
         print(file)
         o_ban_id = int(request.form['o_ban_id'])
         new_answer = Answer(content=answer_contents,title=answer_title,created_at=Today,reject_code=o_ban_id,question_id = id)
