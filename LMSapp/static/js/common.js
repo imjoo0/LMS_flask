@@ -538,7 +538,7 @@ async function get_question(q_id,done_code){
                 $('#manage_answer_2').hide()
             }
             let temp_file = `
-            <form action="/manage/answer/${q_id}" method="POST" enctype="multipart/form-data">
+            <form action="/common/uploads/${q_id}" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
             <div class="modal-body-select-container">
                 <span class="modal-body-select-label">첨부 파일</span>

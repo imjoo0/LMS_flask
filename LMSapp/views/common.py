@@ -29,10 +29,10 @@ def save_attachment(file, q_id):
     db.session.add(attachment)
     db.session.commit()
 
-@bp.route('/uploads')
-def upload_file():
+@bp.route('/uploads/<int:id>')
+def upload_file(id):
     file = request.files['file-upload']
-    save_attachment(file)
+    save_attachment(file,id)
 
 
 @bp.route('/downloadfile/question/<int:q_id>')
