@@ -198,7 +198,7 @@ class TaskBan(db.Model):
         for t in tb:
             data = {}
             data['id'] = t.id
-            data['ban'] = callapi.get_ban(t.ban_id)['ban_name']
+            data['ban'] = t.ban_id
             data['done'] = t.done
             result.append(data)
         return result
