@@ -239,6 +239,7 @@ function get_taskban(task_id){
         data: {},
         success: function (response) {
             $('#taskban_list').empty();
+            console.log(response['target_taskban'])
             for(i=0;i<response['target_taskban'].length;i++){
                 let target = response['target_taskban'][i]
                 let id = target["id"]
