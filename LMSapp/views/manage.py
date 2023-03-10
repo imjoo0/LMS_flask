@@ -160,8 +160,6 @@ def request_consulting():
         received_consulting_startdate = request.form['consulting_date']
         #  상담을 마무리할 마감일 저장
         received_consulting_deadline = request.form['consulting_deadline']
-        # 첨부 파일 저장 
-        file = request.files['file-upload']
         # 전체 반이 선택 된 경우
         if received_target_ban == '전체 반':
             target_class = callapi.all_ban_info()
@@ -190,8 +188,6 @@ def request_consulting():
                                             contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
                 db.session.add(new_consulting)
                 db.session.commit()
-        
-        common.save_attachment(file,new_consulting.id)
         return redirect('/')
                 
 @bp.route("/task", methods=['GET', 'POST'])
