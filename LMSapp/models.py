@@ -67,7 +67,7 @@ class Answer(db.Model):
     created_at = db.Column(db.DateTime(), nullable=False)
     reject_code = db.Column(db.Integer,nullable=True) # 1이면 반려 
     # 관계설정 
-    question = db.relationship("Question", backref="answer", uselist=False)
+    question = db.relationship("Question", backref="qanswer", uselist=False)
 
 class OutStudent(db.Model):
     __tablename__ = "outstudent"
