@@ -28,8 +28,8 @@ class Question(db.Model):
     consulting_history = db.Column(db.Integer,db.ForeignKey('consultinghistory.id'))
     student_id = db.Column(db.Integer,nullable=True)
     create_date = db.Column(db.DateTime(), nullable=False)
-    comments = db.relationship("Comment", back_populates="question")
-    attachments = db.relationship('Attachments',backref='question',cascade="all,delete")
+    comments = db.relationship("Comment", uselist=False, back_populates="question", cascade='all, delete-orphan', single_parent=True)
+    attachments = db.relationship('Attachments', uselist=False,back_populates='question', cascade='all, delete-orphan', single_parent=True)
     answer = db.Column(db.Integer,nullable=True)
 
 @file_upload.Model
@@ -42,16 +42,18 @@ class Attachments(db.Model):
     data = db.Column(db.LargeBinary)
     file_name = db.Column(db.String(200))
 
+    question = db.relationship("Question", back_populates='attachments', single_parent=True)
+
 class Comment(db.Model):
     __tablename__ = 'comment'
     id = db.Column(db.Integer, primary_key=True)
     contents = db.Column(db.Text())
     user_id = db.Column(db.Integer, nullable=False)
-    question_id = db.Column(db.Integer, db.ForeignKey('question.id'))
+    question_id = db.Column(db.Integer, db.ForeignKey('question.id', ondelete='CASCADE'))
     parent_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
     created_at = db.Column(db.DateTime(), nullable=False)
     # 관계설정
-    question = db.relationship("Question", back_populates="comments")
+    question = db.relationship("Question", back_populates="comments", single_parent=True)
     children = db.relationship("Comment",back_populates='parent', cascade='all, delete-orphan')
     parent = db.relationship("Comment", back_populates='children', remote_side=[id])
 
@@ -64,6 +66,8 @@ class Answer(db.Model):
     content = db.Column(db.Text(), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False)
     reject_code = db.Column(db.Integer,nullable=True) # 1이면 반려 
+    # 관계설정 
+    question = db.relationship("Question", backref="answer", uselist=False)
 
 class OutStudent(db.Model):
     __tablename__ = "outstudent"
