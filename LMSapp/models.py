@@ -51,7 +51,7 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     contents = db.Column(db.Text())
     user_id = db.Column(db.Integer, nullable=False)
-    question_id = db.Column(db.Integer, db.ForeignKey('question.id', ondelete='CASCADE'))
+    question_id = db.Column(db.Integer, db.ForeignKey('question.id', ondelete='CASCADE'), nullable=False)
     parent_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
     created_at = db.Column(db.DateTime(), nullable=False)
     # 관계설정
