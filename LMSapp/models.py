@@ -158,11 +158,11 @@ class TaskBan(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     ban_id = db.Column(db.Integer,nullable=True)
     teacher_id = db.Column(db.Integer,nullable=True)
-    task_id = db.Column(db.Integer,db.ForeignKey('task.id'))
+    task_id = db.Column(db.Integer, db.ForeignKey('task.id', ondelete='CASCADE'))
     done = db.Column(db.Integer, nullable=True)
     created_at = db.Column(db.DateTime)
 
-    task = db.relationship('Task', back_populates='taskbans', cascade='all, delete-orphan')
+    task = db.relationship("Task", back_populates='taskbans', single_parent=True)
 
     @classmethod
     def get_task_category(cls,teacher_id,done):
