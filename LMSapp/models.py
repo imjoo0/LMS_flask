@@ -108,18 +108,19 @@ class Consulting(db.Model):
     done = db.Column(db.Integer,nullable=True)
     week_code = db.Column(db.Integer,nullable=True)
     missed = db.Column(db.DateTime(), nullable=False)
-    # 관계 설정 
-    history = db.relationship('ConsultingHistory',backref='consulting')
 
 class ConsultingHistory(db.Model):
     __tablename__ = 'consultinghistory'
     
     id=db.Column(db.Integer,primary_key=True)
-    consulting_id = db.Column(db.Integer,db.ForeignKey('consulting.id'))
+    consulting_id = db.Column(db.Integer,db.ForeignKey('consulting.id',ondelete='CASCADE'))
     reason = db.Column(db.Text)
     solution = db.Column(db.Text)
     result = db.Column(db.Text)
     created_at = db.Column(db.DateTime)
+
+    # 관계 설정 
+    consulting = db.relationship('Consulting',backref='consultinghistories',uselist = False)
     
 class TaskCategory(db.Model):
     __tablename__ = 'taskcategory'
