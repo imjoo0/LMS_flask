@@ -28,7 +28,7 @@ class Question(db.Model):
     student_id = db.Column(db.Integer,nullable=True)
     create_date = db.Column(db.DateTime(), nullable=False)
     comments = db.relationship("Comment", back_populates="question")
-    attachments = db.relationship('Attachments',backref=db.backref('attachments', lazy='dynamic'),cascade="all,delete")
+    attachments = db.relationship('Attachments',backref='question',cascade="all,delete")
     answer = db.Column(db.Integer,nullable=True)
 
 @file_upload.Model
