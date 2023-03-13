@@ -139,7 +139,7 @@ class Task(db.Model):
     cycle = db.Column(db.Integer, nullable=True)
 
     # 관계 설정 
-    taskban = db.relationship('TaskBan',backref='task',lazy=True)
+    taskbans = db.relationship('TaskBan', back_populates='task')
     # @classmethod
     # def query(cls):
     #     return msession.query(cls)
@@ -162,7 +162,7 @@ class TaskBan(db.Model):
     done = db.Column(db.Integer, nullable=True)
     created_at = db.Column(db.DateTime)
 
-    tasks = db.relationship('Task',backref='taskbans',lazy=True)
+    task = db.relationship('Task', back_populates='taskbans', cascade='all, delete-orphan')
 
     @classmethod
     def get_task_category(cls,teacher_id,done):
