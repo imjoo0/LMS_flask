@@ -57,7 +57,7 @@ class Comment(db.Model):
     # 관계설정
     question = db.relationship("Question", back_populates="comments", single_parent=True)
     children = db.relationship("Comment",back_populates='parent', cascade='all, delete-orphan')
-    parent = db.relationship("Comment", back_populates='children', remote_side=[id])
+    parent = db.relationship("Comment", back_populates='children', remote_side=[id],cascade='all, delete-orphan')
 
 class Answer(db.Model):
     __tablename__ = 'answer'
