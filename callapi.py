@@ -13,7 +13,6 @@ def json_default(value):
 def purple_info(id,url):
     result = requests.post(config.api + url, headers=headers, data=json.dumps({'data':{'id': id}}))
     result = result.json()
-    print(result)
     if(len(result)>0):
         result = result[0]
         return result
