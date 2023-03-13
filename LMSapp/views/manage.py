@@ -290,7 +290,6 @@ def get_ban(id):
                 task['text'] = str(e)
             finally:
                 db.close()
-            print(target_ban)
             alimnote = callapi.purple_info(id,'get_alimnote')
             notice = callapi.purple_info(id,'get_notice')
             students = callapi.purple_info(target_ban['register_no'],'get_students')
