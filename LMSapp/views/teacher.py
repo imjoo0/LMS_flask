@@ -31,10 +31,10 @@ standard = datetime.strptime('11110101',"%Y%m%d").date()
 @bp.route("/", methods=['GET'])
 def home():
     if request.method =='GET':
-        teacher_info = callapi.get_teacher_info(session['user_id'])
-        mystudents_info = callapi.get_mystudents(session['user_id'])
+        teacher_info = callapi.purple_info(session['user_id'],'get_teacher_info')
+        mystudents_info = callapi.purple_info(session['user_id'],'get_mystudents')
         total_student_num = len(mystudents_info)
-        mybans_info = callapi.get_mybans(session['user_id'])
+        mybans_info = callapi.purple_ban(session['user_id'],'get_mybans')
         ban_data = []
         #  상담 차트
         ttc = 0
@@ -94,7 +94,7 @@ def home():
 def get_ban():
     if request.method == 'GET':
         result = []
-        mybans_info = callapi.get_mybans(session['user_id'])
+        mybans_info = callapi.purple_ban(session['user_id'],'get_mybans')
 
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
@@ -108,7 +108,7 @@ def get_ban():
                     cur.execute(f"select count(*) as 'count', category from switchstudent where ban_id={ban['register_no']} group by category")
                     temp['switchstudent'] = cur.fetchall().copy()
 
-                    alimnote = callapi.get_alimnote(ban['register_no'])
+                    alimnote = callapi.purple_info(ban['register_no'],'get_alimnote')
                     temp['alimnote'] = alimnote
 
                     result.append({ban['name']: temp.copy()})
@@ -172,7 +172,7 @@ def mystudents(ban_id,is_done):
     if request.method == 'GET':
         # 오늘의 부재중 
         if ban_id == 1:
-            my_students = callapi.get_mystudents(session['user_id'])
+            my_students = callapi.purple_info(session['user_id'],'get_mystudents')
             consulting_student_list = []
             for student in my_students:
                 consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done == is_done)  & (Consulting.missed == Today) & (Consulting.startdate <= current_time) ).all()
@@ -185,7 +185,7 @@ def mystudents(ban_id,is_done):
                     target_data['consulting_num'] = len(consultings)
                     consulting_student_list.append(target_data)
         else:
-            my_students = callapi.get_students(ban_id)
+            my_students = callapi.purple_info(ban_id,'get_students')
             consulting_student_list = []
             for student in my_students:
                 consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done == is_done)  & (Consulting.startdate <= current_time) & (Consulting.missed != Today)).all()
@@ -369,7 +369,7 @@ def request_question():
 def comment(id,is_coco):
     if request.method == 'GET':
         q = Comment.query.filter(Comment.question_id == id).all()
-        teacher_info = callapi.get_teacher_info_by_id(q.teacher_id)
+        teacher_info = callapi.purple_info(q.teacher_id,'get_teacher_info_by_id')
         a = Answer.query.filter(Answer.question_id == id).first()
         return_data = {}
         if q.category == 0: return_data['category'] = '일반문의' 
@@ -389,8 +389,8 @@ def comment(id,is_coco):
         elif(q.answer == 0): return_data['reject'] = '대기중'
         else: return_data['reject'] = '반려'
         if q.category != 0:
-            s = callapi.get_student_info(q.student_id )
-            b = callapi.get_ban(q.ban_id )    
+            s = callapi.purple_info(q.student_id ,'get_student_info')
+            b = callapi.purple_ban(q.ban_id,'get_ban')    
             
             return_data['student'] = s['name']
             return_data['student_origin'] = s['origin']

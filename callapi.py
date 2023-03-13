@@ -10,7 +10,52 @@ def json_default(value):
         return value.strftime('%Y-%m-%d')
     raise TypeError('not serializable')
 
-# session['user_id'] 선생님 아이디 
+def purple_info(id,url):
+    result = requests.post(config.api + url, headers=headers, data=json.dumps({'data':{'id': id}}))
+    result = result.json()
+    if(len(result)==1):
+        result = result[0]
+        return result
+    elif(len(result)>1):
+        return result
+    else:
+        return False
+
+def purple_ban(id,url):
+    result = requests.post(config.api + url, headers=headers, data=json.dumps({'data':{'id': id}}))
+    result = result.json()
+    if(len(result)>0):
+        for i in result:
+            if ((i['semester']-13)%3) == 1:
+                i['semester'] = 1
+            elif ((i['semester']-13)%3) == 2:
+                i['semester'] = 5
+            elif ((i['semester']-13)%3) == 0:
+                i['semester'] = 9
+            else:
+                i['semester'] = i['semester'] 
+        return result
+    else:
+        return False
+
+def purple_allban(url):
+    result = requests.post(config.api + url, headers=headers, data=json.dumps({'data':{}}))
+    result = result.json()
+    if(len(result)>0):
+        for i in result:
+            if ((i['semester']-13)%3) == 1:
+                i['semester'] = 1
+            elif ((i['semester']-13)%3) == 2:
+                i['semester'] = 5
+            elif ((i['semester']-13)%3) == 0:
+                i['semester'] = 9
+            else:
+                i['semester'] = i['semester'] 
+        return result
+    else:
+        return False
+
+# 밑에 다 지워도 된다. 
 def get_user(teacher_id):
     return requests.post(config.api + 'get_teacher_info', headers=headers, data=json.dumps({'data':{'id': teacher_id}}))
 

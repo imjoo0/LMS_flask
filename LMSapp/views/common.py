@@ -52,7 +52,7 @@ def download_file(q_id):
 def question(id):
     if request.method == 'GET':
         q = Question.query.filter(Question.id == id).first()
-        teacher_info = callapi.get_teacher_info_by_id(q.teacher_id)
+        teacher_info = callapi.purple_info(q.teacher_id,'get_teacher_info_by_id')
         a = Answer.query.filter(Answer.question_id == id).first()
         c = Comment.query.filter(Comment.question_id == id).all()
         return_data = {}
@@ -89,8 +89,8 @@ def question(id):
         elif(q.answer == 0): return_data['reject'] = '대기중'
         else: return_data['reject'] = '반려'
         if q.category != 0:
-            s = callapi.get_student_info(q.student_id )
-            b = callapi.get_ban(q.ban_id )    
+            s = callapi.purple_info(q.student_id,'get_student_info')
+            b = callapi.purple_ban(q.ban_id,'get_ban' )    
             return_data['student'] = s['name']
             return_data['student_origin'] = s['origin']
             return_data['ban'] = b['ban_name']

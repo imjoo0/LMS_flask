@@ -14,8 +14,8 @@ bp = Blueprint('manage', __name__, url_prefix='/manage')
 @bp.route("/", methods=['GET'])
 def home():
     if request.method == 'GET':
-        user = callapi.get_teacher_info(session['user_id'])
-        all_ban = callapi.all_ban_info()
+        user = callapi.purple_info(session['user_id'],'get_teacher_info')
+        all_ban = callapi.purple_allban('get_all_ban')
         
         all_consulting_category = ConsultingCategory.query.filter(ConsultingCategory.id > 100).all()
         all_consulting = Consulting.query.all()
@@ -162,9 +162,9 @@ def request_consulting():
         received_consulting_deadline = request.form['consulting_deadline']
         # 전체 반이 선택 된 경우
         if received_target_ban == '전체 반':
-            target_class = callapi.all_ban_info()
+            target_class = callapi.purple_allban('get_all_ban')
             for c in target_class:
-                students = callapi.get_students(c['register_no'])
+                students = callapi.purple_info(c['register_no'],'get_students')
                 for s in students:
                     new_consulting = Consulting(ban_id=c['register_no'], category_id=received_category, student_id=s['register_no'],
                                                 contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
@@ -176,7 +176,7 @@ def request_consulting():
             received_target_student = request.form['consulting_target_student']
             # 전체 학생일 경우 
             if received_target_student == '전체학생':
-                target_student_list = callapi.get_students(received_target_ban)
+                target_student_list = callapi.purple_info(received_target_ban,'get_students')
                 for student in target_student_list:
                     new_consulting = Consulting(ban_id=received_target_ban, category_id=received_category, student_id=student['register_no'],
                                                 contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
@@ -216,20 +216,20 @@ def request_task():
         
         # 전체 반이 선택 된 경우
         if received_target_ban == '전체 반':
-            target_class = callapi.all_ban_info()
+            target_class = callapi.purple_allban('get_all_ban')
             for c in target_class:
                 new_task = TaskBan(ban_id=c['register_no'],teacher_id=c['teacher_register_no'], task_id=task.id ,done=0)
                 db.session.add(new_task)
                 db.session.commit()
         elif received_target_ban == 'plusalpha':
-            target_class = callapi.plus_alpha_info()
+            target_class = callapi.purple_allban('get_plusalpha_ban')
             for c in target_class:
                 new_task = TaskBan(ban_id=c['register_no'],teacher_id=c['teacher_register_no'], task_id=task.id,done=0)
                 db.session.add(new_task)
                 db.session.commit()
         # 개별 반 선택 된 경우 
         else:
-            target_teacher = callapi.get_ban(received_target_ban)
+            target_teacher = callapi.purple_ban(received_target_ban,'get_ban')
             target_teacher =  target_teacher['teacher_register_no']
             new_task = TaskBan(ban_id=received_target_ban,teacher_id=target_teacher, task_id=task.id,done=0)
             db.session.add(new_task)
@@ -239,7 +239,7 @@ def request_task():
 @bp.route("/ban/<int:id>", methods=['GET'])
 def get_ban(id):
     if request.method == 'GET':
-        target_ban = callapi.get_ban(id)
+        target_ban = callapi.purple_ban(id,'get_ban')
         if target_ban:
             # switchstudent_num_p = 0
             # # 이반 한 학생  
@@ -290,9 +290,9 @@ def get_ban(id):
                 task['text'] = str(e)
             finally:
                 db.close()
-            alimnote = callapi.get_alimnote(id)[0]
-            notice = callapi.get_notice(id)
-            students = callapi.get_students(target_ban['register_no'])
+            alimnote = callapi.purple_info(id,'get_alimnote')
+            notice = callapi.purple_info(id,'get_notice')
+            students = callapi.purple_info(target_ban['register_no'],'get_students')
             # student_info = []
             # for student in students:
             #      student_info.append(json.dumps(get_student_json(student)))
