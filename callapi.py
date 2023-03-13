@@ -25,11 +25,12 @@ def purple_ban(id,url):
     result = result.json()
     if(len(result)>0):
         for i in result:
-            if ((i['semester']-13)%3) == 1:
+            standard = (i['semester']-13)%3
+            if (standard) == 1:
                 i['semester'] = 1
-            elif ((i['semester']-13)%3) == 2:
+            elif (standard) == 2:
                 i['semester'] = 5
-            elif ((i['semester']-13)%3) == 0:
+            elif (standard) == 0:
                 i['semester'] = 9
             else:
                 i['semester'] = i['semester'] 
@@ -44,11 +45,12 @@ def purple_allban(url):
     result = result.json()
     if(len(result)>0):
         for i in result:
-            if ((i['semester']-13)%3) == 1:
+            standard = (i['semester']-13)%3
+            if (standard) == 1:
                 i['semester'] = 1
-            elif ((i['semester']-13)%3) == 2:
+            elif (standard) == 2:
                 i['semester'] = 5
-            elif ((i['semester']-13)%3) == 0:
+            elif (standard) == 0:
                 i['semester'] = 9
             else:
                 i['semester'] = i['semester'] 
