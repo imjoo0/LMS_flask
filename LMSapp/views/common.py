@@ -57,7 +57,7 @@ def question(id):
         c = Comment.query.filter(Comment.question_id == id).all()
         return_data = {}
         attach = q.attachments
-        if attach is None or len(attach) == 0:
+        if attach is None:
             return_data['attach'] = "없음"
         else:
             return_data['attach'] = attach[0].file_name
