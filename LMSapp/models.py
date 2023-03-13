@@ -119,7 +119,7 @@ class ConsultingHistory(db.Model):
     result = db.Column(db.Text)
     created_at = db.Column(db.DateTime)
 
-    # 관계 설정 
+    # 1-1 관계 설정 
     consulting = db.relationship('Consulting',backref='consultinghistories',uselist = False)
     
 class TaskCategory(db.Model):
