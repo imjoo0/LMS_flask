@@ -28,11 +28,12 @@ class Question(db.Model):
     consulting_history = db.Column(db.Integer,db.ForeignKey('consultinghistory.id'))
     student_id = db.Column(db.Integer,nullable=True)
     create_date = db.Column(db.DateTime(), nullable=False)
-    comments = db.relationship("Comment", uselist=False, back_populates="question", cascade='all, delete-orphan', single_parent=True)
-    attachments = db.relationship('Attachments', uselist=False,back_populates='question', cascade='all, delete-orphan', single_parent=True)
     answer = db.Column(db.Integer,nullable=True)
 
     qa = db.relationship("Answer", uselist=False, back_populates="question", cascade="all, delete")
+    comments = db.relationship("Comment", uselist=False, back_populates="question", cascade='all, delete-orphan', single_parent=True)
+    attachments = db.relationship('Attachments', uselist=False,back_populates='question', cascade='all, delete-orphan', single_parent=True)
+
 
 @file_upload.Model
 class Attachments(db.Model):
@@ -55,7 +56,6 @@ class Comment(db.Model):
     parent_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
     created_at = db.Column(db.DateTime(), nullable=False)
     # 관계설정
-    question = db.relationship("Question", back_populates="comments", single_parent=True)
     children = db.relationship("Comment",back_populates='parent', cascade='all, delete-orphan')
     parent = db.relationship("Comment", back_populates='children', remote_side=[id])
 
