@@ -139,7 +139,7 @@ class Task(db.Model):
     cycle = db.Column(db.Integer, nullable=True)
 
     # 관계 설정 
-    taskbans = db.relationship('TaskBan', back_populates='task')
+    taskbans = db.relationship('TaskBan', uselist=False, back_populates='task', cascade='all, delete-orphan', single_parent=True)
     # @classmethod
     # def query(cls):
     #     return msession.query(cls)
