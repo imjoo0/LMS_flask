@@ -329,7 +329,7 @@ def request_question():
                 cateory = 2
             else:
                 cateory = 3
-            if(history_id == None) :
+            if(history_id == 'none') :
                 print('찍히나?')
                 flash('이반 요청 전 해당 학생의 상담을 우선 진행해주세요')
                 return render_template('teacher.html')
