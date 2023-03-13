@@ -15,9 +15,8 @@ def purple_info(id,url):
     result = result.json()
     if(len(result) == 1):
         result = result[0]
-        return result
     else:
-        return False
+        return result
 
 def purple_ban(id,url):
     result = requests.post(config.api + url, headers=headers, data=json.dumps({'data':{'id': id}}))
