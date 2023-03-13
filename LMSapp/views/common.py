@@ -56,7 +56,7 @@ def question(id):
         a = Answer.query.filter(Answer.question_id == id).first()
         c = Comment.query.filter(Comment.question_id == id).all()
         return_data = {}
-        attach = q.attachment
+        attach = q.attachments
         if attach is None or len(attach) == 0:
             return_data['attach'] = "없음"
         else:
