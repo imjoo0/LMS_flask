@@ -403,6 +403,8 @@ def comment(id,is_coco):
         comment_contents = request.form['comment_contents'] 
         new_comment = Comment(contents=comment_contents,user_id=session['user_registerno'],question_id=id,created_at=Today,parent_id=is_coco)
         db.session.add(new_comment)
+        if is_coco == 0:
+            new_comment.parent_id = new_comment.id
         db.session.commit()
         return jsonify({'result': '댓글 작성 완료'})
     
