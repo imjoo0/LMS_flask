@@ -28,7 +28,7 @@ class Question(db.Model):
     student_id = db.Column(db.Integer,nullable=True)
     create_date = db.Column(db.DateTime(), nullable=False)
     comments = db.relationship("Comment", back_populates="question")
-    attachment = db.relationship('Attachments', back_populates='questions', lazy=True)
+    attachments = db.relationship('Attachments',backref=db.backref('attachments', lazy='dynamic'),cascade="all,delete")
     answer = db.Column(db.Integer,nullable=True)
 
 @file_upload.Model
@@ -40,7 +40,6 @@ class Attachments(db.Model):
     mime_type = db.Column(db.Text())
     data = db.Column(db.LargeBinary)
     file_name = db.Column(db.String(200))
-    questions = db.relationship('Question', backref=db.backref('attachments', lazy='dynamic'),cascade="all,delete")
 
 class Comment(db.Model):
     __tablename__ = 'comment'
