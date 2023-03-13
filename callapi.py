@@ -32,7 +32,8 @@ def purple_ban(id,url):
                 i['semester'] = 9
             else:
                 i['semester'] = i['semester'] 
-        print(result)
+        if(len(result) == 1):
+            result = result[0]
         return result
     else:
         return False
