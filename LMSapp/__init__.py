@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 # 파일 업로드
-from flask_file_upload.file_upload import FlaskFileUpload
+from flask_file_upload.file_upload import FileUpload
 
 import config
 from flask_wtf.csrf import CSRFProtect  # csrf
