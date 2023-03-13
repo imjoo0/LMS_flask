@@ -32,6 +32,8 @@ class Question(db.Model):
     attachments = db.relationship('Attachments', uselist=False,back_populates='question', cascade='all, delete-orphan', single_parent=True)
     answer = db.Column(db.Integer,nullable=True)
 
+    qa = db.relationship("Answer", uselist=False, back_populates="question", cascade="all, delete")
+
 @file_upload.Model
 class Attachments(db.Model):
     __tablename__ = 'attachment'
@@ -61,13 +63,13 @@ class Answer(db.Model):
     __tablename__ = 'answer'
 
     id = db.Column(db.Integer, primary_key=True)
-    question_id = db.Column(db.Integer, db.ForeignKey('question.id',ondelete='CASCADE'))
+    question_id = db.Column(db.Integer, db.ForeignKey('question.id'), unique=True, nullable=False)
     title = db.Column(db.Text(), nullable=False)
     content = db.Column(db.Text(), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False)
     reject_code = db.Column(db.Integer,nullable=True) # 1이면 반려 
     # 관계설정 
-    question = db.relationship("Question", backref="qanswer", uselist=False)
+    question = db.relationship("Question", backref="qanswer")
 
 class OutStudent(db.Model):
     __tablename__ = "outstudent"
