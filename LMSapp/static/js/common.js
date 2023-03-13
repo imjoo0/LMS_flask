@@ -347,7 +347,7 @@ async function delete_question(q_id){
     if(con_val == true){
     await $.ajax({
         type: 'POST',
-        url: '/teacher/delete_question/' + q_id ,
+        url: '/common/delete_question/' + q_id ,
         data: {},
         success: function(data){
             alert(data)
