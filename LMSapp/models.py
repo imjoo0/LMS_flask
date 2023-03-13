@@ -1,5 +1,6 @@
 from LMSapp import db, file_upload
 from sqlalchemy.sql import func
+from sqlalchemy.orm import backref
 from datetime import datetime
 from flask import jsonify
 import json
@@ -52,7 +53,7 @@ class Comment(db.Model):
     # 관계설정
     question = db.relationship("Question", back_populates="comments")
     children = db.relationship("Comment", 
-                               backref=db.backref('parent', remote_side=[id]),
+                               backref=backref('parent', remote_side=[id]),
                                back_populates='parent')
 
 class Answer(db.Model):
