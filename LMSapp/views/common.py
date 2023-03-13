@@ -136,3 +136,45 @@ def del_question(id):
         db.session.delete(target_question)
         db.session.commit()
         return jsonify('삭제 완료')
+    
+# 댓글 작성 / 조회 
+@bp.route('/comment/<int:id>/<int:is_coco>', methods=['GET','POST'])
+def comment(id,is_coco):
+    if request.method == 'GET':
+        q = Comment.query.filter(Comment.question_id == id).all()
+        teacher_info = callapi.purple_info(q.teacher_id,'get_teacher_info_by_id')
+        a = Answer.query.filter(Answer.question_id == id).first()
+        return_data = {}
+        if q.category == 0: return_data['category'] = '일반문의' 
+        elif q.category == 1 : return_data['category'] ='퇴소 요청' 
+        elif q.category == 2: return_data['category'] ='이반 요청' 
+        else: return_data['category'] = '취소/환불 요청' 
+        return_data['title'] = q.title
+        return_data['contents'] = q.contents
+        return_data['create_date'] = q.create_date.strftime('%Y-%m-%d')
+        return_data['teacher'] = teacher_info['name']
+        return_data['teacher_e'] = teacher_info['engname']
+        if q.answer == 1 :return_data['answer'] = a.content
+        else: return_data['answer'] = '✖️'
+        if q.answer == 1:return_data['answer_at'] = a.created_at.strftime('%Y-%m-%d')
+        else:return_data['answer_at'] = '✖️'
+        if (q.category != 0 and q.answer == 1 and a.reject_code != 0): return_data['reject'] = '승인'
+        elif(q.answer == 0): return_data['reject'] = '대기중'
+        else: return_data['reject'] = '반려'
+        if q.category != 0:
+            s = callapi.purple_info(q.student_id ,'get_student_info')
+            b = callapi.purple_ban(q.ban_id,'get_ban')    
+            
+            return_data['student'] = s['name']
+            return_data['student_origin'] = s['origin']
+            return_data['ban'] = b['ban_name']
+
+        return jsonify(return_data)
+    
+    elif request.method == 'POST':
+        # target_question = Question.query.get_or_404(id)
+        comment_contents = request.form['comment_contents'] 
+        new_comment = Comment(contents=comment_contents,user_id=session['user_registerno'],question_id=id,created_at=Today,parent_id=is_coco)
+        db.session.add(new_comment)
+        db.session.commit()
+        return jsonify({'result': '댓글 작성 완료'})

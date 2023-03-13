@@ -330,7 +330,7 @@ function post_comment(q_id,is_coco){
     }
     $.ajax({
             type: "POST",
-			url:'/teacher/comment/'+q_id+'/'+is_coco,
+			url:'/common/comment/'+q_id+'/'+is_coco,
 			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
             data: {
                 comment_contents:comment_contents,

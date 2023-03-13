@@ -16,7 +16,6 @@ $(document).ready(function () {
     task_doneview(0)
 })
 
-
 // 본원 문의 관련 함수 
 //  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
 function change_question_kind(str){
@@ -338,6 +337,7 @@ function plusconsulting_history(student_id,b_id){
         }}
     })
 }
+
 // 오늘의 업무 관련 함수 
 async function task_doneview(done_code){
     if(done_code == 0){
@@ -437,7 +437,6 @@ function get_taskban(task_id,idx){
         
     });
 }
-
 function get_update_done(){
     $('input:checkbox[name=taskid]').each(function(index){
         if($(this).is(":checked")==true){
