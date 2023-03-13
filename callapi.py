@@ -157,6 +157,7 @@ def get_student_info(student_id):
 def get_students(ban_id):
     result = requests.post(config.api + 'get_students', headers=headers, data=json.dumps({'data':{'id': ban_id}}))
     result = result.json()
+    print(result)
     return result
     # register_no / origin / name / pmobileno / pname 
 
