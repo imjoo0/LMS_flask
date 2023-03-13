@@ -60,7 +60,7 @@ def question(id):
         if attach is None:
             return_data['attach'] = "없음"
         else:
-            return_data['attach'] = attach[0].file_name
+            return_data['attach'] = attach.file_name
         if q.category == 0:
             return_data['category'] = '일반문의' 
             return_data['history'] = '없음'
