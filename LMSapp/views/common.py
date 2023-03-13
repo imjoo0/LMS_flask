@@ -133,12 +133,6 @@ def question(id):
 def del_question(id):
     if request.method == 'POST':
         target_question = Question.query.get_or_404(id)
-        # target_attach = Attachments.query.filter(Attachments.question_id == id).first()
-        # target_answer = Answer.query.filter(Answer.question_id == id).first()
-        # if target_attach != None:
-        #     db.session.delete(target_attach)
-        # if target_answer != None:
-        #     db.session.delete(target_answer)
         db.session.delete(target_question)
         db.session.commit()
         return jsonify('삭제 완료')
