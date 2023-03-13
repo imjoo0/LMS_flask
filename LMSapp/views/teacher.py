@@ -330,8 +330,7 @@ def request_question():
             else:
                 cateory = 3
             if(history_id == 'none') :
-                m = flash('이반 요청 전 해당 학생의 상담을 우선 진행해주세요')
-                return jsonify(message=m)
+                return jsonify(message='이반 요청 전 해당 학생의 상담을 우선 진행해주세요')
             else:
                 new_question = Question(consulting_history=history_id,category=cateory,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,create_date=create_date,answer=0)
                 db.session.add(new_question)
