@@ -162,8 +162,23 @@ def task_category(done_code):
 @bp.route("/taskban/<int:task_id>", methods=['GET'])
 def taskban(task_id):
     if request.method == 'GET':
-        tb = json.loads(TaskBan.get_ban(session['user_registerno'],task_id))
-        return jsonify({'target_taskban':tb})
+        # tb = json.loads(TaskBan.get_ban(session['user_registerno'],task_id))
+        # return jsonify({'target_taskban':tb})
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        taskban = {}
+        try:
+            with db.cursor() as cur:
+                cur.execute(f"select taskban.id, taskban.ban_id, taskban.done from taskban where taskban.task_id={task_id};" )
+                taskban['status'] = 200
+                taskban['data'] = cur.fetchall()
+        except Exception as e:
+            print(e)
+            taskban['status'] = 401
+            taskban['text'] = str(e)
+        finally:
+            db.close()
+
+        return jsonify({'target_taskban': taskban})
 
 # 선생님이 담당 중인 반 학생중 상담을 하지 않은 학생(is_done = 0) 상담을 한 학생(is_done = 1) 정보
 @bp.route("/mystudents/<int:ban_id>/<int:is_done>", methods=['GET'])
