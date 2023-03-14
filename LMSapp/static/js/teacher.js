@@ -423,9 +423,10 @@ function get_taskban(task_id,idx){
                 let id = target["id"]
                 let ban_id = target["ban_id"]
                 let ban =  function(ban_id) {
+                    console.log(response['mybans_info'].filter( a => a.register_no == ban_id))
                     return response['mybans_info'].filter( a => a.register_no == ban_id)['name'];
                 }
-                
+                console.log(ban_id)
                 let temp_task_ban_box = '' 
                 if(idx == 0){
                     temp_task_ban_box= `
