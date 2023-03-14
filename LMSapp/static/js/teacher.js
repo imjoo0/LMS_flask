@@ -414,7 +414,7 @@ async function task_doneview(done_code){
 function get_taskban(task_id,idx){
     $.ajax({
         type: "GET",
-        url: "/teacher/taskban/"+task_id,
+        url: "/teacher/taskban/"+task_id+"/"+idx,
         data: {},
         success: function (response) {
             $(`#task_ban_box_incomplete${idx}${task_id}`).empty();

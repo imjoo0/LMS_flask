@@ -159,8 +159,8 @@ def task_category(done_code):
             return jsonify({'result': '업무완료 실패'})    
 
 # 오늘 해야할 업무의 반 이름들 
-@bp.route("/taskban/<int:task_id>", methods=['GET'])
-def taskban(task_id):
+@bp.route("/taskban/<int:task_id>/<int:done_code>", methods=['GET'])
+def taskban(task_id,done_code):
     if request.method == 'GET':
         # tb = json.loads(TaskBan.get_ban(session['user_registerno'],task_id))
         # return jsonify({'target_taskban':tb})
@@ -169,7 +169,7 @@ def taskban(task_id):
         taskban = {}
         try:
             with db.cursor() as cur:
-                cur.execute(f"select taskban.id, taskban.ban_id, taskban.done from taskban where taskban.teacher_id = {session['user_registerno']} and taskban.task_id={task_id};" )
+                cur.execute(f"select taskban.id, taskban.ban_id from taskban where taskban.teacher_id = {session['user_registerno']} and taskban.task_id={task_id} and taskban.done = {done_code};" )
                 taskban['status'] = 200
                 taskban['data'] = cur.fetchall()
         except Exception as e:
