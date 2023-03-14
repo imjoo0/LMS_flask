@@ -185,12 +185,13 @@ class TaskBan(db.Model):
         else:
             t_id = [value for (value,) in list(set(cls.query.filter(cls.teacher_id == teacher_id , cls.done == done).with_entities(cls.task_id).all()))]
         if len(t_id)!=0:
-            print(t_id)
+            # print(t_id)
             for t in t_id:
                 task = Task.query.filter((Task.id==t) & (Task.startdate <= current_time) & ( current_time <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
                 if task != None:
                     result['task_data'].append(task)
-                    result['cate_data'].append(task.categories)            
+                    result['cate_data'].append(task.categories)   
+            print(result['task_data'])         
             result['cate_data'] = list(set(result['cate_data']))
         return result
     
