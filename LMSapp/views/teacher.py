@@ -284,7 +284,7 @@ def consulting(id,is_done):
             
             target_consulting_history = ConsultingHistory.query.filter(ConsultingHistory.consulting_id == id).first()
             if((is_done == 0) and (target_consulting_history == None)):
-                new_history = ConsultingHistory(consulting_id=id,reason=received_reason,solution=received_solution,result=received_result,created_at=Today)
+                new_history = ConsultingHistory(consulting_id=id,reason=received_reason,solution=received_solution,result=received_result,created_at=Today,category_id = target_consulting.category_id)
                 db.session.add(new_history)
             else:
                 if(received_reason !="noupdate"):
