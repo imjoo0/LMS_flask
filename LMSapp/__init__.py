@@ -33,15 +33,12 @@ scheduler = BackgroundScheduler()
 # 스케줄러에 작업 추가 매일 12시마다 실행 
 @scheduler.scheduled_job('cron', hour='0')
 def update_database():
-    today = datetime.today().strftime('%Y-%m-%d')
-    # 데이터베이스 업데이트 작업 수행
-    # cursor = config.dbinfo.cursor()
     try:
         conn = mysql.connector.connect(**config.dbinfo)
         cursor = conn.cursor()
-        query= "UPDATE taskban A LEFT JOIN task B ON A.task_id= B.id SET A.done = 0 WHERE date_format(A.created_at, '%Y-%m-%d') < %s AND B.cycle < 6 AND A.done = 1"
-        cursor.execute(query, (today,))
-        config.dbinfo.commit()
+        query= "UPDATE taskban A LEFT JOIN task B ON A.task_id= B.id SET A.done = 0 WHERE date_format(A.created_at, '%Y-%m-%d') < date_format(curdate(),'%Y-%m-%d') AND B.cycle < 6 AND A.done = 1"
+        cursor.execute(query)
+        cursor.commit()
     except mysql.connector.Error as err:
         print(f"Error: {err}")
     finally:
