@@ -421,14 +421,18 @@ function get_taskban(task_id,idx){
             for(i=0;i<response['target_taskban']['data'].length;i++){
                 let target = response['target_taskban']['data'][i]
                 let id = target["id"]
-                let ban = target["ban"]
+                let ban_id = target["ban_id"]
+                let ban =  function(ban_id) {
+                    return response['mybans_info'].filter( a => a.register_no == ban_id)['name'];
+                }
+                
                 let temp_task_ban_box = '' 
                 if(idx == 0){
                     temp_task_ban_box= `
-                    <label><input type="checkbox" name="taskid" value="${id}"/>${ban}</label>
+                    <label><input type="checkbox" name="taskid" value="${id}"/>${ban(ban_id)}</label>
                     `;
                 }else{
-                    temp_task_ban_box = `<p>➖ ${ban} </p>`
+                    temp_task_ban_box = `<p>➖ ${ban(unlearned, consulting.length)} </p>`
                 }
                 
                 $(`#task_ban_box_incomplete${idx}${task_id}`).append(temp_task_ban_box);
