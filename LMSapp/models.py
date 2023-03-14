@@ -112,13 +112,14 @@ class Consulting(db.Model):
     week_code = db.Column(db.Integer,nullable=True)
     missed = db.Column(db.DateTime(), nullable=False)
     # 1-1 관계설정
-    consultinghistories = db.relationship("ConsultingHistory", uselist=False, back_populates="consulting", cascade="all, delete")
+    consultinghistories = db.relationship("ConsultingHistory", back_populates="consulting")
 
 class ConsultingHistory(db.Model):
     __tablename__ = 'consultinghistory'
     
     id=db.Column(db.Integer,primary_key=True)
-    consulting_id = db.Column(db.Integer,db.ForeignKey('consulting.id'), unique=True, nullable=False)
+    consulting_id = db.Column(db.Integer,db.ForeignKey('consulting.id'), nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey('consultingcategory.id'))
     reason = db.Column(db.Text)
     solution = db.Column(db.Text)
     result = db.Column(db.Text)
