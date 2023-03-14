@@ -58,10 +58,10 @@ def purple_allban(url):
     else:
         return False
 
-# # 밑에 다 지워도 된다. 
-# def get_user(teacher_id):
-#     return requests.post(config.api + 'get_teacher_info', headers=headers, data=json.dumps({'data':{'id': teacher_id}}))
+def get_user(teacher_id):
+    return requests.post(config.api + 'get_teacher_info', headers=headers, data=json.dumps({'data':{'id': teacher_id}}))
 
+# # 밑에 다 지워도 된다. 
 # def get_teacher_info(teacher_id):
 #     result = requests.post(config.api + 'get_teacher_info', headers=headers, data=json.dumps({'data':{'id': teacher_id}}))
 #     result = result.json()
