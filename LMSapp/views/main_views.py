@@ -41,7 +41,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         session['user_id'] = form.data.get('user_id')
-        teacher_info = callapi.get_teacher_info(session['user_id'])
+        teacher_info = callapi.purple_info(session['user_id'],'get_teacher_info')
         session['user_registerno'] = teacher_info['register_no']
 
         return redirect('/')  # 성공하면 home.html로
