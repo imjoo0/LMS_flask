@@ -140,19 +140,19 @@ async function getBanInfo(b_id){
         url: "/manage/ban/"+b_id,
         data: {},
         success: function (response) {
-            // let target_ban = response['target_ban']
+            let target_ban = response['target_ban']
             if (response['status'] == 400){
                 let no_data_title = `<h1> ${response.text} </h1>`
                 $('#s_data').html(no_data_title);
                 $('#pagingul').hide();
                 return
             }
-            let students_num = response['students_num'];
-            let ban_name = response['name'];
-            let teacher_name = response['teacher_name']
-            let teacher_e_name = response['teacher_e_name']
-            let teacher_mobileno = response['teacher_mobileno']
-            let teacher_email = response['teacher_email']
+            let students_num = target_ban['student_num'];
+            let ban_name = target_ban['name'];
+            let teacher_name = target_ban['teacher_name']
+            let teacher_e_name = target_ban['teacher_engname']
+            let teacher_mobileno = target_ban['teacher_mobileno']
+            let teacher_email = target_ban['teacher_email']
             let answer = Number(response['answer_alim'])
             let all_alim = Number(response['all_alim'])
             let answer_rate =  function(answer, all) {

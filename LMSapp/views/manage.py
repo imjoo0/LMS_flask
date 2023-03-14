@@ -143,7 +143,6 @@ def delete_task(id):
 
         return result
 
-
 @bp.route("/ban", methods=['GET', 'POST'])
 def request_consulting():
     if request.method == 'POST':
@@ -238,22 +237,6 @@ def get_ban(id):
     if request.method == 'GET':
         target_ban = callapi.purple_ban(id,'get_ban')
         if target_ban:
-            # switchstudent_num_p = 0
-            # # 이반 한 학생  
-            # switchstudent_num = len(SwitchStudent.query.filter(SwitchStudent.ban_id == id).all())
-            # if(switchstudent_num != 0):
-            #     switchstudent_num_p = round((switchstudent_num / len(SwitchStudent.query.all()))*100)
-            #  # 졸업 / 퇴소 한 학생
-            # outstudent_num_p = 0
-            # outstudent_num = len(OutStudent.query.filter(OutStudent.ban_id == id).all())
-            # if(outstudent_num != 0): 
-            #     outstudent_num_p = round((outstudent_num / len(OutStudent.query.all()))*100)
-            # # 미학습 발생 
-            # unlearned_ttc = 0
-            # unlearned_ttd = len(Consulting.query.filter((Consulting.category_id < 100)&(Consulting.ban_id==id)).all()) 
-            # if(unlearned_ttd != 0):
-            #     unlearned_ttc = round((unlearned_ttd / len(Consulting.query.filter(Consulting.category_id < 100).all()))*100)
-
             db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
             switch_student = {}
             out_student = {}
@@ -290,19 +273,16 @@ def get_ban(id):
             alimnote = callapi.purple_info(id,'get_alimnote')
             notice = callapi.purple_info(id,'get_notice')
             students = callapi.purple_info(target_ban['register_no'],'get_students')
-            # student_info = []
-            # for student in students:
-            #      student_info.append(json.dumps(get_student_json(student)))
-            # print(student_info)
 
             return jsonify({
-            'target_ban': target_ban['register_no'],
-            'name': target_ban['ban_name'],
-            'teacher_name': target_ban['teacher_name'],
-            'teacher_e_name': target_ban['teacher_engname'],
-            'teacher_mobileno': target_ban['teacher_mobileno'],
-            'teacher_email': target_ban['teacher_email'],
-            'students_num': target_ban['student_num'],
+            # 'target_ban': target_ban['register_no'],
+            'target_ban': target_ban,
+            # 'name': target_ban['ban_name'],
+            # 'teacher_name': target_ban['teacher_name'],
+            # 'teacher_e_name': target_ban['teacher_engname'],
+            # 'teacher_mobileno': target_ban['teacher_mobileno'],
+            # 'teacher_email': target_ban['teacher_email'],
+            # 'students_num': target_ban['student_num'],
             'student_info': students,
             'all_alim' : alimnote['all'],
             'answer_alim' : alimnote['answer'],
@@ -311,13 +291,6 @@ def get_ban(id):
             'notice': notice,
             'consulting': consulting,
             'task': task,
-            # # chart 
-            # 'switchstudent_num' :switchstudent_num,
-            # 'switchstudent_num_p':switchstudent_num_p,
-            # 'outstudent_num':outstudent_num,
-            # 'outstudent_num_p':outstudent_num_p,
-            # 'unlearned_ttd':unlearned_ttd,
-            # 'unlearned_ttc':unlearned_ttc
         })
         else:
             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
