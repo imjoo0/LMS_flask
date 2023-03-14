@@ -9,8 +9,8 @@ from flask import session
 from LMSapp.models import *
 from LMSapp.views import *
 import json
+from config import pydbinfo
 import pymysql
-
 import callapi
 
 current_time = datetime.now()
@@ -96,7 +96,7 @@ def get_ban():
         result = []
         mybans_info = callapi.purple_ban(session['user_id'],'get_mybans')
 
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        db = pymysql.connect(**pydbinfo)
         try:
             with db.cursor() as cur:
                 for ban in mybans_info:
@@ -164,7 +164,7 @@ def taskban(task_id,done_code):
     if request.method == 'GET':
         # tb = json.loads(TaskBan.get_ban(session['user_registerno'],task_id))
         # return jsonify({'target_taskban':tb})
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        db = pymysql.connect(**pydbinfo)
         mybans_info = callapi.purple_ban(session['user_id'],'get_mybans')
         taskban = {}
         try:

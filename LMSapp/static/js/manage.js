@@ -306,3 +306,98 @@ async function delete_task(idx){
 }
 
 
+function plusconsulting(student_id,is_done){
+    is_done = 1
+    $.ajax({
+        type: "GET",
+        url: "/teacher/consulting/"+student_id+"/"+is_done,
+        data: {},
+        success: function (response) {
+            if(response["consulting_list"] == '없음'){
+                $('#consultinghistoryModalLabelt').html('진행 한 상담이 없습니다.')
+            //     $('#consulting_list').hide();
+            //     let temp_consulting_contents_box = `
+            //     <p> 오늘의 상담 업무를 완료했습니다 🎉</p>
+            //     `;
+            //     $('#consulting_msg').html(temp_consulting_contents_box);
+            }else{
+                $('#consultinghistoryModalLabelt').html('상담일지 작성')
+                $('#consulting_write_box').empty();
+                let r_target = response["consulting_list"]
+                for(i=0;i<r_target.length;i++){
+                    let target = r_target[i]
+                    let category = target['category']
+                    let consulting_id = target['c_id']
+                    let contents = target['contents']
+                    let consulting_missed = target['consulting_missed']
+                    let deadline = target['deadline']
+                if(is_done == 1){
+                    let history_reason = target['history_reason']
+                    let history_solution = target['history_solution']
+                    let history_result = target['history_result']
+                    let history_created = target['history_created']
+                    let temp_consulting_contents_box = `
+                    <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
+                    <p >✅<strong>${category}</strong></br>${contents}</br>*마감:
+                        ~${deadline}까지 | 부재중 : ${consulting_missed}</br></p>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">상담 사유</span>
+                        <input class="modal-body-select" type="text" size="50"
+                            id="consulting_reason${consulting_id}" style="width: 75%;" placeholder="${history_reason}">
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">제공한 가이드</span>
+                        <input class="modal-body-select" type="text" size="50"
+                            id="consulting_solution${consulting_id}" style="width: 75%;" placeholder="${history_solution}">
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">상담 결과</span>
+                        <textarea class="modal-body-select" type="text" rows="5" cols="25"
+                            id="consulting_result${consulting_id}" style="width: 75%;" placeholder="${history_result}"></textarea>
+                    </div>
+                    <p>상담 일시 : ${history_created}</p>
+                    `;
+                    $('#consulting_write_box').append(temp_consulting_contents_box);
+                }else{
+                    let temp_consulting_contents_box = `
+                    <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
+                    <p >✅<strong>${category}</strong></br>${contents}</br>*마감:
+                        ~${deadline}까지 | 부재중 : ${consulting_missed}</br></p>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">상담 사유</span>
+                        <input class="modal-body-select" type="text" size="50"
+                            id="consulting_reason${consulting_id}" style="width: 75%;">
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">제공한 가이드</span>
+                        <input class="modal-body-select" type="text" size="50"
+                            id="consulting_solution${consulting_id}" style="width: 75%;">
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">상담 결과</span>
+                        <textarea class="modal-body-select" type="text" rows="5" cols="25"
+                            id="consulting_result${consulting_id}" style="width: 75%;"></textarea>
+                    </div>
+                    `;
+                    $('#consulting_write_box').append(temp_consulting_contents_box);
+                }
+                    
+                }
+                let temp_post_box = `
+                <p>✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
+                    <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">부재중</span>
+                    <label><input type="checkbox" id="missed">부재중</label>
+                    </div>
+                    <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
+                        <button class="btn btn-dark"
+                            onclick="post_bulk_consultings(${r_target.length},${is_done})"
+                            style="margin-right:5px">저장</button>
+                    </div>
+                `;
+                $('#consulting_write_box').append(temp_post_box);
+            }
+        }
+    });
+    // $('#today_consulting_box').show();
+}

@@ -6,7 +6,6 @@ import config
 import json
 import callapi
 import pymysql
-import callapi
 
 bp = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -15,7 +14,7 @@ bp = Blueprint('admin', __name__, url_prefix='/admin')
 @bp.route("/", methods=['GET'])
 def home():
     if request.method == 'GET':
-        user = callapi.get_teacher_info(session['user_id'])
+        user = callapi.purple_info(session['user_id'],'get_teacher_info')
         return render_template('admin.html', user=user)
 
 @bp.route("/sodata", methods=['GET'])
@@ -41,7 +40,7 @@ def get_sodata():
                 od = len(OutStudent.query.filter(OutStudent.ban_id==ban).all())
                 sd = len(SwitchStudent.query.filter(SwitchStudent.ban_id==ban).all())
                 data = {}
-                b = callapi.get_ban(ban)
+                b = callapi.purple_ban(ban,'get_ban')
                 data['register_no'] = b['register_no']
                 data['ban_name'] = b['ban_name']
                 data['semester'] = b['semester']
@@ -78,7 +77,7 @@ def get_uldata():
             for ban in target_ulban:
                 ud = len(Consulting.query.filter((Consulting.ban_id==ban) & (Consulting.category_id<100)).all())
                 data = {}
-                b = callapi.get_ban(ban)
+                b = callapi.purple_ban(ban,'get_ban')
                 data['register_no'] = b['register_no']
                 data['ban_name'] = b['ban_name']
                 data['semester'] = b['semester']
@@ -104,12 +103,12 @@ def get_teacher_data():
 @bp.route("/<int:t_id>", methods=['GET'])
 def get_teacher(t_id):
     if request.method == 'GET':
-        teacher = callapi.get_teacher_info_by_id(t_id)
+        teacher = callapi.purple_info(t_id,'get_teacher_info_by_id')
         chart_data = {}
         ban_data = []
         # chart_data['ss'] = len(SwitchStudent.query.filter(SwitchStudent.teacher_id == teacher['register_no']).all())
         # chart_data['os'] = len(OutStudent.query.filter(OutStudent.teacher_id == teacher['register_no']).all())
-        mybans_info = callapi.get_mybans(teacher['user_id'])
+        mybans_info = callapi.purple_ban(teacher['user_id'],'get_mybans')
         
         #  상담 차트
         chart_data['ttc'] = 0

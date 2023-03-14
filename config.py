@@ -1,4 +1,5 @@
 from os.path import join, dirname, realpath
+import pymysql
 
 SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://purple:wjdgus00@127.0.0.1:3306/LMS'
 
@@ -23,4 +24,12 @@ dbinfo = {
     'password':'wjdgus00',
     'database':'LMS',
     'raise_on_warnings': True,
+}
+
+pydbinfo = {
+    'host': 'localhost',
+    'user': 'root',
+    'password': 'password',
+    'database': 'mydb',
+    'cursorclass': pymysql.cursors.DictCursor
 }

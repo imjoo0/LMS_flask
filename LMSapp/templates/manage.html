@@ -304,7 +304,28 @@
     </div>
 </div>
 
+<!-- 상담 일지 조회 모달-->
+<div class="modal fade" id="consultinghistory" tabindex="-1" aria-labelledby="consultinghistoryModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="consultinghistoryModalLabelt">
+                    <img src="#" style="width: 30px;">&nbsp;&nbsp;상담일지 작성
+                </h5>
+                <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body py-4 px-5">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
+                <div class="d-flex justify-content-center mt-4 mb-2">
+                    <div id="consulting_write_box">
 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- 업무요청 모달 -->
 <div class="modal fade" id="request_task" tabindex="-1" aria-labelledby="RequestTaskModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">

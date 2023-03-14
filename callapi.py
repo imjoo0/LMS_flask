@@ -179,14 +179,14 @@ def get_user(teacher_id):
 #     result = result.json()
 #     return result
 
-# def get_all_student_num():
-#     result = requests.post(config.api + 'get_all_student_num', headers=headers, data=json.dumps({'data':{}}))
-#     result = result.json()
-#     if(len(result)>0):
-#         result = result[0]
-#     return result
+def get_all_student_num():
+    result = requests.post(config.api + 'get_all_student_num', headers=headers, data=json.dumps({'data':{}}))
+    result = result.json()
+    if(len(result)>0):
+        result = result[0]
+    return result
 
-# def get_all_teacher():
+def get_all_teacher():
     result = requests.post(config.api + 'get_all_teacher', headers=headers, data=json.dumps({'data':{}}))
     result = result.json()
     return result
