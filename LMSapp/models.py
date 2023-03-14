@@ -187,7 +187,7 @@ class TaskBan(db.Model):
         if len(t_id)!=0:
             # print(t_id)
             for t in t_id:
-                task = Task.query.filter((Task.id==t) & (Task.startdate <= current_time) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
+                task = Task.query.filter((Task.id==t) & (Task.startdate <= Today) & ( Today <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
                 if task != None:
                     result['task_data'].append(task)
                     result['cate_data'].append(task.categories)   
