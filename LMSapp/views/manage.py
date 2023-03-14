@@ -277,12 +277,6 @@ def get_ban(id):
             return jsonify({
             # 'target_ban': target_ban['register_no'],
             'target_ban': target_ban,
-            # 'name': target_ban['ban_name'],
-            # 'teacher_name': target_ban['teacher_name'],
-            # 'teacher_e_name': target_ban['teacher_engname'],
-            # 'teacher_mobileno': target_ban['teacher_mobileno'],
-            # 'teacher_email': target_ban['teacher_email'],
-            # 'students_num': target_ban['student_num'],
             'student_info': students,
             'all_alim' : alimnote['all'],
             'answer_alim' : alimnote['answer'],

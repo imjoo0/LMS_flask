@@ -48,7 +48,7 @@ function displayData(totalData, currentPage, dataPerPage,data_list, consulting,b
     $("#s_data").html(chartHtml);
 }
 
-function paging(totalData, dataPerPage, pageCount, currentPage, data_list, consulting) {
+function paging(totalData, dataPerPage, pageCount, currentPage, data_list, consulting,b_id) {
     totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
 
     if (totalPage < pageCount) {
@@ -102,9 +102,9 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list, consu
         globalCurrentPage = selectedPage;
 
         //페이징 표시 재호출
-        paging(totalData, dataPerPage, pageCount, selectedPage, data_list, consulting);
+        paging(totalData, dataPerPage, pageCount, selectedPage, data_list, consulting,b_id);
         //글 목록 표시 재호출
-        displayData(totalData, selectedPage, dataPerPage,data_list, consulting);
+        displayData(totalData, selectedPage, dataPerPage,data_list, consulting,b_id);
     });
 }
 
@@ -228,7 +228,7 @@ async function getBanInfo(b_id){
             totalData = students_num
 
             displayData(totalData, 1, dataPerPage,data_list, u_consulting_my,b_id);
-            paging(totalData, dataPerPage, pageCount, 1,data_list, u_consulting_my);
+            paging(totalData, dataPerPage, pageCount, 1,data_list, u_consulting_my,b_id);
 
             let temp_ban_statistics = `
             <table class="table text-center" id="unlearned" style="margin-left:1%; margin-right: 4%;width: 40%;">
