@@ -26,6 +26,7 @@ csrf = CSRFProtect()
 # 스케줄러 생성
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime, timedelta
+import mysql.connector
 
 scheduler = BackgroundScheduler()
 
@@ -34,11 +35,18 @@ scheduler = BackgroundScheduler()
 def update_database():
     today = datetime.today().strftime('%Y-%m-%d')
     # 데이터베이스 업데이트 작업 수행
-    cursor = config.dbinfo.cursor()
-    query= "UPDATE taskban A LEFT JOIN task B ON A.task_id= B.id SET A.done = 0 WHERE date_format(A.created_at, '%Y-%m-%d') < %s AND B.cycle < 6 AND A.done = 1"
-    cursor.execute(query, (today,))
-    config.dbinfo.commit()
-    cursor.close()
+    # cursor = config.dbinfo.cursor()
+    try:
+        conn = mysql.connector.connect(**config.dbinfo)
+        cursor = conn.cursor()
+        query= "UPDATE taskban A LEFT JOIN task B ON A.task_id= B.id SET A.done = 0 WHERE date_format(A.created_at, '%Y-%m-%d') < %s AND B.cycle < 6 AND A.done = 1"
+        cursor.execute(query, (today,))
+        config.dbinfo.commit()
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+    finally:
+        cursor.close()
+        conn.close()
 
 def create_app():
     app = Flask(__name__,static_folder="static")

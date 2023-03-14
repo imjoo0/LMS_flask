@@ -190,8 +190,7 @@ class TaskBan(db.Model):
                 task = Task.query.filter((Task.id==t) & (Task.startdate <= Today) & ( Today <= Task.deadline ) & (Task.cycle == today_yoil or Task.cycle == 0)).first()
                 if task != None:
                     result['task_data'].append(task)
-                    result['cate_data'].append(task.categories)   
-            print(result['task_data'])         
+                    result['cate_data'].append(task.categories)       
             result['cate_data'] = list(set(result['cate_data']))
         return result
     

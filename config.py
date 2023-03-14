@@ -1,5 +1,4 @@
 from os.path import join, dirname, realpath
-import mysql.connector
 
 SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://purple:wjdgus00@127.0.0.1:3306/LMS'
 
@@ -17,10 +16,11 @@ MAX_CONTENT_LENGTH = 1000 * 1024 * 1024  # 1000mb
 
 # MySQL 연결
 # (host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-dbinfo = mysql.connector.connect(
-    host='127.0.0.1',
-    port = '3306',
-    user='purple',
-    password='wjdgus00',
-    database='LMS'
-)
+dbinfo = {
+    'host':'127.0.0.1',
+    'port' : '3306',
+    'user':'purple',
+    'password':'wjdgus00',
+    'database':'LMS',
+    'raise_on_warnings': True,
+}
