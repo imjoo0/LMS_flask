@@ -33,10 +33,7 @@ def get_all_questions(done_code):
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                if(done_code == 0):
-                    cur.execute('select id, category, title, contents, answer from question where answer != 1;')
-                else:
-                    cur.execute('select id, category, title, contents, answer from question where answer = 1;')
+                cur.execute('select id, category, title, contents, answer from question where answer = %s;',(done_code,))
                 all_questions = cur.fetchall()
         except:
             print('err')
