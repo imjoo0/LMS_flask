@@ -4,6 +4,7 @@ from werkzeug.utils import secure_filename
 from flask_file_upload import FileUpload
 from io import BytesIO
 import callapi
+from flask import session
 
 bp = Blueprint('common', __name__, url_prefix='/common')
 file_upload = FileUpload()
