@@ -168,7 +168,7 @@ def taskban(task_id):
         taskban = {}
         try:
             with db.cursor() as cur:
-                cur.execute(f"select taskban.id, taskban.ban_id, taskban.done from taskban where taskban.task_id={task_id};" )
+                cur.execute(f"select taskban.id, taskban.ban_id, taskban.done from taskban where taskban.teacher_id = {session['user_registerno']} and taskban.task_id={task_id};" )
                 taskban['status'] = 200
                 taskban['data'] = cur.fetchall()
         except Exception as e:
