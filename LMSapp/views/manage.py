@@ -4,7 +4,6 @@ from flask import session  # 세션
 from flask import Blueprint, render_template, jsonify, request, redirect, url_for
 import json
 import callapi
-from config import pydbinfo
 import pymysql
 from LMSapp.views import common
 
@@ -31,7 +30,7 @@ def home():
 def get_all_questions(done_code):
     if request.method == 'GET':
         all_questions = []
-        db = pymysql.connect(**pydbinfo)
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
                 cur.execute('select id, category, title, contents, answer from question where answer = %s;',(done_code,))
@@ -47,7 +46,7 @@ def get_all_questions(done_code):
 def get_consulting():
     if request.method == 'GET':
         all_consulting = []
-        db = pymysql.connect(**pydbinfo)
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
                 cur.execute("select consulting.id, consulting.ban_id, consulting.category_id, consulting.student_id, consulting.contents, consulting.week_code, consulting.done, consulting.category_id, date_format(consulting.startdate, '%Y-%m-%d') as startdate, date_format(consulting.deadline, '%Y-%m-%d') as deadline, consultingcategory.name from consulting left join consultingcategory on consultingcategory.id = consulting.category_id;")
@@ -63,7 +62,7 @@ def get_consulting():
 def get_task():
     if request.method == 'GET':
         all_task = []
-        db = pymysql.connect(**pydbinfo)
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
                 cur.execute("select task.id, task.category_id, task.contents, task.url, task.attachments, date_format(task.startdate, '%Y-%m-%d') as startdate, date_format(task.deadline, '%Y-%m-%d') as deadline, task.priority, task.cycle, taskcategory.name from task left join taskcategory on task.category_id = taskcategory.id;")
@@ -87,7 +86,7 @@ def taskban(task_id):
 def update_task():
     if request.method == 'GET':
         result = {}
-        db = pymysql.connect(**pydbinfo)
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
                 #cur.execute(f'update consulting set content='' where id={id}')
@@ -107,7 +106,7 @@ def update_task():
 def delete_consulting(id):
     result = {}
     if request.method == 'GET':
-        db = pymysql.connect(**pydbinfo)
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
                 cur.execute(f'delete from consulting where id={id}')
@@ -128,7 +127,7 @@ def delete_consulting(id):
 def delete_task(id):
     result = {}
     if request.method == 'GET':
-        db = pymysql.connect(**pydbinfo)
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
                 cur.execute(f'delete from task where id={id}')
@@ -238,7 +237,7 @@ def get_ban(id):
     if request.method == 'GET':
         target_ban = callapi.purple_ban(id,'get_ban')
         if target_ban:
-            db = pymysql.connect(**pydbinfo)
+            db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
             switch_student = {}
             out_student = {}
             consulting = {}
@@ -294,7 +293,7 @@ def get_ban(id):
 @bp.route("/insert_question", methods=['GET'])
 def insert_question():
     if request.method == 'GET':
-        db = pymysql.connect(**pydbinfo)
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
                 #cur.execute(f'delete from task where id={id}')
