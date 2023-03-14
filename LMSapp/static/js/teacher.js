@@ -431,7 +431,7 @@ function get_taskban(task_id,idx){
                     <label><input type="checkbox" name="taskid" value="${id}"/>${ban(ban_id)}</label>
                     `;
                 }else{
-                    temp_task_ban_box = `<p>➖ ${ban(unlearned, consulting.length)} </p>`
+                    temp_task_ban_box = `<p>➖ ${ban(ban_id)} </p>`
                 }
                 
                 $(`#task_ban_box_incomplete${idx}${task_id}`).append(temp_task_ban_box);
