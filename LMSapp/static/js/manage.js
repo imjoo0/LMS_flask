@@ -335,6 +335,7 @@ async function changeBaninfo(b_id){
             $('#target_a_student').append(target_all_student)
             
             $('#target_student').empty();
+            console.log(response['students'])
             for (var i = 0; i < response['students'].length; i++) {
                 let student_id = response['students']['register_no']
                 let name = response['students']['name'] + '(' + response['students']['engname'] + ')'
