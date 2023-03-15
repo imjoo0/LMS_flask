@@ -308,7 +308,7 @@ async function delete_task(idx){
 function changeBaninfo(b_id){
     $.ajax({
         type: "GET",
-        url: "/manage/ban/"+b_id,
+        url: "/manage/ban_teacher/"+b_id,
         data: {},
         success: function (response) {
             console.log(response)
