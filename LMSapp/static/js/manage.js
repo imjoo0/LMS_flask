@@ -310,7 +310,7 @@ function plusconsulting(student_id,is_done){
     is_done = 1
     $.ajax({
         type: "GET",
-        url: "/teacher/consulting/"+student_id+"/"+is_done,
+        url: "/manage/get_consulting_history/"+student_id,
         data: {},
         success: function (response) {
             if(response["consulting_list"] == '없음'){

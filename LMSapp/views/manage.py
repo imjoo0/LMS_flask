@@ -58,6 +58,43 @@ def get_consulting():
 
         return json.dumps(all_consulting)
 
+@bp.route('/get_consulting_history/<int:id>', methods=['GET'])
+def get_consulting_history():
+    if request.method == 'GET':
+        all_consulting = []
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute("select consulting.id, consulting.ban_id, consulting.category_id, consulting.student_id, consulting.contents, consulting.week_code, consulting.done, consulting.category_id, date_format(consulting.startdate, '%Y-%m-%d') as startdate, date_format(consulting.deadline, '%Y-%m-%d') as deadline, consultingcategory.name from consulting left join consultingcategory on consultingcategory.id = consulting.category_id;")
+                all_consulting = cur.fetchall()
+        except Exception as e:
+            print(e)
+        finally:
+            db.close()
+
+        return json.dumps(all_consulting)
+
+@bp.route('/api/delete_consulting/<int:id>', methods=['GET'])
+def delete_consulting(id):
+    result = {}
+    if request.method == 'GET':
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute(f'delete from consulting where id={id}')
+                db.commit()
+                result['status'] = 200
+                result['text'] = id
+        except Exception as e:
+            print(e)
+            result['status'] = 401
+            result['text'] = str(e)
+        finally:
+            db.close()
+
+        return result
+
+
 @bp.route('/api/get_task', methods=['GET'])
 def get_task():
     if request.method == 'GET':
@@ -92,27 +129,6 @@ def update_task():
                 #cur.execute(f'update consulting set content='' where id={id}')
                 result['status'] = 200
                 result['text'] = str(request.args.get('text'))
-        except Exception as e:
-            print(e)
-            result['status'] = 401
-            result['text'] = str(e)
-        finally:
-            db.close()
-
-        return result
-
-
-@bp.route('/api/delete_consulting/<int:id>', methods=['GET'])
-def delete_consulting(id):
-    result = {}
-    if request.method == 'GET':
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                cur.execute(f'delete from consulting where id={id}')
-                db.commit()
-                result['status'] = 200
-                result['text'] = id
         except Exception as e:
             print(e)
             result['status'] = 401
