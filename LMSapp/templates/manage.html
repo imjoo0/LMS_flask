@@ -251,7 +251,7 @@
                         <p>👇 상담을 진행할 반을 선택해주세요</p>
                         <div class="plus_under_contents">
                             <select class="border rounded-0 form-control form-control-sm" name="consulting_target_ban"
-                                id="consulting_target_ban" onchange="getBanInfo(this.value)">
+                                id="consulting_target_ban" onchange="changeBaninfo(this.value)">
                                 <optgroup label="상담 진행 반 선택">
                                     <option value="전체 반">✔️ 전체 반 대상 진행 ( 저장 클릭 후 5분 소요 됩니다 ) </option>
                                     {% for ban in all_ban %}
@@ -520,7 +520,7 @@
             <div class="info">
                 <div class="d-flex justify-content-center align-items-center flex-column w-100"> 
                     <div class="d-flex justify-content-end align-items-center w-100">
-                        <select class="manage-ban-select px-1 py-2 w-lg-50 w-100" name="target_ban" onchange="changeBaninfo(this.value)">
+                        <select class="manage-ban-select px-1 py-2 w-lg-50 w-100" name="target_ban" onchange="getBanInfo(this.value)">
                             <option value="none" selected>반을 선택해주세요</option>
                             {% for ban in all_ban %}
                             {% set ban_regi = ban['register_no']  %}
