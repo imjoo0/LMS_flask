@@ -305,21 +305,42 @@ async function delete_task(idx){
     }
 }
 
-function changeBaninfo(b_id){
-    $.ajax({
+async function changeBaninfo(b_id){
+    if( b_id == '전체 반'){
+        $('#select_student').hide();
+        $('#target_bans').empty();
+    }else{
+        $('#select_student').show();
+    }
+    await $.ajax({
         type: "GET",
         url: "/manage/ban_teacher/"+b_id,
         data: {},
         success: function (response) {
             console.log(response)
-            // if (response['status'] == 400){
-            //     let no_data_title = `<h1> ${response.text} </h1>`
-            //     $('#s_data').html(no_data_title);
-            //     $('#pagingul').hide();
-            //     return
-            // }
-            // let students_num = target_ban['student_num'];
-            // let ban_name = target_ban['name'];
+            if (response['status'] == 400){
+                return alert(response['text'])
+            }
+            let ban_name = response['target_ban']['ban_name'];
+            let teacher_id = response['target_ban']['teacher_register_no']
+
+            // 상담요청시 뷰 바꿔주는 부분 
+            let temp_target_ban = `
+            <p> 선택 - ${ban_name} <a></p>
+            `;
+            $('#target_bans').html(temp_target_ban);
+
+            // 전체 학생 대상 진행 append 
+            let target_all_student = `<option value="전체학생@${teacher_id}">✔️ ${ban_name}반 전체 학생 대상 진행</option>`;
+            $('#target_a_student').html(target_all_student)
+            
+            let temp_target_student = ''
+            for (var i = 0; i < response['students'].length; i++) {
+                let student_id = response['students']['register_no']
+                let name = response['students']['name'] + '(' + response['students']['engname'] + ')'
+                temp_target_student += `<option value="${student_id}@${teacher_id}"> ${name} ( ${original} )</option>`;
+                $('#target_student').html(temp_target_student)
+            } 
         }
         
     })

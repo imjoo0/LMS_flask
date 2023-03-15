@@ -251,8 +251,9 @@ def request_task():
 def get_ban_teacher(id):
     if request.method == 'GET':
         target_ban = callapi.purple_ban(id,'get_ban')
+        students = callapi.purple_info(target_ban['register_no'],'get_students_simple')
         if target_ban:
-            return target_ban
+            return jsonify({'target_ban':target_ban,'students':students})
         else:
             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
 
