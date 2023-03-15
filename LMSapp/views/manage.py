@@ -58,8 +58,8 @@ def get_consulting():
 
         return json.dumps(all_consulting)
 
-@bp.route('/get_consulting_history/<int:id>', methods=['GET'])
-def get_consulting_history():
+@bp.route('/get_consulting_history/<int:student_id>', methods=['GET'])
+def get_consulting_history(student_id):
     if request.method == 'GET':
         all_consulting = []
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
@@ -175,10 +175,10 @@ def request_consulting():
         # 전체 반이 선택 된 경우
         if received_target_ban == '전체 반':
             target_class = callapi.purple_allban('get_all_ban')
-            for c in target_class:
-                students = callapi.purple_info(c['register_no'],'get_students')
-                for s in students:
-                    new_consulting = Consulting(ban_id=c['register_no'], category_id=received_category, student_id=s['register_no'],
+            for i in range(len(target_class)):
+                students = callapi.purple_info(target_class[i]['register_no'],'get_students')
+                for s in range(len(students)):
+                    new_consulting = Consulting(ban_id=students[s]['register_no'], category_id=received_category, student_id=students[s]['register_no'],
                                                 contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
                     db.session.add(new_consulting)
                     db.session.commit()
