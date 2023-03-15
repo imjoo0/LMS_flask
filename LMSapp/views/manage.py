@@ -178,7 +178,7 @@ def request_consulting():
             for i in range(len(target_class)):
                 students = callapi.purple_info(target_class[i]['register_no'],'get_students')
                 for s in range(len(students)):
-                    new_consulting = Consulting(ban_id=students[s]['register_no'], category_id=received_category, student_id=students[s]['register_no'],
+                    new_consulting = Consulting(ban_id=target_class[i]['register_no'], category_id=received_category, student_id=students[s]['register_no'],
                                                 contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
                     db.session.add(new_consulting)
                     db.session.commit()
