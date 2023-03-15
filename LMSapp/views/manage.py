@@ -251,7 +251,7 @@ def request_task():
 def get_ban_teacher(id):
     if request.method == 'GET':
         target_ban = callapi.purple_ban(id,'get_ban')
-        students = callapi.purple_info(id,'get_students')
+        students = callapi.purple_info(id,'get_student_simple')
         if target_ban:
             return jsonify({'target_ban':target_ban,'students':students})
         else:
