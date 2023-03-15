@@ -235,6 +235,7 @@ def mystudents(ban_id,is_done):
             all_consulting['text'] = str(e)
         finally:
             db.close()
+        print(all_consulting)
         return jsonify({
             'my_students': my_students,
             'all_consulting': all_consulting,
