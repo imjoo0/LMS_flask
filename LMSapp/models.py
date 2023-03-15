@@ -115,8 +115,6 @@ class Consulting(db.Model):
     solution = db.Column(db.Text)
     result = db.Column(db.Text)
     created_at = db.Column(db.DateTime)
-    # 1-1 관계설정
-    consultinghistories = db.relationship("ConsultingHistory", back_populates="consulting")
 
 # class ConsultingHistory(db.Model):
 #     __tablename__ = 'consultinghistory'
