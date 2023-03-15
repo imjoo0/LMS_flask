@@ -1,13 +1,11 @@
 from LMSapp.views import *
 from LMSapp.models import *
-from LMSapp.views import common
-from LMSapp import pydb
-
 from flask import session  # 세션
 from flask import Blueprint, render_template, jsonify, request, redirect, url_for
 import json
 import callapi
 import pymysql
+from LMSapp.views import common
 
 bp = Blueprint('manage', __name__, url_prefix='/manage')
 
@@ -32,14 +30,15 @@ def home():
 def get_all_questions(done_code):
     if request.method == 'GET':
         all_questions = []
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
-            with pydb.cursor() as cur:
+            with db.cursor() as cur:
                 cur.execute('select id, category, title, contents, answer from question where answer = %s;',(done_code,))
                 all_questions = cur.fetchall()
         except:
             print('err')
         finally:
-            pydb.close()
+            db.close()
         
         return json.dumps(all_questions)
 
@@ -47,14 +46,15 @@ def get_all_questions(done_code):
 def get_consulting():
     if request.method == 'GET':
         all_consulting = []
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
-            with pydb.cursor() as cur:
+            with db.cursor() as cur:
                 cur.execute("select consulting.id, consulting.ban_id, consulting.category_id, consulting.student_id, consulting.contents, consulting.week_code, consulting.done, consulting.category_id, date_format(consulting.startdate, '%Y-%m-%d') as startdate, date_format(consulting.deadline, '%Y-%m-%d') as deadline, consultingcategory.name from consulting left join consultingcategory on consultingcategory.id = consulting.category_id;")
                 all_consulting = cur.fetchall()
         except Exception as e:
             print(e)
         finally:
-            pydb.close()
+            db.close()
 
         return json.dumps(all_consulting)
 
@@ -62,14 +62,15 @@ def get_consulting():
 def get_task():
     if request.method == 'GET':
         all_task = []
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
-            with pydb.cursor() as cur:
+            with db.cursor() as cur:
                 cur.execute("select task.id, task.category_id, task.contents, task.url, task.attachments, date_format(task.startdate, '%Y-%m-%d') as startdate, date_format(task.deadline, '%Y-%m-%d') as deadline, task.priority, task.cycle, taskcategory.name from task left join taskcategory on task.category_id = taskcategory.id;")
                 all_task = cur.fetchall()
         except Exception as e:
             print(e)
         finally:
-            pydb.close()
+            db.close()
 
         return json.dumps(all_task)
 
@@ -85,8 +86,9 @@ def taskban(task_id):
 def update_task():
     if request.method == 'GET':
         result = {}
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
-            with pydb.cursor() as cur:
+            with db.cursor() as cur:
                 #cur.execute(f'update consulting set content='' where id={id}')
                 result['status'] = 200
                 result['text'] = str(request.args.get('text'))
@@ -95,7 +97,7 @@ def update_task():
             result['status'] = 401
             result['text'] = str(e)
         finally:
-            pydb.close()
+            db.close()
 
         return result
 
@@ -104,10 +106,11 @@ def update_task():
 def delete_consulting(id):
     result = {}
     if request.method == 'GET':
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
-            with pydb.cursor() as cur:
+            with db.cursor() as cur:
                 cur.execute(f'delete from consulting where id={id}')
-                pydb.commit()
+                db.commit()
                 result['status'] = 200
                 result['text'] = id
         except Exception as e:
@@ -115,7 +118,7 @@ def delete_consulting(id):
             result['status'] = 401
             result['text'] = str(e)
         finally:
-            pydb.close()
+            db.close()
 
         return result
 
@@ -124,10 +127,11 @@ def delete_consulting(id):
 def delete_task(id):
     result = {}
     if request.method == 'GET':
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
-            with pydb.cursor() as cur:
+            with db.cursor() as cur:
                 cur.execute(f'delete from task where id={id}')
-                pydb.commit()
+                db.commit()
                 result['status'] = 200
                 result['text'] = id
         except Exception as e:
@@ -135,7 +139,7 @@ def delete_task(id):
             result['status'] = 401
             result['text'] = str(e)
         finally:
-            pydb.close()
+            db.close()
 
         return result
 
@@ -233,12 +237,14 @@ def get_ban(id):
     if request.method == 'GET':
         target_ban = callapi.purple_ban(id,'get_ban')
         if target_ban:
+            db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
             switch_student = {}
             out_student = {}
             consulting = {}
             task = {}
+
             try:
-                with pydb.cursor() as cur:
+                with db.cursor() as cur:
                     cur.execute(f'select id, ban_id from outstudent')
                     switch_student['status'] = 200
                     out_student['data'] = cur.fetchall()
@@ -263,7 +269,7 @@ def get_ban(id):
                 task['status'] = 401
                 task['text'] = str(e)
             finally:
-                pydb.close()
+                db.close()
             alimnote = callapi.purple_info(id,'get_alimnote')
             notice = callapi.purple_info(id,'get_notice')
             students = callapi.purple_info(target_ban['register_no'],'get_students')
@@ -287,10 +293,11 @@ def get_ban(id):
 @bp.route("/insert_question", methods=['GET'])
 def insert_question():
     if request.method == 'GET':
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
-            with pydb.cursor() as cur:
+            with db.cursor() as cur:
                 #cur.execute(f'delete from task where id={id}')
-                #pydb.commit()
+                #db.commit()
                 result['status'] = 200
                 result['text'] = id
         except Exception as e:
@@ -298,7 +305,7 @@ def insert_question():
             result['status'] = 401
             result['text'] = str(e)
         finally:
-            pydb.close()
+            db.close()
 
         return result
 

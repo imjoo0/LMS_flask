@@ -29,12 +29,12 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime, timedelta
 
 scheduler = BackgroundScheduler()
-pydb = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
 
 # 스케줄러에 작업 추가 매일 12시마다 실행 
 @scheduler.scheduled_job('cron', hour='0')
 def update_database():
     try:
+        pydb = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         with pydb.cursor() as cursor:
             query= "UPDATE taskban A LEFT JOIN task B ON A.task_id= B.id SET A.done = 0 WHERE date_format(A.created_at, '%Y-%m-%d') < date_format(curdate(),'%Y-%m-%d') AND B.cycle < 6 AND A.done = 1"
             cursor.execute(query)
