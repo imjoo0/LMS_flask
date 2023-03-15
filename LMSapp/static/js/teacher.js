@@ -118,7 +118,7 @@ function get_consulting_student(ban_regi,is_done){
             url: "/teacher/mystudents/"+ban_regi+"/"+is_done,
             data: {},
             success: function (response) {
-                console.log(response['all_consulting'])
+                console.log(response['all_consulting']['data'])
                 console.log(response['my_students'])
                 // if(response["consulting_student_list"] == '없음'){
                 //     $('#consulting_student_list').hide();
