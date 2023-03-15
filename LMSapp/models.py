@@ -102,6 +102,7 @@ class Consulting(db.Model):
     __tablename__ = 'consulting'
     
     id=db.Column(db.Integer,primary_key=True)
+    teacher_id = db.Column(db.Integer,nullable=True)
     ban_id = db.Column(db.Integer,nullable=True)
     category_id = db.Column(db.Integer, db.ForeignKey('consultingcategory.id'))
     student_id = db.Column(db.Integer,nullable=True)
