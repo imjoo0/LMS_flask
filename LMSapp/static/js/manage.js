@@ -332,7 +332,7 @@ async function changeBaninfo(b_id){
 
             // 전체 학생 대상 진행 append 
             let target_all_student = `<option value="전체학생@${teacher_id}">✔️ ${ban_name}반 전체 학생 대상 진행</option>`;
-            $('#target_a_student').html(target_all_student)
+            $('#target_a_student').append(target_all_student)
             
             let temp_target_student = ''
             for (var i = 0; i < response['students'].length; i++) {
