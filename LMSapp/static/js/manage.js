@@ -337,7 +337,7 @@ async function changeBaninfo(b_id){
             $('#target_student').empty();
             for (var i = 0; i < response['students'].length; i++) {
                 let student_id = response['students'][i]['register_no']
-                let name = response['students'][i]['name'] + '(' + response['students'][i]['engname'] + ')' ;
+                let name = response['students'][i]['name']
                 let temp_target_student = `<option value="${student_id}@${teacher_id}"> ${name}</option>`;
                 $('#target_student').append(temp_target_student)
             } 
