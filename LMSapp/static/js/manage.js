@@ -307,7 +307,6 @@ async function delete_task(idx){
 
 
 function plusconsulting(student_id,is_done){
-    is_done = 1
     $.ajax({
         type: "GET",
         url: "/manage/get_consulting_history/"+student_id,

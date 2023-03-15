@@ -189,38 +189,57 @@ def taskban(task_id,done_code):
 def mystudents(ban_id,is_done):
     if request.method == 'GET':
         # 오늘의 부재중 
-        if ban_id == 1:
-            my_students = callapi.purple_info(session['user_id'],'get_mystudents')
-            consulting_student_list = []
-            for student in my_students:
-                consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done == is_done)  & (Consulting.missed == Today) & (Consulting.startdate <= current_time) ).all()
-                if(len(consultings) != 0):
-                    target_data = {}
-                    target_data['s_id'] = student['register_no']
-                    target_data['name'] = student['name'] + '(' + student['origin'] + ')'
-                    target_data['mobileno'] = student['mobileno']
-                    target_data['reco_book_code'] = '-'
-                    target_data['consulting_num'] = len(consultings)
-                    consulting_student_list.append(target_data)
-        else:
-            my_students = callapi.purple_info(ban_id,'get_students')
-            consulting_student_list = []
-            for student in my_students:
-                consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done == is_done)  & (Consulting.startdate <= current_time) & (Consulting.missed != Today)).all()
-                print(consultings)
-                if(len(consultings) != 0):
-                    target_data = {}
-                    target_data['s_id'] = student['register_no']
-                    target_data['name'] = student['name'] + '(' + student['origin'] + ')'
-                    target_data['mobileno'] = student['mobileno']
-                    target_data['reco_book_code'] = student['reco_book_code']
-                    target_data['consulting_num'] = len(consultings)
-                    consulting_student_list.append(target_data)
-        if(len(consulting_student_list) != 0):
-            consulting_student_list.sort(key = lambda x:(-x['consulting_num']))
-            return jsonify({'consulting_student_list': consulting_student_list})
-        else:
-            return jsonify({'consulting_student_list': '없음'})
+        # if ban_id == 1:
+        #     my_students = callapi.purple_info(session['user_id'],'get_mystudents')
+        #     consulting_student_list = []
+        #     for student in my_students:
+        #         consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done == is_done)  & (Consulting.missed == Today) & (Consulting.startdate <= current_time) ).all()
+        #         if(len(consultings) != 0):
+        #             target_data = {}
+        #             target_data['s_id'] = student['register_no']
+        #             target_data['name'] = student['name'] + '(' + student['origin'] + ')'
+        #             target_data['mobileno'] = student['mobileno']
+        #             target_data['reco_book_code'] = '-'
+        #             target_data['consulting_num'] = len(consultings)
+        #             consulting_student_list.append(target_data)
+        # else:
+        #     my_students = callapi.purple_info(ban_id,'get_students')
+        #     consulting_student_list = []
+        #     for student in my_students:
+        #         consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done == is_done)  & (Consulting.startdate <= current_time) & (Consulting.missed != Today)).all()
+        #         print(consultings)
+        #         if(len(consultings) != 0):
+        #             target_data = {}
+        #             target_data['s_id'] = student['register_no']
+        #             target_data['name'] = student['name'] + '(' + student['origin'] + ')'
+        #             target_data['mobileno'] = student['mobileno']
+        #             target_data['reco_book_code'] = student['reco_book_code']
+        #             target_data['consulting_num'] = len(consultings)
+        #             consulting_student_list.append(target_data)
+        # if(len(consulting_student_list) != 0):
+        #     consulting_student_list.sort(key = lambda x:(-x['consulting_num']))
+        #     return jsonify({'consulting_student_list': consulting_student_list})
+        # else:
+        #     return jsonify({'consulting_student_list': '없음'})
+        all_consulting = {}
+        my_students = callapi.purple_info(session['user_id'],'get_mystudents')
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute("select consulting.id, consulting.ban_id, consulting.student_id, consulting.contents, consulting.week_code, consulting.category_id, date_format(consulting.deadline, '%Y-%m-%d') as deadline, consultingcategory.name as category from consulting left join consultingcategory on consultingcategory.id = consulting.category_id where consulting.done=%s;",(is_done,))
+                all_consulting['status'] = 200
+                all_consulting['data'] = cur.fetchall()
+        except Exception as e:
+            print(e)
+            all_consulting['status'] = 401
+            all_consulting['text'] = str(e)
+        finally:
+            db.close()
+        return jsonify({
+            'my_students': my_students,
+            'all_consulting': all_consulting,
+        })
+
 
 # 학생에게 해야할 상담 목록 ( is_done = 0 ) 상담을 한 목록 (is_done = 1)
 @bp.route("/consulting/<int:id>/<int:is_done>", methods=['GET','POST'])
