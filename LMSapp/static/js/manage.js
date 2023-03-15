@@ -334,12 +334,12 @@ async function changeBaninfo(b_id){
             let target_all_student = `<option value="전체학생@${teacher_id}">✔️ ${ban_name}반 전체 학생 대상 진행</option>`;
             $('#target_a_student').append(target_all_student)
             
-            let temp_target_student = ''
+            $('#target_student').empty();
             for (var i = 0; i < response['students'].length; i++) {
                 let student_id = response['students']['register_no']
                 let name = response['students']['name'] + '(' + response['students']['engname'] + ')'
-                temp_target_student += `<option value="${student_id}@${teacher_id}"> ${name} ( ${original} )</option>`;
-                $('#target_student').html(temp_target_student)
+                let temp_target_student = `<option value="${student_id}@${teacher_id}"> ${name} ( ${original} )</option>`;
+                $('#target_student').append(temp_target_student)
             } 
         }
         
