@@ -305,7 +305,25 @@ async function delete_task(idx){
     }
 }
 
-
+function changeBaninfo(b_id){
+    $.ajax({
+        type: "GET",
+        url: "/manage/ban/"+b_id,
+        data: {},
+        success: function (response) {
+            console.log(response)
+            // if (response['status'] == 400){
+            //     let no_data_title = `<h1> ${response.text} </h1>`
+            //     $('#s_data').html(no_data_title);
+            //     $('#pagingul').hide();
+            //     return
+            // }
+            // let students_num = target_ban['student_num'];
+            // let ban_name = target_ban['name'];
+        }
+        
+    })
+}
 function plusconsulting(student_id,is_done){
     $.ajax({
         type: "GET",

@@ -247,6 +247,15 @@ def request_task():
             db.session.add(new_task)
             db.session.commit()
         return redirect('/')
+@bp.route("/ban_teacher/<int:id>", methods=['GET'])
+def get_ban_teacher(id):
+    if request.method == 'GET':
+        target_ban = callapi.purple_ban(id,'get_ban')
+        if target_ban:
+            return target_ban
+        else:
+            return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
+
 
 @bp.route("/ban/<int:id>", methods=['GET'])
 def get_ban(id):
