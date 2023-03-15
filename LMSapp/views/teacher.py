@@ -226,7 +226,7 @@ def mystudents(ban_id,is_done):
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute("select consulting.id, consulting.ban_id, consulting.student_id, consulting.contents, consulting.week_code, consulting.category_id, date_format(consulting.deadline, '%Y-%m-%d') as deadline, consultingcategory.name as category from consulting left join consultingcategory on consultingcategory.id = consulting.category_id where consulting.done=%s;",(is_done,))
+                cur.execute("select consulting.id, consulting.ban_id, consulting.student_id, consulting.contents, consulting.week_code, consulting.category_id, consulting.deadline as deadline, consultingcategory.name as category from consulting left join consultingcategory on consultingcategory.id = consulting.category_id where consulting.done=%s;",(is_done,))
                 all_consulting['status'] = 200
                 all_consulting['data'] = cur.fetchall()
         except Exception as e:
