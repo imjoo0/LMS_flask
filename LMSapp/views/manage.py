@@ -247,6 +247,7 @@ def request_task():
             db.session.add(new_task)
             db.session.commit()
         return redirect('/')
+    
 @bp.route("/ban_teacher/<int:id>", methods=['GET'])
 def get_ban_teacher(id):
     if request.method == 'GET':
