@@ -250,12 +250,10 @@ def consulting(id,is_done):
                 elif( (consulting_data['consulting_missed']- Today).days == 0):
                     consulting_data['consulting_missed'] = '오늘'
                 if(is_done == 1):
-                    h = ConsultingHistory.query.filter(ConsultingHistory.consulting_id == consulting.id).first()
-                    consulting_data['history_id'] = h.id
-                    consulting_data['history_reason'] = h.reason
-                    consulting_data['history_solution'] = h.solution
-                    consulting_data['history_result'] = h.result
-                    consulting_data['history_created'] = h.created_at.strftime('%Y-%m-%d')
+                    consulting_data['history_reason'] = consulting.reason
+                    consulting_data['history_solution'] = consulting.solution
+                    consulting_data['history_result'] = consulting.result
+                    consulting_data['history_created'] = consulting.created_at.strftime('%Y-%m-%d')
                 consulting_list.append(consulting_data)
             consulting_list.sort(key = lambda x:(-x['week_code'],x['deadline']))
             return jsonify({'consulting_list': consulting_list})
@@ -281,20 +279,21 @@ def consulting(id,is_done):
             received_solution = request.form['consulting_solution']
             # 제공 가이드
             received_result = request.form['consulting_result']
-            
-            target_consulting_history = ConsultingHistory.query.filter(ConsultingHistory.consulting_id == id).first()
-            if((is_done == 0) and (target_consulting_history == None)):
-                new_history = ConsultingHistory(consulting_id=id,reason=received_reason,solution=received_solution,result=received_result,created_at=Today,category_id = target_consulting.category_id)
-                db.session.add(new_history)
+
+            if(is_done == 0):
+                target_consulting.reason = received_reason
+                target_consulting.solution = received_solution
+                target_consulting.result = received_result
+                target_consulting.created_at = Today
             else:
                 if(received_reason !="noupdate"):
-                    target_consulting_history.reason = received_reason
+                    target_consulting.reason = received_reason
                 if(received_solution !="noupdate"):    
-                    target_consulting_history.solution = received_solution
+                    target_consulting.solution = received_solution
                 if(received_result !="noupdate"):    
-                    target_consulting_history.result = received_result
+                    target_consulting.result = received_result
                 if((received_reason !="noupdate") or (received_solution !="noupdate") or (received_result !="noupdate")):
-                    target_consulting_history.created_at = Today
+                    target_consulting.created_at = Today
             target_consulting.done = 1
             db.session.commit()
             return{'result':'상담일지 저장 완료'}
@@ -303,25 +302,19 @@ def consulting(id,is_done):
 @bp.route("/plus_consulting/<int:student_id>/<int:b_id>", methods=['POST'])
 def plus_consulting(student_id,b_id):
     if request.method =='POST':
-         # 상담 사유
+         # 상담 제목
         received_contents = request.form['consulting_contents']
-        # 상담부터 생성
-        newconsulting =  Consulting(ban_id=b_id,category_id=110,student_id=student_id,contents=received_contents,startdate=Today,deadline=Today,done=0,missed=standard)
-        db.session.add(newconsulting)
-        db.session.commit()
         # 상담 사유
         received_reason = request.form['consulting_reason']
         # 제공 가이드
         received_solution = request.form['consulting_solution']
-        # 제공 가이드
+        # 제공 결과
         received_result = request.form['consulting_result']
-            
-        new_history = ConsultingHistory(consulting_id=newconsulting.id,reason=received_reason,solution=received_solution,result=received_result,created_at=Today)
-        db.session.add(new_history)
-        newconsulting.done = 1
+        # 상담생성 
+        newconsulting =  Consulting(ban_id=b_id,category_id=110,student_id=student_id,contents=received_contents,startdate=Today,deadline=Today,done=1,missed=standard,reason=received_reason,solution=received_solution,result=received_result,created_at=Today)
+        db.session.add(newconsulting)
         db.session.commit()
         return{'result':'상담일지 저장 완료'}
-
 
 # 선생님 문의 저장 
 @bp.route('/question', methods=['POST'])
