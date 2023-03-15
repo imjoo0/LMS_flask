@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_file_upload.file_upload import FileUpload
 
 import config
+import pymysql
 from flask_wtf.csrf import CSRFProtect  # csrf
 
 # 전역 변수로 db, migrate 객체를 만든 다음 create_app 함수 안에서 init_app 메서드를 이용해 app에 등록
@@ -26,24 +27,23 @@ csrf = CSRFProtect()
 # 스케줄러 생성
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime, timedelta
-import mysql.connector
 
 scheduler = BackgroundScheduler()
+pydb = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
 
 # 스케줄러에 작업 추가 매일 12시마다 실행 
 @scheduler.scheduled_job('cron', hour='0')
 def update_database():
     try:
-        conn = mysql.connector.connect(**config.dbinfo)
-        cursor = conn.cursor()
-        query= "UPDATE taskban A LEFT JOIN task B ON A.task_id= B.id SET A.done = 0 WHERE date_format(A.created_at, '%Y-%m-%d') < date_format(curdate(),'%Y-%m-%d') AND B.cycle < 6 AND A.done = 1"
-        cursor.execute(query)
-        cursor.commit()
-    except mysql.connector.Error as err:
-        print(f"Error: {err}")
+        with pydb.cursor() as cursor:
+            query= "UPDATE taskban A LEFT JOIN task B ON A.task_id= B.id SET A.done = 0 WHERE date_format(A.created_at, '%Y-%m-%d') < date_format(curdate(),'%Y-%m-%d') AND B.cycle < 6 AND A.done = 1"
+            cursor.execute(query)
+        pydb.commit()
+    except Exception as e:
+        print(f"Error: {e}")
+        pydb.rollback()
     finally:
-        cursor.close()
-        conn.close()
+        pydb.close()
 
 def create_app():
     app = Flask(__name__,static_folder="static")
