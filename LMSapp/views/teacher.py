@@ -207,6 +207,7 @@ def mystudents(ban_id,is_done):
             consulting_student_list = []
             for student in my_students:
                 consultings = Consulting.query.filter((Consulting.student_id==student['register_no']) & (Consulting.done == is_done)  & (Consulting.startdate <= current_time) & (Consulting.missed != Today)).all()
+                print(consultings)
                 if(len(consultings) != 0):
                     target_data = {}
                     target_data['s_id'] = student['register_no']
