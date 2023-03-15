@@ -74,34 +74,32 @@ function done_consulting_history_view(ban_id,is_done){
         url: "/teacher/mystudents/"+ban_id+'/'+is_done,
         data: {},
         success: function (response) {
-            console.log(response['all_consulting'])
-            console.log(response['my_students'])
-            // if(response["consulting_student_list"] == '없음'){
-            //     $('#consulting_history_box').hide()
-            //     $('#h_title').show();
-            // }else{
-            //     $('#h_title').hide();
-            //     $('#consulting_history_box').show()
-            //     $('#consulting_history_student_list').empty()
-            //     for(i=0;i<response["consulting_student_list"].length;i++){
-            //         let target = response["consulting_student_list"][i]
-            //         let student_name = target['name']
-            //         let student_id = target['s_id']
-            //         let mobileno = target['mobileno']
-            //         let student_reco_book_code = target['reco_book_code']
-            //         let consulting_num = target['consulting_num']
-            //         let temp_consulting_contents_box = `
-            //         <tr class="row">
-            //         <td class="col-3">${student_name}</td>
-            //         <td class="col-3">${mobileno}</td>
-            //         <td class="col-2">${student_reco_book_code}</td>
-            //         <td class="col-2">${consulting_num}</td>
-            //         <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">상담일지 수정/작성</td> 
-            //         </tr>
-            //         `;
-            //         $('#consulting_history_student_list').append(temp_consulting_contents_box);
-            //     }
-            // }
+            if(response["consulting_student_list"] == '없음'){
+                $('#consulting_history_box').hide()
+                $('#h_title').show();
+            }else{
+                $('#h_title').hide();
+                $('#consulting_history_box').show()
+                $('#consulting_history_student_list').empty()
+                for(i=0;i<response["consulting_student_list"].length;i++){
+                    let target = response["consulting_student_list"][i]
+                    let student_name = target['name']
+                    let student_id = target['s_id']
+                    let mobileno = target['mobileno']
+                    let student_reco_book_code = target['reco_book_code']
+                    let consulting_num = target['consulting_num']
+                    let temp_consulting_contents_box = `
+                    <tr class="row">
+                    <td class="col-3">${student_name}</td>
+                    <td class="col-3">${mobileno}</td>
+                    <td class="col-2">${student_reco_book_code}</td>
+                    <td class="col-2">${consulting_num}</td>
+                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">상담일지 수정/작성</td> 
+                    </tr>
+                    `;
+                    $('#consulting_history_student_list').append(temp_consulting_contents_box);
+                }
+            }
         }
             // alert(response["title"])
         //     if (response["result"]=='문의가 전송되었습니다') {
@@ -120,35 +118,37 @@ function get_consulting_student(ban_regi,is_done){
             url: "/teacher/mystudents/"+ban_regi+"/"+is_done,
             data: {},
             success: function (response) {
-                if(response["consulting_student_list"] == '없음'){
-                    $('#consulting_student_list').hide();
-                    let temp_consulting_contents_box = `
-                    <p> 오늘의 상담 업무를 완료했습니다 🎉</p>
-                    `;
-                    $('#consulting_msg').html(temp_consulting_contents_box);
-                }else{
-                    $('#consulting_msg').empty();
-                    $('#consulting_student_list').show();
-                    $('#today_consulting_box').empty()
-                    for(i=0;i<response["consulting_student_list"].length;i++){
-                        let target = response["consulting_student_list"][i]
-                        let student_name = target['name']
-                        let student_id = target['s_id']
-                        let mobileno = target['mobileno']
-                        let student_reco_book_code = target['reco_book_code']
-                        let consulting_num = target['consulting_num']
-                        let temp_consulting_contents_box = `
-                        <tr class="row">
-                        <td class="col-3">${student_name}</td>
-                        <td class="col-3">${mobileno}</td>
-                        <td class="col-2">${student_reco_book_code}</td>
-                        <td class="col-2">${consulting_num}</td>
-                        <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">상담 실행</td> 
-                        </tr>
-                        `;
-                        $('#today_consulting_box').append(temp_consulting_contents_box);
-                    }
-                }
+                console.log(response['all_consulting'])
+                console.log(response['my_students'])
+                // if(response["consulting_student_list"] == '없음'){
+                //     $('#consulting_student_list').hide();
+                //     let temp_consulting_contents_box = `
+                //     <p> 오늘의 상담 업무를 완료했습니다 🎉</p>
+                //     `;
+                //     $('#consulting_msg').html(temp_consulting_contents_box);
+                // }else{
+                //     $('#consulting_msg').empty();
+                //     $('#consulting_student_list').show();
+                //     $('#today_consulting_box').empty()
+                //     for(i=0;i<response["consulting_student_list"].length;i++){
+                //         let target = response["consulting_student_list"][i]
+                //         let student_name = target['name']
+                //         let student_id = target['s_id']
+                //         let mobileno = target['mobileno']
+                //         let student_reco_book_code = target['reco_book_code']
+                //         let consulting_num = target['consulting_num']
+                //         let temp_consulting_contents_box = `
+                //         <tr class="row">
+                //         <td class="col-3">${student_name}</td>
+                //         <td class="col-3">${mobileno}</td>
+                //         <td class="col-2">${student_reco_book_code}</td>
+                //         <td class="col-2">${consulting_num}</td>
+                //         <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">상담 실행</td> 
+                //         </tr>
+                //         `;
+                //         $('#today_consulting_box').append(temp_consulting_contents_box);
+                //     }
+                // }
             }
         });
     }
