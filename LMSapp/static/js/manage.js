@@ -449,7 +449,7 @@ function getBanlist(){
                 let temp_ban_option = `
                 <option value=${value}>${name} (${semester}월 학기)</option>
                 `;
-                $('ban_list').append(temp_ban_option)
+                $('#ban_list').append(temp_ban_option)
             }
 
         },
