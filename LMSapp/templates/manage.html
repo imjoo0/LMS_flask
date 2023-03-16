@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="../static/style/teacher.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css" />
 {% endblock %}
 {% block content %}
 {% autoescape off %}
@@ -37,7 +37,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="answerModalLabel">
-                    선생님 문의 
+                    선생님 문의
                 </h5>
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
@@ -51,7 +51,9 @@
                             </tr>
                         </thead>
                         <tr class="row">
-                            <td class="col-12"><div id="cha"></div> </td>
+                            <td class="col-12">
+                                <div id="cha"></div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -64,16 +66,19 @@
                             </tr>
                         </thead>
                         <tr class="row">
-                            <td class="col-6"><div id="teacher_question"></div></td>
-                            <td class="col-6"><div id="teacher_answer"></div> </td>
+                            <td class="col-6">
+                                <div id="teacher_question"></div>
+                            </td>
+                            <td class="col-6">
+                                <div id="teacher_answer"></div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
                 <div id="manage_answer_1">
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">답변 제목</span>
-                        <input class="modal-body-select" type="text" size="50" id="answer_title"
-                            style="width: 75%;">
+                        <input class="modal-body-select" type="text" size="50" id="answer_title" style="width: 75%;">
                     </div>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">답변 내용</span>
@@ -110,16 +115,16 @@
                         <div class="make_row" id="comment_post_box">
 
                         </div>
-                        <div id="comments" class="make_col"style="margin-top:20px">
-                            
+                        <div id="comments" class="make_col" style="margin-top:20px">
+
                         </div>
                     </div>
                 </div>
                 <div id="fileforbox"></div>
                 <div class="d-flex justify-content-center mt-4 mb-2" id="button_box">
                 </div>
-            </div> 
-        </div>      
+            </div>
+        </div>
     </div>
 </div>
 
@@ -129,21 +134,22 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="taskModalLabel">
-                    요청 중인 업무 목록 
+                    요청 중인 업무 목록
                 </h5>
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
 
             <div id="for_task_list">
                 <div class="modal-header">
-                    <select id="task-category-select" onchange="sort_task(this.value)" class="form-select" aria-label="Default select example">
+                    <select id="task-category-select" onchange="sort_task(this.value)" class="form-select"
+                        aria-label="Default select example">
                         <optgroup id="task-option">
                         </optgroup>
                     </select>
                 </div>
                 <div>
                     <table class="table text-center" id="task_list" style="width:100%;">
-                        <tbody  style="width:100%;">
+                        <tbody style="width:100%;">
                             <thead>
                                 <tr class="row">
                                     <th class="col-3">날짜</th>
@@ -152,16 +158,16 @@
                                     <th class="col-2">상세|삭제</th>
                                 </tr>
                             </thead>
-                                <tr id="task-tr" class="row"></tr>
-                            </tbody>
+                            <tr id="task-tr" class="row"></tr>
+                        </tbody>
                     </table>
                     <div id="task-pagination" class="py-5"></div>
                 </div>
             </div>
             <div id="for_taskban_list">
                 <button type="button" class="btn btn-back" onclick="go_back()">업무 목록보기🔙 </button>
-                <table class="table text-center"style="width:100%;">
-                    <tbody  style="width:100%;">
+                <table class="table text-center" style="width:100%;">
+                    <tbody style="width:100%;">
                         <thead>
                             <tr class="row">
                                 <th class="col-4">반</th>
@@ -182,24 +188,26 @@
 </div>
 
 <!-- 요청한 상담 리스트 모달 창 -->
-<div class="modal fade" id="my_consulting_request" tabindex="-1" aria-labelledby="my_consulting_requestModalLabel" aria-hidden="true">
+<div class="modal fade" id="my_consulting_request" tabindex="-1" aria-labelledby="my_consulting_requestModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="my_consulting_requestModalLabel">
-                    요청한 상담 목록 
+                    요청한 상담 목록
                 </h5>
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-header">
-                <select id="category-select" onchange="sort_consulting(this.value)" class="form-select" aria-label="Default select example">
+                <select id="category-select" onchange="sort_consulting(this.value)" class="form-select"
+                    aria-label="Default select example">
                     <optgroup id="consulting-option">
                     </optgroup>
                 </select>
             </div>
             <div>
                 <table class="table text-center" id="consulting_task_list" style="width:100%;">
-                    <tbody  style="width:100%;">
+                    <tbody style="width:100%;">
                         <thead>
                             <tr class="row">
                                 <th class="col-3">날짜</th>
@@ -209,10 +217,10 @@
                                 <th class="col-2">수정/삭제</th>
                             </tr>
                         </thead>
-                            <tr class="row" id="tr-row">
-                                <td>Loading...</td>
-                            </tr>
-                        </tbody>
+                        <tr class="row" id="tr-row">
+                            <td>Loading...</td>
+                        </tr>
+                    </tbody>
                 </table>
                 <div id="consulting-pagination" class="py-5 text-center"></div>
             </div>
@@ -233,58 +241,58 @@
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body" style="padding-top: 0;">
-                <form action="/manage/ban" method="POST">
-                    <input id="csrf_token" type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
-                    <div class="make_row">
-                        <select class="border rounded-0 form-control form-control-sm" name="consulting_category" id="consulting_category_list"
-                            style=" width: 150px; height: 100%; margin-left:0;">
-                            
+                <input id="csrf_token" type="hidden" name="csrf_token" value="{{ csrf_token() }}"
+                    style="display: block;" />
+                <div class="make_row">
+                    <select class="border rounded-0 form-control form-control-sm" name="consulting_category"
+                        id="consulting_category_list" style=" width: 150px; height: 100%; margin-left:0;">
+
+                    </select>
+                    <input class="border rounded-0 form-control form-control-sm" type="text" name="consulting_contents"
+                        placeholder="상담 내용을 입력해주세요">
+                </div>
+                <div class="notice_message">
+                    <p>👇 상담을 진행할 반을 선택해주세요</p>
+                    <div class="plus_under_contents">
+                        <label><input type="checkbox" id="all_ban_target">전체 반 진행</label>
+                        <select class="border rounded-0 form-control form-control-sm" name="consulting_target_ban"
+                            multiple id="consulting_target_ban">
+
                         </select>
-                        <input class="border rounded-0 form-control form-control-sm" type="text"
-                            name="consulting_contents" placeholder="상담 내용을 입력해주세요">
-                    </div>
-                    <div class="notice_message">
-                        <p>👇 상담을 진행할 반을 선택해주세요</p> 
-                        <div class="plus_under_contents">
-                            <label><input type="checkbox" id="all_ban_target">전체 반 진행</label>
-                            <select class="border rounded-0 form-control form-control-sm" name="consulting_target_ban" multiple id="consulting_target_ban">
-                                
-                            </select>
-                            <div class="make_col" id="target_bans">
-                            </div>
-                        </div>
-                        <div class="notice_message" id="select_student">
-                            <p>👇 상담을 진행할 학생을 선택해주세요</p>
-                            <select class="border rounded-0 form-control form-control-sm"
-                                name="consulting_target_student" multiple id="consulting_target_student">
-                                <optgroup id="target_a_student" label="반 대상 전체 진행">
-
-                                </optgroup>
-                                <optgroup id="target_student" label="개별 학생 대상 진행">
-
-                                </optgroup>
-                            </select>
+                        <div class="make_col" id="target_bans">
                         </div>
                     </div>
+                    <div class="notice_message" id="select_student">
+                        <p>👇 상담을 진행할 학생을 선택해주세요</p>
+                        <select class="border rounded-0 form-control form-control-sm" name="consulting_target_student"
+                            multiple id="consulting_target_student">
+                            <optgroup id="target_a_student" label="반 대상 전체 진행">
 
-                    <div class="notice_message">
-                        <p>👇 상담을 시작해야 하는 날짜를 2022-01-01 형식으로 적어주세요</p>
-                        <input class="border rounded-0 form-control form-control-sm" type="text" name="consulting_date"
-                            placeholder="2023-01-01">
-                    </div>
+                            </optgroup>
+                            <optgroup id="target_student" label="개별 학생 대상 진행">
 
-                    <div class="notice_message">
-                        <p>👇 상담을 끝내야 하는 마감 날짜를 2022-01-01 형식으로 적어주세요</p>
-                        <input class="border rounded-0 form-control form-control-sm" type="text"
-                            name="consulting_deadline" placeholder="2023-01-01">
+                            </optgroup>
+                        </select>
                     </div>
-                    <div style="display: flex; float: right;">
-                        <button class="btn btn-success" type="submit" style="margin-top: 13px;">저장</button>
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
-                            style="margin-top: 13px;">취소</button>
-                    </div>
+                </div>
 
-                </form>
+                <div class="notice_message">
+                    <p>👇 상담을 시작해야 하는 날짜를 2022-01-01 형식으로 적어주세요</p>
+                    <input class="border rounded-0 form-control form-control-sm" type="text" name="consulting_date"
+                        placeholder="2023-01-01">
+                </div>
+
+                <div class="notice_message">
+                    <p>👇 상담을 끝내야 하는 마감 날짜를 2022-01-01 형식으로 적어주세요</p>
+                    <input class="border rounded-0 form-control form-control-sm" type="text" name="consulting_deadline"
+                        placeholder="2023-01-01">
+                </div>
+                <div style="display: flex; float: right;">
+                    <button class="btn btn-success" type="submit" style="margin-top: 13px;">저장</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                        style="margin-top: 13px;">취소</button>
+                </div>
+
 
             </div>
 
@@ -327,7 +335,8 @@
             </div>
             <div class="modal-body" style="padding-top: 0;">
                 <form action="/manage/task" method="POST">
-                    <input id="csrf_token" type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
+                    <input id="csrf_token" type="hidden" name="csrf_token" value="{{ csrf_token() }}"
+                        style="display: block;" />
                     <div class="make_row">
                         <select class="border rounded-0 form-control form-control-sm" name="task_category"
                             style=" width: 200px; height: 100%; margin-left:0;">
@@ -344,7 +353,8 @@
                     <div class="notice_message">
                         <p>👇 업무를 진행할 반을 선택해주세요</p>
                         <div class="plus_under_contents">
-                            <select class="border rounded-0 form-control form-control-sm" name="task_target_ban" id="task_target_ban" onchange="getBanInfo(this.value)">
+                            <select class="border rounded-0 form-control form-control-sm" name="task_target_ban"
+                                id="task_target_ban" onchange="getBanInfo(this.value)">
                                 <optgroup label="업무 진행 반 선택">
                                     <option value="none" selected>진행 반 선택</option>
                                     <option value="전체 반">✔️ 전체 대상 진행 ( 저장 클릭 후 조금 기다려 주세요 ) </option>
@@ -380,7 +390,7 @@
                         <p style="margin-right: 6px;"> 업무 주기와 업무 우선순위설정 : </p>
                         <div class="make_row">
                             <select class="border rounded-0 form-control form-control-sm" name="task_cycle"
-                            style=" width: 200px; height: 100%; margin-left:0;">
+                                style=" width: 200px; height: 100%; margin-left:0;">
                                 <optgroup>
                                     <option value="none" selected>업무 주기를 선택해주세요</option>
                                     <option value=0>업무 주기 없음</option>
@@ -401,7 +411,7 @@
                                     <option value=4>최우선 업무</option>
                                 </optgroup>
                             </select>
-                        
+
                         </div>
                     </div>
 
@@ -427,7 +437,8 @@
                 <div class="d-flex justify-content-between flex-row row-cols-sm-2 row-cols-1 mb-4">
                     <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
                     <div class="manage-work-btn-container">
-                        <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#request_consulting" onclick="request_consulting()">
+                        <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#request_consulting"
+                            onclick="request_consulting()">
                             <div class="manage-work-img">
                                 <img src="../static/style/images/user.png">
                             </div>
@@ -437,7 +448,8 @@
                         </div>
                     </div>
                     <div class="manage-work-btn-container">
-                        <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#my_consulting_request" onclick="get_consulting()">
+                        <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#my_consulting_request"
+                            onclick="get_consulting()">
                             <div class="manage-work-img">
                                 <img src="../static/style/images/conversation.png">
                             </div>
@@ -459,7 +471,8 @@
                         </div>
                     </div>
                     <div class="manage-work-btn-container">
-                        <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#my_task_request" onclick="get_task()">
+                        <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#my_task_request"
+                            onclick="get_task()">
                             <div class="manage-work-img">
                                 <img src="../static/style/images/order.png">
                             </div>
@@ -467,9 +480,9 @@
                                 <span class="manage-work-label">업무 리스트</span>
                             </div>
                         </div>
-                    </div>                
+                    </div>
                 </div>
-            </div> 
+            </div>
             <div class="d-flex justify-content-start align-items-center p-lg-5 py-3">
                 <div class="user-detail">
                     <div class="manage-user-detail-deco"></div>
@@ -484,13 +497,13 @@
                                 <a href="#" class="ms-1" data-bs-toggle="modal" data-bs-target="#">
                                     <i class="fa-solid fa-gear text-primary fa-lg fs-6"></i>
                                 </a>
-                            </div> 
+                            </div>
                         </div>
                     </div>
                     <div class="user-contact">
                         <div class="mt-2">
-                           <i class="fa-regular fa-envelope"></i>                            
-                           <span>&nbsp;&nbsp;{{ user['email'] }}</span>
+                            <i class="fa-regular fa-envelope"></i>
+                            <span>&nbsp;&nbsp;{{ user['email'] }}</span>
                         </div>
                         <div class="mt-3">
                             <i class="fa-solid fa-briefcase"></i>
@@ -498,7 +511,7 @@
                         </div>
                     </div>
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
     <div id="ban-statistics" class="p-lg-5 px-1 py-4">
@@ -507,14 +520,16 @@
                 <span>Class Statistics</span>
             </div>
             <div class="info">
-                <div class="d-flex justify-content-center align-items-center flex-column w-100"> 
+                <div class="d-flex justify-content-center align-items-center flex-column w-100">
                     <div class="d-flex justify-content-end align-items-center w-100">
-                        <select class="manage-ban-select px-1 py-2 w-lg-50 w-100" name="target_ban" onchange="getBanInfo(this.value)" id="ban_list">
+                        <select class="manage-ban-select px-1 py-2 w-lg-50 w-100" name="target_ban"
+                            onchange="getBanInfo(this.value)" id="ban_list">
                         </select>
                     </div>
-                
+
                     <div class="d-flex justify-content-start align-items-start w-100" style="overflow: scroll;">
-                        <div class="d-flex justify-content-center align-items-center flex-column mt-4" style="width: 1362px important;">
+                        <div class="d-flex justify-content-center align-items-center flex-column mt-4"
+                            style="width: 1362px important;">
                             <div id="profile_data" class="w-100"></div>
                             <div id="ban_data" class="w-100"></div>
                             <table class="table text-center" style="width:100%;" id="student_data">
@@ -544,10 +559,11 @@
                 <span>Teacher's Question</span>
             </div>
             <div class="info">
-                <div class="d-flex justify-content-center align-items-center flex-column w-100"> 
-                    <select id="question_view" class="form-select text-center w-25" name="question_view" onchange="paginating(this.value)">
-                    <option value=0 selected>미응답 문의</option>
-                    <option value=1>응답한 문의</option>
+                <div class="d-flex justify-content-center align-items-center flex-column w-100">
+                    <select id="question_view" class="form-select text-center w-25" name="question_view"
+                        onchange="paginating(this.value)">
+                        <option value=0 selected>미응답 문의</option>
+                        <option value=1>응답한 문의</option>
                     </select>
                     <table class="table text-center" id="teacher_question" style="width:100%;">
                         <thead>
@@ -558,7 +574,7 @@
                                 <th class="col-2">응답</th>
                             </tr>
                         </thead>
-                        <tbody >
+                        <tbody>
                             <tr id="alim-tr" class="row"></tr>
                         </tbody>
                     </table>
