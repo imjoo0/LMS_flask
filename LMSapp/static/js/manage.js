@@ -41,7 +41,7 @@ async function request_consulting(){
         } else {
             $('#consulting_target_ban').show()
         }
-      }, 1000);
+      }, 100);
     await $.ajax({
         url: '/manage/request',
         type: 'GET',
