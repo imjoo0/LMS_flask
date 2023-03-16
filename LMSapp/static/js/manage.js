@@ -67,7 +67,8 @@ $('#consulting_target_ban').change(function() {
     var selectedValues = $(this).val();
     for(var i = 0; i < selectedValues.length; i++) {
         var optionText = $('#consulting_target_ban option[value="' + selectedValues[i] + '"]').text();
-        var selectedOptions = '<li>' + optionText+'</li>';
+        var buttonText =  `<button onclick="delete_selected_ban(${selectedValues[i]})">❌</button><button>학생선택</button>`;
+        var selectedOptions = '<li>' + optionText + buttonText +'</li>';
         $('#target_bans').append('<ul>' + selectedOptions + '</ul>');
     }
   });
