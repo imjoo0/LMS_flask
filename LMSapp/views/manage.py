@@ -177,18 +177,19 @@ def request_consulting():
         print(received_target_ban)
         print(received_consulting_startdate)
         print(received_consulting_deadline)
-        
-        # 전체 반이 선택 된 경우
-        # if received_target_ban == '전체 반':
-        #     target_class = callapi.purple_allinfo('get_all_ban_student')
-        #     print(target_class)
-        #     for c in target_class:
-        #         new_consulting = Consulting(ban_id=c['ban_id'], category_id=received_category, student_id=c['student_id'],
-        #                                     contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
-        #         db.session.add(new_consulting)
-        #         db.session.commit()
-        # # 개별 반 선택 된 경우 
-        # else:
+        for target_ban in received_target_ban:
+            # 전체 반이 선택 된 경우
+            if target_ban == '전체 반':
+                target_class = callapi.purple_allinfo('get_all_ban_student')
+                print(target_class)
+                for c in target_class:
+                    new_consulting = Consulting(ban_id=c['ban_id'], category_id=received_category, student_id=c['student_id'],
+                                                contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
+                    db.session.add(new_consulting)
+                    db.session.commit()
+            # 개별 반 선택 된 경우 
+            else:
+                print(target_ban)
         #     #  상담을 진행할 학생 저장
         #     received_target_student = request.form.getlist('consulting_target_student[]')
         #     print(received_target_student)
