@@ -37,7 +37,7 @@ def save_attachment(file, q_id):
 #     save_attachment(file,id)
 
 # 통계 자료
-@bp.route("/ban/<int:id>", methods=['GET'])
+@bp.route("/ban", methods=['GET'])
 def get_ban(id):
     if request.method == 'GET':
         if(id==0):

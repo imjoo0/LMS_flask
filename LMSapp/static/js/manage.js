@@ -2,7 +2,7 @@ const today = new Date();
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
     paginating(0) 
-    getBanInfo(0)
+    getBanIlist()
 })
 function go_back(){
     $('#for_taskban_list').hide();
@@ -426,4 +426,44 @@ function plusconsulting(student_id,is_done){
         }
     });
     // $('#today_consulting_box').show();
+}
+
+
+function getBanIlist(){
+    $.ajax({
+        type: "GET",
+        url: "/common/ban",
+        data: {},
+        success: function (response) {
+            let target_ban = response['target_ban']
+            if (response['status'] == 400){
+                let no_data_title = `<h1> ${response.text} </h1>`
+                $('#s_data').html(no_data_title);
+                $('#pagingul').hide();
+                return alert('no data')
+            }
+            if(b_id == 0){
+                $('ban_list').empty();
+                for(i=0;i<target_ban.length;i++){
+                    let name = target_ban[i]['name']
+                    let semester = target_ban[i]['semester']
+                    let t_id = target_ban[i]['teacher_register_no']
+                    let b_id = target_ban[i]['register_no']
+                    let value = b_id+'@'+t_id+'@'+name
+                    let temp_ban_option = `
+                    <option value=${value}>${name} (${semester}월 학기)</option>
+                    `;
+                    $('ban_list').append(temp_ban_option)
+                }
+            }else{
+                
+            }
+
+
+        },
+        error:function(xhr, status, error){
+                alert('xhr.responseText');
+            }
+    })
+    
 }
