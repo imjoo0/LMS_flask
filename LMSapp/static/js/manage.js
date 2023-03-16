@@ -12,7 +12,7 @@ function getBanlist(){
         url: "/common/all_ban",
         data: {},
         success: function (response) {
-            let temp_ban_option = '';
+            let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
             let target_ban = response['target_ban']
             for(i=0;i<target_ban.length;i++){
                 console.log(target_ban[i])
@@ -21,7 +21,6 @@ function getBanlist(){
                 let t_id = target_ban[i]['teacher_register_no']
                 let b_id = target_ban[i]['register_no']
                 let value = b_id+'@'+t_id+'@'+name
-                console.log(value)
                 temp_ban_option += `
                 <option value=${value}>${name} (${semester}월 학기)</option>
                 `;
