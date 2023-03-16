@@ -24,7 +24,7 @@ def home():
         # all_questions = Question.query.order_by(Question.id.desc())
 
         # return render_template('manage.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting, task_category=all_task_category, tasks=all_task, questions=all_questions)
-        return render_template(user)
+        return render_template('manage.html', user=user,)
 
 @bp.route('/api/get_all_questions/<int:done_code>', methods=['GET'])
 def get_all_questions(done_code):
