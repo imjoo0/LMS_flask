@@ -312,6 +312,7 @@ function changeBaninfo(b_id){
     }else{
         var target_bans = [];
         var selectedOptions = $('#consulting_target_ban option:checked');
+        console.log(selectedOptions)
         selectedOptions.each(function() {
             target_bans.push($(this).val());
         });
