@@ -315,13 +315,16 @@ function changeBaninfo(b_id){
         var selectedValues = selectedOptions.map(function(option){
             return option.value;
         });
-        selectedValues.each(function() {
+        console.log(selectedOptions)
+        console.log(selectedValues)
+        selectedOptions.each(function() {
             target_bans.push($(this).val());
         });
         // 중복제거 
         target_bans = target_bans.filter(function(i){
             return selectedValues.indexOf(i) === -1;
         });
+        console.log(target_bans)
         //  val 갱신 
         $('#consulting_target_ban').val(target_bans);
         
