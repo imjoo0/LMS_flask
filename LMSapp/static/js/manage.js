@@ -439,6 +439,7 @@ function getBanlist(){
             let target_ban = response['target_ban']
             $('ban_list').empty();
             for(i=0;i<target_ban.length;i++){
+                console.log(target_ban[i])
                 let name = target_ban[i]['name']
                 let semester = target_ban[i]['semester']
                 let t_id = target_ban[i]['teacher_register_no']
