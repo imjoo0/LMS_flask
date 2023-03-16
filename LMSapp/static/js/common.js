@@ -107,8 +107,46 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list, consu
         displayData(totalData, selectedPage, dataPerPage,data_list, consulting,b_id);
     });
 }
+function getBanInfo(b_id){
+    $.ajax({
+        type: "GET",
+        url: "/common/ban/"+b_id,
+        data: {},
+        success: function (response) {
+            let target_ban = response['target_ban']
+            if (response['status'] == 400){
+                let no_data_title = `<h1> ${response.text} </h1>`
+                $('#s_data').html(no_data_title);
+                $('#pagingul').hide();
+                return
+            }
+            if(b_id == "none"){
+                $('ban_list').empty();
+                for(i=0;i<target_ban.length;i++){
+                    let name = target_ban[i]['name']
+                    let semester = target_ban[i]['semester']
+                    let t_id = target_ban[i]['teacher_register_no']
+                    let b_id = target_ban[i]['register_no']
+                    let value = b_id+'@'+t_id+'@'+name
+                    let temp_ban_option = `
+                    <option value=${value}>${name} (${semester}월 학기)</option>
+                    `;
+                    $('ban_list').append(temp_ban_option)
+                }
+            }else{
+                
+            }
 
-async function getBanInfo(b_id){
+
+        },
+        error:function(xhr, status, error){
+                alert('xhr.responseText');
+            }
+    })
+    
+}
+
+async function getBanInfo2(b_id){
     $('#label_title').empty();
     $('#profile_data').empty();
     $('#ban_data').empty();
