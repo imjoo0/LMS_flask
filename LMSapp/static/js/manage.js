@@ -65,7 +65,6 @@ async function request_consulting() {
 
 $('#consulting_target_ban').change(function() {
     var selectedValues = $(this).val();
-    console.log(selectedValues)
     var selectedOptions = '';
   
     for (var i = 0; i < selectedValues.length; i++) {
@@ -73,7 +72,7 @@ $('#consulting_target_ban').change(function() {
       selectedOptions += '<li>' + optionText + '</li>';
     }
   
-    $('#target_bans').html('<ul>' + selectedOptions + '</ul>');
+    $('#target_bans').append('<ul>' + selectedOptions + '</ul>');
   });
 
 // 반 다중 선택 처리
