@@ -325,10 +325,12 @@ async function changeBaninfo(b_id){
             if (response['status'] == 400){
                 return alert(response['text'])
             }
-            let temp_target_ban = `
-            <p> 선택 - ${name} <button onclick="delete_selected_ban(${id})">❌</button></p>
-            `;
-            $('#target_bans').append(temp_target_ban); 
+            if(response['students'] != '전체진행'){
+                let temp_target_ban = `
+                <p> 선택 - ${name} <button onclick="delete_selected_ban(${id})">❌</button></p>
+                `;
+                $('#target_bans').append(temp_target_ban); 
+            }
         }
         
     })
