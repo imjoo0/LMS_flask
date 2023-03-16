@@ -306,6 +306,7 @@ async function delete_task(idx){
 }
 
 async function changeBaninfo(b_id){
+    let id = b_id.split('@')[0]
     if( b_id == '전체 반'){
         $('#select_student').hide();
         $('#target_bans').empty();
@@ -314,38 +315,24 @@ async function changeBaninfo(b_id){
     }
     await $.ajax({
         type: "GET",
-        url: "/manage/ban_teacher/"+b_id,
+        url: "/manage/ban_teacher/"+id,
         data: {},
         success: function (response) {
             console.log(response)
             if (response['status'] == 400){
                 return alert(response['text'])
             }
-            let ban_name = response['target_ban']['ban_name'];
-            let teacher_id = response['target_ban']['teacher_register_no']
-
             // 선택한 반 보여주기 
             $('#target_bans').empty()
             let selected_bans = $('#target_bans').val()
             for(i=0;i<selected_bans.length;i++){
+                let id = selected_bans[i].split('@')[0]
+                let name = selected_bans[i].split('@')[1]
                 let temp_target_ban = `
-            <p> 선택 - ${selected_bans[i]} <a></p>
+            <p> 선택 - ${selected_bans[name]} <button onclick="delete_selected_ban(${id})">❌</button></p>
             `;
             $('#target_bans').append(temp_target_ban);
             }
-            
-
-            // 전체 학생 대상 진행 append 
-            let target_all_student = `<option value="전체학생@${teacher_id}">✔️ ${ban_name}반 전체 학생 대상 진행</option>`;
-            $('#target_a_student').append(target_all_student)
-            
-            $('#target_student').empty();
-            for (var i = 0; i < response['students'].length; i++) {
-                let student_id = response['students'][i]['register_no']
-                let name = response['students'][i]['name']
-                let temp_target_student = `<option value="${student_id}@${teacher_id}"> ${name}</option>`;
-                $('#target_student').append(temp_target_student)
-            } 
         }
         
     })
