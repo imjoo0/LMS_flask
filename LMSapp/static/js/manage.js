@@ -2,7 +2,7 @@ const today = new Date();
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
     paginating(0) 
-    getBanInfo("none")
+    getBanInfo(0)
 })
 function go_back(){
     $('#for_taskban_list').hide();
