@@ -435,6 +435,7 @@ function getBanlist(){
         url: "/common/ban",
         data: {},
         success: function (response) {
+            console.log(response['target_ban'])
             let target_ban = response['target_ban']
             $('ban_list').empty();
             for(i=0;i<target_ban.length;i++){
