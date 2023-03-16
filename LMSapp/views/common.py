@@ -38,7 +38,7 @@ def save_attachment(file, q_id):
 
 # 통계 자료
 @bp.route("/ban", methods=['GET'])
-def get_ban(id):
+def get_ban():
     if request.method == 'GET':
         if(id==0):
             print('전체 반의 네임을 가져다 줘')
