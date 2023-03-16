@@ -38,6 +38,7 @@ function getBanlist(){
 
 async function request_consulting(){
     is_consulting_all = $(`input:checkbox[id="all_ban_target"]`).is(":checked")
+    console.log(is_consulting_all)
     if(is_consulting_all){
         $('#consulting_target_ban').hide()
     }else{
