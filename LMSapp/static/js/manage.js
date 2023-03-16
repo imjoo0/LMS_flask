@@ -65,9 +65,9 @@ async function request_consulting() {
 
 $('#consulting_target_ban').change(function() {
     var selectedValues = $(this).val();
-    for (var i = 0; i < selectedValues.length; i++) {
+    for(var i = 0; i < selectedValues.length; i++) {
         var optionText = $('#consulting_target_ban option[value="' + selectedValues[i] + '"]').text();
-        var selectedOptions = '<li>' + optionText + ` <button onclick="delete_selected_ban(${selectedValues[i]})">❌</button>`+'</li>';
+        var selectedOptions = '<li>' + optionText+'</li>';
         $('#target_bans').append('<ul>' + selectedOptions + '</ul>');
     }
   });
