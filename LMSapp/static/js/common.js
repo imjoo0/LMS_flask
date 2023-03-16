@@ -108,12 +108,14 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list, consu
     });
 }
 function getBanInfo(b_id){
+    console.log(b_id)
     $.ajax({
         type: "GET",
         url: "/common/ban/"+b_id,
         data: {},
         success: function (response) {
             let target_ban = response['target_ban']
+            console.log(target_ban)
             if (response['status'] == 400){
                 let no_data_title = `<h1> ${response.text} </h1>`
                 $('#s_data').html(no_data_title);
