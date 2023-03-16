@@ -125,7 +125,7 @@ function getBanInfo(b_id){
                 $('#pagingul').hide();
                 return alert('no data')
             }
-            if(b_id == "none"){
+            if(b_id == 0){
                 $('ban_list').empty();
                 for(i=0;i<target_ban.length;i++){
                     let name = target_ban[i]['name']
