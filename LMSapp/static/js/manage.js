@@ -73,7 +73,7 @@ $('#consulting_target_ban').change(function() {
   });
 
 // 반 선택 취소
-function delete_selected_ban(value) {
+function delete_selected_ban(value){
     // select 요소에서 선택된 option 엘리먼트들을 가져옴
     var selectedOptions = $('#consulting_target_ban').val()
     console.log(selectedOptions)
@@ -87,14 +87,6 @@ function delete_selected_ban(value) {
         var selectedOptions = '<li>' + optionText + ` <button onclick="delete_selected_ban(${newselectedOptions[i]})">❌</button><button onclick="get_ban_students(${newselectedOptions[i]})">학생선택</button>`+'</li>';
         $('#target_bans').append('<ul>' + selectedOptions + '</ul>');
     }
-    
-    // // 이전 선택 값들과 비교하여 중복된 값이 있으면 제거
-    // selectedOptions = selectedOptions.filter((value, index, self) => {
-    //     return self.indexOf(value) === index;
-    // });
-    // // select 요소의 값을 갱신
-    // $('#consulting_target_ban').val(selectedOptions);
-    // console.log($('#consulting_target_ban').val())
 }
 
 
@@ -102,6 +94,7 @@ function go_back() {
     $('#for_taskban_list').hide();
     $('#for_task_list').show();
 }
+
 function paginating(done_code) {
     let container = $('#pagination')
     $.ajax({
@@ -136,6 +129,7 @@ function paginating(done_code) {
         }
     })
 }
+
 async function get_consulting() {
     let container = $('#consulting-pagination')
     var category_list = []
@@ -353,6 +347,7 @@ function get_taskban(task_id) {
         }
     });
 }
+
 async function delete_consulting(idx) {
     const csrf = $('#csrf_token').val();
     var con_val = confirm('정말 삭제하시겠습니까?')
@@ -376,6 +371,7 @@ async function delete_consulting(idx) {
         get_consulting()
     }
 }
+
 async function delete_task(idx) {
     var con_val = confirm('정말 삭제하시겠습니까')
     if (con_val == true) {
