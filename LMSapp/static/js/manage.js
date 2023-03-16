@@ -65,7 +65,6 @@ async function request_consulting() {
 
 $('#consulting_target_ban').change(function() {
     var selectedValues = $(this).val();
-    $('#target_bans').empty()
     for (var i = 0; i < selectedValues.length; i++) {
         var optionText = $('#consulting_target_ban option[value="' + selectedValues[i] + '"]').text();
         var selectedOptions = '<li>' + optionText + ` <button onclick="delete_selected_ban(${selectedValues[i]})">❌</button><button onclick="get_ban_students(${selectedValues[i]})">학생선택</button>`+'</li>';
