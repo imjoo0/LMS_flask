@@ -29,7 +29,7 @@ function displayData(totalData, currentPage, dataPerPage,data_list, consulting,b
         let parent_name_mobileno = target['pname'] +'('+target['pmobileno']+')';
         let reco_book_code = target['reco_book_code'];
         if( reco_book_code == null){
-            reco_book_code = '✖️'
+            reco_book_code = '❌'
         }
          let answer_rate =  function(answer, all) {
                 if(Object.is(answer/all, NaN)) return 0;
@@ -126,17 +126,17 @@ function getBanInfo(b_id){
                 return
             }
             if(b_id == "none"){
-                $('ban_list').empty();
+                let temp_ban_option =''
                 for(i=0;i<target_ban.length;i++){
                     let name = target_ban[i]['name']
                     let semester = target_ban[i]['semester']
                     let t_id = target_ban[i]['teacher_register_no']
                     let b_id = target_ban[i]['register_no']
                     let value = b_id+'@'+t_id+'@'+name
-                    let temp_ban_option = `
+                    temp_ban_option += `
                     <option value=${value}>${name} (${semester}월 학기)</option>
                     `;
-                    $('ban_list').append(temp_ban_option)
+                    $('ban_list').html(temp_ban_option)
                 }
             }else{
                 

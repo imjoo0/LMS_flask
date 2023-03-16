@@ -282,7 +282,6 @@ async function delete_consulting(idx){
     get_consulting()
     }
 }
-
 async function delete_task(idx){
     var con_val = confirm('정말 삭제하시겠습니까')
     if(con_val == true){
