@@ -174,7 +174,7 @@ def request_consulting():
         finally:
             db.close()
 
-        return json.dumps(all_consulting_category)
+        return jsonify({'all_consulting_category':all_consulting_category})
 
     elif request.method == 'POST':
         #  상담 카테고리 저장

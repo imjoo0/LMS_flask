@@ -48,10 +48,9 @@ async function request_consulting(){
         data: {},
         success: function(response){
             let temp_consulting_category_list = '<option value=0 selected>상담카테고리를 선택해주세요</option>';
-            for(i=0;i<response.length;i++){
-                console.log(response[i])
-                let id = response[i]['id']
-                let name = response[i]['name']
+            for(i=0;i<response['all_consulting_category'].length;i++){
+                let id = response['all_consulting_category'][i]['id']
+                let name = response['all_consulting_category'][i]['name']
                 temp_consulting_category_list += `
 
                 <option value=${id}>${name}</option>
