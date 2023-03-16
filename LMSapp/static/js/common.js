@@ -117,8 +117,8 @@ function getBanInfo(b_id){
         url: "/common/ban/"+b_id,
         data: {},
         success: function (response) {
+            console.log(b_id)
             let target_ban = response['target_ban']
-            console.log(target_ban)
             if (response['status'] == 400){
                 let no_data_title = `<h1> ${response.text} </h1>`
                 $('#s_data').html(no_data_title);
