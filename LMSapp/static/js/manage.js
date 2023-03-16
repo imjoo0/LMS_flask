@@ -310,31 +310,31 @@ function changeBaninfo(b_id){
         $('#select_student').hide();
         $('#target_bans').empty();
     }else{
-        let id = b_id.split('@')[0]
-        let name = b_id.split('@')[1]
-        let temp_target_ban = `
-        <p> ${name} <button onclick="delete_selected_ban(${id})">❌</button><button onclick="get_ban_students(${id})">학생선택</button></p>
-        `;
-        $('#target_bans').append(temp_target_ban); 
-    }
-    // await $.ajax({
-    //     type: "GET",
-    //     url: "/manage/ban_teacher/"+id,
-    //     data: {},
-    //     success: function (response) {
-    //         console.log(response)
-    //         if (response['status'] == 400){
-    //             return alert(response['text'])
-    //         }
-    //         if(response['students'] != '전체진행'){
-    //             let temp_target_ban = `
-    //             <p> 선택 - ${name} <button onclick="delete_selected_ban(${id})">❌</button></p>
-    //             `;
-    //             $('#target_bans').append(temp_target_ban); 
-    //         }
-    //     }
+        var target_bans = [];
+        var selectedOptions = $('#consulting_target_ban option:checked');
+        selectedOptions.each(function() {
+            target_bans.push($(this).val());
+        });
+        // 중복제거 
+        target_bans = target_bans.filter(function(i){
+            return previousSelections.indexOf(i) === -1;
+        });
+        //  val 갱신 
+        $('#consulting_target_ban').val(target_bans);
         
-    // })
+        $('#target_bans').empty()
+        for(i=0;i<target_bans.length;i++){
+            let id = target_bans[i].split('@')[0]
+            let name = target_bans[i].split('@')[1]
+            let temp_target_ban = `
+            <p> ${name} <button onclick="delete_selected_ban(${id})">❌</button><button onclick="get_ban_students(${id})">학생선택</button></p>
+            `;
+            $('#target_bans').append(temp_target_ban); 
+        }
+    }
+}
+function delete_selected_ban(b_id){
+    $('#consulting_target_ban').pop(b)
 }
 function plusconsulting(student_id,is_done){
     $.ajax({

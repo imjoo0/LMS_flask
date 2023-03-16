@@ -250,7 +250,7 @@
                     <div class="notice_message">
                         <p>👇 상담을 진행할 반을 선택해주세요</p>
                         <div class="plus_under_contents">
-                            <select class="border rounded-0 form-control form-control-sm" name="consulting_target_ban[]" multiple
+                            <select class="border rounded-0 form-control form-control-sm" name="consulting_target_ban" multiple
                                 id="consulting_target_ban" onchange="changeBaninfo(this.value)">
                                 <optgroup label="상담 진행 반 선택">
                                     <option value="전체 반">✔️ 전체 반 대상 진행 ( 저장 클릭 후 5분 소요 됩니다 ) </option>
@@ -261,14 +261,12 @@
                                 </optgroup>
                             </select>
                             <div class="make_col" id="target_bans">
-                                <p>선택한 반 리스트</p>
-                                
                             </div>
                         </div>
                         <div class="notice_message" id="select_student">
                             <p>👇 상담을 진행할 학생을 선택해주세요</p>
                             <select class="border rounded-0 form-control form-control-sm"
-                                name="consulting_target_student[]" multiple id="consulting_target_student">
+                                name="consulting_target_student" multiple id="consulting_target_student">
                                 <optgroup id="target_a_student" label="반 대상 전체 진행">
 
                                 </optgroup>
