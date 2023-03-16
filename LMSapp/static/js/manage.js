@@ -311,14 +311,17 @@ function changeBaninfo(b_id){
         $('#target_bans').empty();
     }else{
         var target_bans = [];
-        var selectedOptions = $('#consulting_target_ban option:checked');
+        var selectedOptions = $('#consulting_target_ban option:checked').toArray();
+        var selectedValues = selectedOptions.map(function(option){
+            return option.value;
+        });
         console.log(selectedOptions)
         selectedOptions.each(function() {
             target_bans.push($(this).val());
         });
         // 중복제거 
         target_bans = target_bans.filter(function(i){
-            return selectedOptions.indexOf(i) === -1;
+            return selectedValues.indexOf(i) === -1;
         });
         //  val 갱신 
         $('#consulting_target_ban').val(target_bans);
