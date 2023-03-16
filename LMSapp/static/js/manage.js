@@ -38,8 +38,10 @@ async function request_consulting() {
     setInterval(function () {
         if ($(`input:checkbox[id="all_ban_target"]`).is(":checked")) {
             $('#consulting_target_ban').hide()
+            $('#target_bans').show()
         } else {
             $('#consulting_target_ban').show()
+            $('#target_bans').hide()
         }
     }, 10);
     await $.ajax({
@@ -63,6 +65,7 @@ async function request_consulting() {
 
 $('#consulting_target_ban').change(function() {
     var selectedValues = $(this).val();
+    console.log(selectedValues)
     var selectedOptions = '';
   
     for (var i = 0; i < selectedValues.length; i++) {
