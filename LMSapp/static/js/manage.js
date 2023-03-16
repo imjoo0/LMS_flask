@@ -1,12 +1,13 @@
 const today = new Date();
+var previousSelections = [];
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
-    paginating(0) 
+    paginating(0)
     getBanlist()
 })
 
 
-function getBanlist(){
+function getBanlist() {
     $.ajax({
         type: "GET",
         url: "/common/all_ban",
@@ -14,12 +15,12 @@ function getBanlist(){
         success: function (response) {
             let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
             let target_ban = response['target_ban']
-            for(i=0;i<target_ban.length;i++){
+            for (i = 0; i < target_ban.length; i++) {
                 let name = target_ban[i]['name']
                 let semester = target_ban[i]['semester']
                 let t_id = target_ban[i]['teacher_register_no']
                 let b_id = target_ban[i]['register_no']
-                let value = b_id+'@'+t_id+'@'+name
+                let value = b_id + '@' + t_id + '@' + name
                 temp_ban_option += `
                 <option value=${value}>${name} (${semester}월 학기)</option>
                 `;
@@ -27,28 +28,29 @@ function getBanlist(){
             $('#ban_list').html(temp_ban_option)
             $('#consulting_target_ban').html(temp_ban_option)
         },
-        error:function(xhr, status, error){
-                alert('xhr.responseText');
-            }
+        error: function (xhr, status, error) {
+            alert('xhr.responseText');
+        }
     })
-    
+
 }
 
-async function request_consulting(){
-    setInterval(function() {
+// 상담 요청 모달에 필요한 정보 보내주는 함수 
+async function request_consulting() {
+    setInterval(function () {
         if ($(`input:checkbox[id="all_ban_target"]`).is(":checked")) {
             $('#consulting_target_ban').hide()
         } else {
             $('#consulting_target_ban').show()
         }
-      }, 10);
+    }, 10);
     await $.ajax({
         url: '/manage/request',
         type: 'GET',
         data: {},
-        success: function(response){
+        success: function (response) {
             let temp_consulting_category_list = '<option value=0 selected>상담카테고리를 선택해주세요</option>';
-            for(i=0;i<response['all_consulting_category'].length;i++){
+            for (i = 0; i < response['all_consulting_category'].length; i++) {
                 let id = response['all_consulting_category'][i]['id']
                 let name = response['all_consulting_category'][i]['name']
                 temp_consulting_category_list += `
@@ -61,67 +63,106 @@ async function request_consulting(){
     })
 }
 
-function go_back(){
+// 반 다중 선택 처리 / 중복 제거 
+function removeDuplicateSelections() {
+    var selections = [];
+
+    // select 요소에서 선택된 option 엘리먼트들을 가져옴
+    var selectedOptions = $('#consulting_target_ban option:checked');
+
+    // 선택된 option 엘리먼트들의 값을 배열에 저장
+    selectedOptions.each(function () {
+        selections.push($(this).val());
+    });
+
+    // 이전 선택 값들과 비교하여 중복된 값이 있으면 제거
+    selections = selections.filter(function (selection) {
+        return previousSelections.indexOf(selection) === -1;
+    });
+
+    // 이전 선택 값을 갱신
+    previousSelections = selections;
+
+    // select 요소의 값을 갱신
+    $('#consulting_target_ban').val(selections);
+}
+    // $('#target_bans').empty()
+    // for(i=0;i<selectedOptions.length;i++){    
+        // let b_id = selectedOptions[i].split('@')[0]
+        // let t_id = selectedOptions[i].split('@')[1]
+        // let name = selectedOptions[i].split('@')[2]
+    //     let temp_target_ban = `
+    //     <p> ${name} <button onclick="delete_selected_ban(${id})">❌</button><button onclick="get_ban_students(${id})">학생선택</button></p>
+    //     `;
+    //     $('#target_bans').append(temp_target_ban); 
+    // }
+}
+
+function delete_selected_ban(b_id) {
+    $('#consulting_target_ban').pop(b)
+}
+
+function go_back() {
     $('#for_taskban_list').hide();
     $('#for_task_list').show();
 }
-function paginating(done_code){
+function paginating(done_code) {
     let container = $('#pagination')
     $.ajax({
-        url: '/manage/api/get_all_questions/'+done_code,
+        url: '/manage/api/get_all_questions/' + done_code,
         type: 'get',
         data: {},
-        success: function(data){
+        success: function (data) {
             container.pagination({
-            dataSource: JSON.parse(data),
-            prevText: '이전',
-            nextText: '다음',
-            pageClassName: 'float-end',
-            pageSize: 5,
-            callback: function (data, pagination){
-                var dataHtml = '';
-                $.each(data, function (index, item){
-                    if( item.category == 0){item.category = '일반문의' } 
-                    else if (item.category == 1 ){item.category ='퇴소 요청' } 
-                    else if( item.category == 2){item.category ='이반 요청' } 
-                    else{item.category = '취소/환불 요청' } 
-                    dataHtml +=  `
+                dataSource: JSON.parse(data),
+                prevText: '이전',
+                nextText: '다음',
+                pageClassName: 'float-end',
+                pageSize: 5,
+                callback: function (data, pagination) {
+                    var dataHtml = '';
+                    $.each(data, function (index, item) {
+                        if (item.category == 0) { item.category = '일반문의' }
+                        else if (item.category == 1) { item.category = '퇴소 요청' }
+                        else if (item.category == 2) { item.category = '이반 요청' }
+                        else { item.category = '취소/환불 요청' }
+                        dataHtml += `
                     <td class="col-2">${item.category}</td>
                     <td class="col-4">${item.title}</td>
                     <td class="col-4">${item.contents}</td>
                     <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
                     data-bs-target="#answer" onclick="get_question(${item.id},${done_code})">✏️</button> 
                     <button onclick="delete_question(${item.id})">❌</button></td>`;
-                });
-                $('#alim-tr').html(dataHtml);
-            }
-        })
+                    });
+                    $('#alim-tr').html(dataHtml);
+                }
+            })
         }
-    }) 
+    })
 }
-async function get_consulting(){
+async function get_consulting() {
     let container = $('#consulting-pagination')
     var category_list = []
-await $.ajax({
+    await $.ajax({
         url: '/manage/api/get_consulting',
         type: 'get',
         data: {},
-        success: function(data){
+        success: function (data) {
             console.log(data)
-            $.each([...JSON.parse(data)], function (idx, val){
+            $.each([...JSON.parse(data)], function (idx, val) {
                 category_list.push(val.name)
             });
             consultingData = data;
             container.pagination({
-            dataSource: JSON.parse(data),
-            prevText: '이전',
-            nextText: '다음',
-            pageSize: 10,
-            callback: function (data, pagination){
-                var dataHtml = '';
-                var idxHtml = `<option value="none">전체</option>`;
-                $.each(data, function (index, consulting){
-                dataHtml +=  `
+                dataSource: JSON.parse(data),
+                prevText: '이전',
+                nextText: '다음',
+                pageSize: 10,
+                callback: function (data, pagination) {
+                    var dataHtml = '';
+                    var idxHtml = `<option value="none">전체</option>`;
+                    $.each(data, function (index, consulting) {
+                        dataHtml += `
                     <td class="col-3">${consulting.startdate} ~ ${consulting.deadline}</td>
                     <td class="col-2">${consulting.name}</td>
                     <td class="col-1"> 미진행 </td>
@@ -129,40 +170,40 @@ await $.ajax({
                     <td class="col-2"> <button onclick="update_consulting(${consulting.id})">✏️</button> 
                     <button onclick="delete_consulting(${consulting.id})">❌</button></td>`;
                     });
-                category_set = new Set(category_list)
-                category_list = [...category_set]
-                $.each(category_list, function(idx, val){
-                    idxHtml += `<option value="${val}">${val}</option>`
-                })
+                    category_set = new Set(category_list)
+                    category_list = [...category_set]
+                    $.each(category_list, function (idx, val) {
+                        idxHtml += `<option value="${val}">${val}</option>`
+                    })
                     $('#consulting-option').html(idxHtml);
                     $('#tr-row').html(dataHtml);
+                }
+            })
+        },
+        error: function (xhr, status, error) {
+            alert(xhr.responseText);
         }
     })
-    },
-    error: function(xhr, status, error){
-        alert(xhr.responseText);
-    }
-})
 }
 
-async function update_consulting(idx){
+async function update_consulting(idx) {
     await $.ajax({
         url: '/manage/api/update_consulting',
         type: 'get',
-        data: {'text': 'good'},
-        success: function(data){
+        data: { 'text': 'good' },
+        success: function (data) {
             console.log(data)
         }
     })
 }
 
-async function sort_consulting(value){
+async function sort_consulting(value) {
     var dataHtml = '';
     let container = $('#consulting-pagination')
-    const data = await JSON.parse(consultingData).filter((e)=>{
-        if(value == 'none'){
+    const data = await JSON.parse(consultingData).filter((e) => {
+        if (value == 'none') {
             return e.name
-        }else{
+        } else {
             return e.name == value;
         }
     })
@@ -171,139 +212,139 @@ async function sort_consulting(value){
         prevText: '이전',
         nextText: '다음',
         pageSize: 10,
-        callback: function (data, pagination){
+        callback: function (data, pagination) {
             console.log(data)
             var dataHtml = '';
-            $.each(data, function (index, consulting){
-                dataHtml +=  `
+            $.each(data, function (index, consulting) {
+                dataHtml += `
                     <td class="col-3">${consulting.startdate} ~ ${consulting.deadline}</td>
                     <td class="col-2">${consulting.name}</td>
                     <td class="col-1"> 미진행 </td>
                     <td class="col-4"> ${consulting.contents}</td>
                     <td class="col-2"> <button onclick="update_consulting(${consulting.id})">✏️</button> 
                     <button onclick="delete_consulting(${consulting.id})">❌</button></td>`;
-                });
-                $('#tr-row').html(dataHtml);      
+            });
+            $('#tr-row').html(dataHtml);
         }
     })
 }
 
-async function get_task(){
+async function get_task() {
     let container = $('#task-pagination')
     var category_list = []
     await $.ajax({
         url: '/manage/api/get_task',
         type: 'get',
         data: {},
-        success: function(data){
-            $.each([...JSON.parse(data)], function (idx, val){
+        success: function (data) {
+            $.each([...JSON.parse(data)], function (idx, val) {
                 category_list.push(val.name)
                 // 카테고리의 이름만 저장 
             });
             taskData = JSON.parse(data);
             container.pagination({
-            dataSource: JSON.parse(data),
-            prevText: '이전',
-            nextText: '다음',
-            pageSize: 10,
-            callback: function (data, pagination){
-                var dataHtml = '';
-                var idxHtml = `<option value="" selected>카테고리를 선택해주세요</option><option value="none">전체</option>`;
-                $.each(data, function (index, task){
-                let progress = '';
-                let startdate = new Date(task.startdate)
-                let deadline = new Date(task.deadline)
-                if(today < startdate ){
-                    progress = '예정'
-                }else if((startdate <= today) && (today <= deadline)){
-                    progress = '진행 중'
-                }else{
-                    progress = '마감'
-                }
-                dataHtml +=  `
-                    <td class="col-3">${ task.startdate } ~ ${ task.deadline } (${progress})</td>               
+                dataSource: JSON.parse(data),
+                prevText: '이전',
+                nextText: '다음',
+                pageSize: 10,
+                callback: function (data, pagination) {
+                    var dataHtml = '';
+                    var idxHtml = `<option value="" selected>카테고리를 선택해주세요</option><option value="none">전체</option>`;
+                    $.each(data, function (index, task) {
+                        let progress = '';
+                        let startdate = new Date(task.startdate)
+                        let deadline = new Date(task.deadline)
+                        if (today < startdate) {
+                            progress = '예정'
+                        } else if ((startdate <= today) && (today <= deadline)) {
+                            progress = '진행 중'
+                        } else {
+                            progress = '마감'
+                        }
+                        dataHtml += `
+                    <td class="col-3">${task.startdate} ~ ${task.deadline} (${progress})</td>               
                     <td class="col-3">${task.name}업무</td>          
                     <td class="col-4"> ${task.contents}</td>
                     <td class="col-2"> <button onclick="get_taskban(${task.id})">✏️</button>
                     <button onclick="delete_task(${task.id})">❌</button></td>`;
                     });
-                category_set = new Set(category_list)
-                category_list = [...category_set]
-                $.each(category_list, function(idx, val){
-                    idxHtml += `<option value="${val}">${val}</option>`
-                })
-                $('#task-category-select').html(idxHtml);
-                $('#task-tr').html(dataHtml);
+                    category_set = new Set(category_list)
+                    category_list = [...category_set]
+                    $.each(category_list, function (idx, val) {
+                        idxHtml += `<option value="${val}">${val}</option>`
+                    })
+                    $('#task-category-select').html(idxHtml);
+                    $('#task-tr').html(dataHtml);
+                }
+            })
+
+        },
+        error: function (xhr, status, error) {
+            alert(xhr.responseText);
         }
     })
-
-    },
-    error: function(xhr, status, error){
-        alert(xhr.responseText);
-    }
-})
 }
 
-async function sort_task(value){
+async function sort_task(value) {
     var dataHtml = '';
     let container = $('#task-pagination')
-    const data = taskData.filter((e)=>{
-        if(value == 'none'){
+    const data = taskData.filter((e) => {
+        if (value == 'none') {
             return e.name
-        }else{
+        } else {
             return e.name == value;
         }
     })
     await container.pagination({
-            dataSource: data,
-            prevText: '이전',
-            nextText: '다음',
-            pageSize: 10,
-            callback: function (data, pagination){
-                var dataHtml = '';
-                var idxHtml = `<option value="none" selected>카테고리를 선택해주세요</option>`;
-                $.each(data, function (index, task){
+        dataSource: data,
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 10,
+        callback: function (data, pagination) {
+            var dataHtml = '';
+            var idxHtml = `<option value="none" selected>카테고리를 선택해주세요</option>`;
+            $.each(data, function (index, task) {
                 let progress = '';
                 let startdate = new Date(task.startdate)
                 let deadline = new Date(task.deadline)
-                if(today < startdate ){
+                if (today < startdate) {
                     progress = '예정'
-                }else if((startdate <= today) && (today <= deadline)){
+                } else if ((startdate <= today) && (today <= deadline)) {
                     progress = '진행 중'
-                }else{
+                } else {
                     progress = '마감'
                 }
-                    dataHtml +=  `
-                    <td class="col-3">${ task.startdate } ~ ${ task.deadline } (${progress})</td>              
+                dataHtml += `
+                    <td class="col-3">${task.startdate} ~ ${task.deadline} (${progress})</td>              
                     <td class="col-3">${task.name}업무</td>    
                     <td class="col-4"> ${task.contents}</td>
                     <td class="col-2"> <button onclick="get_taskban(${task.id})">✏️</button>
                     <button onclick="delete_task(${task.id})">❌</button></td>`;
-                    });
+            });
 
-                $('#task-tr').html(dataHtml);      
+            $('#task-tr').html(dataHtml);
         }
     })
 }
 
-function get_taskban(task_id){
+function get_taskban(task_id) {
     $('#taskModalLabel').html('반 별 진행 내역');
     $('#for_task_list').hide();
     $('#for_taskban_list').show();
     $.ajax({
         type: "GET",
-        url: "/manage/taskban/"+task_id,
+        url: "/manage/taskban/" + task_id,
         data: {},
         success: function (response) {
-            let temp_task_ban_box ='';
-            for(i=0;i<response['target_taskban'].length;i++){
+            let temp_task_ban_box = '';
+            for (i = 0; i < response['target_taskban'].length; i++) {
                 let target = response['target_taskban'][i]
                 let id = target["id"]
                 let ban = target["ban"]
                 let done = target["done"]
-                if(done == 0){
-                    done = '미진행' 
-                }else{
+                if (done == 0) {
+                    done = '미진행'
+                } else {
                     done = '진행완료'
                 }
                 temp_task_ban_box += `
@@ -313,48 +354,48 @@ function get_taskban(task_id){
                 `;
                 $('#taskban_list').html(temp_task_ban_box);
             }
-        } 
+        }
     });
 }
-async function delete_consulting(idx){
-   const csrf = $('#csrf_token').val();
-   var con_val = confirm('정말 삭제하시겠습니까?')
-   if(con_val == true){
-    await $.ajax({
-        url: '/manage/api/delete_consulting/' + idx ,
-        type: 'get',
-        headers: {'content-type': 'application/json'},
-        data: {},
-        success: function(data){
-            if (data.status == 200){
-                alert(`삭제되었습니다.`)
-            }else {
-                alert(`실패 ${data.status} ${data.text}`)
-            }
-        },
-        error: function(xhr, status, error){
-            alert(xhr.responseText);
-        }
-    })
-    get_consulting()
-    }
-}
-async function delete_task(idx){
-    var con_val = confirm('정말 삭제하시겠습니까')
-    if(con_val == true){
+async function delete_consulting(idx) {
+    const csrf = $('#csrf_token').val();
+    var con_val = confirm('정말 삭제하시겠습니까?')
+    if (con_val == true) {
         await $.ajax({
-            url: '/manage/api/delete_task/' + idx ,
+            url: '/manage/api/delete_consulting/' + idx,
             type: 'get',
-            headers: {'content-type': 'application/json'},
+            headers: { 'content-type': 'application/json' },
             data: {},
-            success: function(data){
-                if (data.status == 200){
+            success: function (data) {
+                if (data.status == 200) {
                     alert(`삭제되었습니다.`)
-                }else {
+                } else {
                     alert(`실패 ${data.status} ${data.text}`)
                 }
             },
-            error: function(xhr, status, error){
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        })
+        get_consulting()
+    }
+}
+async function delete_task(idx) {
+    var con_val = confirm('정말 삭제하시겠습니까')
+    if (con_val == true) {
+        await $.ajax({
+            url: '/manage/api/delete_task/' + idx,
+            type: 'get',
+            headers: { 'content-type': 'application/json' },
+            data: {},
+            success: function (data) {
+                if (data.status == 200) {
+                    alert(`삭제되었습니다.`)
+                } else {
+                    alert(`실패 ${data.status} ${data.text}`)
+                }
+            },
+            error: function (xhr, status, error) {
                 alert(xhr.responseText);
             }
         })
@@ -362,64 +403,36 @@ async function delete_task(idx){
     }
 }
 
-function changeBaninfo(b_id){
-    if( b_id == '전체 반'){
-        $('#select_student').hide();
-        $('#target_bans').empty();
-    }else{
-        var selectedOptions = $('#consulting_target_ban').val()
-        
-        // 중복제거 
-        selectedOptions = selectedOptions.filter(function(i){
-            return selectedOptions.indexOf(i) === -1;
-        });
-        //  val 갱신 
-        $('#consulting_target_ban').val(selectedOptions);
-        console.log($('#consulting_target_ban').val())
-        // $('#target_bans').empty()
-        // for(i=0;i<selectedOptions.length;i++){
-        //     let id = selectedOptions[i].split('@')[0]
-        //     let name = selectedOptions[i].split('@')[1]
-        //     let temp_target_ban = `
-        //     <p> ${name} <button onclick="delete_selected_ban(${id})">❌</button><button onclick="get_ban_students(${id})">학생선택</button></p>
-        //     `;
-        //     $('#target_bans').append(temp_target_ban); 
-        // }
-    }
-}
-function delete_selected_ban(b_id){
-    $('#consulting_target_ban').pop(b)
-}
-function plusconsulting(student_id,is_done){
+function plusconsulting(student_id, is_done) {
     $.ajax({
         type: "GET",
-        url: "/manage/get_consulting_history/"+student_id,
+        url: "/manage/get_consulting_history/" + student_id,
         data: {},
         success: function (response) {
-            if(response["consulting_list"] == '없음'){
+            if (response["consulting_list"] == '없음') {
                 $('#consultinghistoryModalLabelt').html('진행 한 상담이 없습니다.')
-            //     $('#consulting_list').hide();
-            //     let temp_consulting_contents_box = `
-            //     <p> 오늘의 상담 업무를 완료했습니다 🎉</p>
-            //     `;
-            //     $('#consulting_msg').html(temp_consulting_contents_box);
-            }else{
+                //     $('#consulting_list').hide();
+                //     let temp_consulting_contents_box = `
+                //     <p> 오늘의 상담 업무를 완료했습니다 🎉</p>
+                //     `;
+                //     $('#consulting_msg').html(temp_consulting_contents_box);
+            } else {
                 $('#consultinghistoryModalLabelt').html('상담일지 작성')
                 $('#consulting_write_box').empty();
                 let r_target = response["consulting_list"]
-                for(i=0;i<r_target.length;i++){
+                for (i = 0; i < r_target.length; i++) {
                     let target = r_target[i]
                     let category = target['category']
                     let consulting_id = target['c_id']
                     let contents = target['contents']
                     let consulting_missed = target['consulting_missed']
                     let deadline = target['deadline']
-                if(is_done == 1){
-                    let history_reason = target['history_reason']
-                    let history_solution = target['history_solution']
-                    let history_result = target['history_result']
-                    let history_created = target['history_created']
-                    let temp_consulting_contents_box = `
+                    if (is_done == 1) {
+                        let history_reason = target['history_reason']
+                        let history_solution = target['history_solution']
+                        let history_result = target['history_result']
+                        let history_created = target['history_created']
+                        let temp_consulting_contents_box = `
                     <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
                     <p >✅<strong>${category}</strong></br>${contents}</br>*마감:
                         ~${deadline}까지 | 부재중 : ${consulting_missed}</br></p>
@@ -440,9 +453,9 @@ function plusconsulting(student_id,is_done){
                     </div>
                     <p>상담 일시 : ${history_created}</p>
                     `;
-                    $('#consulting_write_box').append(temp_consulting_contents_box);
-                }else{
-                    let temp_consulting_contents_box = `
+                        $('#consulting_write_box').append(temp_consulting_contents_box);
+                    } else {
+                        let temp_consulting_contents_box = `
                     <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
                     <p >✅<strong>${category}</strong></br>${contents}</br>*마감:
                         ~${deadline}까지 | 부재중 : ${consulting_missed}</br></p>
@@ -462,9 +475,9 @@ function plusconsulting(student_id,is_done){
                             id="consulting_result${consulting_id}" style="width: 75%;"></textarea>
                     </div>
                     `;
-                    $('#consulting_write_box').append(temp_consulting_contents_box);
-                }
-                    
+                        $('#consulting_write_box').append(temp_consulting_contents_box);
+                    }
+
                 }
                 let temp_post_box = `
                 <p>✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
