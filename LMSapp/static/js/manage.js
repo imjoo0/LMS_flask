@@ -1,12 +1,10 @@
 const today = new Date();
-var previousSelections = [];
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
     paginating(0)
     getBanlist()
 })
-
-
+// 전체 반 정보 가져오는 함수 
 function getBanlist() {
     $.ajax({
         type: "GET",
@@ -36,7 +34,7 @@ function getBanlist() {
 }
 
 // 상담 요청 모달에 필요한 정보 보내주는 함수 
-async function get_consulting_request_modal() {
+async function request_consulting() {
     setInterval(function () {
         if ($(`input:checkbox[id="all_ban_target"]`).is(":checked")) {
             $('#consulting_target_ban').hide()
@@ -63,28 +61,22 @@ async function get_consulting_request_modal() {
     })
 }
 
-// 반 다중 선택 처리 / 중복 제거 
-function removeDuplicateSelections() {
+// 반 다중 선택 처리
+function change_target_ban(id) {
     var selections = [];
 
     // select 요소에서 선택된 option 엘리먼트들을 가져옴
-    var selectedOptions = $('#consulting_target_ban option:checked');
-
-    // 선택된 option 엘리먼트들의 값을 배열에 저장
-    selectedOptions.each(function () {
-        selections.push($(this).val());
-    });
-
+    var selectedOptions = $(id).val();
+    
     // 이전 선택 값들과 비교하여 중복된 값이 있으면 제거
-    selections = selections.filter(function (selection) {
-        return previousSelections.indexOf(selection) === -1;
+    selections = selectedOptions.filter((value, index, self) => {
+        return self.indexOf(value) === index;
     });
 
-    // 이전 선택 값을 갱신
-    previousSelections = selections;
-
+    console.log(selections)
     // select 요소의 값을 갱신
     $('#consulting_target_ban').val(selections);
+    console.log($('#consulting_target_ban').val())
 }
     // $('#target_bans').empty()
     // for(i=0;i<selectedOptions.length;i++){    
@@ -96,7 +88,6 @@ function removeDuplicateSelections() {
     //     `;
     //     $('#target_bans').append(temp_target_ban); 
     // }
-}
 
 function delete_selected_ban(b_id) {
     $('#consulting_target_ban').pop(b)
