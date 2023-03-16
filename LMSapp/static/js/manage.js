@@ -67,6 +67,7 @@ function change_target_ban(id) {
 
     // select 요소에서 선택된 option 엘리먼트들을 가져옴
     var selectedOptions = $(id).val();
+    console.log(selectedOptions)
     
     // 이전 선택 값들과 비교하여 중복된 값이 있으면 제거
     selections = selectedOptions.filter((value, index, self) => {
