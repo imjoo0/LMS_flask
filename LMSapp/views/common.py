@@ -43,6 +43,9 @@ def get_ban(id):
         if(id=="none"):
             print('전체 반의 네임을 가져다 줘')
             target_ban = callapi.purple_allban('get_all_ban')
+            return jsonify({
+                'target_ban': target_ban
+            })
         else:
             target_ban = callapi.purple_ban(id,'get_ban')
             if target_ban:
