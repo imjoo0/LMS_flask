@@ -18,7 +18,7 @@ function getBanlist() {
                 let semester = target_ban[i]['semester']
                 let t_id = target_ban[i]['teacher_register_no']
                 let b_id = target_ban[i]['register_no']
-                let value = b_id + '@' + t_id + '@' + name
+                let value = name + '@' + b_id + '@' + t_id
                 temp_ban_option += `
                 <option value=${value}>${name} (${semester}월 학기)</option>
                 `;
@@ -66,26 +66,25 @@ function change_target_ban(id) {
 
     // select 요소에서 선택된 option 엘리먼트들을 가져옴
     var selectedOptions = $(id).val();
-    
-    // 이전 선택 값들과 비교하여 중복된 값이 있으면 제거
-    selectedOptions = selectedOptions.filter((value, index, self) => {
-        return self.indexOf(value) === index;
-    });
-    // select 요소의 값을 갱신
-    $('#consulting_target_ban').val(selectedOptions);
-    console.log($('#consulting_target_ban').val())
-}
-    // $('#target_bans').empty()
-    // for(i=0;i<selectedOptions.length;i++){    
-        // let b_id = selectedOptions[i].split('@')[0]
-        // let t_id = selectedOptions[i].split('@')[1]
-        // let name = selectedOptions[i].split('@')[2]
-    //     let temp_target_ban = `
-    //     <p> ${name} <button onclick="delete_selected_ban(${id})">❌</button><button onclick="get_ban_students(${id})">학생선택</button></p>
-    //     `;
-    //     $('#target_bans').append(temp_target_ban); 
-    // }
 
+    let temp_target_ban = '<p>선택한 반 리스트</p>';
+    for(i=0;i<selectedOptions.length;i++){    
+        let value = selectedOptions[i].split('@')[1]
+        let name = selectedOptions[i].split('@')[0]
+        temp_target_ban += `
+        <p> ${name} <button onclick="delete_selected_ban(${value})">❌</button><button onclick="get_ban_students(${value})">학생선택</button></p>
+        `;
+        $('#target_bans').html(temp_target_ban); 
+    }
+    
+    // // 이전 선택 값들과 비교하여 중복된 값이 있으면 제거
+    // selectedOptions = selectedOptions.filter((value, index, self) => {
+    //     return self.indexOf(value) === index;
+    // });
+    // // select 요소의 값을 갱신
+    // $('#consulting_target_ban').val(selectedOptions);
+    // console.log($('#consulting_target_ban').val())
+}
 function delete_selected_ban(b_id) {
     $('#consulting_target_ban').pop(b)
 }
