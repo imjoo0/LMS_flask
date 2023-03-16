@@ -58,7 +58,7 @@ async function request_consulting() {
                 $('#consulting_category_list').html(temp_consulting_category_list)
             }
             // select 요소에서 선택된 option 엘리먼트들을 가져옴
-            var selectedOptions = $(id).val();
+            var selectedOptions = $('#consulting_target_ban').val();
 
             let temp_target_ban = '<p>선택한 반 리스트</p>';
             for(i=0;i<selectedOptions.length;i++){    
