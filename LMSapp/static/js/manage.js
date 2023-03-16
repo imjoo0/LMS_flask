@@ -63,20 +63,16 @@ async function request_consulting() {
 
 // 반 다중 선택 처리
 function change_target_ban(id) {
-    var selections = [];
 
     // select 요소에서 선택된 option 엘리먼트들을 가져옴
     var selectedOptions = $(id).val();
-    console.log(selectedOptions)
     
     // 이전 선택 값들과 비교하여 중복된 값이 있으면 제거
-    selections = selectedOptions.filter((value, index, self) => {
+    selectedOptions = selectedOptions.filter((value, index, self) => {
         return self.indexOf(value) === index;
     });
-
-    console.log(selections)
     // select 요소의 값을 갱신
-    $('#consulting_target_ban').val(selections);
+    $('#consulting_target_ban').val(selectedOptions);
     console.log($('#consulting_target_ban').val())
 }
     // $('#target_bans').empty()
