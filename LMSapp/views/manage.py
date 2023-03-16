@@ -176,8 +176,8 @@ def request_consulting():
         if received_target_ban == '전체 반':
             target_class = callapi.purple_allinfo('get_all_ban_student')
             print(target_class)
-            for i in range(len(target_class)):
-                new_consulting = Consulting(ban_id=target_class[i]['class_id'], category_id=received_category, student_id=students[s]['register_no'],
+            for c in target_class:
+                new_consulting = Consulting(ban_id=c['ban_id'], category_id=received_category, student_id=c['student_id'],
                                             contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
                 db.session.add(new_consulting)
                 db.session.commit()
@@ -185,6 +185,7 @@ def request_consulting():
         else:
             #  상담을 진행할 학생 저장
             received_target_student = request.form.getlist('consulting_target_student[]')
+            print(received_target_student)
             # 전체 학생이 포함된 문자열일 경우 
             if received_target_student == '전체학생':
                 target_student_list = callapi.purple_info(received_target_ban,'get_students')
