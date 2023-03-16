@@ -36,13 +36,20 @@ function getBanlist(){
     
 }
 
-function request_consulting(){
-    $.ajax({
+async function request_consulting(){
+    is_consulting_all = $(`input:checkbox[id="all_ban_target"]`).is(":checked")
+    if(is_consulting_all){
+        $('#consulting_target_ban').hide()
+    }else{
+        $('#consulting_target_ban').show()
+    }
+    await $.ajax({
         url: '/manage/request',
         type: 'GET',
         data: {},
         success: function(response){
             let consulting_category_list = '';
+
             for(i=0;i<target_ban.length;i++){
                 console.log(target_ban[i])
                 let name = target_ban[i]['name']
