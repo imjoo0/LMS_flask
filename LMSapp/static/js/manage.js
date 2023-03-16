@@ -72,20 +72,20 @@ $('#consulting_target_ban').change(function() {
     }
   });
 
-// 반 다중 선택 처리
-function change_target_ban(id) {
-
+// 반 선택 취소
+function delete_selected_ban(value) {
     // select 요소에서 선택된 option 엘리먼트들을 가져옴
-    var selectedOptions = $(id).val();
-
-    let temp_target_ban = '<p>선택한 반 리스트</p>';
-    for(i=0;i<selectedOptions.length;i++){    
-        let value = selectedOptions[i].split('@')[1]
-        let name = selectedOptions[i].split('@')[0]
-        temp_target_ban += `
-        <p> ${name} <button onclick="delete_selected_ban(${value})">❌</button><button onclick="get_ban_students(${value})">학생선택</button></p>
-        `;
-        $('#target_bans').html(temp_target_ban); 
+    var selectedOptions = $('#consulting_target_ban').val()
+    console.log(selectedOptions)
+    const newselectedOptions = selectedOptions.filter(function(val){
+        return val !== value
+    });
+    console.log(newselectedOptions)
+    $('#target_bans').empty()
+    for (var i = 0; i < newselectedOptions.length; i++) {
+        var optionText = $('#consulting_target_ban option[value="' + newselectedOptions[i] + '"]').text();
+        var selectedOptions = '<li>' + optionText + ` <button onclick="delete_selected_ban(${newselectedOptions[i]})">❌</button><button onclick="get_ban_students(${newselectedOptions[i]})">학생선택</button>`+'</li>';
+        $('#target_bans').append('<ul>' + selectedOptions + '</ul>');
     }
     
     // // 이전 선택 값들과 비교하여 중복된 값이 있으면 제거
