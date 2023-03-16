@@ -18,7 +18,7 @@ function getBanlist() {
                 let semester = target_ban[i]['semester']
                 let t_id = target_ban[i]['teacher_register_no']
                 let b_id = target_ban[i]['register_no']
-                let value = name + '@' + b_id + '@' + t_id
+                let value = b_id + '@' + t_id
                 temp_ban_option += `
                 <option value="${value}">${name} (${semester}월 학기)</option>
                 `;
@@ -69,10 +69,10 @@ $('#consulting_target_ban').change(function() {
   
     for (var i = 0; i < selectedValues.length; i++) {
       var optionText = $('#consulting_target_ban option[value="' + selectedValues[i] + '"]').text();
-      selectedOptions += '<li>' + optionText + '</li>';
+      selectedOptions += '<li>' + optionText + ` <button onclick="delete_selected_ban(${selectedValues[i]})">❌</button><button onclick="get_ban_students(${selectedValues[i]})">학생선택</button>`+'</li>';
     }
   
-    $('#target_bans').append('<ul>' + selectedOptions + '</ul>');
+    $('#target_bans').html('<ul>' + selectedOptions + '</ul>');
   });
 
 // 반 다중 선택 처리
