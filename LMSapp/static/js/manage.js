@@ -4,6 +4,61 @@ $(document).ready(function () {
     paginating(0) 
     getBanlist()
 })
+
+
+function getBanlist(){
+    $.ajax({
+        type: "GET",
+        url: "/common/all_ban",
+        data: {},
+        success: function (response) {
+            let temp_ban_option = '';
+            let target_ban = response['target_ban']
+            for(i=0;i<target_ban.length;i++){
+                console.log(target_ban[i])
+                let name = target_ban[i]['name']
+                let semester = target_ban[i]['semester']
+                let t_id = target_ban[i]['teacher_register_no']
+                let b_id = target_ban[i]['register_no']
+                let value = b_id+'@'+t_id+'@'+name
+                console.log(value)
+                temp_ban_option += `
+                <option value=${value}>${name} (${semester}월 학기)</option>
+                `;
+            }
+            $('#ban_list').html(temp_ban_option)
+        },
+        error:function(xhr, status, error){
+                alert('xhr.responseText');
+            }
+    })
+    
+}
+
+function request_consulting(){
+    $.ajax({
+        url: '/manage/request',
+        type: 'GET',
+        data: {},
+        success: function(response){
+            let consulting_category_list = '';
+            for(i=0;i<target_ban.length;i++){
+                console.log(target_ban[i])
+                let name = target_ban[i]['name']
+                let semester = target_ban[i]['semester']
+                let t_id = target_ban[i]['teacher_register_no']
+                let b_id = target_ban[i]['register_no']
+                let value = b_id+'@'+t_id+'@'+name
+                console.log(value)
+                temp_ban_option += `
+                <option value=${value}>${name} (${semester}월 학기)</option>
+                `;
+                $('#ban_list').html(temp_ban_option)
+            }
+        }
+    })
+}
+
 function go_back(){
     $('#for_taskban_list').hide();
     $('#for_task_list').show();
@@ -426,36 +481,4 @@ function plusconsulting(student_id,is_done){
         }
     });
     // $('#today_consulting_box').show();
-}
-
-
-function getBanlist(){
-    $.ajax({
-        type: "GET",
-        url: "/common/ban",
-        data: {},
-        success: function (response) {
-            console.log(response['target_ban'])
-            let target_ban = response['target_ban']
-            $('ban_list').empty();
-            for(i=0;i<target_ban.length;i++){
-                console.log(target_ban[i])
-                let name = target_ban[i]['name']
-                let semester = target_ban[i]['semester']
-                let t_id = target_ban[i]['teacher_register_no']
-                let b_id = target_ban[i]['register_no']
-                let value = b_id+'@'+t_id+'@'+name
-                console.log(value)
-                let temp_ban_option = `
-                <option value=${value}>${name} (${semester}월 학기)</option>
-                `;
-                $('#ban_list').append(temp_ban_option)
-            }
-
-        },
-        error:function(xhr, status, error){
-                alert('xhr.responseText');
-            }
-    })
-    
 }

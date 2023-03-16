@@ -37,7 +37,7 @@ def save_attachment(file, q_id):
 #     save_attachment(file,id)
 
 # 통계 자료
-@bp.route("/ban", methods=['GET'])
+@bp.route("/all_ban", methods=['GET'])
 def get_ban():
     if request.method == 'GET':
         target_ban = callapi.purple_allban('get_all_ban')

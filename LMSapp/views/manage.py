@@ -159,9 +159,13 @@ def delete_task(id):
 
         return result
 
-@bp.route("/ban", methods=['GET', 'POST'])
+# 상담 요청 / 업무요청 
+@bp.route("/request", methods=['GET', 'POST'])
 def request_consulting():
-    if request.method == 'POST':
+    if request.method == 'GET':
+        all_consulting_category = ConsultingCategory.query.filter((ConsultingCategory.id > 100) & (ConsultingCategory.id != 110)).all()
+
+    elif request.method == 'POST':
         #  상담 카테고리 저장
         received_category = request.form['consulting_category']
         #  상담 내용 저장
