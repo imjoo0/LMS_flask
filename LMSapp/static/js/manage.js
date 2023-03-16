@@ -317,7 +317,7 @@ function changeBaninfo(b_id){
         });
         // 중복제거 
         target_bans = target_bans.filter(function(i){
-            return previousSelections.indexOf(i) === -1;
+            return selectedOptions.indexOf(i) === -1;
         });
         //  val 갱신 
         $('#consulting_target_ban').val(target_bans);
