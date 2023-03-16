@@ -67,8 +67,7 @@ $('#consulting_target_ban').change(function() {
     var selectedValues = $(this).val();
     for(var i = 0; i < selectedValues.length; i++) {
         var optionText = $('#consulting_target_ban option[value="' + selectedValues[i] + '"]').text();
-        var buttonText =  `<button onclick="delete_selected_ban(${selectedValues[i]})">❌</button><button>학생선택</button>`;
-        var selectedOptions = '<li>' + optionText + buttonText +'</li>';
+        var selectedOptions = '<li>' + optionText + ` <button onclick="delete_selected_ban(${selectedValues[i]})">❌</button><button onclick="get_ban_students(${selectedValues[i]})">학생선택</button>`+'</li>';
         $('#target_bans').append('<ul>' + selectedOptions + '</ul>');
     }
   });
@@ -76,6 +75,7 @@ $('#consulting_target_ban').change(function() {
 // 반 선택 취소
 function delete_selected_ban(value){
     // select 요소에서 선택된 option 엘리먼트들을 가져옴
+    console.log('hello')
     var selectedOptions = $('#consulting_target_ban').val()
     console.log(selectedOptions)
     const newselectedOptions = selectedOptions.filter(function(val){
