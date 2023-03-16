@@ -310,28 +310,20 @@ function changeBaninfo(b_id){
         $('#select_student').hide();
         $('#target_bans').empty();
     }else{
-        var target_bans = [];
-        var selectedOptions = $('#consulting_target_ban option:checked').toArray();
-        var selectedValues = selectedOptions.map(function(option){
-            return option.value;
+        var selectedOptions = $('#consulting_target_ban').val()
+        
+        // 중복제거 
+        selectedOptions = selectedOptions.filter(function(i){
+            return selectedOptions.indexOf(i) === -1;
         });
         console.log(selectedOptions)
-        console.log(selectedValues)
-        selectedOptions.each(function() {
-            target_bans.push($(this).val());
-        });
-        // 중복제거 
-        target_bans = target_bans.filter(function(i){
-            return selectedValues.indexOf(i) === -1;
-        });
-        console.log(target_bans)
         //  val 갱신 
-        $('#consulting_target_ban').val(target_bans);
+        $('#consulting_target_ban').val(selectedOptions);
         
         $('#target_bans').empty()
-        for(i=0;i<target_bans.length;i++){
-            let id = target_bans[i].split('@')[0]
-            let name = target_bans[i].split('@')[1]
+        for(i=0;i<selectedOptions.length;i++){
+            let id = selectedOptions[i].split('@')[0]
+            let name = selectedOptions[i].split('@')[1]
             let temp_target_ban = `
             <p> ${name} <button onclick="delete_selected_ban(${id})">❌</button><button onclick="get_ban_students(${id})">학생선택</button></p>
             `;
