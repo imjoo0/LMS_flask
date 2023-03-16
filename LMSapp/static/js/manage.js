@@ -445,6 +445,7 @@ function getBanlist(){
                 let t_id = target_ban[i]['teacher_register_no']
                 let b_id = target_ban[i]['register_no']
                 let value = b_id+'@'+t_id+'@'+name
+                console.log(value)
                 let temp_ban_option = `
                 <option value=${value}>${name} (${semester}월 학기)</option>
                 `;
