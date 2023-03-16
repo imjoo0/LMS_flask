@@ -14,7 +14,6 @@ function getBanlist(){
         success: function (response) {
             let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
             let target_ban = response['target_ban']
-            $('#consulting_target_ban').empty()
             for(i=0;i<target_ban.length;i++){
                 console.log(target_ban[i])
                 let name = target_ban[i]['name']
@@ -27,7 +26,7 @@ function getBanlist(){
                 `;
             }
             $('#ban_list').html(temp_ban_option)
-            $('#consulting_target_ban').append(temp_ban_option)
+            $('#consulting_target_ban').html(temp_ban_option)
         },
         error:function(xhr, status, error){
                 alert('xhr.responseText');
