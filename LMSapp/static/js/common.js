@@ -108,6 +108,9 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list, consu
     });
 }
 function getBanInfo(b_id){
+    if(b_id == "none"){
+        b_id = -1
+    }
     console.log(b_id)
     $.ajax({
         type: "GET",

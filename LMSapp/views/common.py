@@ -40,7 +40,7 @@ def save_attachment(file, q_id):
 @bp.route("/ban/<int:id>", methods=['GET'])
 def get_ban(id):
     if request.method == 'GET':
-        if(id=="none"):
+        if(id==-1):
             print('전체 반의 네임을 가져다 줘')
             target_ban = callapi.purple_allban('get_all_ban')
             return jsonify({
