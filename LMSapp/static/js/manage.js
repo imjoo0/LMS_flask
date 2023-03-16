@@ -65,14 +65,12 @@ async function request_consulting() {
 
 $('#consulting_target_ban').change(function() {
     var selectedValues = $(this).val();
-    var selectedOptions = '';
-  
+    $('#target_bans').empty()
     for (var i = 0; i < selectedValues.length; i++) {
-      var optionText = $('#consulting_target_ban option[value="' + selectedValues[i] + '"]').text();
-      selectedOptions += '<li>' + optionText + ` <button onclick="delete_selected_ban(${selectedValues[i]})">❌</button><button onclick="get_ban_students(${selectedValues[i]})">학생선택</button>`+'</li>';
+        var optionText = $('#consulting_target_ban option[value="' + selectedValues[i] + '"]').text();
+        var selectedOptions = '<li>' + optionText + ` <button onclick="delete_selected_ban(${selectedValues[i]})">❌</button><button onclick="get_ban_students(${selectedValues[i]})">학생선택</button>`+'</li>';
+        $('#target_bans').append('<ul>' + selectedOptions + '</ul>');
     }
-  
-    $('#target_bans').html('<ul>' + selectedOptions + '</ul>');
   });
 
 // 반 다중 선택 처리
