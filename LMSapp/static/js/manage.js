@@ -326,7 +326,7 @@ async function changeBaninfo(b_id){
                 return alert(response['text'])
             }
             let temp_target_ban = `
-            <p> 선택 - ${selected_bans[name]} <button onclick="delete_selected_ban(${id})">❌</button></p>
+            <p> 선택 - ${name} <button onclick="delete_selected_ban(${id})">❌</button></p>
             `;
             $('#target_bans').append(temp_target_ban); 
         }
