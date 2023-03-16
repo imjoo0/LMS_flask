@@ -123,20 +123,20 @@ function getBanInfo(b_id){
                 let no_data_title = `<h1> ${response.text} </h1>`
                 $('#s_data').html(no_data_title);
                 $('#pagingul').hide();
-                return
+                return alert('no data')
             }
-            if(b_id == 0){
-                let temp_ban_option =''
+            if(b_id == "none"){
+                $('ban_list').empty();
                 for(i=0;i<target_ban.length;i++){
                     let name = target_ban[i]['name']
                     let semester = target_ban[i]['semester']
                     let t_id = target_ban[i]['teacher_register_no']
                     let b_id = target_ban[i]['register_no']
                     let value = b_id+'@'+t_id+'@'+name
-                    temp_ban_option += `
+                     `
                     <option value=${value}>${name} (${semester}월 학기)</option>
                     `;
-                    $('ban_list').html(temp_ban_option)
+                    $('ban_list').append(temp_ban_option)
                 }
             }else{
                 
