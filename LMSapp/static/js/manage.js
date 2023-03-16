@@ -325,11 +325,10 @@ async function changeBaninfo(b_id){
             if (response['status'] == 400){
                 return alert(response['text'])
             }
-            let temp_target_ban = ''
-            temp_target_ban += `
+            let temp_target_ban = `
             <p> 선택 - ${selected_bans[name]} <button onclick="delete_selected_ban(${id})">❌</button></p>
             `;
-            $('#target_bans').html(temp_target_ban); 
+            $('#target_bans').append(temp_target_ban); 
         }
         
     })

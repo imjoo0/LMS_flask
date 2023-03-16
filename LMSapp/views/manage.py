@@ -264,7 +264,7 @@ def get_ban_teacher(id):
             else:
                 return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
         else:
-            return jsonify({'students':'전체 진행'})
+            return jsonify({'students':'전체진행'})
 
 
 @bp.route("/ban/<int:id>", methods=['GET'])
