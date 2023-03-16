@@ -315,8 +315,7 @@ function changeBaninfo(b_id){
         var selectedValues = selectedOptions.map(function(option){
             return option.value;
         });
-        console.log(selectedOptions)
-        selectedOptions.each(function() {
+        selectedValues.each(function() {
             target_bans.push($(this).val());
         });
         // 중복제거 
