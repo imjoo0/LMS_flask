@@ -238,11 +238,7 @@
                     <div class="make_row">
                         <select class="border rounded-0 form-control form-control-sm" name="consulting_category" id="consulting_category_list"
                             style=" width: 150px; height: 100%; margin-left:0;">
-                            <optgroup label="상담카테고리 선택">
-                                {% for category in consulting_category %}
-                                <option value="{{ category.id }}">{{ category.name }}</option>
-                                {% endfor %}
-                            </optgroup>
+                            
                         </select>
                         <input class="border rounded-0 form-control form-control-sm" type="text"
                             name="consulting_contents" placeholder="상담 내용을 입력해주세요">

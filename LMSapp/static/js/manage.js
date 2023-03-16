@@ -48,20 +48,19 @@ async function request_consulting(){
         type: 'GET',
         data: {},
         success: function(response){
-            let consulting_category_list = '';
+            let consulting_category_list = '<option value=0 selected>상담카테고리를 선택해주세요</option>';
 
-            for(i=0;i<target_ban.length;i++){
-                console.log(target_ban[i])
-                let name = target_ban[i]['name']
-                let semester = target_ban[i]['semester']
-                let t_id = target_ban[i]['teacher_register_no']
-                let b_id = target_ban[i]['register_no']
+            for(i=0;i<response.length;i++){
+                console.log(response[i])
+                let id = response[i]['id']
+                let name = response[i]['name']
                 let value = b_id+'@'+t_id+'@'+name
                 console.log(value)
-                temp_ban_option += `
-                <option value=${value}>${name} (${semester}월 학기)</option>
+                temp_category_option += `
+
+                <option value=${id}>${name}</option>
                 `;
-                $('#ban_list').html(temp_ban_option)
+                $('#consulting_category_list').html(temp_category_option)
             }
         }
     })

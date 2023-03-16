@@ -163,7 +163,18 @@ def delete_task(id):
 @bp.route("/request", methods=['GET', 'POST'])
 def request_consulting():
     if request.method == 'GET':
-        all_consulting_category = ConsultingCategory.query.filter((ConsultingCategory.id > 100) & (ConsultingCategory.id != 110)).all()
+        all_consulting_category = []
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute("select consultingcategory.id, consultingcategory.name from consultingcategory where consultingcategory.id > 100 and consultingcategory.id != 110;")
+                all_consulting_category = cur.fetchall()
+        except Exception as e:
+            print(e)
+        finally:
+            db.close()
+
+        return json.dumps(all_consulting_category)
 
     elif request.method == 'POST':
         #  상담 카테고리 저장
