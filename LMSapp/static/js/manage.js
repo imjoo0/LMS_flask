@@ -47,18 +47,16 @@ async function request_consulting(){
         type: 'GET',
         data: {},
         success: function(response){
-            let consulting_category_list = '<option value=0 selected>상담카테고리를 선택해주세요</option>';
-
+            let temp_consulting_category_list = '<option value=0 selected>상담카테고리를 선택해주세요</option>';
             for(i=0;i<response.length;i++){
                 console.log(response[i])
                 let id = response[i]['id']
                 let name = response[i]['name']
-                console.log(value)
-                temp_category_option += `
+                temp_consulting_category_list += `
 
                 <option value=${id}>${name}</option>
                 `;
-                $('#consulting_category_list').html(temp_category_option)
+                $('#consulting_category_list').html(temp_consulting_category_list)
             }
         }
     })
