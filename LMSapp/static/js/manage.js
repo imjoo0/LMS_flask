@@ -36,7 +36,7 @@ function getBanlist() {
 }
 
 // 상담 요청 모달에 필요한 정보 보내주는 함수 
-async function request_consulting() {
+async function get_consulting_request_modal() {
     setInterval(function () {
         if ($(`input:checkbox[id="all_ban_target"]`).is(":checked")) {
             $('#consulting_target_ban').hide()
