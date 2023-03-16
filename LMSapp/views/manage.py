@@ -257,11 +257,14 @@ def request_task():
 @bp.route("/ban_teacher/<int:id>", methods=['GET'])
 def get_ban_teacher(id):
     if request.method == 'GET':
-        students = callapi.purple_info(id,'get_student_simple')
-        if students:
-            return jsonify({'students':students})
+        if(id != 0):
+            students = callapi.purple_info(id,'get_student_simple')
+            if students:
+                return jsonify({'students':students})
+            else:
+                return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
         else:
-            return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
+            return jsonify({'students':'전체 진행'})
 
 
 @bp.route("/ban/<int:id>", methods=['GET'])

@@ -306,11 +306,14 @@ async function delete_task(idx){
 }
 
 async function changeBaninfo(b_id){
-    let id = b_id.split('@')[0]
+    let id = 0
+    let name = ''
     if( b_id == '전체 반'){
         $('#select_student').hide();
         $('#target_bans').empty();
     }else{
+        id = b_id.split('@')[0]
+        name = b_id.split('@')[1]
         $('#select_student').show();
     }
     await $.ajax({
@@ -322,17 +325,11 @@ async function changeBaninfo(b_id){
             if (response['status'] == 400){
                 return alert(response['text'])
             }
-            // 선택한 반 보여주기 
-            $('#target_bans').empty()
-            let selected_bans = $('#target_bans').val()
-            for(i=0;i<selected_bans.length;i++){
-                let id = selected_bans[i].split('@')[0]
-                let name = selected_bans[i].split('@')[1]
-                let temp_target_ban = `
+            let temp_target_ban = ''
+            temp_target_ban += `
             <p> 선택 - ${selected_bans[name]} <button onclick="delete_selected_ban(${id})">❌</button></p>
             `;
-            $('#target_bans').append(temp_target_ban);
-            }
+            $('#target_bans').html(temp_target_ban); 
         }
         
     })
