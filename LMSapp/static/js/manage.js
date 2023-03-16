@@ -20,7 +20,7 @@ function getBanlist() {
                 let b_id = target_ban[i]['register_no']
                 let value = name + '@' + b_id + '@' + t_id
                 temp_ban_option += `
-                <option value=${value}>${name} (${semester}월 학기)</option>
+                <option value="${value}">${name} (${semester}월 학기)</option>
                 `;
             }
             $('#ban_list').html(temp_ban_option)
