@@ -96,9 +96,7 @@ function delete_selected_ban(value) {
     // $('#consulting_target_ban').val(selectedOptions);
     // console.log($('#consulting_target_ban').val())
 }
-function delete_selected_ban(b_id) {
-    $('#consulting_target_ban').pop(b)
-}
+
 
 function go_back() {
     $('#for_taskban_list').hide();
