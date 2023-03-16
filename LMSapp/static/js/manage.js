@@ -15,7 +15,6 @@ function getBanlist(){
             let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
             let target_ban = response['target_ban']
             for(i=0;i<target_ban.length;i++){
-                console.log(target_ban[i])
                 let name = target_ban[i]['name']
                 let semester = target_ban[i]['semester']
                 let t_id = target_ban[i]['teacher_register_no']
@@ -54,7 +53,6 @@ async function request_consulting(){
                 console.log(response[i])
                 let id = response[i]['id']
                 let name = response[i]['name']
-                let value = b_id+'@'+t_id+'@'+name
                 console.log(value)
                 temp_category_option += `
 
