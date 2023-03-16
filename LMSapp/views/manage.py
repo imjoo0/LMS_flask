@@ -181,7 +181,6 @@ def request_consulting():
             # 전체 반이 선택 된 경우
             if target_ban == '전체 반':
                 target_class = callapi.purple_allinfo('get_all_ban_student')
-                print(target_class)
                 for c in target_class:
                     new_consulting = Consulting(ban_id=c['ban_id'], category_id=received_category, student_id=c['student_id'],
                                                 contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')

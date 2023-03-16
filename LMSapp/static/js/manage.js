@@ -324,11 +324,16 @@ async function changeBaninfo(b_id){
             let ban_name = response['target_ban']['ban_name'];
             let teacher_id = response['target_ban']['teacher_register_no']
 
-            // 상담요청시 뷰 바꿔주는 부분 
-            let temp_target_ban = `
-            <p> 선택 - ${ban_name} <a></p>
+            // 선택한 반 보여주기 
+            $('#target_bans').empty()
+            let selected_bans = $('#target_bans').val()
+            for(i=0;i<selected_bans.length;i++){
+                let temp_target_ban = `
+            <p> 선택 - ${selected_bans[i]} <a></p>
             `;
-            $('#target_bans').html(temp_target_ban);
+            $('#target_bans').append(temp_target_ban);
+            }
+            
 
             // 전체 학생 대상 진행 append 
             let target_all_student = `<option value="전체학생@${teacher_id}">✔️ ${ban_name}반 전체 학생 대상 진행</option>`;

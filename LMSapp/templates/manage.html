@@ -255,7 +255,7 @@
                                 <optgroup label="상담 진행 반 선택">
                                     <option value="전체 반">✔️ 전체 반 대상 진행 ( 저장 클릭 후 5분 소요 됩니다 ) </option>
                                     {% for ban in all_ban %}
-                                    {% set ban_regi = ban['register_no'] %}
+                                    {% set ban_regi = ban['register_no']+'@'+ban['name'] %}
                                     <option value="{{ban_regi}}">{{ ban['name'] }}</option>
                                     {% endfor %}
                                 </optgroup>
