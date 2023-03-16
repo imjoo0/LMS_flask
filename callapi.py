@@ -40,6 +40,16 @@ def purple_ban(id,url):
     else:
         return False
 
+def purple_allinfo(url):
+    result = requests.post(config.api + url, headers=headers, data=json.dumps({'data':{}}))
+    result = result.json()
+    if(len(result) > 0):
+        if(len(result) == 1):
+            result = result[0]
+        return result
+    else:
+        return False
+    
 def purple_allban(url):
     result = requests.post(config.api + url, headers=headers, data=json.dumps({'data':{}}))
     result = result.json()

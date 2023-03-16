@@ -167,26 +167,25 @@ def request_consulting():
         #  상담 내용 저장
         received_consulting = request.form['consulting_contents']
         #  상담을 진행할 반 저장
-        received_target_ban = request.form['consulting_target_ban']
+        received_target_ban = request.form.getlist('consulting_target_ban[]')
         #  상담을 진행할 시작일 저장
         received_consulting_startdate = request.form['consulting_date']
         #  상담을 마무리할 마감일 저장
         received_consulting_deadline = request.form['consulting_deadline']
         # 전체 반이 선택 된 경우
         if received_target_ban == '전체 반':
-            target_class = callapi.purple_allban('get_all_ban')
+            target_class = callapi.purple_allinfo('get_all_ban_student')
+            print(target_class)
             for i in range(len(target_class)):
-                students = callapi.purple_info(target_class[i]['register_no'],'get_students')
-                for s in range(len(students)):
-                    new_consulting = Consulting(ban_id=target_class[i]['register_no'], category_id=received_category, student_id=students[s]['register_no'],
-                                                contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
-                    db.session.add(new_consulting)
-                    db.session.commit()
+                new_consulting = Consulting(ban_id=target_class[i]['class_id'], category_id=received_category, student_id=students[s]['register_no'],
+                                            contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
+                db.session.add(new_consulting)
+                db.session.commit()
         # 개별 반 선택 된 경우 
         else:
             #  상담을 진행할 학생 저장
-            received_target_student = request.form['consulting_target_student']
-            # 전체 학생일 경우 
+            received_target_student = request.form.getlist('consulting_target_student[]')
+            # 전체 학생이 포함된 문자열일 경우 
             if received_target_student == '전체학생':
                 target_student_list = callapi.purple_info(received_target_ban,'get_students')
                 for student in target_student_list:
