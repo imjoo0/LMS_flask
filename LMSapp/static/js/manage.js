@@ -47,7 +47,7 @@ async function request_consulting() {
             option_text = $('#consulting_target_ban option[value="' + selectedList[i] + '"]').text(); 
             var selectedOptions = `
             <li>
-                ${option_text} <button onclick="delete_selected_ban(${selectedList},${selectedList[i]})">❌</button>  
+                ${option_text} <button onclick="delete_selected_ban('${selectedList}','${selectedList[i]}')">❌</button>  
             </li>
             `
             $('#target_bans').append(selectedOptions);
