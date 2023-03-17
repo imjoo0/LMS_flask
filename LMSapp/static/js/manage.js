@@ -66,7 +66,7 @@ async function request_consulting() {
                 $('#target_bans').append(selectedOptions);
             }
             
-        }value
+        }
     });
     // 반 선택 되면 변화에 따라 함수 실행 
     setInterval(function () {
