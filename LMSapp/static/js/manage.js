@@ -71,6 +71,8 @@ function delete_selected_ban(idx){
     }
 }
 function get_select_student(idx){
+    console.log(idx)
+    console.log('어ㅣ룬')
     if($(`input:checkbox[id="all_student_target${idx}"]`).is(":checked")) {
         $('#student_select'+idx).hide()
         $('#select_student').hide()
