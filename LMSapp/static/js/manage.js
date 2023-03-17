@@ -58,7 +58,10 @@ function delete_selected_ban(idx){
         option_text = $('#consulting_target_ban option[value="' + selectedList[i] + '"]').text(); 
         var selectedOptions = `
         <li>
-            ${option_text} <button onclick="delete_selected_ban(${i})">❌</button>  
+            ${option_text}
+            <label><input type="checkbox" id="all_ban_target">전체 학생 진행</label>
+            <button onclick="select_student(${i})">개별학생선택</button> 
+            <button onclick="delete_selected_ban(${i})">❌</button> 
         </li>
         `
         $('#target_bans').append(selectedOptions);
