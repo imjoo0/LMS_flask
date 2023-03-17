@@ -43,18 +43,19 @@ $('#consulting_target_ban').change(function(){
         option_text = $('#consulting_target_ban option[value="' + selectedList[i] + '"]').text(); 
         var selectedOptions = `
         <li>
-            ${option_text} <button onclick="delete_selected_ban(**${selectedList},'${selectedList[i]}')">❌</button>  
+            ${option_text} <button onclick="delete_selected_ban(${i}')">❌</button>  
         </li>
         `
         $('#target_bans').append(selectedOptions);
     }
 });
 // 다중 선택 반 선택 취소
-function delete_selected_ban(selected_list,target_value){
-    // selected_list = selected_list.split(",")
-    selected_list.splice(selected_list.indexOf(target_value),1)
+function delete_selected_ban(idx){
+    selectedList.remove(selectedList[idx])
+    // // selected_list = selected_list.split(",")
+    // selected_list.splice(selected_list.indexOf(target_value),1)
     console.log(selected_list)
-    console.log(target_value)
+    // console.log(target_value)
     // var selectedOptions = $('#consulting_target_ban').val()
     // console.log(selectedOptions)
     // // select 요소에서 선택된 option 엘리먼트들을 가져옴
