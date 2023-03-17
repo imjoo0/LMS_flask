@@ -62,7 +62,7 @@ async function request_consulting() {
             $('select[name="consulting_target_ban[]"]').show()
             $('#target_bans').show()
         }
-    }, 10);
+    }, 1);
     await $.ajax({
         url: '/manage/request',
         type: 'GET',
