@@ -1,4 +1,6 @@
 const today = new Date();
+var selectedList = [];
+
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
     paginating(0)
@@ -64,26 +66,25 @@ function get_select_student(idx){
 }
 // 상담 요청 모달이 클릭됐을때 실행 되는 / 모달에 필요한 정보 보내주는 함수 
 async function request_consulting() {
-    var selectedList = [];
-        $('#consulting_target_ban').change(function(){
-            var selectedValues = $(this).val()[0];
-            if (selectedList.indexOf(selectedValues) === -1) {
-                selectedList.push(selectedValues);
-            }
-            $('#target_bans').empty()
-            for(i=0;i<selectedList.length;i++){
-                option_text = $('#consulting_target_ban option[value="' + selectedList[i] + '"]').text(); 
-                var selectedOptions = `
-                <li>
-                    ${option_text}
-                    <label><input type="checkbox" id="all_student_target${selectedList[i]}">전체 학생 진행</label>
-                    <button onclick="get_select_student(${i})" id="student_select${selectedList[i]}">개별학생선택</button> 
-                    <button onclick="delete_selected_ban(${i})">❌</button> 
-                </li>
-                `
-                $('#target_bans').append(selectedOptions);
-            }
-        });
+    $('#consulting_target_ban').change(function(){
+        var selectedValues = $(this).val()[0];
+        if (selectedList.indexOf(selectedValues) === -1) {
+            selectedList.push(selectedValues);
+        }
+        $('#target_bans').empty()
+        for(i=0;i<selectedList.length;i++){
+            option_text = $('#consulting_target_ban option[value="' + selectedList[i] + '"]').text(); 
+            var selectedOptions = `
+            <li>
+                ${option_text}
+                <label><input type="checkbox" id="all_student_target${selectedList[i]}">전체 학생 진행</label>
+                <button onclick="get_select_student(${i})" id="student_select${selectedList[i]}">개별학생선택</button> 
+                <button onclick="delete_selected_ban(${i})">❌</button> 
+            </li>
+            `
+            $('#target_bans').append(selectedOptions);
+        }
+    });
     // 반 선택 되면 변화에 따라 함수 실행 
     setInterval(function () {
         if($(`input:checkbox[id="all_ban_target"]`).is(":checked")) {
