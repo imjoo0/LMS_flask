@@ -107,7 +107,7 @@ $('#consulting_target_ban').change(function(){
                 target = response['students'][i]
                 let name = target['name'];
                 temp_target_student += `<option value="${selectedValues}@${target['register_no']}"> ${name}</option>`;
-                $('#consulting_target_student'+selectedValues).html(temp_target_student)
+                $(`#consulting_target_student${selectedValues}`).html(temp_target_student)
             } 
         },
         error:function(xhr, status, error){
