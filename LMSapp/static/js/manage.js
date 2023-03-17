@@ -77,12 +77,12 @@ async function request_consulting() {
     })
 }
 
-
-// 반 선택 취소
+// 다중 선택 반 선택 취소
 function delete_selected_ban(value){
     // select 요소에서 선택된 option 엘리먼트들을 가져옴
-    console.log('hello')
+    console.log(value)
     var selectedOptions = $('#consulting_target_ban').val()
+    console.log(selectedOptions)
     selectedOptions.remove(value)
 }
 
