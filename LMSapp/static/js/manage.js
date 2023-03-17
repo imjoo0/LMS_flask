@@ -45,7 +45,7 @@ $('#consulting_target_ban').change(function(){
         <li>
             ${option_text}
             <label><input type="checkbox" id="all_student_target">전체 학생 진행</label>
-            <button onclick="select_student(${i})" class="student_select">개별학생선택</button> 
+            <button onclick="select_student(${i})" id="student_select${i}">개별학생선택</button> 
             <button onclick="delete_selected_ban(${i})">❌</button> 
         </li>
         `
@@ -63,14 +63,22 @@ function delete_selected_ban(idx){
         <li>
             ${option_text}
             <label><input type="checkbox" id="all_student_target">전체 학생 진행</label>
-            <button onclick="select_student(${i})" class="student_select">개별학생선택</button> 
+            <button onclick="select_student(${i})" id="student_select${idx}">개별학생선택</button> 
             <button onclick="delete_selected_ban(${i})">❌</button> 
         </li>
         `
         $('#target_bans').append(selectedOptions);
     }
 }
-
+function get_select_student(idx){
+    setInterval(function (idx) {
+        if($(`input:checkbox[id="all_student_target"]`).is(":checked")) {
+            $('#student_select'+idx).hide()
+        } else {
+            $('#student_select'+idx).show()
+        }
+    }, 10);
+}
 // 상담 요청 모달이 클릭됐을때 실행 되는 / 모달에 필요한 정보 보내주는 함수 
 async function request_consulting() {
     // 반 선택 되면 변화에 따라 함수 실행 
@@ -82,11 +90,11 @@ async function request_consulting() {
             $('#consulting_target_ban').show()
             $('#target_bans').show()
         }
-        if($(`input:checkbox[id="all_student_target"]`).is(":checked")) {
-            $('.student_select').hide()
-        } else {
-            $('.student_select').show()
-        }
+        // if($(`input:checkbox[id="all_student_target"]`).is(":checked")) {
+        //     $('.student_select').hide()
+        // } else {
+        //     $('.student_select').show()
+        // }
     }, 10);
     await $.ajax({
         url: '/manage/request',
