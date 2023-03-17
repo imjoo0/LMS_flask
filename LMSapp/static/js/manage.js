@@ -33,18 +33,17 @@ function getBanlist() {
 
 }
 
-function get_selected_bans(value){
-    var selectedValues = value;
-    for(var i = 0; i < selectedValues.length; i++) {
-        var optionText = $('#consulting_target_ban option[value="' + selectedValues[i] + '"]').text();
-        var selectedOptions = '<li>' + optionText + ` <button onclick="delete_selected_ban(${selectedValues[i]})">❌</button><button onclick="get_ban_students(${selectedValues[i]})">학생선택</button>`+'</li>';
-        $('#target_bans').append('<ul>' + selectedOptions + '</ul>');
-    }
-}
-
-
-// 상담 요청 모달에 필요한 정보 보내주는 함수 
+// 상담 요청 모달이 클릭됐을때 실행 되는 / 모달에 필요한 정보 보내주는 함수 
 async function request_consulting() {
+    // 반 선택 되면 변화에 따라 함수 실행 
+    $('#consulting_target_ban').change(function(){
+        var selectedValues = $(this).val();
+        for(var i = 0; i < selectedValues.length; i++) {
+            var optionText = $('#consulting_target_ban option[value="' + selectedValues[i] + '"]').text();
+            var selectedOptions = '<li>' + optionText + ` <button onclick="delete_selected_ban(${selectedValues[i]})">❌</button><button onclick="get_ban_students(${selectedValues[i]})">학생선택</button>`+'</li>';
+            $('#target_bans').append('<ul>' + selectedOptions + '</ul>');
+        }
+    });
     setInterval(function () {
         if ($(`input:checkbox[id="all_ban_target"]`).is(":checked")) {
             $('#consulting_target_ban').hide()
@@ -80,7 +79,6 @@ function delete_selected_ban(value){
     console.log('hello')
     var selectedOptions = $('#consulting_target_ban').val()
     selectedOptions.remove(value)
-    console.log(selectedOptions)
 }
 
 
