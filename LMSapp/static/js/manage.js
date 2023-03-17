@@ -46,15 +46,17 @@ async function request_consulting() {
         $('#target_bans').empty()
         for(i=0;i<selectedList.length;i++){
             option_text = $('#consulting_target_ban option[value="' + selectedList[i] + '"]').text(); 
-            var selectedOptions = `
-            <li>
-                ${option_text}
-                <label><input type="checkbox" id="all_student_target${selectedList[i]}">전체 학생 진행</label>
-                <button onclick="get_select_student(${i})" id="student_select${selectedList[i]}">개별학생선택</button> 
-                <button onclick="delete_selected_ban(${i})">❌</button> 
-            </li>
-            `
-            $('#target_bans').append(selectedOptions);
+            if(option_text !='반을 선택해주세요'){
+                var selectedOptions = `
+                <li>
+                    ${option_text}
+                    <button onclick="get_select_student(${i})">개별학생선택</button> 
+                    <button onclick="delete_selected_ban(${i})">❌</button> 
+                </li>
+                `
+                $('#target_bans').append(selectedOptions);
+            }
+            
         }
     });
     // 반 선택 되면 변화에 따라 함수 실행 
@@ -96,8 +98,7 @@ function delete_selected_ban(idx){
         var selectedOptions = `
         <li>
             ${option_text}
-            <label><input type="checkbox" id="all_student_target${selectedList[i]}">전체 학생 진행</label>
-            <button onclick="get_select_student(${i})" id="student_select${selectedList[i]}">개별학생선택</button> 
+            <button onclick="get_select_student(${i})">개별학생선택</button> 
             <button onclick="delete_selected_ban(${i})">❌</button> 
         </li>
         `
