@@ -56,7 +56,7 @@ async function request_consulting() {
                     <button onclick="get_select_student(${i})">학생선택</button> 
                     <button onclick="delete_selected_ban(${i})">❌</button> 
                 </li>
-                <div class="notice_message select_student" style="display:none">
+                <div class="notice_message" id="select_student${selectedBanList[i]}" style="display:none">
                     <p>👇 상담을 진행할 학생을 선택해주세요</p>
                     <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student${selectedBanList[i]}">
                     </select>
@@ -116,7 +116,7 @@ function delete_selected_ban(idx){
                 <button onclick="get_select_student(${i})">학생선택</button> 
                 <button onclick="delete_selected_ban(${i})">❌</button> 
             </li>
-            <div class="notice_message select_student" style="display:none">
+            <div class="notice_message" id="select_student${selectedBanList[i]}" style="display:none">
                 <p>👇 상담을 진행할 학생을 선택해주세요</p>
                 <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student${selectedBanList[i]}">
                 
@@ -131,7 +131,7 @@ function delete_selected_ban(idx){
 }
 
 async function get_select_student(idx){
-    $('.select_student').show() 
+    $('#select_student'+selectedBanList[idx]).show() 
     // b_id + '_' + t_id
     value = selectedBanList[idx].split('_')  
     await $.ajax({
