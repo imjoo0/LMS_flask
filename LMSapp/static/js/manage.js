@@ -21,7 +21,7 @@ function getBanlist() {
                 let semester = target_ban[i]['semester']
                 let t_id = target_ban[i]['teacher_register_no']
                 let b_id = target_ban[i]['register_no']
-                let value = name + '@' + b_id + '@' + t_id
+                let value = b_id + '@' + t_id
                 temp_ban_option += `
                 <option value="${value}">${name} (${semester}월 학기)</option>
                 `;
@@ -66,7 +66,7 @@ async function request_consulting() {
                 $('#target_bans').append(selectedOptions);
             }
             
-        }
+        }value
     });
     // 반 선택 되면 변화에 따라 함수 실행 
     setInterval(function () {
@@ -149,7 +149,7 @@ function delete_selected_student(idx){
     }
 }
 async function get_select_student(idx){
-    // name +'@'+ b_id + '@' + t_id
+    // b_id + '@' + t_id
     value = selectedBanList[idx].split('@')
     $('.select_student').show() 
     // 반 선택 되면 변화에 따라 함수 실행
@@ -174,18 +174,18 @@ async function get_select_student(idx){
     });   
     await $.ajax({
         type: "GET",
-        url: "/manage/ban_student/"+value[1],
+        url: "/manage/ban_student/"+value[0],
         data: {},
         success: function (response) {
             // 전체 학생 대상 진행 append 
-            let target_all_student = `<option value="전체학생@${value[1]}@${value[2]}">✔️${value[0]}반 전체 학생 대상 진행</option>`;
+            let target_all_student = `<option value="전체학생@${selectedBanList[idx]}">✔️전체 학생 대상 진행</option>`;
             $('#target_a_student').html(target_all_student)
             
             $('#target_student').empty();
             for (var i = 0; i <  response['students'].length; i++) {
                 target = response['students'][i]
                 let name = target['name'];
-                let temp_target_student = `<option value="${value[1]}@${value[2]}@${target['register_no']}"> ${name}</option>`;
+                let temp_target_student = `<option value="${selectedBanList[idx]}@${target['register_no']}"> ${name}</option>`;
                 $('#target_student').append(temp_target_student)
             } 
         },
