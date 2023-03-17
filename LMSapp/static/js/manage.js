@@ -45,7 +45,7 @@ $('#consulting_target_ban').change(function(){
         <li>
             ${option_text}
             <label><input type="checkbox" id="all_student_target${selectedList[i]}">전체 학생 진행</label>
-            <button onclick="get_select_student(${i})" id="student_select${selectedList[i]}">개별학생선택</button> 
+            <button onclick="get_select_student(${selectedList[i]}})" id="student_select${selectedList[i]}">개별학생선택</button> 
             <button onclick="delete_selected_ban(${i})">❌</button> 
         </li>
         `
@@ -63,7 +63,7 @@ function delete_selected_ban(idx){
         <li>
             ${option_text}
             <label><input type="checkbox" id="all_student_target${selectedList[i]}">전체 학생 진행</label>
-            <button onclick="get_select_student(${i})" id="student_select${selectedList[i]}">개별학생선택</button> 
+            <button onclick="get_select_student(${selectedList[i]})" id="student_select${selectedList[i]}">개별학생선택</button> 
             <button onclick="delete_selected_ban(${i})">❌</button> 
         </li>
         `
@@ -71,15 +71,13 @@ function delete_selected_ban(idx){
     }
 }
 function get_select_student(idx){
-    setInterval(function () {
-        if($(`input:checkbox[id="all_student_target${selectedList[idx]}"]`).is(":checked")) {
-            $('#student_select'+selectedList[idx]).hide()
-            $('#select_student').hide()
-        } else {
-            $('#student_select'+selectedList[idx]).show()
-            $('#select_student').show()
-        }
-    }, 10);
+    if($(`input:checkbox[id="all_student_target${idx}"]`).is(":checked")) {
+        $('#student_select'+idx).hide()
+        $('#select_student').hide()
+    } else {
+        $('#student_select'+idx).show()
+        $('#select_student').show()
+    }
 }
 // 상담 요청 모달이 클릭됐을때 실행 되는 / 모달에 필요한 정보 보내주는 함수 
 async function request_consulting() {
