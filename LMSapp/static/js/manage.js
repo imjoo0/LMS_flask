@@ -55,6 +55,19 @@ async function request_consulting() {
                     <button onclick="get_select_student(${i})">학생선택</button> 
                     <button onclick="delete_selected_ban(${i})">❌</button> 
                 </li>
+                <div class="notice_message" id="select_student">
+                    <p>👇 상담을 진행할 학생을 선택해주세요</p>
+                    <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student">
+                        <optgroup id="target_a_student" label="반 대상 전체 진행">
+
+                        </optgroup>
+                        <optgroup id="target_student" label="개별 학생 대상 진행">
+
+                        </optgroup>
+                    </select>
+                    <ul class="make_col" id="target_students">
+                    </ul>
+                </div>
                 `
                 $('#target_bans').append(selectedOptions);
             }
