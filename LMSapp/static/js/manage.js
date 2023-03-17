@@ -82,7 +82,6 @@ $('#consulting_target_ban').change(function(){
             var selectedOptions = `
             <li>
                 ${option_text}
-                <button onclick="get_select_student(${i})">학생선택</button> 
                 <button onclick="delete_selected_ban(${i})">❌</button> 
             </li>
             <div class="notice_message">
@@ -103,11 +102,11 @@ $('#consulting_target_ban').change(function(){
         data: {},
         success: function (response) {
             // 전체 학생 대상 진행 append 
-            temp_target_student = `<option value="전체학생@${selectedValues}">✔️전체 학생 대상 진행</option>`;
+            var temp_target_student = `<option value="전체학생@${selectedValues}">✔️전체 학생 대상 진행</option>`;
             for (var i = 0; i <  response['students'].length; i++) {
                 target = response['students'][i]
                 let name = target['name'];
-                temp_target_student = `<option value="${selectedValues}@${target['register_no']}"> ${name}</option>`;
+                temp_target_student += `<option value="${selectedValues}@${target['register_no']}"> ${name}</option>`;
                 $('#consulting_target_student'+selectedValues).html(temp_target_student)
             } 
         },
