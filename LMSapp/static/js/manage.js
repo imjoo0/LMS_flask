@@ -24,7 +24,7 @@ function getBanlist() {
                 `;
             }
             $('#ban_list').html(temp_ban_option)
-            $('#consulting_target_ban[]').html(temp_ban_option)
+            $('select[name="consulting_target_ban[]"]').html(temp_ban_option)
         },
         error: function (xhr, status, error) {
             alert('xhr.responseText');
@@ -56,10 +56,10 @@ async function request_consulting() {
     
     setInterval(function () {
         if ($(`input:checkbox[id="all_ban_target"]`).is(":checked")) {
-            $('#consulting_target_ban[]').hide()
+            $('select[name="consulting_target_ban[]"]').hide()
             $('#target_bans').hide()
         } else {
-            $('#consulting_target_ban[]').show()
+            $('select[name="consulting_target_ban[]"]').show()
             $('#target_bans').show()
         }
     }, 10);
@@ -98,7 +98,7 @@ function delete_selected_ban(selected_list,target_value){
 }
 
 function post_consulting_request(){
-    console.log($('#consulting_target_ban[]').val())
+    console.log($('select[name="consulting_target_ban[]"]').val())
 }
 
 function go_back() {
