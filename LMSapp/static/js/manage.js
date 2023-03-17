@@ -45,7 +45,7 @@ $('#consulting_target_ban').change(function(){
         <li>
             ${option_text}
             <label><input type="checkbox" id="all_student_target${selectedList[i]}">전체 학생 진행</label>
-            <button onclick="get_select_student(${i})" id="student_select${selectedList[i]}">개별학생선택</button> 
+            <button onclick="get_select_student(${i})">개별학생선택</button> 
             <button onclick="delete_selected_ban(${i})">❌</button> 
         </li>
         `
@@ -63,7 +63,7 @@ function delete_selected_ban(idx){
         <li>
             ${option_text}
             <label><input type="checkbox" id="all_student_target${selectedList[i]}">전체 학생 진행</label>
-            <button onclick="get_select_student(${i})" id="student_select${selectedList[i]}">개별학생선택</button> 
+            <button onclick="get_select_student(${i})">개별학생선택</button> 
             <button onclick="delete_selected_ban(${i})">❌</button> 
         </li>
         `
@@ -73,9 +73,9 @@ function delete_selected_ban(idx){
 function get_select_student(idx){
     setInterval(function (idx) {
         if($(`input:checkbox[id="all_student_target${selectedList[idx]}"]`).is(":checked")) {
-            $('#student_select'+selectedList[idx]).hide()
+            $('#select_student').hide()
         } else {
-            $('#student_select'+selectedList[idx]).show()
+            $('#select_student').show()
         }
     }, 10);
 }
