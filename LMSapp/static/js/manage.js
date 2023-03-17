@@ -38,16 +38,12 @@ async function request_consulting() {
     $('#target_bans').empty()
     // 반 선택 되면 변화에 따라 함수 실행 
     var selectedList = [];
-    $('#consulting_target_ban option:selected').each(function() {
-        var optionValue = $(this).val();
-        if (selectedList.indexOf(optionValue) === -1) {
-            selectedList.push(optionValue);
-        }
-    });
-    console.log(selectedList)
-
     $('#consulting_target_ban').change(function(){
         var selectedValues = $(this).val()[0];
+        if (selectedList.indexOf(selectedValues) === -1) {
+            selectedList.push(selectedValues);
+        }
+        console.log(selectedList)
         option_text = $('#consulting_target_ban option[value="' + selectedValues + '"]').text(); 
         var selectedOptions = `
         <li>
