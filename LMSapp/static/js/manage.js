@@ -59,7 +59,7 @@ function delete_selected_ban(idx){
         var selectedOptions = `
         <li>
             ${option_text}
-            <label><input type="checkbox" id="all_ban_target">전체 학생 진행</label>
+            <label><input type="checkbox" id="all_student_target">전체 학생 진행</label>
             <button onclick="select_student(${i})">개별학생선택</button> 
             <button onclick="delete_selected_ban(${i})">❌</button> 
         </li>
