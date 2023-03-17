@@ -38,36 +38,6 @@ function getBanlist() {
 
 // 상담 요청 모달이 클릭됐을때 실행 되는 / 모달에 필요한 정보 보내주는 함수 
 async function request_consulting() {
-    $('#consulting_target_ban').change(function(){
-        $('.select_student').hide()
-        var selectedValues = $(this).val()[0];
-        if (selectedBanList.indexOf(selectedValues) === -1) {
-            selectedBanList.push(selectedValues);
-        }
-        $('#consulting_target_ban').val(selectedBanList)
-        $('#target_bans').empty()
-        for(i=0;i<selectedBanList.length;i++){
-            option_text = $('#consulting_target_ban option[value="' + selectedBanList[i] + '"]').text(); 
-            if(option_text !='반을 선택해주세요'){
-                var selectedOptions = `
-                <li>
-                    ${option_text}
-                    <button onclick="get_select_student(${i})">학생선택</button> 
-                    <button onclick="delete_selected_ban(${i})">❌</button> 
-                </li>
-                <div class="notice_message" class="select_student">
-                    <p>👇 상담을 진행할 학생을 선택해주세요</p>
-                    <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student${selectedBanList[i]}">
-                    </select>
-                    <ul class="make_col" id="target_students${selectedBanList[i]}">
-                    </ul>
-                </div>
-                `
-                $('#target_bans').append(selectedOptions);
-            }
-            
-        }
-    });
     // 반 선택 되면 변화에 따라 함수 실행 
     setInterval(function () {
         if($(`input:checkbox[id="all_ban_target"]`).is(":checked")) {
@@ -97,7 +67,58 @@ async function request_consulting() {
         }
     })
 }
-
+// 반 선택시 마다 실행되는 함수 
+$('#consulting_target_ban').change(function(){
+    $('.select_student').hide()
+    var selectedValues = $(this).val()[0];
+    if (selectedBanList.indexOf(selectedValues) === -1) {
+        selectedBanList.push(selectedValues);
+    }
+    $('#consulting_target_ban').val(selectedBanList)
+    $('#target_bans').empty()
+    for(i=0;i<selectedBanList.length;i++){
+        option_text = $('#consulting_target_ban option[value="' + selectedBanList[i] + '"]').text(); 
+        if(option_text !='반을 선택해주세요'){
+            var selectedOptions = `
+            <li>
+                ${option_text}
+                <button onclick="get_select_student(${i})">학생선택</button> 
+                <button onclick="delete_selected_ban(${i})">❌</button> 
+            </li>
+            <div class="notice_message" class="select_student">
+                <p>👇 상담을 진행할 학생을 선택해주세요</p>
+                <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student${selectedBanList[i]}">
+                </select>
+                <ul class="make_col" id="target_students${selectedBanList[i]}">
+                </ul>
+            </div>
+            `
+            $('#target_bans').append(selectedOptions);
+        }
+    }
+    var value = selectedValues.split('@')
+    $.ajax({
+        type: "GET",
+        url: "/manage/ban_student/"+value[0],
+        data: {},
+        success: function (response) {
+            // 전체 학생 대상 진행 append 
+            let target_all_student = `<option value="전체학생@${selectedBanList[idx]}">✔️전체 학생 대상 진행</option>`;
+            $('#target_a_student').html(target_all_student)
+            
+            $('#target_student').empty();
+            for (var i = 0; i <  response['students'].length; i++) {
+                target = response['students'][i]
+                let name = target['name'];
+                let temp_target_student = `<option value="${selectedBanList[idx]}@${target['register_no']}"> ${name}</option>`;
+                $('#target_student').append(temp_target_student)
+            } 
+        },
+        error:function(xhr, status, error){
+                alert('xhr.responseText');
+            }
+    })
+});
 // 다중 선택 반 선택 취소
 function delete_selected_ban(idx){
     // // selected_list = selected_list.split(",")
