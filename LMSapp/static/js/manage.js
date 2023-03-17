@@ -57,40 +57,15 @@ async function request_consulting() {
                 </li>
                 <div class="notice_message" class="select_student">
                     <p>👇 상담을 진행할 학생을 선택해주세요</p>
-                    <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student">
-                        <optgroup id="target_a_student" label="반 대상 전체 진행">
-
-                        </optgroup>
-                        <optgroup id="target_student" label="개별 학생 대상 진행">
-
-                        </optgroup>
+                    <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student${selectedBanList[i]}">
                     </select>
-                    <ul class="make_col" id="target_students">
+                    <ul class="make_col" id="target_students${selectedBanList[i]}">
                     </ul>
                 </div>
                 `
                 $('#target_bans').append(selectedOptions);
             }
             
-        }
-    });
-    $('#consulting_target_student').change(function(){
-        var selectedValues = $(this).val()[0];
-        if (selectedStudentList.indexOf(selectedValues) === -1) {
-            selectedStudentList.push(selectedValues);
-        }
-        $('#consulting_target_student').val(selectedStudentList)
-
-        $('#target_students').empty()
-        for(i=0;i<selectedStudentList.length;i++){
-            option_text = $('#consulting_target_student option[value="' + selectedStudentList[i] + '"]').text(); 
-            var selectedOptions = `
-            <li>
-                ${option_text}
-                <button onclick="delete_selected_student(${i})">❌</button> 
-            </li>
-            `
-            $('#target_students').append(selectedOptions);
         }
     });
     // 반 선택 되면 변화에 따라 함수 실행 
@@ -177,7 +152,26 @@ async function get_select_student(idx){
     // name +'@'+ b_id + '@' + t_id
     value = selectedBanList[idx].split('@')
     $('.select_student').show() 
-    // 반 선택 되면 변화에 따라 함수 실행   
+    // 반 선택 되면 변화에 따라 함수 실행
+    $('#consulting_target_student'+selectedBanList[idx]).change(function(){
+        var selectedValues = $(this).val()[0];
+        if (selectedStudentList.indexOf(selectedValues) === -1) {
+            selectedStudentList.push(selectedValues);
+        }
+        $('#consulting_target_student'+selectedBanList[idx]).val(selectedStudentList)
+
+        $('#target_students'+selectedBanList[idx]).empty()
+        for(i=0;i<selectedStudentList.length;i++){
+            option_text = $('#consulting_target_student option[value="' + selectedStudentList[i] + '"]').text(); 
+            var selectedOptions = `
+            <li>
+                ${option_text}
+                <button onclick="delete_selected_student(${i})">❌</button> 
+            </li>
+            `
+            $('#target_students'+selectedBanList[idx]).append(selectedOptions);
+        }
+    });   
     await $.ajax({
         type: "GET",
         url: "/manage/ban_student/"+value[1],
