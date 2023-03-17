@@ -69,12 +69,12 @@ async function request_consulting() {
 }
 // 반 선택시 마다 실행되는 함수 
 $('#consulting_target_ban').change(function(){
-    $('.select_student').hide()
     var selectedValues = $(this).val()[0];
     if (selectedBanList.indexOf(selectedValues) === -1) {
         selectedBanList.push(selectedValues);
     }
     $('#consulting_target_ban').val(selectedBanList)
+    
     $('#target_bans').empty()
     for(i=0;i<selectedBanList.length;i++){
         option_text = $('#consulting_target_ban option[value="' + selectedBanList[i] + '"]').text(); 
@@ -85,7 +85,7 @@ $('#consulting_target_ban').change(function(){
                 <button onclick="get_select_student(${i})">학생선택</button> 
                 <button onclick="delete_selected_ban(${i})">❌</button> 
             </li>
-            <div class="notice_message" class="select_student">
+            <div class="notice_message">
                 <p>👇 상담을 진행할 학생을 선택해주세요</p>
                 <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student${selectedBanList[i]}">
                 </select>
@@ -103,15 +103,12 @@ $('#consulting_target_ban').change(function(){
         data: {},
         success: function (response) {
             // 전체 학생 대상 진행 append 
-            let target_all_student = `<option value="전체학생@${selectedValues}">✔️전체 학생 대상 진행</option>`;
-            $('#target_a_student').html(target_all_student)
-            
-            $('#target_student').empty();
+            temp_target_student = `<option value="전체학생@${selectedValues}">✔️전체 학생 대상 진행</option>`;
             for (var i = 0; i <  response['students'].length; i++) {
                 target = response['students'][i]
                 let name = target['name'];
-                let temp_target_student = `<option value="${selectedValues}@${target['register_no']}"> ${name}</option>`;
-                $('#target_student').append(temp_target_student)
+                temp_target_student = `<option value="${selectedValues}@${target['register_no']}"> ${name}</option>`;
+                $('#consulting_target_student'+selectedValues).html(temp_target_student)
             } 
         },
         error:function(xhr, status, error){
