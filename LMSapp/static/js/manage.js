@@ -52,8 +52,8 @@ $('#consulting_target_ban').change(function(){
 // 다중 선택 반 선택 취소
 function delete_selected_ban(idx){
     // // selected_list = selected_list.split(",")
-    selected_list.splice(idx,1)
-    console.log(selected_list)
+    selectedList.splice(idx,1)
+    console.log(selectedList)
     // console.log(target_value)
     // var selectedOptions = $('#consulting_target_ban').val()
     // console.log(selectedOptions)
