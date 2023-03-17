@@ -38,9 +38,12 @@ async function request_consulting() {
     // 반 선택 되면 변화에 따라 함수 실행 
     $('#consulting_target_ban').change(function(){
         var selectedValues = $(this).val();
+        var selectedOptions = ''
         for(var i = 0; i < selectedValues.length; i++) {
-            var selectedOptions = '<li>' + $('#consulting_target_ban option[value="' + selectedValues[i] + '"]').text(); +'<button>❌</button>'  +'</li>';
-            $('#target_bans').append('<ul>' + selectedOptions + '</ul>');
+            option_text = $('#consulting_target_ban option[value="' + selectedValues[i] + '"]').text(); 
+            button_text = `<button onclick="delete_selected_ban('${selectedValues[i]}')">❌</button>`
+            selectedOptions += '<li>'+ option_text + button_text +'</li>';
+            $('#target_bans').html(selectedOptions);
         }
     });
     setInterval(function () {
