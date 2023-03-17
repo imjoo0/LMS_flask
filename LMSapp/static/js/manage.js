@@ -39,7 +39,7 @@ function getBanlist() {
 // 상담 요청 모달이 클릭됐을때 실행 되는 / 모달에 필요한 정보 보내주는 함수 
 async function request_consulting() {
     $('#consulting_target_ban').change(function(){
-        $('#select_student').hide()
+        $('.select_student').hide()
         var selectedValues = $(this).val()[0];
         if (selectedBanList.indexOf(selectedValues) === -1) {
             selectedBanList.push(selectedValues);
@@ -55,7 +55,7 @@ async function request_consulting() {
                     <button onclick="get_select_student(${i})">학생선택</button> 
                     <button onclick="delete_selected_ban(${i})">❌</button> 
                 </li>
-                <div class="notice_message" id="select_student">
+                <div class="notice_message" class="select_student">
                     <p>👇 상담을 진행할 학생을 선택해주세요</p>
                     <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student">
                         <optgroup id="target_a_student" label="반 대상 전체 진행">
@@ -98,7 +98,7 @@ async function request_consulting() {
         if($(`input:checkbox[id="all_ban_target"]`).is(":checked")) {
             $('#consulting_target_ban').hide()
             $('#target_bans').hide()
-            $('#select_student').hide()
+            $('.select_student').hide()
         } else {
             $('#consulting_target_ban').show()
             $('#target_bans').show()
@@ -138,6 +138,19 @@ function delete_selected_ban(idx){
                 <button onclick="get_select_student(${i})">학생선택</button> 
                 <button onclick="delete_selected_ban(${i})">❌</button> 
             </li>
+            <div class="notice_message" class="select_student">
+                <p>👇 상담을 진행할 학생을 선택해주세요</p>
+                <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student">
+                    <optgroup id="target_a_student" label="반 대상 전체 진행">
+
+                    </optgroup>
+                    <optgroup id="target_student" label="개별 학생 대상 진행">
+
+                    </optgroup>
+                </select>
+                <ul class="make_col" id="target_students">
+                </ul>
+            </div>
             `
             $('#target_bans').append(selectedOptions);
         }
@@ -163,7 +176,7 @@ function delete_selected_student(idx){
 async function get_select_student(idx){
     // name +'@'+ b_id + '@' + t_id
     value = selectedBanList[idx].split('@')
-    $('#select_student').show() 
+    $('.select_student').show() 
     // 반 선택 되면 변화에 따라 함수 실행   
     await $.ajax({
         type: "GET",
