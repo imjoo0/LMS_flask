@@ -24,7 +24,7 @@ function getBanlist() {
                 `;
             }
             $('#ban_list').html(temp_ban_option)
-            $('#consulting_target_ban').html(temp_ban_option)
+            $('#consulting_target_ban[]').html(temp_ban_option)
         },
         error: function (xhr, status, error) {
             alert('xhr.responseText');
@@ -37,9 +37,9 @@ function getBanlist() {
 async function request_consulting() {
     $('#target_bans').empty()
     // 반 선택 되면 변화에 따라 함수 실행 
-    $('#consulting_target_ban').change(function(){
+    $('#consulting_target_ban[]').change(function(){
         var selectedValues = $(this).val()[0];
-        option_text = $('#consulting_target_ban option[value="' + selectedValues + '"]').text(); 
+        option_text = $('#consulting_target_ban[] option[value="' + selectedValues + '"]').text(); 
         var selectedOptions = `
         <li>
             ${option_text} <button onclick="delete_selected_ban('${selectedValues}')">❌</button>  
@@ -49,10 +49,10 @@ async function request_consulting() {
     });
     setInterval(function () {
         if ($(`input:checkbox[id="all_ban_target"]`).is(":checked")) {
-            $('#consulting_target_ban').hide()
+            $('#consulting_target_ban[]').hide()
             $('#target_bans').hide()
         } else {
-            $('#consulting_target_ban').show()
+            $('#consulting_target_ban[]').show()
             $('#target_bans').show()
         }
     }, 10);
@@ -78,8 +78,8 @@ async function request_consulting() {
 // 다중 선택 반 선택 취소
 function delete_selected_ban(value){
     // select 요소에서 선택된 option 엘리먼트들을 가져옴
-    $('#consulting_target_ban option[value="' + value + '"]').hide(); 
-    // var selectedOptions = $('#consulting_target_ban').val()
+    $('#consulting_target_ban[] option[value="' + value + '"]').hide(); 
+    // var selectedOptions = $('#consulting_target_ban[]').val()
     // console.log(selectedOptions)
     // selectedOptions.remove(value)
 }
