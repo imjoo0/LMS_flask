@@ -115,15 +115,15 @@ async function get_select_student(idx){
 
     await $.ajax({
         type: "GET",
-        url: "/manage/ban/student/"+value[1],
+        url: "/manage/ban_student/"+value[1],
         data: {},
         success: function (response) {
             // 전체 학생 대상 진행 append 
-            let target_all_student = `<option value="전체학생">✔️ ${value[0]}반 전체 학생 대상 진행</option>`;
-            $('#target_a_student').append(target_all_student)
+            let target_all_student = `<option value="전체학생">✔️${value[0]}반 전체 학생 대상 진행</option>`;
+            $('#target_a_student').html(target_all_student)
             
             $('#target_student').empty();
-            for (var i = 0; i < totalData; i++) {
+            for (var i = 0; i <  response['students'].length; i++) {
                 target = response['students'][i]
                 let new_value = value[1]+'@'+value[2]+'@'+target['register_no']
                 let name = target['name'];

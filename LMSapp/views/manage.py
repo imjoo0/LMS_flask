@@ -269,12 +269,10 @@ def request_task():
             db.session.commit()
         return redirect('/')
     
-@bp.route("/ban/student/<int:b_id>", methods=['GET'])
+@bp.route("/ban_student/<int:b_id>", methods=['GET'])
 def get_select_student(b_id):
     if request.method == 'GET':
-        print(type(b_id))
         students = callapi.purple_info(b_id,'get_students')
-
         return jsonify({'students': students})
 
 
