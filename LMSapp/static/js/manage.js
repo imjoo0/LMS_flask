@@ -66,6 +66,8 @@ async function request_consulting() {
         if (selectedStudentList.indexOf(selectedValues) === -1) {
             selectedStudentList.push(selectedValues);
         }
+        $('#consulting_target_student').val(selectedStudentList)
+
         $('#target_students').empty()
         for(i=0;i<selectedStudentList.length;i++){
             option_text = $('#consulting_target_student option[value="' + selectedStudentList[i] + '"]').text(); 
@@ -131,6 +133,7 @@ function delete_selected_ban(idx){
 function delete_selected_student(idx){
     // // selected_list = selected_list.split(",")
     selectedStudentList.splice(idx,1)
+    $('#consulting_target_student').val(selectedStudentList)
     $('#target_students').empty()
     for(i=0;i<selectedStudentList.length;i++){
         option_text = $('#consulting_target_student option[value="' + selectedStudentList[i] + '"]').text(); 
@@ -175,9 +178,7 @@ function post_consulting_request(){
     console.log(
     $('#consulting_target_ban').val())
     console.log(
-        $('#selectedBanList').val())
-    console.log(
-        $('#selectedStudentList').val())
+        $('#consulting_target_student').val())
 }
 
 function go_back() {
