@@ -37,12 +37,6 @@ function getBanlist() {
 async function request_consulting() {
     $('#target_bans').empty()
     // 반 선택 되면 변화에 따라 함수 실행 
-    var selectedOptions = $('#consulting_target_ban option:selected').map(function() {
-        return $(this).val();
-      }).get().filter(function(value, index, self) {
-        return self.indexOf(value) === index;
-      });
-    console.log(selectedOptions)
     $('#consulting_target_ban').change(function(){
         var selectedValues = $(this).val()[0];
         option_text = $('#consulting_target_ban option[value="' + selectedValues + '"]').text(); 
@@ -52,6 +46,13 @@ async function request_consulting() {
         </li>
         `
         $('#target_bans').append(selectedOptions);
+
+        var selectedOptions = $('#consulting_target_ban option:selected').map(function() {
+            return $(this).val();
+          }).get().filter(function(value, index, self) {
+            return self.indexOf(value) === index;
+          });
+        console.log(selectedOptions)
     });
     setInterval(function () {
         if ($(`input:checkbox[id="all_ban_target"]`).is(":checked")) {
