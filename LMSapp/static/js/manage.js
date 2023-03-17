@@ -144,8 +144,8 @@ function delete_selected_student(idx){
 async function get_select_student(idx){
     // name +'@'+ b_id + '@' + t_id
     value = selectedBanList[idx].split('@')
-    $('#select_student').show()
-
+    $('#select_student').show() 
+    // 반 선택 되면 변화에 따라 함수 실행   
     await $.ajax({
         type: "GET",
         url: "/manage/ban_student/"+value[1],
@@ -172,6 +172,10 @@ async function get_select_student(idx){
 function post_consulting_request(){
     console.log(
     $('#consulting_target_ban').val())
+    console.log(
+        $('#selectedBanList').val())
+    console.log(
+        $('#selectedStudentList').val())
 }
 
 function go_back() {
