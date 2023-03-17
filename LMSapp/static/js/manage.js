@@ -128,7 +128,7 @@ function delete_selected_ban(idx){
 // 다중 선택 학생 선택 취소 
 function delete_selected_student(idx){
     // // selected_list = selected_list.split(",")
-    selectedBanList.splice(idx,1)
+    selectedStudentList.splice(idx,1)
     $('#target_students').empty()
     for(i=0;i<selectedStudentList.length;i++){
         option_text = $('#consulting_target_student option[value="' + selectedStudentList[i] + '"]').text(); 
