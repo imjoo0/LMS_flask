@@ -44,7 +44,7 @@ $('#consulting_target_ban').change(function(){
         var selectedOptions = `
         <li>
             ${option_text}
-            <label><input type="checkbox" id="all_student_targe${selectedList[i]}t">전체 학생 진행</label>
+            <label><input type="checkbox" id="all_student_target${selectedList[i]}">전체 학생 진행</label>
             <button onclick="get_select_student(${i})">개별학생선택</button> 
             <button onclick="delete_selected_ban(${i})">❌</button> 
         </li>
