@@ -269,17 +269,13 @@ def request_task():
             db.session.commit()
         return redirect('/')
     
-@bp.route("/ban_teacher/<int:id>", methods=['GET'])
-def get_ban_teacher(id):
+@bp.route("/ban/student/<int:b_id>", methods=['GET'])
+def get_select_student(b_id):
     if request.method == 'GET':
-        if(id != 0):
-            students = callapi.purple_info(id,'get_student_simple')
-            if students:
-                return jsonify({'students':students})
-            else:
-                return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
-        else:
-            return jsonify({'students':'전체진행'})
+        print(type(b_id))
+        students = callapi.purple_info(b_id,'get_students')
+
+        return jsonify({'students': students})
 
 
 @bp.route("/ban/<int:id>", methods=['GET'])
