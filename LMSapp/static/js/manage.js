@@ -83,9 +83,9 @@ async function request_consulting() {
             $('#target_bans').show()
         }
         if($(`input:checkbox[id="all_student_target"]`).is(":checked")) {
-            $('#student_select').hide()
+            $('.student_select').hide()
         } else {
-            $('#student_select').show()
+            $('.student_select').show()
         }
     }, 10);
     await $.ajax({
