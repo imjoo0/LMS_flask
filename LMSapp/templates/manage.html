@@ -30,15 +30,6 @@
             }
         }
     });
-
-    $('#consulting_target_ban').change(function(){
-        var selectedValues = $(this).val();
-        for(var i = 0; i < selectedValues.length; i++) {
-            var optionText = $('#consulting_target_ban option[value="' + selectedValues[i] + '"]').text();
-            var selectedOptions = '<li>' + optionText + ` <button onclick="delete_selected_ban(${selectedValues[i]})">❌</button><button onclick="get_ban_students(${selectedValues[i]})">학생선택</button>`+'</li>';
-            $('#target_bans').append('<ul>' + selectedOptions + '</ul>');
-        }
-    });
 </script>
 <!-- 문의 조회 모달 창 -->
 <div class="modal fade" id="answer" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
