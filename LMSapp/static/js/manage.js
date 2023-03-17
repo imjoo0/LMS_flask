@@ -51,7 +51,7 @@ async function request_consulting() {
                 var selectedOptions = `
                 <li>
                     ${option_text}
-                    <button onclick="get_select_student(${i})">개별학생선택</button> 
+                    <button onclick="get_select_student(${i})">학생선택</button> 
                     <button onclick="delete_selected_ban(${i})">❌</button> 
                 </li>
                 `
@@ -117,7 +117,7 @@ function delete_selected_ban(idx){
             var selectedOptions = `
             <li>
                 ${option_text}
-                <button onclick="get_select_student(${i})">개별학생선택</button> 
+                <button onclick="get_select_student(${i})">학생선택</button> 
                 <button onclick="delete_selected_ban(${i})">❌</button> 
             </li>
             `
