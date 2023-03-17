@@ -71,7 +71,7 @@ async function request_consulting() {
             var selectedOptions = `
             <li>
                 ${option_text}
-                <button onclick="delete_selected_ban(${i})">❌</button> 
+                <button onclick="delete_selected_student(${i})">❌</button> 
             </li>
             `
             $('#target_students').append(selectedOptions);
@@ -125,7 +125,22 @@ function delete_selected_ban(idx){
         }
     }
 }
-
+// 다중 선택 학생 선택 취소 
+function delete_selected_student(idx){
+    // // selected_list = selected_list.split(",")
+    selectedBanList.splice(idx,1)
+    $('#target_students').empty()
+    for(i=0;i<selectedStudentList.length;i++){
+        option_text = $('#consulting_target_student option[value="' + selectedStudentList[i] + '"]').text(); 
+        var selectedOptions = `
+        <li>
+            ${option_text}
+            <button onclick="delete_selected_student(${i})">❌</button> 
+        </li>
+        `
+        $('#target_students').append(selectedOptions);
+    }
+}
 async function get_select_student(idx){
     // name +'@'+ b_id + '@' + t_id
     value = selectedBanList[idx].split('@')
