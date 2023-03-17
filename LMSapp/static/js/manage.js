@@ -1,5 +1,6 @@
 const today = new Date();
-var selectedList = [];
+var selectedBanList = [];
+var selectedStudentList = [];
 
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
@@ -40,12 +41,31 @@ async function request_consulting() {
     $('#consulting_target_ban').change(function(){
         $('#select_student').hide()
         var selectedValues = $(this).val()[0];
-        if (selectedList.indexOf(selectedValues) === -1) {
-            selectedList.push(selectedValues);
+        if (selectedBanList.indexOf(selectedValues) === -1) {
+            selectedBanList.push(selectedValues);
         }
         $('#target_bans').empty()
-        for(i=0;i<selectedList.length;i++){
-            option_text = $('#consulting_target_ban option[value="' + selectedList[i] + '"]').text(); 
+        for(i=0;i<selectedBanList.length;i++){
+            option_text = $('#consulting_target_student option[value="' + selectedBanList[i] + '"]').text(); 
+            
+            var selectedOptions = `
+            <li>
+                ${option_text}
+                <button onclick="delete_selected_student(${i})">❌</button> 
+            </li>
+            `
+            $('#target_students').append(selectedOptions);
+            
+        }
+    });
+    $('#consulting_target_student').change(function(){
+        var selectedValues = $(this).val()[0];
+        if (selectedStudentList.indexOf(selectedValues) === -1) {
+            selectedStudentList.push(selectedValues);
+        }
+        $('#target_students').empty()
+        for(i=0;i<selectedStudentList.length;i++){
+            option_text = $('#consulting_target_ban option[value="' + selectedStudentList[i] + '"]').text(); 
             if(option_text !='반을 선택해주세요'){
                 var selectedOptions = `
                 <li>
@@ -91,10 +111,10 @@ async function request_consulting() {
 // 다중 선택 반 선택 취소
 function delete_selected_ban(idx){
     // // selected_list = selected_list.split(",")
-    selectedList.splice(idx,1)
+    selectedBanList.splice(idx,1)
     $('#target_bans').empty()
-    for(i=0;i<selectedList.length;i++){
-        option_text = $('#consulting_target_ban option[value="' + selectedList[i] + '"]').text(); 
+    for(i=0;i<selectedBanList.length;i++){
+        option_text = $('#consulting_target_ban option[value="' + selectedBanList[i] + '"]').text(); 
         if(option_text !='반을 선택해주세요'){
             var selectedOptions = `
             <li>
@@ -110,7 +130,7 @@ function delete_selected_ban(idx){
 
 async function get_select_student(idx){
     // name +'@'+ b_id + '@' + t_id
-    value = selectedList[idx].split('@')
+    value = selectedBanList[idx].split('@')
     $('#select_student').show()
 
     await $.ajax({
@@ -119,15 +139,14 @@ async function get_select_student(idx){
         data: {},
         success: function (response) {
             // 전체 학생 대상 진행 append 
-            let target_all_student = `<option value="전체학생">✔️${value[0]}반 전체 학생 대상 진행</option>`;
+            let target_all_student = `<option value="전체학생@${value[1]}@${value[2]}">✔️${value[0]}반 전체 학생 대상 진행</option>`;
             $('#target_a_student').html(target_all_student)
             
             $('#target_student').empty();
             for (var i = 0; i <  response['students'].length; i++) {
                 target = response['students'][i]
-                let new_value = value[1]+'@'+value[2]+'@'+target['register_no']
                 let name = target['name'];
-                let temp_target_student = `<option value="${new_value}"> ${name}</option>`;
+                let temp_target_student = `<option value="${value[1]}@${value[2]}@${target['register_no']}"> ${name}</option>`;
                 $('#target_student').append(temp_target_student)
             } 
         },
