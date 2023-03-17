@@ -64,16 +64,7 @@ function get_select_student(idx){
 }
 // 상담 요청 모달이 클릭됐을때 실행 되는 / 모달에 필요한 정보 보내주는 함수 
 async function request_consulting() {
-    // 반 선택 되면 변화에 따라 함수 실행 
-    setInterval(function () {
-        if($(`input:checkbox[id="all_ban_target"]`).is(":checked")) {
-            $('#consulting_target_ban').hide()
-            $('#target_bans').hide()
-        } else {
-            $('#consulting_target_ban').show()
-            $('#target_bans').show()
-        }
-        var selectedList = [];
+    var selectedList = [];
         $('#consulting_target_ban').change(function(){
             var selectedValues = $(this).val()[0];
             if (selectedList.indexOf(selectedValues) === -1) {
@@ -93,6 +84,15 @@ async function request_consulting() {
                 $('#target_bans').append(selectedOptions);
             }
         });
+    // 반 선택 되면 변화에 따라 함수 실행 
+    setInterval(function () {
+        if($(`input:checkbox[id="all_ban_target"]`).is(":checked")) {
+            $('#consulting_target_ban').hide()
+            $('#target_bans').hide()
+        } else {
+            $('#consulting_target_ban').show()
+            $('#target_bans').show()
+        }
     }, 10);
     await $.ajax({
         url: '/manage/request',
