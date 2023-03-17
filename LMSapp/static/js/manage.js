@@ -54,13 +54,13 @@ function delete_selected_ban(idx){
     }
 }
 function get_select_student(idx){
-    console.log(idx)
+    target = selectedList[idx]
     console.log('어ㅣ룬')
-    if($(`input:checkbox[id="all_student_target${selectedList[idx]}"]`).is(":checked")) {
-        $('#student_select'+selectedList[idx]).hide()
+    if($(`input:checkbox[id="all_student_target${target}"]`).is(":checked")) {
+        $('#student_select'+target).hide()
         $('#select_student').hide()
     } else {
-        $('#student_select'+selectedList[idx]).show()
+        $('#student_select'+target).show()
         $('#select_student').show()
     }
 }
