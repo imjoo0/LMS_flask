@@ -38,6 +38,36 @@ function getBanlist() {
 
 // 상담 요청 모달이 클릭됐을때 실행 되는 / 모달에 필요한 정보 보내주는 함수 
 async function request_consulting() {
+    $('#consulting_target_ban').change(function(){
+        $('.select_student').hide()
+        var selectedValues = $(this).val()[0];
+        if (selectedBanList.indexOf(selectedValues) === -1) {
+            selectedBanList.push(selectedValues);
+        }
+        $('#consulting_target_ban').val(selectedBanList)
+        $('#target_bans').empty()
+        for(i=0;i<selectedBanList.length;i++){
+            option_text = $('#consulting_target_ban option[value="' + selectedBanList[i] + '"]').text(); 
+            if(option_text !='반을 선택해주세요'){
+                var selectedOptions = `
+                <li>
+                    ${option_text}
+                    <button onclick="get_select_student(${i})">학생선택</button> 
+                    <button onclick="delete_selected_ban(${i})">❌</button> 
+                </li>
+                <div class="notice_message" class="select_student">
+                    <p>👇 상담을 진행할 학생을 선택해주세요</p>
+                    <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student${selectedBanList[i]}">
+                    </select>
+                    <ul class="make_col" id="target_students${selectedBanList[i]}">
+                    </ul>
+                </div>
+                `
+                $('#target_bans').append(selectedOptions);
+            }
+            
+        }
+    });
     // 반 선택 되면 변화에 따라 함수 실행 
     setInterval(function () {
         if($(`input:checkbox[id="all_ban_target"]`).is(":checked")) {
@@ -67,54 +97,7 @@ async function request_consulting() {
         }
     })
 }
-// 반 선택시 마다 실행되는 함수 
-$('#consulting_target_ban').change(function(){
-    var selectedValues = $(this).val()[0];
-    if (selectedBanList.indexOf(selectedValues) === -1) {
-        selectedBanList.push(selectedValues);
-    }
-    $('#consulting_target_ban').val(selectedBanList)
-    
-    $('#target_bans').empty()
-    for(i=0;i<selectedBanList.length;i++){
-        option_text = $('#consulting_target_ban option[value="' + selectedBanList[i] + '"]').text(); 
-        if(option_text !='반을 선택해주세요'){
-            var selectedOptions = `
-            <li>
-                ${option_text}
-                <button onclick="delete_selected_ban(${i})">❌</button> 
-            </li>
-            <div class="notice_message">
-                <p>👇 상담을 진행할 학생을 선택해주세요</p>
-                <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student${selectedBanList[i]}">
-                </select>
-                <ul class="make_col" id="target_students${selectedBanList[i]}">
-                </ul>
-            </div>
-            `
-            $('#target_bans').append(selectedOptions);
-        }
-    }
-    var value = selectedValues.split('_')
-    $.ajax({
-        type: "GET",
-        url: "/manage/ban_student/"+value[0],
-        data: {},
-        success: function (response) {
-            // 전체 학생 대상 진행 append 
-            var temp_target_student = `<option value="전체학생_${selectedValues}">✔️전체 학생 대상 진행</option>`;
-            for (var i = 0; i <  response['students'].length; i++) {
-                target = response['students'][i]
-                let name = target['name'];
-                temp_target_student += `<option value="${selectedValues}_${target['register_no']}"> ${name}</option>`;
-                $(`#consulting_target_student${selectedValues}`).html(temp_target_student)
-            } 
-        },
-        error:function(xhr, status, error){
-                alert('xhr.responseText');
-            }
-    })
-});
+
 // 다중 선택 반 선택 취소
 function delete_selected_ban(idx){
     // // selected_list = selected_list.split(",")
@@ -132,13 +115,8 @@ function delete_selected_ban(idx){
             </li>
             <div class="notice_message" class="select_student">
                 <p>👇 상담을 진행할 학생을 선택해주세요</p>
-                <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student">
-                    <optgroup id="target_a_student" label="반 대상 전체 진행">
-
-                    </optgroup>
-                    <optgroup id="target_student" label="개별 학생 대상 진행">
-
-                    </optgroup>
+                <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student${selectedBanList[i]}">
+                
                 </select>
                 <ul class="make_col" id="target_students">
                 </ul>
@@ -152,10 +130,10 @@ function delete_selected_ban(idx){
 function delete_selected_student(idx){
     // // selected_list = selected_list.split(",")
     selectedStudentList.splice(idx,1)
-    $('#consulting_target_student').val(selectedStudentList)
+    // $('#consulting_target_student').val(selectedStudentList)
     $('#target_students').empty()
     for(i=0;i<selectedStudentList.length;i++){
-        option_text = $('#consulting_target_student option[value="' + selectedStudentList[i] + '"]').text(); 
+        option_text = $(`#consulting_target_student${selectedBanList[i]} option[value="${selectedStudentList[i]}"]`).text(); 
         var selectedOptions = `
         <li>
             ${option_text}
@@ -179,7 +157,7 @@ async function get_select_student(idx){
 
         $('#target_students'+selectedBanList[idx]).empty()
         for(i=0;i<selectedStudentList.length;i++){
-            option_text = $(`#consulting_target_student${selectedBanList[idx]} option[value="' + selectedStudentList[i] + '"]`).text(); 
+            option_text = $(`#consulting_target_student${selectedBanList[i]} option[value="${selectedStudentList[i]}"]`).text(); 
             var selectedOptions = `
             <li>
                 ${option_text}
@@ -195,15 +173,12 @@ async function get_select_student(idx){
         data: {},
         success: function (response) {
             // 전체 학생 대상 진행 append 
-            let target_all_student = `<option value="전체학생_${selectedBanList[idx]}">✔️전체 학생 대상 진행</option>`;
-            $('#target_a_student').html(target_all_student)
-            
-            $('#target_student').empty();
+            let temp_target_student = `<option value="전체학생_${selectedBanList[idx]}">✔️전체 학생 대상 진행</option>`;
             for (var i = 0; i <  response['students'].length; i++) {
                 target = response['students'][i]
                 let name = target['name'];
-                let temp_target_student = `<option value="${selectedBanList[idx]}_${target['register_no']}"> ${name}</option>`;
-                $('#target_student').append(temp_target_student)
+                temp_target_student += `<option value="${selectedBanList[idx]}_${target['register_no']}"> ${name}</option>`;
+                $('#consulting_target_student'+selectedBanList[idx]).append(temp_target_student)
             } 
         },
         error:function(xhr, status, error){
@@ -555,7 +530,7 @@ function plusconsulting(student_id, is_done) {
                         let history_created = target['history_created']
                         let temp_consulting_contents_box = `
                     <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
-                    <p >✅<strong>${category}</strong></br>${contents}</br>_마감:
+                    <p >✅<strong>${category}</strong></br>${contents}</br>*마감:
                         ~${deadline}까지 | 부재중 : ${consulting_missed}</br></p>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">상담 사유</span>
@@ -578,7 +553,7 @@ function plusconsulting(student_id, is_done) {
                     } else {
                         let temp_consulting_contents_box = `
                     <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
-                    <p >✅<strong>${category}</strong></br>${contents}</br>_마감:
+                    <p >✅<strong>${category}</strong></br>${contents}</br>*마감:
                         ~${deadline}까지 | 부재중 : ${consulting_missed}</br></p>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">상담 사유</span>
@@ -601,7 +576,7 @@ function plusconsulting(student_id, is_done) {
 
                 }
                 let temp_post_box = `
-                <p>✔️ 상담 결과 이반 / 취소_환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
+                <p>✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
                     <div class="modal-body-select-container">
                     <span class="modal-body-select-label">부재중</span>
                     <label><input type="checkbox" id="missed">부재중</label>
