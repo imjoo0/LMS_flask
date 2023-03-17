@@ -44,6 +44,7 @@ async function request_consulting() {
         if (selectedBanList.indexOf(selectedValues) === -1) {
             selectedBanList.push(selectedValues);
         }
+        $('#consulting_target_ban').val(selectedBanList)
         $('#target_bans').empty()
         for(i=0;i<selectedBanList.length;i++){
             option_text = $('#consulting_target_ban option[value="' + selectedBanList[i] + '"]').text(); 
@@ -110,6 +111,7 @@ async function request_consulting() {
 function delete_selected_ban(idx){
     // // selected_list = selected_list.split(",")
     selectedBanList.splice(idx,1)
+    $('#consulting_target_ban').val(selectedBanList)
     $('#target_bans').empty()
     for(i=0;i<selectedBanList.length;i++){
         option_text = $('#consulting_target_ban option[value="' + selectedBanList[i] + '"]').text(); 
