@@ -162,7 +162,7 @@ async function get_select_student(idx){
 
         $('#target_students'+selectedBanList[idx]).empty()
         for(i=0;i<selectedStudentList.length;i++){
-            option_text = $('#consulting_target_student option[value="' + selectedStudentList[i] + '"]').text(); 
+            option_text = $(`#consulting_target_student${selectedBanList[idx]} option[value="' + selectedStudentList[i] + '"]`).text(); 
             var selectedOptions = `
             <li>
                 ${option_text}
