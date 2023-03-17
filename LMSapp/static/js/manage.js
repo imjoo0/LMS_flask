@@ -130,11 +130,11 @@ function delete_selected_ban(idx){
     }
 }
 
-async function get_select_student(idx){
+function get_select_student(idx){
     $('#select_student'+selectedBanList[idx]).show() 
     // b_id + '_' + t_id
     value = selectedBanList[idx].split('_')  
-    await $.ajax({
+    $.ajax({
         type: "GET",
         url: "/manage/ban_student/"+value[0],
         data: {},
@@ -150,8 +150,30 @@ async function get_select_student(idx){
         },
         error:function(xhr, status, error){
                 alert('xhr.responseText');
-            }
+        }
     })
+    $('#consulting_target_student'+selectedBanList[idx]).change(function(){
+        var selectedValues = $(this).val()[0];
+        if (selectedStudentList.indexOf(selectedValues) === -1) {
+            selectedStudentList.push(selectedValues);
+        }
+        $('#consulting_target_student'+selectedBanList[idx]).val(selectedStudentList)
+
+        // 선택 된거 보여주기 
+        $(`#target_students${selectedBanList[idx]}`).empty()
+        for(i=0;i<selectedStudentList.length;i++){
+            option_text = $(`#consulting_target_student${selectedBanList[idx]} option[value="${selectedStudentList[i]}"]`).text(); 
+            var selectedOptions = `
+            <li>
+                ${option_text}
+                <button onclick="delete_selected_student(${i})">❌</button> 
+            </li>
+            `
+            $(`#target_students${selectedBanList[idx]}`).append(selectedOptions);
+            
+        }
+    });
+
 }
 
 // 다중 선택 학생 선택 취소 
@@ -159,7 +181,7 @@ function delete_selected_student(idx){
     // // selected_list = selected_list.split(",")
     selectedStudentList.splice(idx,1)
     // $('#consulting_target_student').val(selectedStudentList)
-    $('#target_students').empty()
+    $(`#target_students${selectedBanList[idx]}`).empty()
     for(i=0;i<selectedStudentList.length;i++){
         option_text = $(`#consulting_target_student${selectedBanList[i]} option[value="${selectedStudentList[i]}"]`).text(); 
         var selectedOptions = `
@@ -168,7 +190,7 @@ function delete_selected_student(idx){
             <button onclick="delete_selected_student(${i})">❌</button> 
         </li>
         `
-        $('#target_students').append(selectedOptions);
+        $(`#target_students${selectedBanList[idx]}`).append(selectedOptions);
     }
 }
 function post_consulting_request(){
