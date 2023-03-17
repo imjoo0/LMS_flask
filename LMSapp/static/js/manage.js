@@ -46,13 +46,6 @@ async function request_consulting() {
         </li>
         `
         $('#target_bans').append(selectedOptions);
-
-        var selectedOptions = $('#consulting_target_ban option:selected').map(function() {
-            return $(this).val();
-          }).get().filter(function(value, index, self) {
-            return self.indexOf(value) === index;
-          });
-        console.log(selectedOptions)
     });
     setInterval(function () {
         if ($(`input:checkbox[id="all_ban_target"]`).is(":checked")) {
@@ -85,6 +78,12 @@ async function request_consulting() {
 // 다중 선택 반 선택 취소
 function delete_selected_ban(value){
     // select 요소에서 선택된 option 엘리먼트들을 가져옴
+    var selectedOptions = $('#consulting_target_ban option:selected').map(function() {
+        return $(this).val();
+      }).get().filter(function(value, index, self) {
+        return self.indexOf(value) === index;
+      });
+    console.log(selectedOptions)
     console.log(value)
     var selectedOptions = $('#consulting_target_ban').val()
     console.log(selectedOptions)
