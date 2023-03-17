@@ -40,6 +40,7 @@ $('#consulting_target_ban').change(function() {
         $('#target_bans').append('<ul>' + selectedOptions + '</ul>');
     }
   });
+
 // 상담 요청 모달에 필요한 정보 보내주는 함수 
 async function request_consulting() {
     setInterval(function () {
@@ -76,17 +77,8 @@ function delete_selected_ban(value){
     // select 요소에서 선택된 option 엘리먼트들을 가져옴
     console.log('hello')
     var selectedOptions = $('#consulting_target_ban').val()
+    selectedOptions.remove(value)
     console.log(selectedOptions)
-    const newselectedOptions = selectedOptions.filter(function(val){
-        return val !== value
-    });
-    console.log(newselectedOptions)
-    $('#target_bans').empty()
-    for (var i = 0; i < newselectedOptions.length; i++) {
-        var optionText = $('#consulting_target_ban option[value="' + newselectedOptions[i] + '"]').text();
-        var selectedOptions = '<li>' + optionText + ` <button onclick="delete_selected_ban(${newselectedOptions[i]})">❌</button><button onclick="get_ban_students(${newselectedOptions[i]})">학생선택</button>`+'</li>';
-        $('#target_bans').append('<ul>' + selectedOptions + '</ul>');
-    }
 }
 
 
