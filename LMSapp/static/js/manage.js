@@ -115,7 +115,7 @@ async function get_select_student(idx){
 
     await $.ajax({
         type: "GET",
-        url: "/manage/ban/student/"+target[1],
+        url: "/manage/ban/student/"+value[1],
         data: {},
         success: function (response) {
             // 전체 학생 대상 진행 append 
