@@ -43,6 +43,7 @@ async function request_consulting() {
         if (selectedList.indexOf(selectedValues) === -1) {
             selectedList.push(selectedValues);
         }
+        $('#target_bans').empty()
         for(i=0;i<selectedList.length;i++){
             option_text = $('#consulting_target_ban option[value="' + selectedList[i] + '"]').text(); 
             var selectedOptions = `
