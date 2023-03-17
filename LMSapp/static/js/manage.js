@@ -145,8 +145,8 @@ async function get_select_student(idx){
                 target = response['students'][i]
                 let name = target['name'];
                 temp_target_student += `<option value="${selectedBanList[idx]}_${target['register_no']}"> ${name}</option>`;
-                $('#consulting_target_student'+selectedBanList[idx]).append(temp_target_student)
             } 
+            $('#consulting_target_student'+selectedBanList[idx]).html(temp_target_student)
         },
         error:function(xhr, status, error){
                 alert('xhr.responseText');
