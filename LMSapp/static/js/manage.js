@@ -35,15 +35,18 @@ function getBanlist() {
 
 // 상담 요청 모달이 클릭됐을때 실행 되는 / 모달에 필요한 정보 보내주는 함수 
 async function request_consulting() {
+    $('#target_bans').empty()
     // 반 선택 되면 변화에 따라 함수 실행 
     $('#consulting_target_ban').change(function(){
         var selectedValues = $(this).val();
-        let selectedOptions = ''
         for(var i = 0; i < selectedValues.length; i++) {
             option_text = $('#consulting_target_ban option[value="' + selectedValues[i] + '"]').text(); 
-            button_text = `<button onclick="delete_selected_ban('${selectedValues[i]}')">❌</button>`
-            selectedOptions += '<li>'+ option_text + button_text +'</li>';
-            $('#target_bans').html(selectedOptions);
+            var selectedOptions = `
+            <li>
+              ${option_text} <button onclick="delete_selected_ban('${selectedValues[i]}')">❌</button>  
+            </li>
+            `
+            $('#target_bans').append(selectedOptions);
         }
     });
     setInterval(function () {
