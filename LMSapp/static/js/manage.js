@@ -85,15 +85,8 @@ async function request_consulting() {
 // 다중 선택 반 선택 취소
 function delete_selected_ban(selected_list,target_value){
     selected_list = selected_list.split(",")
+    selected_list.remove(target_value)
     console.log(selected_list)
-    console.log(target_value)
-    // var selectedOptions = $('#consulting_target_ban').val()
-    // console.log(selectedOptions)
-    // // select 요소에서 선택된 option 엘리먼트들을 가져옴
-    // $('#consulting_target_ban option[value="' + value + '"]').val(); 
-    // var selectedOptions = $('#consulting_target_ban').val()
-    // console.log(selectedOptions)
-    // selectedOptions.remove(value)
 }
 
 
