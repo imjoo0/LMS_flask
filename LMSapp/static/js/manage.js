@@ -39,6 +39,7 @@ async function request_consulting() {
     // 반 선택 되면 변화에 따라 함수 실행 
     $('#consulting_target_ban').change(function(){
         var selectedValues = $(this).val();
+        console.log(selectedValues)
         for(var i = 0; i < selectedValues.length; i++) {
             option_text = $('#consulting_target_ban option[value="' + selectedValues[i] + '"]').text(); 
             var selectedOptions = `
@@ -46,7 +47,7 @@ async function request_consulting() {
               ${option_text} <button onclick="delete_selected_ban('${selectedValues[i]}')">❌</button>  
             </li>
             `
-            $('#target_bans').append(selectedOptions);
+            $('#target_bans').html(selectedOptions);
         }
     });
     setInterval(function () {
