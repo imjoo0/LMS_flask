@@ -21,7 +21,7 @@ function getBanlist() {
                 let semester = target_ban[i]['semester']
                 let t_id = target_ban[i]['teacher_register_no']
                 let b_id = target_ban[i]['register_no']
-                let value = b_id + '@' + t_id
+                let value = b_id + '_' + t_id
                 temp_ban_option += `
                 <option value="${value}">${name} (${semester}월 학기)</option>
                 `;
@@ -95,18 +95,18 @@ $('#consulting_target_ban').change(function(){
             $('#target_bans').append(selectedOptions);
         }
     }
-    var value = selectedValues.split('@')
+    var value = selectedValues.split('_')
     $.ajax({
         type: "GET",
         url: "/manage/ban_student/"+value[0],
         data: {},
         success: function (response) {
             // 전체 학생 대상 진행 append 
-            var temp_target_student = `<option value="전체학생@${selectedValues}">✔️전체 학생 대상 진행</option>`;
+            var temp_target_student = `<option value="전체학생_${selectedValues}">✔️전체 학생 대상 진행</option>`;
             for (var i = 0; i <  response['students'].length; i++) {
                 target = response['students'][i]
                 let name = target['name'];
-                temp_target_student += `<option value="${selectedValues}@${target['register_no']}"> ${name}</option>`;
+                temp_target_student += `<option value="${selectedValues}_${target['register_no']}"> ${name}</option>`;
                 $(`#consulting_target_student${selectedValues}`).html(temp_target_student)
             } 
         },
@@ -166,8 +166,8 @@ function delete_selected_student(idx){
     }
 }
 async function get_select_student(idx){
-    // b_id + '@' + t_id
-    value = selectedBanList[idx].split('@')
+    // b_id + '_' + t_id
+    value = selectedBanList[idx].split('_')
     $('.select_student').show() 
     // 반 선택 되면 변화에 따라 함수 실행
     $('#consulting_target_student'+selectedBanList[idx]).change(function(){
@@ -195,14 +195,14 @@ async function get_select_student(idx){
         data: {},
         success: function (response) {
             // 전체 학생 대상 진행 append 
-            let target_all_student = `<option value="전체학생@${selectedBanList[idx]}">✔️전체 학생 대상 진행</option>`;
+            let target_all_student = `<option value="전체학생_${selectedBanList[idx]}">✔️전체 학생 대상 진행</option>`;
             $('#target_a_student').html(target_all_student)
             
             $('#target_student').empty();
             for (var i = 0; i <  response['students'].length; i++) {
                 target = response['students'][i]
                 let name = target['name'];
-                let temp_target_student = `<option value="${selectedBanList[idx]}@${target['register_no']}"> ${name}</option>`;
+                let temp_target_student = `<option value="${selectedBanList[idx]}_${target['register_no']}"> ${name}</option>`;
                 $('#target_student').append(temp_target_student)
             } 
         },
@@ -555,7 +555,7 @@ function plusconsulting(student_id, is_done) {
                         let history_created = target['history_created']
                         let temp_consulting_contents_box = `
                     <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
-                    <p >✅<strong>${category}</strong></br>${contents}</br>*마감:
+                    <p >✅<strong>${category}</strong></br>${contents}</br>_마감:
                         ~${deadline}까지 | 부재중 : ${consulting_missed}</br></p>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">상담 사유</span>
@@ -578,7 +578,7 @@ function plusconsulting(student_id, is_done) {
                     } else {
                         let temp_consulting_contents_box = `
                     <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
-                    <p >✅<strong>${category}</strong></br>${contents}</br>*마감:
+                    <p >✅<strong>${category}</strong></br>${contents}</br>_마감:
                         ~${deadline}까지 | 부재중 : ${consulting_missed}</br></p>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">상담 사유</span>
@@ -601,7 +601,7 @@ function plusconsulting(student_id, is_done) {
 
                 }
                 let temp_post_box = `
-                <p>✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
+                <p>✔️ 상담 결과 이반 / 취소_환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
                     <div class="modal-body-select-container">
                     <span class="modal-body-select-label">부재중</span>
                     <label><input type="checkbox" id="missed">부재중</label>
