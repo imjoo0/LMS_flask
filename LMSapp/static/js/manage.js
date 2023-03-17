@@ -71,7 +71,7 @@ $('select[name="consulting_target_ban[]"]').change(function(){
     }
     $('#target_bans').empty()
     for(i=0;i<selectedList.length;i++){
-        option_text = $('select[name="consulting_target_ban[] option[value="' + selectedList[i] + '"]').text(); 
+        option_text = $('#consulting_target_ban[] option[value="' + selectedList[i] + '"]').text(); 
         var selectedOptions = `
         <li>
             ${option_text} <button onclick="delete_selected_ban('${selectedList}','${selectedList[i]}')">❌</button>  
