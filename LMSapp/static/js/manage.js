@@ -45,6 +45,7 @@ async function request_consulting() {
             selectedBanList.push(selectedValues);
         }
         $('#consulting_target_ban').val(selectedBanList)
+        // 선택 된거 보여주기 
         $('#target_bans').empty()
         for(i=0;i<selectedBanList.length;i++){
             option_text = $('#consulting_target_ban option[value="' + selectedBanList[i] + '"]').text(); 
@@ -55,7 +56,7 @@ async function request_consulting() {
                     <button onclick="get_select_student(${i})">학생선택</button> 
                     <button onclick="delete_selected_ban(${i})">❌</button> 
                 </li>
-                <div class="notice_message" class="select_student">
+                <div class="notice_message select_student" style="display:none">
                     <p>👇 상담을 진행할 학생을 선택해주세요</p>
                     <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student${selectedBanList[i]}">
                     </select>
@@ -103,6 +104,8 @@ function delete_selected_ban(idx){
     // // selected_list = selected_list.split(",")
     selectedBanList.splice(idx,1)
     $('#consulting_target_ban').val(selectedBanList)
+
+     // 선택 된거 보여주기 
     $('#target_bans').empty()
     for(i=0;i<selectedBanList.length;i++){
         option_text = $('#consulting_target_ban option[value="' + selectedBanList[i] + '"]').text(); 
@@ -113,7 +116,7 @@ function delete_selected_ban(idx){
                 <button onclick="get_select_student(${i})">학생선택</button> 
                 <button onclick="delete_selected_ban(${i})">❌</button> 
             </li>
-            <div class="notice_message" class="select_student">
+            <div class="notice_message select_student" style="display:none">
                 <p>👇 상담을 진행할 학생을 선택해주세요</p>
                 <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student${selectedBanList[i]}">
                 
@@ -126,47 +129,11 @@ function delete_selected_ban(idx){
         }
     }
 }
-// 다중 선택 학생 선택 취소 
-function delete_selected_student(idx){
-    // // selected_list = selected_list.split(",")
-    selectedStudentList.splice(idx,1)
-    // $('#consulting_target_student').val(selectedStudentList)
-    $('#target_students').empty()
-    for(i=0;i<selectedStudentList.length;i++){
-        option_text = $(`#consulting_target_student${selectedBanList[i]} option[value="${selectedStudentList[i]}"]`).text(); 
-        var selectedOptions = `
-        <li>
-            ${option_text}
-            <button onclick="delete_selected_student(${i})">❌</button> 
-        </li>
-        `
-        $('#target_students').append(selectedOptions);
-    }
-}
-async function get_select_student(idx){
-    // b_id + '_' + t_id
-    value = selectedBanList[idx].split('_')
-    $('.select_student').show() 
-    // 반 선택 되면 변화에 따라 함수 실행
-    $('#consulting_target_student'+selectedBanList[idx]).change(function(){
-        var selectedValues = $(this).val()[0];
-        if (selectedStudentList.indexOf(selectedValues) === -1) {
-            selectedStudentList.push(selectedValues);
-        }
-        $('#consulting_target_student'+selectedBanList[idx]).val(selectedStudentList)
 
-        $('#target_students'+selectedBanList[idx]).empty()
-        for(i=0;i<selectedStudentList.length;i++){
-            option_text = $(`#consulting_target_student${selectedBanList[i]} option[value="${selectedStudentList[i]}"]`).text(); 
-            var selectedOptions = `
-            <li>
-                ${option_text}
-                <button onclick="delete_selected_student(${i})">❌</button> 
-            </li>
-            `
-            $('#target_students'+selectedBanList[idx]).append(selectedOptions);
-        }
-    });   
+async function get_select_student(idx){
+    $('.select_student').show() 
+    // b_id + '_' + t_id
+    value = selectedBanList[idx].split('_')  
     await $.ajax({
         type: "GET",
         url: "/manage/ban_student/"+value[0],
@@ -187,6 +154,23 @@ async function get_select_student(idx){
     })
 }
 
+// 다중 선택 학생 선택 취소 
+function delete_selected_student(idx){
+    // // selected_list = selected_list.split(",")
+    selectedStudentList.splice(idx,1)
+    // $('#consulting_target_student').val(selectedStudentList)
+    $('#target_students').empty()
+    for(i=0;i<selectedStudentList.length;i++){
+        option_text = $(`#consulting_target_student${selectedBanList[i]} option[value="${selectedStudentList[i]}"]`).text(); 
+        var selectedOptions = `
+        <li>
+            ${option_text}
+            <button onclick="delete_selected_student(${i})">❌</button> 
+        </li>
+        `
+        $('#target_students').append(selectedOptions);
+    }
+}
 function post_consulting_request(){
     console.log(
     $('#consulting_target_ban').val())
