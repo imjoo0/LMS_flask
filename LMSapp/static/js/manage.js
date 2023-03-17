@@ -47,7 +47,7 @@ async function request_consulting() {
             option_text = $('#consulting_target_ban option[value="' + selectedList[i] + '"]').text(); 
             var selectedOptions = `
             <li>
-                ${option_text} <button onclick="delete_selected_ban(${selectedList},'${selectedList[i]}')">❌</button>  
+                ${option_text} <button onclick="delete_selected_ban('${selectedList}','${selectedList[i]}')">❌</button>  
             </li>
             `
             $('#target_bans').append(selectedOptions);
@@ -84,6 +84,7 @@ async function request_consulting() {
 
 // 다중 선택 반 선택 취소
 function delete_selected_ban(selected_list,target_value){
+    selected_list = selected_list.split(",")
     console.log(selected_list)
     console.log(target_value)
     // var selectedOptions = $('#consulting_target_ban').val()
