@@ -45,7 +45,7 @@ $('#consulting_target_ban').change(function(){
         <li>
             ${option_text}
             <label><input type="checkbox" id="all_student_target">전체 학생 진행</label>
-            <button onclick="select_student(${i})">개별학생선택</button> 
+            <button onclick="select_student(${i})" class="student_select">개별학생선택</button> 
             <button onclick="delete_selected_ban(${i})">❌</button> 
         </li>
         `
@@ -63,7 +63,7 @@ function delete_selected_ban(idx){
         <li>
             ${option_text}
             <label><input type="checkbox" id="all_student_target">전체 학생 진행</label>
-            <button onclick="select_student(${i})">개별학생선택</button> 
+            <button onclick="select_student(${i})" class="student_select">개별학생선택</button> 
             <button onclick="delete_selected_ban(${i})">❌</button> 
         </li>
         `
@@ -75,12 +75,17 @@ function delete_selected_ban(idx){
 async function request_consulting() {
     // 반 선택 되면 변화에 따라 함수 실행 
     setInterval(function () {
-        if ($(`input:checkbox[id="all_ban_target"]`).is(":checked")) {
+        if($(`input:checkbox[id="all_ban_target"]`).is(":checked")) {
             $('#consulting_target_ban').hide()
             $('#target_bans').hide()
         } else {
             $('#consulting_target_ban').show()
             $('#target_bans').show()
+        }
+        if($(`input:checkbox[id="all_student_target"]`).is(":checked")) {
+            $('#student_select').hide()
+        } else {
+            $('#student_select').show()
         }
     }, 10);
     await $.ajax({
