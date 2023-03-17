@@ -36,23 +36,24 @@ function getBanlist() {
 // 상담 요청 모달이 클릭됐을때 실행 되는 / 모달에 필요한 정보 보내주는 함수 
 async function request_consulting() {
     // 반 선택 되면 변화에 따라 함수 실행 
+    $('#target_bans').empty()
     var selectedList = [];
     $('#consulting_target_ban').change(function(){
         var selectedValues = $(this).val()[0];
         if (selectedList.indexOf(selectedValues) === -1) {
             selectedList.push(selectedValues);
         }
+        for(i=0;i<selectedList.length;i++){
+            option_text = $('#consulting_target_ban option[value="' + selectedList[i] + '"]').text(); 
+            var selectedOptions = `
+            <li>
+                ${option_text} <button onclick="delete_selected_ban('${selectedList[i]}')">❌</button>  
+            </li>
+            `
+            $('#target_bans').append(selectedOptions);
+        }
     });
-    $('#target_bans').empty()
-    for(i=0;i<selectedList.length;i++){
-        option_text = $('#consulting_target_ban option[value="' + selectedList[i] + '"]').text(); 
-        var selectedOptions = `
-        <li>
-            ${option_text} <button onclick="delete_selected_ban('${selectedList[i]}')">❌</button>  
-        </li>
-        `
-        $('#target_bans').append(selectedOptions);
-    }
+    
     setInterval(function () {
         if ($(`input:checkbox[id="all_ban_target"]`).is(":checked")) {
             $('#consulting_target_ban').hide()
