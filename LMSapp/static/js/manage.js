@@ -47,7 +47,7 @@ async function request_consulting() {
             option_text = $('#consulting_target_ban option[value="' + selectedList[i] + '"]').text(); 
             var selectedOptions = `
             <li>
-                ${option_text} <button onclick="delete_selected_ban('${selectedList[i]}')">❌</button>  
+                ${option_text} <button onclick="delete_selected_ban(${selectedList},${selectedList[i]})">❌</button>  
             </li>
             `
             $('#target_bans').append(selectedOptions);
@@ -83,11 +83,13 @@ async function request_consulting() {
 }
 
 // 다중 선택 반 선택 취소
-function delete_selected_ban(value){
-    var selectedOptions = $('#consulting_target_ban').val()
-    console.log(selectedOptions)
-    // select 요소에서 선택된 option 엘리먼트들을 가져옴
-    $('#consulting_target_ban option[value="' + value + '"]').val(); 
+function delete_selected_ban(selected_list,target_value){
+    console.log(selected_list)
+    console.log(target_value)
+    // var selectedOptions = $('#consulting_target_ban').val()
+    // console.log(selectedOptions)
+    // // select 요소에서 선택된 option 엘리먼트들을 가져옴
+    // $('#consulting_target_ban option[value="' + value + '"]').val(); 
     // var selectedOptions = $('#consulting_target_ban').val()
     // console.log(selectedOptions)
     // selectedOptions.remove(value)
