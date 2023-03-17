@@ -103,14 +103,14 @@ $('#consulting_target_ban').change(function(){
         data: {},
         success: function (response) {
             // 전체 학생 대상 진행 append 
-            let target_all_student = `<option value="전체학생@${selectedBanList[idx]}">✔️전체 학생 대상 진행</option>`;
+            let target_all_student = `<option value="전체학생@${selectedValues}">✔️전체 학생 대상 진행</option>`;
             $('#target_a_student').html(target_all_student)
             
             $('#target_student').empty();
             for (var i = 0; i <  response['students'].length; i++) {
                 target = response['students'][i]
                 let name = target['name'];
-                let temp_target_student = `<option value="${selectedBanList[idx]}@${target['register_no']}"> ${name}</option>`;
+                let temp_target_student = `<option value="${selectedValues}@${target['register_no']}"> ${name}</option>`;
                 $('#target_student').append(temp_target_student)
             } 
         },
