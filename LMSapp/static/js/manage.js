@@ -32,26 +32,7 @@ function getBanlist() {
     })
 
 }
-var selectedList = [];
-$('#consulting_target_ban').change(function(){
-    var selectedValues = $(this).val()[0];
-    if (selectedList.indexOf(selectedValues) === -1) {
-        selectedList.push(selectedValues);
-    }
-    $('#target_bans').empty()
-    for(i=0;i<selectedList.length;i++){
-        option_text = $('#consulting_target_ban option[value="' + selectedList[i] + '"]').text(); 
-        var selectedOptions = `
-        <li>
-            ${option_text}
-            <label><input type="checkbox" id="all_student_target${selectedList[i]}">전체 학생 진행</label>
-            <button onclick="get_select_student(${selectedList[i]})" id="student_select${selectedList[i]}">개별학생선택</button> 
-            <button onclick="delete_selected_ban(${i})">❌</button> 
-        </li>
-        `
-        $('#target_bans').append(selectedOptions);
-    }
-});
+
 // 다중 선택 반 선택 취소
 function delete_selected_ban(idx){
     // // selected_list = selected_list.split(",")
@@ -63,7 +44,7 @@ function delete_selected_ban(idx){
         <li>
             ${option_text}
             <label><input type="checkbox" id="all_student_target${selectedList[i]}">전체 학생 진행</label>
-            <button onclick="get_select_student(${selectedList[i]})" id="student_select${selectedList[i]}">개별학생선택</button> 
+            <button onclick="get_select_student(${i})" id="student_select${selectedList[i]}">개별학생선택</button> 
             <button onclick="delete_selected_ban(${i})">❌</button> 
         </li>
         `
@@ -73,11 +54,11 @@ function delete_selected_ban(idx){
 function get_select_student(idx){
     console.log(idx)
     console.log('어ㅣ룬')
-    if($(`input:checkbox[id="all_student_target${idx}"]`).is(":checked")) {
-        $('#student_select'+idx).hide()
+    if($(`input:checkbox[id="all_student_target${selectedList[idx]}"]`).is(":checked")) {
+        $('#student_select'+selectedList[idx]).hide()
         $('#select_student').hide()
     } else {
-        $('#student_select'+idx).show()
+        $('#student_select'+selectedList[idx]).show()
         $('#select_student').show()
     }
 }
@@ -92,11 +73,26 @@ async function request_consulting() {
             $('#consulting_target_ban').show()
             $('#target_bans').show()
         }
-        // if($(`input:checkbox[id="all_student_target"]`).is(":checked")) {
-        //     $('.student_select').hide()
-        // } else {
-        //     $('.student_select').show()
-        // }
+        var selectedList = [];
+        $('#consulting_target_ban').change(function(){
+            var selectedValues = $(this).val()[0];
+            if (selectedList.indexOf(selectedValues) === -1) {
+                selectedList.push(selectedValues);
+            }
+            $('#target_bans').empty()
+            for(i=0;i<selectedList.length;i++){
+                option_text = $('#consulting_target_ban option[value="' + selectedList[i] + '"]').text(); 
+                var selectedOptions = `
+                <li>
+                    ${option_text}
+                    <label><input type="checkbox" id="all_student_target${selectedList[i]}">전체 학생 진행</label>
+                    <button onclick="get_select_student(${i})" id="student_select${selectedList[i]}">개별학생선택</button> 
+                    <button onclick="delete_selected_ban(${i})">❌</button> 
+                </li>
+                `
+                $('#target_bans').append(selectedOptions);
+            }
+        });
     }, 10);
     await $.ajax({
         url: '/manage/request',
