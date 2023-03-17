@@ -24,7 +24,7 @@ function getBanlist() {
                 `;
             }
             $('#ban_list').html(temp_ban_option)
-            $('#consulting_target_ban[]').html(temp_ban_option)
+            $('#consulting_target_ban').html(temp_ban_option)
         },
         error: function (xhr, status, error) {
             alert('xhr.responseText');
@@ -38,10 +38,10 @@ async function request_consulting() {
     // 반 선택 되면 변화에 따라 함수 실행 
     setInterval(function () {
         if ($(`input:checkbox[id="all_ban_target"]`).is(":checked")) {
-            $('#consulting_target_ban[]').hide()
+            $('#consulting_target_ban').hide()
             $('#target_bans').hide()
         } else {
-            $('#consulting_target_ban[]').show()
+            $('#consulting_target_ban').show()
             $('#target_bans').show()
         }
     }, 10);
@@ -70,18 +70,18 @@ function delete_selected_ban(selected_list,target_value){
     selected_list.splice(selected_list.indexOf(target_value),1)
     console.log(selected_list)
     console.log(target_value)
-    // var selectedOptions = $('#consulting_target_ban[]').val()
+    // var selectedOptions = $('#consulting_target_ban').val()
     // console.log(selectedOptions)
     // // select 요소에서 선택된 option 엘리먼트들을 가져옴
-    // $('#consulting_target_ban[] option[value="' + value + '"]').val(); 
-    // var selectedOptions = $('#consulting_target_ban[]').val()
+    // $('#consulting_target_ban option[value="' + value + '"]').val(); 
+    // var selectedOptions = $('#consulting_target_ban').val()
     // console.log(selectedOptions)
     // selectedOptions.remove(value)
 }
 
 function post_consulting_request(){
     console.log(
-    $('#consulting_target_ban[]').val())
+    $('#consulting_target_ban').val())
 }
 
 function go_back() {
