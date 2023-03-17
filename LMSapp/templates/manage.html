@@ -241,7 +241,7 @@
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body" style="padding-top: 0;">
-                <form method="POST">
+                <form action="/manage/request" method="POST" enctype="multipart/form-data">
                     <input id="csrf_token" type="hidden" name="csrf_token" value="{{ csrf_token() }}"
                         style="display: block;" />
                     <div class="make_row">
