@@ -95,26 +95,7 @@ async function ban_change(btid){
                     alert('xhr.responseText');
             }
         })
-        // 선택 된거 보여주기 
-        // $('#target_result').empty()
-        // for(i=0;i<selectedBanList.length;i++){
-        //     option_text = $('#consulting_target_ban option[value="' + selectedBanList[i] + '"]').text();
-        //     var selectedOptions = `
-        //     <li>
-        //         ${option_text}
-        //         <button onclick="get_select_student(${i})">학생선택</button> 
-        //         <button onclick="delete_selected_ban(${i})">❌</button> 
-        //     </li>
-        //     <div class="notice_message" id="select_student${selectedBanList[i]}" style="display:none">
-        //         <p>👇 상담을 진행할 학생을 선택해주세요</p>
-        //         <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student${selectedBanList[i]}">
-        //         </select>
-        //         <ul class="make_col" id="target_students">
-        //         </ul>
-        //     </div>
-        //     `
-        //     $('#target_bans').append(selectedOptions);
-        }
+    }
 }
 // 학생 다중 선택 처리 
 $('#consulting_target_students').change(function(){
@@ -122,6 +103,8 @@ $('#consulting_target_students').change(function(){
     if(selectedValues.includes("전체학생")){
         selectedOptions = '<li>✔️전체 학생 대상 진행<button onclick="delete_selected_student(-1)">❌</button> </li>'
         $('#target_students').html(selectedOptions);
+        selectedStudentList.length = 0;
+        selectedStudentList.push(selectedValues);
     }else{
         if (selectedStudentList.indexOf(selectedValues) === -1) {
             selectedStudentList.push(selectedValues);
@@ -129,6 +112,7 @@ $('#consulting_target_students').change(function(){
         // 선택 된거 보여주기 
         var selectedOptions = ''
         for(i=0;i<selectedStudentList.length;i++){
+            console.log(selectedStudentList)
             option_text = $(`#consulting_target_students option[value="${selectedStudentList[i]}"]`).text(); 
             selectedOptions += `
             <li>${option_text}<button onclick="delete_selected_student(${i})">❌</button> </li>
