@@ -30,8 +30,6 @@
         }
     });
 </script>
-<script type="text/javascript" src="../static/js/manage.js"></script>
-<script type="text/javascript" src="../static/js/common.js"></script>
 <!-- 문의 조회 모달 창 -->
 <div class="modal fade" id="answer" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -254,8 +252,9 @@
                 <div class="notice_message">
                     <p>👇 상담을 진행할 반을 선택해주세요</p>
                     <div class="plus_under_contents">
-                        <select class="border rounded-0 form-control form-control-sm" id="consulting_target_ban" onchange="ban_change(this.value)">
-
+                        <select class="border rounded-0 form-control form-control-sm" onchange="ban_change(this.value)">
+                            <option value=0>전체 반 대상 진행</option>
+                            <div  id="consulting_target_ban"></div>
                         </select>
                     </div>
                 </div>
@@ -587,6 +586,8 @@
 </div>
 
 {% block jspart %}
+<script type="text/javascript" src="../static/js/manage.js"></script>
+<script type="text/javascript" src="../static/js/common.js"></script>
 {% endblock %}
 
 {% endautoescape %}
