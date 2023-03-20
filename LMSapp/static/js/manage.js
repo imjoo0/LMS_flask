@@ -123,7 +123,7 @@ $('#consulting_target_students').change(function(){
 });
 
 function delete_selected_student(idx){
-    console.log(selectedStudentList)
+    $('#target_students').empty()
     if(idx != -1){
         selectedStudentList.splice(idx,1)
     }else{
@@ -139,6 +139,8 @@ function delete_selected_student(idx){
         $('#target_students').html(selectedOptions);
     }
     $('#consulting_target_students').val(selectedStudentList)
+    
+    console.log(selectedStudentList)
 }
 
 // 여기 아래부턴 과거 코드 
