@@ -104,7 +104,7 @@ $('#consulting_target_students').change(function(){
         selectedStudentList.length = 0;
         selectedStudentList.push(selectedValues);
     }else{
-        if(selectedBanList[0].includes("전체학생")){
+        if(selectedStudentList[0].includes("전체학생")){
             return alert('전체 학생 대상 진행이 체크 되어있습니다.')
         }
         if (selectedStudentList.indexOf(selectedValues) === -1) {
