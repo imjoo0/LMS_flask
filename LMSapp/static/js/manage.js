@@ -119,21 +119,45 @@ async function ban_change(btid){
 // 학생 다중 선택 처리 
 $('#consulting_target_students').change(function(){
     var selectedValues = $(this).val()[0];
-    if (selectedStudentList.indexOf(selectedValues) === -1) {
-        selectedStudentList.push(selectedValues);
+    if(selectedValues.includes("전체학생")){
+        selectedOptions = '<li>✔️전체 학생 대상 진행<button onclick="delete_selected_student(0)">❌</button> </li>'
+        $('#target_students').html(selectedOptions);
+    }else{
+        if (selectedStudentList.indexOf(selectedValues) === -1) {
+            selectedStudentList.push(selectedValues);
+        }
+        // 선택 된거 보여주기 
+        var selectedOptions = ''
+        for(i=0;i<selectedStudentList.length;i++){
+            option_text = $(`#consulting_target_students option[value="${selectedStudentList[i]}"]`).text(); 
+            selectedOptions += `
+            <li>${option_text}<button onclick="delete_selected_student(${i})">❌</button> </li>
+            `
+            $('#target_students').html(selectedOptions);
+        }
     }
     $('#consulting_target_students').val(selectedStudentList)
-
-    // 선택 된거 보여주기 
-    $('#target_students').empty()
-    for(i=0;i<selectedStudentList.length;i++){
-        option_text = $(`#consulting_target_students option[value="${selectedStudentList[i]}"]`).text(); 
-        var selectedOptions = `
-        <li>${option_text}<button onclick="delete_selected_student(${i})">❌</button> </li>
-        `
-        $('#target_students').append(selectedOptions);
-    }
 });
+
+function delete_selected_student(idx){
+    // // selected_list = selected_list.split(",")
+    if(idx != 0){
+        selectedBanList.splice(idx,1)
+        $('#consulting_target_ban').val(selectedBanList)
+
+        // 선택 된거 보여주기 
+        var selectedOptions = ''
+        for(i=0;i<selectedStudentList.length;i++){
+            option_text = $(`#consulting_target_students option[value="${selectedStudentList[i]}"]`).text(); 
+            selectedOptions += `
+            <li>${option_text}<button onclick="delete_selected_student(${i})">❌</button> </li>
+            `
+            $('#target_students').html(selectedOptions);
+        }
+    }else{
+        $('#target_students').empty()
+    }
+}
 
 // 여기 아래부턴 과거 코드 
 // 다중 선택 반 선택 취소
@@ -165,7 +189,7 @@ function delete_selected_ban(idx){
     }
 }
 
-function get_select_student(idx){
+function get_selected_student(idx){
     $('#select_student'+selectedBanList[idx]).show() 
     // b_id + '_' + t_id
     value = selectedBanList[idx].split('_')  
@@ -210,23 +234,7 @@ function get_select_student(idx){
 
 }
 
-// 다중 선택 학생 선택 취소 
-function delete_selected_student(idx){
-    // // selected_list = selected_list.split(",")
-    selectedStudentList.splice(idx,1)
-    // $('#consulting_target_student').val(selectedStudentList)
-    $(`#target_students${selectedBanList[idx]}`).empty()
-    for(i=0;i<selectedStudentList.length;i++){
-        option_text = $(`#consulting_target_student${selectedBanList[i]} option[value="${selectedStudentList[i]}"]`).text(); 
-        var selectedOptions = `
-        <li>
-            ${option_text}
-            <button onclick="delete_selected_student(${i})">❌</button> 
-        </li>
-        `
-        $(`#target_students${selectedBanList[idx]}`).append(selectedOptions);
-    }
-}
+
 function post_consulting_request(){
     console.log(
     $('#consulting_target_ban').val())
