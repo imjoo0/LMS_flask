@@ -120,7 +120,7 @@ async function ban_change(btid){
 $('#consulting_target_students').change(function(){
     var selectedValues = $(this).val()[0];
     if(selectedValues.includes("전체학생")){
-        selectedOptions = '<li>✔️전체 학생 대상 진행<button onclick="delete_selected_student(0)">❌</button> </li>'
+        selectedOptions = '<li>✔️전체 학생 대상 진행<button onclick="delete_selected_student(-1)">❌</button> </li>'
         $('#target_students').html(selectedOptions);
     }else{
         if (selectedStudentList.indexOf(selectedValues) === -1) {
@@ -141,7 +141,7 @@ $('#consulting_target_students').change(function(){
 
 function delete_selected_student(idx){
     // // selected_list = selected_list.split(",")
-    if(idx != 0){
+    if(idx != -1){
         selectedStudentList.splice(idx,1)
         $('#consulting_target_students').val(selectedStudentList)
 
