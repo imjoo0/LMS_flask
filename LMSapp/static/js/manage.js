@@ -41,14 +41,19 @@ function getBanlist() {
 async function request_consulting() {
     $('#consulting_target_ban').change(function(){
         $('.select_student').hide()
-        var selectedValues = $(this).val()[0];
-        console.log(selectedValues)
-        if ((selectedBanList.indexOf(selectedValues) === -1)&&(selectedValues!=0)) {
+        $('#select_result').show()
+        var selectedValues = $(this).val();
+        if(selectedValues == 0){
+            // 전체 반 대상 진행 일 경우 처리 
+            $('#select_student').hide()
+            $('#target_result').html('<p>전체 반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)</p>')
+        }else if(selectedBanList.indexOf(selectedValues) === -1) {
             selectedBanList.push(selectedValues);
         }
         $('#consulting_target_ban').val(selectedBanList)
+
         // 선택 된거 보여주기 
-        $('#target_bans').empty()
+        $('#target_result').empty()
         for(i=0;i<selectedBanList.length;i++){
             option_text = $('#consulting_target_ban option[value="' + selectedBanList[i] + '"]').text();
             var selectedOptions = `
@@ -68,17 +73,6 @@ async function request_consulting() {
             $('#target_bans').append(selectedOptions);
         }
     });
-    // 반 선택 되면 변화에 따라 함수 실행 
-    setInterval(function () {
-        if($(`input:checkbox[id="all_ban_target"]`).is(":checked")) {
-            $('#consulting_target_ban').hide()
-            $('#target_bans').hide()
-            $('.select_student').hide()
-        } else {
-            $('#consulting_target_ban').show()
-            $('#target_bans').show()
-        }
-    }, 10);
     await $.ajax({
         url: '/manage/request',
         type: 'GET',

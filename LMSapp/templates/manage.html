@@ -254,15 +254,35 @@
                 <div class="notice_message">
                     <p>👇 상담을 진행할 반을 선택해주세요</p>
                     <div class="plus_under_contents">
-                        <label><input type="checkbox" id="all_ban_target">전체 반 진행</label>
-                        <select class="border rounded-0 form-control form-control-sm" id="consulting_target_ban" multiple>
+                        <select class="border rounded-0 form-control form-control-sm" id="consulting_target_ban">
 
                         </select>
-                        <ul class="make_col" id="target_bans">
-                        </ul>
                     </div>
                 </div>
+                <div class="notice_message" id="select_student">
+                    <p>👇 상담을 진행할 학생을 선택해주세요</p>
+                    <div class="plus_under_contents">
+                        <select class="border rounded-0 form-control form-control-sm" id="consulting_target_students">
 
+                        </select>
+                    </div>
+                </div>
+                <div class="notice_message" id="select_result" style="display: none;">
+                    <p>👇 상담 진행 리스트 </p>
+                    <div class="plus_under_contents">
+                        <div id="target_result">
+                            <table class="table text-center" style="width:100%;" id="target_students">
+                                <tr class="row" style="background: #DCE6F2;">
+                                    <th class="col-12" id="displayCount"></th>
+                                </tr>
+                                <tr class="row" style="background:#DCE6F2;">
+                                    <th class="col-12">원생 정보</th>
+                                </tr>
+                                <tr id="s_data" class="row"></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
                 <div class="notice_message">
                     <p>👇 상담을 시작해야 하는 날짜를 2022-01-01 형식으로 적어주세요</p>
                     <input class="border rounded-0 form-control form-control-sm" type="text" name="consulting_date"
