@@ -103,10 +103,9 @@ $('#consulting_target_students').change(function(){
         $('#target_students').html(selectedOptions);
         selectedStudentList.length = 0;
         selectedStudentList.push(selectedValues);
+    }else if(selectedStudentList[0].includes("전체학생")){
+        return alert('전체 학생 대상 진행이 체크 되어있습니다.')
     }else{
-        if(selectedStudentList[0].includes("전체학생")){
-            return alert('전체 학생 대상 진행이 체크 되어있습니다.')
-        }
         if (selectedStudentList.indexOf(selectedValues) === -1) {
             selectedStudentList.push(selectedValues);
         }
