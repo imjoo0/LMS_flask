@@ -129,7 +129,7 @@ $('#consulting_target_students').change(function(){
     for(i=0;i<selectedStudentList.length;i++){
         option_text = $(`#consulting_target_students option[value="${selectedStudentList[i]}"]`).text(); 
         var selectedOptions = `
-        <th class="col-12">${option_text}<button onclick="delete_selected_student(${i})">❌</button> </th>
+        <li>${option_text}<button onclick="delete_selected_student(${i})">❌</button> </li>
         `
         $('#target_students').append(selectedOptions);
     }
