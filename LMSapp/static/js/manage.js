@@ -114,8 +114,6 @@ function ban_change(btid){
         //     `
         //     $('#target_bans').append(selectedOptions);
         }
-    
-    }
 }
 // 학생 다중 선택 처리 
 $('#consulting_target_student'+selectedBanList[idx]).change(function(){
