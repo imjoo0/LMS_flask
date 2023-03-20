@@ -41,7 +41,7 @@ async function request_consulting() {
     $('#consulting_target_ban').change(function(){
         $('.select_student').hide()
         var selectedValues = $(this).val()[0];
-        if (selectedBanList.indexOf(selectedValues) === -1) {
+        if ((selectedBanList.indexOf(selectedValues) === -1)&&(selectedValues!='반을 선택해주세요')) {
             selectedBanList.push(selectedValues);
         }
         $('#consulting_target_ban').val(selectedBanList)
