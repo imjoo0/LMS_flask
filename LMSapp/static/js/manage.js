@@ -38,7 +38,7 @@ function getBanlist() {
 }
 
 // 상담 요청 모달이 클릭됐을때 실행 되는 / 모달에 필요한 정보 보내주는 함수 
-async function consulting_modal() {
+async function request_consulting() {
     $('#select_result').hide()
     $('#select_student').hide()
     await $.ajax({

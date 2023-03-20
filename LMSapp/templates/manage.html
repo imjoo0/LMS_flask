@@ -22,7 +22,6 @@
 {% autoescape off %}
 <script type="text/javascript">
     var csrf_token = "{{ csrf_token() }}";
-
     $.ajaxSetup({
         beforeSend: function (xhr, settings) {
             if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
@@ -31,6 +30,8 @@
         }
     });
 </script>
+<script type="text/javascript" src="../static/js/manage.js"></script>
+<script type="text/javascript" src="../static/js/common.js"></script>
 <!-- 문의 조회 모달 창 -->
 <div class="modal fade" id="answer" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -439,7 +440,7 @@
                 <div class="d-flex justify-content-between flex-row row-cols-sm-2 row-cols-1 mb-4">
                     <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
                     <div class="manage-work-btn-container">
-                        <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#request_consulting" onclick="consulting_modal()">
+                        <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#request_consulting" onclick="request_consulting()">
                             <div class="manage-work-img">
                                 <img src="../static/style/images/user.png">
                             </div>
@@ -586,8 +587,6 @@
 </div>
 
 {% block jspart %}
-<script type="text/javascript" src="../static/js/manage.js"></script>
-<script type="text/javascript" src="../static/js/common.js"></script>
 {% endblock %}
 
 {% endautoescape %}
