@@ -40,40 +40,7 @@ function getBanlist() {
 // 상담 요청 모달이 클릭됐을때 실행 되는 / 모달에 필요한 정보 보내주는 함수 
 async function request_consulting() {
     $('#select_result').hide()
-    $('#consulting_target_ban').change(function(){
-        $('.select_student').hide()
-        $('#select_result').show()
-        var selectedValues = $(this).val();
-        if(selectedValues == 0){
-            // 전체 반 대상 진행 일 경우 처리 
-            $('#select_student').hide()
-            $('#target_result').html('<p>전체 반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)</p>')
-        }else if(selectedBanList.indexOf(selectedValues) === -1) {
-            selectedBanList.push(selectedValues);
-        }
-        $('#consulting_target_ban').val(selectedBanList)
-
-        // 선택 된거 보여주기 
-        $('#target_result').empty()
-        for(i=0;i<selectedBanList.length;i++){
-            option_text = $('#consulting_target_ban option[value="' + selectedBanList[i] + '"]').text();
-            var selectedOptions = `
-            <li>
-                ${option_text}
-                <button onclick="get_select_student(${i})">학생선택</button> 
-                <button onclick="delete_selected_ban(${i})">❌</button> 
-            </li>
-            <div class="notice_message" id="select_student${selectedBanList[i]}" style="display:none">
-                <p>👇 상담을 진행할 학생을 선택해주세요</p>
-                <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student${selectedBanList[i]}">
-                </select>
-                <ul class="make_col" id="target_students">
-                </ul>
-            </div>
-            `
-            $('#target_bans').append(selectedOptions);
-        }
-    });
+    $('#select_student').hide()
     await $.ajax({
         url: '/manage/request',
         type: 'GET',
@@ -93,6 +60,86 @@ async function request_consulting() {
     })
 }
 
+function ban_change(btid){
+    $('#select_result').show()
+    if(btid == 0){
+        // 전체 반 대상 진행 일 경우 처리 
+        $('#select_student').hide()
+        $('#target_result').html('<p>전체 반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)</p>')
+    }else{
+        // 반 다중 선택에 push 
+        if(selectedBanList.indexOf(btid) === -1) {
+            selectedBanList.push(btid);
+        }
+
+        $('#select_student').show() 
+        // b_id + '_' + t_id
+        value = btid.split('_')  
+        
+        $.ajax({
+            type: "GET",
+            url: "/manage/ban_student/"+value[0],
+            data: {},
+            success: function (response) {
+                // 전체 학생 대상 진행 append 
+                let temp_target_student = `<option value="전체학생_${btid}">✔️전체 학생 대상 진행</option>`;
+                for (var i = 0; i <  response['students'].length; i++) {
+                    target = response['students'][i]
+                    let name = target['name'];
+                    temp_target_student += `<option value="${btid}_${target['register_no']}"> ${name}</option>`;
+                } 
+                $('#consulting_target_students').html(temp_target_student)
+            },
+            error:function(xhr, status, error){
+                    alert('xhr.responseText');
+            }
+        })
+        // 선택 된거 보여주기 
+        // $('#target_result').empty()
+        // for(i=0;i<selectedBanList.length;i++){
+        //     option_text = $('#consulting_target_ban option[value="' + selectedBanList[i] + '"]').text();
+        //     var selectedOptions = `
+        //     <li>
+        //         ${option_text}
+        //         <button onclick="get_select_student(${i})">학생선택</button> 
+        //         <button onclick="delete_selected_ban(${i})">❌</button> 
+        //     </li>
+        //     <div class="notice_message" id="select_student${selectedBanList[i]}" style="display:none">
+        //         <p>👇 상담을 진행할 학생을 선택해주세요</p>
+        //         <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student${selectedBanList[i]}">
+        //         </select>
+        //         <ul class="make_col" id="target_students">
+        //         </ul>
+        //     </div>
+        //     `
+        //     $('#target_bans').append(selectedOptions);
+        }
+    
+    }
+}
+// 학생 다중 선택 처리 
+$('#consulting_target_student'+selectedBanList[idx]).change(function(){
+    var selectedValues = $(this).val()[0];
+    if (selectedStudentList.indexOf(selectedValues) === -1) {
+        selectedStudentList.push(selectedValues);
+    }
+    $('#consulting_target_student'+selectedBanList[idx]).val(selectedStudentList)
+
+    // 선택 된거 보여주기 
+    $('#target_students').empty()
+    for(i=0;i<selectedStudentList.length;i++){
+        option_text = $(`#consulting_target_student${selectedBanList[idx]} option[value="${selectedStudentList[i]}"]`).text(); 
+        var selectedOptions = `
+        <li>
+            ${option_text}
+            <button onclick="delete_selected_student(${i})">❌</button> 
+        </li>
+        `
+        $('#target_students').append(selectedOptions);
+    }
+});
+
+// 여기 아래부턴 과거 코드 
 // 다중 선택 반 선택 취소
 function delete_selected_ban(idx){
     // // selected_list = selected_list.split(",")

@@ -254,7 +254,7 @@
                 <div class="notice_message">
                     <p>👇 상담을 진행할 반을 선택해주세요</p>
                     <div class="plus_under_contents">
-                        <select class="border rounded-0 form-control form-control-sm" id="consulting_target_ban">
+                        <select class="border rounded-0 form-control form-control-sm" id="consulting_target_ban" onchange="ban_change(this.value)">
 
                         </select>
                     </div>
@@ -262,7 +262,7 @@
                 <div class="notice_message" id="select_student">
                     <p>👇 상담을 진행할 학생을 선택해주세요</p>
                     <div class="plus_under_contents">
-                        <select class="border rounded-0 form-control form-control-sm" id="consulting_target_students">
+                        <select class="border rounded-0 form-control form-control-sm" id="consulting_target_students" multiple>
 
                         </select>
                     </div>
