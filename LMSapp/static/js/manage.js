@@ -21,7 +21,7 @@ function getBanlist() {
                 let semester = target_ban[i]['semester']
                 let t_id = target_ban[i]['teacher_register_no']
                 let b_id = target_ban[i]['register_no']
-                let value = b_id + '_' + t_id
+                let value = b_id + '_' + t_id +'_' + name
                 temp_ban_option += `
                 <option value="${value}">${name} (${semester}월 학기)</option>
                 `;
@@ -67,8 +67,9 @@ async function ban_change(btid){
         $('#select_student').hide()
         $('#consulting_msg').html('👇 전체 반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)')
     }else{
+        bname = btid.split('_')[2]
         // 반 다중 선택에 push 
-        $('#consulting_msg').html('👇 진행 할 학생 목록')
+        $('#consulting_msg').html(`👇${bname}반 진행, 학생 목록`)
         if(selectedBanList.indexOf(btid) === -1) {
             selectedBanList.push(btid);
         }
@@ -81,7 +82,7 @@ async function ban_change(btid){
             data: {},
             success: function (response) {
                 // 전체 학생 대상 진행 append 
-                let temp_target_student = `<option value="전체학생_${btid}">✔️전체 학생 대상 진행</option>`;
+                let temp_target_student = `<option value="전체학생_${btid}">✔️${bname}반 전체 학생 대상 진행</option>`;
                 for (var i = 0; i <  response['students'].length; i++) {
                     target = response['students'][i]
                     let name = target['name'];
