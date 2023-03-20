@@ -37,11 +37,11 @@ function getBanlist() {
 }
 
 // 상담 요청 모달이 클릭됐을때 실행 되는 / 모달에 필요한 정보 보내주는 함수 
-function request_consulting() {
+async function request_consulting() {
     $('#select_result').hide()
     $('#select_student').hide()
     
-    $.ajax({
+    await $.ajax({
         url: '/manage/request',
         type: 'GET',
         data: {},
@@ -60,14 +60,15 @@ function request_consulting() {
     })
 }
 
-function ban_change(btid){
+async function ban_change(btid){
     $('#select_result').show()
     if(btid == 0){
         // 전체 반 대상 진행 일 경우 처리 
         $('#select_student').hide()
-        $('#target_result').html('<p>전체 반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)</p>')
+        $('#consulting_msg').html('<p>전체 반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)</p>')
     }else{
         // 반 다중 선택에 push 
+        $('#consulting_msg').empty();
         if(selectedBanList.indexOf(btid) === -1) {
             selectedBanList.push(btid);
         }
@@ -76,7 +77,7 @@ function ban_change(btid){
         // b_id + '_' + t_id
         value = btid.split('_')  
         
-        $.ajax({
+        await $.ajax({
             type: "GET",
             url: "/manage/ban_student/"+value[0],
             data: {},
@@ -116,22 +117,19 @@ function ban_change(btid){
         }
 }
 // 학생 다중 선택 처리 
-$('#consulting_target_student'+selectedBanList[idx]).change(function(){
+$('#consulting_target_students').change(function(){
     var selectedValues = $(this).val()[0];
     if (selectedStudentList.indexOf(selectedValues) === -1) {
         selectedStudentList.push(selectedValues);
     }
-    $('#consulting_target_student'+selectedBanList[idx]).val(selectedStudentList)
+    $('#consulting_target_students').val(selectedStudentList)
 
     // 선택 된거 보여주기 
     $('#target_students').empty()
     for(i=0;i<selectedStudentList.length;i++){
-        option_text = $(`#consulting_target_student${selectedBanList[idx]} option[value="${selectedStudentList[i]}"]`).text(); 
+        option_text = $(`#consulting_target_students option[value="${selectedStudentList[i]}"]`).text(); 
         var selectedOptions = `
-        <li>
-            ${option_text}
-            <button onclick="delete_selected_student(${i})">❌</button> 
-        </li>
+        <th class="col-12">${option_text}<button onclick="delete_selected_student(${i})">❌</button> </th>
         `
         $('#target_students').append(selectedOptions);
     }
