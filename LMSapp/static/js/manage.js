@@ -126,20 +126,19 @@ function delete_selected_student(idx){
     console.log(selectedStudentList)
     if(idx != -1){
         selectedStudentList.splice(idx,1)
-        $('#consulting_target_students').val(selectedStudentList)
-
-        // 선택 된거 보여주기 
-        var selectedOptions = ''
-        for(i=0;i<selectedStudentList.length;i++){
-            option_text = $(`#consulting_target_students option[value="${selectedStudentList[i]}"]`).text(); 
-            selectedOptions += `
-            <li>${option_text}<button onclick="delete_selected_student(${i})">❌</button></li>
-            `
-            $('#target_students').html(selectedOptions);
-        }
     }else{
-        $('#target_students').empty()
+        selectedStudentList.length = 0;
     }
+    // 선택 된거 보여주기 
+    var selectedOptions = ''
+    for(i=0;i<selectedStudentList.length;i++){
+        option_text = $(`#consulting_target_students option[value="${selectedStudentList[idx]}"]`).text(); 
+        selectedOptions += `
+        <li>${option_text}<button onclick="delete_selected_student(${i})">❌</button></li>
+        `
+        $('#target_students').html(selectedOptions);
+    }
+    $('#consulting_target_students').val(selectedStudentList)
 }
 
 // 여기 아래부턴 과거 코드 
