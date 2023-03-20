@@ -51,7 +51,6 @@ async function request_consulting() {
                 let id = response['all_consulting_category'][i]['id']
                 let name = response['all_consulting_category'][i]['name']
                 temp_consulting_category_list += `
-
                 <option value=${id}>${name}</option>
                 `;
                 $('#consulting_category_list').html(temp_consulting_category_list)
@@ -66,13 +65,29 @@ async function ban_change(btid){
         // 전체 반 대상 진행 일 경우 처리 
         $('#select_student').hide()
         $('#consulting_msg').html('👇 전체 반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)')
+    }else if(btid == 1){
+        // plus alpha 처리
+    }else if(btid == 2){
+        // nf 노블 처리 
     }else{
+        if (selectedBanList.indexOf(selectedValues) === -1) {
+            selectedBanList.push(selectedValues);
+        }
+        let temp_ul = ''
+        for(i=0;i<selectedBanList.length;i++){
+            temp_ul += `
+            <ul id="target_students${btid}">
+            </ul>
+            `
+            $('#result_ulbox').html(temp_ul)
+            $('#consulting_msg').html(`👇${bname}반 진행, 학생 목록`)
+            if(selectedBanList.indexOf(btid) === -1) {
+                selectedBanList.push(btid);
+            }
+        }
         bname = btid.split('_')[2]
         // 반 다중 선택에 push 
-        $('#consulting_msg').html(`👇${bname}반 진행, 학생 목록`)
-        if(selectedBanList.indexOf(btid) === -1) {
-            selectedBanList.push(btid);
-        }
+        
         $('#select_student').show() 
         // b_id + '_' + t_id
         value = btid.split('_')  

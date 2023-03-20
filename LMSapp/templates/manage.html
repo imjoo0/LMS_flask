@@ -252,9 +252,11 @@
                 <div class="notice_message">
                     <p>👇 상담을 진행할 반을 선택해주세요</p>
                     <div class="plus_under_contents">
-                        <select class="border rounded-0 form-control form-control-sm" onchange="ban_change(this.value)">
+                        <select class="border rounded-0 form-control form-control-sm" onchange="ban_change(this.value)" multiple>
                             <option value=0>전체 반 대상 진행</option>
-                            <optgroup id="consulting_target_ban" label="개별 반 선택">
+                            <option value=1>PLUS/ALPHA반 대상 진행</option>
+                            <option value=2>NF/NOVEL반 대상 진행</option>
+                            <optgroup id="consulting_target_ban" label="개별 반 선택" multiple>
                             </optgroup>
                         </select>
                     </div>
@@ -269,9 +271,8 @@
                 </div>
                 <div class="notice_message" id="select_result">
                     <p id="consulting_msg"></p>
-                    <div class="plus_under_contents">
-                        <ul id="target_students">
-                        </ul>
+                    <div class="plus_under_contents make_col" id="result_ulbox">
+                        
                     </div>
                 </div>
                 <div class="notice_message">
