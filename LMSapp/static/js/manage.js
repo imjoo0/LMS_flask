@@ -27,7 +27,6 @@ function getBanlist() {
                 `;
             }
             $('#ban_list').html(temp_ban_option)
-            temp_ban_option += `<option value=0>전체 반 대상 진행</option>`;
             $('#consulting_target_ban').html(temp_ban_option)
         },
         error: function (xhr, status, error) {
