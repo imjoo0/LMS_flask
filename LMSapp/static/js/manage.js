@@ -27,7 +27,7 @@ function getBanlist() {
                 `;
             }
             $('#ban_list').html(temp_ban_option)
-            temp_ban_option += `<option value=0>전체 반 대상 진행</option>`;
+            temp_ban_option += '<option value=0>전체 반 대상 진행</option>';
             $('#consulting_target_ban').html(temp_ban_option)
         },
         error: function (xhr, status, error) {
@@ -38,7 +38,7 @@ function getBanlist() {
 }
 
 // 상담 요청 모달이 클릭됐을때 실행 되는 / 모달에 필요한 정보 보내주는 함수 
-async function request_consulting() {
+async function consulting_modal() {
     $('#select_result').hide()
     $('#select_student').hide()
     await $.ajax({
