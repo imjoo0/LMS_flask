@@ -65,18 +65,16 @@ async function ban_change(btid){
     if(btid == 0){
         // 전체 반 대상 진행 일 경우 처리 
         $('#select_student').hide()
-        $('#consulting_msg').html('전체 반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)')
+        $('#consulting_msg').html('👇 전체 반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)')
     }else{
         // 반 다중 선택에 push 
         $('#consulting_msg').html('👇 진행 할 학생 목록')
         if(selectedBanList.indexOf(btid) === -1) {
             selectedBanList.push(btid);
         }
-
         $('#select_student').show() 
         // b_id + '_' + t_id
         value = btid.split('_')  
-        
         await $.ajax({
             type: "GET",
             url: "/manage/ban_student/"+value[0],
