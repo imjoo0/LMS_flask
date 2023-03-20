@@ -49,25 +49,22 @@ async function request_consulting() {
         // 선택 된거 보여주기 
         $('#target_bans').empty()
         for(i=0;i<selectedBanList.length;i++){
-            option_text = $('#consulting_target_ban option[value="' + selectedBanList[i] + '"]').text(); 
-            if(option_text !='반을 선택해주세요'){
-                var selectedOptions = `
-                <li>
-                    ${option_text}
-                    <button onclick="get_select_student(${i})">학생선택</button> 
-                    <button onclick="delete_selected_ban(${i})">❌</button> 
-                </li>
-                <div class="notice_message" id="select_student${selectedBanList[i]}" style="display:none">
-                    <p>👇 상담을 진행할 학생을 선택해주세요</p>
-                    <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student${selectedBanList[i]}">
-                    </select>
-                    <ul class="make_col" id="target_students${selectedBanList[i]}">
-                    </ul>
-                </div>
-                `
-                $('#target_bans').append(selectedOptions);
-            }
-            
+            option_text = $('#consulting_target_ban option[value="' + selectedBanList[i] + '"]').text();
+            var selectedOptions = `
+            <li>
+                ${option_text}
+                <button onclick="get_select_student(${i})">학생선택</button> 
+                <button onclick="delete_selected_ban(${i})">❌</button> 
+            </li>
+            <div class="notice_message" id="select_student${selectedBanList[i]}" style="display:none">
+                <p>👇 상담을 진행할 학생을 선택해주세요</p>
+                <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student${selectedBanList[i]}">
+                </select>
+                <ul class="make_col" id="target_students">
+                </ul>
+            </div>
+            `
+            $('#target_bans').append(selectedOptions);
         }
     });
     // 반 선택 되면 변화에 따라 함수 실행 
@@ -110,24 +107,22 @@ function delete_selected_ban(idx){
     $('#target_bans').empty()
     for(i=0;i<selectedBanList.length;i++){
         option_text = $('#consulting_target_ban option[value="' + selectedBanList[i] + '"]').text(); 
-        if(option_text !='반을 선택해주세요'){
-            var selectedOptions = `
-            <li>
-                ${option_text}
-                <button onclick="get_select_student(${i})">학생선택</button> 
-                <button onclick="delete_selected_ban(${i})">❌</button> 
-            </li>
-            <div class="notice_message" id="select_student${selectedBanList[i]}" style="display:none">
-                <p>👇 상담을 진행할 학생을 선택해주세요</p>
-                <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student${selectedBanList[i]}">
-                
-                </select>
-                <ul class="make_col" id="target_students">
-                </ul>
-            </div>
-            `
-            $('#target_bans').append(selectedOptions);
-        }
+        var selectedOptions = `
+        <li>
+            ${option_text}
+            <button onclick="get_select_student(${i})">학생선택</button> 
+            <button onclick="delete_selected_ban(${i})">❌</button> 
+        </li>
+        <div class="notice_message" id="select_student${selectedBanList[i]}" style="display:none">
+            <p>👇 상담을 진행할 학생을 선택해주세요</p>
+            <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_student${selectedBanList[i]}">
+            
+            </select>
+            <ul class="make_col" id="target_students">
+            </ul>
+        </div>
+        `
+        $('#target_bans').append(selectedOptions);
     }
 }
 
@@ -161,7 +156,7 @@ function get_select_student(idx){
         $('#consulting_target_student'+selectedBanList[idx]).val(selectedStudentList)
 
         // 선택 된거 보여주기 
-        $(`#target_students${selectedBanList[idx]}`).empty()
+        $('#target_students').empty()
         for(i=0;i<selectedStudentList.length;i++){
             option_text = $(`#consulting_target_student${selectedBanList[idx]} option[value="${selectedStudentList[i]}"]`).text(); 
             var selectedOptions = `
@@ -170,8 +165,7 @@ function get_select_student(idx){
                 <button onclick="delete_selected_student(${i})">❌</button> 
             </li>
             `
-            $(`#target_students${selectedBanList[idx]}`).append(selectedOptions);
-            
+            $('#target_students').append(selectedOptions);
         }
     });
 
