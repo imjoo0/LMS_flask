@@ -112,7 +112,6 @@ $('#consulting_target_students').change(function(){
         // 선택 된거 보여주기 
         var selectedOptions = ''
         for(i=0;i<selectedStudentList.length;i++){
-            console.log(selectedStudentList)
             option_text = $(`#consulting_target_students option[value="${selectedStudentList[i]}"]`).text(); 
             selectedOptions += `
             <li>${option_text}<button onclick="delete_selected_student(${i})">❌</button> </li>
@@ -124,7 +123,7 @@ $('#consulting_target_students').change(function(){
 });
 
 function delete_selected_student(idx){
-    // // selected_list = selected_list.split(",")
+    console.log(selectedStudentList)
     if(idx != -1){
         selectedStudentList.splice(idx,1)
         $('#consulting_target_students').val(selectedStudentList)
