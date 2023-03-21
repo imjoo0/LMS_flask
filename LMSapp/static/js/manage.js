@@ -125,6 +125,7 @@ $('#consulting_target_students').change(function(){
         <td class="col-2" onclick="delete_selected_student(-1)">❌</td>`;
         console.log(selectedOptions)
         $('#resulttbox_'+idx).append(selectedOptions);
+        console.log(idx)
         selectedStudentList.length = 0;
         selectedStudentList.push(selectedValues);
     }else if(selectedStudentList.length != 0 && selectedStudentList[0].includes("전체학생")){
