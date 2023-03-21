@@ -102,10 +102,12 @@ async function ban_change(btid){
 $('#consulting_target_students').change(function(){
     $('#select_result').show()
     var selectedValues = $(this).val()[0];
+    var target = selectedValues.split('_')[0]
     if(selectedValues.includes('-1') && selectedStudentList.length != 0){
         // 전체 학생이 선택된 거는 삭제해줘야 한다. 
         $.each(selectedStudentList, function(index, value){
-            if(selectedValues.split('_')[0] == value.split('_')[0]){
+            bid = value.split('_')[0]
+            if(target == bid){
                 selectedStudentList.splice(index, 1);
             }
         });
