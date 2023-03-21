@@ -81,6 +81,7 @@ async function ban_change(btid){
             error:function(xhr, status, error){
                     alert('xhr.responseText');
             }
+
         })
     }else{
         $('#select_student').hide()
@@ -115,10 +116,10 @@ $('#consulting_target_students').change(function(){
             selectedStudentList.splice(selectedStudentList.indexOf(value),1);
         })
     } 
-    
     // 선택된 학생 정보 변경 
     $('#consulting_target_students').val(selectedStudentList)
 
+    console.log($('#consulting_target_students').val())
     return show_selections();
     
 });
