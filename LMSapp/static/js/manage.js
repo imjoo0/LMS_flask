@@ -111,6 +111,7 @@ $('#consulting_target_students').change(function(){
     if(selectedValues.includes('-1')){
         // 같은 반 친구들 교집합을 저장 
         let total_student_selections = selectedStudentList.filter(value => String(value).split('_')[0] == selectedValues.split('_')[0]);
+        console.log(total_student_selections)
         total_student_selections.forEach(value =>{
             selectedStudentList.splice(selectedStudentList.indexOf(value),1);
         })
