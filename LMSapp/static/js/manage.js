@@ -128,6 +128,7 @@ $('#consulting_target_students').change(function(){
         }
     }
     $('#consulting_target_students').val(selectedStudentList)
+    $('#select_result').show()
 });
 
 function delete_selected_student(idx){
