@@ -117,6 +117,7 @@ function show_selections(){
         if(String(selectedStudentList[i]).includes('-1')){
             // 같은 반 친구들 교집합을 저장 
             let total_student_selections = selectedStudentList.filter(value => ( (String(value).split('_')[0] == selectedStudentList[i].split('_')[0]) && (!(value.includes('-1'))) ) );
+            console.log(total_student_selections)
             if(total_student_selections.length != 0){
                 total_student_selections.forEach(value =>{
                     selectedStudentList.splice(selectedStudentList.indexOf(value),1);
