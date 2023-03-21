@@ -59,86 +59,86 @@ async function request_consulting() {
     })
 }
 
-async function ban_change(btid){
-    if(btid.includes('_')){
-        // 다중 반 처리
-        if(selectedBanList.indexOf(btid) === -1){
-            selectedBanList.push(btid);
-            value = btid.split('_');
-            $('#select_result').show()
-            $('#consulting_msg').html(`👉 ${value[2]} 반 대상 진행합니다 (대상 학생을 선택해 주세요)`)
-            $('#select_student').show() 
+// async function ban_change(btid){
+//     if(btid.includes('_')){
+//         // 다중 반 처리
+//         if(selectedBanList.indexOf(btid) === -1){
+//             selectedBanList.push(btid);
+//             value = btid.split('_');
+//             $('#select_result').show()
+//             $('#consulting_msg').html(`👉 ${value[2]} 반 대상 진행합니다 (대상 학생을 선택해 주세요)`)
+//             $('#select_student').show() 
 
-            $('#result_tbox').empty();
-            for(i=0;i<selectedBanList.length;i++){
-                let temp_result_tbox = `          
-                <div id="resulttbox_${selectedBanList[i]}">
-                    <td class="col-4">${value[2]}</td>
-                </div>
-                `
-                $('#result_tbox').append(temp_result_tbox)
-            }
-            await $.ajax({
-                type: "GET",
-                url: "/manage/ban_student/"+value[0],
-                data: {},
-                success: function (response) {
-                    // 전체 학생 대상 진행 append 
-                    let temp_target_student = `<option value="${btid}_전체학생">✔️${value[2]}반 전체 학생 대상 진행</option>`;
-                    for (var i = 0; i <  response['students'].length; i++) {
-                        let sname = response['students'][i]['name'];
-                        temp_target_student += `<option value="${btid}_${response['students'][i]['register_no']}"> ${sname}</option>`;
-                    } 
-                    $('#consulting_target_students').html(temp_target_student)
-                },
-                error:function(xhr, status, error){
-                        alert('xhr.responseText');
-                }
-            })
-        }
-    }else{
-        $('#select_student').hide()
-        $('#result_ulbox').hide()
-        if(btid == 0){
-            // 전체 반 대상 진행 일 경우 처리 
-            $('#consulting_msg').html('👉 전체 반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)')
-        }else if(btid == 1){
-            // plus alpha 처리
-            $('#consulting_msg').html('👉 PLUS/ALPHA반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)')
-        }else if(btid == 2){
-            // nf 노블 처리 
-            $('#consulting_msg').html('👉 NF/NOVEL반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)')
-        }
-    }
-}
+//             $('#result_tbox').empty();
+//             for(i=0;i<selectedBanList.length;i++){
+//                 let temp_result_tbox = `          
+//                 <div id="resulttbox_${selectedBanList[i]}">
+//                     <td class="col-4">${value[2]}</td>
+//                 </div>
+//                 `
+//                 $('#result_tbox').append(temp_result_tbox)
+//             }
+//             await $.ajax({
+//                 type: "GET",
+//                 url: "/manage/ban_student/"+value[0],
+//                 data: {},
+//                 success: function (response) {
+//                     // 전체 학생 대상 진행 append 
+//                     let temp_target_student = `<option value="${btid}_전체학생">✔️${value[2]}반 전체 학생 대상 진행</option>`;
+//                     for (var i = 0; i <  response['students'].length; i++) {
+//                         let sname = response['students'][i]['name'];
+//                         temp_target_student += `<option value="${btid}_${response['students'][i]['register_no']}"> ${sname}</option>`;
+//                     } 
+//                     $('#consulting_target_students').html(temp_target_student)
+//                 },
+//                 error:function(xhr, status, error){
+//                         alert('xhr.responseText');
+//                 }
+//             })
+//         }
+//     }else{
+//         $('#select_student').hide()
+//         $('#result_ulbox').hide()
+//         if(btid == 0){
+//             // 전체 반 대상 진행 일 경우 처리 
+//             $('#consulting_msg').html('👉 전체 반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)')
+//         }else if(btid == 1){
+//             // plus alpha 처리
+//             $('#consulting_msg').html('👉 PLUS/ALPHA반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)')
+//         }else if(btid == 2){
+//             // nf 노블 처리 
+//             $('#consulting_msg').html('👉 NF/NOVEL반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)')
+//         }
+//     }
+// }
 // 학생 다중 선택 처리 
-$('#consulting_target_students').change(function(){
-    var selectedValues = $(this).val()[0];
-    var btid = selectedValues.split('_')[0]
-    // var target_result_tbox_idx = selectedBanList.indexOf(btid)
-    if(selectedValues.includes("전체학생")){
-        selectedOptions = '<td class="col-6">✔️전체 학생 대상 진행</td><td class="col-2" onclick="delete_selected_student(-1)">❌</td>';
-        $('#resulttbox_'+btid).append(selectedOptions);
-        selectedStudentList.length = 0;
-        selectedStudentList.push(selectedValues);
-    }else if(selectedStudentList.length != 0 && selectedStudentList[0].includes("전체학생")){
-        return alert('전체 학생 대상 진행이 체크 되어있습니다.')
-    }else{
-        if (selectedStudentList.indexOf(selectedValues) === -1) {
-            selectedStudentList.push(selectedValues);
-        }
-        // 선택 된거 보여주기 
-        var selectedOptions = ''
-        for(i=0;i<selectedStudentList.length;i++){
-            option_text = $(`#consulting_target_students option[value="${selectedStudentList[i]}"]`).text(); 
-            selectedOptions += `
-            <li>${option_text}<button onclick="delete_selected_student(${i})">❌</button> </li>
-            `
-            $('#target_students').html(selectedOptions);
-        }
-    }
-    $('#consulting_target_students').val(selectedStudentList)
-});
+// $('#consulting_target_students').change(function(){
+//     var selectedValues = $(this).val()[0];
+//     var btid = selectedValues.split('_')[0]
+//     // var target_result_tbox_idx = selectedBanList.indexOf(btid)
+//     if(selectedValues.includes("전체학생")){
+//         selectedOptions = '<td class="col-6">✔️전체 학생 대상 진행</td><td class="col-2" onclick="delete_selected_student(-1)">❌</td>';
+//         $('#resulttbox_'+btid).append(selectedOptions);
+//         selectedStudentList.length = 0;
+//         selectedStudentList.push(selectedValues);
+//     }else if(selectedStudentList.length != 0 && selectedStudentList[0].includes("전체학생")){
+//         return alert('전체 학생 대상 진행이 체크 되어있습니다.')
+//     }else{
+//         if (selectedStudentList.indexOf(selectedValues) === -1) {
+//             selectedStudentList.push(selectedValues);
+//         }
+//         // 선택 된거 보여주기 
+//         var selectedOptions = ''
+//         for(i=0;i<selectedStudentList.length;i++){
+//             option_text = $(`#consulting_target_students option[value="${selectedStudentList[i]}"]`).text(); 
+//             selectedOptions += `
+//             <li>${option_text}<button onclick="delete_selected_student(${i})">❌</button> </li>
+//             `
+//             $('#target_students').html(selectedOptions);
+//         }
+//     }
+//     $('#consulting_target_students').val(selectedStudentList)
+// });
 
 function delete_selected_student(idx){
     $('#target_students').empty()
