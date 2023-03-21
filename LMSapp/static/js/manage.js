@@ -62,8 +62,8 @@ async function request_consulting() {
 async function ban_change(btid){
     if(btid.includes('_')){
         // 다중 반 처리
-        if(selectedBanList.indexOf(selectedValues) === -1){
-            selectedBanList.push(selectedValues);
+        if(selectedBanList.indexOf(btid) === -1){
+            selectedBanList.push(btid);
             value = btid.split('_');
             $('#select_result').show()
             $('#consulting_msg').html(`👉 ${value[2]} 반 대상 진행합니다 (대상 학생을 선택해 주세요)`)
