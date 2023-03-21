@@ -178,27 +178,29 @@ def request_consulting():
 
     elif request.method == 'POST':
         #  상담 카테고리 저장
-        received_category = request.form['consulting_category']
+        received_consulting_category = request.form['consulting_category_list']
         #  상담 내용 저장
-        received_consulting = request.form['consulting_contents']
+        received_consulting_contents = request.form['consulting_contents']
         #  상담을 진행할 시작일 저장
         received_consulting_startdate = request.form['consulting_date']
         #  상담을 마무리할 마감일 저장
         received_consulting_deadline = request.form['consulting_deadline']
         #  상담을 진행 대상 저장 
-        received_consulting_b_id = request.form['consulting_b_id']
-        received_consulting_t_id = request.form['consulting_t_id']
-        received_consulting_s_id = request.form['consulting_s_id']
-        
-        if received_consulting_s_id == -1:
-            students = callapi.purple_info(received_consulting_b_id,'/get_student_simple')
-            for student in students:
-                new_consulting = Consulting(ban_id=received_consulting_b_id,teacher_id=received_consulting_t_id, category_id=received_category, student_id=student['register_no'],contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
-        else:
-            new_consulting = Consulting(ban_id=received_consulting_b_id,teacher_id=received_consulting_t_id, category_id=received_category, student_id=received_consulting_s_id,contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
+        received_consulting_target = request.form.getlist('consulting_target_students[]')
+        print(received_consulting_target)
+        print(received_consulting_deadline)
+        print(received_consulting_startdate)
+        print(received_consulting_contents)
+        print(received_consulting_category)
+        # if received_consulting_s_id == -1:
+        #     students = callapi.purple_info(received_consulting_b_id,'/get_student_simple')
+        #     for student in students:
+        #         new_consulting = Consulting(ban_id=received_consulting_b_id,teacher_id=received_consulting_t_id, category_id=received_category, student_id=student['register_no'],contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
+        # else:
+        #     new_consulting = Consulting(ban_id=received_consulting_b_id,teacher_id=received_consulting_t_id, category_id=received_category, student_id=received_consulting_s_id,contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
 
-        db.session.add(new_consulting)
-        db.session.commit()
+        # db.session.add(new_consulting)
+        # db.session.commit()
 
         return redirect('/')
                 

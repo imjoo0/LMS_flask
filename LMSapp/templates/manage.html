@@ -239,63 +239,65 @@
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body" style="padding-top: 0;">
-                <input id="csrf_token" type="hidden" name="csrf_token" value="{{ csrf_token() }}"
-                    style="display: block;" />
-                <div class="make_row">
-                    <select class="border rounded-0 form-control form-control-sm" id="consulting_category_list" style=" width: 150px; height: 100%; margin-left:0;">
-
-                    </select>
-                    <input class="border rounded-0 form-control form-control-sm" type="text" id="consulting_contents"
-                        placeholder="상담 내용을 입력해주세요">
-                </div>
-                <div class="notice_message">
-                    <p>👇 상담을 진행할 반을 선택해주세요</p>
-                    <div class="plus_under_contents">
-                        <select class="border rounded-0 form-control form-control-sm" onchange="ban_change(this.value)" multiple>
-                            <option value=0>전체 반 대상 진행</option>
-                            <option value=1>PLUS/ALPHA반 대상 진행</option>
-                            <option value=2>NF/NOVEL반 대상 진행</option>
-                            <optgroup id="consulting_target_ban" label="개별 반 선택" multiple>
-                            </optgroup>
-                        </select>
-                    </div>
-                </div>
-                <div class="notice_message" id="select_student">
-                    <p>👇 상담을 진행할 학생을 선택해주세요</p>
-                    <div class="plus_under_contents">
-                        <select class="border rounded-0 form-control form-control-sm" name="consulting_target_students[]" id="consulting_target_students" multiple>
+                <form action="/manage/request" method="POST">
+                    <input id="csrf_token" type="hidden" name="csrf_token" value="{{ csrf_token() }}"
+                        style="display: block;" />
+                    <div class="make_row">
+                        <select class="border rounded-0 form-control form-control-sm" name="consulting_category_list" style=" width: 150px; height: 100%; margin-left:0;">
 
                         </select>
+                        <input class="border rounded-0 form-control form-control-sm" type="text" name="consulting_contents"
+                            placeholder="상담 내용을 입력해주세요">
                     </div>
-                </div>
-                <div class="notice_message">
-                    <table class="table text-center" >
-                        <tbody style="width:100%;">
-                            <tr class="row">
-                                <th class="col-12" id="consulting_msg"></th>
-                            </tr>
-                            <tr class="row" id="result_tbox">
-                                
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="notice_message">
-                    <p>👇 상담을 시작해야 하는 날짜를 2022-01-01 형식으로 적어주세요</p>
-                    <input class="border rounded-0 form-control form-control-sm" type="text" id="consulting_date"
-                        placeholder="2023-01-01">
-                </div>
+                    <div class="notice_message">
+                        <p>👇 상담을 진행할 반을 선택해주세요</p>
+                        <div class="plus_under_contents">
+                            <select class="border rounded-0 form-control form-control-sm" onchange="ban_change(this.value)" multiple>
+                                <option value=0>전체 반 대상 진행</option>
+                                <option value=1>PLUS/ALPHA반 대상 진행</option>
+                                <option value=2>NF/NOVEL반 대상 진행</option>
+                                <optgroup id="consulting_target_ban" label="개별 반 선택" multiple>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="notice_message" id="select_student">
+                        <p>👇 상담을 진행할 학생을 선택해주세요</p>
+                        <div class="plus_under_contents">
+                            <select class="border rounded-0 form-control form-control-sm" name="consulting_target_students[]" id="consulting_target_students" multiple>
 
-                <div class="notice_message">
-                    <p>👇 상담을 끝내야 하는 마감 날짜를 2022-01-01 형식으로 적어주세요</p>
-                    <input class="border rounded-0 form-control form-control-sm" type="text" id="consulting_deadline"
-                        placeholder="2023-01-01">
-                </div>
-                <div style="display: flex; float: right;">
-                    <button class="btn btn-success" style="margin-top: 13px;" onclick="post_consulting_request()">저장</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
-                        style="margin-top: 13px;">취소</button>
-                </div>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="notice_message">
+                        <table class="table text-center" >
+                            <tbody style="width:100%;">
+                                <tr class="row">
+                                    <th class="col-12" id="consulting_msg"></th>
+                                </tr>
+                                <tr class="row" id="result_tbox">
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="notice_message">
+                        <p>👇 상담을 시작해야 하는 날짜를 2022-01-01 형식으로 적어주세요</p>
+                        <input class="border rounded-0 form-control form-control-sm" type="text" name="consulting_date"
+                            placeholder="2023-01-01">
+                    </div>
+
+                    <div class="notice_message">
+                        <p>👇 상담을 끝내야 하는 마감 날짜를 2022-01-01 형식으로 적어주세요</p>
+                        <input class="border rounded-0 form-control form-control-sm" type="text" name="consulting_deadline"
+                            placeholder="2023-01-01">
+                    </div>
+                    <div style="display: flex; float: right;">
+                        <button class="btn btn-success" style="margin-top: 13px;" type="submit">저장</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                            style="margin-top: 13px;">취소</button>
+                    </div>
+                </form>
             </div>
 
 
