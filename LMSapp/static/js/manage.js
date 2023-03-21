@@ -103,16 +103,17 @@ $('#consulting_target_students').change(function(){
     $('#select_result').show()
     var selectedValues = $(this).val()[0];
 
-    if(selectedStudentList.indexOf(selectedValues) === -1) {
-        selectedStudentList.push(selectedValues);
-    }
-    // 전체 학생이 선택되면 해당 반 학생들 전부 삭제한다. 
-    if((selectedValues.includes('-1'))&&(selectedStudentList.length!=0)){
-        for(i=selectedStudentList.length-1;i>=0;i--){
-            if(selectedValues.split('_')[0] == String(value).split('_')[0]){
-                selectedStudentList.splice(index, 1);
+    if(selectedValues.includes('-1')){
+        for(j=selectedStudentList.length-1;j>=0;j--){
+            if(selectedValues.split('_')[0] == String(selectedStudentList).split('_')[0]){
+                // 같은 반 일 경우엔 삭제 
+                selectedStudentList.splice(j, 1);
             }
         }
+    }
+
+    if(selectedStudentList.indexOf(selectedValues) === -1) {
+        selectedStudentList.push(selectedValues);
     }
     
     // 선택된 학생 정보 변경 
