@@ -100,35 +100,41 @@ async function ban_change(btid){
 }
 // 학생 다중 선택 처리 
 $('#consulting_target_students').change(function(){
+    $('#select_result').show()
     var selectedValues = $(this).val()[0];
     var value = selectedValues.split('_')
     // var target_result_tbox_idx = selectedBanList.indexOf(btid)
-    if(selectedValues.includes("전체학생")){
-        let selectedOptions = `
-        <td class="col-4">${value[2]}</td>
-        <td class="col-6">✔️전체 학생 대상 진행</td>
-        <td class="col-2" onclick="delete_selected_student(-1)">❌</td>`;
-        $('#result_tbox').append(selectedOptions);
-        selectedStudentList.length = 0;
+    if(selectedStudentList.indexOf(selectedValues) === -1) {
         selectedStudentList.push(selectedValues);
-    }else if(selectedStudentList.length != 0 && selectedStudentList[0].includes("전체학생")){
-        return alert('전체 학생 대상 진행이 체크 되어있습니다.')
-    }else{
-        if (selectedStudentList.indexOf(selectedValues) === -1) {
-            selectedStudentList.push(selectedValues);
-        }
-        // 선택 된거 보여주기 
         var selectedOptions = ''
         for(i=0;i<selectedStudentList.length;i++){
             option_text = $(`#consulting_target_students option[value="${selectedStudentList[i]}"]`).text(); 
             selectedOptions += `
-            <li>${option_text}<button onclick="delete_selected_student(${i})">❌</button> </li>
-            `
-            $('#target_students').html(selectedOptions);
+            <td class="col-4">${value[2]}</td>
+            <td class="col-6">${option_text}</td>
+            <td class="col-2" onclick="delete_selected_student(${selectedValues})">❌</td>`;
+            $('#result_tbox').html(selectedOptions);
         }
+        // if(selectedValues.includes("전체학생")){
+        //     let selectedOptions = `
+        //     <td class="col-4">${value[2]}</td>
+        //     <td class="col-6">✔️전체 학생 대상 진행</td>
+        //     <td class="col-2" onclick="delete_selected_student(-1)">❌</td>`;
+        //     $('#result_tbox').append(selectedOptions);
+        //     selectedStudentList.push(selectedValues);
+        // }else{
+        //     // 선택 된거 보여주기 
+        //     var selectedOptions = ''
+        //     for(i=0;i<selectedStudentList.length;i++){
+        //         student_name = $(`#consulting_target_students option[value="${selectedStudentList[i]}"]`).text(); 
+        //         selectedOptions += `
+        //         <li>${option_text}<button onclick="delete_selected_student(${i})">❌</button> </li>
+        //         `
+        //         $('#target_students').html(selectedOptions);
+        //     }
+        // }
+        $('#consulting_target_students').val(selectedStudentList)
     }
-    $('#consulting_target_students').val(selectedStudentList)
-    $('#select_result').show()
 });
 
 function delete_selected_student(idx){
