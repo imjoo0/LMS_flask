@@ -136,6 +136,7 @@ function show_selections(){
         <td class="col-2" onclick="delete_selected_student(${i})">❌</td>`;
         $('#result_tbox').html(selectedOptions);
     }
+    console.log($('select[name="consulting_target_students[]"]').val())
 }
 function delete_selected_student(idx){
     selectedStudentList.splice(idx,1)
