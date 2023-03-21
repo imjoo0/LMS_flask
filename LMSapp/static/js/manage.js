@@ -118,6 +118,8 @@ $('#consulting_target_students').change(function(){
     } 
     // 선택된 학생 정보 변경 
     $('#consulting_target_students').val(selectedStudentList)
+    console.log('1')
+    console.log($('#consulting_target_students').val())
 
     return show_selections();
     
@@ -140,7 +142,8 @@ function show_selections(){
 
     // 선택된 학생 정보 변경 
     $('#consulting_target_students').val(selectedStudentList)
-    
+    console.log('2')
+    console.log($('#consulting_target_students').val())
     var selectedOptions = ''
     for(i=0;i<selectedStudentList.length;i++){
         // bid+tid+bname+sid+sname
