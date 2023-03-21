@@ -116,7 +116,7 @@ function show_selections(){
         // 전체 반이 선택된 경우 
         if(String(selectedStudentList[i]).includes('-1')){
             // 같은 반 친구들 교집합을 저장 
-            let total_student_selections = selectedStudentList.filter(value => ( (String(value).split('_')[0] == selectedStudentList[i].split('_')[0]) && (!(value.includes('-1'))) ) );
+            let total_student_selections = selectedStudentList.filter(value => ( (String(value).split('_')[0] == selectedStudentList[i].split('_')[0]) ) );
             console.log(total_student_selections)
             if(total_student_selections.length != 0){
                 total_student_selections.forEach(value =>{
@@ -125,11 +125,6 @@ function show_selections(){
             }
         } 
     }
-
-    // 선택된 학생 정보 변경 
-    $('#consulting_target_students').val(selectedStudentList)
-    console.log('2')
-    console.log($('#consulting_target_students').val())
     var selectedOptions = ''
     for(i=0;i<selectedStudentList.length;i++){
         // bid+tid+bname+sid+sname
@@ -140,6 +135,9 @@ function show_selections(){
         <td class="col-2" onclick="delete_selected_student(${i})">❌</td>`;
         $('#result_tbox').html(selectedOptions);
     }
+    
+    // 선택된 학생 정보 변경 
+    $('#consulting_target_students').val(selectedStudentList)
 }
 function delete_selected_student(idx){
     selectedStudentList.splice(idx,1)
