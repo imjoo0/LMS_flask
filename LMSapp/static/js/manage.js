@@ -76,7 +76,7 @@ async function ban_change(btid){
                     let sname = response['students'][i]['name'];
                     temp_target_student += `<option value="${btid}_${response['students'][i]['register_no']}_${sname}"> ${sname}</option>`;
                 } 
-                $('#consulting_target_students[]').html(temp_target_student)
+                $('select[name="consulting_target_students[]"]').html(temp_target_student)
             },
             error:function(xhr, status, error){
                     alert('xhr.responseText');
@@ -101,7 +101,7 @@ async function ban_change(btid){
     }
 }
 // 학생 다중 선택 처리 
-$('#consulting_target_students[]').change(function(){
+$('select[name="consulting_target_students[]"]').change(function(){
     var selectedValues = $(this).val()[0];
 
     if(selectedStudentList.indexOf(selectedValues) === -1) {
@@ -136,7 +136,7 @@ function show_selections(){
         $('#result_tbox').html(selectedOptions);
     }
     // 선택된 학생 정보 변경 
-    $('#consulting_target_students[]').val(selectedStudentList)
+    $('select[name="consulting_target_students[]"]').val(selectedStudentList)
 }
 function delete_selected_student(idx){
     selectedStudentList.splice(idx,1)
@@ -147,7 +147,7 @@ function delete_selected_student(idx){
 
 // 상담 요청 하기 
 function post_consulting_request(){
-    consulting_target = $('#consulting_target_students[]').val()
+    consulting_target = $('select[name="consulting_target_students[]"]').val()
     consulting_category = $('#consulting_category_list').val()
     consulting_contents = $('#consulting_contents').val()
     consulting_date = $('#consulting_date').val()
