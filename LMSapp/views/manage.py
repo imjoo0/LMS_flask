@@ -216,7 +216,7 @@ def request_all_student(b_id,t_id):
         received_consulting_startdate = request.form['consulting_date']
         #  상담을 마무리할 마감일 저장
         received_consulting_deadline = request.form['consulting_deadline']
-        students = callapi.purple_info(b_id,'/get_student_simple')
+        students = callapi.purple_info(b_id,'get_student_simple')
         for student in students:
             new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=student['register_no'],contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
         # else:
