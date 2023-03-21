@@ -203,7 +203,30 @@ def request_consulting():
         # db.session.commit()
 
         return redirect('/')
-                
+
+# 상담 요청 / 업무요청 
+@bp.route("/request_all_student", methods=['POST'])
+def request_all_student(b_id,t_id):
+    if request.method == 'POST':
+        #  상담 카테고리 저장
+        received_consulting_category = request.form['consulting_category']
+        #  상담 내용 저장
+        received_consulting_contents = request.form['consulting_contents']
+        #  상담을 진행할 시작일 저장
+        received_consulting_startdate = request.form['consulting_date']
+        #  상담을 마무리할 마감일 저장
+        received_consulting_deadline = request.form['consulting_deadline']
+        students = callapi.purple_info(b_id,'/get_student_simple')
+        for student in students:
+            new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=student['register_no'],contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
+        # else:
+        #     new_consulting = Consulting(ban_id=received_consulting_b_id,teacher_id=received_consulting_t_id, category_id=received_category, student_id=received_consulting_s_id,contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
+
+        db.session.add(new_consulting)
+        db.session.commit()
+
+        return redirect('/')
+
 @bp.route("/task", methods=['GET', 'POST'])
 def request_task():
     if request.method == 'POST':
