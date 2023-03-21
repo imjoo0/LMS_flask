@@ -138,7 +138,6 @@ function show_selections(){
     }
     
     // 선택된 학생 정보 변경 
-    console.log(selectedStudentList)
     $('#consulting_target_students').val(selectedStudentList)
 }
 function delete_selected_student(idx){
@@ -153,6 +152,7 @@ function delete_selected_student(idx){
 
 // 상담 요청 하기 
 function post_consulting_request(){
+    console.log(selectedStudentList)
     consulting_target = $('#consulting_target_students').val()
     consulting_category = $('#consulting_category_list').val()
     consulting_contents = $('#consulting_contents').val()
