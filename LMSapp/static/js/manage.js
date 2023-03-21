@@ -103,18 +103,15 @@ $('#consulting_target_students').change(function(){
     $('#select_result').show()
     var selectedValues = $(this).val()[0];
 
-    if(selectedValues.includes('-1')){
-        for(j=selectedStudentList.length-1;j>=0;j--){
-            if(selectedValues.split('_')[0] == String(selectedStudentList).split('_')[0]){
-                // 같은 반 일 경우엔 삭제 
-                selectedStudentList.splice(j, 1);
-            }
-        }
-    }
-
     if(selectedStudentList.indexOf(selectedValues) === -1) {
         selectedStudentList.push(selectedValues);
     }
+
+    // 전체 반이 선택된 경우엔 저장 
+    let total_student_selections = selectedStudentList.filter(value => value.includes('-1'));
+    console.log(total_student_selections)
+
+
     
     // 선택된 학생 정보 변경 
     $('#consulting_target_students').val(selectedStudentList)
@@ -125,6 +122,7 @@ $('#consulting_target_students').change(function(){
 function show_selections(){
     var selectedOptions = ''
     for(i=0;i<selectedStudentList.length;i++){
+        
         // bid+tid+bname+sid+sname
         var value = selectedStudentList[i].split('_')
         selectedOptions += `
