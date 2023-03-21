@@ -63,7 +63,7 @@ async function ban_change(btid){
     if(btid.includes('_')){
         // 다중 반 처리
         $('#select_student').show() 
-        $('#consulting_msg').html('👉 개별 반 대상 진행합니다 (대상 학생을 선택해 주세요)')
+        $('#consulting_msg').html('👇 개별 반 대상 진행합니다 (대상 학생을 확인해 주세요)')
         value = btid.split('_')
         await $.ajax({
             type: "GET",
@@ -102,14 +102,15 @@ async function ban_change(btid){
 $('#consulting_target_students').change(function(){
     $('#select_result').show()
     var selectedValues = $(this).val()[0];
-    var value = selectedValues.split('_')
     // var target_result_tbox_idx = selectedBanList.indexOf(btid)
     if(selectedStudentList.indexOf(selectedValues) === -1) {
         selectedStudentList.push(selectedValues);
+
         var selectedOptions = ''
-        console.log(selectedStudentList)
         for(i=0;i<selectedStudentList.length;i++){
             option_text = $(`#consulting_target_students option[value="${selectedStudentList[i]}"]`).text(); 
+            var value = selectedStudentList[i].split('_')
+            
             selectedOptions += `
             <td class="col-4">${value[2]}</td>
             <td class="col-6">${option_text}</td>
