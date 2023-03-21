@@ -123,6 +123,7 @@ $('#consulting_target_students').change(function(){
         <td class="col-4">${value[2]}</td>
         <td class="col-6">✔️전체 학생 대상 진행</td>
         <td class="col-2" onclick="delete_selected_student(-1)">❌</td>`;
+        console.log(selectedOptions)
         $('#resulttbox_'+btid).append(selectedOptions);
         selectedStudentList.length = 0;
         selectedStudentList.push(selectedValues);
