@@ -152,7 +152,7 @@ function delete_selected_student(idx){
 
 // 상담 요청 하기 
 function post_consulting_request(){
-    console.log(selectedStudentList)
+    $('#consulting_target_students').val(selectedStudentList)
     consulting_target = $('#consulting_target_students').val()
     consulting_category = $('#consulting_category_list').val()
     consulting_contents = $('#consulting_contents').val()
