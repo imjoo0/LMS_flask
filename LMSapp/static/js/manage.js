@@ -136,6 +136,7 @@ function show_selections(){
     }
     // 선택된 학생 정보 변경 
     $('#consulting_target_students').val(selectedStudentList)
+    console.log($('select[name="consulting_target_students[]"]').val())
 }
 function delete_selected_student(idx){
     selectedStudentList.splice(idx,1)
