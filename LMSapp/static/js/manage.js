@@ -115,8 +115,8 @@ async function ban_change(btid){
 // 학생 다중 선택 처리 
 $('#consulting_target_students').change(function(){
     var selectedValues = $(this).val()[0];
-    var btid = selectedValues.split('_')[0]
-    var value = btid.split('_')
+    var value = selectedValues.split('_')
+    var idx = value[0]+'_'+value[1]+'_'+value[2]
     // var target_result_tbox_idx = selectedBanList.indexOf(btid)
     if(selectedValues.includes("전체학생")){
         let selectedOptions = `
@@ -124,7 +124,7 @@ $('#consulting_target_students').change(function(){
         <td class="col-6">✔️전체 학생 대상 진행</td>
         <td class="col-2" onclick="delete_selected_student(-1)">❌</td>`;
         console.log(selectedOptions)
-        $('#resulttbox_'+btid).append(selectedOptions);
+        $('#resulttbox_'+idx).append(selectedOptions);
         selectedStudentList.length = 0;
         selectedStudentList.push(selectedValues);
     }else if(selectedStudentList.length != 0 && selectedStudentList[0].includes("전체학생")){
