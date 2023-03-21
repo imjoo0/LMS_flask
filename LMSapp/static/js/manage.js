@@ -131,7 +131,7 @@ function show_selections(){
         // 전체 반이 선택된 경우 
         if(selectedStudentList[i].includes('-1')){
             // 같은 반 친구들 교집합을 저장 
-            let total_student_selections = selectedStudentList.filter(value => (String(value).split('_')[0] == selectedValues.split('_')[0])&&(!(value.includes('-1'))) );
+            let total_student_selections = selectedStudentList.filter(value => (String(value).split('_')[0] == selectedStudentList[i].split('_')[0])&&(!(value.includes('-1'))) );
             total_student_selections.forEach(value =>{
                 selectedStudentList.splice(selectedStudentList.indexOf(value),1);
             })
@@ -140,7 +140,7 @@ function show_selections(){
     }
     // 선택된 학생 정보 변경 
     $('#consulting_target_students').val(selectedStudentList)
-    
+
     for(i=0;i<selectedStudentList.length;i++){
         // bid+tid+bname+sid+sname
         var value = selectedStudentList[i].split('_')
