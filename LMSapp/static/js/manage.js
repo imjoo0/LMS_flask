@@ -131,7 +131,7 @@ function show_selections(){
         // 전체 반이 선택된 경우 
         if(selectedStudentList[i].includes('-1')){
             // 같은 반 친구들 교집합을 저장 
-            alert('전체 학생 대상 진행이 선택되어 있습니다')
+            alert('전체 학생 대상 진행이 선택되었습니다')
             let total_student_selections = selectedStudentList.filter(value => (String(value).split('_')[0] == selectedStudentList[i].split('_')[0])&&(!(value.includes('-1'))) );
             total_student_selections.forEach(value =>{
                 selectedStudentList.splice(selectedStudentList.indexOf(value),1);
