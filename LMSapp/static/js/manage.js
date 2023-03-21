@@ -126,7 +126,7 @@ $('#consulting_target_students').change(function(){
 function show_selections(){
     $('#result_tbox').empty()
     console.log(selectedStudentList)
-    for(i=selectedStudentList.length-1;i<=0;i--){
+    for(i=selectedStudentList.length-1;i>=0;i--){
         // 전체 반이 선택된 경우 
         if(String(selectedStudentList[i]).includes('-1')){
             // 같은 반 친구들 교집합을 저장 
