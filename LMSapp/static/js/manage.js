@@ -38,7 +38,7 @@ function getBanlist() {
 
 // 상담 요청 모달이 클릭됐을때 실행 되는 / 모달에 필요한 정보 보내주는 함수 
 async function request_consulting() {
-    $('#select_result').hide()
+    $('#result_tbox').empty()
     $('#select_student').hide()
     
     await $.ajax({
@@ -84,11 +84,10 @@ async function ban_change(btid){
         })
     }else{
         $('#select_student').hide()
-        $('#result_ulbox').hide()
         if(btid == 0){
             // 전체 반 대상 진행 일 경우 처리 
             $('#consulting_msg').html('👉 전체 반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)')
-            
+            $()
         }else if(btid == 1){
             // plus alpha 처리
             $('#consulting_msg').html('👉 PLUS/ALPHA반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)')
@@ -100,7 +99,6 @@ async function ban_change(btid){
 }
 // 학생 다중 선택 처리 
 $('#consulting_target_students').change(function(){
-    $('#select_result').show()
     var selectedValues = $(this).val()[0];
 
     if(selectedStudentList.indexOf(selectedValues) === -1) {
@@ -111,7 +109,6 @@ $('#consulting_target_students').change(function(){
     if(selectedValues.includes('-1')){
         // 같은 반 친구들 교집합을 저장 
         let total_student_selections = selectedStudentList.filter(value => (String(value).split('_')[0] == selectedValues.split('_')[0])&&(!(value.includes('-1'))) );
-        console.log(total_student_selections)
         total_student_selections.forEach(value =>{
             selectedStudentList.splice(selectedStudentList.indexOf(value),1);
         })
@@ -125,8 +122,8 @@ $('#consulting_target_students').change(function(){
 });
 
 function show_selections(){
+    $('#result_tbox').empty()
     var selectedOptions = ''
-
     for(i=0;i<selectedStudentList.length;i++){
         // 전체 반이 선택된 경우 
         if(selectedStudentList[i].includes('-1')){
@@ -136,7 +133,6 @@ function show_selections(){
                 selectedStudentList.splice(selectedStudentList.indexOf(value),1);
             })
         } 
-
     }
     // 선택된 학생 정보 변경 
     $('#consulting_target_students').val(selectedStudentList)
@@ -152,7 +148,6 @@ function show_selections(){
     }
 }
 function delete_selected_student(idx){
-    $('#result_tbox').empty()
     selectedStudentList.splice(idx,1)
 
     // 선택된 학생 정보 변경 
