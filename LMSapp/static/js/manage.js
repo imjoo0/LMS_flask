@@ -62,40 +62,26 @@ async function request_consulting() {
 async function ban_change(btid){
     if(btid.includes('_')){
         // 다중 반 처리
-        if(selectedBanList.indexOf(btid) === -1){
-            selectedBanList.push(btid);
-            $('#select_student').show() 
-            $('#consulting_msg').html('👉 개별 반 대상 진행합니다 (대상 학생을 선택해 주세요)')
-
-            value = btid.split('_');
-            $('#result_tbox').empty();
-            for(i=0;i<selectedBanList.length;i++){
-                let temp_result_tbox = `          
-                <div id="resulttbox_${selectedBanList[i]}">
-                </div>
-                `;
-                $('#result_tbox').append(temp_result_tbox)
+        $('#select_student').show() 
+        $('#consulting_msg').html('👉 개별 반 대상 진행합니다 (대상 학생을 선택해 주세요)')
+        value = btid.split('_')
+        await $.ajax({
+            type: "GET",
+            url: "/manage/ban_student/"+value[0],
+            data: {},
+            success: function (response) {
+                // 전체 학생 대상 진행 append 
+                let temp_target_student = `<option value="${btid}_전체학생">✔️${value[2]}반 전체 학생 대상 진행</option>`;
+                for (var i = 0; i <  response['students'].length; i++) {
+                    let sname = response['students'][i]['name'];
+                    temp_target_student += `<option value="${btid}_${response['students'][i]['register_no']}"> ${sname}</option>`;
+                } 
+                $('#consulting_target_students').html(temp_target_student)
+            },
+            error:function(xhr, status, error){
+                    alert('xhr.responseText');
             }
-            $('#select_result').show()
-            await $.ajax({
-                type: "GET",
-                url: "/manage/ban_student/"+value[0],
-                data: {},
-                success: function (response) {
-                    // 전체 학생 대상 진행 append 
-                    let temp_target_student = `<option value="${btid}_전체학생">✔️${value[2]}반 전체 학생 대상 진행</option>`;
-                    for (var i = 0; i <  response['students'].length; i++) {
-                        let sname = response['students'][i]['name'];
-                        temp_target_student += `<option value="${btid}_${response['students'][i]['register_no']}"> ${sname}</option>`;
-                    } 
-                    $('#consulting_target_students').html(temp_target_student)
-                },
-                error:function(xhr, status, error){
-                        alert('xhr.responseText');
-                }
-            })
-
-        }
+        })
     }else{
         $('#select_student').hide()
         $('#result_ulbox').hide()
@@ -116,16 +102,13 @@ async function ban_change(btid){
 $('#consulting_target_students').change(function(){
     var selectedValues = $(this).val()[0];
     var value = selectedValues.split('_')
-    var idx = value[0]+'_'+value[1]+'_'+value[2]
     // var target_result_tbox_idx = selectedBanList.indexOf(btid)
     if(selectedValues.includes("전체학생")){
         let selectedOptions = `
         <td class="col-4">${value[2]}</td>
         <td class="col-6">✔️전체 학생 대상 진행</td>
         <td class="col-2" onclick="delete_selected_student(-1)">❌</td>`;
-        console.log(selectedOptions)
-        $('#resulttbox_'+idx).append(selectedOptions);
-        console.log(idx)
+        $('#result_tbox').append(selectedOptions);
         selectedStudentList.length = 0;
         selectedStudentList.push(selectedValues);
     }else if(selectedStudentList.length != 0 && selectedStudentList[0].includes("전체학생")){
