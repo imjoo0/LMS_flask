@@ -76,7 +76,7 @@ async function ban_change(btid){
                     let sname = response['students'][i]['name'];
                     temp_target_student += `<option value="${btid}_${response['students'][i]['register_no']}_${sname}"> ${sname}</option>`;
                 } 
-                $('#consulting_target_students').html(temp_target_student)
+                $('#consulting_target_students[]').html(temp_target_student)
             },
             error:function(xhr, status, error){
                     alert('xhr.responseText');
@@ -101,7 +101,7 @@ async function ban_change(btid){
     }
 }
 // 학생 다중 선택 처리 
-$('#consulting_target_students').change(function(){
+$('#consulting_target_students[]').change(function(){
     var selectedValues = $(this).val()[0];
 
     if(selectedStudentList.indexOf(selectedValues) === -1) {
@@ -125,7 +125,6 @@ function show_selections(){
             }
         } 
     }
-    
     var selectedOptions = ''
     for(i=0;i<selectedStudentList.length;i++){
         // bid+tid+bname+sid+sname
@@ -136,7 +135,8 @@ function show_selections(){
         <td class="col-2" onclick="delete_selected_student(${i})">❌</td>`;
         $('#result_tbox').html(selectedOptions);
     }
-    
+    // 선택된 학생 정보 변경 
+    $('#consulting_target_students[]').val(selectedStudentList)
 }
 function delete_selected_student(idx){
     selectedStudentList.splice(idx,1)
@@ -147,36 +147,31 @@ function delete_selected_student(idx){
 
 // 상담 요청 하기 
 function post_consulting_request(){
+    consulting_target = $('#consulting_target_students[]').val()
     consulting_category = $('#consulting_category_list').val()
     consulting_contents = $('#consulting_contents').val()
     consulting_date = $('#consulting_date').val()
     consulting_deadline = $('#consulting_deadline').val()
-    for(i=0;i<selectedStudentList;i++){
-        target = selectedStudentList[i].split('_')
-        b_id = target[0]
-        t_id = target[1]
-        s_id = target[3]
-        $.ajax({
-            type: "POST",
-            url:'/manage/request',
-            // data: JSON.stringify(jsonData), // String -> json 형태로 변환
-            data: {
-                consulting_b_id :b_id,
-                consulting_t_id :t_id,
-                consulting_s_id :s_id,
-                consulting_category:consulting_category,
-                consulting_contents:consulting_contents,
-                consulting_date:consulting_date,
-                consulting_deadline:consulting_deadline,
-            },
-            success: function (response) {
-                alert(response["result"])
-                window.location.reload()
-            }
-        })
-    }
-    
-
+    console.log(consulting_target)
+    console.log(consulting_category)
+    console.log(consulting_contents)
+    console.log(consulting_date)
+    console.log(consulting_deadline)
+    // $.ajax({
+    //         type: "POST",
+	// 		url:'/manage/request'+consulting+'/'+is_done,
+	// 		// data: JSON.stringify(jsonData), // String -> json 형태로 변환
+    //         data: {
+    //             consulting_category:consulting_category,
+    //             consulting_contents:consulting_contents,
+    //             consulting_result:consulting_result,
+    //             consulting_missed:consulting_missed,
+    //         },
+    //         success: function (response) {{
+	// 			alert(response["result"])
+    //             window.location.reload()
+	// 		}}
+    // })
 }
 function go_back() {
     $('#for_taskban_list').hide();
