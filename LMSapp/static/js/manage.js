@@ -87,13 +87,15 @@ async function ban_change(btid){
         if(btid == 0){
             // 전체 반 대상 진행 일 경우 처리 
             $('#consulting_msg').html('👉 전체 반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)')
-            $()
+            $('#result_tbox').empty()
         }else if(btid == 1){
             // plus alpha 처리
             $('#consulting_msg').html('👉 PLUS/ALPHA반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)')
+            $('#result_tbox').empty()
         }else if(btid == 2){
             // nf 노블 처리 
             $('#consulting_msg').html('👉 NF/NOVEL반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)')
+            $('#result_tbox').empty()
         }
     }
 }
