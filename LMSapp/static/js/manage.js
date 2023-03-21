@@ -106,7 +106,7 @@ $('#consulting_target_students').change(function(){
         // 전체 학생이 선택된 거는 삭제해줘야 한다. 
         $.each(selectedStudentList, function(index, value){
             if(selectedValues.split('_')[0] == value.split('_')[0]){
-                array.splice(index, 1);
+                selectedStudentList.splice(index, 1);
             }
         });
     }
