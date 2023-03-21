@@ -107,6 +107,7 @@ $('#consulting_target_students').change(function(){
     if(selectedStudentList.indexOf(selectedValues) === -1) {
         selectedStudentList.push(selectedValues);
         var selectedOptions = ''
+        console.log(selectedStudentList)
         for(i=0;i<selectedStudentList.length;i++){
             option_text = $(`#consulting_target_students option[value="${selectedStudentList[i]}"]`).text(); 
             selectedOptions += `
