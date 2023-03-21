@@ -108,7 +108,7 @@ $('#consulting_target_students').change(function(){
     }
 
     // 전체 반이 선택된 경우 
-    if(selectedValues.includes('-1') && selectedStudentList.length != 0){
+    if(selectedValues.includes('-1')){
         // 같은 반 친구들 교집합을 저장 
         let total_student_selections = selectedStudentList.filter(value => (String(value).split('_')[0] == selectedValues.split('_')[0])&&(!(value.includes('-1'))) );
         console.log(total_student_selections)
@@ -123,10 +123,25 @@ $('#consulting_target_students').change(function(){
     return show_selections();
     
 });
+
 function show_selections(){
     var selectedOptions = ''
+
     for(i=0;i<selectedStudentList.length;i++){
-        
+        // 전체 반이 선택된 경우 
+        if(selectedStudentList[i].includes('-1')){
+            // 같은 반 친구들 교집합을 저장 
+            let total_student_selections = selectedStudentList.filter(value => (String(value).split('_')[0] == selectedValues.split('_')[0])&&(!(value.includes('-1'))) );
+            total_student_selections.forEach(value =>{
+                selectedStudentList.splice(selectedStudentList.indexOf(value),1);
+            })
+        } 
+
+    }
+    // 선택된 학생 정보 변경 
+    $('#consulting_target_students').val(selectedStudentList)
+    
+    for(i=0;i<selectedStudentList.length;i++){
         // bid+tid+bname+sid+sname
         var value = selectedStudentList[i].split('_')
         selectedOptions += `
