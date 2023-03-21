@@ -71,7 +71,7 @@ async function ban_change(btid){
             data: {},
             success: function (response) {
                 // 전체 학생 대상 진행 append 
-                let temp_target_student = `<option value="${btid}_전체학생_1">✔️${value[2]}반 전체 학생 대상 진행</option>`;
+                let temp_target_student = `<option value="${btid}_1_전체학생">✔️${value[2]}반 전체 학생 대상 진행</option>`;
                 for (var i = 0; i <  response['students'].length; i++) {
                     let sname = response['students'][i]['name'];
                     temp_target_student += `<option value="${btid}_${response['students'][i]['register_no']}_${sname}"> ${sname}</option>`;
