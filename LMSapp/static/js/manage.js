@@ -115,9 +115,8 @@ $('#consulting_target_students').change(function(){
             // 전체 학생이 선택된 거는 삭제해줘야 한다. 
             if(value.length < 4){
                 for(j=0;j<selectedStudentList.length;j++){
-                    var same_ban = selectedStudentList[j].split('_')[0]
-                    if(value[0] == same_ban){
-                        selectedStudentList.pop(j)
+                    if(value[0] == selectedStudentList[j].split('_')[0]){
+                        selectedStudentList.splice(j,1)
                     }
                 }
             }
