@@ -64,20 +64,19 @@ async function ban_change(btid){
         // 다중 반 처리
         if(selectedBanList.indexOf(btid) === -1){
             selectedBanList.push(btid);
-            value = btid.split('_');
-            $('#select_result').show()
-            $('#consulting_msg').html(`👉 ${value[2]} 반 대상 진행합니다 (대상 학생을 선택해 주세요)`)
             $('#select_student').show() 
+            $('#consulting_msg').html('👉 개별 반 대상 진행합니다 (대상 학생을 선택해 주세요)')
 
+            value = btid.split('_');
             $('#result_tbox').empty();
             for(i=0;i<selectedBanList.length;i++){
                 let temp_result_tbox = `          
                 <div id="resulttbox_${selectedBanList[i]}">
-                    <td class="col-4">${value[2]}</td>
                 </div>
-                `
+                `;
                 $('#result_tbox').append(temp_result_tbox)
             }
+            $('#select_result').show()
             await $.ajax({
                 type: "GET",
                 url: "/manage/ban_student/"+value[0],
@@ -95,6 +94,7 @@ async function ban_change(btid){
                         alert('xhr.responseText');
                 }
             })
+
         }
     }else{
         $('#select_student').hide()
@@ -102,6 +102,7 @@ async function ban_change(btid){
         if(btid == 0){
             // 전체 반 대상 진행 일 경우 처리 
             $('#consulting_msg').html('👉 전체 반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)')
+            
         }else if(btid == 1){
             // plus alpha 처리
             $('#consulting_msg').html('👉 PLUS/ALPHA반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)')
@@ -115,9 +116,13 @@ async function ban_change(btid){
 $('#consulting_target_students').change(function(){
     var selectedValues = $(this).val()[0];
     var btid = selectedValues.split('_')[0]
+    var value = btid.split('_')
     // var target_result_tbox_idx = selectedBanList.indexOf(btid)
     if(selectedValues.includes("전체학생")){
-        selectedOptions = '<td class="col-6">✔️전체 학생 대상 진행</td><td class="col-2" onclick="delete_selected_student(-1)">❌</td>';
+        let selectedOptions = `
+        <td class="col-4">${value[2]}</td>
+        <td class="col-6">✔️전체 학생 대상 진행</td>
+        <td class="col-2" onclick="delete_selected_student(-1)">❌</td>`;
         $('#resulttbox_'+btid).append(selectedOptions);
         selectedStudentList.length = 0;
         selectedStudentList.push(selectedValues);
