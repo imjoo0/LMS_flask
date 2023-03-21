@@ -102,7 +102,6 @@ async function ban_change(btid){
 $('#consulting_target_students').change(function(){
     $('#select_result').show()
     var selectedValues = $(this).val()[0];
-    var target = selectedValues.split('_')[0]
     
     // 중복이 아니면 push
     if(selectedStudentList.indexOf(selectedValues) === -1) {
@@ -110,11 +109,10 @@ $('#consulting_target_students').change(function(){
     }
     
     // 전체 학생이 선택되면 해당 반 학생들 전부 삭제한다. 
-    if(selectedValues.includes('-1')){
+    if((selectedValues.includes('-1'))&&(selectedStudentList.length!=0)){
         $.each(selectedStudentList, function(index, value){
             console.log(value)
-            bid = value.split('_')[0]
-            if(target == bid){
+            if(selectedValues.split('_')[0] == String(value).split('_')[0]){
                 selectedStudentList.splice(index, 1);
             }
         });
