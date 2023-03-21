@@ -125,6 +125,7 @@ function show_selections(){
             }
         } 
     }
+    
     var selectedOptions = ''
     for(i=0;i<selectedStudentList.length;i++){
         // bid+tid+bname+sid+sname
@@ -137,6 +138,7 @@ function show_selections(){
     }
     
     // 선택된 학생 정보 변경 
+    console.log(selectedStudentList)
     $('#consulting_target_students').val(selectedStudentList)
 }
 function delete_selected_student(idx){
