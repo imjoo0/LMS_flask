@@ -102,29 +102,26 @@ async function ban_change(btid){
 $('#consulting_target_students').change(function(){
     $('#select_result').show()
     var selectedValues = $(this).val()[0];
-
+    if(selectedValues.includes('-1') && selectedStudentList.length != 0){
+        // 전체 학생이 선택된 거는 삭제해줘야 한다. 
+        $.each(selectedStudentList, function(index, value){
+            if(selectedValues.split('_')[0] == value.split('_')[0]){
+                array.splice(index, 1);
+            }
+        });
+    }
     // var target_result_tbox_idx = selectedBanList.indexOf(btid)
     if(selectedStudentList.indexOf(selectedValues) === -1) {
         selectedStudentList.push(selectedValues);
-
+        
         var selectedOptions = ''
         for(i=0;i<selectedStudentList.length;i++){
             // bid+tid+bname+sid+sname
             var value = selectedStudentList[i].split('_')
-
-            // 전체 학생이 선택된 거는 삭제해줘야 한다. 
-            if(value[3] == "-1"){
-                console.log('Wlrdl')
-                for(j=0;j<selectedStudentList.length;j++){
-                    if(value[0] == selectedStudentList[j].split('_')[0]){
-                        selectedStudentList.splice(j,1)
-                    }
-                }
-            }
             selectedOptions += `
             <td class="col-4">${value[2]}</td>
             <td class="col-6">${value[4]}</td>
-            <td class="col-2" onclick="delete_selected_student(${selectedStudentList[i]})">❌</td>`;
+            <td class="col-2" onclick="delete_selected_student(${i})">❌</td>`;
             $('#result_tbox').html(selectedOptions);
         }
         // if(selectedValues.includes("전체학생")){
