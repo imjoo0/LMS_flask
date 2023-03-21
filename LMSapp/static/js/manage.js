@@ -112,6 +112,7 @@ $('#consulting_target_students').change(function(){
     // 전체 학생이 선택되면 해당 반 학생들 전부 삭제한다. 
     if(selectedValues.includes('-1')){
         $.each(selectedStudentList, function(index, value){
+            console.log(value)
             bid = value.split('_')[0]
             if(target == bid){
                 selectedStudentList.splice(index, 1);
@@ -140,7 +141,7 @@ function show_selections(){
 function delete_selected_student(idx){
     $('#result_tbox').empty()
     selectedStudentList.splice(idx,1)
-    
+
     // 선택된 학생 정보 변경 
     $('#consulting_target_students').val(selectedStudentList)
     
