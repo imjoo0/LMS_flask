@@ -126,6 +126,8 @@ function show_selections(){
     }
     var selectedOptions = ''
     for(i=0;i<selectedStudentList.length;i++){
+        // 선택된 학생 정보 변경 
+        $('select[name="consulting_target_students[]"]').find('option[value="' + selectedStudentList[i] + '"]').prop('selected', true);;
         // bid+tid+bname+sid+sname
         var value = selectedStudentList[i].split('_')
         selectedOptions += `
@@ -134,10 +136,6 @@ function show_selections(){
         <td class="col-2" onclick="delete_selected_student(${i})">❌</td>`;
         $('#result_tbox').html(selectedOptions);
     }
-    // 선택된 학생 정보 변경 
-    console.log(selectedStudentList)
-    $('#consulting_target_students').val(selectedStudentList)
-    console.log($('select[name="consulting_target_students[]"]').val())
 }
 function delete_selected_student(idx){
     selectedStudentList.splice(idx,1)
