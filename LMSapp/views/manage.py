@@ -181,46 +181,25 @@ def request_consulting():
         received_category = request.form['consulting_category']
         #  상담 내용 저장
         received_consulting = request.form['consulting_contents']
-        #  상담을 진행할 반 저장
-        received_target_ban = request.form.getlist('consulting_target_ban[]')
         #  상담을 진행할 시작일 저장
         received_consulting_startdate = request.form['consulting_date']
         #  상담을 마무리할 마감일 저장
         received_consulting_deadline = request.form['consulting_deadline']
-        print(received_category)
-        print(received_consulting)
-        print(received_target_ban)
-        print(received_consulting_startdate)
-        print(received_consulting_deadline)
-        for target_ban in received_target_ban:
-            # 전체 반이 선택 된 경우
-            if target_ban == '전체 반':
-                target_class = callapi.purple_allinfo('get_all_ban_student')
-                for c in target_class:
-                    new_consulting = Consulting(ban_id=c['ban_id'], category_id=received_category, student_id=c['student_id'],
-                                                contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
-                    db.session.add(new_consulting)
-                    db.session.commit()
-            # 개별 반 선택 된 경우 
-            else:
-                print(target_ban)
-        #     #  상담을 진행할 학생 저장
-        #     received_target_student = request.form.getlist('consulting_target_student[]')
-        #     print(received_target_student)
-        #     # 전체 학생이 포함된 문자열일 경우 
-        #     if received_target_student == '전체학생':
-        #         target_student_list = callapi.purple_info(received_target_ban,'get_students')
-        #         for student in target_student_list:
-        #             new_consulting = Consulting(ban_id=received_target_ban, category_id=received_category, student_id=student['register_no'],
-        #                                         contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
-        #             db.session.add(new_consulting)
-        #             db.session.commit()
-        #     # 개별 학생일 경우 
-        #     else:
-        #         new_consulting = Consulting(ban_id=received_target_ban, category_id=received_category, student_id=received_target_student,
-        #                                     contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
-        #         db.session.add(new_consulting)
-        #         db.session.commit()
+        #  상담을 진행 대상 저장 
+        received_consulting_b_id = request.form['consulting_b_id']
+        received_consulting_t_id = request.form['consulting_t_id']
+        received_consulting_s_id = request.form['consulting_s_id']
+        
+        if received_consulting_s_id == -1:
+            students = callapi.purple_info(received_consulting_b_id,'/get_student_simple')
+            for student in students:
+                new_consulting = Consulting(ban_id=received_consulting_b_id,teacher_id=received_consulting_t_id, category_id=received_category, student_id=student['register_no'],contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
+        else:
+            new_consulting = Consulting(ban_id=received_consulting_b_id,teacher_id=received_consulting_t_id, category_id=received_category, student_id=received_consulting_s_id,contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
+
+        db.session.add(new_consulting)
+        db.session.commit()
+
         return redirect('/')
                 
 @bp.route("/task", methods=['GET', 'POST'])
