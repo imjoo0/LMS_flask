@@ -71,7 +71,7 @@ async function ban_change(btid){
             data: {},
             success: function (response) {
                 // 전체 학생 대상 진행 append 
-                let temp_target_student = `<option value="${btid}_전체 학생 대상 진행">✔️${value[2]}반 전체 학생 대상 진행</option>`;
+                let temp_target_student = `<option value="${btid}_-1_전체 학생 대상 진행">✔️${value[2]}반 전체 학생 대상 진행</option>`;
                 for (var i = 0; i <  response['students'].length; i++) {
                     let sname = response['students'][i]['name'];
                     temp_target_student += `<option value="${btid}_${response['students'][i]['register_no']}_${sname}"> ${sname}</option>`;
@@ -113,7 +113,8 @@ $('#consulting_target_students').change(function(){
             var value = selectedStudentList[i].split('_')
 
             // 전체 학생이 선택된 거는 삭제해줘야 한다. 
-            if(value.length < 4){
+            if(value[3] == "-1"){
+                console.log('Wlrdl')
                 for(j=0;j<selectedStudentList.length;j++){
                     if(value[0] == selectedStudentList[j].split('_')[0]){
                         selectedStudentList.splice(j,1)
