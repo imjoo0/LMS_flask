@@ -102,20 +102,16 @@ async function ban_change(btid){
 $('#consulting_target_students').change(function(){
     $('#select_result').show()
     var selectedValues = $(this).val()[0];
-    
+
+    if(selectedStudentList.indexOf(selectedValues) === -1) {
+        selectedStudentList.push(selectedValues);
+    }
     // 전체 학생이 선택되면 해당 반 학생들 전부 삭제한다. 
-    if((selectedValues.includes('-1'))&&(selectedStudentList.length!=0)&&((selectedStudentList.indexOf(selectedValues) === -1))){
-        $.each(selectedStudentList, function(index, value){
-            console.log(selectedStudentList)
+    if((selectedValues.includes('-1'))&&(selectedStudentList.length!=0)){
+        for(i=selectedStudentList.length-1;i>=0;i--){
             if(selectedValues.split('_')[0] == String(value).split('_')[0]){
                 selectedStudentList.splice(index, 1);
             }
-        });
-        console.log(selectedStudentList)
-        selectedStudentList.push(selectedValues);
-    }else{
-        if(selectedStudentList.indexOf(selectedValues) === -1) {
-            selectedStudentList.push(selectedValues);
         }
     }
     
