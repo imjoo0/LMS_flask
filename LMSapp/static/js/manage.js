@@ -71,10 +71,10 @@ async function ban_change(btid){
             data: {},
             success: function (response) {
                 // 전체 학생 대상 진행 append 
-                let temp_target_student = `<option value="${btid}_전체학생">✔️${value[2]}반 전체 학생 대상 진행</option>`;
+                let temp_target_student = `<option value="${btid}_전체학생_1">✔️${value[2]}반 전체 학생 대상 진행</option>`;
                 for (var i = 0; i <  response['students'].length; i++) {
                     let sname = response['students'][i]['name'];
-                    temp_target_student += `<option value="${btid}_${response['students'][i]['register_no']}"> ${sname}</option>`;
+                    temp_target_student += `<option value="${btid}_${response['students'][i]['register_no']}_${sname}"> ${sname}</option>`;
                 } 
                 $('#consulting_target_students').html(temp_target_student)
             },
@@ -108,13 +108,12 @@ $('#consulting_target_students').change(function(){
 
         var selectedOptions = ''
         for(i=0;i<selectedStudentList.length;i++){
-            option_text = $(`#consulting_target_students option[value="${selectedStudentList[i]}"]`).text(); 
+            // bid+tid+bname+sid+sname
             var value = selectedStudentList[i].split('_')
-            
             selectedOptions += `
             <td class="col-4">${value[2]}</td>
-            <td class="col-6">${option_text}</td>
-            <td class="col-2" onclick="delete_selected_student(${selectedValues})">❌</td>`;
+            <td class="col-6">${value[4]}</td>
+            <td class="col-2" onclick="delete_selected_student(${selectedStudentList[i]})">❌</td>`;
             $('#result_tbox').html(selectedOptions);
         }
         // if(selectedValues.includes("전체학생")){
