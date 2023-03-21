@@ -135,6 +135,7 @@ function show_selections(){
         $('#result_tbox').html(selectedOptions);
     }
     // 선택된 학생 정보 변경 
+    console.log(selectedStudentList)
     $('#consulting_target_students').val(selectedStudentList)
     console.log($('select[name="consulting_target_students[]"]').val())
 }
