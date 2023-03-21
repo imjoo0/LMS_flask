@@ -103,8 +103,14 @@ $('#consulting_target_students').change(function(){
     $('#select_result').show()
     var selectedValues = $(this).val()[0];
     var target = selectedValues.split('_')[0]
-    if(selectedValues.includes('-1') && selectedStudentList.length != 0){
-        // 전체 학생이 선택된 거는 삭제해줘야 한다. 
+    
+    // 중복이 아니면 push
+    if(selectedStudentList.indexOf(selectedValues) === -1) {
+        selectedStudentList.push(selectedValues);
+    }
+    
+    // 전체 학생이 선택되면 해당 반 학생들 전부 삭제한다. 
+    if(selectedValues.includes('-1')){
         $.each(selectedStudentList, function(index, value){
             bid = value.split('_')[0]
             if(target == bid){
@@ -112,59 +118,34 @@ $('#consulting_target_students').change(function(){
             }
         });
     }
-    // var target_result_tbox_idx = selectedBanList.indexOf(btid)
-    if(selectedStudentList.indexOf(selectedValues) === -1) {
-        selectedStudentList.push(selectedValues);
-        
-        var selectedOptions = ''
-        for(i=0;i<selectedStudentList.length;i++){
-            // bid+tid+bname+sid+sname
-            var value = selectedStudentList[i].split('_')
-            selectedOptions += `
-            <td class="col-4">${value[2]}</td>
-            <td class="col-6">${value[4]}</td>
-            <td class="col-2" onclick="delete_selected_student(${i})">❌</td>`;
-            $('#result_tbox').html(selectedOptions);
-        }
-        // if(selectedValues.includes("전체학생")){
-        //     let selectedOptions = `
-        //     <td class="col-4">${value[2]}</td>
-        //     <td class="col-6">✔️전체 학생 대상 진행</td>
-        //     <td class="col-2" onclick="delete_selected_student(-1)">❌</td>`;
-        //     $('#result_tbox').append(selectedOptions);
-        //     selectedStudentList.push(selectedValues);
-        // }else{
-        //     // 선택 된거 보여주기 
-        //     var selectedOptions = ''
-        //     for(i=0;i<selectedStudentList.length;i++){
-        //         student_name = $(`#consulting_target_students option[value="${selectedStudentList[i]}"]`).text(); 
-        //         selectedOptions += `
-        //         <li>${option_text}<button onclick="delete_selected_student(${i})">❌</button> </li>
-        //         `
-        //         $('#target_students').html(selectedOptions);
-        //     }
-        // }
-        $('#consulting_target_students').val(selectedStudentList)
-    }
-});
+    
+    // 선택된 학생 정보 변경 
+    $('#consulting_target_students').val(selectedStudentList)
 
-function delete_selected_student(idx){
-    $('#target_students').empty()
-    if(idx != -1){
-        selectedStudentList.splice(idx,1)
-    }else{
-        selectedStudentList.length = 0;
-    }
-    // 선택 된거 보여주기 
+    return show_selections();
+    
+});
+function show_selections(){
     var selectedOptions = ''
     for(i=0;i<selectedStudentList.length;i++){
-        option_text = $(`#consulting_target_students option[value="${selectedStudentList[idx]}"]`).text(); 
+        // bid+tid+bname+sid+sname
+        var value = selectedStudentList[i].split('_')
         selectedOptions += `
-        <li>${option_text}<button onclick="delete_selected_student(${i})">❌</button></li>
-        `
-        $('#target_students').html(selectedOptions);
+        <td class="col-4">${value[2]}</td>
+        <td class="col-6">${value[4]}</td>
+        <td class="col-2" onclick="delete_selected_student(${i})">❌</td>`;
+        $('#result_tbox').html(selectedOptions);
     }
+}
+function delete_selected_student(idx){
+    $('#result_tbox').empty()
+    selectedStudentList.splice(idx,1)
+    
+    // 선택된 학생 정보 변경 
     $('#consulting_target_students').val(selectedStudentList)
+    
+    // 선택 된거 보여주기 
+    return show_selections();
 }
 
 // 여기 아래부턴 과거 코드 
