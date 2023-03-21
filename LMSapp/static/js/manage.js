@@ -72,7 +72,7 @@ async function ban_change(btid){
             $('#result_tbox').empty();
             for(i=0;i<selectedBanList.length;i++){
                 let temp_result_tbox = `          
-                <div id="resulttbox${selectedBanList[i]}">
+                <div id="resulttbox_${selectedBanList[i]}">
                     <td class="col-4">${value[2]}</td>
                 </div>
                 `
@@ -118,7 +118,7 @@ $('#consulting_target_students').change(function(){
     // var target_result_tbox_idx = selectedBanList.indexOf(btid)
     if(selectedValues.includes("전체학생")){
         selectedOptions = '<td class="col-6">✔️전체 학생 대상 진행</td><td class="col-2" onclick="delete_selected_student(-1)">❌</td>';
-        $('#resulttbox'+btid).append(selectedOptions);
+        $('#resulttbox_'+btid).append(selectedOptions);
         selectedStudentList.length = 0;
         selectedStudentList.push(selectedValues);
     }else if(selectedStudentList.length != 0 && selectedStudentList[0].includes("전체학생")){
