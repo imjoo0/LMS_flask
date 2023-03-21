@@ -125,7 +125,6 @@ $('#consulting_target_students').change(function(){
 
 function show_selections(){
     $('#result_tbox').empty()
-    var selectedOptions = ''
     console.log(selectedStudentList)
     for(i=selectedStudentList.length-1;i<=0;i--){
         // 전체 반이 선택된 경우 
@@ -141,9 +140,12 @@ function show_selections(){
         } 
     }
     console.log(selectedStudentList)
+
     // 선택된 학생 정보 변경 
     $('#consulting_target_students').val(selectedStudentList)
     console.log($('#consulting_target_students').val())
+    
+    var selectedOptions = ''
     for(i=0;i<selectedStudentList.length;i++){
         // bid+tid+bname+sid+sname
         var value = selectedStudentList[i].split('_')
