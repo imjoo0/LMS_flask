@@ -71,7 +71,7 @@ async function ban_change(btid){
 
             $('#result_tbox').empty();
             for(i=0;i<selectedBanList.length;i++){
-                temp_result_tbox += `          
+                let temp_result_tbox = `          
                 <tr class="row" id="result_tbox${selectedBanList[i]}">
                     <td class="col-4">${value[2]}</td>
                 </tr>
