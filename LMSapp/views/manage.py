@@ -17,7 +17,6 @@ def home():
         user = callapi.purple_info(session['user_id'],'get_teacher_info')
         # all_ban = callapi.purple_allban('get_all_ban')
         
-        # all_consulting_category = ConsultingCategory.query.filter((ConsultingCategory.id > 100) & (ConsultingCategory.id != 110)).all()
         # all_consulting = Consulting.query.all()
         # all_task_category = TaskCategory.query.all()
         # all_task = Task.query.all()
@@ -159,8 +158,25 @@ def delete_task(id):
 
         return result
 
-# 상담 요청 / 업무요청 
-@bp.route("/request", methods=['GET', 'POST'])
+# 업무 요청  
+@bp.route("/request_task", methods=['GET'])
+def request_task():
+    if request.method == 'GET':
+        all_task_category = []
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute("select taskcategory.id, taskcategory.name from taskcategory;")
+                all_task_category = cur.fetchall()
+        except Exception as e:
+            print(e)
+        finally:
+            db.close()
+
+        return jsonify({'all_task_category':all_task_category})
+
+# 상담 요청  
+@bp.route("/request_consulting", methods=['GET'])
 def request_consulting():
     if request.method == 'GET':
         all_consulting_category = []
@@ -176,31 +192,7 @@ def request_consulting():
 
         return jsonify({'all_consulting_category':all_consulting_category})
 
-    elif request.method == 'POST':
-        #  상담 카테고리 저장
-        received_consulting_category = request.form['consulting_category_list']
-        #  상담 내용 저장
-        received_consulting_contents = request.form['consulting_contents']
-        #  상담을 진행할 시작일 저장
-        received_consulting_startdate = request.form['consulting_date']
-        #  상담을 마무리할 마감일 저장
-        received_consulting_deadline = request.form['consulting_deadline']
-        #  상담을 진행 대상 저장 
-        received_consulting_target = request.form.getlist('consulting_target_students[]')
-        
-        # if received_consulting_s_id == -1:
-        #     students = callapi.purple_info(received_consulting_b_id,'/get_student_simple')
-        #     for student in students:
-        #         new_consulting = Consulting(ban_id=received_consulting_b_id,teacher_id=received_consulting_t_id, category_id=received_category, student_id=student['register_no'],contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
-        # else:
-        #     new_consulting = Consulting(ban_id=received_consulting_b_id,teacher_id=received_consulting_t_id, category_id=received_category, student_id=received_consulting_s_id,contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
-
-        # db.session.add(new_consulting)
-        # db.session.commit()
-
-        return redirect('/')
-
-# 반 전체 학생에게 상담 요청  
+# 전체 반에 상담 요청  
 @bp.route("/consulting/all_ban/<int:b_type>", methods=['POST'])
 def request_all_ban(b_type):
     if request.method == 'POST':
@@ -228,7 +220,6 @@ def request_all_ban(b_type):
             db.session.commit()
         
         return jsonify({'result':'success'})
-
 
 # 반 전체 학생에게 상담 요청  
 @bp.route("/consulting/request_all_student/<int:b_id>/<int:t_id>", methods=['POST'])

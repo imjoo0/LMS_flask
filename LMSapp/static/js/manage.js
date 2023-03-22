@@ -28,6 +28,7 @@ function getBanlist() {
             }
             $('#ban_list').html(temp_ban_option)
             $('#consulting_target_ban').html(temp_ban_option)
+            $('#task_target_ban').html(temp_ban_option)
         },
         error: function (xhr, status, error) {
             alert('xhr.responseText');
@@ -35,14 +36,55 @@ function getBanlist() {
     })
 
 }
-
+// 업무 요청 모달이 클릭됐을때 실행 되는 / 모달에 필요한 정보 보내주는 함수 
+async function request_task() {
+    await $.ajax({
+        url: '/manage/request_task',
+        type: 'GET',
+        data: {},
+        success: function (response) {
+            let temp_task_category_list = '<option value=0 selected>업무 카테고리를 선택해주세요</option>';
+            for (i = 0; i < response['all_task_category'].length; i++) {
+                let id = response['all_task_category'][i]['id']
+                let name = response['all_task_category'][i]['name']
+                temp_task_category_list += `
+                <option value=${id}>${name}</option>
+                `;
+                $('#task_category_list').html(temp_task_category_list)
+            }
+        }
+    })
+}
+async function task_ban_change(btid){
+    if(btid.includes('_')){
+        // 다중 반 처리
+        $('#target_task_bans').show() 
+        $('#task_msg').html('👇 개별 반 대상 진행합니다 (대상 반을 확인해 주세요)')
+        var selectedValues =  $('select[name="task_target_ban[]"]').val();
+        for(i=0;i<selectedValues.length;i++){
+            console.log(selectedValues[i])
+        }
+    }else{
+        $('#target_task_bans').empty()
+        if(btid == 0){
+            // 전체 반 대상 진행 일 경우 처리 
+            $('#task_msg').html('👉 전체 반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
+        }else if(btid == 1){
+            // plus alpha 처리
+            $('#task_msg').html('👉 PLUS/ALPHA반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
+        }else if(btid == 2){
+            // nf 노블 처리 
+            $('#task_msg').html('👉 NF/NOVEL반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
+        }
+    }
+}
 // 상담 요청 모달이 클릭됐을때 실행 되는 / 모달에 필요한 정보 보내주는 함수 
 async function request_consulting() {
     $('#result_tbox').empty()
     $('#select_student').hide()
     
     await $.ajax({
-        url: '/manage/request',
+        url: '/manage/request_consulting',
         type: 'GET',
         data: {},
         success: function (response) {
@@ -221,6 +263,7 @@ function post_consulting_request(){
         })
     }
 }
+
 function go_back() {
     $('#for_taskban_list').hide();
     $('#for_task_list').show();

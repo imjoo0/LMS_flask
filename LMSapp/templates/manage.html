@@ -343,13 +343,8 @@
                         style="display: block;" />
                     <div class="make_row">
                         <select class="border rounded-0 form-control form-control-sm" name="task_category"
-                            style=" width: 200px; height: 100%; margin-left:0;">
-                            <optgroup label="업무카테고리 선택">
-                                <option value="none" selected>업무 종류를 선택해주세요</option>
-                                {% for category in task_category %}
-                                <option value="{{ category.id }}">{{ category.name }}</option>
-                                {% endfor %}
-                            </optgroup>
+                            style=" width: 200px; height: 100%; margin-left:0;" id="task_category_list">
+                            
                         </select>
                         <input class="border rounded-0 form-control form-control-sm" type="text" name="task_contents"
                             placeholder="업무 내용을 입력해주세요">
@@ -357,18 +352,25 @@
                     <div class="notice_message">
                         <p>👇 업무를 진행할 반을 선택해주세요</p>
                         <div class="plus_under_contents">
-                            <select class="border rounded-0 form-control form-control-sm" name="task_target_ban"
-                                id="task_target_ban" onchange="getBanInfo(this.value)">
-                                <optgroup label="업무 진행 반 선택">
-                                    <option value="none" selected>진행 반 선택</option>
-                                    <option value="전체 반">✔️ 전체 대상 진행 ( 저장 클릭 후 조금 기다려 주세요 ) </option>
-                                    <option value="plusalpha">✔️ Plus / alpha 반 진행 </option>
-
+                            <select class="border rounded-0 form-control form-control-sm" onchange="task_ban_change(this.value)" multiple name="task_target_ban[]">
+                                <optgroup label="전체 반 선택">
+                                    <option value=0>전체 반 대상 진행</option>
+                                    <option value=1>PLUS/ALPHA반 대상 진행</option>
+                                    <option value=2>NF/NOVEL반 대상 진행</option>
+                                </optgroup>
+                                <optgroup id="task_target_ban" label="개별 반 선택" multiple>
                                 </optgroup>
                             </select>
-                            <div class="make_row" id="target_bans">
-
-                            </div>
+                            <table class="table text-center" >
+                                <tbody style="width:100%;">
+                                    <tr class="row">
+                                        <th class="col-12" id="task_msg"></th>
+                                    </tr>
+                                    <tr class="row" id="target_task_bans">
+                                        
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
 
