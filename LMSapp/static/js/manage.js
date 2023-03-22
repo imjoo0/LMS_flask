@@ -39,7 +39,7 @@ function getBanlist() {
 
 // 반 별 차트 정보 보내주는 함수 
 async function getBanChart(btid){
-    console.log(btid)
+    $('#inloading').hide()
     if(btid == 0){
         $('#banchart_title').html('반 관리 상세 현황')
         $('#profile_data').empty()
@@ -216,32 +216,6 @@ async function getBanChart(btid){
             }
         })
     }
-    $('#inloading').hide()
-    // $('#banchart_title').empty();
-    // $('#ban_data').empty();
-    // $('#s_data').empty();
-    // $('#ban_statistics').empty();
-    // $('#target_a_student').empty();
-    // if( btid == 'none'){
-    //     $('#default_title').show();
-    //     $('#student_data').hide();
-    //     $('#pagingul').hide();
-    // }else{
-    //     $('#default_title').hide();
-    //     $('#student_data').show();
-    //     $('#pagingul').show();
-    // }
-    // if( btid == '전체 반'){
-    //     $('#default_title').show();
-    //     $('#student_data').hide();
-    //     $('#pagingul').hide();
-    //     $('#select_student').hide();
-    //     $('#target_bans').empty();
-    // }else{
-    //     $('#select_student').show();
-    // }
-    //$('#profile_data').html('Loading Data...');
-
 }
 
 // 업무 요청 관련 함수 
