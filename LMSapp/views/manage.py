@@ -223,7 +223,7 @@ def request_all_student(b_id,t_id,b_name):
             db.session.commit()
         # else:
         #     new_consulting = Consulting(ban_id=received_consulting_b_id,teacher_id=received_consulting_t_id, category_id=received_category, student_id=received_consulting_s_id,contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
-        result = b_name +'에 상담 요청 완료'
+        result = b_name +'에 상담요청 완료'
 
 
         return jsonify({'result': result})

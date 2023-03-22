@@ -185,12 +185,16 @@ function post_consulting_request(){
                     consulting_contents:consulting_contents,
                     consulting_date:consulting_date,
                     consulting_deadline:consulting_deadline
+                },
+                success: function (response) {
+                    if(response["result"] == '성공')
+                    alert(v[4]+'원생 상담요청 완료')
+                    window.location.reload()
                 }
             })
         })
-        alert('개별학생 저장 완료')
-        window.location.reload()
     }
+   
 }
 function go_back() {
     $('#for_taskban_list').hide();
