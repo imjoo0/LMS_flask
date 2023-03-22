@@ -60,10 +60,20 @@ async function task_ban_change(btid){
         // 다중 반 처리
         $('#target_task_bans').show() 
         $('#task_msg').html('👇 개별 반 대상 진행합니다 (대상 반을 확인해 주세요)')
-        var selectedValues =  $('select[name="task_target_ban[]"]').val();
-        for(i=0;i<selectedValues.length;i++){
-            console.log(selectedValues[i])
+        if(selectedBanList.indexOf(btid) === -1) {
+            selectedBanList.push(btid);
         }
+        var selectedOptions = ''
+        for(i=0;i<selectedBanList.length;i++){
+            // bid+tid+bname+sid+sname
+            var value = selectedBanList[i].split('_')
+            selectedOptions += `
+            <td class="col-10">${value[2]}</td>
+            <td class="col-2" onclick="delete_selected_ban(${i})">❌</td>`;
+            $('#target_task_bans').html(selectedOptions);
+        }
+        $('select[name="task_target_ban[]"]').val(selectedBanList);
+        console.log($('select[name="task_target_ban[]"]').val())
     }else{
         $('#target_task_bans').empty()
         if(btid == 0){
@@ -143,7 +153,6 @@ async function ban_change(btid){
 // 학생 다중 선택 처리 
 $('#consulting_target_students').change(function(){
     var selectedValues = $(this).val()[0];
-
     if(selectedStudentList.indexOf(selectedValues) === -1) {
         selectedStudentList.push(selectedValues);
     }
