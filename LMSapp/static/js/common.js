@@ -33,7 +33,7 @@ function displayData(totalData, currentPage, dataPerPage,data_list,b_id) {
         if( reco_book_code == null){
             reco_book_code = '❌'
         } else if(reco_book_code == 'NOT'){
-            reco_book_code += '(추천도서없음)'
+            reco_book_code += ' (추천도서없음)'
         }
         chartHtml +=`
         <td class="col-2">${name}(${original})</td>
