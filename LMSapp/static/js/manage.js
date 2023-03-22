@@ -188,7 +188,7 @@ function post_consulting_request(){
                 },
                 success: function (response) {
                     if(response["result"] == '성공')
-                    alert(v[4]+'원생 상담요청 완료')
+                    alert(v[2]+'반 '+v[4]+'원생 상담요청 완료')
                     window.location.reload()
                 }
             })
