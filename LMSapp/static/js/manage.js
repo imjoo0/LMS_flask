@@ -186,6 +186,7 @@ function post_consulting_request(){
                     consulting_deadline:consulting_deadline
                 },
                 success: function (response) {
+                    console.log(v)
                     if(response["result"] == '성공')
                     alert(v[2]+'반 '+v[4]+'원생 상담요청 완료')
                 }
