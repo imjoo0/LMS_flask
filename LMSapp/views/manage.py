@@ -204,7 +204,7 @@ def request_consulting():
 
         return redirect('/')
 
-# 상담 요청 / 업무요청 
+# 반 전체 학생에게 상담 요청  
 @bp.route("/request_all_student/<int:b_id>/<int:t_id>/<string:b_name>", methods=['POST'])
 def request_all_student(b_id,t_id,b_name):
     if request.method == 'POST':
@@ -227,6 +227,24 @@ def request_all_student(b_id,t_id,b_name):
 
 
         return jsonify({'result': result})
+
+# 개별 학생에게 상담 요청  
+@bp.route("/request_indivi_student/<int:b_id>/<int:t_id>/<int:s_id>", methods=['POST'])
+def request_indivi_student(b_id,t_id,s_id):
+    if request.method == 'POST':
+        #  상담 카테고리 저장
+        received_consulting_category = request.form['consulting_category']
+        #  상담 내용 저장
+        received_consulting_contents = request.form['consulting_contents']
+        #  상담을 진행할 시작일 저장
+        received_consulting_startdate = request.form['consulting_date']
+        #  상담을 마무리할 마감일 저장
+        received_consulting_deadline = request.form['consulting_deadline']
+        new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=s_id,contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
+        db.session.add(new_consulting)
+        db.session.commit()
+
+        return jsonify({'result': '성공'})
 
 @bp.route("/task", methods=['GET', 'POST'])
 def request_task():

@@ -178,22 +178,19 @@ function post_consulting_request(){
             v = String(value).split('_')
             $.ajax({
                 type: "POST",
-                url:'/manage/request_all_student/'+v[0]+'/'+v[1]+'/'+v[3],
+                url:'/manage/request_indivi_student/'+v[0]+'/'+v[1]+'/'+v[3],
                 // data: JSON.stringify(jsonData), // String -> json 형태로 변환
                 data: {
                     consulting_category:consulting_category,
                     consulting_contents:consulting_contents,
                     consulting_date:consulting_date,
                     consulting_deadline:consulting_deadline
-                },
-                success: function (response) {
-                    alert(response["result"])
-                    window.location.reload()
                 }
             })
         })
+        alert('개별학생 저장 완료')
+        window.location.reload()
     }
-   
 }
 function go_back() {
     $('#for_taskban_list').hide();
