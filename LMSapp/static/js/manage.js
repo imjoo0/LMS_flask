@@ -146,6 +146,7 @@ function post_consulting_request(){
     consulting_contents = $('#consulting_contents').val()
     consulting_date = $('#consulting_date').val()
     consulting_deadline = $('#consulting_deadline').val()
+    console.log(selectedStudentList)
     // 다중 선택 대상 선택일 경우  
     if(selectedStudentList.length != 0){
         let total_student_selections = selectedStudentList.filter(value => value.includes('-1') );

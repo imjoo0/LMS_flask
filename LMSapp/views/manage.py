@@ -212,7 +212,6 @@ def request_all_ban(b_type):
         received_consulting_startdate = request.form['consulting_date']
         #  상담을 마무리할 마감일 저장
         received_consulting_deadline = request.form['consulting_deadline']
-        print(received_consulting_startdate)
         # 전체 반 대상 진행 일 경우 처리 
         if b_type == 0:
             targets = callapi.purple_allinfo('get_all_ban_student')
@@ -222,7 +221,6 @@ def request_all_ban(b_type):
         # nf 노블 처리 
         else :
             targets = callapi.purple_allinfo('get_nfnovel_ban')
-        print(targets)
         for target in targets:
             new_consulting = Consulting(ban_id=target['ban_id'],teacher_id=target['teacher_id'], category_id=received_consulting_category, student_id=target['student_id'],contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
             db.session.add(new_consulting)
