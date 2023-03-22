@@ -200,7 +200,6 @@ function post_consulting_request(){
     // 전체 반 대상 선택 일 경우 
     }else{
         b_type = $('#consulting_target_aban').val()[0]
-        console.log(b_type)
         $.ajax({
             type: "POST",
             url:'/manage/consulting/all_ban/'+b_type,
@@ -212,7 +211,7 @@ function post_consulting_request(){
                 consulting_deadline:consulting_deadline
             },
             success: function (response) {
-                if(response != 'success'){
+                if(response['result'] != 'success'){
                     alert('상담 요청 실패')
                 }else{
                     alert('해당 반 전체에 상담요청 완료')
