@@ -18,7 +18,6 @@ def home():
         # all_ban = callapi.purple_allban('get_all_ban')
         
         # all_consulting = Consulting.query.all()
-        # all_task_category = TaskCategory.query.all()
         # all_task = Task.query.all()
         # all_questions = Question.query.order_by(Question.id.desc())
 
@@ -275,34 +274,34 @@ def make_task():
         received_task_priority = request.form['task_priority']
         # 업무 주기
         received_task_cycle = request.form['task_cycle']
-        #  업무을 진행할 반 저장
+        
+        task = Task(category_id=received_category,contents=received_task,startdate=received_task_startdate,deadline=received_task_deadline,url=received_task_url,priority=received_task_priority,cycle=received_task_cycle)
+        db.session.add(task)
+        db.session.commit()
+
+        #  업무 진행할 반 저장
         received_target_ban = request.form.getlist('task_target_ban[]')
 
-        print(received_target_ban)
-        # task = Task(category_id=received_category,contents=received_task,startdate=received_task_startdate,deadline=received_task_deadline,url=received_task_url,priority=received_task_priority,cycle=received_task_cycle)
-        # db.session.add(task)
-        # db.session.commit()
-        
+        if '_' in received_target_ban[0]:
+            for target in received_target_ban:
+                task_data = target.split('_')
+                new_task = TaskBan(ban_id=int(task_data[0]),teacher_id=int(task_data[1]), task_id=task.id ,done=0)
+                db.session.add(new_task)
+                db.session.commit()
         # 전체 반이 선택 된 경우
-        if received_target_ban == '전체 반':
-            target_class = callapi.purple_allban('get_all_ban')
-            for c in target_class:
-                new_task = TaskBan(ban_id=c['register_no'],teacher_id=c['teacher_register_no'], task_id=task.id ,done=0)
-                db.session.add(new_task)
-                db.session.commit()
-        elif received_target_ban == 'plusalpha':
-            target_class = callapi.purple_allban('get_plusalpha_ban')
-            for c in target_class:
-                new_task = TaskBan(ban_id=c['register_no'],teacher_id=c['teacher_register_no'], task_id=task.id,done=0)
-                db.session.add(new_task)
-                db.session.commit()
-        # 개별 반 선택 된 경우 
         else:
-            target_teacher = callapi.purple_ban(received_target_ban,'get_ban')
-            target_teacher =  target_teacher['teacher_register_no']
-            new_task = TaskBan(ban_id=received_target_ban,teacher_id=target_teacher, task_id=task.id,done=0)
-            db.session.add(new_task)
-            db.session.commit()
+            # 전체 반에 진행 
+            if received_target_ban[0] == '0':
+                targets = callapi.purple_allinfo('get_all_ban_teacher')
+            elif received_target_ban[0] == '1':   
+                targets = callapi.purple_allinfo('get_plusalpha_ban_teacher')
+            else:
+                targets = callapi.purple_allinfo('get_nfnovel_ban_teacher')
+            
+            for target in targets:
+                new_task = TaskBan(ban_id=target['ban_id'],teacher_id=target['teacher_id'], task_id=task.id ,done=0)
+                db.session.add(new_task)
+                db.session.commit()
         return redirect('/')
     
 @bp.route("/ban_student/<int:b_id>", methods=['GET'])
@@ -310,7 +309,6 @@ def get_select_student(b_id):
     if request.method == 'GET':
         students = callapi.purple_info(b_id,'get_students')
         return jsonify({'students': students})
-
 
 @bp.route("/ban/<int:id>", methods=['GET'])
 def get_ban(id):
