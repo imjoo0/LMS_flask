@@ -100,7 +100,7 @@ async function ban_change(btid){
         consulting_contents = $('#consulting_contents').val()
         consulting_date = $('#consulting_date').val()
         consulting_deadline = $('#consulting_deadline').val()
-
+        console.log(consulting_date)
         await $.ajax({
             type: "POST",
             url:'/manage/consulting/all_ban/'+btid,
