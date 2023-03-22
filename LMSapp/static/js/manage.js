@@ -148,22 +148,20 @@ async function getBanChart(btid){
 
 
             let temp_ban_data = `
-            <table class="table text-center" style="width:100%;">
-                <tbody  style="width:100%;">
-                    <tr class="row">
-                        <th class="col-3">현 원생 수</th>
-                        <th class="col-3">이반</th>
-                        <th class="col-3">퇴소</th>
-                        <th class="col-3">미학습</th>
-                    </tr>
-                    <tr class="row">
-                        <td class="col-3">${students_num}</td>
-                        <td class="col-3">${switch_student}(${answer_rate(switch_student, all_s_student).toFixed(2)}%)</td>
-                        <td class="col-3">${out_student}(${answer_rate(out_student, all_o_student).toFixed(2)}%)</td>
-                        <td class="col-3">${u_consulting_my}(${answer_rate(u_consulting_my.length, all_uc_consulting).toFixed(2)}%) </td>
-                    </tr>
-                </tbody>
-            </table>
+            <tbody  style="width:100%;">
+                <tr class="row">
+                    <th class="col-3">현 원생 수</th>
+                    <th class="col-3">이반</th>
+                    <th class="col-3">퇴소</th>
+                    <th class="col-3">미학습</th>
+                </tr>
+                <tr class="row">
+                    <td class="col-3">${students_num}</td>
+                    <td class="col-3">${switch_student}(${answer_rate(switch_student, all_s_student).toFixed(2)}%)</td>
+                    <td class="col-3">${out_student}(${answer_rate(out_student, all_o_student).toFixed(2)}%)</td>
+                    <td class="col-3">${u_consulting_my}(${answer_rate(u_consulting_my.length, all_uc_consulting).toFixed(2)}%) </td>
+                </tr>
+            </tbody>
             `;
 
             $('#ban_data').html(temp_ban_data);
