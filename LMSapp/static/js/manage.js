@@ -6,6 +6,8 @@ var selectedStudentList = [];
 $(document).ready(function () {
     paginating(0)
     getBanlist()
+    sodata()
+    uldata()
 })
 // 전체 반 정보 가져오는 함수 
 function getBanlist() {
