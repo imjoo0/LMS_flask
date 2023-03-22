@@ -204,6 +204,7 @@ def request_consulting():
 @bp.route("/consulting/all_ban/<int:b_type>", methods=['POST'])
 def request_all_ban(b_type):
     if request.method == 'POST':
+        print('아예 안들어오는데?')
         #  상담 카테고리 저장
         received_consulting_category = request.form['consulting_category']
         #  상담 내용 저장
