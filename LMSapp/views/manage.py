@@ -222,12 +222,12 @@ def request_all_ban(b_type):
         # nf 노블 처리 
         else :
             targets = callapi.purple_allinfo('get_nfnovel_ban')
+        print(targets)
         for target in targets:
             new_consulting = Consulting(ban_id=target['ban_id'],teacher_id=target['teacher_id'], category_id=received_consulting_category, student_id=target['student_id'],contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
             db.session.add(new_consulting)
             db.session.commit()
-        # else:
-        #     new_consulting = Consulting(ban_id=received_consulting_b_id,teacher_id=received_consulting_t_id, category_id=received_category, student_id=received_consulting_s_id,contents=received_consulting, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
+        
         return jsonify({'success'})
 
 
