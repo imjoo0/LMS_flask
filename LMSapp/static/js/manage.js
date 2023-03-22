@@ -150,24 +150,23 @@ function post_consulting_request(){
     consulting_deadline = $('#consulting_deadline').val()
     // 전체 학생 대상 인 경우 
     let total_student_selections = selectedStudentList.filter(value => value.includes('-1') );
+    console.log(total_student_selections)
     if(total_student_selections.length != 0){
         total_student_selections.forEach(value =>{
             v = String(value).split('_')
             $.ajax({
                 type: "POST",
-                url:'/manage/request_all_student/'+v[0]+'/'+v[1]+'/'+v[2],
+                url:'/manage/request_all_student/'+v[0]+'/'+v[1],
                 // data: JSON.stringify(jsonData), // String -> json 형태로 변환
                 data: {
                     consulting_category:consulting_category,
                     consulting_contents:consulting_contents,
                     consulting_date:consulting_date,
                     consulting_deadline:consulting_deadline
-                },
-                success: function (response) {
-                    alert(response["result"])
                 }
             })
         })
+        alert(v[2] +'반에 상담요청 완료')
     }
 
     // 개별 학생 대상 인 경우  
