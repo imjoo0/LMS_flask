@@ -39,7 +39,6 @@ function getBanlist() {
 
 // 반 별 차트 정보 보내주는 함수 
 async function getBanChart(btid){
-    $('#inloading').hide()
     if(btid == 0){
         $('#banchart_title').html('반 관리 상세 현황')
         $('#profile_data').empty()
@@ -216,6 +215,8 @@ async function getBanChart(btid){
             }
         })
     }
+    $('#inloading').hide()
+
 }
 
 // 업무 요청 관련 함수 
