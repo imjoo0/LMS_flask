@@ -85,19 +85,42 @@ async function ban_change(btid){
         })
     }else{
         $('#select_student').hide()
+        $('#result_tbox').empty()
         if(btid == 0){
             // 전체 반 대상 진행 일 경우 처리 
             $('#consulting_msg').html('👉 전체 반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)')
-            $('#result_tbox').empty()
         }else if(btid == 1){
             // plus alpha 처리
             $('#consulting_msg').html('👉 PLUS/ALPHA반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)')
-            $('#result_tbox').empty()
         }else if(btid == 2){
             // nf 노블 처리 
             $('#consulting_msg').html('👉 NF/NOVEL반 대상 진행합니다 (소요되는 시간이 있으니 저장 후 대기 해 주세요)')
-            $('#result_tbox').empty()
         }
+        consulting_category = $('#consulting_category_list').val()
+        consulting_contents = $('#consulting_contents').val()
+        consulting_date = $('#consulting_date').val()
+        consulting_deadline = $('#consulting_deadline').val()
+
+        await $.ajax({
+            type: "POST",
+            url:'/manage/consulting/all_ban/'+btid,
+            // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+            data: {
+                consulting_category:consulting_category,
+                consulting_contents:consulting_contents,
+                consulting_date:consulting_date,
+                consulting_deadline:consulting_deadline
+            },
+            success: function (response) {
+                if(response != 'success'){
+                    alert('상담 요청 실패')
+                }else{
+                    alert('해당 반 전체에 상담요청 완료')
+                    window.location.reload()
+                }
+            }
+        })
+        
     }
 }
 // 학생 다중 선택 처리 
@@ -150,14 +173,12 @@ function post_consulting_request(){
     consulting_deadline = $('#consulting_deadline').val()
     // 전체 학생 대상 인 경우 
     let total_student_selections = selectedStudentList.filter(value => value.includes('-1') );
-    console.log(total_student_selections)
     if(total_student_selections.length != 0){
         total_student_selections.forEach(value =>{
             v = String(value).split('_')
-            console.log(v)
             $.ajax({
                 type: "POST",
-                url:'/manage/request_all_student/'+v[0]+'/'+v[1],
+                url:'/manage/consulting/request_all_student/'+v[0]+'/'+v[1],
                 // data: JSON.stringify(jsonData), // String -> json 형태로 변환
                 data: {
                     consulting_category:consulting_category,
@@ -182,7 +203,7 @@ function post_consulting_request(){
             v = String(value).split('_')
             $.ajax({
                 type: "POST",
-                url:'/manage/request_indivi_student/'+v[0]+'/'+v[1]+'/'+v[3],
+                url:'/manage/consulting/request_indivi_student/'+v[0]+'/'+v[1]+'/'+v[3],
                 // data: JSON.stringify(jsonData), // String -> json 형태로 변환
                 data: {
                     consulting_category:consulting_category,
@@ -200,7 +221,6 @@ function post_consulting_request(){
         })
     }
     window.location.reload()
-   
 }
 function go_back() {
     $('#for_taskban_list').hide();
