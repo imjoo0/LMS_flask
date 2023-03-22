@@ -47,6 +47,7 @@ async function getBanChart(btid){
         $('#student_data').hide();
         $('#ban_statistics').empty();
         $('#pagingul').hide();
+        $('#inloading').hide()
     }else{
         v = btid.split('_')
         b_id = Number(v[0])
