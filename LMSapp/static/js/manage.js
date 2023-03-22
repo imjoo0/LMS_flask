@@ -143,7 +143,7 @@ async function getBanChart(btid){
                 $('#ban_data').html(temp_ban_data);
                 
                 response['student_info'].forEach((elem) =>{
-                    elem.unlearned = u_consulting_my.filter( a => a.student_id == target.register_no).length
+                    elem.unlearned = u_consulting_my.filter( a => a.student_id == elem.register_no).length
                     elem.up = answer_rate(u_consulting_my.length, u_consulting_my.length).toFixed(2)
                 })
                 console.log(response['student_info'])
