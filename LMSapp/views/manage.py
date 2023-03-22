@@ -258,51 +258,51 @@ def request_indivi_student(b_id,t_id,s_id):
 
         return jsonify({'success'})
 
-@bp.route("/task", methods=['GET', 'POST'])
-def request_task():
-    if request.method == 'POST':
-        #  업무 카테고리 저장
-        received_category = request.form['task_category']
-        #  업무 내용 저장
-        received_task = request.form['task_contents']
-        #  업무을 진행할 반 저장
-        received_target_ban = request.form['task_target_ban']
-        #  업무을 진행할 시작일 저장
-        received_task_startdate = request.form['task_date']
-        #  업무을 마무리할 마감일 저장
-        received_task_deadline = request.form['task_deadline']
-        # 업무 참고 url
-        received_task_url = request.form['task_url']
-        # 업무 우선순위
-        received_task_priority = request.form['task_priority']
-        # 업무 주기
-        received_task_cycle = request.form['task_cycle']
+# @bp.route("/task", methods=['GET', 'POST'])
+# def request_task():
+#     if request.method == 'POST':
+#         #  업무 카테고리 저장
+#         received_category = request.form['task_category']
+#         #  업무 내용 저장
+#         received_task = request.form['task_contents']
+#         #  업무을 진행할 반 저장
+#         received_target_ban = request.form['task_target_ban']
+#         #  업무을 진행할 시작일 저장
+#         received_task_startdate = request.form['task_date']
+#         #  업무을 마무리할 마감일 저장
+#         received_task_deadline = request.form['task_deadline']
+#         # 업무 참고 url
+#         received_task_url = request.form['task_url']
+#         # 업무 우선순위
+#         received_task_priority = request.form['task_priority']
+#         # 업무 주기
+#         received_task_cycle = request.form['task_cycle']
 
-        task = Task(category_id=received_category,contents=received_task,startdate=received_task_startdate,deadline=received_task_deadline,url=received_task_url,priority=received_task_priority,cycle=received_task_cycle)
-        db.session.add(task)
-        db.session.commit()
+#         task = Task(category_id=received_category,contents=received_task,startdate=received_task_startdate,deadline=received_task_deadline,url=received_task_url,priority=received_task_priority,cycle=received_task_cycle)
+#         db.session.add(task)
+#         db.session.commit()
         
-        # 전체 반이 선택 된 경우
-        if received_target_ban == '전체 반':
-            target_class = callapi.purple_allban('get_all_ban')
-            for c in target_class:
-                new_task = TaskBan(ban_id=c['register_no'],teacher_id=c['teacher_register_no'], task_id=task.id ,done=0)
-                db.session.add(new_task)
-                db.session.commit()
-        elif received_target_ban == 'plusalpha':
-            target_class = callapi.purple_allban('get_plusalpha_ban')
-            for c in target_class:
-                new_task = TaskBan(ban_id=c['register_no'],teacher_id=c['teacher_register_no'], task_id=task.id,done=0)
-                db.session.add(new_task)
-                db.session.commit()
-        # 개별 반 선택 된 경우 
-        else:
-            target_teacher = callapi.purple_ban(received_target_ban,'get_ban')
-            target_teacher =  target_teacher['teacher_register_no']
-            new_task = TaskBan(ban_id=received_target_ban,teacher_id=target_teacher, task_id=task.id,done=0)
-            db.session.add(new_task)
-            db.session.commit()
-        return redirect('/')
+#         # 전체 반이 선택 된 경우
+#         if received_target_ban == '전체 반':
+#             target_class = callapi.purple_allban('get_all_ban')
+#             for c in target_class:
+#                 new_task = TaskBan(ban_id=c['register_no'],teacher_id=c['teacher_register_no'], task_id=task.id ,done=0)
+#                 db.session.add(new_task)
+#                 db.session.commit()
+#         elif received_target_ban == 'plusalpha':
+#             target_class = callapi.purple_allban('get_plusalpha_ban')
+#             for c in target_class:
+#                 new_task = TaskBan(ban_id=c['register_no'],teacher_id=c['teacher_register_no'], task_id=task.id,done=0)
+#                 db.session.add(new_task)
+#                 db.session.commit()
+#         # 개별 반 선택 된 경우 
+#         else:
+#             target_teacher = callapi.purple_ban(received_target_ban,'get_ban')
+#             target_teacher =  target_teacher['teacher_register_no']
+#             new_task = TaskBan(ban_id=received_target_ban,teacher_id=target_teacher, task_id=task.id,done=0)
+#             db.session.add(new_task)
+#             db.session.commit()
+#         return redirect('/')
     
 @bp.route("/ban_student/<int:b_id>", methods=['GET'])
 def get_select_student(b_id):
