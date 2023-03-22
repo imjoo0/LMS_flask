@@ -6,7 +6,7 @@ var data_list;
 var consultingData = [];
 var taskData = [];
 
-function displayData(totalData, currentPage, dataPerPage,data_list, consulting,b_id) {
+function displayData(totalData, currentPage, dataPerPage,data_list,b_id) {
     let chartHtml = "";
 
     //Number로 변환하지 않으면 아래에서 +를 할 경우 스트링 결합이 되어버림.. 
@@ -28,27 +28,26 @@ function displayData(totalData, currentPage, dataPerPage,data_list, consulting,b
         let mobileno = target['mobileno'];
         let parent_name_mobileno = target['pname'] +'('+target['pmobileno']+')';
         let reco_book_code = target['reco_book_code'];
+        let unlearned = target['unlearned'];
+        let up = target['up'];
         if( reco_book_code == null){
             reco_book_code = '❌'
+        } else if(reco_book_code == 'NOT'){
+            reco_book_code += '(추천도서없음)'
         }
-         let answer_rate =  function(answer, all) {
-                if(Object.is(answer/all, NaN)) return 0;
-                else return answer/all*100;
-            }
-        let unlearned = consulting.filter( a => a.student_id == target.register_no).length;
         chartHtml +=`
         <td class="col-2">${name}(${original})</td>
         <td class="col-2">${mobileno} </td>
         <td class="col-3">${parent_name_mobileno}</td>
         <td class="col-2">${reco_book_code} </td>
-        <td class="col-2">${unlearned}(${answer_rate(unlearned, consulting.length).toFixed(1)}%)</td><br>
+        <td class="col-2">${unlearned}(${up}%)</td><br>
         <td class="col-1" onclick="plusconsulting(${register_no},${b_id})">📝</td><br>
         `;
     } 
     $("#s_data").html(chartHtml);
 }
 
-function paging(totalData, dataPerPage, pageCount, currentPage, data_list, consulting,b_id) {
+function paging(totalData, dataPerPage, pageCount, currentPage, data_list, b_id) {
     totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
 
     if (totalPage < pageCount) {
@@ -102,9 +101,9 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list, consu
         globalCurrentPage = selectedPage;
 
         //페이징 표시 재호출
-        paging(totalData, dataPerPage, pageCount, selectedPage, data_list, consulting,b_id);
+        paging(totalData, dataPerPage, pageCount, selectedPage, data_list,b_id);
         //글 목록 표시 재호출
-        displayData(totalData, selectedPage, dataPerPage,data_list, consulting,b_id);
+        displayData(totalData, selectedPage, dataPerPage,data_list,b_id);
     });
 }
 

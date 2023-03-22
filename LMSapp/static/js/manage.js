@@ -144,14 +144,14 @@ async function getBanChart(btid){
                 
                 response['student_info'].forEach((elem) =>{
                     elem.unlearned = u_consulting_my.filter( a => a.student_id == elem.register_no).length
-                    elem.up = answer_rate(elem.unlearned, u_consulting_my.length).toFixed(2)
+                    elem.up = answer_rate(elem.unlearned, u_consulting_my.length).toFixed(1)
                 })
-                console.log(response['student_info'])
+                response['student_info'].sort()
                 data_list = response['student_info']
                 totalData = students_num
                 
-                displayData(totalData, 1, dataPerPage,data_list, u_consulting_my,b_id);
-                paging(totalData, dataPerPage, pageCount, 1,data_list, u_consulting_my,b_id);
+                displayData(totalData, 1, dataPerPage,data_list, b_id);
+                paging(totalData, dataPerPage, pageCount, 1,data_list, b_id);
                 $('#student_data').show()
                 $('#pagingul').show();
                 let temp_ban_statistics = `
