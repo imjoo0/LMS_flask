@@ -146,7 +146,7 @@ async function getBanChart(btid){
                     elem.unlearned = u_consulting_my.filter( a => a.student_id == elem.register_no).length
                     elem.up = answer_rate(elem.unlearned, u_consulting_my.length).toFixed(1)
                 })
-                response['student_info'].sort()
+                response['student_info'].sort((a,b)=>b.up - a.up)
                 data_list = response['student_info']
                 totalData = students_num
                 
