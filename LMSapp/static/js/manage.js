@@ -55,6 +55,17 @@ async function request_task() {
         }
     })
 }
+function show_ban_selection(){
+    var selectedOptions = ''
+    for(i=0;i<selectedBanList.length;i++){
+        // bid+tid+bname+sid+sname
+        var value = selectedBanList[i].split('_')
+        selectedOptions += `
+        <td class="col-11">${value[2]}</td>
+        <td class="col-1" onclick="delete_selected_ban(${i})">❌</td>`;
+        $('#target_task_bans').html(selectedOptions);
+    }
+}
 
 function task_ban_change(btid){
     if(btid.includes('_')){
@@ -64,16 +75,8 @@ function task_ban_change(btid){
         if(selectedBanList.indexOf(btid) === -1) {
             selectedBanList.push(btid);
         }
-        var selectedOptions = ''
-        for(i=0;i<selectedBanList.length;i++){
-            // bid+tid+bname+sid+sname
-            var value = selectedBanList[i].split('_')
-            selectedOptions += `
-            <td class="col-11">${value[2]}</td>
-            <td class="col-1" onclick="delete_selected_ban(${i})">❌</td>`;
-            $('#target_task_bans').html(selectedOptions);
-        }
         $('select[name="task_target_ban[]"]').val(selectedBanList);
+        return show_ban_selection()
     }else{
         selectedBanList.length=0
         $('#target_task_bans').empty()
@@ -93,6 +96,7 @@ function task_ban_change(btid){
 function delete_selected_ban(idx){
     selectedBanList.splice(idx,1)
     $('select[name="task_target_ban[]"]').val(selectedBanList);
+    return show_ban_selection()
 }
 // 상담 요청 모달이 클릭됐을때 실행 되는 / 모달에 필요한 정보 보내주는 함수 
 async function request_consulting() {
