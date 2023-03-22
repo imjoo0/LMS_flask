@@ -51,6 +51,7 @@ async function getBanChart(btid){
         v = btid.split('_')
         b_id = Number(v[0])
         $('#banchart_title').html(v[2]+'반 관리 상세 현황')
+        $('#inloading').show()
         await $.ajax({
             type: "GET",
             url: "/manage/ban/"+b_id,
@@ -211,10 +212,10 @@ async function getBanChart(btid){
             },
             error:function(xhr, status, error){
                     alert('xhr.responseText');
-                }
+            }
         })
-
     }
+    $('#inloading').hide()
     // $('#banchart_title').empty();
     // $('#ban_data').empty();
     // $('#s_data').empty();
