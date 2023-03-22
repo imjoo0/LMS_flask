@@ -43,6 +43,7 @@ async function request_task() {
         type: 'GET',
         data: {},
         success: function (response) {
+            console.log(response)
             let temp_task_category_list = '<option value=0 selected>업무 카테고리를 선택해주세요</option>';
             for (i = 0; i < response['all_task_category'].length; i++) {
                 let id = response['all_task_category'][i]['id']
