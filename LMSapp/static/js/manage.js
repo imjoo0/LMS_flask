@@ -41,6 +41,8 @@ function getBanlist() {
 async function getBanChart(btid){
     if(btid == 0){
         $('#banchart_title').html('반 관리 상세 현황')
+        $('#profile_data').empty()
+        $('#ban_data').empty();
 
     }else{
         v = btid.split('_')
@@ -133,16 +135,16 @@ async function getBanChart(btid){
             $('#label_title').append(temp_title);
 
             let temp_profile_data = `
-            <table class="table text-center" style="width:100%;">
+            <tbody  style="width:100%;">
                 <tr class="row" style="background: #DCE6F2;">
                     <th class="col-12">담임 선생님 정보</th>
                 </tr>
                 <tr class="row" style="background:#DCE6F2;">
-                    <th class="col-4">${teacher_name}(${teacher_e_name})</th>
-                    <th class="col-4"> 📞 ${teacher_mobileno} </th>
-                    <th class="col-4"> ✉️ ${teacher_email}</th>
+                    <td class="col-4">${teacher_name}(${teacher_e_name})</th>
+                    <td class="col-4"> 📞 ${teacher_mobileno} </th>
+                    <td class="col-4"> ✉️ ${teacher_email}</th>
                 </tr>
-            </table>
+            </tbody>
             `;
             $('#profile_data').html(temp_profile_data);
 
