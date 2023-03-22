@@ -39,7 +39,7 @@ function getBanlist() {
 
 // 반 별 차트 정보 보내주는 함수 
 async function getBanChart(btid){
-    b_id = btid.split('_')[0]
+    b_id = parseInt(btid.split('_')[0])
     // $('#label_title').empty();
     // $('#profile_data').empty();
     // $('#ban_data').empty();
