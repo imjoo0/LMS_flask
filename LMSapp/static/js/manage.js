@@ -55,7 +55,8 @@ async function request_task() {
         }
     })
 }
-async function task_ban_change(btid){
+
+function task_ban_change(btid){
     if(btid.includes('_')){
         // 다중 반 처리
         $('#target_task_bans').show() 
@@ -68,13 +69,13 @@ async function task_ban_change(btid){
             // bid+tid+bname+sid+sname
             var value = selectedBanList[i].split('_')
             selectedOptions += `
-            <td class="col-10">${value[2]}</td>
-            <td class="col-2" onclick="delete_selected_ban(${i})">❌</td>`;
+            <td class="col-11">${value[2]}</td>
+            <td class="col-1" onclick="delete_selected_ban(${i})">❌</td>`;
             $('#target_task_bans').html(selectedOptions);
         }
         $('select[name="task_target_ban[]"]').val(selectedBanList);
-        console.log($('select[name="task_target_ban[]"]').val())
     }else{
+        selectedBanList.length=0
         $('#target_task_bans').empty()
         if(btid == 0){
             // 전체 반 대상 진행 일 경우 처리 
@@ -87,6 +88,11 @@ async function task_ban_change(btid){
             $('#task_msg').html('👉 NF/NOVEL반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
         }
     }
+}
+
+function delete_selected_ban(idx){
+    selectedBanList.splice(idx,1)
+    $('select[name="task_target_ban[]"]').val(selectedBanList);
 }
 // 상담 요청 모달이 클릭됐을때 실행 되는 / 모달에 필요한 정보 보내주는 함수 
 async function request_consulting() {
@@ -184,6 +190,7 @@ function show_selections(){
         $('#result_tbox').html(selectedOptions);
     }
 }
+
 function delete_selected_student(idx){
     selectedStudentList.splice(idx,1)
     
