@@ -145,86 +145,86 @@ async function getBanChart(btid){
                 displayData(totalData, 1, dataPerPage,data_list, u_consulting_my,b_id);
                 paging(totalData, dataPerPage, pageCount, 1,data_list, u_consulting_my,b_id);
                 $('#student_data').show()
-                // let temp_ban_statistics = `
-                // <table class="table text-center" id="unlearned" style="margin-left:1%; margin-right: 4%;width: 40%;">
-                //         <tbody  style="width:100%;">
-                //             <tr class="row" style="background: #DCE6F2;">
-                //                 <th class="col-12">미학습 관리</th>
-                //             </tr>
-                //             <tr class="row">
-                //                 <th class="col-2">IXL</th>
-                //                 <th class="col-2">리딩</th>
-                //                 <th class="col-2">리특</th>
-                //                 <th class="col-2">라이팅</th>
-                //                 <th class="col-2">미접속</th>
-                //                 <th class="col-2">인투리딩</th>
-                //             </tr>
-                //             <tr class="row">
-                //                 <td class="col-2">${consulting_ixl}(${answer_rate(consulting_ixl, u_consulting_my.length).toFixed(2)}%)</td>
-                //                 <td class="col-2">${consulting_reading}(${answer_rate(consulting_reading, u_consulting_my.length).toFixed(1)}%)</td>
-                //                 <td class="col-2">${consulting_speacial}(${answer_rate(consulting_speacial, u_consulting_my.length).toFixed(1)}%) </td>
-                //                 <td class="col-2">${consulting_writing}(${answer_rate(consulting_writing, u_consulting_my.length).toFixed(1)}%) </td>
-                //                 <td class="col-2">${consulting_homepage}(${answer_rate(consulting_homepage, u_consulting_my.length).toFixed(1)}%) </td>
-                //                 <td class="col-2">${consulting_intoreading}(${answer_rate(consulting_intoreading, u_consulting_my.length).toFixed(1)}%) </td>
-                //             </tr>
-                //         </tbody>
-                //     </table>
-                //     <table class="table text-center" id="teaching" style="margin-right: 4%; width: 25%;">
-                //         <tbody  style="width:100%;">
-                //             <tr class="row" style="background: #DCE6F2;">
-                //                 <th class="col-12">상담*업무 관리</th>
-                //             </tr>
-                //             <tr class="row">
-                //                 <th class="col-6">업무</th>
-                //                 <th class="col-6">상담</th>
-                //             </tr>
-                //             <tr class="row">
-                //                 <td class="col-3">${task.filter(a => a.done == 1).length}/${task.length}</td>
-                //                 <td class="col-3">${answer_rate(task.filter(a => a.done == 1).length, task.length).toFixed(1)}%</td>
-                //                 <td class="col-3">${consulting.filter(a => a.done == 1).length}/${consulting.length}</td>
-                //                 <td class="col-3">${answer_rate(consulting.filter(a => a.done == 1).length, consulting.length).toFixed(1)}%</td>
-                //             </tr>
-                //         </tbody>
-                //     </table>  
-                //     <table class="table text-center" id="task"style="width: 25%;" >
-                //         <tbody  style="width:100%;">
-                //             <tr class="row" style="background: #DCE6F2;">
-                //                 <th class="col-12">공지*문의 관리</th>
-                //             </tr>
-                //             <tr class="row">
-                //                 <th class="col-6">공지</th>
-                //                 <th class="col-6">문의</th>
-                //             </tr>
-                //             <tr class="row">
-                //                 <td class="col-6">${notice.length}</td>
-                //                 <td class="col-3">${answer}/${all_alim} </td>
-                //                 <td class="col-3">${answer_rate(answer, all_alim).toFixed(2)}%</td>
-                //             </tr>
-                //         </tbody>
-                //     </table>      
-                // `;
+                let temp_ban_statistics = `
+                <table class="table text-center" id="unlearned" style="margin-left:1%; margin-right: 4%;width: 40%;">
+                        <tbody  style="width:100%;">
+                            <tr class="row" style="background: #DCE6F2;">
+                                <th class="col-12">미학습 관리</th>
+                            </tr>
+                            <tr class="row">
+                                <th class="col-2">IXL</th>
+                                <th class="col-2">리딩</th>
+                                <th class="col-2">리특</th>
+                                <th class="col-2">라이팅</th>
+                                <th class="col-2">미접속</th>
+                                <th class="col-2">인투리딩</th>
+                            </tr>
+                            <tr class="row">
+                                <td class="col-2">${consulting_ixl}(${answer_rate(consulting_ixl, u_consulting_my.length).toFixed(2)}%)</td>
+                                <td class="col-2">${consulting_reading}(${answer_rate(consulting_reading, u_consulting_my.length).toFixed(1)}%)</td>
+                                <td class="col-2">${consulting_speacial}(${answer_rate(consulting_speacial, u_consulting_my.length).toFixed(1)}%) </td>
+                                <td class="col-2">${consulting_writing}(${answer_rate(consulting_writing, u_consulting_my.length).toFixed(1)}%) </td>
+                                <td class="col-2">${consulting_homepage}(${answer_rate(consulting_homepage, u_consulting_my.length).toFixed(1)}%) </td>
+                                <td class="col-2">${consulting_intoreading}(${answer_rate(consulting_intoreading, u_consulting_my.length).toFixed(1)}%) </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table text-center" id="teaching" style="margin-right: 4%; width: 25%;">
+                        <tbody  style="width:100%;">
+                            <tr class="row" style="background: #DCE6F2;">
+                                <th class="col-12">상담*업무 관리</th>
+                            </tr>
+                            <tr class="row">
+                                <th class="col-6">업무</th>
+                                <th class="col-6">상담</th>
+                            </tr>
+                            <tr class="row">
+                                <td class="col-3">${task.filter(a => a.done == 1).length}/${task.length}</td>
+                                <td class="col-3">${answer_rate(task.filter(a => a.done == 1).length, task.length).toFixed(1)}%</td>
+                                <td class="col-3">${consulting.filter(a => a.done == 1).length}/${consulting.length}</td>
+                                <td class="col-3">${answer_rate(consulting.filter(a => a.done == 1).length, consulting.length).toFixed(1)}%</td>
+                            </tr>
+                        </tbody>
+                    </table>  
+                    <table class="table text-center" id="task"style="width: 25%;" >
+                        <tbody  style="width:100%;">
+                            <tr class="row" style="background: #DCE6F2;">
+                                <th class="col-12">공지*문의 관리</th>
+                            </tr>
+                            <tr class="row">
+                                <th class="col-6">공지</th>
+                                <th class="col-6">문의</th>
+                            </tr>
+                            <tr class="row">
+                                <td class="col-6">${notice.length}</td>
+                                <td class="col-3">${answer}/${all_alim} </td>
+                                <td class="col-3">${answer_rate(answer, all_alim).toFixed(2)}%</td>
+                            </tr>
+                        </tbody>
+                    </table>      
+                `;
     
-                // $('#ban_statistics').append(temp_ban_statistics);
+                $('#ban_statistics').append(temp_ban_statistics);
     
-                // // 상담요청시 뷰 바꿔주는 부분 
-                // let temp_target_ban = `
-                // <p> 선택 - ${ban_name} <a></p>
-                // `;
-                // $('#target_bans').html(temp_target_ban);
+                // 상담요청시 뷰 바꿔주는 부분 
+                let temp_target_ban = `
+                <p> 선택 - ${ban_name} <a></p>
+                `;
+                $('#target_bans').html(temp_target_ban);
     
-                // // 전체 학생 대상 진행 append 
-                // let target_all_student = `<option value="전체학생">✔️ ${ban_name}반 전체 학생 대상 진행</option>`;
-                // $('#target_a_student').append(target_all_student)
+                // 전체 학생 대상 진행 append 
+                let target_all_student = `<option value="전체학생">✔️ ${ban_name}반 전체 학생 대상 진행</option>`;
+                $('#target_a_student').append(target_all_student)
                 
-                // $('#target_student').empty();
-                // for (var i = 0; i < totalData; i++) {
-                //     target = data_list[i]
-                //     let id = target['register_no']
-                //     let name = target['name'];
-                //     let original = target['origin'];
-                //     let temp_target_student = `<option value="${id}"> ${name} ( ${original} )</option>`;
-                //     $('#target_student').append(temp_target_student)
-                // } 
+                $('#target_student').empty();
+                for (var i = 0; i < totalData; i++) {
+                    target = data_list[i]
+                    let id = target['register_no']
+                    let name = target['name'];
+                    let original = target['origin'];
+                    let temp_target_student = `<option value="${id}"> ${name} ( ${original} )</option>`;
+                    $('#target_student').append(temp_target_student)
+                } 
             },
             error:function(xhr, status, error){
                     alert('xhr.responseText');
