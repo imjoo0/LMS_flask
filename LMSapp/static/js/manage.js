@@ -144,7 +144,7 @@ async function getBanChart(btid){
                 
                 response['student_info'].forEach((elem) =>{
                     elem.unlearned = u_consulting_my.filter( a => a.student_id == elem.register_no).length
-                    elem.up = answer_rate(u_consulting_my.length, u_consulting_my.length).toFixed(2)
+                    elem.up = answer_rate(elem.unlearned, u_consulting_my.length).toFixed(2)
                 })
                 console.log(response['student_info'])
                 data_list = response['student_info']
