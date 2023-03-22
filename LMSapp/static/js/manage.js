@@ -141,10 +141,10 @@ async function getBanChart(btid){
     
                 data_list = response['student_info']
                 totalData = students_num
-    
+                
                 displayData(totalData, 1, dataPerPage,data_list, u_consulting_my,b_id);
                 paging(totalData, dataPerPage, pageCount, 1,data_list, u_consulting_my,b_id);
-    
+                $('#student_data').show()
                 // let temp_ban_statistics = `
                 // <table class="table text-center" id="unlearned" style="margin-left:1%; margin-right: 4%;width: 40%;">
                 //         <tbody  style="width:100%;">
