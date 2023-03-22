@@ -45,6 +45,8 @@ async function getBanChart(btid){
         $('#profile_data').empty()
         $('#ban_data').empty();
         $('#student_data').hide();
+        $('#ban_statistics').empty();
+        $('#pagingul').hide();
     }else{
         v = btid.split('_')
         b_id = Number(v[0])
@@ -145,6 +147,7 @@ async function getBanChart(btid){
                 displayData(totalData, 1, dataPerPage,data_list, u_consulting_my,b_id);
                 paging(totalData, dataPerPage, pageCount, 1,data_list, u_consulting_my,b_id);
                 $('#student_data').show()
+                $('#pagingul').show();
                 let temp_ban_statistics = `
                 <table class="table text-center" id="unlearned" style="margin-left:1%; margin-right: 4%;width: 40%;">
                         <tbody  style="width:100%;">
@@ -204,27 +207,7 @@ async function getBanChart(btid){
                     </table>      
                 `;
     
-                $('#ban_statistics').append(temp_ban_statistics);
-    
-                // 상담요청시 뷰 바꿔주는 부분 
-                let temp_target_ban = `
-                <p> 선택 - ${ban_name} <a></p>
-                `;
-                $('#target_bans').html(temp_target_ban);
-    
-                // 전체 학생 대상 진행 append 
-                let target_all_student = `<option value="전체학생">✔️ ${ban_name}반 전체 학생 대상 진행</option>`;
-                $('#target_a_student').append(target_all_student)
-                
-                $('#target_student').empty();
-                for (var i = 0; i < totalData; i++) {
-                    target = data_list[i]
-                    let id = target['register_no']
-                    let name = target['name'];
-                    let original = target['origin'];
-                    let temp_target_student = `<option value="${id}"> ${name} ( ${original} )</option>`;
-                    $('#target_student').append(temp_target_student)
-                } 
+                $('#ban_statistics').html(temp_ban_statistics);
             },
             error:function(xhr, status, error){
                     alert('xhr.responseText');
