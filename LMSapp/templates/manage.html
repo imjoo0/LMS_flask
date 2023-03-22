@@ -252,9 +252,11 @@
                     <p>👇 상담을 진행할 반을 선택해주세요</p>
                     <div class="plus_under_contents">
                         <select class="border rounded-0 form-control form-control-sm" onchange="ban_change(this.value)" multiple id="consulting_target_aban">
-                            <option value=0>전체 반 대상 진행</option>
-                            <option value=1>PLUS/ALPHA반 대상 진행</option>
-                            <option value=2>NF/NOVEL반 대상 진행</option>
+                            <optgroup label="전체 반 선택">
+                                <option value=0>전체 반 대상 진행</option>
+                                <option value=1>PLUS/ALPHA반 대상 진행</option>
+                                <option value=2>NF/NOVEL반 대상 진행</option>
+                            </optgroup>
                             <optgroup id="consulting_target_ban" label="개별 반 선택" multiple>
                             </optgroup>
                         </select>
