@@ -154,6 +154,7 @@ function post_consulting_request(){
     if(total_student_selections.length != 0){
         total_student_selections.forEach(value =>{
             v = String(value).split('_')
+            console.log(v)
             $.ajax({
                 type: "POST",
                 url:'/manage/request_all_student/'+v[0]+'/'+v[1],
@@ -170,8 +171,8 @@ function post_consulting_request(){
                     }
                 }
             })
+            alert(v[2] +'반에 상담요청 완료');
         })
-        alert(v[2] +'반에 상담요청 완료');
     }
 
     // 개별 학생 대상 인 경우  
