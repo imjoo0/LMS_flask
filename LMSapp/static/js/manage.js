@@ -200,8 +200,7 @@ function post_consulting_request(){
         window.location.reload()    
     // 전체 반 대상 선택 일 경우 
     }else{
-        b_type = $('#consulting_target_aban').val()
-        console.log(b_type)
+        b_type = $('#consulting_target_aban').val()[0]
         $.ajax({
             type: "POST",
             url:'/manage/consulting/all_ban/'+b_type,
