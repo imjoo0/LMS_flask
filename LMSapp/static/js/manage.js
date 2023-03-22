@@ -155,7 +155,7 @@ function post_consulting_request(){
             v = String(value).split('_')
             $.ajax({
                 type: "POST",
-                url:'/manage/request_all_student/'+v[0]+'/'+v[1],
+                url:'/manage/request_all_student/'+v[0]+'/'+v[1]+'/'+v[2],
                 // data: JSON.stringify(jsonData), // String -> json 형태로 변환
                 data: {
                     consulting_category:consulting_category,
