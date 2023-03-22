@@ -29,7 +29,6 @@ def home():
 def get_ban(id):
     if request.method == 'GET':
         target_ban = callapi.purple_ban(id,'get_ban')
-        print(target_ban)
         if target_ban:
             db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
             switch_student = {}
@@ -47,7 +46,7 @@ def get_ban(id):
                     switch_student['status'] = 200
                     switch_student['data'] = cur.fetchall()
 
-                    cur.execute(f"select id, ban_id, category_id, student_id, contents, date_format(startdate, '%Y-%m-%d') as startdate, date_format(deadline, '%Y-%m-%d') as deadline, week_code, done, missed from consulting")
+                    cur.execute(f"select id, ban_id, category_id, student_id, contents, startdate, deadline, week_code, done, missed from consulting")
                     consulting['status'] = 200
                     consulting['data'] = cur.fetchall()
 
@@ -56,8 +55,8 @@ def get_ban(id):
                     task['data'] = cur.fetchall()
             except Exception as e:
                 print(e)
-                switch_student['status'] = 401
-                switch_student['text'] = str(e)
+                # switch_student['status'] = 401
+                # switch_student['text'] = str(e)
                 consulting['status'] = 401
                 consulting['text'] = str(e)
                 task['status'] = 401
