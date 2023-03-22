@@ -319,6 +319,7 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list, consu
 
 
 // 문의 댓글 기능 
+
 function post_comment(q_id,is_coco){
     let comment_contents = ''
     if(is_coco == 0 ){
