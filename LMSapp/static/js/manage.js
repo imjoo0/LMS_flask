@@ -163,10 +163,15 @@ function post_consulting_request(){
                     consulting_contents:consulting_contents,
                     consulting_date:consulting_date,
                     consulting_deadline:consulting_deadline
+                },
+                success: function (response) {
+                    if(response != 'success'){
+                        alert('상담 요청 실패')
+                    }
                 }
             })
         })
-        alert(v[2] +'반에 상담요청 완료')
+        alert(v[2] +'반에 상담요청 완료');
     }
 
     // 개별 학생 대상 인 경우  
@@ -183,6 +188,11 @@ function post_consulting_request(){
                     consulting_contents:consulting_contents,
                     consulting_date:consulting_date,
                     consulting_deadline:consulting_deadline
+                },
+                success: function (response) {
+                    if(response != 'success'){
+                        alert('상담 요청 실패')
+                    }
                 }
             })
             alert(v[2]+'반 '+v[4]+'원생 상담요청 완료');

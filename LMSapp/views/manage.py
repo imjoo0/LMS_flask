@@ -206,7 +206,7 @@ def request_consulting():
 
 # 반 전체 학생에게 상담 요청  
 @bp.route("/request_all_student/<int:b_id>/<int:t_id>", methods=['POST'])
-def request_all_student(b_id,t_id,b_name):
+def request_all_student(b_id,t_id):
     if request.method == 'POST':
         #  상담 카테고리 저장
         received_consulting_category = request.form['consulting_category']
