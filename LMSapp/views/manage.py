@@ -23,10 +23,6 @@ def home():
 
         # return render_template('manage.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting, task_category=all_task_category, tasks=all_task, questions=all_questions)
         return render_template('manage.html', user=user,)
-@bp.route("/total", methods=['GET'])
-def total_chart():
-    if request.method == 'GET':
-        return render_template('manage_home.html')
 
 # 반 차트 관련 
 @bp.route("/ban/<int:id>", methods=['GET'])

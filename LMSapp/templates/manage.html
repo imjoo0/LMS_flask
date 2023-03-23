@@ -586,7 +586,7 @@
               <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/manage/total">전체 반 조회</a>
+                    <a class="nav-link active" aria-current="page" href="#">전체 반 조회</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#">학습 관리</a>
@@ -602,10 +602,138 @@
             </div>
         </nav>
     </div>
+
+
     <div id="ban-statistics" class="p-lg-5 px-1 py-4" style="background-color: #5a5a5a;">
-        {% block managecontent %}
-    
-        {% endblock %}
+        <!-- 퇴소 이반 현황 -->
+        <div class="info-container">
+            <div class="info-title">
+                <span>이반 / 퇴소 발생 TOP5</span>
+            </div>
+            <div class="info" style="padding-top: 0px;">
+                <div class="d-flex justify-content-center align-items-center flex-column w-100">
+                    <div class="d-flex justify-content-start align-items-start w-100" style="overflow: scroll;">
+                        <div class="d-flex justify-content-center align-items-center flex-column mt-4"
+                            style="width: 1362px important;">
+                            <h3 id="sotitle"></h3>
+                            <table class="table text-center" style="width:100%;" id="so_data">
+                                <tr class="row" style="background: #DCE6F2;">
+                                    <th class="col-12" id="displayCount1"></th>
+                                </tr>
+                                <tr class="row" style="background:#DCE6F2;">
+                                    <th class="col-1">순위</th>
+                                    <th class="col-3">반 이름</th>
+                                    <th class="col-1">학기</th>
+                                    <th class="col-3">담임 T</th>
+                                    <th class="col-2">이반 발생</th>
+                                    <th class="col-2">퇴소 발생</th>
+                                </tr>
+                                <tr id="static_data1" class="row"></tr>
+                            </table>
+                        </div>
+                    </div>
+                    <button data-bs-toggle="modal" data-bs-target="#so_question" onclick="request_consulting()">이반 퇴소 문의 현황 확인하기</button>
+                </div>
+            </div>
+        </div>
+        <!-- 미학습 발생 현황 -->
+        <div class="info-container" style="width:90%; margin-left:10px;">
+            <div class="info-title">
+                <span>미학습 발생 TOP5</span>
+            </div>
+            <div class="info" style="padding-top: 0px;">
+                <div class="d-flex justify-content-center align-items-center flex-column w-100">
+                    <div class="d-flex justify-content-start align-items-start w-100" style="overflow: scroll;">
+                        <div class="d-flex justify-content-center align-items-center flex-column mt-4"
+                            style="width: 1362px important;">
+                            <h3 id="ultitle"></h3>
+                            <table class="table text-center" style="width:100%;" id="ul_data_box">
+                                <tr class="row" style="background: #DCE6F2;">
+                                    <th class="col-12" id="displayCount2"></th>
+                                </tr>
+                                <tr class="row" style="background:#DCE6F2;">
+                                    <th class="col-1">순위</th>
+                                    <th class="col-3">반 이름</th>
+                                    <th class="col-2">학기</th>
+                                    <th class="col-3">담임 T</th>
+                                    <th class="col-3">미학습발생</th>
+                                </tr>
+                                <tr id="static_data2" class="row"></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 전체 반 조회 -->
+        <div class="info-container">
+            <div class="info-title">
+                <span id="banchart_title">반 관리 상세 현황</span>
+            </div>
+            <div class="info">
+                <div class="d-flex justify-content-center align-items-center flex-column w-100">
+                    <div class="d-flex justify-content-end align-items-center w-100">
+                        <select class="manage-ban-select px-1 py-2 w-lg-50 w-100" name="target_ban"
+                            onchange="getBanChart(this.value)" id="ban_list">
+                        </select>
+                    </div>
+
+                    <div class="justify-content-start align-items-start w-100" style="overflow: scroll;">
+                        <h1 id="inloading" style="display: none;">로딩중..</h1>
+                        <table class="table text-center" id="profile_data" >
+                        </table>
+                        <table class="table text-center" id="ban_data" >
+                        </table>
+
+                        <table class="table text-center" id="student_data">
+                            <tr class="row" style="background: #DCE6F2;">
+                                <th class="col-12" id="displayCount"></th>
+                            </tr>
+                            <tr class="row" style="background:#DCE6F2;">
+                                <th class="col-2">원생 정보</th>
+                                <th class="col-2">연락처</th>
+                                <th class="col-3">부모님 정보</th>
+                                <th class="col-2">추천도서</th>
+                                <th class="col-2">미학습</th>
+                                <th class="col-1">상세</th>
+                            </tr>
+                            <tr id="s_data" class="row"></tr>
+                        </table>
+                        <ul id="pagingul"></ul>
+                        <div id="ban_statistics" class="make_row w-100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 문의 조회 -->
+        <div class="info-container">
+            <div class="info-title">
+                <span>Teacher's Question</span>
+            </div>
+            <div class="info">
+                <div class="d-flex justify-content-center align-items-center flex-column w-100">
+                    <select id="question_view" class="form-select text-center w-25" name="question_view"
+                        onchange="paginating(this.value)">
+                        <option value=0 selected>미응답 문의</option>
+                        <option value=1>응답한 문의</option>
+                    </select>
+                    <table class="table text-center" id="teacher_question" style="width:100%;">
+                        <thead>
+                            <tr class="row">
+                                <th class="col-2">종류</th>
+                                <th class="col-4">제목</th>
+                                <th class="col-4">내용</th>
+                                <th class="col-2">응답</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="alim-tr" class="row"></tr>
+                        </tbody>
+                    </table>
+                    <div id="pagination" class="py-2 text-center"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
