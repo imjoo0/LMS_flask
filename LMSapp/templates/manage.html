@@ -636,30 +636,34 @@
                     </div>
                 </div>
             </div>
-            <div class="info-container mt-3">
+            <div class="info-container mt-5">
                 <div class="info-title">
                     <span>이반 / 퇴소 요청 관리</span>
                 </div>
-                <div class="info" id="sotable">
+                <div class="info">
                     <div class="d-flex justify-content-center align-items-center flex-column w-100">
                         <div class="d-flex justify-content-start align-items-start w-100" style="overflow: scroll;">
-                            <div class="d-flex justify-content-start align-items-start w-100"
-                                style="width: 1362px important;">
-                                <h3 id="sotitle"></h3>
-                                <table class="table text-center" style="width:100%;" id="so_data">
-                                    <tr class="row" style="background: #DCE6F2;">
-                                        <th class="col-12" id="displayCount1"></th>
-                                    </tr>
-                                    <tr class="row" style="background:#DCE6F2;">
-                                        <th class="col-1">순위</th>
-                                        <th class="col-3">반 이름</th>
-                                        <th class="col-1">학기</th>
-                                        <th class="col-3">담임 T</th>
-                                        <th class="col-2">이반 발생</th>
-                                        <th class="col-2">퇴소 발생</th>
-                                    </tr>
-                                    <tr id="static_data1" class="row"></tr>
+                            <div class="d-flex justify-content-start align-items-start w-100" style="width: 1362px important;">
+                                <select id="question_view" class="form-select text-center w-25" name="question_view"
+                                    onchange="so_paginating(this.value)">
+                                    <option value=0 selected>미응답 문의</option>
+                                    <option value=1>응답한 문의</option>
+                                </select>
+                                <table class="table text-center" id="so_question" style="width:100%;">
+                                    <thead>
+                                        <tr class="row">
+                                            <th class="col-2">종류</th>
+                                            <th class="col-4">제목</th>
+                                            <th class="col-4">내용</th>
+                                            <th class="col-2">응답</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr id="alim-tr" class="row"></tr>
+                                    </tbody>
                                 </table>
+                                <div id="so_pagination" class="py-2 text-center"></div>
+
                             </div>
                         </div>
                     </div>

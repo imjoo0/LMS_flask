@@ -8,6 +8,7 @@ $(document).ready(function () {
 })
 
 // 이반 * 퇴소 
+    // 조회
 async function sodata(){
     $('#qubox').hide()
     $('#ulbox').hide()
@@ -62,6 +63,41 @@ async function sodata(){
         }
     }) 
     
+}
+    // 문의 관리
+function so_paginating(done_code) {
+    let container = $('#so_pagination')
+    $.ajax({
+        url: '/manage/api/get_all_questions/' + done_code,
+        type: 'get',
+        data: {},
+        success: function (data) {
+            container.pagination({
+                dataSource: JSON.parse(data),
+                prevText: '이전',
+                nextText: '다음',
+                pageClassName: 'float-end',
+                pageSize: 5,
+                callback: function (data, pagination) {
+                    var dataHtml = '';
+                    $.each(data, function (index, item) {
+                        if (item.category == 0) { item.category = '일반문의' }
+                        else if (item.category == 1) { item.category = '퇴소 요청' }
+                        else if (item.category == 2) { item.category = '이반 요청' }
+                        else { item.category = '취소/환불 요청' }
+                        dataHtml += `
+                    <td class="col-2">${item.category}</td>
+                    <td class="col-4">${item.title}</td>
+                    <td class="col-4">${item.contents}</td>
+                    <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
+                    data-bs-target="#answer" onclick="get_question(${item.id},${done_code})">✏️</button> 
+                    <button onclick="delete_question(${item.id})">❌</button></td>`;
+                    });
+                    $('#alim-tr').html(dataHtml);
+                }
+            })
+        }
+    })
 }
 // 미학습 
 async function uldata(){
@@ -571,6 +607,7 @@ function go_back() {
     $('#for_task_list').show();
 }
 
+// 문의 관리 
 function paginating(done_code) {
     $('#detailban').hide()
     $('#sobox').hide()
