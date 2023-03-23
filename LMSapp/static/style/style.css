@@ -91,6 +91,9 @@ footer{
   text-decoration: none;
   color: #ffffff;
 }
+a{
+    color: black;
+}
 
 .img-container {
     height: 600px;
