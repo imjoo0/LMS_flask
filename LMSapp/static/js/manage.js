@@ -22,22 +22,34 @@ function souldata(){
                 $('#pagingul').hide();
                 return
             }
-            $('#sotitle').empty();
-            switch_out_bans = response['switch_out_bans']
+            $('#sotitle').html('퇴소 발생 TOP5');
             switch_out_count = response['switch_out_count']['data']
-
+            response['switch_out_bans'].forEach((elem) =>{
+                so = switch_out_count.filter(a => a.ban_id == elem.register_no)[0]
+                elem.switch_count = so ? so['switch_count'] : 0;
+                elem.out_count = so ? so['out_count'] : 0;
+            })
+            response['switch_out_bans'].sort((a,b)=>b.out_count - a.out_count)
+            total_num = 0
+            if(response['switch_out_bans'].length > 5){
+                total_num = 5
+            }else{
+                total_num = response['switch_out_bans'].length
+            }
             let temp_html = ``
-            for(i=0;i<switch_out_bans.length;i++){
-                register_no = switch_out_bans[i]['register_no']
-                ban_name = switch_out_bans[i]['ban_name']
-                semester = switch_out_bans[i]['semester']
-                teacher_name = switch_out_bans[i]['teacher_name'] +'( ' +switch_out_bans[i]['teacher_engname'] +' )'
-                so = switch_out_count.filter(a => a.ban_id == register_no)[0]
-                switch_count = so ? so['switch_count'] : 0;
-                out_count = so ? so['out_count'] : 0;
+
+            for(i=0;i<total_num;i++){
+                register_no = response['switch_out_bans'][i]['register_no']
+                ban_name = response['switch_out_bans'][i]['ban_name']
+                semester = response['switch_out_bans'][i]['semester']
+                teacher_name = response['switch_out_bans'][i]['teacher_name'] +'( ' +switch_out_bans[i]['teacher_engname'] +' )'
+                switch_count = response['switch_out_bans'][i]['switch_count']
+                out_count = response['switch_out_bans'][i]['out_count']
                 
-                temp_html += `<td class="col-2">${ban_name}</td>
-                <td class="col-2">${semester}</td>
+                temp_html += `
+                <td class="col-1">${i}</td>
+                <td class="col-2">${ban_name}</td>
+                <td class="col-1">${semester}</td>
                 <td class="col-3">${teacher_name}</td>
                 <td class="col-2">${switch_count}</td>
                 <td class="col-2">${out_count}</td>

@@ -30,6 +30,74 @@
         }
     });
 </script>
+<!-- 이반/퇴소 문의 조회 모달 -->
+<div class="modal fade" id="so_question" tabindex="-1" aria-labelledby="so_questionModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="so_questionModalLabel">
+                    <img src="#" style="width: 30px;">&nbsp;&nbsp;원생목록
+                </h5>
+                <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body py-4 px-5">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
+                <div id="teachers_student_list">
+                    <div class="d-flex justify-content-center mb-2">
+                        <div class="d-flex justify-content-start align-items-start w-100" style="overflow: scroll;">
+                            <div class="d-flex justify-content-center align-items-center flex-column" style="width: 1362px important;">
+                                <div id="profile_data" class="w-100"></div>
+                                <div id="ban_data" class="w-100"></div>
+                                <table class="table text-center" style="width:100%;" id="student_data">
+                                    <tr class="row" style="background: #DCE6F2;">
+                                        <th class="col-12" id="displayCount"></th>
+                                    </tr>
+                                    <tr class="row" style="background:#DCE6F2;">
+                                        <th class="col-2">원생 정보</th>
+                                        <th class="col-2">연락처</th>
+                                        <th class="col-3">부모님 정보</th>
+                                        <th class="col-2">추천도서</th>
+                                        <th class="col-2">미학습</th>
+                                        <th class="col-1">상담 실시</th>
+                                    </tr>
+                                    <tr id="s_data" class="row"></tr>
+                                </table>
+                                <ul id="pagingul"></ul>
+                                <div id="ban_statistics" class="make_row w-100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="make_plus_consulting">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
+                    <button type="button" class="btn btn-back" onclick="go_back()">원생 목록으로 돌아가기🔙 </button>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">상담 제목</span>
+                        <input class="modal-body-select" type="text" size="50"
+                            id="plus_consulting_contents" style="width: 75%;">
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">상담 사유</span>
+                        <input class="modal-body-select" type="text" size="50"
+                            id="plus_consulting_reason" style="width: 75%;">
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">제공한 가이드</span>
+                        <input class="modal-body-select" type="text" size="50"
+                            id="plus_consulting_solution" style="width: 75%;">
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">상담 결과</span>
+                        <textarea class="modal-body-select" type="text" rows="5" cols="25"
+                            id="plus_consulting_result" style="width: 75%;"></textarea>
+                    </div>
+                    <div class="d-flex justify-content-center mt-4 mb-2" id="plusconsulting_button_box"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- 문의 조회 모달 창 -->
 <div class="modal fade" id="answer" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -525,14 +593,15 @@
                         <div class="d-flex justify-content-start align-items-start w-100" style="overflow: scroll;">
                             <div class="d-flex justify-content-center align-items-center flex-column mt-4"
                                 style="width: 1362px important;">
-                                <h3 id="sotitle"></h3>
+                                <h3 id="sotitle">퇴소 발생 TOP5</h3>
                                 <table class="table text-center" style="width:100%;" id="so_data">
                                     <tr class="row" style="background: #DCE6F2;">
                                         <th class="col-12" id="displayCount1"></th>
                                     </tr>
                                     <tr class="row" style="background:#DCE6F2;">
+                                        <th class="col-1">순위</th>
                                         <th class="col-2">반 이름</th>
-                                        <th class="col-2">학기</th>
+                                        <th class="col-1">학기</th>
                                         <th class="col-3">담임 T</th>
                                         <th class="col-2">이반 발생</th>
                                         <th class="col-2">퇴소 발생</th>
@@ -542,7 +611,7 @@
                                 </table>
                             </div>
                         </div>
-                        <button>이반 퇴소 문의 현황 확인하기</button>
+                        <button >이반 퇴소 문의 현황 확인하기</button>
                     </div>
                 </div>
             </div>
