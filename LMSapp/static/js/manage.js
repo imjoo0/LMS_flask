@@ -22,14 +22,14 @@ function souldata(){
                 $('#pagingul').hide();
                 return
             }
-            $('#sotitle').html('퇴소 발생 TOP5');
+            $('#sotitle').html('이반/퇴소 발생 TOP5');
             switch_out_count = response['switch_out_count']['data']
             response['switch_out_bans'].forEach((elem) =>{
                 so = switch_out_count.filter(a => a.ban_id == elem.register_no)[0]
                 elem.switch_count = so ? so['switch_count'] : 0;
                 elem.out_count = so ? so['out_count'] : 0;
             })
-            response['switch_out_bans'].sort((a,b)=>b.out_count - a.out_count)
+            response['switch_out_bans'].sort((a,b)=>(b.out_count+b.switch_count) - (a.out_count+a.switch_count))
             total_num = 0
             if(response['switch_out_bans'].length > 5){
                 total_num = 5
@@ -53,7 +53,7 @@ function souldata(){
                 <td class="col-3">${teacher_name}</td>
                 <td class="col-2">${switch_count}</td>
                 <td class="col-2">${out_count}</td>
-                <td class="col-1">✅</td>`;
+                <td class="col-1" data-bs-toggle="modal" data-bs-target="#so_question" onclick="request_consulting(${register_no})">✅</td>`;
             }
             $('#static_data1').html(temp_html)
         }
