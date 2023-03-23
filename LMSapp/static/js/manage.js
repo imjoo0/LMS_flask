@@ -68,7 +68,7 @@ async function sodata(){
 function so_paginating(done_code) {
     let container = $('#so_pagination')
     $.ajax({
-        url: '/manage/api/get_all_questions/' + done_code,
+        url: '/manage/get_so_questions/' + done_code,
         type: 'get',
         data: {},
         success: function (data) {
