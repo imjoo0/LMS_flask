@@ -28,7 +28,7 @@ function souldata(){
                 ban_name = switch_out_bans[i]['ban_name']
                 semester = switch_out_bans[i]['semester']
                 teacher_name = switch_out_bans[i]['teacher_name'] +'( ' +switch_out_bans[i]['teacher_engname'] +' )'
-                so = switch_out_count.filter(a => a.ban_id == register_no)
+                so = switch_out_count.filter(a => a.ban_id == register_no)[0]
                 switch_count = so ? so['switch_count'] : 0;
                 out_count = so ? so['out_count'] : 0;
                 
