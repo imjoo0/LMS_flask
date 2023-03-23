@@ -21,7 +21,6 @@ function souldata(){
             }
             switch_out_bans = response['switch_out_bans']
             switch_out_count = response['switch_out_count']['data']
-            console.log(switch_out_count)
 
             let temp_html = ``
             for(i=0;i<switch_out_bans.length;i++){
@@ -29,8 +28,9 @@ function souldata(){
                 ban_name = switch_out_bans[i]['ban_name']
                 semester = switch_out_bans[i]['semester']
                 teacher_name = switch_out_bans[i]['teacher_name'] +'( ' +switch_out_bans[i]['teacher_engname'] +' )'
-                switch_count = switch_out_count.filter(a => a.ban_id == register_no)['switch_count'];
-                out_count = switch_out_count.filter(a => a.ban_id == register_no)['out_count'];
+                console.log(switch_out_count.filter(a => a.ban_id == register_no))
+                switch_count = switch_out_count.filter(a => a.ban_id == register_no)[0]['switch_count'];
+                out_count = switch_out_count.filter(a => a.ban_id == register_no)[0]['out_count'];
                 
                 temp_html += `<td class="col-2">${ban_name}</td>
                 <td class="col-2">${semester}</td>
