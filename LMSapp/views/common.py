@@ -42,7 +42,44 @@ def get_ban():
     if request.method == 'GET':
         target_ban = callapi.purple_allban('get_all_ban')
         return jsonify({'target_ban': target_ban})
-    
+
+# 반 차트 관련 
+@bp.route("/souldata/", methods=['GET'])
+def souldata():
+    if request.method == 'GET':
+        target_ban = callapi.purple_ban(id,'get_ban')
+        if target_ban:
+            db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+            switch_student = {}
+            out_student = {}
+
+            try:
+                with db.cursor() as cur:
+                    cur.execute(f'SELECT ban_id,Count(*) as count FROM LMS.switchstudent GROUP BY ban_id HAVING count > 1;')
+                    switch_student['status'] = 200
+                    switch_student['data'] = cur.fetchall()
+
+                    cur.execute(f'SELECT ban_id,Count(*) as count FROM LMS.outstudent GROUP BY ban_id HAVING count > 1;')
+                    out_student['status'] = 200
+                    out_student['data'] = cur.fetchall()
+            except Exception as e:
+                print(e)
+                # switch_student['status'] = 401
+                # switch_student['text'] = str(e)
+                switch_student['status'] = 401
+                switch_student['text'] = str(e)
+                out_student['status'] = 401
+                out_student['text'] = str(e)
+            finally:
+                db.close()
+
+            return jsonify({
+            'switch_student': switch_student,
+            'out_student': out_student
+        })
+        else:
+            return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
+
 @bp.route("/sodata", methods=['GET'])
 def get_sodata():
     if request.method == 'GET':
