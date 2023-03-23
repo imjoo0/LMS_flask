@@ -47,7 +47,7 @@ function souldata(){
                 out_count = response['switch_out_bans'][i]['out_count']
                 
                 temp_html += `
-                <td class="col-1">${i}</td>
+                <td class="col-1">${i+1}</td>
                 <td class="col-2">${ban_name}</td>
                 <td class="col-1">${semester}</td>
                 <td class="col-3">${teacher_name}</td>
