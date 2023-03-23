@@ -31,7 +31,7 @@
     });
 </script>
 <!-- 이반/퇴소 문의 조회 모달 -->
-<!-- <div class="modal fade" id="so_question" tabindex="-1" aria-labelledby="so_questionModalLabel"
+<div class="modal fade" id="so_question" tabindex="-1" aria-labelledby="so_questionModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
@@ -97,7 +97,7 @@
             </div>
         </div>
     </div>
-</div> -->
+</div>
 
 <!-- 문의 조회 모달 창 -->
 <div class="modal fade" id="answer" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
@@ -206,6 +206,7 @@
                 </h5>
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
+
             <div id="for_task_list">
                 <div class="modal-header">
                     <select id="task-category-select" onchange="sort_task(this.value)" class="form-select"
@@ -582,64 +583,65 @@
         </div>
     </div>
     <div id="ban-statistics" class="p-lg-5 px-1 py-4">
-        
-        <div class="info-container">
+        <div class="info-container make_row">
             <!-- 퇴소 이반 현황 -->
-            <div class="info-title">
-                <span>퇴소 / 이반 발생 TOP5</span>
-            </div>
-            <div class="info">
-                <div class="d-flex justify-content-center align-items-center flex-column w-100">
-                    <div class="d-flex justify-content-start align-items-start w-100" style="overflow: scroll;">
-                        <div class="d-flex justify-content-center align-items-center flex-column mt-4"
-                            style="width: 1362px important;">
-                            <h3 id="sotitle">퇴소 발생 TOP5</h3>
-                            <table class="table text-center" style="width:100%;" id="so_data">
-                                <tr class="row" style="background: #DCE6F2;">
-                                    <th class="col-12" id="displayCount1"></th>
-                                </tr>
-                                <tr class="row" style="background:#DCE6F2;">
-                                    <th class="col-1">순위</th>
-                                    <th class="col-2">반 이름</th>
-                                    <th class="col-1">학기</th>
-                                    <th class="col-3">담임 T</th>
-                                    <th class="col-2">이반 발생</th>
-                                    <th class="col-2">퇴소 발생</th>
-                                    <th class="col-1">상세</th>
-                                </tr>
-                                <tr id="static_data1" class="row"></tr>
-                            </table>
+            <div class="info-container">
+                <div class="info-title">
+                    <span>퇴소 발생 TOP5</span>
+                </div>
+                <div class="info">
+                    <div class="d-flex justify-content-center align-items-center flex-column w-100">
+                        <div class="d-flex justify-content-start align-items-start w-100" style="overflow: scroll;">
+                            <div class="d-flex justify-content-center align-items-center flex-column mt-4"
+                                style="width: 1362px important;">
+                                <h3 id="sotitle"></h3>
+                                <table class="table text-center" style="width:100%;" id="so_data">
+                                    <tr class="row" style="background: #DCE6F2;">
+                                        <th class="col-12" id="displayCount1"></th>
+                                    </tr>
+                                    <tr class="row" style="background:#DCE6F2;">
+                                        <th class="col-1">순위</th>
+                                        <th class="col-2">반 이름</th>
+                                        <th class="col-1">학기</th>
+                                        <th class="col-3">담임 T</th>
+                                        <th class="col-2">이반 발생</th>
+                                        <th class="col-2">퇴소 발생</th>
+                                        <th class="col-1">상세</th>
+                                    </tr>
+                                    <tr id="static_data1" class="row"></tr>
+                                </table>
+                            </div>
                         </div>
+                        <button data-bs-toggle="modal" data-bs-target="#so_question" onclick="request_consulting()">이반 퇴소 문의 현황 확인하기</button>
                     </div>
-                    <button data-bs-toggle="modal" data-bs-target="#so_question" onclick="request_consulting()">이반 퇴소 문의 현황 확인하기</button>
                 </div>
             </div>
-        </div>
-        <div class="info-container mt-5">
             <!-- 미학습 발생 현황 -->
-            <div class="info-title">
-                <span>미학습 발생 현황</span>
-            </div>
-            <div class="info">
-                <div class="d-flex justify-content-center align-items-center flex-column w-100">
-                    <div class="d-flex justify-content-start align-items-start w-100" style="overflow: scroll;">
-                        <div class="d-flex justify-content-center align-items-center flex-column mt-4"
-                            style="width: 1362px important;">
+            <div class="info-container" style="margin-left: 20px;">
+                <div class="info-title">
+                    <span>미학습 발생 현황</span>
+                </div>
+                <div class="info">
+                    <div class="d-flex justify-content-center align-items-center flex-column w-100">
+                        <div class="d-flex justify-content-start align-items-start w-100" style="overflow: scroll;">
+                            <div class="d-flex justify-content-center align-items-center flex-column mt-4"
+                                style="width: 1362px important;">
 
-                            <table class="table text-center" style="width:100%;" id="ul_data_box">
-                                <tr class="row" style="background: #DCE6F2;">
-                                    <th class="col-12" id="displayCount2"></th>
-                                </tr>
-                                <tr class="row" style="background:#DCE6F2;">
-                                    <th class="col-3">반 이름</th>
-                                    <th class="col-2">학기</th>
-                                    <th class="col-3">담임 T</th>
-                                    <th class="col-3">미학습발생</th>
-                                    <th class="col-1">상세</th>
-                                </tr>
-                                <tr id="static_data2" class="row"></tr>
-                            </table>
-                            <ul id="pagingul2"></ul>
+                                <table class="table text-center" style="width:100%;" id="ul_data_box">
+                                    <tr class="row" style="background: #DCE6F2;">
+                                        <th class="col-12" id="displayCount2"></th>
+                                    </tr>
+                                    <tr class="row" style="background:#DCE6F2;">
+                                        <th class="col-3">반 이름</th>
+                                        <th class="col-2">학기</th>
+                                        <th class="col-3">담임 T</th>
+                                        <th class="col-3">미학습발생</th>
+                                        <th class="col-1">상세</th>
+                                    </tr>
+                                    <tr id="static_data2" class="row"></tr>
+                                </table>
+                                <ul id="pagingul2"></ul>
+                            </div>
                         </div>
                     </div>
                 </div>
