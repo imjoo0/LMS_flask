@@ -22,7 +22,7 @@ function souldata(){
                 $('#pagingul').hide();
                 return
             }
-            $('#sotitle').html('이반/퇴소 발생 TOP5');
+            $('#sotitle').empty();
             switch_out_count = response['switch_out_count']['data']
             response['switch_out_bans'].forEach((elem) =>{
                 so = switch_out_count.filter(a => a.ban_id == elem.register_no)[0]
