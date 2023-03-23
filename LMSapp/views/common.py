@@ -44,41 +44,38 @@ def get_ban():
         return jsonify({'target_ban': target_ban})
 
 # 반 차트 관련 
-@bp.route("/souldata/", methods=['GET'])
+@bp.route("/souldata", methods=['GET'])
 def souldata():
     if request.method == 'GET':
-        target_ban = callapi.purple_ban(id,'get_ban')
-        if target_ban:
-            db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-            switch_student = {}
-            out_student = {}
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        switch_out_count = {}
+        switch_out_bans = []
 
-            try:
-                with db.cursor() as cur:
-                    cur.execute(f'SELECT ban_id,Count(*) as count FROM LMS.switchstudent GROUP BY ban_id HAVING count > 1;')
-                    switch_student['status'] = 200
-                    switch_student['data'] = cur.fetchall()
-
-                    cur.execute(f'SELECT ban_id,Count(*) as count FROM LMS.outstudent GROUP BY ban_id HAVING count > 1;')
-                    out_student['status'] = 200
-                    out_student['data'] = cur.fetchall()
-            except Exception as e:
-                print(e)
-                # switch_student['status'] = 401
-                # switch_student['text'] = str(e)
-                switch_student['status'] = 401
-                switch_student['text'] = str(e)
-                out_student['status'] = 401
-                out_student['text'] = str(e)
-            finally:
-                db.close()
-
-            return jsonify({
-            'switch_student': switch_student,
-            'out_student': out_student
-        })
+        try:
+            with db.cursor() as cur:
+                cur.execute(f'SELECT COALESCE(switchstudent.ban_id, outstudent.ban_id) AS ban_id, COALESCE(switch_count, 0) AS switch_count, COALESCE(out_count, 0) AS out_count FROM (SELECT ban_id, COUNT(*) AS switch_count FROM switchstudent GROUP BY ban_id) AS switch_counts LEFT OUTER JOIN (SELECT ban_id, COUNT(*) AS out_count FROM outstudent GROUP BY ban_id) AS out_counts ON switch_counts.ban_id = out_counts.ban_id LEFT OUTER JOIN switchstudent ON switch_counts.ban_id = switchstudent.ban_id LEFT OUTER JOIN outstudent ON out_counts.ban_id = outstudent.ban_id UNION SELECT COALESCE(switch_counts.ban_id, out_counts.ban_id) AS ban_id, COALESCE(switch_count, 0) AS switch_count, COALESCE(out_count, 0) AS out_count FROM (SELECT ban_id, COUNT(*) AS switch_count FROM switchstudent GROUP BY ban_id) AS switch_counts RIGHT OUTER JOIN (SELECT ban_id, COUNT(*) AS out_count FROM outstudent GROUP BY ban_id) AS out_counts ON switch_counts.ban_id = out_counts.ban_id WHERE switch_counts.ban_id IS NULL;')
+                switch_out_count['status'] = 200
+                switch_out_count['data'] = cur.fetchall()
+        except Exception as e:
+            print(e)
+            # switch_student['status'] = 401
+            # switch_student['text'] = str(e)
+            switch_out_count['status'] = 401
+            switch_out_count['text'] = str(e)
+        finally:
+            db.close()
+    if switch_out_count['status'] != 401: 
+        if len(switch_out_count['data']) != 0:
+            for data in switch_out_count['data']:
+                target_ban = callapi.purple_ban(data['ban_id'],'get_ban')
+                switch_out_bans.append(target_ban)
+            return ({'switch_out_bans': switch_out_bans,'switch_out_count':switch_out_count})
         else:
             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
+    
+    else:
+        return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
+    
 
 @bp.route("/sodata", methods=['GET'])
 def get_sodata():

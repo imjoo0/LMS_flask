@@ -7,7 +7,44 @@ var consultingData = [];
 var taskData = [];
 
 // 통계 관련 
-function sodata(){
+function souldata(){
+    $.ajax({
+        url: '/common/souldata',
+        type: 'GET',
+        data: {},
+        success: function(response){
+            if (response['status'] == 400){
+                let no_data_title = `<h1> ${response.text} </h1>`
+                $('#sotitle').html(no_data_title);
+                $('#pagingul').hide();
+                return
+            }
+            switch_out_bans = response['switch_out_bans']
+            switch_out_count = response['switch_out_count']
+            for(i=0;i<switch_out_bans.length;i++){
+                console.log(switch_out_bans[i])
+            }
+            // $('#switch_num').css('width',`${sn}%`);
+            // $('#switch_num').css('background-color','#95B3D7');
+            // $('#sn').html(`이반 학생 수: ${sn}명`);
+
+            // on = response['outstudent_num']
+            // $('#outstudent_num').css('width',`${on}%`);
+            // $('#outstudent_num').css('background-color','#D99694');
+            // $('#on').html(`퇴소 학생 수: ${on}명`);
+            // data_list = response['sodata']
+            // if(data_list == '없음'){
+            //     $("#so_data").html('퇴소 / 이반 발생이 없었습니다 😆');
+            // }else{
+            //     totalData = data_list.length
+            //     displayData(totalData, 1, dataPerPage,data_list,1);
+            //     paging(totalData, dataPerPage, pageCount, 1,data_list,1);
+            // }
+        }
+    }) 
+    
+}
+function souldata(){
     $.ajax({
         url: '/common/sodata',
         type: 'GET',
