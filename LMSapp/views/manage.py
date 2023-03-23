@@ -139,6 +139,7 @@ def uldata():
             else:
                 total_num = 5
             unlearned_count['data'].sort(key=lambda x: (-x['unlearned_p']))
+            print(unlearned_count['data'])
             for i in range(total_num):
                 target_ban = callapi.purple_ban(unlearned_count['data'][i]['ban_id'],'get_ban')
                 unlearned_bans.append(target_ban)
