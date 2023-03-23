@@ -35,7 +35,6 @@ def get_ban(id):
             out_student = {}
             consulting = {}
             task = {}
-
             try:
                 with db.cursor() as cur:
                     cur.execute(f'select id, ban_id from outstudent')

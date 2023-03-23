@@ -4,7 +4,6 @@ var selectedStudentList = [];
 
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
-    paginating(0)
     getBanlist()
 })
 
@@ -316,7 +315,6 @@ async function getBanChart(btid){
         })
     }
     $('#inloading').hide()
-
 }
 
 // 업무 요청 관련 함수 
@@ -560,7 +558,6 @@ function post_consulting_request(){
     }
 }
 
-
 // 과거 코드
 function go_back() {
     $('#for_taskban_list').hide();
@@ -568,6 +565,9 @@ function go_back() {
 }
 
 function paginating(done_code) {
+    $('#sobox').hide()
+    $('#ulbox').hide()
+    $('#qubox').show()
     let container = $('#pagination')
     $.ajax({
         url: '/manage/api/get_all_questions/' + done_code,

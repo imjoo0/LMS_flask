@@ -595,7 +595,7 @@
                     <a class="nav-link" onclick="sodata()">이반 퇴소 관리</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">문의 관리</a>
+                    <a class="nav-link" onclick="paginating(0)">문의 관리</a>
                   </li>
                 </ul>
               </div>
@@ -664,6 +664,35 @@
                 </div>
             </div>
         </div>
+        <!-- 문의 조회 -->
+        <div class="info-container" id="qubox" style="display: none;">
+            <div class="info-title">
+                <span>Teacher's Question</span>
+            </div>
+            <div class="info">
+                <div class="d-flex justify-content-center align-items-center flex-column w-100">
+                    <select id="question_view" class="form-select text-center w-25" name="question_view"
+                        onchange="paginating(this.value)">
+                        <option value=0 selected>미응답 문의</option>
+                        <option value=1>응답한 문의</option>
+                    </select>
+                    <table class="table text-center" id="teacher_question" style="width:100%;">
+                        <thead>
+                            <tr class="row">
+                                <th class="col-2">종류</th>
+                                <th class="col-4">제목</th>
+                                <th class="col-4">내용</th>
+                                <th class="col-2">응답</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="alim-tr" class="row"></tr>
+                        </tbody>
+                    </table>
+                    <div id="pagination" class="py-2 text-center"></div>
+                </div>
+            </div>
+        </div>
         <!-- 전체 반 조회 -->
         <div class="info-container">
             <div class="info-title">
@@ -701,35 +730,6 @@
                         <ul id="pagingul"></ul>
                         <div id="ban_statistics" class="make_row w-100"></div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <!-- 문의 조회 -->
-        <div class="info-container" id="qubox" style="display: none;">
-            <div class="info-title">
-                <span>Teacher's Question</span>
-            </div>
-            <div class="info">
-                <div class="d-flex justify-content-center align-items-center flex-column w-100">
-                    <select id="question_view" class="form-select text-center w-25" name="question_view"
-                        onchange="paginating(this.value)">
-                        <option value=0 selected>미응답 문의</option>
-                        <option value=1>응답한 문의</option>
-                    </select>
-                    <table class="table text-center" id="teacher_question" style="width:100%;">
-                        <thead>
-                            <tr class="row">
-                                <th class="col-2">종류</th>
-                                <th class="col-4">제목</th>
-                                <th class="col-4">내용</th>
-                                <th class="col-2">응답</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr id="alim-tr" class="row"></tr>
-                        </tbody>
-                    </table>
-                    <div id="pagination" class="py-2 text-center"></div>
                 </div>
             </div>
         </div>
