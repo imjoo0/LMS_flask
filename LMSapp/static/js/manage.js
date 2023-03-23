@@ -31,15 +31,16 @@ async function sodata(){
                 elem.out_count = so ? so['out_count'] : 0;
             })
             response['switch_out_bans'].sort((a,b)=>(b.out_count+b.switch_count) - (a.out_count+a.switch_count))
-            total_num = 0
-            if(response['switch_out_bans'].length > 5){
-                total_num = 5
-            }else{
-                total_num = response['switch_out_bans'].length
-            }
-            let temp_html = ``
+            // top 5만 보여주는 경우 
+            // total_num = 0
+            // if(response['switch_out_bans'].length > 5){
+            //     total_num = 5
+            // }else{
+            //     total_num = response['switch_out_bans'].length
+            // }
 
-            for(i=0;i<total_num;i++){
+            let temp_html = ``
+            for(i=0;i< response['switch_out_bans'].length;i++){
                 register_no = response['switch_out_bans'][i]['register_no']
                 ban_name = response['switch_out_bans'][i]['ban_name']
                 semester = response['switch_out_bans'][i]['semester']
@@ -102,7 +103,7 @@ async function uldata(){
     
 }
 // 전체 반 정보 가져오는 함수 
-function getBanlist() {
+function getBanlist(){
     $.ajax({
         type: "GET",
         url: "/common/all_ban",
