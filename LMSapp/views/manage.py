@@ -77,7 +77,7 @@ def get_ban(id):
             'notice': notice,
             'consulting': consulting,
             'task': task,
-        })
+            })
         else:
             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
 
