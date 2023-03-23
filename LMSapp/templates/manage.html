@@ -32,41 +32,41 @@
 </script>
 
 <!-- 반 상세 조회 모달 -->
-<div class="modal fade" id="baninfo" tabindex="-1" aria-labelledby="banModalLabel" aria-hidden="true">
+<div class="modal fade" id="bandetail" tabindex="-1" aria-labelledby="bandetailModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <p class="modal-title" id="banModalLabel">
-                </p>
+                <h5 class="modal-title" id="bandetailModalLabel">
+                    <img src="#" style="width: 30px;">&nbsp;&nbsp;반 상세 정보 조회 
+                </h5>
                 <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body py-4 px-5">
-                <div class="info">
-                    <div class="d-flex justify-content-center align-items-center flex-column w-100">
-                        <div class="d-flex justify-content-start align-items-start w-100" style="overflow: scroll;">
-                            <div class="d-flex justify-content-center align-items-center flex-column mt-4"
-                                style="width: 1362px important;">
-                                <div id="profile_data" class="w-100"></div>
-                                <div id="ban_data" class="w-100"></div>
-                                <table class="table text-center" style="width:100%;" id="student_data">
-                                    <tr class="row" style="background: #DCE6F2;">
-                                        <th class="col-12" id="displayCount"></th>
-                                    </tr>
-                                    <tr class="row" style="background:#DCE6F2;">
-                                        <th class="col-2">원생 정보</th>
-                                        <th class="col-2">연락처</th>
-                                        <th class="col-3">부모님 정보</th>
-                                        <th class="col-2">추천도서</th>
-                                        <th class="col-2">미학습</th>
-                                        <th class="col-1">상세</th>
-                                    </tr>
-                                    <tr id="s_data" class="row"></tr>
-                                </table>
-                                <ul id="pagingul"></ul>
-                                <div id="ban_statistics" class="make_row w-100"></div>
-                            </div>
-                        </div>
-                    </div>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
+                <div class="justify-content-start align-items-start w-100" style="overflow: scroll;">
+                    <h1 id="inloading" style="display: none;">로딩중..</h1>
+                    <table class="table text-center" id="profile_data" >
+                    </table>
+                    <table class="table text-center" id="ban_data" >
+                    </table>
+
+                    <table class="table text-center" id="student_data">
+                        <tr class="row" style="background: #DCE6F2;">
+                            <th class="col-12" id="displayCount"></th>
+                        </tr>
+                        <tr class="row" style="background:#DCE6F2;">
+                            <th class="col-2">원생 정보</th>
+                            <th class="col-2">연락처</th>
+                            <th class="col-3">부모님 정보</th>
+                            <th class="col-2">추천도서</th>
+                            <th class="col-2">미학습</th>
+                            <th class="col-1">상세</th>
+                        </tr>
+                        <tr id="s_data" class="row"></tr>
+                    </table>
+                    <ul id="pagingul"></ul>
+                    <div id="ban_statistics" class="make_row w-100"></div>
                 </div>
             </div>
         </div>
@@ -692,7 +692,7 @@
         </div>
         <div class="info-container mt-5">
             <div class="info-title">
-                <span id="banchart_title">반 관리 상세 현황 검색</span>
+                <span id="banchart_title">반 관리 상세 현황</span>
             </div>
             <div class="info">
                 <div class="d-flex justify-content-center align-items-center flex-column w-100">
