@@ -93,7 +93,7 @@ function so_paginating(done_code) {
                     data-bs-target="#answer" onclick="get_question(${item.id},${done_code})">✏️</button> 
                     <button onclick="delete_question(${item.id})">❌</button></td>`;
                     });
-                    $('#alim-tr').html(dataHtml);
+                    $('#so_tr').html(dataHtml);
                 }
             })
         }
@@ -601,12 +601,6 @@ function post_consulting_request(){
     }
 }
 
-// 과거 코드
-function go_back() {
-    $('#for_taskban_list').hide();
-    $('#for_task_list').show();
-}
-
 // 문의 관리 
 function paginating(done_code) {
     $('#detailban').hide()
@@ -647,6 +641,11 @@ function paginating(done_code) {
     })
 }
 
+// 과거 코드
+function go_back() {
+    $('#for_taskban_list').hide();
+    $('#for_task_list').show();
+}
 async function get_consulting() {
     let container = $('#consulting-pagination')
     var category_list = []
