@@ -9,7 +9,7 @@ $(document).ready(function () {
     souldata()
 })
 
-// 통계 관련 
+// 이반 * 퇴소 
 function souldata(){
     $.ajax({
         url: '/manage/souldata',
