@@ -81,7 +81,7 @@ def get_ban(id):
         else:
             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
 
-# 이반 퇴소가 발생한 반 정보 조회  
+# 이반 퇴소 
 @bp.route("/souldata", methods=['GET'])
 def souldata():
     if request.method == 'GET':
