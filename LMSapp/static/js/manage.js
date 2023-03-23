@@ -53,7 +53,7 @@ function souldata(){
                 <td class="col-3">${teacher_name}</td>
                 <td class="col-2">${switch_count}</td>
                 <td class="col-2">${out_count}</td>
-                <td class="col-1" data-bs-toggle="modal" data-bs-target="#bandetail" onclick="getBanChart(${btid})">✅</td>`;
+                <td class="col-1" data-bs-toggle="modal" data-bs-target="#baninfo" onclick="onclick="getBanInfo(${register_no})">✅</td>`;
             }
             $('#static_data1').html(temp_html)
         }
