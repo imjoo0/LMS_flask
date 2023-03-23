@@ -50,7 +50,7 @@ async function sodata(){
                 out_count = response['switch_out_bans'][i]['out_count']
                 
                 temp_html += `
-                <td class="col-1">${i+1}</td>
+                <td class="col-1">${i+1}위</td>
                 <td class="col-3">${ban_name}</td>
                 <td class="col-1">${semester}</td>
                 <td class="col-3">${teacher_name}</td>
