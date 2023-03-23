@@ -6,13 +6,14 @@ var selectedStudentList = [];
 $(document).ready(function () {
     paginating(0)
     getBanlist()
-    sodata()
-    uldata()
 })
 
 // 이반 * 퇴소 
-function sodata(){
-    $.ajax({
+async function sodata(){
+    $('#qubox').hide()
+    $('#ulbox').hide()
+    $('#osbox').show()
+    await $.ajax({
         url: '/manage/sodata',
         type: 'GET',
         data: {},
@@ -61,8 +62,11 @@ function sodata(){
     
 }
 // 미학습 
-function uldata(){
-    $.ajax({
+async function uldata(){
+    $('#qubox').hide()
+    $('#osbox').hide()
+    $('#ulbox').show()
+    await $.ajax({
         url: '/manage/uldata',
         type: 'GET',
         data: {},
@@ -129,7 +133,6 @@ function getBanlist() {
 
 // 반 별 차트 정보 보내주는 함수 
 async function getBanChart(btid){
-    console.log(btid)
     if(btid == 0){
         $('#banchart_title').html('반 관리 상세 현황')
         $('#profile_data').empty()

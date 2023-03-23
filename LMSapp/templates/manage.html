@@ -589,10 +589,10 @@
                     <a class="nav-link active" aria-current="page" href="#">전체 반 조회</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">학습 관리</a>
+                    <a class="nav-link" onclick="uldata()">학습 관리</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="./manage_so.html">이반 퇴소 관리</a>
+                    <a class="nav-link" onclick="sodata()">이반 퇴소 관리</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#">문의 관리</a>
@@ -606,7 +606,7 @@
 
     <div id="ban-statistics" class="p-lg-5 px-1 py-4" style="background-color: #5a5a5a;">
         <!-- 퇴소 이반 현황 -->
-        <div class="info-container">
+        <div class="info-container" id="osbox" style="display: none;">
             <div class="info-title">
                 <span>이반 / 퇴소 발생 TOP5</span>
             </div>
@@ -632,12 +632,11 @@
                             </table>
                         </div>
                     </div>
-                    <button data-bs-toggle="modal" data-bs-target="#so_question" onclick="request_consulting()">이반 퇴소 문의 현황 확인하기</button>
                 </div>
             </div>
         </div>
         <!-- 미학습 발생 현황 -->
-        <div class="info-container" style="width:90%; margin-left:10px;">
+        <div class="info-container" id="ulbox" style="display: none;">
             <div class="info-title">
                 <span>미학습 발생 TOP5</span>
             </div>
@@ -706,7 +705,7 @@
             </div>
         </div>
         <!-- 문의 조회 -->
-        <div class="info-container">
+        <div class="info-container" id="qubox" style="display: none;">
             <div class="info-title">
                 <span>Teacher's Question</span>
             </div>
