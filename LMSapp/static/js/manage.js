@@ -86,7 +86,7 @@ async function uldata(){
                 semester = response['unlearned_bans'][i]['semester']
                 teacher_name = response['unlearned_bans'][i]['teacher_name'] +'( ' +response['unlearned_bans'][i]['teacher_engname'] +' )'
                 ul = unlearned_count.filter(a => a.ban_id == register_no)[0]
-                unlearned = ul['unlearned'] +'( '+ul['unlearned_p']+' )' 
+                unlearned = ul['unlearned'] +'건( '+ul['unlearned_p']+'% )' 
                 
                 temp_html += `
                 <td class="col-1">${i+1}</td>
