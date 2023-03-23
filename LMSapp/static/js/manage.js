@@ -33,15 +33,15 @@ async function sodata(){
             })
             response['switch_out_bans'].sort((a,b)=>(b.out_count+b.switch_count) - (a.out_count+a.switch_count))
             // top 5만 보여주는 경우 
-            // total_num = 0
-            // if(response['switch_out_bans'].length > 5){
-            //     total_num = 5
-            // }else{
-            //     total_num = response['switch_out_bans'].length
-            // }
+            total_num = 0
+            if(response['switch_out_bans'].length > 5){
+                total_num = 5
+            }else{
+                total_num = response['switch_out_bans'].length
+            }
 
             let temp_html = ``
-            for(i=0;i< response['switch_out_bans'].length;i++){
+            for(i=0;i< total_num;i++){
                 register_no = response['switch_out_bans'][i]['register_no']
                 ban_name = response['switch_out_bans'][i]['ban_name']
                 semester = response['switch_out_bans'][i]['semester']
