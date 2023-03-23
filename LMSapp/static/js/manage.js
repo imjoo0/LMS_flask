@@ -81,7 +81,7 @@ function uldata(){
                 ban_name = response['unlearned_bans'][i]['ban_name']
                 semester = response['unlearned_bans'][i]['semester']
                 teacher_name = response['unlearned_bans'][i]['teacher_name'] +'( ' +response['unlearned_bans'][i]['teacher_engname'] +' )'
-                ul = unlearned_count.filter(a => a.ban_id == elem.register_no)[i]
+                ul = unlearned_count.filter(a => a.ban_id == register_no)[0]
                 unlearned = ul['unlearned'] +'( '+ul['unlearned_p']+' )' 
                 
                 temp_html += `
