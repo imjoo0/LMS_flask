@@ -1,0 +1,41 @@
+{% block managecontent %}
+<div class="info-container mt-5">
+    <div class="info-title">
+        <span id="banchart_title">반 관리 상세 현황</span>
+    </div>
+    <div class="info">
+        <div class="d-flex justify-content-center align-items-center flex-column w-100">
+            <div class="d-flex justify-content-end align-items-center w-100">
+                <select class="manage-ban-select px-1 py-2 w-lg-50 w-100" name="target_ban"
+                    onchange="getBanChart(this.value)" id="ban_list">
+                </select>
+            </div>
+
+            <div class="justify-content-start align-items-start w-100" style="overflow: scroll;">
+                <h1 id="inloading" style="display: none;">로딩중..</h1>
+                <table class="table text-center" id="profile_data" >
+                </table>
+                <table class="table text-center" id="ban_data" >
+                </table>
+
+                <table class="table text-center" id="student_data">
+                    <tr class="row" style="background: #DCE6F2;">
+                        <th class="col-12" id="displayCount"></th>
+                    </tr>
+                    <tr class="row" style="background:#DCE6F2;">
+                        <th class="col-2">원생 정보</th>
+                        <th class="col-2">연락처</th>
+                        <th class="col-3">부모님 정보</th>
+                        <th class="col-2">추천도서</th>
+                        <th class="col-2">미학습</th>
+                        <th class="col-1">상세</th>
+                    </tr>
+                    <tr id="s_data" class="row"></tr>
+                </table>
+                <ul id="pagingul"></ul>
+                <div id="ban_statistics" class="make_row w-100"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
