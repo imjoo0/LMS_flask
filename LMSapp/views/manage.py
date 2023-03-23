@@ -82,8 +82,8 @@ def get_ban(id):
             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
 
 # 이반 퇴소 
-@bp.route("/souldata", methods=['GET'])
-def souldata():
+@bp.route("/sodata", methods=['GET'])
+def sodata():
     if request.method == 'GET':
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         switch_out_count = {}
@@ -111,7 +111,43 @@ def souldata():
     
     else:
         return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
+# 미학습 
+@bp.route("/uldata", methods=['GET'])
+def uldata():
+    if request.method == 'GET':
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        unlearned_count = {}
+        unlearned_bans = []
+
+        try:
+            with db.cursor() as cur:
+                cur.execute(f'SELECT consulting.ban_id, COUNT(*) AS unlearned, COUNT(*) / (SELECT COUNT(*) FROM consulting WHERE category_id < 100)*100 AS unlearned_p FROM consulting WHERE category_id < 100 GROUP BY consulting.ban_id;')
+                unlearned_count['status'] = 200
+                unlearned_count['data'] = cur.fetchall()
+        except Exception as e:
+            print(e)
+            unlearned_count['status'] = 401
+            unlearned_count['text'] = str(e)
+        finally:
+            db.close()
+    if unlearned_count['status'] != 401: 
+        if len(unlearned_count['data']) != 0:
+            total_num = 0
+            i=0
+            if(len(unlearned_count['data']) < 5):
+                total_num = len(unlearned_count['data'])
+            else:
+                total_num = 5
+            unlearned_count['data'].sort(key=lambda x: (-x['unlearned_p']))
+            for i in total_num:
+                target_ban = callapi.purple_ban(unlearned_count['data'][i]['ban_id'],'get_ban')
+                unlearned_bans.append(target_ban)
+            return ({'unlearned_bans': unlearned_bans,'unlearned_count':unlearned_count})
+        else:
+            return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
     
+    else:
+        return jsonify({'status': 400, 'text': '데이터가 없습니다.'})    
 @bp.route('/api/get_all_questions/<int:done_code>', methods=['GET'])
 def get_all_questions(done_code):
     if request.method == 'GET':

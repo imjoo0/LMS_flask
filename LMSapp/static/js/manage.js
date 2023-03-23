@@ -6,20 +6,20 @@ var selectedStudentList = [];
 $(document).ready(function () {
     paginating(0)
     getBanlist()
-    souldata()
+    sodata()
+    uldata()
 })
 
 // 이반 * 퇴소 
-function souldata(){
+function sodata(){
     $.ajax({
-        url: '/manage/souldata',
+        url: '/manage/sodata',
         type: 'GET',
         data: {},
         success: function(response){
             if (response['status'] == 400){
                 let no_data_title = `<h1> ${response.text} </h1>`
                 $('#sotitle').html(no_data_title);
-                $('#pagingul').hide();
                 return
             }
             $('#sotitle').empty();
@@ -60,7 +60,43 @@ function souldata(){
     }) 
     
 }
+// 미학습 
+function uldata(){
+    $.ajax({
+        url: '/manage/uldata',
+        type: 'GET',
+        data: {},
+        success: function(response){
+            if (response['status'] == 400){
+                let no_data_title = `<h1> ${response.text} </h1>`
+                $('#ultitle').html(no_data_title);
+                return
+            }
+            $('#ultitle').empty();
+            unlearned_count = response['unlearned_count']['data']
 
+            let temp_html = ``
+            for(i=0;i<total_num;i++){
+                register_no = response['unlearned_bans'][i]['register_no']
+                ban_name = response['unlearned_bans'][i]['ban_name']
+                semester = response['unlearned_bans'][i]['semester']
+                teacher_name = response['unlearned_bans'][i]['teacher_name'] +'( ' +response['unlearned_bans'][i]['teacher_engname'] +' )'
+                ul = unlearned_count.filter(a => a.ban_id == elem.register_no)[i]
+                unlearned = ul['unlearned'] +'( '+ul['unlearned_p']+' )' 
+                
+                temp_html += `
+                <td class="col-1">${i+1}</td>
+                <td class="col-3">${ban_name}</td>
+                <td class="col-2">${semester}</td>
+                <td class="col-3">${teacher_name}</td>
+                <td class="col-3">${unlearned}</td>
+                `;
+            }
+            $('#static_data2').html(temp_html)
+        }
+    }) 
+    
+}
 // 전체 반 정보 가져오는 함수 
 function getBanlist() {
     $.ajax({
