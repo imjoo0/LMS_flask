@@ -30,16 +30,14 @@ function souldata(){
                 teacher_name = switch_out_bans[i]['teacher_name'] +'( ' +switch_out_bans[i]['teacher_engname'] +' )'
                 soc = switch_out_count.filter(a => a.ban_id == register_no);
                 console.log(soc)
-                temp_html = `<td class="col-2">${ban_name}</td>
+                temp_html += `<td class="col-2">${ban_name}</td>
                 <td class="col-2">${semester}</td>
                 <td class="col-3">${teacher_name}</td>
                 <td class="col-2">이반 발생</td>
                 <td class="col-2">퇴소 발생</td>
                 <td class="col-1">✅</td>`;
-
-                
-
             }
+            $('#static_data1').html(temp_html)
             // $('#switch_num').css('width',`${sn}%`);
             // $('#switch_num').css('background-color','#95B3D7');
             // $('#sn').html(`이반 학생 수: ${sn}명`);
