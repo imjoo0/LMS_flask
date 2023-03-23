@@ -58,8 +58,6 @@ def souldata():
                 switch_out_count['data'] = cur.fetchall()
         except Exception as e:
             print(e)
-            # switch_student['status'] = 401
-            # switch_student['text'] = str(e)
             switch_out_count['status'] = 401
             switch_out_count['text'] = str(e)
         finally:
