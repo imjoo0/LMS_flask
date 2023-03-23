@@ -93,6 +93,7 @@ function getBanlist() {
 
 // 반 별 차트 정보 보내주는 함수 
 async function getBanChart(btid){
+    console.log(btid)
     if(btid == 0){
         $('#banchart_title').html('반 관리 상세 현황')
         $('#profile_data').empty()
