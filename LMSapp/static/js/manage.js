@@ -8,6 +8,47 @@ $(document).ready(function () {
     getBanlist()
     souldata()
 })
+
+// 통계 관련 
+function souldata(){
+    $.ajax({
+        url: '/manage/souldata',
+        type: 'GET',
+        data: {},
+        success: function(response){
+            if (response['status'] == 400){
+                let no_data_title = `<h1> ${response.text} </h1>`
+                $('#sotitle').html(no_data_title);
+                $('#pagingul').hide();
+                return
+            }
+            $('#sotitle').empty();
+            switch_out_bans = response['switch_out_bans']
+            switch_out_count = response['switch_out_count']['data']
+
+            let temp_html = ``
+            for(i=0;i<switch_out_bans.length;i++){
+                register_no = switch_out_bans[i]['register_no']
+                ban_name = switch_out_bans[i]['ban_name']
+                semester = switch_out_bans[i]['semester']
+                teacher_name = switch_out_bans[i]['teacher_name'] +'( ' +switch_out_bans[i]['teacher_engname'] +' )'
+                so = switch_out_count.filter(a => a.ban_id == register_no)[0]
+                switch_count = so ? so['switch_count'] : 0;
+                out_count = so ? so['out_count'] : 0;
+                
+                temp_html += `<td class="col-2">${ban_name}</td>
+                <td class="col-2">${semester}</td>
+                <td class="col-3">${teacher_name}</td>
+                <td class="col-2">${switch_count}</td>
+                <td class="col-2">${out_count}</td>
+                <td class="col-1">✅</td>`;
+            }
+            $('#static_data1').html(temp_html)
+        }
+    }) 
+    
+}
+
 // 전체 반 정보 가져오는 함수 
 function getBanlist() {
     $.ajax({
