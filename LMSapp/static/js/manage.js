@@ -45,7 +45,7 @@ function souldata(){
                 teacher_name = response['switch_out_bans'][i]['teacher_name'] +'( ' +response['switch_out_bans'][i]['teacher_engname'] +' )'
                 switch_count = response['switch_out_bans'][i]['switch_count']
                 out_count = response['switch_out_bans'][i]['out_count']
-                
+                btid = register_no+'_'+response['switch_out_bans'][i]['teacher_register_no']+'_'+ban_name+'_'
                 temp_html += `
                 <td class="col-1">${i+1}</td>
                 <td class="col-2">${ban_name}</td>
