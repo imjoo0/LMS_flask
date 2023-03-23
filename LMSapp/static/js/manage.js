@@ -11,6 +11,7 @@ $(document).ready(function () {
 async function sodata(){
     $('#qubox').hide()
     $('#ulbox').hide()
+    $('#detailban').hide()
     $('#sobox').show()
     await $.ajax({
         url: '/manage/sodata',
@@ -66,6 +67,7 @@ async function sodata(){
 async function uldata(){
     $('#qubox').hide()
     $('#sobox').hide()
+    $('#detailban').hide()
     $('#ulbox').show()
     await $.ajax({
         url: '/manage/uldata',
@@ -104,6 +106,10 @@ async function uldata(){
 }
 // 전체 반 정보 가져오는 함수 
 function getBanlist(){
+    $('#detailban').show()
+    $('#qubox').hide()
+    $('#sobox').hide()
+    $('#ulbox').hide()
     $.ajax({
         type: "GET",
         url: "/common/all_ban",
@@ -566,6 +572,7 @@ function go_back() {
 }
 
 function paginating(done_code) {
+    $('#detailban').hide()
     $('#sobox').hide()
     $('#ulbox').hide()
     $('#qubox').show()
