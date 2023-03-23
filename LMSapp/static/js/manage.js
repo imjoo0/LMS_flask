@@ -12,7 +12,7 @@ $(document).ready(function () {
 async function sodata(){
     $('#qubox').hide()
     $('#ulbox').hide()
-    $('#osbox').show()
+    $('#sobox').show()
     await $.ajax({
         url: '/manage/sodata',
         type: 'GET',
@@ -21,6 +21,7 @@ async function sodata(){
             if (response['status'] == 400){
                 let no_data_title = `<h1> ${response.text} </h1>`
                 $('#sotitle').html(no_data_title);
+                $('#sotable').hide()
                 return
             }
             $('#sotitle').empty();
@@ -64,7 +65,7 @@ async function sodata(){
 // 미학습 
 async function uldata(){
     $('#qubox').hide()
-    $('#osbox').hide()
+    $('#sobox').hide()
     $('#ulbox').show()
     await $.ajax({
         url: '/manage/uldata',
