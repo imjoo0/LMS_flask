@@ -42,7 +42,7 @@ function souldata(){
                 register_no = response['switch_out_bans'][i]['register_no']
                 ban_name = response['switch_out_bans'][i]['ban_name']
                 semester = response['switch_out_bans'][i]['semester']
-                teacher_name = response['switch_out_bans'][i]['teacher_name'] +'( ' +switch_out_bans[i]['teacher_engname'] +' )'
+                teacher_name = response['switch_out_bans'][i]['teacher_name'] +'( ' +response['switch_out_bans'][i]['teacher_engname'] +' )'
                 switch_count = response['switch_out_bans'][i]['switch_count']
                 out_count = response['switch_out_bans'][i]['out_count']
                 
