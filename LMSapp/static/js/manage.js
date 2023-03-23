@@ -86,12 +86,12 @@ function so_paginating(done_code) {
                         else if (item.category == 2) { item.category = '이반 요청' }
                         else { item.category = '취소/환불 요청' }
                         dataHtml += `
-                    <td class="col-2">${item.category}</td>
-                    <td class="col-4">${item.title}</td>
-                    <td class="col-4">${item.contents}</td>
-                    <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-                    data-bs-target="#answer" onclick="get_question(${item.id},${done_code})">✏️</button> 
-                    <button onclick="delete_question(${item.id})">❌</button></td>`;
+                        <td class="col-2">${item.category}</td>
+                        <td class="col-4">${item.title}</td>
+                        <td class="col-4">${item.contents}</td>
+                        <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
+                        data-bs-target="#answer" onclick="get_question(${item.id},${done_code})">✏️</button> 
+                        <button onclick="delete_question(${item.id})">❌</button></td>`;
                     });
                     $('#so_tr').html(dataHtml);
                 }
