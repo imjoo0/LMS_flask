@@ -76,7 +76,7 @@ function uldata(){
             unlearned_count = response['unlearned_count']['data']
 
             let temp_html = ``
-            for(i=0;i<total_num;i++){
+            for(i=0;i<response['unlearned_bans'].length;i++){
                 register_no = response['unlearned_bans'][i]['register_no']
                 ban_name = response['unlearned_bans'][i]['ban_name']
                 semester = response['unlearned_bans'][i]['semester']
