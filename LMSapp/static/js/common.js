@@ -44,7 +44,7 @@ function souldata(){
     }) 
     
 }
-function souldata(){
+function sodata(){
     $.ajax({
         url: '/common/sodata',
         type: 'GET',
