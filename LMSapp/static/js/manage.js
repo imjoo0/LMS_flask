@@ -64,7 +64,7 @@ async function sodata(){
     }) 
     
 }
-    // 문의 관리
+    // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
     let container = $('#so_pagination')
     $.ajax({
@@ -81,8 +81,7 @@ function so_paginating(done_code) {
                 callback: function (data, pagination) {
                     var dataHtml = '';
                     $.each(data, function (index, item) {
-                        if (item.category == 0) { item.category = '일반문의' }
-                        else if (item.category == 1) { item.category = '퇴소 요청' }
+                        if (item.category == 1) { item.category = '퇴소 요청' }
                         else if (item.category == 2) { item.category = '이반 요청' }
                         else { item.category = '취소/환불 요청' }
                         dataHtml += `
