@@ -64,7 +64,26 @@ function get_myban_list(){
         }
     })
 }
-
+function get_ban_student(b_id) {
+    $.ajax({
+        type: "GET",
+        url: "/teacher/get_ban_student/" + b_id,
+        data: {},
+        success: function (response) {
+            let temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option>';
+            for (var i = 0; i < response.length; i++) {
+                target = data_list[i]
+                let id = target['register_no']
+                let name = target['name'];
+                temp_target_student += `<option value="${id}"> ${name} </option>`;
+                $('#student_list').html(temp_target_student)
+            }
+        },
+        error: function (xhr, status, error) {
+            alert('xhr.responseText');
+        }
+    })
+}
 function get_question_list() {
     let container = $('#question_pagination')
     $.ajax({
@@ -246,34 +265,6 @@ async function get_question_detail(q_id, answer, category) {
         }
     });
 }
-
-function get_ban_student(b_id) {
-    $.ajax({
-        type: "GET",
-        url: "/manage/ban/" + b_id,
-        data: {},
-        success: function (response) {
-            // let target_ban = response['target_ban']
-            if (response['status'] == 400) {
-                return
-            }
-            data_list = response['student_info']
-
-            $('#student_list').empty()
-            for (var i = 0; i < data_list.length; i++) {
-                target = data_list[i]
-                let id = target['register_no']
-                let name = target['name'];
-                let temp_target_student = `<option value="${id}"> ${name} </option>`;
-                $('#student_list').append(temp_target_student)
-            }
-        },
-        error: function (xhr, status, error) {
-            alert('xhr.responseText');
-        }
-    })
-}
-
 
 // 상담 수행 관련 함수
 function get_consulting_history() {
@@ -476,10 +467,10 @@ function attach_consulting_history(student_id, is_done) {
         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
         data: {},
         success: function (response) {
-            if (response['consulting_list'] == '없음') {
+            if(response['consulting_list'] == '없음') {
                 let temp_consulting_contents_box = `<option value="none" selected>상담을 우선 진행해주세요</option>`;
                 $('#h_select_box').append(temp_consulting_contents_box)
-            } else {
+            }else{
                 $('#h_select_box').empty();
                 let target = response["consulting_list"]
                 for (i = 0; i < target.length; i++) {
