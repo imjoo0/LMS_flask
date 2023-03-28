@@ -63,11 +63,13 @@ function get_question_list(){
                         else if (item.category == 1) { item.category = '퇴소 문의' }
                         else if (item.category == 2) { item.category = '이반 문의' }
                         else { item.category = '취소/환불 문의' }
+                        if (item.answer == 0) { done_code = '미응답' }
+                        else { done_code = item.answer_created_at+'에 응답' }
                         dataHtml += `
                         <td class="col-2">${item.category}</td>
                         <td class="col-4">${item.title}</td>
-                        <td class="col-3"> ${item.answer} </td>
-                        <td class="col-1" onclick="get_question(${id},${done_code})"> ✅ </td>
+                        <td class="col-3"> ${done_code} </td>
+                        <td class="col-1" onclick="get_question(${item.id},${item.answer})"> ✅ </td>
                         <td class="col-1" onclick="delete_question(${id})"> ❌ </td>
                         <td class="col-1"> ${comments} </td>`;
                     });
