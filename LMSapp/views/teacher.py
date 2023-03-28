@@ -91,6 +91,13 @@ def home():
         # return render_template('teacher.html',unlearned_ttd=unlearned_ttd,unlearned_ttc=unlearned_ttc,unlearned_cp=unlearned_cp,cp=cp,ttc=ttc,ttd=ttd,total_todo=total_todo,total_done=total_done,ttp=ttp,switchstudent_num=switchstudent_num,switchstudent_num_p=switchstudent_num_p,outstudent_num_p=outstudent_num_p,outstudent_num=outstudent_num,total_student_num=total_student_num,user=teacher_info,my_bans=ban_data,students=mystudents_info, questions=my_questions)
         return render_template('teacher.html',user=teacher_info)
 
+@bp.route("/get_myban_list", methods=['GET'])
+def get_myban_list():
+    if request.method =='GET':
+        mybans_info = callapi.purple_info(session['user_id'],'get_mybans')
+        print(mybans_info)
+        return jsonify(mybans_info)
+
 @bp.route('/api/get_teacher_ban', methods=['GET'])
 def get_ban():
     if request.method == 'GET':
