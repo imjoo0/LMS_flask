@@ -6,7 +6,17 @@ var data_list;
 var consultingData = [];
 var taskData = [];
 
-
+function make_semester(semester){
+    if (semester == 1){
+        return 1;
+    }else if(semester == 2){
+        return 5;
+    }else if(semester == 0){
+        return 9;
+    }else{
+        return semester
+    }
+}
 // function sodata(){
 //     $.ajax({
 //         url: '/common/sodata',

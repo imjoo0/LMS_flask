@@ -13,17 +13,7 @@
 $(document).ready(function () {
     task_doneview(0)
 })
-function semester(semester){
-    if (semester == 1){
-        return 1;
-    }else if(semester == 2){
-        return 5;
-    }else if(semester == 0){
-        return 9;
-    }else{
-        return semester
-    }
-}
+
 // 본원 문의 관련 함수 
 //  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
 function change_question_kind(str) {
@@ -63,7 +53,7 @@ function get_myban_list(){
             let temp_ban_option = '<option value="none" selected>기존 반을 선택해주세요</option>';
             for (i = 0; i < response.length; i++) {
                 let name = response[i]['name']
-                let semester = semester(target_ban[i]['semester'])
+                let semester = make_semester(target_ban[i]['semester'])
                 let register_no = response[i]['register_no']
                 temp_ban_option += `
                 <option value="${register_no}">${name}(${semester}월 학기)</option>
