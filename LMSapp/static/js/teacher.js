@@ -87,7 +87,7 @@ function get_ban_student(b_id) {
 function attach_consulting_history(student_id) {
     $.ajax({
         type: "GET",
-        url: "/teacher/consulting/" + student_id + "/" + is_done,
+        url: "/teacher/attach_consulting_history/" + student_id,
         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
         data: {},
         success: function (response) {

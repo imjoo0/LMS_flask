@@ -113,7 +113,7 @@ def attach_consulting_history(s_id):
         try:
             with db.cursor() as cur:
                 # cur.execute(f"select id, ban_id, category_id, student_id, contents, date_format(startdate, '%Y-%m-%d') as startdate, date_format(deadline, '%Y-%m-%d') as deadline, week_code, done, missed from consulting where ban_id = {ban['register_no']};")
-                cur.execute("SELECT consulting.id, consultingcategory.name as category, consulting.contents, consulting.result from consulting left join consultingcategory on consultingcategory.id = consulting.category_id where consulting.done=1 and consulting.created_at != null and consulting.student_id=%s;",(s_id))
+                cur.execute("SELECT consulting.id as id, consultingcategory.name as category, consulting.contents, consulting.result from consulting left join consultingcategory on consultingcategory.id = consulting.category_id where consulting.done=1 and consulting.created_at != null and consulting.student_id=%s;",(s_id))
                 consulting_history = cur.fetchall().copy()
         except:
             print('err')
