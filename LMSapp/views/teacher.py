@@ -108,17 +108,19 @@ def get_ban_student(b_id):
 @bp.route("/attach_consulting_history/<int:s_id>", methods=['GET'])
 def attach_consulting_history(s_id):
     if request.method =='GET':
-        consulting_history = []
+        consulting_history = {}
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                # cur.execute(f"select id, ban_id, category_id, student_id, contents, date_format(startdate, '%Y-%m-%d') as startdate, date_format(deadline, '%Y-%m-%d') as deadline, week_code, done, missed from consulting where ban_id = {ban['register_no']};")
                 cur.execute("SELECT consulting.id as id, consultingcategory.name as category, consulting.contents, consulting.result from consulting left join consultingcategory on consultingcategory.id = consulting.category_id where consulting.done=1 and consulting.created_at != null and consulting.student_id=%s;",(s_id))
-                consulting_history = cur.fetchall().copy()
+                consulting_history['status'] = 200
+                consulting_history['data'] = cur.fetchall()
         except:
             print('err')
         finally:
             db.close()
+        if(len(consulting_history['data']) == 0):
+            consulting_history['staus'] = 400
         print(consulting_history)
         return json.dumps(consulting_history)
 

@@ -91,12 +91,12 @@ function attach_consulting_history(student_id) {
         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
         data: {},
         success: function (response) {
-            if(response.length == 0) {
-                let temp_consulting_contents_box = `<option value="none" selected>상담을 우선 진행해주세요</option>`;
-                $('#h_select_box').html(temp_consulting_contents_box)
+            console.log(response)
+            if(response['status'] == 400) {
+                alert('상담을 우선 진행해주세요');
             }else{
                 let temp_consulting_contents_box = '<option value="none" selected>상담을 선택해주세요</option>'
-                for (i = 0; i < response.length; i++) {
+                for (i = 0; i < response['data'].length; i++) {
                     let cid = response[i]['id']
                     let category = response[i]['category']
                     let contents = response[i]['contents']
