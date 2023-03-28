@@ -32,6 +32,32 @@ function go_back(){
     $('#make_plus_consulting').hide();
     $('#banstudentlistModalLabel').html('원생목록')
 }
+function get_question(){
+    $.ajax({
+        type: "GET",
+        url: "/manage/question",
+        data: {},
+        success: function (response) {
+            // let target_ban = response['target_ban']
+            if (response['status'] == 400){
+                return
+            }
+            data_list = response['student_info']
+
+            $('#student_list').empty()
+            for (var i = 0; i < data_list.length; i++) {
+                target = data_list[i]
+                let id = target['register_no']
+                let name = target['name'];
+                let temp_target_student = `<option value="${id}"> ${name} </option>`;
+                $('#student_list').append(temp_target_student)
+            } 
+        },
+        error:function(xhr, status, error){
+                alert('xhr.responseText');
+            }
+    })
+}
 function get_ban_student(b_id){
     $.ajax({
         type: "GET",
@@ -66,6 +92,7 @@ function get_consulting_history(){
     let ban_id = $('#history_ban option:selected').val()
     done_consulting_history_view(ban_id,is_done)
 }
+
 function done_consulting_history_view(ban_id,is_done){
     $.ajax({
         type: "GET",

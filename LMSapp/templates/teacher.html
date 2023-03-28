@@ -378,7 +378,7 @@
                         </div>
                         <span class="question-label">본원 문의</span>
                     </div>
-                    <div class="question-btn-container">
+                    <div class="question-btn-container" onclick="get_question()">
                         <div class="question-btn answer-a-question" data-bs-toggle="modal"
                             data-bs-target="#question_list">
                             <img src="https://purpleacademy.net/free_project/public/image/answer-a-question.png">
@@ -601,21 +601,19 @@
                     </div>
                     <div class="w-100 mt-4" id="consulting_student_list">
                         <table class="table text-center" style="width:100%;">
-                            <tbody>
-                                <thead>
-                                    <tr class="row">
-                                        <th class="col-3">반</th>
-                                        <th class="col-2">이름</th>
-                                        <th class="col-3">연락처</th>
-                                        <th class="col-1">상담 수</th>
-                                        <th class="col-2">상담 마감일</th>
-                                        <th class="col-1">✅</th>
-                                    </tr>
-                                </thead>
-                                <tr class="row"  id="today_consulting_box">
-
+                            <thead>
+                                <tr class="row">
+                                    <th class="col-3">반</th>
+                                    <th class="col-2">이름</th>
+                                    <th class="col-3">연락처</th>
+                                    <th class="col-1">상담 수</th>
+                                    <th class="col-2">상담 마감일</th>
+                                    <th class="col-1">✅</th>
                                 </tr>
-                            </tbody>
+                            </thead>
+                            <tr class="row"  id="today_consulting_box">
+
+                            </tr>
                         </table>
                     </div>
                 </div>

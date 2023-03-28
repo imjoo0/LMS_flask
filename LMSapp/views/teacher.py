@@ -304,10 +304,18 @@ def plus_consulting(student_id,b_id):
         db.session.commit()
         return{'result':'상담일지 저장 완료'}
 
-# 선생님 문의 저장 
-@bp.route('/question', methods=['POST'])
+# 선생님 문의 관련 
+@bp.route('/question', methods=['GET','POST'])
 def request_question():
-    if request.method == 'POST':
+    if request.method == 'GET':
+        my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
+        for q in my_questions:
+            print(q.qa)
+            print(q)
+            print(q.qcomments)
+            print(q.attachments)
+
+    elif request.method == 'POST':
         question_category = request.form['question_category']
         title = request.form['question_title']
         contents = request.form['question_contents']
