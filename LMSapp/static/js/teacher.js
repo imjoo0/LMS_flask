@@ -13,7 +13,17 @@
 $(document).ready(function () {
     task_doneview(0)
 })
-
+function semester(semester){
+    if (semester == 1){
+        return 1;
+    }else if(semester == 2){
+        return 5;
+    }else if(semester == 0){
+        return 9;
+    }else{
+        return semester
+    }
+}
 // 본원 문의 관련 함수 
 //  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
 function change_question_kind(str) {
