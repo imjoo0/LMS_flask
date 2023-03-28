@@ -59,7 +59,7 @@ function get_question_list(){
                 if(done_code == 0){
                     answer = '미응답'
                 }else{
-                    answer = `${create_date}날 답변`
+                    answer = `${response['questions'][i]['answer_created_at']}날 답변`
                 }
                 var comments = response['questions'][i]['comments']
                 
