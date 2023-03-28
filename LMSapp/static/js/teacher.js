@@ -108,6 +108,7 @@ function done_consulting_history_view(ban_id,is_done){
 }
 function get_consulting_student(is_done){
     $('#consulting_msg').html('오늘의 상담');
+    $('#today_consulting_box').show()
     $.ajax({
         type: "GET",
         url: "/teacher/mystudents/"+is_done,
@@ -153,7 +154,6 @@ function get_consulting_student(is_done){
                 </tr>
                 `;
                 $('#today_consulting_box').html(temp_consulting_contents_box);
-
             }
 
             // if(response["consulting_student_list"] == '없음'){
