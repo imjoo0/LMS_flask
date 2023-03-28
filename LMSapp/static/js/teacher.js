@@ -107,7 +107,6 @@ function done_consulting_history_view(ban_id,is_done){
 
 }
 function get_consulting_student(is_done){
-    $('#consulting_msg').html('오늘의 상담');
     $('#today_consulting_box').show()
     $.ajax({
         type: "GET",
@@ -135,56 +134,33 @@ function get_consulting_student(is_done){
                 }
                 return acc;
             },[]);
-            let temp_consulting_contents_box =''
-            for(i=0;i<result.length;i++){
-                var ban_name = result[i]['ban_name']
-                var student_name = result[i]['student_name']
-                var deadline = result[i]['deadline']
-                var mobileno = result[i]['student_mobileno']
-                var student_id = result[i]['student_id']
-                var consulting_num = result[i]['consulting_num']
-                temp_consulting_contents_box += `
-                <tr class="row">
-                <td class="col-3">${ban_name}</td>
-                <td class="col-2">${student_name}</td>
-                <td class="col-3">${mobileno}</td>
-                <td class="col-1">${consulting_num}</td>
-                <td class="col-2">${deadline}</td>
-                <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">상담 실행</td> 
-                </tr>
-                `;
-                $('#today_consulting_box').html(temp_consulting_contents_box);
-            }
 
-            // if(response["consulting_student_list"] == '없음'){
-            //     $('#consulting_student_list').hide();
-            //     let temp_consulting_contents_box = `
-            //     <p> 오늘의 상담 업무를 완료했습니다 🎉</p>
-            //     `;
-            //     $('#consulting_msg').html(temp_consulting_contents_box);
-            // }else{
-            //     $('#consulting_msg').empty();
-            //     $('#consulting_student_list').show();
-            //     $('#today_consulting_box').empty()
-            //     for(i=0;i<response["consulting_student_list"].length;i++){
-            //         let target = response["consulting_student_list"][i]
-            //         let student_name = target['name']
-            //         let student_id = target['s_id']
-            //         let mobileno = target['mobileno']
-            //         let student_reco_book_code = target['reco_book_code']
-            //         let consulting_num = target['consulting_num']
-            //         let temp_consulting_contents_box = `
-            //         <tr class="row">
-            //         <td class="col-3">${student_name}</td>
-            //         <td class="col-3">${mobileno}</td>
-            //         <td class="col-2">${student_reco_book_code}</td>
-            //         <td class="col-2">${consulting_num}</td>
-            //         <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">상담 실행</td> 
-            //         </tr>
-            //         `;
-            //         $('#today_consulting_box').append(temp_consulting_contents_box);
-            //     }
-            // }
+            if(result.length > 0){
+                $('#consulting_msg').html('오늘의 상담');
+                let temp_consulting_contents_box =''
+                for(i=0;i<result.length;i++){
+                    var ban_name = result[i]['ban_name']
+                    var student_name = result[i]['student_name']
+                    var deadline = result[i]['deadline']
+                    var mobileno = result[i]['student_mobileno']
+                    var student_id = result[i]['student_id']
+                    var consulting_num = result[i]['consulting_num']
+                    temp_consulting_contents_box += `
+                    <tr class="row">
+                    <td class="col-3">${ban_name}</td>
+                    <td class="col-2">${student_name}</td>
+                    <td class="col-3">${mobileno}</td>
+                    <td class="col-1">${consulting_num}</td>
+                    <td class="col-2">${deadline}</td>
+                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">상담 실행</td> 
+                    </tr>
+                    `;
+                    $('#today_consulting_box').html(temp_consulting_contents_box);
+                }
+                console.log(result[i])
+            }else{
+                $('#consulting_msg').html('오늘의 상담이 없습니다.');
+            }
         }
     });
 }
