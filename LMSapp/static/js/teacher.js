@@ -122,6 +122,7 @@ function get_consulting_student(ban_regi,is_done){
                     const obj2 = response['all_consulting']['data'].find( (obj2) => obj2.student_id === obj1.register_no);
                     return Object.assign({},obj1,obj2);
                 });
+                console.log(result)
                 
                 for(i=0;i<result.length;i++){
                     var ban_name = result[i]['ban_name']
