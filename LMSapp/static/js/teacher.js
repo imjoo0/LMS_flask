@@ -90,8 +90,8 @@ function attach_consulting_history(student_id) {
         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
         data: {},
         success: function (response) {
-            console.log(response)
-            if(response.length == 0) {
+            console.log(response['consulting_history'])
+            if(response['consulting_history'].length == 0) {
                 console.log('hi')
                 alert('상담을 우선 진행해주세요');
             }else{

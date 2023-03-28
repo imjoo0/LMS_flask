@@ -118,7 +118,7 @@ def attach_consulting_history(s_id):
         finally:
             db.close()
         print(consulting_history)
-        return json.dumps(consulting_history)
+        return jsonify({'consulting_history':consulting_history})
 
 @bp.route('/api/get_teacher_ban', methods=['GET'])
 def get_ban():
