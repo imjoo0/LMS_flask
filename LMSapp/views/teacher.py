@@ -101,7 +101,7 @@ def get_myban_list():
 @bp.route("/get_ban_student/<int:b_id>", methods=['GET'])
 def get_ban_student(b_id):
     if request.method =='GET':
-        students = callapi.purple_info(b_id,'get_students')
+        students = callapi.purple_info(b_id,'get_student_simple')
         return jsonify(students)
 
 @bp.route('/api/get_teacher_ban', methods=['GET'])
