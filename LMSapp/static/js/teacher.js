@@ -91,20 +91,20 @@ function attach_consulting_history(student_id) {
         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
         data: {},
         success: function (response) {
-            if(response['consulting_list'] == '없음') {
+            if(response.length == 0) {
                 let temp_consulting_contents_box = `<option value="none" selected>상담을 우선 진행해주세요</option>`;
-                $('#h_select_box').append(temp_consulting_contents_box)
+                $('#h_select_box').html(temp_consulting_contents_box)
             }else{
-                $('#h_select_box').empty();
-                let target = response["consulting_list"]
-                for (i = 0; i < target.length; i++) {
-                    let h_id = target[i]['history_id']
-                    let consulting = target[i]['contents']
-                    let history_result = target[i]['history_result']
-                    let temp_consulting_contents_box = `
-                     <option value=${h_id}>${consulting} - 상담결과: ${history_result}</option>
+                let temp_consulting_contents_box = '<option value="none" selected>상담을 선택해주세요</option>'
+                for (i = 0; i < response.length; i++) {
+                    let cid = response[i]['id']
+                    let category = response[i]['category']
+                    let contents = response[i]['contents']
+                    let result = response[i]['result']
+                    temp_consulting_contents_box += `
+                     <option value=${cid}>${category|contents} - 상담결과: ${result}</option>
                     `;
-                    $('#h_select_box').append(temp_consulting_contents_box)
+                    $('#h_select_box').html(temp_consulting_contents_box)
                 }
             }
         }
