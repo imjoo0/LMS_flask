@@ -119,12 +119,7 @@ function get_consulting_student(ban_regi,is_done){
                 
                 const result = response['my_students'].reduce((acc, student) => {
                     const consultingList = response['all_consulting']['data'].filter(consulting => consulting.student_id === student.register_no);
-                    const deadline = consultingList.reduce((prev, current) => {
-                        const prevDueDate = prev.deadline instanceof Date ? prev.deadline.getTime() : 0;
-                        const currentDueDate = current.deadline instanceof Date ? current.deadline.getTime() : 0;
-                      
-                        return currentDueDate < prevDueDate ? current : prev;
-                    }, {});
+                    
                     if(consultingList.length>0){
                         acc.push({
                             'student_id': student.register_no,
@@ -132,8 +127,12 @@ function get_consulting_student(ban_regi,is_done){
                             'student_mobileno': student.mobileno,
                             'ban_name': student.classname,
                             'consulting_num': consultingList.length,
-                            'consulting_deadline': consultingList.deadline,
-                            'consultings': consultingList
+                            'consultings': consultingList,
+                            'deadline' : consultingList.reduce((prev, current) => {
+                                const prevDueDate = prev.deadline instanceof Date ? prev.deadline.getTime() : 0;
+                                const currentDueDate = current.deadline instanceof Date ? current.deadline.getTime() : 0;
+                                return currentDueDate < prevDueDate ? current : prev;
+                            }, {})
                         });
                     }
                     return acc;
