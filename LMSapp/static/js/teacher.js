@@ -119,7 +119,7 @@ function get_consulting_student(ban_regi,is_done){
                 const result = response['my_students'].filter((obj1) =>
                     response['all_consulting']['data'].some((obj2) => obj2.student_id === obj1.register_no)
                 ).map((obj1)=>{
-                    const obj2 = response['all_consulting']['data'].fild( (obj2) => obj2.student_id === obj1.register_no);
+                    const obj2 = response['all_consulting']['data'].find( (obj2) => obj2.student_id === obj1.register_no);
                     return Object.assign({},obj1,obj2);
                 });
                 
