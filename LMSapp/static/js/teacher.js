@@ -92,17 +92,17 @@ function attach_consulting_history(student_id) {
         data: {},
         success: function (response) {
             console.log(response)
-            if(response['status'] == 400) {
+            if(response.length == 0) {
                 alert('상담을 우선 진행해주세요');
             }else{
                 let temp_consulting_contents_box = '<option value="none" selected>상담을 선택해주세요</option>'
-                for (i = 0; i < response['data'].length; i++) {
+                for (i = 0; i < response.length; i++) {
                     let cid = response[i]['id']
                     let category = response[i]['category']
                     let contents = response[i]['contents']
                     let result = response[i]['result']
                     temp_consulting_contents_box += `
-                     <option value=${cid}>${category|contents} - 상담결과: ${result}</option>
+                     <option value=${cid}>${category}|${contents} - 상담결과: ${result}</option>
                     `;
                     $('#h_select_box').html(temp_consulting_contents_box)
                 }
