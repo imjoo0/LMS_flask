@@ -96,7 +96,6 @@ def home():
 def get_myban_list():
     if request.method =='GET':
         mybans_info = callapi.purple_info(session['user_id'],'get_mybans')
-        print(mybans_info)
         return jsonify(mybans_info)
     
 @bp.route("/get_ban_student/<int:b_id>", methods=['GET'])

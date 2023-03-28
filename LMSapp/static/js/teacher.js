@@ -92,6 +92,7 @@ function attach_consulting_history(student_id) {
         success: function (response) {
             console.log(response)
             if(response.length == 0) {
+                console.log('hi')
                 alert('상담을 우선 진행해주세요');
             }else{
                 let temp_consulting_contents_box = '<option value="none" selected>상담을 선택해주세요</option>'
