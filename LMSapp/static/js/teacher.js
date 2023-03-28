@@ -118,6 +118,12 @@ function get_consulting_student(ban_regi,is_done){
             success: function (response) {
                 console.log(response['all_consulting']['data'])
                 console.log(response['my_students'])
+                var consultings = response['all_consulting']['data']
+                const result = response['my_students'].filter((obj1) =>
+                response['all_consulting']['data'].some((obj2) => obj2.student_id === obj1.register_no)
+                );
+                console.log(result)
+
                 // if(response["consulting_student_list"] == '없음'){
                 //     $('#consulting_student_list').hide();
                 //     let temp_consulting_contents_box = `
