@@ -500,55 +500,45 @@
 <div class="container_box">
     <div id="user-info" class="border-bottom">
         <div class="d-flex justify-content-center flex-xl-row row-cols-xl-2 flex-column-reverse">
-            <div class="p-lg-5 p-1 pb-4">
-                <div class="d-flex justify-content-between flex-row row-cols-sm-2 row-cols-1 mb-4">
-                    <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
-                    <div class="manage-work-btn-container">
-                        <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#request_consulting" onclick="request_consulting()">
-                            <div class="manage-work-img">
-                                <img src="../static/style/images/user.png">
-                            </div>
-                            <div class="manage-work-label-wrapper">
-                                <span class="manage-work-label col-7">신규 상담 요청</span>
-                            </div>
-                        </div>
+            <!-- 왼쪽 버튼 4개 -->
+            <div class="d-flex justify-content-center flex-row flex-wrap pb-xl-5 pe-xl-3 pb-5">
+                <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
+                <div class="manage-work-btn" style="margin: 0 2% 2% 0;" data-bs-toggle="modal" data-bs-target="#request_consulting" onclick="request_consulting()">
+                    <div class="manage-work-img">
+                        <img src="../static/style/images/user.png">
                     </div>
-                    <div class="manage-work-btn-container">
-                        <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#my_consulting_request" onclick="get_consulting()">
-                            <div class="manage-work-img">
-                                <img src="../static/style/images/conversation.png">
-                            </div>
-                            <div class="manage-work-label-wrapper">
-                                <span class="manage-work-label">요청한 상담 관리</span>
-                            </div>
-                        </div>
+                    <div class="manage-work-label-wrapper">
+                        <span class="manage-work-label col-7">신규 상담 요청</span>
                     </div>
                 </div>
-                <div class="d-flex justify-content-between flex-row row-cols-2">
-                    <div class="manage-work-btn-container">
-                        <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#request_task" onclick="request_task()">
-                            <div class="manage-work-img">
-                                <img src="../static/style/images/note.png">
-                            </div>
-                            <div class="manage-work-label-wrapper">
-                                <span class="manage-work-label">신규 업무 요청</span>
-                            </div>
-                        </div>
+                <div class="manage-work-btn" style="margin: 0 0 2% 0;" data-bs-toggle="modal" data-bs-target="#my_consulting_request" onclick="get_consulting()">
+                    <div class="manage-work-img">
+                        <img src="../static/style/images/conversation.png">
                     </div>
-                    <div class="manage-work-btn-container">
-                        <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#my_task_request"
-                            onclick="get_task()">
-                            <div class="manage-work-img">
-                                <img src="../static/style/images/order.png">
-                            </div>
-                            <div class="manage-work-label-wrapper">
-                                <span class="manage-work-label">요청한 업무 관리</span>
-                            </div>
-                        </div>
+                    <div class="manage-work-label-wrapper">
+                        <span class="manage-work-label">요청한 상담 관리</span>
+                    </div>
+                </div>
+                <div class="manage-work-btn" style="margin: 0 2% 0 0;" data-bs-toggle="modal" data-bs-target="#request_task" onclick="request_task()">
+                    <div class="manage-work-img">
+                        <img src="../static/style/images/note.png">
+                    </div>
+                    <div class="manage-work-label-wrapper">
+                        <span class="manage-work-label">신규 업무 요청</span>
+                    </div>
+                </div>
+                <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#my_task_request" onclick="get_task()">
+                    <div class="manage-work-img">
+                        <img src="../static/style/images/order.png">
+                    </div>
+                    <div class="manage-work-label-wrapper">
+                        <span class="manage-work-label">요청한 업무 관리</span>
                     </div>
                 </div>
             </div>
-            <div class="d-flex justify-content-start align-items-center p-lg-5 py-3">
+
+            <!-- 오른쪽 계정 정보 -->
+            <div class="d-flex justify-content-start align-items-center pb-xl-5 ps-xl-3 pb-3">
                 <div class="user-detail">
                     <div class="manage-user-detail-deco"></div>
                     <div class="user-name">
@@ -578,31 +568,33 @@
                 </div>
             </div>
         </div>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #f1f1f1;">
-            <div class="container-fluid">
-              <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page">전체 반 조회</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" onclick="uldata()">학습 관리</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" onclick="sodata()">이반 퇴소 관리</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" onclick="paginating(0)">문의 관리</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-        </nav>
     </div>
 
+    <div class="mb-5" style="border-bottom: 2px solid #2b2b2b11;"></div>
+
+    <nav class="navbar navbar-expand" style="background-color: #f1f1f1;">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page">전체 반 조회</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="uldata()">학습 관리</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="sodata()">이반 퇴소 관리</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="paginating(0)">문의 관리</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <div id="ban-statistics" class="p-lg-5 px-1 py-4" style="background-color: #5a5a5a;">
-        <!-- 퇴소 이반 현황 -->
+        <!-- 이반 퇴소 관리 -->
         <div id="sobox" style="display: none;">
             <div class="info-container">
                 <div class="info-title">
@@ -664,7 +656,7 @@
             </div>
         
         </div>
-        <!-- 미학습 발생 현황 -->
+        <!-- 학습 관리 -->
         <div class="info-container" id="ulbox" style="display: none;">
             <div class="info-title">
                 <span>미학습 발생 TOP5</span>
@@ -693,7 +685,7 @@
                 </div>
             </div>
         </div>
-        <!-- 문의 조회 -->
+        <!-- 문의 관리 -->
         <div class="info-container" id="qubox" style="display: none;">
             <div class="info-title">
                 <span class="make_row">
