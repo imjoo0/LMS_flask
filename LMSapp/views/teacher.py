@@ -323,8 +323,8 @@ def question():
             qdata['answer_contents'] = q.qa.content
             qdata['answer_reject'] = q.qa.reject_code
             qdata['answer_created_at'] = q.qa.created_at
-            qdata['comment'] = len(q.qcomments)
             qdata['attachements'] = q.attachments
+            print(q.qcomments)
             data.append(qdata)
         return jsonify({'questions':data})
 
