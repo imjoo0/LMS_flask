@@ -320,7 +320,7 @@ def question():
             if(q.answer != 0):
                 qdata['answer_created_at'] = q.qa.created_at.strftime('%Y-%m-%d')
             data.append(qdata)
-        return jsonify({'questions':data})
+        return json.dumps(data)
 
     elif request.method == 'POST':
         question_category = request.form['question_category']

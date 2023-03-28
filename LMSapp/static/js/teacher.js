@@ -49,9 +49,9 @@ function get_question_list(){
         type: "GET",
         url: "/teacher/question",
         data: {},
-        success: function(response){
+        success: function(data){
             container.pagination({
-                dataSource:JSON.parse(response['questions']),
+                dataSource:JSON.parse(data),
                 prevText: '이전',
                 nextText: '다음',
                 pageClassName: 'float-end',
