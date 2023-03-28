@@ -320,7 +320,7 @@ def question():
             qdata['create_date'] = q.create_date
             qdata['answer'] = q.answer
             qdata['answer_title'] = q.qa.title
-            qdata['answer_contents'] = q.qa.contents
+            qdata['answer_contents'] = q.qa.content
             qdata['answer_reject'] = q.qa.reject_code
             qdata['answer_created_at'] = q.qa.created_at
             qdata['comment'] = len(q.qcomments)
