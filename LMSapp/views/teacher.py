@@ -432,6 +432,7 @@ def get_question_detail(id,answer,category):
             return_data['answer_title'] = q.qa.title
             return_data['answer_content'] = q.qa.content
             return_data['answer_created_at'] = q.qa.created_at.strftime('%Y-%m-%d')
+            return_data['answer_reject_code'] = q.qa.reject_code
 
         if  q.attachments is None:
             return_data['attach'] = "없음"
@@ -448,7 +449,6 @@ def get_question_detail(id,answer,category):
             return_data['student'] = ''
             return_data['ban'] = ''
         else:
-            return_data['answer_reject_code'] = q.qa.reject_code
             s = callapi.purple_info(q.student_id,'get_student_info')
             b = callapi.purple_ban(q.ban_id,'get_ban' )    
             return_data['student'] = s['name']
