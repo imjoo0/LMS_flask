@@ -107,7 +107,6 @@ function done_consulting_history_view(ban_id,is_done){
 
 }
 function get_consulting_student(is_done){
-    $('#today_consulting_box').show()
     $.ajax({
         type: "GET",
         url: "/teacher/mystudents/"+is_done,
