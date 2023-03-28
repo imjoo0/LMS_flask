@@ -64,9 +64,10 @@ function get_question_list(){
                 var comments = response['questions'][i]['comments']
                 
                 temp_html += `
-                <td class="col-3">${category}</td>
+                <td class="col-2">${category}</td>
                 <td class="col-4">${title}</td>
-                <td class="col-3" onclick="get_question(${id},${done_code})"> ${answer} </td>
+                <td class="col-3"> ${answer} </td>
+                <td class="col-1" onclick="get_question(${id},${done_code})"> ✅ </td>
                 <td class="col-1" onclick="delete_question(${id})"> ❌ </td>
                 <td class="col-1"> ${comments} </td>
                 `;
