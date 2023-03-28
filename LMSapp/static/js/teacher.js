@@ -53,10 +53,10 @@ function get_myban_list(){
             let temp_ban_option = '<option value="none" selected>기존 반을 선택해주세요</option>';
             for (i = 0; i < response.length; i++) {
                 let name = response[i]['name']
-                let semester = make_semester(target_ban[i]['semester'])
+                // let semester = make_semester(target_ban[i]['semester'])
                 let register_no = response[i]['register_no']
                 temp_ban_option += `
-                <option value="${register_no}">${name}(${semester}월 학기)</option>
+                <option value="${register_no}">${name}</option>
                 `;
             }
             console.log(temp_ban_option)
