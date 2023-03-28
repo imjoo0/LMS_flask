@@ -116,12 +116,13 @@ function get_consulting_student(ban_regi,is_done){
             url: "/teacher/mystudents/"+ban_regi+"/"+is_done,
             data: {},
             success: function (response) {
-                console.log(response['all_consulting']['data'])
-                console.log(response['my_students'])
-                var consultings = response['all_consulting']['data']
                 const result = response['my_students'].filter((obj1) =>
-                response['all_consulting']['data'].some((obj2) => obj2.student_id === obj1.register_no)
-                );
+                    response['all_consulting']['data'].some((obj2) => obj2.student_id === obj1.register_no)
+                ).map((obj1)=>{
+                    const obj2 = response['all_consulting']['data'].fild( (obj2) => obj2.student_id === obj1.register_no);
+                    return Object.assign({},obj1,obj2);
+                });
+                
                 console.log(result)
 
                 // if(response["consulting_student_list"] == '없음'){
