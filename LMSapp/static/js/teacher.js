@@ -134,7 +134,7 @@ function get_consulting_student(is_done){
                 }
                 return acc;
             },[]);
-
+            console.log(result)
             if(result.length > 0){
                 $('#consulting_msg').html('오늘의 상담');
                 let temp_consulting_contents_box =''
