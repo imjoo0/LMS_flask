@@ -363,7 +363,7 @@ def question_detail(id):
         else:
             return_data['attach'] = q.attachments.file_name
         if q.answer == 0:
-            return_data['answer'] = '없음'
+            return_data['answer'] = '미응답'
         if q.category == 0:
             return_data['history'] = '없음'
         else:
@@ -390,7 +390,7 @@ def question_detail(id):
             comment_data['c_created_at'] = comment.created_at.strftime('%Y-%m-%d')
             comment_data['parent_id'] = comment.parent_id
             if(q.teacher_id == comment.user_id):
-                comment_data['writer'] = return_data['teacher']
+                comment_data['writer'] = '나'
             else:
                 comment_data['writer'] = '퍼플'
             return_data['comment'].append(comment_data)
