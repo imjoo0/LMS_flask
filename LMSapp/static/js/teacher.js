@@ -81,6 +81,7 @@ function get_question_list() {
 async function get_question_detail(q_id, answer, category) {
     $('#questionlist').hide()
     $('#questiondetail').show()
+    category_name = q_category(category)
     temp_comment = `     
     <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents"
     placeholder="댓글을 남겨주세요">
@@ -126,7 +127,7 @@ async function get_question_detail(q_id, answer, category) {
                     temp_question_list = `
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">문의 종류</span>
-                            <p>${category}</p>
+                            <p>${category_name}</p>
                         </div>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">제목</span>
@@ -215,7 +216,7 @@ async function get_question_detail(q_id, answer, category) {
                     temp_question_list = `
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">문의 종류</span>
-                            <p>${category}</p>
+                            <p>${category_name}</p>
                         </div>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">제목</span>
@@ -242,30 +243,7 @@ async function get_question_detail(q_id, answer, category) {
                             <a href="/common/downloadfile/question/${q_id}" download="${attach}">${attach}</a>
                         </div>
                     `;
-                    let history = response['history']
-                    let reason = response['history_reason']
-                    let solution = response['history_solution']
-                    let result = response['history_result']
-                    let created_at = response['history_created_at']
-                    let temp_his = `
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">상담 사유</span>
-                        <p>${reason}</p>
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">제공한 가이드</span>
-                        <p>${solution}</p>
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">상담 결과</span>
-                        <p>${result}</p>
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">상담 일시</span>
-                        <p>${created_at}</p>
-                    </div>
-                    `;
-                    $('#cha').html(temp_his);
+            
 
                     $('#comments').empty()
                     if (comments.length != 0) {
@@ -298,6 +276,57 @@ async function get_question_detail(q_id, answer, category) {
 
                         }
                     }
+                    let reason = response['history_reason']
+                    let solution = response['history_solution']
+                    let result = response['history_result']
+                    let created_at = response['history_created_at']
+                    let temp_his = `
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">상담 사유</span>
+                        <p>${reason}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">제공한 가이드</span>
+                        <p>${solution}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">상담 결과</span>
+                        <p>${result}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">상담 일시</span>
+                        <p>${created_at}</p>
+                    </div>
+                    `;
+                    $('#cha').html(temp_his);
+                    
+                    // if (done_code == 0) {
+                    //     $('#manage_answer_1').show()
+                    //     $('#comment_box').hide()
+                    //     if (code == 1) {
+                    //         $('#manage_answer_2').hide()
+                    //         $('#manage_answer_3').hide()
+                    //     } else if (code == 2) {
+                    //         $('#manage_answer_2').show()
+                    //         $('#manage_answer_3').hide()
+                    //     } else {
+                    //         $('#manage_answer_3').show()
+                    //         $('#manage_answer_2').hide()
+                    //     }
+                    //     let temp_button_box = `
+                    // <button class="btn btn-dark" type="submit" onclick="post_answer(${q_id},${code})">저장</button>
+                    // <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
+                    // `
+                    //     $('#button_box').html(temp_button_box);
+                    // } else if (done_code == 1) {
+                    //     $('#manage_answer_1').hide()
+                    //     $('#manage_answer_2').hide()
+                    //     $('#manage_answer_3').hide()
+                    //     $('#comment_box').show()
+                    // } else {
+                    //     $('#questionlist').hide()
+                    //     $('#questiondetail').show()
+                    // }
                 }
 
             });
@@ -307,8 +336,6 @@ async function get_question_detail(q_id, answer, category) {
     }
     $('#teacher_answer').html(temp_answer_list);
     $('#teacher_question').html(temp_question_list);
-
-
 }
 function get_ban_student(b_id) {
     $.ajax({

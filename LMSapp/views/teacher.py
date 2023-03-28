@@ -418,8 +418,6 @@ def nomal_question_detail(id):
 def special_question_detail(id):
     if request.method == 'GET':
         q = Question.query.filter(Question.id == id).first()
-        s = callapi.purple_info(q.student_id,'get_student_info')
-        b = callapi.purple_ban(q.ban_id,'get_ban' )    
         return_data = {}
         return_data['title'] = q.title
         return_data['contents'] = q.contents
@@ -438,6 +436,9 @@ def special_question_detail(id):
         return_data['history_solution'] = q.qconsulting.solution
         return_data['history_result'] = q.qconsulting.result
         return_data['history_created_at'] = q.qconsulting.created_at.strftime('%Y-%m-%d')
+        
+        s = callapi.purple_info(q.student_id,'get_student_info')
+        b = callapi.purple_ban(q.ban_id,'get_ban' )    
         return_data['student'] = s['name']
         return_data['ban'] = b['ban_name']
         return_data['comment'] = []
