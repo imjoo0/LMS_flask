@@ -137,7 +137,6 @@ function get_consulting_student(is_done){
                 $('#consulting_title').html('오늘의 상담');
                 let temp_consulting_contents_box =''
                 for(i=0;i<result.length;i++){
-                    console.log(result[i])
                     var ban_name = result[i]['ban_name']
                     var student_id = result[i]['student_id']
                     var student_name = result[i]['student_name']
@@ -145,14 +144,12 @@ function get_consulting_student(is_done){
                     var consulting_num = result[i]['consulting_num']
                     var deadline = result[i]['deadline']
                     temp_consulting_contents_box += `
-                    <tr class="row">
                     <td class="col-3">${ban_name}</td>
                     <td class="col-2">${student_name}</td>
                     <td class="col-3">${mobileno}</td>
                     <td class="col-1">${consulting_num}</td>
                     <td class="col-2">${deadline}</td>
                     <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">상담 실행</td> 
-                    </tr>
                     `;
                     $('#today_consulting_box').html(temp_consulting_contents_box);
                 }
