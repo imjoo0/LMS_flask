@@ -15,6 +15,7 @@ bp = Blueprint('manage', __name__, url_prefix='/manage')
 def home():
     if request.method == 'GET':
         user = callapi.purple_info(session['user_id'],'get_teacher_info')
+        
         # all_ban = callapi.purple_allban('get_all_ban')
         
         # all_consulting = Consulting.query.all()
@@ -82,7 +83,7 @@ def get_ban(id):
 
 # 이반 퇴소 
 @bp.route("/so", methods=['GET'])
-def get_ban():
+def get_soban():
     if request.method == 'GET':
         target_ban = callapi.purple_allinfo('/get_all_ban')
         if target_ban:
