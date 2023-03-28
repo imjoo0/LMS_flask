@@ -349,39 +349,36 @@ def question():
         common.save_attachment(file,new_question.id)
         return redirect('/')
 
-@bp.route('/question_detail/<int:id>', methods=['GET','POST'])
-def question_detail(id):
+@bp.route('/nomal_question_detail/<int:id>', methods=['GET'])
+def nomal_question_detail(id):
     if request.method == 'GET':
         q = Question.query.filter(Question.id == id).first()
         return_data = {}
         return_data['title'] = q.title
         return_data['contents'] = q.contents
         return_data['create_date'] = q.create_date.strftime('%Y-%m-%d')
-        return_data['category']=q.category
+        return_data['answer_title'] = q.qa.title
+        return_data['answer_content'] = q.qa.content
+        return_data['answer_reject_code'] = q.qa.reject_code
+        return_data['answer_created_at'] = q.qa.created_at.strftime('%Y-%m-%d')
+
         if  q.attachments is None:
             return_data['attach'] = "없음"
         else:
             return_data['attach'] = q.attachments.file_name
-        if q.answer == 0:
-            return_data['answer'] = '미응답'
-        if q.category == 0:
-            return_data['history'] = '없음'
-        else:
-            return_data['history'] = q.qconsulting.id
-            return_data['history_reason'] = q.qconsulting.reason
-            return_data['history_solution'] = q.qconsulting.solution
-            return_data['history_result'] = q.qconsulting.result
-            return_data['history_created_at'] = q.qconsulting.created_at.strftime('%Y-%m-%d')
-            return_data['answer'] = q.qa.id
-            return_data['answer_title'] = q.qa.title
-            return_data['answer_content'] = q.qa.content
-            return_data['answer_reject_code'] = q.qa.reject_code
-            return_data['answer_created_at'] = q.qa.created_at.strftime('%Y-%m-%d')
-        if q.category != 0:
-            s = callapi.purple_info(q.student_id,'get_student_info')
-            b = callapi.purple_ban(q.ban_id,'get_ban' )    
-            return_data['student'] = s['name']
-            return_data['ban'] = b['ban_name']
+        # if q.category == 0:
+        # #     return_data['history'] = '없음'
+        # else:
+        #     return_data['history'] = q.qconsulting.id
+        #     return_data['history_reason'] = q.qconsulting.reason
+        #     return_data['history_solution'] = q.qconsulting.solution
+        #     return_data['history_result'] = q.qconsulting.result
+        #     return_data['history_created_at'] = q.qconsulting.created_at.strftime('%Y-%m-%d')
+        # if q.category != 0:
+        #     s = callapi.purple_info(q.student_id,'get_student_info')
+        #     b = callapi.purple_ban(q.ban_id,'get_ban' )    
+        #     return_data['student'] = s['name']
+        #     return_data['ban'] = b['ban_name']
         return_data['comment'] = []
         for comment in q.qcomments :
             comment_data = {}
@@ -417,4 +414,43 @@ def question_detail(id):
         return jsonify({'result': '문의 답변 저장 완료'})
  
      
- 
+@bp.route('/special_question_detail/<int:id>', methods=['GET'])
+def special_question_detail(id):
+    if request.method == 'GET':
+        q = Question.query.filter(Question.id == id).first()
+        s = callapi.purple_info(q.student_id,'get_student_info')
+        b = callapi.purple_ban(q.ban_id,'get_ban' )    
+        return_data = {}
+        return_data['title'] = q.title
+        return_data['contents'] = q.contents
+        return_data['create_date'] = q.create_date.strftime('%Y-%m-%d')
+        return_data['answer_title'] = q.qa.title
+        return_data['answer_content'] = q.qa.content
+        return_data['answer_reject_code'] = q.qa.reject_code
+        return_data['answer_created_at'] = q.qa.created_at.strftime('%Y-%m-%d')
+
+        if  q.attachments is None:
+            return_data['attach'] = "없음"
+        else:
+            return_data['attach'] = q.attachments.file_name
+        return_data['history'] = q.qconsulting.id
+        return_data['history_reason'] = q.qconsulting.reason
+        return_data['history_solution'] = q.qconsulting.solution
+        return_data['history_result'] = q.qconsulting.result
+        return_data['history_created_at'] = q.qconsulting.created_at.strftime('%Y-%m-%d')
+        return_data['student'] = s['name']
+        return_data['ban'] = b['ban_name']
+        return_data['comment'] = []
+        for comment in q.qcomments :
+            comment_data = {}
+            comment_data['c_id'] = comment.id
+            comment_data['c_contents'] = comment.contents
+            comment_data['c_created_at'] = comment.created_at.strftime('%Y-%m-%d')
+            comment_data['parent_id'] = comment.parent_id
+            if(q.teacher_id == comment.user_id):
+                comment_data['writer'] = '나'
+            else:
+                comment_data['writer'] = '퍼플'
+            return_data['comment'].append(comment_data)
+
+        return jsonify(return_data)
