@@ -119,13 +119,20 @@ function get_consulting_student(ban_regi,is_done){
                 
                 const result = response['my_students'].reduce((acc, student) => {
                     const consultingList = response['all_consulting']['data'].filter(consulting => consulting.student_id === student.register_no);
+                    const deadline = consultingList.reduce((prev, current) => {
+                        const prevDueDate = prev.deadline instanceof Date ? prev.deadline.getTime() : 0;
+                        const currentDueDate = current.deadline instanceof Date ? current.deadline.getTime() : 0;
+                      
+                        return currentDueDate < prevDueDate ? current : prev;
+                    }, {});
                     if(consultingList.length>0){
                         acc.push({
-                            'student_id': student.student_id,
+                            'student_id': student.register_no,
                             'student_name': student.name,
                             'student_mobileno': student.mobileno,
                             'ban_name': student.classname,
                             'consulting_num': consultingList.length,
+                            'consulting_deadline': consultingList.deadline,
                             'consultings': consultingList
                         });
                     }
@@ -133,24 +140,24 @@ function get_consulting_student(ban_regi,is_done){
                 },[]);
                 console.log(result)
                 
-                // for(i=0;i<result.length;i++){
-                //     var ban_name = result[i]['ban_name']
-                //     var name = result[i]['name']
-                //     var deadline = result[i]['deadline']
-                //     var mobileno = result[i]['mobileno']
-                //     var student_id = result[i]['id']
-                //     let temp_consulting_contents_box = `
-                //     <tr class="row">
-                //     <td class="col-3">${ban_name}</td>
-                //     <td class="col-3">${mobileno}</td>
-                //     <td class="col-2">${name}</td>
-                //     <td class="col-2">${deadline}</td>
-                //     <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">상담 실행</td> 
-                //     </tr>
-                //     `;
-                //     $('#today_consulting_box').append(temp_consulting_contents_box);
+                for(i=0;i<result.length;i++){
+                    var ban_name = result[i]['ban_name']
+                    var name = result[i]['name']
+                    var deadline = result[i]['deadline']
+                    var mobileno = result[i]['mobileno']
+                    var student_id = result[i]['id']
+                    let temp_consulting_contents_box = `
+                    <tr class="row">
+                    <td class="col-3">${ban_name}</td>
+                    <td class="col-3">${mobileno}</td>
+                    <td class="col-2">${name}</td>
+                    <td class="col-2">${deadline}</td>
+                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">상담 실행</td> 
+                    </tr>
+                    `;
+                    $('#today_consulting_box').append(temp_consulting_contents_box);
 
-                // }
+                }
 
                 // if(response["consulting_student_list"] == '없음'){
                 //     $('#consulting_student_list').hide();
