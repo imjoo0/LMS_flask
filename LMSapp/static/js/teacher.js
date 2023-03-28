@@ -135,7 +135,7 @@ function get_consulting_student(is_done){
                 return acc;
             },[]);
             if(result.length > 0){
-                $('#consulting_msg').html('오늘의 상담');
+                $('#consulting_title').html('오늘의 상담');
                 let temp_consulting_contents_box =''
                 for(i=0;i<result.length;i++){
                     console.log(result[i])
@@ -158,7 +158,7 @@ function get_consulting_student(is_done){
                     $('#today_consulting_box').html(temp_consulting_contents_box);
                 }
             }else{
-                $('#consulting_msg').html('오늘의 상담이 없습니다.');
+                $('#consulting_title').html('오늘의 상담이 없습니다.');
             }
         }
     });
