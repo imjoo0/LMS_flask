@@ -255,7 +255,7 @@
 <!-- 요청한 상담 리스트 모달 창 -->
 <div class="modal fade" id="my_consulting_request" tabindex="-1" aria-labelledby="my_consulting_requestModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="my_consulting_requestModalLabel">
@@ -263,18 +263,21 @@
                 </h5>
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-header">
-                <select id="category-select" onchange="sort_consulting(this.value)" class="form-select"
-                    aria-label="Default select example">
-                    <optgroup id="consulting-option">
-                    </optgroup>
-                </select>
-            </div>
-            <div>
-                <table class="table text-center" id="consulting_task_list" style="width:100%;">
-                    <tbody style="width:100%;">
+            <div class="modal-body">
+                <div class="my-4 d-flex flex-wrap justify-content-end align-items-center">
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 상담 카테고리 선택</span></div>
+                    <div class="col-md-4 col-sm-6 col-12">
+                        <select id="category-select" onchange="sort_consulting(this.value)" class="form-select form-select-sm"
+                            aria-label="Default select example">
+                            <optgroup id="consulting-option">
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-start align-items-start flex-column" style="overflow: auto;">
+                    <table class="table text-center" id="consulting_task_list">
                         <thead>
-                            <tr class="row">
+                            <tr class="row w-100">
                                 <th class="col-3">날짜</th>
                                 <th class="col-2">종류</th>
                                 <th class="col-1">진행</th>
@@ -282,21 +285,24 @@
                                 <th class="col-2">수정/삭제</th>
                             </tr>
                         </thead>
-                        <tr class="row" id="tr-row">
-                            <td>Loading...</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div id="consulting-pagination" class="py-5 text-center"></div>
+                        <tbody>
+                            <tr class="row w-100" id="tr-row">
+                                <td>Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center align-items-center w-100">
+                    <div id="consulting-pagination" class="mt-4 mb-5 text-center"></div>
+                </div>
             </div>
-
         </div>
     </div>
 </div>
 
 <!-- 상담요청 모달 -->
 <div class="modal fade" id="request_consulting" tabindex="-1" aria-labelledby="RequestConsultingModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="RequestConsultingModalLabel">
@@ -304,19 +310,26 @@
                 </h5>
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body" style="padding-top: 0;">
-                <input id="csrf_token" type="hidden" name="csrf_token" value="{{ csrf_token() }}"
-                    style="display: block;" />
-                <div class="make_row">
-                    <select class="border rounded-0 form-control form-control-sm" id="consulting_category_list" style=" width: 150px; height: 100%; margin-left:0;">
-
-                    </select>
-                    <input class="border rounded-0 form-control form-control-sm" type="text" id="consulting_contents"
-                        placeholder="상담 내용을 입력해주세요">
+            <div class="modal-body">
+                <input id="csrf_token" type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
+                <div class="d-flex justify-content-center align-items-center flex-column">
+                    <div class="row w-100 mt-3">
+                        <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 상담 카테고리 선택</span></div>
+                        <div class="col-sm-9">
+                            <select class="form-control form-control-sm" id="consulting_category_list">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row w-100 mt-3">
+                        <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 상담 내용 입력</span></div>
+                        <div class="col-sm-9">
+                            <input class="form-control form-control-sm" type="text" id="consulting_contents" placeholder="상담 내용을 입력해주세요">
+                        </div>
+                    </div>
                 </div>
-                <div class="notice_message">
-                    <p>👇 상담을 진행할 반을 선택해주세요</p>
-                    <div class="plus_under_contents">
+                <div class="notice_message mt-4">
+                    <p class="mb-2" style="padding: 0 12px">👇 상담을 진행할 반을 선택해주세요</p>
+                    <div class="plus_under_contents" style="padding: 0 12px;">
                         <select class="border rounded-0 form-control form-control-sm" onchange="ban_change(this.value)" multiple id="consulting_target_aban">
                             <optgroup label="전체 반 선택">
                                 <option value=0>전체 반 대상 진행</option>
@@ -328,9 +341,9 @@
                         </select>
                     </div>
                 </div>
-                <div class="notice_message" id="select_student">
-                    <p>👇 상담을 진행할 학생을 선택해주세요</p>
-                    <div class="plus_under_contents">
+                <div class="notice_message mt-4" id="select_student">
+                    <p class="mb-2" style="padding: 0 12px;">👇 상담을 진행할 학생을 선택해주세요</p>
+                    <div class="plus_under_contents" style="padding: 0 12px;">
                         <select class="border rounded-0 form-control form-control-sm" id="consulting_target_students" multiple>
 
                         </select>
@@ -349,24 +362,23 @@
                     </table>
                 </div>
                 <div class="notice_message">
-                    <p>👇 상담을 시작해야 하는 날짜를 2022-01-01 형식으로 적어주세요</p>
-                    <input class="border rounded-0 form-control form-control-sm" type="text" id="consulting_date"
-                        placeholder="2023-01-01">
+                    <p class="mb-2" style="padding: 0 12px;">👇 상담을 시작해야 하는 날짜를 2022-01-01 형식으로 적어주세요</p>
+                    <div style="padding: 0 12px;">
+                        <input class="border rounded-0 form-control form-control-sm" type="text" id="consulting_date" placeholder="2023-01-01">
+                    </div>
                 </div>
 
-                <div class="notice_message">
-                    <p>👇 상담을 끝내야 하는 마감 날짜를 2022-01-01 형식으로 적어주세요</p>
-                    <input class="border rounded-0 form-control form-control-sm" type="text" id="consulting_deadline"
-                        placeholder="2023-01-01">
-                </div>
-                <div style="display: flex; float: right;">
-                    <button class="btn btn-success" style="margin-top: 13px;" onclick="post_consulting_request()">저장</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
-                        style="margin-top: 13px;">취소</button>
+                <div class="notice_message mt-4">
+                    <p class="mb-2" style="padding: 0 12px;">👇 상담을 끝내야 하는 마감 날짜를 2022-01-01 형식으로 적어주세요</p>
+                    <div style="padding: 0 12px;">
+                        <input class="border rounded-0 form-control form-control-sm" type="text" id="consulting_deadline" placeholder="2023-01-01">
+                    </div>
                 </div>
             </div>
-
-
+            <div class="modal-footer">
+                <button class="btn btn-success" onclick="post_consulting_request()">저장</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
+            </div>
         </div>
     </div>
 </div>
@@ -572,12 +584,12 @@
 
     <div class="mb-5" style="border-bottom: 2px solid #2b2b2b11;"></div>
 
-    <nav class="navbar navbar-expand mb-3" style="border-bottom: 2px groove #2b2b2b;">
+    <nav class="navbar navbar-expand mb-3" style="background-color: #f1f1f1; border-radius: 14px; border-bottom: 3px solid #FF7069;">
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav ps-sm-2 ps-lg-4 p-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page">전체 반 조회</a>
+                        <a class="nav-link active" aria-current="page" onclick="getBanlist()">전체 반 조회</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" onclick="uldata()">학습 관리</a>

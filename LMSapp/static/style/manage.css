@@ -132,6 +132,7 @@
   display: none;
 }
 
+
 .nav-item .nav-link {
   color: #333333;
   font-weight: 700;
@@ -144,4 +145,16 @@
 
 .nav-item .active {
   color: #b02b74;
+}
+
+
+  #consulting_task_list {
+    width: 100%;
+  }
+
+@media all and (max-width : 1200px) {  
+  #consulting_task_list {
+    table-layout : fixed;
+    width: 1200px;
+  }
 }
