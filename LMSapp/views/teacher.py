@@ -453,11 +453,19 @@ def get_question_detail(id,answer,category):
             b = callapi.purple_ban(q.ban_id,'get_ban' )    
             return_data['student'] = s['name']
             return_data['ban'] = b['ban_name']
-            return_data['history'] = q.qconsulting.id
-            return_data['history_reason'] = q.qconsulting.reason
-            return_data['history_solution'] = q.qconsulting.solution
-            return_data['history_result'] = q.qconsulting.result
-            return_data['history_created_at'] = q.qconsulting.created_at.strftime('%Y-%m-%d')
+            if(q.qconsulting.done != 0){
+                return_data['history'] = q.qconsulting.id
+                return_data['history_reason'] = q.qconsulting.reason
+                return_data['history_solution'] = q.qconsulting.solution
+                return_data['history_result'] = q.qconsulting.result
+                return_data['history_created_at'] = q.qconsulting.created_at.strftime('%Y-%m-%d')
+            }else{
+                return_data['history'] = ''
+                return_data['history_reason'] = ''
+                return_data['history_solution'] = ''
+                return_data['history_result'] = ''
+                return_data['history_created_at'] = ''
+            }
 
         return_data['comment'] = []
         for comment in q.qcomments :
