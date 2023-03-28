@@ -186,8 +186,8 @@ def taskban(task_id,done_code):
             })
 
 # 선생님이 담당 중인 반 학생중 상담을 하지 않은 학생(is_done = 0) 상담을 한 학생(is_done = 1) 정보
-@bp.route("/mystudents/<int:ban_id>/<int:is_done>", methods=['GET'])
-def mystudents(ban_id,is_done):
+@bp.route("/mystudents/<int:is_done>", methods=['GET'])
+def mystudents(is_done):
     if request.method == 'GET':
         all_consulting = {}
         my_students = callapi.purple_info(session['user_id'],'get_mystudents')
