@@ -32,13 +32,46 @@ function go_back(){
     $('#make_plus_consulting').hide();
     $('#banstudentlistModalLabel').html('원생목록')
 }
+function q_category(category){
+    if(category == 0){
+        category = '일반문의'
+    }else if(category == 1){
+        category = '취소/환불/퇴소 문의'
+    }else{
+        category = '이반문의'
+    }
+    return category
+}
+
 function get_question_list(){
     $.ajax({
         type: "GET",
         url: "/teacher/question",
         data: {},
         success: function(response){
-            console.log(response['questions'])
+            let temp_html = ''
+            for(i=0;i<response['questions'].length;i++){
+                var id = response['questions'][i]['id']
+                var category = q_category(response['questions'][i]['category'])
+                var title = response['questions'][i]['title']
+                var create_date = response['questions'][i]['create_date']
+                var done_code = response['questions'][i]['answer']
+                if(done_code == 0){
+                    answer = '미응답'
+                }else{
+                    answer = `${create_date}날 답변`
+                }
+                var comments = response['questions'][i]['comments']
+                
+                temp_html += `
+                <td class="col-3">${category}</td>
+                <td class="col-4">${title}</td>
+                <td class="col-3" onclick="get_question(${id},${done_code})"> ${answer} </td>
+                <td class="col-1" onclick="delete_question(${id})"> ❌ </td>
+                <td class="col-1"> ${comments} </td>
+                `;
+            }
+            $('#teacher_question_list').html(temp_html)
         }
     })
 }

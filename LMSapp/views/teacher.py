@@ -315,16 +315,16 @@ def question():
             qdata['id'] = q.id
             qdata['category'] = q.category 
             qdata['title'] = q.title
-            qdata['contents'] = q.contents
-            qdata['consulting_h'] = q.consulting_history
+            # qdata['contents'] = q.contents
+            # qdata['consulting_h'] = q.consulting_history
             qdata['create_date'] = q.create_date
             qdata['answer'] = q.answer
             qdata['comments'] = len(q.qcomments)
-            if(q.answer != 0):
-                qdata['answer_title'] = q.qa.title
-                qdata['answer_contents'] = q.qa.content
-                qdata['answer_reject'] = q.qa.reject_code
-                qdata['answer_created_at'] = q.qa.created_at
+            # if(q.answer != 0):
+            #     qdata['answer_title'] = q.qa.title
+            #     qdata['answer_contents'] = q.qa.content
+            #     qdata['answer_reject'] = q.qa.reject_code
+            #     qdata['answer_created_at'] = q.qa.created_at
             # qdata['attachements'] = q.attachments
             data.append(qdata)
         return jsonify({'questions':data})
