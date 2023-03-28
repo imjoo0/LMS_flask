@@ -349,6 +349,72 @@ def question():
         common.save_attachment(file,new_question.id)
         return redirect('/')
 
+@bp.route('/question_detail/<int:id>', methods=['GET','POST'])
+def question_detail(id):
+    if request.method == 'GET':
+        q = Question.query.filter(Question.id == id).first()
+        return_data = {}
+        return_data['title'] = q.title
+        return_data['contents'] = q.contents
+        return_data['create_date'] = q.create_date.strftime('%Y-%m-%d')
+        return_data['category']=q.category
+        if  q.attachments is None:
+            return_data['attach'] = "없음"
+        else:
+            return_data['attach'] = q.attachments.file_name
+        if q.answer == 0:
+            return_data['answer'] = '없음'
+        if q.category == 0:
+            return_data['history'] = '없음'
+        else:
+            return_data['history'] = q.qconsulting.id
+            return_data['history_reason'] = q.qconsulting.reason
+            return_data['history_solution'] = q.qconsulting.solution
+            return_data['history_result'] = q.qconsulting.result
+            return_data['history_created_at'] = q.qconsulting.created_at.strftime('%Y-%m-%d')
+            return_data['answer'] = q.qa.id
+            return_data['answer_title'] = q.qa.title
+            return_data['answer_content'] = q.qa.content
+            return_data['answer_reject_code'] = q.qa.reject_code
+            return_data['answer_created_at'] = q.qa.created_at.strftime('%Y-%m-%d')
+        if q.category != 0:
+            s = callapi.purple_info(q.student_id,'get_student_info')
+            b = callapi.purple_ban(q.ban_id,'get_ban' )    
+            return_data['student'] = s['name']
+            return_data['ban'] = b['ban_name']
+        return_data['comment'] = []
+        for comment in q.qcomments :
+            comment_data = {}
+            comment_data['c_id'] = comment.id
+            comment_data['c_contents'] = comment.contents
+            comment_data['c_created_at'] = comment.created_at.strftime('%Y-%m-%d')
+            comment_data['parent_id'] = comment.parent_id
+            if(q.teacher_id == comment.user_id):
+                comment_data['writer'] = return_data['teacher']
+            else:
+                comment_data['writer'] = '퍼플'
+            return_data['comment'].append(comment_data)
 
+        return jsonify(return_data)
     
+    elif request.method == 'POST':
+        target_question = Question.query.get_or_404(id)
+        target_question.answer = 1
+        answer_title = request.form['answer_title']
+        answer_contents = request.form['answer_contents']
+        o_ban_id = int(request.form['o_ban_id'])
+        new_answer = Answer(content=answer_contents,title=answer_title,created_at=Today,reject_code=o_ban_id,question_id = id)
+        db.session.add(new_answer)
+        if target_question.category == 2 and o_ban_id != 0 :    
+            new_switch_student = SwitchStudent(ban_id = target_question.ban_id,switch_ban_id=o_ban_id,teacher_id = target_question.teacher_id,student_id=target_question.student_id,created_at=Today)
+            db.session.add(new_switch_student)
+            # db.session.commit()
+        elif(target_question.category != 2 and o_ban_id != 0 ):
+            new_out_student = OutStudent(ban_id = target_question.ban_id,teacher_id = target_question.teacher_id,student_id=target_question.student_id,created_at=Today)
+            db.session.add(new_out_student)
+            # db.session.commit()
+        db.session.commit()
+        return jsonify({'result': '문의 답변 저장 완료'})
+ 
+     
  

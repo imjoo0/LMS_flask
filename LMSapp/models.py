@@ -25,7 +25,7 @@ class Question(db.Model):
     contents = db.Column(db.Text(), nullable=False)
     teacher_id = db.Column(db.Integer,nullable=True)
     ban_id = db.Column(db.Integer,nullable=True)
-    consulting_history = db.Column(db.Integer,db.ForeignKey('consultinghistory.id'))
+    consulting_history = db.Column(db.Integer,db.ForeignKey('consulting.id'))
     student_id = db.Column(db.Integer,nullable=True)
     create_date = db.Column(db.DateTime(), nullable=False)
     answer = db.Column(db.Integer,nullable=True)
@@ -33,7 +33,6 @@ class Question(db.Model):
     qa = db.relationship("Answer", uselist=False, back_populates="question", cascade="all, delete", overlaps="qa")
     qcomments = db.relationship("Comment", back_populates="question", cascade='all, delete-orphan', single_parent=True,overlaps="qcomments")
     attachments = db.relationship('Attachments', uselist=False,back_populates='question', cascade='all, delete-orphan', single_parent=True)
-
 
 @file_upload.Model
 class Attachments(db.Model):
@@ -117,19 +116,8 @@ class Consulting(db.Model):
     result = db.Column(db.Text)
     created_at = db.Column(db.DateTime)
 
-# class ConsultingHistory(db.Model):
-#     __tablename__ = 'consultinghistory'
-    
-#     id=db.Column(db.Integer,primary_key=True)
-#     consulting_id = db.Column(db.Integer,db.ForeignKey('consulting.id'), nullable=False)
-#     category_id = db.Column(db.Integer, db.ForeignKey('consultingcategory.id'))
-#     reason = db.Column(db.Text)
-#     solution = db.Column(db.Text)
-#     result = db.Column(db.Text)
-#     created_at = db.Column(db.DateTime)
-
-#     # 1-1 관계 설정 
-#     consulting = db.relationship('Consulting',back_populates='consultinghistories')
+    # 관계 설정 
+    question_attach = db.relationship('Question',backref='qconsulting',lazy=True)
     
 class TaskCategory(db.Model):
     __tablename__ = 'taskcategory'
