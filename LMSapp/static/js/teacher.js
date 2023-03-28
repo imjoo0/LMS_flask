@@ -124,7 +124,7 @@ function get_consulting_student(ban_regi,is_done){
                             'student_id': student.student_id,
                             'student_name': student.name,
                             'student_mobileno': student.mobileno,
-                            'ban_name': student.ban_name,
+                            'ban_name': student.classname,
                             'consulting_num': consultingList.length,
                             'consultings': consultingList
                         });
