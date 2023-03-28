@@ -53,11 +53,11 @@
 }
 
 .manage-work-btn {
-  width: 100%;
-  height: auto;
+  width: 49%;
+  height: 46%;
   background-color: #f1f1f1;
   border-radius: 20px;
-  padding: 3%;
+  padding: 1%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -130,4 +130,18 @@
 }
 #manage_answer_1,#manage_answer_2,#manage_answer_3,#for_taskban_list{
   display: none;
+}
+
+.nav-item .nav-link {
+  color: #333333;
+  font-weight: 700;
+}
+
+.nav-item .nav-link:hover {
+  color: #b02b74;
+  cursor: pointer;
+}
+
+.nav-item .active {
+  color: #b02b74;
 }

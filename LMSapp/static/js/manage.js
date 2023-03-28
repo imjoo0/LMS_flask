@@ -4,7 +4,11 @@ var selectedStudentList = [];
 
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
-    getBanlist()
+    getBanlist();
+    $('.nav-link').on('click', function(){
+        $('.nav-link').removeClass('active');
+        $(this).addClass('active');
+    })
 })
 
 // 이반 * 퇴소 
