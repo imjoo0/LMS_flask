@@ -91,6 +91,7 @@ def home():
         # return render_template('teacher.html',unlearned_ttd=unlearned_ttd,unlearned_ttc=unlearned_ttc,unlearned_cp=unlearned_cp,cp=cp,ttc=ttc,ttd=ttd,total_todo=total_todo,total_done=total_done,ttp=ttp,switchstudent_num=switchstudent_num,switchstudent_num_p=switchstudent_num_p,outstudent_num_p=outstudent_num_p,outstudent_num=outstudent_num,total_student_num=total_student_num,user=teacher_info,my_bans=ban_data,students=mystudents_info, questions=my_questions)
         return render_template('teacher.html',user=teacher_info)
 
+# 문의 요청 관련 함수 
 @bp.route("/get_myban_list", methods=['GET'])
 def get_myban_list():
     if request.method =='GET':
@@ -103,6 +104,23 @@ def get_ban_student(b_id):
     if request.method =='GET':
         students = callapi.purple_info(b_id,'get_student_simple')
         return jsonify(students)
+
+@bp.route("/attach_consulting_history/<int:s_id>", methods=['GET'])
+def attach_consulting_history(s_id):
+    if request.method =='GET':
+        consulting_history = []
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                # cur.execute(f"select id, ban_id, category_id, student_id, contents, date_format(startdate, '%Y-%m-%d') as startdate, date_format(deadline, '%Y-%m-%d') as deadline, week_code, done, missed from consulting where ban_id = {ban['register_no']};")
+                cur.execute("SELECT consulting.id, consultingcategory.name as category, consulting.contents, consulting.result from consulting left join consultingcategory on consultingcategory.id = consulting.category_id where consulting.done=1 and consulting.created_at != null and consulting.student_id=%s;",(s_id))
+                consulting_history = cur.fetchall().copy()
+        except:
+            print('err')
+        finally:
+            db.close()
+        print(consulting_history)
+        return json.dumps(consulting_history)
 
 @bp.route('/api/get_teacher_ban', methods=['GET'])
 def get_ban():

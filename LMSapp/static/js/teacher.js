@@ -44,6 +44,7 @@ function q_category(category) {
     }
     return category
 }
+    // 문의 작성 
 function get_myban_list(){
     $.ajax({
         type: "GET",
@@ -82,6 +83,32 @@ function get_ban_student(b_id) {
             alert('xhr.responseText');
         }
     })
+}
+function attach_consulting_history(student_id) {
+    $.ajax({
+        type: "GET",
+        url: "/teacher/consulting/" + student_id + "/" + is_done,
+        // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+        data: {},
+        success: function (response) {
+            if(response['consulting_list'] == '없음') {
+                let temp_consulting_contents_box = `<option value="none" selected>상담을 우선 진행해주세요</option>`;
+                $('#h_select_box').append(temp_consulting_contents_box)
+            }else{
+                $('#h_select_box').empty();
+                let target = response["consulting_list"]
+                for (i = 0; i < target.length; i++) {
+                    let h_id = target[i]['history_id']
+                    let consulting = target[i]['contents']
+                    let history_result = target[i]['history_result']
+                    let temp_consulting_contents_box = `
+                     <option value=${h_id}>${consulting} - 상담결과: ${history_result}</option>
+                    `;
+                    $('#h_select_box').append(temp_consulting_contents_box)
+                }
+            }
+        }
+    });
 }
 function get_question_list() {
     let container = $('#question_pagination')
@@ -459,32 +486,7 @@ function get_consulting(student_id, is_done) {
     });
     // $('#today_consulting_box').show();
 }
-function attach_consulting_history(student_id, is_done) {
-    $.ajax({
-        type: "GET",
-        url: "/teacher/consulting/" + student_id + "/" + is_done,
-        // data: JSON.stringify(jsonData), // String -> json 형태로 변환
-        data: {},
-        success: function (response) {
-            if(response['consulting_list'] == '없음') {
-                let temp_consulting_contents_box = `<option value="none" selected>상담을 우선 진행해주세요</option>`;
-                $('#h_select_box').append(temp_consulting_contents_box)
-            }else{
-                $('#h_select_box').empty();
-                let target = response["consulting_list"]
-                for (i = 0; i < target.length; i++) {
-                    let h_id = target[i]['history_id']
-                    let consulting = target[i]['contents']
-                    let history_result = target[i]['history_result']
-                    let temp_consulting_contents_box = `
-                     <option value=${h_id}>${consulting} - 상담결과: ${history_result}</option>
-                    `;
-                    $('#h_select_box').append(temp_consulting_contents_box)
-                }
-            }
-        }
-    });
-}
+
 function post_bulk_consultings(c_length, is_done) {
     for (i = 0; i < c_length; i++) {
         target = $('#target_consulting_id' + i).val()
