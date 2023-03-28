@@ -35,7 +35,7 @@ function go_back(){
 function get_question(){
     $.ajax({
         type: "GET",
-        url: "/manage/question",
+        url: "/teacher/question",
         data: {},
         success: function (response) {
             // let target_ban = response['target_ban']
