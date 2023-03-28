@@ -44,35 +44,36 @@ function q_category(category){
 }
 
 function get_question_list(){
+    let container = $('#question_pagination')
     $.ajax({
         type: "GET",
         url: "/teacher/question",
         data: {},
         success: function(response){
-            let temp_html = ''
-            for(i=0;i<response['questions'].length;i++){
-                var id = response['questions'][i]['id']
-                var category = q_category(response['questions'][i]['category'])
-                var title = response['questions'][i]['title']
-                var create_date = response['questions'][i]['create_date']
-                var done_code = response['questions'][i]['answer']
-                if(done_code == 0){
-                    answer = '미응답'
-                }else{
-                    answer = `${response['questions'][i]['answer_created_at']}날 답변`
+            container.pagination({
+                dataSource:JSON.parse(response['questions']),
+                prevText: '이전',
+                nextText: '다음',
+                pageClassName: 'float-end',
+                pageSize: 5,
+                callback: function(data, pagination){
+                    var dataHtml = '';
+                    $.each(data, function (index, item){
+                        if (item.category == 0) { item.category = '일반문의' }
+                        else if (item.category == 1) { item.category = '퇴소 문의' }
+                        else if (item.category == 2) { item.category = '이반 문의' }
+                        else { item.category = '취소/환불 문의' }
+                        dataHtml += `
+                        <td class="col-2">${item.category}</td>
+                        <td class="col-4">${item.title}</td>
+                        <td class="col-3"> ${item.answer} </td>
+                        <td class="col-1" onclick="get_question(${id},${done_code})"> ✅ </td>
+                        <td class="col-1" onclick="delete_question(${id})"> ❌ </td>
+                        <td class="col-1"> ${comments} </td>`;
+                    });
+                    $('#teacher_question_list').html(dataHtml);
                 }
-                var comments = response['questions'][i]['comments']
-                
-                temp_html += `
-                <td class="col-2">${category}</td>
-                <td class="col-4">${title}</td>
-                <td class="col-3"> ${answer} </td>
-                <td class="col-1" onclick="get_question(${id},${done_code})"> ✅ </td>
-                <td class="col-1" onclick="delete_question(${id})"> ❌ </td>
-                <td class="col-1"> ${comments} </td>
-                `;
-            }
-            $('#teacher_question_list').html(temp_html)
+            })
         }
     })
 }
