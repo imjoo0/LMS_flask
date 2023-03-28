@@ -30,8 +30,8 @@ class Question(db.Model):
     create_date = db.Column(db.DateTime(), nullable=False)
     answer = db.Column(db.Integer,nullable=True)
 
-    qa = db.relationship("Answer", uselist=False, back_populates="question", cascade="all, delete")
-    qcomments = db.relationship("Comment", back_populates="question", cascade='all, delete-orphan', single_parent=True)
+    qa = db.relationship("Answer", uselist=False, back_populates="question", cascade="all, delete", overlaps="qa")
+    qcomments = db.relationship("Comment", back_populates="question", cascade='all, delete-orphan', single_parent=True,overlaps="qcomments")
     attachments = db.relationship('Attachments', uselist=False,back_populates='question', cascade='all, delete-orphan', single_parent=True)
 
 
