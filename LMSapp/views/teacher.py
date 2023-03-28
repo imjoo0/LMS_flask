@@ -32,66 +32,140 @@ standard = datetime.strptime('11110101',"%Y%m%d").date()
 def home():
     if request.method =='GET':
         teacher_info = callapi.purple_info(session['user_id'],'get_teacher_info')
-        mystudents_info = callapi.purple_info(session['user_id'],'get_mystudents')
-        total_student_num = len(mystudents_info)
-        mybans_info = callapi.purple_ban(session['user_id'],'get_mybans')
-        ban_data = []
-        #  상담 차트
-        ttc = 0
-        ttd = 0
-        unlearned_ttc = 0
-        unlearned_ttd = len(Consulting.query.filter(Consulting.category_id < 100).all())
-        for b in mybans_info:
-            data = {}
-            data['register_no'] = b['register_no']
-            data['name'] = b['name']
-            data['semester'] = b['semester']
-            data['total_student_num'] = b['total_student_num']
-            data['out_s'] = len(OutStudent.query.filter(OutStudent.ban_id == b['register_no']).all())
-            data['switch_s'] = len(SwitchStudent.query.filter(SwitchStudent.ban_id == b['register_no']).all())
-            data['unlearned'] = len(Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.category_id < 100)).all()) 
-            unlearned_ttc += data['unlearned']
-            ttc += len(Consulting.query.filter(b['register_no'] == Consulting.ban_id).all())
-            c = Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.done==1)).all()
-            ttd += len(c)
+        # mystudents_info = callapi.purple_info(session['user_id'],'get_mystudents')
+        # total_student_num = len(mystudents_info)
+        # mybans_info = callapi.purple_ban(session['user_id'],'get_mybans')
+        # ban_data = []
+        # #  상담 차트
+        # ttc = 0
+        # ttd = 0
+        # unlearned_ttc = 0
+        # unlearned_ttd = len(Consulting.query.filter(Consulting.category_id < 100).all())
+        # for b in mybans_info:
+        #     data = {}
+        #     data['register_no'] = b['register_no']
+        #     data['name'] = b['name']
+        #     data['semester'] = b['semester']
+        #     data['total_student_num'] = b['total_student_num']
+        #     data['out_s'] = len(OutStudent.query.filter(OutStudent.ban_id == b['register_no']).all())
+        #     data['switch_s'] = len(SwitchStudent.query.filter(SwitchStudent.ban_id == b['register_no']).all())
+        #     data['unlearned'] = len(Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.category_id < 100)).all()) 
+        #     unlearned_ttc += data['unlearned']
+        #     ttc += len(Consulting.query.filter(b['register_no'] == Consulting.ban_id).all())
+        #     c = Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.done==1)).all()
+        #     ttd += len(c)
 
-            ban_data.append(data)
+        #     ban_data.append(data)
 
-        if(ttc != 0):
-            cp = round((ttd/ttc)*100)
-        else:
-            cp = 0
-        if(unlearned_ttd != 0):
-            unlearned_cp = round((unlearned_ttc/unlearned_ttd)*100)
-        else:
-            unlearned_cp = 0
+        # if(ttc != 0):
+        #     cp = round((ttd/ttc)*100)
+        # else:
+        #     cp = 0
+        # if(unlearned_ttd != 0):
+        #     unlearned_cp = round((unlearned_ttc/unlearned_ttd)*100)
+        # else:
+        #     unlearned_cp = 0
         
-        # 졸업 / 퇴소 한 학생 
-        outstudent_num = len(OutStudent.query.filter(OutStudent.teacher_id == teacher_info['register_no']).all())
-        if(outstudent_num != 0):
-            outstudent_num_p = round((outstudent_num / len(OutStudent.query.all()))*100)
-        else:
-            outstudent_num_p = 0
-        # 이반 한 학생  
-        switchstudent_num = len(SwitchStudent.query.filter(SwitchStudent.teacher_id == teacher_info['register_no']).all())
-        if(switchstudent_num != 0):
-            switchstudent_num_p = round((switchstudent_num / len(SwitchStudent.query.all()))*100)
-        else:
-            switchstudent_num_p = 0
-        # 업무 개수
-        total_done = len(TaskBan.get_task_category(teacher_info['register_no'],1)['task_data'])
-        total_todo = len(TaskBan.get_task_category(teacher_info['register_no'],0)['task_data']) + total_done
-        if(total_todo != 0):
-            ttp = round(total_done/total_todo*100)
-        else:
-            ttp = 0
+        # # 졸업 / 퇴소 한 학생 
+        # outstudent_num = len(OutStudent.query.filter(OutStudent.teacher_id == teacher_info['register_no']).all())
+        # if(outstudent_num != 0):
+        #     outstudent_num_p = round((outstudent_num / len(OutStudent.query.all()))*100)
+        # else:
+        #     outstudent_num_p = 0
+        # # 이반 한 학생  
+        # switchstudent_num = len(SwitchStudent.query.filter(SwitchStudent.teacher_id == teacher_info['register_no']).all())
+        # if(switchstudent_num != 0):
+        #     switchstudent_num_p = round((switchstudent_num / len(SwitchStudent.query.all()))*100)
+        # else:
+        #     switchstudent_num_p = 0
+        # # 업무 개수
+        # total_done = len(TaskBan.get_task_category(teacher_info['register_no'],1)['task_data'])
+        # total_todo = len(TaskBan.get_task_category(teacher_info['register_no'],0)['task_data']) + total_done
+        # if(total_todo != 0):
+        #     ttp = round(total_done/total_todo*100)
+        # else:
+        #     ttp = 0
         
+        # my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
+
+        # return render_template('teacher.html',unlearned_ttd=unlearned_ttd,unlearned_ttc=unlearned_ttc,unlearned_cp=unlearned_cp,cp=cp,ttc=ttc,ttd=ttd,total_todo=total_todo,total_done=total_done,ttp=ttp,switchstudent_num=switchstudent_num,switchstudent_num_p=switchstudent_num_p,outstudent_num_p=outstudent_num_p,outstudent_num=outstudent_num,total_student_num=total_student_num,user=teacher_info,my_bans=ban_data,students=mystudents_info, questions=my_questions)
+        return render_template('teacher.html',user=teacher_info)
+
+# 문의 요청 관련 함수 
+@bp.route("/get_myban_list", methods=['GET'])
+def get_myban_list():
+    if request.method =='GET':
+        mybans_info = callapi.purple_info(session['user_id'],'get_mybans')
+        return jsonify(mybans_info)
+    
+@bp.route("/get_ban_student/<int:b_id>", methods=['GET'])
+def get_ban_student(b_id):
+    if request.method =='GET':
+        students = callapi.purple_info(b_id,'get_student_simple')
+        return jsonify(students)
+
+@bp.route("/attach_consulting_history/<int:s_id>", methods=['GET'])
+def attach_consulting_history(s_id):
+    if request.method =='GET':
+        consulting_history = []
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute("SELECT consulting.id as id, consultingcategory.name as category, consulting.contents, consulting.result from consulting left join consultingcategory on consultingcategory.id = consulting.category_id where consulting.done=1 and consulting.created_at != null and consulting.student_id=%s;",(s_id))
+                consulting_history = cur.fetchall()
+        except:
+            print('err')
+        finally:
+            db.close()
+        print(consulting_history)
+        return jsonify({'consulting_history':consulting_history})
+# 선생님 문의 관련 
+@bp.route('/question', methods=['GET','POST'])
+def question():
+    if request.method == 'GET':
+        data = []
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
+        for q in my_questions:
+            qdata = {}
+            qdata['id'] = q.id
+            qdata['category'] = q.category 
+            qdata['title'] = q.title
+            qdata['answer'] = q.answer
+            qdata['comments'] = len(q.qcomments)
+            if(q.answer != 0):
+                qdata['answer_created_at'] = q.qa.created_at.strftime('%Y-%m-%d')
+            data.append(qdata)
+        return json.dumps(data)
 
-        return render_template('teacher.html',unlearned_ttd=unlearned_ttd,unlearned_ttc=unlearned_ttc,unlearned_cp=unlearned_cp,cp=cp,ttc=ttc,ttd=ttd,total_todo=total_todo,total_done=total_done,ttp=ttp,switchstudent_num=switchstudent_num,switchstudent_num_p=switchstudent_num_p,outstudent_num_p=outstudent_num_p,outstudent_num=outstudent_num,total_student_num=total_student_num,user=teacher_info,my_bans=ban_data,students=mystudents_info, questions=my_questions)
-
-@bp.route('/api/get_teacher_ban', methods=['GET'])
-def get_ban():
+    elif request.method == 'POST':
+        question_category = request.form['question_category']
+        title = request.form['question_title']
+        contents = request.form['question_contents']
+        teacher = session['user_registerno']
+        create_date = datetime.now().date()
+        # 첨부 파일 처리 
+        file = request.files['file-upload']
+        if question_category == '일반':
+            cateory = 0
+            new_question = Question(category=cateory,title=title,contents=contents,teacher_id=teacher,create_date=create_date,answer=0)
+        else :
+            ban_id = request.form['ban_id']
+            student_id = request.form['target_student'] 
+            history_id = request.form['consulting_history']
+            if question_category == '퇴소':
+                cateory = 1
+            elif question_category == '이반':
+                cateory = 2
+            else:
+                cateory = 3
+            new_question = Question(consulting_history=history_id,category=cateory,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,create_date=create_date,answer=0)
+        db.session.add(new_question)
+        db.session.commit()
+        common.save_attachment(file,new_question.id)
+        return redirect('/')
+    
+@bp.route('/get_data', methods=['GET'])
+def get_data():
     if request.method == 'GET':
         result = []
         mybans_info = callapi.purple_ban(session['user_id'],'get_mybans')
@@ -117,7 +191,7 @@ def get_ban():
             print('err')
         finally:
             db.close()
-
+        print(result)
         return json.dumps(result)        
 
 # 오늘 해야 할 업무들의 카데고리
@@ -185,8 +259,8 @@ def taskban(task_id,done_code):
             })
 
 # 선생님이 담당 중인 반 학생중 상담을 하지 않은 학생(is_done = 0) 상담을 한 학생(is_done = 1) 정보
-@bp.route("/mystudents/<int:ban_id>/<int:is_done>", methods=['GET'])
-def mystudents(ban_id,is_done):
+@bp.route("/mystudents/<int:is_done>", methods=['GET'])
+def mystudents(is_done):
     if request.method == 'GET':
         all_consulting = {}
         my_students = callapi.purple_info(session['user_id'],'get_mystudents')
@@ -202,7 +276,6 @@ def mystudents(ban_id,is_done):
             all_consulting['text'] = str(e)
         finally:
             db.close()
-        print(all_consulting)
         return jsonify({
             'my_students': my_students,
             'all_consulting': all_consulting,
@@ -304,36 +377,135 @@ def plus_consulting(student_id,b_id):
         db.session.commit()
         return{'result':'상담일지 저장 완료'}
 
-# 선생님 문의 저장 
-@bp.route('/question', methods=['POST'])
-def request_question():
-    if request.method == 'POST':
-        question_category = request.form['question_category']
-        title = request.form['question_title']
-        contents = request.form['question_contents']
-        teacher = session['user_registerno']
-        create_date = datetime.now().date()
-        # 첨부 파일 처리 
-        file = request.files['file-upload']
-        if question_category == '일반':
-            cateory = 0
-            new_question = Question(category=cateory,title=title,contents=contents,teacher_id=teacher,create_date=create_date,answer=0)
-        else :
-            ban_id = request.form['ban_id']
-            student_id = request.form['target_student'] 
-            history_id = request.form['consulting_history']
-            if question_category == '퇴소':
-                cateory = 1
-            elif question_category == '이반':
-                cateory = 2
+
+@bp.route('/nomal_question_detail/<int:id>', methods=['GET'])
+def nomal_question_detail(id):
+    if request.method == 'GET':
+        q = Question.query.filter(Question.id == id).first()
+        return_data = {}
+        return_data['title'] = q.title
+        return_data['contents'] = q.contents
+        return_data['create_date'] = q.create_date.strftime('%Y-%m-%d')
+        return_data['answer_title'] = q.qa.title
+        return_data['answer_content'] = q.qa.content
+        return_data['answer_reject_code'] = q.qa.reject_code
+        return_data['answer_created_at'] = q.qa.created_at.strftime('%Y-%m-%d')
+
+        if  q.attachments is None:
+            return_data['attach'] = "없음"
+        else:
+            return_data['attach'] = q.attachments.file_name
+        # if q.category == 0:
+        # #     return_data['history'] = '없음'
+        # else:
+        #     return_data['history'] = q.qconsulting.id
+        #     return_data['history_reason'] = q.qconsulting.reason
+        #     return_data['history_solution'] = q.qconsulting.solution
+        #     return_data['history_result'] = q.qconsulting.result
+        #     return_data['history_created_at'] = q.qconsulting.created_at.strftime('%Y-%m-%d')
+        # if q.category != 0:
+        #     s = callapi.purple_info(q.student_id,'get_student_info')
+        #     b = callapi.purple_ban(q.ban_id,'get_ban' )    
+        #     return_data['student'] = s['name']
+        #     return_data['ban'] = b['ban_name']
+        return_data['comment'] = []
+        for comment in q.qcomments :
+            comment_data = {}
+            comment_data['c_id'] = comment.id
+            comment_data['c_contents'] = comment.contents
+            comment_data['c_created_at'] = comment.created_at.strftime('%Y-%m-%d')
+            comment_data['parent_id'] = comment.parent_id
+            if(q.teacher_id == comment.user_id):
+                comment_data['writer'] = '나'
             else:
-                cateory = 3
-            new_question = Question(consulting_history=history_id,category=cateory,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,create_date=create_date,answer=0)
-        db.session.add(new_question)
-        db.session.commit()
-        common.save_attachment(file,new_question.id)
-        return redirect('/')
+                comment_data['writer'] = '퍼플'
+            return_data['comment'].append(comment_data)
 
-
+        return jsonify(return_data)
     
+    elif request.method == 'POST':
+        target_question = Question.query.get_or_404(id)
+        target_question.answer = 1
+        answer_title = request.form['answer_title']
+        answer_contents = request.form['answer_contents']
+        o_ban_id = int(request.form['o_ban_id'])
+        new_answer = Answer(content=answer_contents,title=answer_title,created_at=Today,reject_code=o_ban_id,question_id = id)
+        db.session.add(new_answer)
+        if target_question.category == 2 and o_ban_id != 0 :    
+            new_switch_student = SwitchStudent(ban_id = target_question.ban_id,switch_ban_id=o_ban_id,teacher_id = target_question.teacher_id,student_id=target_question.student_id,created_at=Today)
+            db.session.add(new_switch_student)
+            # db.session.commit()
+        elif(target_question.category != 2 and o_ban_id != 0 ):
+            new_out_student = OutStudent(ban_id = target_question.ban_id,teacher_id = target_question.teacher_id,student_id=target_question.student_id,created_at=Today)
+            db.session.add(new_out_student)
+            # db.session.commit()
+        db.session.commit()
+        return jsonify({'result': '문의 답변 저장 완료'})
  
+     
+@bp.route('/question_detail/<int:id>/<int:answer>/<int:category>', methods=['GET'])
+def get_question_detail(id,answer,category):
+    if request.method == 'GET':
+        q = Question.query.filter((Question.id == id)).first()
+        return_data = {}
+        return_data['title'] = q.title
+        return_data['contents'] = q.contents
+        return_data['create_date'] = q.create_date.strftime('%Y-%m-%d')
+
+        if(answer == 0):
+            return_data['answer_title'] = '미응답'
+            return_data['answer_content'] = '미응답'
+            return_data['answer_reject_code'] = '미응답'
+            return_data['answer_created_at'] = '미응답'
+        else:
+            return_data['answer_title'] = q.qa.title
+            return_data['answer_content'] = q.qa.content
+            return_data['answer_created_at'] = q.qa.created_at.strftime('%Y-%m-%d')
+            return_data['answer_reject_code'] = q.qa.reject_code
+
+        if  q.attachments is None:
+            return_data['attach'] = "없음"
+        else:
+            return_data['attach'] = q.attachments.file_name
+
+        if category == 0:
+            return_data['answer_reject_code'] = ''
+            return_data['history'] = ''
+            return_data['history_reason'] = ''
+            return_data['history_solution'] = ''
+            return_data['history_result'] = ''
+            return_data['history_created_at'] = ''
+            return_data['student'] = ''
+            return_data['ban'] = ''
+        else:
+            s = callapi.purple_info(q.student_id,'get_student_info')
+            b = callapi.purple_ban(q.ban_id,'get_ban' )    
+            return_data['student'] = s['name']
+            return_data['ban'] = b['ban_name']
+            if(q.qconsulting.done != 0):
+                return_data['history'] = q.qconsulting.id
+                return_data['history_reason'] = q.qconsulting.reason
+                return_data['history_solution'] = q.qconsulting.solution
+                return_data['history_result'] = q.qconsulting.result
+                return_data['history_created_at'] = q.qconsulting.created_at.strftime('%Y-%m-%d')
+            else:
+                return_data['history'] = ''
+                return_data['history_reason'] = ''
+                return_data['history_solution'] = ''
+                return_data['history_result'] = ''
+                return_data['history_created_at'] = ''
+
+        return_data['comment'] = []
+        for comment in q.qcomments :
+            comment_data = {}
+            comment_data['c_id'] = comment.id
+            comment_data['c_contents'] = comment.contents
+            comment_data['c_created_at'] = comment.created_at.strftime('%Y-%m-%d')
+            comment_data['parent_id'] = comment.parent_id
+            if(q.teacher_id == comment.user_id):
+                comment_data['writer'] = '나'
+            else:
+                comment_data['writer'] = '퍼플'
+            return_data['comment'].append(comment_data)
+
+        return jsonify(return_data)

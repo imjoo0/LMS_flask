@@ -12,74 +12,479 @@
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
     task_doneview(0)
+    get_data()
 })
+//  차트 관련 함수 
+function get_data() {
+    $.ajax({
+        type: "GET",
+        url: "/teacher/get_data",
+        data: {},
+        success: function (response) {
+            let target_ban = response['target_ban']
+            if (response['status'] == 400){
+                let no_data_title = `<h1> ${response.text} </h1>`
+                $('#s_data').html(no_data_title);
+                $('#pagingul').hide();
+                return
+            }
+            let students_num = target_ban['student_num'];
+            let teacher_name = target_ban['teacher_name']
+            let teacher_e_name = target_ban['teacher_engname']
+            let teacher_mobileno = target_ban['teacher_mobileno']
+            let teacher_email = target_ban['teacher_email']
+            let answer = Number(response['answer_alim'])
+            let all_alim = Number(response['all_alim'])
+            
+            let answer_rate =  function(answer, all) {
+                if(Object.is(answer/all, NaN)) return 0;
+                else return answer/all*100;
+            }
+            
+            // 이반 학생 
+            let switch_student = response['switch_student']['data'].filter(a => a.ban_id == b_id).length;
+            let all_s_student = response['switch_student']['data'].length;
+            // 퇴소 학생 
+            let out_student = response['out_student']['data'].filter(a => a.ban_id == b_id).length;
+            let all_o_student = response['out_student']['data'].length;
+            // 공지 
+            let notice = response['notice']
+            
+            // 상담
+            let consulting = response['consulting']['data'].filter(a => a.ban_id == b_id)
+
+            let u_consulting = response['consulting']['data'].filter(a => a.category_id < 100);
+            let all_uc_consulting = u_consulting.length;
+            let u_consulting_my = u_consulting.filter(a => a.ban_id == b_id);
+
+            let consulting_ixl = u_consulting_my.filter(a => a.category_id == 1).length
+            let consulting_reading = u_consulting_my.filter(a => a.category_id == 4).length
+            let consulting_speacial = u_consulting_my.filter(a => a.category_id == 3).length
+            let consulting_writing = u_consulting_my.filter(a => a.category_id == 6).length
+            let consulting_homepage = u_consulting_my.filter(a => a.category_id == 2).length
+            let consulting_intoreading = u_consulting_my.filter(a => a.category_id == 5 || a.category_id == 7).length
+            
+            let task = response['task']['data']
+            let switchstudent_num = response['switchstudent_num']
+            let switchstudent_num_p = response['switchstudent_num_p']
+            let outstudent_num = response['outstudent_num']
+            let outstudent_num_p = response['outstudent_num_p']
+            let unlearned_ttd = response['unlearned_ttd']
+            let unlearned_ttc = response['unlearned_ttc']
+
+            let temp_profile_data = `
+            <tbody  style="width:100%;">
+                <tr class="row" style="background: #DCE6F2;">
+                    <th class="col-12">담임 선생님 정보</th>
+                </tr>
+                <tr class="row" style="background:#DCE6F2;">
+                    <td class="col-4">${teacher_name}(${teacher_e_name})</th>
+                    <td class="col-4"> 📞 ${teacher_mobileno} </th>
+                    <td class="col-4"> ✉️ ${teacher_email}</th>
+                </tr>
+            </tbody>
+            `;
+            $('#profile_data').html(temp_profile_data);
+
+
+            let temp_ban_data = `
+            <tbody  style="width:100%;">
+                <tr class="row">
+                    <th class="col-3">현 원생 수</th>
+                    <th class="col-3">이반</th>
+                    <th class="col-3">퇴소</th>
+                    <th class="col-3">미학습</th>
+                </tr>
+                <tr class="row">
+                    <td class="col-3">${students_num}</td>
+                    <td class="col-3">${switch_student}(${answer_rate(switch_student, all_s_student).toFixed(2)}%)</td>
+                    <td class="col-3">${out_student}(${answer_rate(out_student, all_o_student).toFixed(2)}%)</td>
+                    <td class="col-3">${u_consulting_my.length}(${answer_rate(u_consulting_my.length, all_uc_consulting).toFixed(2)}%) </td>
+                </tr>
+            </tbody>
+            `;
+
+            $('#ban_data').html(temp_ban_data);
+            
+            response['student_info'].forEach((elem) =>{
+                elem.unlearned = u_consulting_my.filter( a => a.student_id == elem.register_no).length
+                elem.up = answer_rate(elem.unlearned, u_consulting_my.length).toFixed(1)
+            })
+            response['student_info'].sort((a,b)=>b.up - a.up)
+            data_list = response['student_info']
+            totalData = students_num
+            
+            displayData(totalData, 1, dataPerPage,data_list, b_id);
+            paging(totalData, dataPerPage, pageCount, 1,data_list, b_id);
+            $('#student_data').show()
+            $('#pagingul').show();
+            let temp_ban_statistics = `
+            <table class="table text-center" id="unlearned" style="margin-left:1%; margin-right: 4%;width: 40%;">
+                    <tbody  style="width:100%;">
+                        <tr class="row" style="background: #DCE6F2;">
+                            <th class="col-12">미학습 관리</th>
+                        </tr>
+                        <tr class="row">
+                            <th class="col-2">IXL</th>
+                            <th class="col-2">리딩</th>
+                            <th class="col-2">리특</th>
+                            <th class="col-2">라이팅</th>
+                            <th class="col-2">미접속</th>
+                            <th class="col-2">인투리딩</th>
+                        </tr>
+                        <tr class="row">
+                            <td class="col-2">${consulting_ixl}(${answer_rate(consulting_ixl, u_consulting_my.length).toFixed(2)}%)</td>
+                            <td class="col-2">${consulting_reading}(${answer_rate(consulting_reading, u_consulting_my.length).toFixed(1)}%)</td>
+                            <td class="col-2">${consulting_speacial}(${answer_rate(consulting_speacial, u_consulting_my.length).toFixed(1)}%) </td>
+                            <td class="col-2">${consulting_writing}(${answer_rate(consulting_writing, u_consulting_my.length).toFixed(1)}%) </td>
+                            <td class="col-2">${consulting_homepage}(${answer_rate(consulting_homepage, u_consulting_my.length).toFixed(1)}%) </td>
+                            <td class="col-2">${consulting_intoreading}(${answer_rate(consulting_intoreading, u_consulting_my.length).toFixed(1)}%) </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table text-center" id="teaching" style="margin-right: 4%; width: 25%;">
+                    <tbody  style="width:100%;">
+                        <tr class="row" style="background: #DCE6F2;">
+                            <th class="col-12">상담*업무 관리</th>
+                        </tr>
+                        <tr class="row">
+                            <th class="col-6">업무</th>
+                            <th class="col-6">상담</th>
+                        </tr>
+                        <tr class="row">
+                            <td class="col-3">${task.filter(a => a.done == 1).length}/${task.length}</td>
+                            <td class="col-3">${answer_rate(task.filter(a => a.done == 1).length, task.length).toFixed(1)}%</td>
+                            <td class="col-3">${consulting.filter(a => a.done == 1).length}/${consulting.length}</td>
+                            <td class="col-3">${answer_rate(consulting.filter(a => a.done == 1).length, consulting.length).toFixed(1)}%</td>
+                        </tr>
+                    </tbody>
+                </table>  
+                <table class="table text-center" id="task"style="width: 25%;" >
+                    <tbody  style="width:100%;">
+                        <tr class="row" style="background: #DCE6F2;">
+                            <th class="col-12">공지*문의 관리</th>
+                        </tr>
+                        <tr class="row">
+                            <th class="col-6">공지</th>
+                            <th class="col-6">문의</th>
+                        </tr>
+                        <tr class="row">
+                            <td class="col-6">${notice.length}</td>
+                            <td class="col-3">${answer}/${all_alim} </td>
+                            <td class="col-3">${answer_rate(answer, all_alim).toFixed(2)}%</td>
+                        </tr>
+                    </tbody>
+                </table>      
+            `;
+
+            $('#ban_statistics').html(temp_ban_statistics);
+        },
+        error:function(xhr, status, error){
+                alert('xhr.responseText');
+        }
+    });
+}
+
 
 // 본원 문의 관련 함수 
 //  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
-function change_question_kind(str){
-    if( str == "일반"){
+function change_question_kind(str) {
+    if (str == "일반") {
         $('#invisible_for_2').hide();
         $('#question_box').show();
-    }else{
+    } else {
         $('#invisible_for_2').show();
         $('#question_box').show();
     }
 }
-function go_back(){
+function go_back() {
     $('#questiondetail').hide();
     $('#questionlist').show();
     $('#teachers_student_list').show();
     $('#make_plus_consulting').hide();
     $('#banstudentlistModalLabel').html('원생목록')
 }
-function get_ban_student(b_id){
+function q_category(category) {
+    if (category == 0) {
+        category = '일반문의'
+    } else if (category == 1) {
+        category = '퇴소문의'
+    } else if (category == 2) {
+        category = '이반문의'
+    } else {
+        category = '취소/환불문의'
+    }
+    return category
+}
+    // 문의 작성 
+function get_myban_list(){
     $.ajax({
         type: "GET",
-        url: "/manage/ban/"+b_id,
+        url: "/teacher/get_myban_list",
         data: {},
         success: function (response) {
-            // let target_ban = response['target_ban']
-            if (response['status'] == 400){
-                return
+            let temp_ban_option = '<option value="none" selected>기존 반을 선택해주세요</option>';
+            for (i = 0; i < response.length; i++) {
+                let name = response[i]['name']
+                // let semester = make_semester(target_ban[i]['semester'])
+                let register_no = response[i]['register_no']
+                temp_ban_option += `
+                <option value="${register_no}">${name}</option>
+                `;
             }
-            data_list = response['student_info']
-
-            $('#student_list').empty()
-            for (var i = 0; i < data_list.length; i++) {
-                target = data_list[i]
-                let id = target['register_no']
-                let name = target['name'];
-                let temp_target_student = `<option value="${id}"> ${name} </option>`;
-                $('#student_list').append(temp_target_student)
-            } 
-        },
-        error:function(xhr, status, error){
-                alert('xhr.responseText');
-            }
+            $('#my_ban_list').html(temp_ban_option)
+        }
     })
 }
-
-
-// 상담 수행 관련 함수
-function get_consulting_history(){
-    let is_done = $('#history_done option:selected').val()
-    let ban_id = $('#history_ban option:selected').val()
-    done_consulting_history_view(ban_id,is_done)
-}
-function done_consulting_history_view(ban_id,is_done){
+function get_ban_student(b_id) {
     $.ajax({
         type: "GET",
-        url: "/teacher/mystudents/"+ban_id+'/'+is_done,
+        url: "/teacher/get_ban_student/" + b_id,
         data: {},
         success: function (response) {
-            if(response["consulting_student_list"] == '없음'){
+            let temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option>';
+            for (var i = 0; i < response.length; i++) {
+                let id = response[i]['register_no']
+                let name = response[i]['name'];
+                temp_target_student += `<option value="${id}"> ${name} </option>`;
+                $('#student_list').html(temp_target_student)
+            }
+        },
+        error: function (xhr, status, error) {
+            alert('xhr.responseText');
+        }
+    })
+}
+function attach_consulting_history(student_id) {
+    $.ajax({
+        type: "GET",
+        url: "/teacher/attach_consulting_history/" + student_id,
+        // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+        data: {},
+        success: function (response) {
+            console.log(response['consulting_history'])
+            if(response['consulting_history'].length == 0) {
+                alert('상담을 우선 진행해주세요');
+            }else{
+                let temp_consulting_contents_box = '<option value="none" selected>상담을 선택해주세요</option>'
+                for (i = 0; i < response.length; i++) {
+                    let cid = response[i]['id']
+                    let category = response[i]['category']
+                    let contents = response[i]['contents']
+                    let result = response[i]['result']
+                    temp_consulting_contents_box += `
+                     <option value=${cid}>${category}|${contents} - 상담결과: ${result}</option>
+                    `;
+                    $('#h_select_box').html(temp_consulting_contents_box)
+                }
+            }
+        }
+    });
+}
+    // 문의 리스트
+function get_question_list() {
+    let container = $('#question_pagination')
+    $.ajax({
+        type: "GET",
+        url: "/teacher/question",
+        data: {},
+        success: function (data) {
+            container.pagination({
+                dataSource: JSON.parse(data),
+                prevText: '이전',
+                nextText: '다음',
+                pageClassName: 'float-end',
+                pageSize: 5,
+                callback: function (data, pagination) {
+                    var dataHtml = '';
+                    $.each(data, function (index, item) {
+                        if (item.answer == 0) { done_code = '미응답' }
+                        else { done_code = item.answer_created_at + '에 응답' }
+                        dataHtml += `
+                        <td class="col-2">${q_category(item.category)}</td>
+                        <td class="col-4">${item.title}</td>
+                        <td class="col-3"> ${done_code} </td>
+                        <td class="col-1" onclick="get_question_detail(${item.id},${item.answer},${item.category})"> ✅ </td>
+                        <td class="col-1" onclick="delete_question(${item.id})"> ❌ </td>
+                        <td class="col-1"> ${item.comments} </td>`;
+                    });
+                    $('#teacher_question_list').html(dataHtml);
+                }
+            })
+        }
+    })
+}
+    // 문의 내용 상세보기
+async function get_question_detail(q_id, answer, category) {
+    $('#questionlist').hide()
+    $('#questiondetail').show()
+    var temp_comment = ''
+    var temp_answer_list = ''
+    var temp_question_list = ''
+    await $.ajax({
+        type: "GET",
+        url: "/teacher/question_detail/" + q_id + "/" + answer + "/" + category ,
+        data: {},
+        success: function (response) {
+            category_name = q_category(category)
+            temp_comment = `     
+            <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents"
+            placeholder="댓글을 남겨주세요">
+            <button onclick="post_comment(${q_id},${0})">등록</button>
+            `;
+            $('#comment_post_box').html(temp_comment)
+            title = response["title"]
+            contents = response["contents"]
+            create_date = response["create_date"]
+            attach = response['attach']
+            comments = response['comment']
+            ban = response["ban"]
+            student = response["student"]
+            reject = response['answer_reject_code']
+            answer_title = response['answer_title']
+            answer_content = response['answer_content']
+            answer_created_at = response['answer_created_at']
+
+            if(answer == 0){
+                temp_answer_list = `
+                <div class="modal-body-select-container">
+                <span class="modal-body-select-label">응답</span>
+                <p>미응답</p>
+                </div>`;
+            }else{
+                temp_answer_list = `
+                <div class="modal-body-select-container">
+                <span class="modal-body-select-label">응답제목</span>
+                <p>${answer_title}</p>
+                </div>
+                <div class="modal-body-select-container">
+                <span class="modal-body-select-label">응답</span>
+                <p>${answer_content}</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">응답일</span>
+                    <p>${answer_created_at}</p>
+                </div>`
+            }
+            
+
+            $('#comments').empty()
+            if (comments.length != 0) {
+                for (i = 0; i < comments.length; i++) {
+                    c_id = comments[i]['c_id']
+                    c_contents = comments[i]['c_contents']
+                    c_created_at = comments[i]['c_created_at']
+                    writer = comments[i]['writer']
+                    parent_id = comments[i]['parent_id']
+
+                    if (parent_id == 0) {
+                        temp_comments = `
+                        <div id="for_comment${c_id}" style="margin-top:10px">
+                            <p class="p_comment">${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
+                        </div>
+                        <details style="margin-top:0px;margin-right:5px;font-size:0.9rem;">
+                            <summary><strong>대댓글 달기</strong></summary>
+                                <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents${c_id}"
+                                placeholder=" 대댓글 ">
+                                <button onclick="post_comment(${q_id},${c_id})">등록</button>
+                            </details>
+                        `;
+                        $('#comments').append(temp_comments);
+                    } else {
+                        let temp_comments = `
+                        <p class="c_comment"> ➖ ${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
+                        `;
+                        $(`#for_comment${parent_id}`).append(temp_comments);
+                    }
+
+                }
+            }
+            if(category == 0){
+                $('#consulting_history_attach').hide()
+                temp_question_list = `
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">문의 종류</span>
+                        <p>${category_name}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">제목</span>
+                        <p>${title}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">내용</span>
+                        <p>${contents}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">작성일</span>
+                        <p>${create_date}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">첨부파일</span>
+                        <a href="/common/downloadfile/question/${q_id}" download="${attach}">${attach}</a>
+                    </div>
+                `;
+            }else{
+                //  이반 / 퇴소 등 문의 
+                $('#consulting_history_attach').show()
+                temp_question_list = `
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">문의 종류</span>
+                        <p>${category_name}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">제목</span>
+                        <p>${title}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">내용</span>
+                        <p>${contents}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">작성일</span>
+                        <p>${create_date}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">대상 반 | 학생</span>
+                        <p>${ban} ➖ ${student}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">처리</span>
+                        <p>${reject}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">첨부파일</span>
+                        <a href="/common/downloadfile/question/${q_id}" download="${attach}">${attach}</a>
+                    </div>
+                `;
+            }
+                    
+            $('#teacher_answer').html(temp_answer_list);
+            $('#teacher_question').html(temp_question_list);
+        }
+    });
+}
+
+// 상담 수행 관련 함수
+function get_consulting_history() {
+    let is_done = $('#history_done option:selected').val()
+    let ban_id = $('#history_ban option:selected').val()
+    done_consulting_history_view(ban_id, is_done)
+}
+
+function done_consulting_history_view(ban_id, is_done) {
+    $.ajax({
+        type: "GET",
+        url: "/teacher/mystudents/" + ban_id + '/' + is_done,
+        data: {},
+        success: function (response) {
+            if (response["consulting_student_list"] == '없음') {
                 $('#consulting_history_box').hide()
                 $('#h_title').show();
-            }else{
+            } else {
                 $('#h_title').hide();
                 $('#consulting_history_box').show()
                 $('#consulting_history_student_list').empty()
-                for(i=0;i<response["consulting_student_list"].length;i++){
+                for (i = 0; i < response["consulting_student_list"].length; i++) {
                     let target = response["consulting_student_list"][i]
                     let student_name = target['name']
                     let student_id = target['s_id']
@@ -99,115 +504,96 @@ function done_consulting_history_view(ban_id,is_done){
                 }
             }
         }
-            // alert(response["title"])
+        // alert(response["title"])
         //     if (response["result"]=='문의가 전송되었습니다') {
         //     window.location.replace('/teacher')
         // }else {window.location.href='/'}
     });
 
 }
-function get_consulting_student(ban_regi,is_done){
-    if(ban_regi == 0){
-        $('#consulting_student_list').hide();
-        $('#consulting_msg').html('상담할 반을 선택해주세요');
-    }else{
-        $.ajax({
-            type: "GET",
-            url: "/teacher/mystudents/"+ban_regi+"/"+is_done,
-            data: {},
-            success: function (response) {
-                const result = response['my_students'].filter((obj1) =>
-                    response['all_consulting']['data'].some((obj2) => obj2.student_id === obj1.register_no)
-                ).map((obj1)=>{
-                    const obj2Arr = response['all_consulting']['data'].filter((obj2) => obj2.student_id === obj1.register_no);
-                    return Object.assign({},obj1,...obj2Arr);
-                });
-                console.log(result)
-                
-                for(i=0;i<result.length;i++){
+function get_consulting_student(is_done) {
+    $.ajax({
+        type: "GET",
+        url: "/teacher/mystudents/" + is_done,
+        data: {},
+        success: function (response) {
+            const result = response['my_students'].reduce((acc, student) => {
+                const consultingList = response['all_consulting']['data'].filter(consulting => consulting.student_id === student.register_no);
+
+                if (consultingList.length > 0) {
+                    const deadline = consultingList.reduce((prev, current) => {
+                        const prevDueDate = prev.deadline instanceof Date ? prev.deadline.getTime() : Number.POSITIVE_INFINITY;
+                        const currentDueDate = current.deadline instanceof Date ? current.deadline.getTime() : Number.POSITIVE_INFINITY;
+                        return currentDueDate < prevDueDate ? current : prev;
+                    }, consultingList[0]);
+                    acc.push({
+                        'student_id': student.register_no,
+                        'student_name': student.name,
+                        'student_mobileno': student.mobileno,
+                        'ban_name': student.classname,
+                        'consulting_num': consultingList.length,
+                        'consultings': consultingList,
+                        'deadline': deadline.deadline
+                    });
+                }
+                return acc;
+            }, []);
+            if (result.length > 0) {
+                $('#consulting_title').html('오늘의 상담');
+                let temp_consulting_contents_box = ''
+                for (i = 0; i < result.length; i++) {
                     var ban_name = result[i]['ban_name']
-                    var name = result[i]['name']
+                    var student_id = result[i]['student_id']
+                    var student_name = result[i]['student_name']
+                    var mobileno = result[i]['student_mobileno']
+                    var consulting_num = result[i]['consulting_num']
                     var deadline = result[i]['deadline']
-                    var mobileno = result[i]['mobileno']
-                    var student_id = result[i]['id']
-                    let temp_consulting_contents_box = `
-                    <tr class="row">
+                    temp_consulting_contents_box += `
                     <td class="col-3">${ban_name}</td>
+                    <td class="col-2">${student_name}</td>
                     <td class="col-3">${mobileno}</td>
-                    <td class="col-2">${name}</td>
+                    <td class="col-1">${consulting_num}</td>
                     <td class="col-2">${deadline}</td>
                     <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">상담 실행</td> 
-                    </tr>
                     `;
-                    $('#today_consulting_box').append(temp_consulting_contents_box);
-
+                    $('#today_consulting_box').html(temp_consulting_contents_box);
                 }
-
-                // if(response["consulting_student_list"] == '없음'){
-                //     $('#consulting_student_list').hide();
+            } else {
+                $('#consulting_title').html('오늘의 상담이 없습니다.');
+            }
+        }
+    });
+}
+function get_consulting(student_id, is_done) {
+    $.ajax({
+        type: "GET",
+        url: "/teacher/consulting/" + student_id + "/" + is_done,
+        data: {},
+        success: function (response) {
+            if (response["consulting_list"] == '없음') {
+                $('#consultinghistoryModalLabelt').html('진행 할 상담이 없습니다.')
+                //     $('#consulting_list').hide();
                 //     let temp_consulting_contents_box = `
                 //     <p> 오늘의 상담 업무를 완료했습니다 🎉</p>
                 //     `;
                 //     $('#consulting_msg').html(temp_consulting_contents_box);
-                // }else{
-                //     $('#consulting_msg').empty();
-                //     $('#consulting_student_list').show();
-                //     $('#today_consulting_box').empty()
-                //     for(i=0;i<response["consulting_student_list"].length;i++){
-                //         let target = response["consulting_student_list"][i]
-                //         let student_name = target['name']
-                //         let student_id = target['s_id']
-                //         let mobileno = target['mobileno']
-                //         let student_reco_book_code = target['reco_book_code']
-                //         let consulting_num = target['consulting_num']
-                //         let temp_consulting_contents_box = `
-                //         <tr class="row">
-                //         <td class="col-3">${student_name}</td>
-                //         <td class="col-3">${mobileno}</td>
-                //         <td class="col-2">${student_reco_book_code}</td>
-                //         <td class="col-2">${consulting_num}</td>
-                //         <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">상담 실행</td> 
-                //         </tr>
-                //         `;
-                //         $('#today_consulting_box').append(temp_consulting_contents_box);
-                //     }
-                // }
-            }
-        });
-    }
-    
-    $('#today_consulting_box').show();
-}
-function get_consulting(student_id,is_done){
-    $.ajax({
-        type: "GET",
-        url: "/teacher/consulting/"+student_id+"/"+is_done,
-        data: {},
-        success: function (response) {
-            if(response["consulting_list"] == '없음'){
-                $('#consultinghistoryModalLabelt').html('진행 할 상담이 없습니다.')
-            //     $('#consulting_list').hide();
-            //     let temp_consulting_contents_box = `
-            //     <p> 오늘의 상담 업무를 완료했습니다 🎉</p>
-            //     `;
-            //     $('#consulting_msg').html(temp_consulting_contents_box);
-            }else{
+            } else {
                 $('#consultinghistoryModalLabelt').html('상담일지 작성')
                 $('#consulting_write_box').empty();
                 let r_target = response["consulting_list"]
-                for(i=0;i<r_target.length;i++){
+                for (i = 0; i < r_target.length; i++) {
                     let target = r_target[i]
                     let category = target['category']
                     let consulting_id = target['c_id']
                     let contents = target['contents']
                     let consulting_missed = target['consulting_missed']
                     let deadline = target['deadline']
-                if(is_done == 1){
-                    let history_reason = target['history_reason']
-                    let history_solution = target['history_solution']
-                    let history_result = target['history_result']
-                    let history_created = target['history_created']
-                    let temp_consulting_contents_box = `
+                    if (is_done == 1) {
+                        let history_reason = target['history_reason']
+                        let history_solution = target['history_solution']
+                        let history_result = target['history_result']
+                        let history_created = target['history_created']
+                        let temp_consulting_contents_box = `
                     <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
                     <p >✅<strong>${category}</strong></br>${contents}</br>*마감:
                         ~${deadline}까지 | 부재중 : ${consulting_missed}</br></p>
@@ -228,9 +614,9 @@ function get_consulting(student_id,is_done){
                     </div>
                     <p>상담 일시 : ${history_created}</p>
                     `;
-                    $('#consulting_write_box').append(temp_consulting_contents_box);
-                }else{
-                    let temp_consulting_contents_box = `
+                        $('#consulting_write_box').append(temp_consulting_contents_box);
+                    } else {
+                        let temp_consulting_contents_box = `
                     <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
                     <p >✅<strong>${category}</strong></br>${contents}</br>*마감:
                         ~${deadline}까지 | 부재중 : ${consulting_missed}</br></p>
@@ -250,9 +636,9 @@ function get_consulting(student_id,is_done){
                             id="consulting_result${consulting_id}" style="width: 75%;"></textarea>
                     </div>
                     `;
-                    $('#consulting_write_box').append(temp_consulting_contents_box);
-                }
-                    
+                        $('#consulting_write_box').append(temp_consulting_contents_box);
+                    }
+
                 }
                 let temp_post_box = `
                 <p>✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
@@ -272,67 +658,44 @@ function get_consulting(student_id,is_done){
     });
     // $('#today_consulting_box').show();
 }
-function attach_consulting_history(student_id,is_done){
+
+function post_bulk_consultings(c_length, is_done) {
+    for (i = 0; i < c_length; i++) {
+        target = $('#target_consulting_id' + i).val()
+        post_target_consulting(target, is_done)
+    }
+}
+function post_target_consulting(consulting, is_done) {
+    consulting_missed = $(`input:checkbox[id="missed"]`).is(":checked")
+    consulting_reason = $('#consulting_reason' + consulting).val()
+    consulting_solution = $('#consulting_solution' + consulting).val()
+    consulting_result = $('#consulting_result' + consulting).val()
+    if ((consulting_reason.length == 0)) {
+        consulting_reason = "noupdate"
+    } if ((consulting_solution.length == 0)) {
+        consulting_solution = "noupdate"
+    } if ((consulting_result.length == 0)) {
+        consulting_result = "noupdate"
+    }
     $.ajax({
-        type: "GET",
-        url: "/teacher/consulting/"+student_id+"/"+is_done,
+        type: "POST",
+        url: '/teacher/consulting/' + consulting + '/' + is_done,
         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
-        data: {},
+        data: {
+            consulting_reason: consulting_reason,
+            consulting_solution: consulting_solution,
+            consulting_result: consulting_result,
+            consulting_missed: consulting_missed,
+        },
         success: function (response) {
-            if(response['consulting_list'] == '없음'){
-                let temp_consulting_contents_box = `<option value="none" selected>상담을 우선 진행해주세요</option>`;
-                $('#h_select_box').append(temp_consulting_contents_box)
-            }else{
-                $('#h_select_box').empty();
-                let target = response["consulting_list"]
-                for(i=0;i<target.length;i++){
-                    let h_id = target[i]['history_id']
-                    let consulting = target[i]['contents']
-                    let history_result = target[i]['history_result']
-                    let temp_consulting_contents_box = `
-                     <option value=${h_id}>${consulting} - 상담결과: ${history_result}</option>
-                    `;
-                    $('#h_select_box').append(temp_consulting_contents_box)                    
-                }
+            {
+                alert(response["result"])
+                window.location.reload()
             }
         }
-    });
+    })
 }
-function post_bulk_consultings(c_length,is_done){
-    for(i=0;i<c_length;i++){
-        target = $('#target_consulting_id'+i).val()
-        post_target_consulting(target,is_done)
-    }
-}
-function post_target_consulting(consulting,is_done){
-    consulting_missed = $(`input:checkbox[id="missed"]`).is(":checked")
-    consulting_reason = $('#consulting_reason'+consulting).val()
-    consulting_solution = $('#consulting_solution'+consulting).val()
-    consulting_result = $('#consulting_result'+consulting).val()
-    if((consulting_reason.length == 0)){
-        consulting_reason="noupdate"
-    }if((consulting_solution.length == 0)){
-        consulting_solution="noupdate"
-    }if((consulting_result.length == 0)){
-        consulting_result="noupdate"
-    }
-    $.ajax({
-            type: "POST",
-			url:'/teacher/consulting/'+consulting+'/'+is_done,
-			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
-            data: {
-                consulting_reason:consulting_reason,
-                consulting_solution:consulting_solution,
-                consulting_result:consulting_result,
-                consulting_missed:consulting_missed,
-            },
-            success: function (response) {{
-				alert(response["result"])
-                window.location.reload()
-			}}
-		})
-}
-function plusconsulting(student_id,b_id){
+function plusconsulting(student_id, b_id) {
     $('#teachers_student_list').hide();
     $('#make_plus_consulting').show();
     $('#banstudentlistModalLabel').html('추가 상담 상담일지 작성')
@@ -341,36 +704,38 @@ function plusconsulting(student_id,b_id){
     `;
     $('#plusconsulting_button_box').html(temp_button)
 }
-function plusconsulting_history(student_id,b_id){
+function plusconsulting_history(student_id, b_id) {
     consulting_contents = $('#plus_consulting_contents').val()
     consulting_reason = $('#plus_consulting_reason').val()
     consulting_solution = $('#plus_consulting_solution').val()
     consulting_result = $('#plus_consulting_result').val()
     $.ajax({
         type: "POST",
-        url:'/teacher/plus_consulting/'+student_id+'/'+b_id,
+        url: '/teacher/plus_consulting/' + student_id + '/' + b_id,
         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
         data: {
-            consulting_contents:consulting_contents,
-            consulting_reason:consulting_reason,
-            consulting_solution:consulting_solution,
-            consulting_result:consulting_result
+            consulting_contents: consulting_contents,
+            consulting_reason: consulting_reason,
+            consulting_solution: consulting_solution,
+            consulting_result: consulting_result
         },
-        success: function (response) {{
-            alert(response["result"])
-            window.location.reload()
-        }}
+        success: function (response) {
+            {
+                alert(response["result"])
+                window.location.reload()
+            }
+        }
     })
 }
 
 // 오늘의 업무 관련 함수 
-async function task_doneview(done_code){
-    if(done_code == 0){
+async function task_doneview(done_code) {
+    if (done_code == 0) {
         $('#task_title').html('오늘의 업무')
         $('#today_task_box0').show();
         $('#today_task_box1').hide();
         $('#task_button').show()
-    }else{
+    } else {
         $('#task_title').html('오늘 완료한 업무')
         $('#today_task_box0').hide();
         $('#today_task_box1').show();
@@ -378,22 +743,22 @@ async function task_doneview(done_code){
     }
     await $.ajax({
         type: "GET",
-        url: "/teacher/task/"+done_code,
+        url: "/teacher/task/" + done_code,
         data: {},
         success: function (response) {
-            if((response["target_task"] == '없음')||(response["target_task"].length == 0)){
-                if(done_code == 0){
+            if ((response["target_task"] == '없음') || (response["target_task"].length == 0)) {
+                if (done_code == 0) {
                     $('#today_task_box0').html('오늘의 업무 끝 😆');
                     $('#today_task_box1').empty()
-                }else{
+                } else {
                     $('#today_task_box1').html('완수한 업무가 없어요');
                     $('#today_task_box0').empty()
                 }
-            }else{
+            } else {
                 $('#cate_menu').empty()
-                $('#today_task_box'+done_code).empty()
-                let range = 12/response['target_cate'].length;
-                for(i=0;i<response['target_cate'].length;i++){
+                $('#today_task_box' + done_code).empty()
+                let range = 12 / response['target_cate'].length;
+                for (i = 0; i < response['target_cate'].length; i++) {
                     let category_id = response['target_cate'][i]['id'];
                     let name = response['target_cate'][i]['name'];
                     let temp_cate_menu = `
@@ -403,16 +768,16 @@ async function task_doneview(done_code){
                     let temp_for_task = `
                     <td class="col-${range}" id="for_task${done_code}${category_id}"></td>
                     `;
-                    $('#today_task_box'+done_code).append(temp_for_task)
+                    $('#today_task_box' + done_code).append(temp_for_task)
                     $(`#for_task${done_code}${category_id}`).empty()
                 }
-                for(i=0;i<response["target_task"].length;i++){
+                for (i = 0; i < response["target_task"].length; i++) {
                     let id = response["target_task"][i]['id']
                     let category = response["target_task"][i]['category']
                     let contents = response["target_task"][i]['contents']
                     let deadline = response["target_task"][i]['deadline']
                     let priority = response["target_task"][i]['priority']
-                    if(priority > 2){
+                    if (priority > 2) {
                         let temp_task_contents_box = `
                         <details>
                             <summary onclick="get_taskban(${id},${done_code})">⭐우선업무:<strong>${contents}</strong>(마감 : ${deadline})</summary>
@@ -421,7 +786,7 @@ async function task_doneview(done_code){
                         </details>  
                         `;
                         $(`#for_task${done_code}${category}`).append(temp_task_contents_box);
-                    }else{
+                    } else {
                         let temp_task_contents_box = `
                         <details>
                             <summary onclick="get_taskban(${id},${done_code})">✅<strong>${contents}</strong>(마감 : ${deadline})</summary>
@@ -436,66 +801,58 @@ async function task_doneview(done_code){
         }
     });
 }
-function get_taskban(task_id,idx){
+function get_taskban(task_id, idx) {
     $.ajax({
         type: "GET",
-        url: "/teacher/taskban/"+task_id+"/"+idx,
+        url: "/teacher/taskban/" + task_id + "/" + idx,
         data: {},
         success: function (response) {
             $(`#task_ban_box_incomplete${idx}${task_id}`).empty();
-            for(i=0;i<response['target_taskban']['data'].length;i++){
+            for (i = 0; i < response['target_taskban']['data'].length; i++) {
                 let target = response['target_taskban']['data'][i]
                 let id = target["id"]
                 let ban_id = target["ban_id"]
-                let ban =  function(ban_id) {
-                    return response['mybans_info'].filter( a => a.register_no == ban_id)[0]['name'];
+                let ban = function (ban_id) {
+                    return response['mybans_info'].filter(a => a.register_no == ban_id)[0]['name'];
                 }
-                let temp_task_ban_box = '' 
-                if(idx == 0){
-                    temp_task_ban_box= `
+                let temp_task_ban_box = ''
+                if (idx == 0) {
+                    temp_task_ban_box = `
                     <label><input type="checkbox" name="taskid" value="${id}"/>${ban(ban_id)}</label>
                     `;
-                }else{
+                } else {
                     temp_task_ban_box = `<p>➖ ${ban(ban_id)} </p>`
                 }
-                
+
                 $(`#task_ban_box_incomplete${idx}${task_id}`).append(temp_task_ban_box);
             }
         }
-        
+
     });
 }
-function get_update_done(){
-    $('input:checkbox[name=taskid]').each(function(index){
-        if($(this).is(":checked")==true){
+function get_update_done() {
+    $('input:checkbox[name=taskid]').each(function (index) {
+        if ($(this).is(":checked") == true) {
             return update_done($(this).val())
         }
     });
 }
-function update_done(target){
+function update_done(target) {
     $.ajax({
-            type: "POST",
-			url:'/teacher/task/'+target,
-			// data: JSON.stringify(jsonData), // String -> json 형태로 변환
-            data: {},
-            success: function (response) {{
-				if(response['result'] == '완료'){
-                }else{
+        type: "POST",
+        url: '/teacher/task/' + target,
+        // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+        data: {},
+        success: function (response) {
+            {
+                if (response['result'] == '완료') {
+                } else {
                     alert(response["result"])
                 }
                 window.location.replace('/teacher')
-			}}
-		})
+            }
+        }
+    })
 }
 
-// 남규님 
-function get_data(){
-    $.ajax({
-        type: "GET",
-        url: "/teacher/api/get_teacher_ban",
-        data: {},
-        success: function (response) {
-        console.log(response)
-        } 
-    });
-}
+

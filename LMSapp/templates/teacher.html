@@ -63,18 +63,14 @@
                     <div id="invisible_for_2">
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">기존 반</span>
-                            <select class="modal-body-select" name="ban_id" onchange="get_ban_student(this.value)">
-                                <option value="none" selected>기존 반을 선택해주세요</option>
-                                {% for ban in my_bans %}
-                                {% set ban_registerno = ban['register_no'] %}
-                                <option value={{ban_registerno}}>{{ban['name']}}</option>
-                                {% endfor %}
+                            <select class="modal-body-select" name="ban_id" onchange="get_ban_student(this.value)" id="my_ban_list">
+                                
                             </select>
                         </div>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">대상 원생</span>
-                            <select id="student_list" class="modal-body-select" name="target_student" onchange="attach_consulting_history(this.value,1)">
-                                <option value="none" selected>원생을 선택해주세요</option>
+                            <select id="student_list" class="modal-body-select" name="target_student" onchange="attach_consulting_history(this.value)">
+                                <option value="none" selected>대상 원생을 선택해주세요</option>
                             </select>
                         </div>
                         <div class="modal-body-select-container">
@@ -110,6 +106,7 @@
         </div>
     </div>
 </div>
+
 <!-- 문의 조회 -->
 <div class="modal fade" id="question_list" tabindex="-1" aria-labelledby="questionListModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -167,53 +164,19 @@
                 <table class="table text-center" id="questionlist" style="width:100%;">
                     <tbody style="width:100%;">
                         <tr class="row">
-                            <th class="col-3">종류</th>
-                            <th class="col-5">제목</th>
-                            <th class="col-2">답변</th>
-                            <th class="col-2">삭제</th>
+                            <th class="col-2">종류</th>
+                            <th class="col-4">제목</th>
+                            <th class="col-3">답변</th>
+                            <th class="col-1">상세보기</th>
+                            <th class="col-1">삭제</th>
+                            <th class="col-1">댓글</th>
                         </tr>
-                        {% if questions is iterable %}
-                        {% for question in questions %}
-                        <tr class="row">
-                            {% if question.category == 0 %}
-                            <td class="col-3">일반문의</td>
-                            {% elif question.category == 1 %}
-                            <td class="col-3">퇴소문의</td>
-                            {% elif question.category == 2 %}
-                            <td class="col-3">이반문의</td>
-                            {% else %}
-                            <td class="col-3">취소/환불</td>
-                            {% endif %}
-                            <td class="col-5">{{ question.title }} </td>
-                            {% if question.answer == 0 %}
-                            <td class="col-2" onclick="get_question('{{question.id}}',3)"> 미응답 </td>
-                            {% else %}
-                            <td class="col-2" onclick="get_question('{{question.id}}',3)"> ✔️ </td>
-                            {% endif %}
-                            <td class="col-2" onclick="delete_question('{{question.id}}')"> ❌ </td>
+                        <tr class="row" id="teacher_question_list">
+
                         </tr>
-                        {% endfor %}
-                        {% else %}
-                        <tr class="row">
-                            {% if questions.category == 0 %}
-                            <td class="col-3">일반문의</td>
-                            {% elif questions.category == 1 %}
-                            <td class="col-3">퇴소문의</td>
-                            {% elif questions.category == 2 %}
-                            <td class="col-3">이반문의</td>
-                            {% else %}
-                            <td class="col-3">취소/환불</td>
-                            {% endif %}
-                            <td class="col-7">{{ questions.title }} </td>
-                            {% if questions.answer_id == null %}
-                            <td class="col-2"> 미답변 </td>
-                            {% else %}
-                            <td class="col-2" onclick="get_answer('{{questions.id}}')"> ✔️ </td>
-                            {% endif %}
-                        </tr>
-                        {% endif %}
                     </tbody>
                 </table>
+                <div id="question_pagination" class="py-2 text-center"></div>
             </div>
         </div>
     </div>
@@ -371,14 +334,14 @@
             <div class="p-lg-5 p-1 pb-4">
                 <div class="d-flex justify-content-between flex-row row-cols-3">
                     <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
-                    <div class="question-btn-container">
+                    <div class="question-btn-container" onclick="get_myban_list()">
                         <div class="question-btn head-office-question-btn" data-bs-toggle="modal"
                             data-bs-target="#question">
                             <img src="https://purpleacademy.net/free_project/public/image/head-office-question-btn.png">
                         </div>
                         <span class="question-label">본원 문의</span>
                     </div>
-                    <div class="question-btn-container">
+                    <div class="question-btn-container" onclick="get_question_list()">
                         <div class="question-btn answer-a-question" data-bs-toggle="modal"
                             data-bs-target="#question_list">
                             <img src="https://purpleacademy.net/free_project/public/image/answer-a-question.png">
@@ -592,38 +555,30 @@
                 </div>
                 <div class="info d-flex justify-content-center align-items-center flex-column">
                     <div class="d-flex justify-content-between flex-row w-100 pb-4 border-bottom">
-                        <h5 class="d-flex justify-content-center align-items-center m-0" id="consulting_title">상담할 반을
-                            선택해주세요</h3>
+                        <h5 class="d-flex justify-content-center align-items-center m-0" id="consulting_title">오늘의 상담</h5>
                             <select class="form-select text-center w-25"
-                                onchange="get_consulting_student(this.value,0)">
-                                <option value=0 selected>상담할 반을 선택해주세요</option>
-                                {% for ban in my_bans %}
-                                {% set ban_regi = ban['register_no'] %}
-                                <option value={{ban_regi}}>{{ ban['name'] }} 상담</option>
-                                {% endfor %}
+                                onchange="get_consulting_student(this.value)">
+                                <option value=0 selected>오늘의 상담</option>
                                 <option value=1>오늘의 부재중 상담</option>
                             </select>
                     </div>
-                    <h5 class="d-flex justify-content-center align-items-center m-0" id="consulting_msg">
-                        </h3>
-                        <div class="w-100 mt-4" id="consulting_student_list">
-                            <table class="table text-center" style="width:100%;">
-                                <tbody style="width:100%;">
-                                    <thead>
-                                        <tr class="row">
-                                            <th class="col-3">이름</th>
-                                            <th class="col-3">연락처</th>
-                                            <th class="col-2">추천도서코드</th>
-                                            <th class="col-2">상담 수</th>
-                                            <th class="col-2">✅</th>
-                                        </tr>
-                                    </thead>
-                                <tbody id="today_consulting_box">
+                    <div class="w-100 mt-4" id="consulting_student_list">
+                        <table class="table text-center" style="width:100%;">
+                            <thead>
+                                <tr class="row">
+                                    <th class="col-3">반</th>
+                                    <th class="col-2">이름</th>
+                                    <th class="col-3">연락처</th>
+                                    <th class="col-1">상담 수</th>
+                                    <th class="col-2">상담 마감일</th>
+                                    <th class="col-1">✅</th>
+                                </tr>
+                            </thead>
+                            <tr class="row"  id="today_consulting_box">
 
-                                </tbody>
-                                </tbody>
-                            </table>
-                        </div>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
 

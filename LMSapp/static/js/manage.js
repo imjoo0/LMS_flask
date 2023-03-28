@@ -4,7 +4,11 @@ var selectedStudentList = [];
 
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
-    getBanlist()
+    getBanlist();
+    $('.nav-link').on('click', function(){
+        $('.nav-link').removeClass('active');
+        $(this).addClass('active');
+    })
 })
 
 // 이반 * 퇴소 
@@ -98,7 +102,7 @@ function so_paginating(done_code) {
         }
     })
 }
-// 미학습 
+// 미학습 (학습관리)
 async function uldata(){
     $('#qubox').hide()
     $('#sobox').hide()
@@ -141,7 +145,7 @@ async function uldata(){
 }
 // 전체 반 정보 가져오는 함수 
 function getBanlist(){
-    $('#detailban').show()
+    $('#detailban').show();
     $('#qubox').hide()
     $('#sobox').hide()
     $('#ulbox').hide()
@@ -672,8 +676,8 @@ async function get_consulting() {
                     <td class="col-2">${consulting.name}</td>
                     <td class="col-1"> 미진행 </td>
                     <td class="col-4"> ${consulting.contents}</td>
-                    <td class="col-2"> <button onclick="update_consulting(${consulting.id})">✏️</button> 
-                    <button onclick="delete_consulting(${consulting.id})">❌</button></td>`;
+                    <td class="col-2"> <button class="modal-tbody-btn" onclick="update_consulting(${consulting.id})">✏️</button> 
+                    <button class="modal-tbody-btn" onclick="delete_consulting(${consulting.id})">❌</button></td>`;
                     });
                     category_set = new Set(category_list)
                     category_list = [...category_set]
