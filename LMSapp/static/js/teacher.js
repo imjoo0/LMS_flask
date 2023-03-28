@@ -70,8 +70,8 @@ function get_question_list(){
                         <td class="col-4">${item.title}</td>
                         <td class="col-3"> ${done_code} </td>
                         <td class="col-1" onclick="get_question(${item.id},${item.answer})"> ✅ </td>
-                        <td class="col-1" onclick="delete_question(${id})"> ❌ </td>
-                        <td class="col-1"> ${comments} </td>`;
+                        <td class="col-1" onclick="delete_question(${item.id})"> ❌ </td>
+                        <td class="col-1"> ${item.comments} </td>`;
                     });
                     $('#teacher_question_list').html(dataHtml);
                 }
