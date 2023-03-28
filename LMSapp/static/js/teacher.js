@@ -81,19 +81,21 @@ function get_question_list() {
 async function get_question_detail(q_id, answer, category) {
     $('#questionlist').hide()
     $('#questiondetail').show()
-    category_name = q_category(category)
-    temp_comment = `     
-    <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents"
-    placeholder="댓글을 남겨주세요">
-    <button onclick="post_comment(${q_id},${0})">등록</button>
-    `;
-    $('#comment_post_box').html(temp_comment)
-    //  일반 문의
+    var temp_comment = ''
+    var temp_answer_list = ''
+    var temp_question_list = ''
     await $.ajax({
         type: "GET",
         url: "/teacher/question_detail/" + q_id + "/" + answer + "/" + category ,
         data: {},
         success: function (response) {
+            category_name = q_category(category)
+            temp_comment = `     
+            <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents"
+            placeholder="댓글을 남겨주세요">
+            <button onclick="post_comment(${q_id},${0})">등록</button>
+            `;
+            $('#comment_post_box').html(temp_comment)
             title = response["title"]
             contents = response["contents"]
             create_date = response["create_date"]
@@ -160,7 +162,7 @@ async function get_question_detail(q_id, answer, category) {
 
                 }
             }
-            if (category == 0) {
+            if(category == 0){
                 $('#consulting_history_attach').hide()
                 temp_question_list = `
                     <div class="modal-body-select-container">
@@ -218,11 +220,11 @@ async function get_question_detail(q_id, answer, category) {
                     </div>
                 `;
             }
+                    
+            $('#teacher_answer').html(temp_answer_list);
+            $('#teacher_question').html(temp_question_list);
         }
-
     });
-    $('#teacher_answer').html(temp_answer_list);
-    $('#teacher_question').html(temp_question_list);
 }
 
 function get_ban_student(b_id) {
