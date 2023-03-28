@@ -89,19 +89,79 @@ async function get_question_detail(q_id, answer, category) {
     `;
     $('#comment_post_box').html(temp_comment)
     //  일반 문의
-    if (category == 0) {
-        $('#consulting_history_attach').hide()
-        await $.ajax({
-            type: "GET",
-            url: "/teacher/nomal_question_detail/" + q_id ,
-            data: {},
-            success: function (response) {
-                title = response["title"]
-                contents = response["contents"]
-                create_date = response["create_date"]
-                attach = response['attach']
-                comments = response['comment']
-                
+    await $.ajax({
+        type: "GET",
+        url: "/teacher/question_detail/" + q_id + "/" + answer + "/" + category ,
+        data: {},
+        success: function (response) {
+            title = response["title"]
+            contents = response["contents"]
+            create_date = response["create_date"]
+            attach = response['attach']
+            comments = response['comment']
+            ban = response["ban"]
+            student = response["student"]
+            reject = response['answer_reject_code']
+            answer_title = response['answer_title']
+            answer_content = response['answer_content']
+            answer_created_at = response['answer_created_at']
+
+            if(answer == 0){
+                temp_answer_list = `
+                <div class="modal-body-select-container">
+                <span class="modal-body-select-label">응답</span>
+                <p>미응답</p>
+                </div>`;
+            }else{
+                temp_answer_list = `
+                <div class="modal-body-select-container">
+                <span class="modal-body-select-label">응답제목</span>
+                <p>${answer_title}</p>
+                </div>
+                <div class="modal-body-select-container">
+                <span class="modal-body-select-label">응답</span>
+                <p>${answer_content}</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">응답일</span>
+                    <p>${answer_created_at}</p>
+                </div>`
+            }
+            
+
+            $('#comments').empty()
+            if (comments.length != 0) {
+                for (i = 0; i < comments.length; i++) {
+                    c_id = comments[i]['c_id']
+                    c_contents = comments[i]['c_contents']
+                    c_created_at = comments[i]['c_created_at']
+                    writer = comments[i]['writer']
+                    parent_id = comments[i]['parent_id']
+
+                    if (parent_id == 0) {
+                        temp_comments = `
+                        <div id="for_comment${c_id}" style="margin-top:10px">
+                            <p class="p_comment">${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
+                        </div>
+                        <details style="margin-top:0px;margin-right:5px;font-size:0.9rem;">
+                            <summary><strong>대댓글 달기</strong></summary>
+                                <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents${c_id}"
+                                placeholder=" 대댓글 ">
+                                <button onclick="post_comment(${q_id},${c_id})">등록</button>
+                            </details>
+                        `;
+                        $('#comments').append(temp_comments);
+                    } else {
+                        let temp_comments = `
+                        <p class="c_comment"> ➖ ${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
+                        `;
+                        $(`#for_comment${parent_id}`).append(temp_comments);
+                    }
+
+                }
+            }
+            if (category == 0) {
+                $('#consulting_history_attach').hide()
                 temp_question_list = `
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">문의 종류</span>
@@ -124,76 +184,9 @@ async function get_question_detail(q_id, answer, category) {
                         <a href="/common/downloadfile/question/${q_id}" download="${attach}">${attach}</a>
                     </div>
                 `;
-
-                $('#comments').empty()
-                if (comments.length != 0) {
-                    for (i = 0; i < comments.length; i++) {
-                        c_id = comments[i]['c_id']
-                        c_contents = comments[i]['c_contents']
-                        c_created_at = comments[i]['c_created_at']
-                        writer = comments[i]['writer']
-                        parent_id = comments[i]['parent_id']
-
-                        if (parent_id == 0) {
-                            temp_comments = `
-                            <div id="for_comment${c_id}" style="margin-top:10px">
-                                <p class="p_comment">${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
-                            </div>
-                            <details style="margin-top:0px;margin-right:5px;font-size:0.9rem;">
-                                <summary><strong>대댓글 달기</strong></summary>
-                                    <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents${c_id}"
-                                    placeholder=" 대댓글 ">
-                                    <button onclick="post_comment(${q_id},${c_id})">등록</button>
-                                </details>
-                            `;
-                            $('#comments').append(temp_comments);
-                        } else {
-                            let temp_comments = `
-                            <p class="c_comment"> ➖ ${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
-                            `;
-                            $(`#for_comment${parent_id}`).append(temp_comments);
-                        }
-
-                    }
-                }
-                if(answer != 0){
-                    answer_title = response['answer_title']
-                    answer_content = response['answer_content']
-                    answer_created_at = response['answer_created_at']
-                    temp_answer_list = `
-                    <div class="modal-body-select-container">
-                    <span class="modal-body-select-label">응답제목</span>
-                    <p>${answer_title}</p>
-                    </div>
-                    <div class="modal-body-select-container">
-                    <span class="modal-body-select-label">응답</span>
-                    <p>${answer_content}</p>
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">응답일</span>
-                        <p>${answer_created_at}</p>
-                    </div>`
-                }
-            }
-
-        });
-    }else{
-        //  이반 / 퇴소 등 문의 
-        $('#consulting_history_attach').show()
-        await $.ajax({
-            type: "GET",
-            url: "/teacher/special_question_detail/" + q_id ,
-            data: {},
-            success: function (response) {
-                title = response["title"]
-                contents = response["contents"]
-                create_date = response["create_date"]
-                attach = response['attach']
-                comments = response['comment']
-                
-                ban = response["ban"]
-                student = response["student"]
-                reject = response['answer_reject_code']
+            }else{
+                //  이반 / 퇴소 등 문의 
+                $('#consulting_history_attach').show()
                 temp_question_list = `
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">문의 종류</span>
@@ -224,96 +217,14 @@ async function get_question_detail(q_id, answer, category) {
                         <a href="/common/downloadfile/question/${q_id}" download="${attach}">${attach}</a>
                     </div>
                 `;
-        
-
-                $('#comments').empty()
-                if (comments.length != 0) {
-                    for (i = 0; i < comments.length; i++) {
-                        c_id = comments[i]['c_id']
-                        c_contents = comments[i]['c_contents']
-                        c_created_at = comments[i]['c_created_at']
-                        writer = comments[i]['writer']
-                        parent_id = comments[i]['parent_id']
-
-                        if (parent_id == 0) {
-                            temp_comments = `
-                            <div id="for_comment${c_id}" style="margin-top:10px">
-                                <p class="p_comment">${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
-                            </div>
-                            <details style="margin-top:0px;margin-right:5px;font-size:0.9rem;">
-                                <summary><strong>대댓글 달기</strong></summary>
-                                    <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents${c_id}"
-                                    placeholder=" 대댓글 ">
-                                    <button onclick="post_comment(${q_id},${c_id})">등록</button>
-                                </details>
-                            `;
-                            $('#comments').append(temp_comments);
-                        } else {
-                            let temp_comments = `
-                            <p class="c_comment"> ➖ ${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
-                            `;
-                            $(`#for_comment${parent_id}`).append(temp_comments);
-                        }
-
-                    }
-                }
-                if(answer != 0){
-                    answer_title = response['answer_title']
-                    answer_content = response['answer_content']
-                    answer_created_at = response['answer_created_at']
-                    temp_answer_list = `
-                    <div class="modal-body-select-container">
-                    <span class="modal-body-select-label">응답제목</span>
-                    <p>${answer_title}</p>
-                    </div>
-                    <div class="modal-body-select-container">
-                    <span class="modal-body-select-label">응답</span>
-                    <p>${answer_content}</p>
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">응답일</span>
-                        <p>${answer_created_at}</p>
-                    </div>`;
-                }
-                let reason = response['history_reason']
-                let solution = response['history_solution']
-                let result = response['history_result']
-                let created_at = response['history_created_at']
-                let temp_his = `
-                <div class="modal-body-select-container">
-                    <span class="modal-body-select-label">상담 사유</span>
-                    <p>${reason}</p>
-                </div>
-                <div class="modal-body-select-container">
-                    <span class="modal-body-select-label">제공한 가이드</span>
-                    <p>${solution}</p>
-                </div>
-                <div class="modal-body-select-container">
-                    <span class="modal-body-select-label">상담 결과</span>
-                    <p>${result}</p>
-                </div>
-                <div class="modal-body-select-container">
-                    <span class="modal-body-select-label">상담 일시</span>
-                    <p>${created_at}</p>
-                </div>
-                `;
-                $('#cha').html(temp_his);
-                
             }
+        }
 
-        });
-        
-    }
-    if(answer == 0){
-        temp_answer_list = `
-        <div class="modal-body-select-container">
-        <span class="modal-body-select-label">응답</span>
-        <p>미응답</p>
-        </div>`;
-    }
+    });
     $('#teacher_answer').html(temp_answer_list);
     $('#teacher_question').html(temp_question_list);
 }
+
 function get_ban_student(b_id) {
     $.ajax({
         type: "GET",
