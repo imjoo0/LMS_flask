@@ -595,12 +595,8 @@
                         <h5 class="d-flex justify-content-center align-items-center m-0" id="consulting_title">상담할 반을
                             선택해주세요</h3>
                             <select class="form-select text-center w-25"
-                                onchange="get_consulting_student(this.value,0)">
-                                <option value=0 selected>상담할 반을 선택해주세요</option>
-                                {% for ban in my_bans %}
-                                {% set ban_regi = ban['register_no'] %}
-                                <option value={{ban_regi}}>{{ ban['name'] }} 상담</option>
-                                {% endfor %}
+                                onchange="get_consulting_student(this.value)">
+                                <option value=0 selected>오늘의 상담</option>
                                 <option value=1>오늘의 부재중 상담</option>
                             </select>
                     </div>
@@ -611,11 +607,12 @@
                                 <tbody style="width:100%;">
                                     <thead>
                                         <tr class="row">
-                                            <th class="col-3">이름</th>
+                                            <th class="col-3">반</th>
+                                            <th class="col-2">이름</th>
                                             <th class="col-3">연락처</th>
-                                            <th class="col-2">추천도서코드</th>
-                                            <th class="col-2">상담 수</th>
-                                            <th class="col-2">✅</th>
+                                            <th class="col-1">상담 수</th>
+                                            <th class="col-2">상담 마감일</th>
+                                            <th class="col-1">✅</th>
                                         </tr>
                                     </thead>
                                 <tbody id="today_consulting_box">

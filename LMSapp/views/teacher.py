@@ -32,63 +32,64 @@ standard = datetime.strptime('11110101',"%Y%m%d").date()
 def home():
     if request.method =='GET':
         teacher_info = callapi.purple_info(session['user_id'],'get_teacher_info')
-        mystudents_info = callapi.purple_info(session['user_id'],'get_mystudents')
-        total_student_num = len(mystudents_info)
-        mybans_info = callapi.purple_ban(session['user_id'],'get_mybans')
-        ban_data = []
-        #  상담 차트
-        ttc = 0
-        ttd = 0
-        unlearned_ttc = 0
-        unlearned_ttd = len(Consulting.query.filter(Consulting.category_id < 100).all())
-        for b in mybans_info:
-            data = {}
-            data['register_no'] = b['register_no']
-            data['name'] = b['name']
-            data['semester'] = b['semester']
-            data['total_student_num'] = b['total_student_num']
-            data['out_s'] = len(OutStudent.query.filter(OutStudent.ban_id == b['register_no']).all())
-            data['switch_s'] = len(SwitchStudent.query.filter(SwitchStudent.ban_id == b['register_no']).all())
-            data['unlearned'] = len(Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.category_id < 100)).all()) 
-            unlearned_ttc += data['unlearned']
-            ttc += len(Consulting.query.filter(b['register_no'] == Consulting.ban_id).all())
-            c = Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.done==1)).all()
-            ttd += len(c)
+        # mystudents_info = callapi.purple_info(session['user_id'],'get_mystudents')
+        # total_student_num = len(mystudents_info)
+        # mybans_info = callapi.purple_ban(session['user_id'],'get_mybans')
+        # ban_data = []
+        # #  상담 차트
+        # ttc = 0
+        # ttd = 0
+        # unlearned_ttc = 0
+        # unlearned_ttd = len(Consulting.query.filter(Consulting.category_id < 100).all())
+        # for b in mybans_info:
+        #     data = {}
+        #     data['register_no'] = b['register_no']
+        #     data['name'] = b['name']
+        #     data['semester'] = b['semester']
+        #     data['total_student_num'] = b['total_student_num']
+        #     data['out_s'] = len(OutStudent.query.filter(OutStudent.ban_id == b['register_no']).all())
+        #     data['switch_s'] = len(SwitchStudent.query.filter(SwitchStudent.ban_id == b['register_no']).all())
+        #     data['unlearned'] = len(Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.category_id < 100)).all()) 
+        #     unlearned_ttc += data['unlearned']
+        #     ttc += len(Consulting.query.filter(b['register_no'] == Consulting.ban_id).all())
+        #     c = Consulting.query.filter((b['register_no'] == Consulting.ban_id)&(Consulting.done==1)).all()
+        #     ttd += len(c)
 
-            ban_data.append(data)
+        #     ban_data.append(data)
 
-        if(ttc != 0):
-            cp = round((ttd/ttc)*100)
-        else:
-            cp = 0
-        if(unlearned_ttd != 0):
-            unlearned_cp = round((unlearned_ttc/unlearned_ttd)*100)
-        else:
-            unlearned_cp = 0
+        # if(ttc != 0):
+        #     cp = round((ttd/ttc)*100)
+        # else:
+        #     cp = 0
+        # if(unlearned_ttd != 0):
+        #     unlearned_cp = round((unlearned_ttc/unlearned_ttd)*100)
+        # else:
+        #     unlearned_cp = 0
         
-        # 졸업 / 퇴소 한 학생 
-        outstudent_num = len(OutStudent.query.filter(OutStudent.teacher_id == teacher_info['register_no']).all())
-        if(outstudent_num != 0):
-            outstudent_num_p = round((outstudent_num / len(OutStudent.query.all()))*100)
-        else:
-            outstudent_num_p = 0
-        # 이반 한 학생  
-        switchstudent_num = len(SwitchStudent.query.filter(SwitchStudent.teacher_id == teacher_info['register_no']).all())
-        if(switchstudent_num != 0):
-            switchstudent_num_p = round((switchstudent_num / len(SwitchStudent.query.all()))*100)
-        else:
-            switchstudent_num_p = 0
-        # 업무 개수
-        total_done = len(TaskBan.get_task_category(teacher_info['register_no'],1)['task_data'])
-        total_todo = len(TaskBan.get_task_category(teacher_info['register_no'],0)['task_data']) + total_done
-        if(total_todo != 0):
-            ttp = round(total_done/total_todo*100)
-        else:
-            ttp = 0
+        # # 졸업 / 퇴소 한 학생 
+        # outstudent_num = len(OutStudent.query.filter(OutStudent.teacher_id == teacher_info['register_no']).all())
+        # if(outstudent_num != 0):
+        #     outstudent_num_p = round((outstudent_num / len(OutStudent.query.all()))*100)
+        # else:
+        #     outstudent_num_p = 0
+        # # 이반 한 학생  
+        # switchstudent_num = len(SwitchStudent.query.filter(SwitchStudent.teacher_id == teacher_info['register_no']).all())
+        # if(switchstudent_num != 0):
+        #     switchstudent_num_p = round((switchstudent_num / len(SwitchStudent.query.all()))*100)
+        # else:
+        #     switchstudent_num_p = 0
+        # # 업무 개수
+        # total_done = len(TaskBan.get_task_category(teacher_info['register_no'],1)['task_data'])
+        # total_todo = len(TaskBan.get_task_category(teacher_info['register_no'],0)['task_data']) + total_done
+        # if(total_todo != 0):
+        #     ttp = round(total_done/total_todo*100)
+        # else:
+        #     ttp = 0
         
-        my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
+        # my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
 
-        return render_template('teacher.html',unlearned_ttd=unlearned_ttd,unlearned_ttc=unlearned_ttc,unlearned_cp=unlearned_cp,cp=cp,ttc=ttc,ttd=ttd,total_todo=total_todo,total_done=total_done,ttp=ttp,switchstudent_num=switchstudent_num,switchstudent_num_p=switchstudent_num_p,outstudent_num_p=outstudent_num_p,outstudent_num=outstudent_num,total_student_num=total_student_num,user=teacher_info,my_bans=ban_data,students=mystudents_info, questions=my_questions)
+        # return render_template('teacher.html',unlearned_ttd=unlearned_ttd,unlearned_ttc=unlearned_ttc,unlearned_cp=unlearned_cp,cp=cp,ttc=ttc,ttd=ttd,total_todo=total_todo,total_done=total_done,ttp=ttp,switchstudent_num=switchstudent_num,switchstudent_num_p=switchstudent_num_p,outstudent_num_p=outstudent_num_p,outstudent_num=outstudent_num,total_student_num=total_student_num,user=teacher_info,my_bans=ban_data,students=mystudents_info, questions=my_questions)
+        return render_template('teacher.html',user=teacher_info)
 
 @bp.route('/api/get_teacher_ban', methods=['GET'])
 def get_ban():
