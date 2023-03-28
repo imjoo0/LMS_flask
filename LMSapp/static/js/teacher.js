@@ -59,7 +59,6 @@ function get_myban_list(){
                 <option value="${register_no}">${name}</option>
                 `;
             }
-            console.log(temp_ban_option)
             $('#my_ban_list').html(temp_ban_option)
         }
     })
@@ -70,6 +69,7 @@ function get_ban_student(b_id) {
         url: "/teacher/get_ban_student/" + b_id,
         data: {},
         success: function (response) {
+            console.log(response)
             let temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option>';
             for (var i = 0; i < response.length; i++) {
                 let id = target['register_no']
