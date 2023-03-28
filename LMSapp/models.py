@@ -56,7 +56,7 @@ class Comment(db.Model):
     parent_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
     created_at = db.Column(db.DateTime(), nullable=False)
     # 관계설정
-    question = db.relationship("Question", backref=backref('qcomments', cascade='all, delete-orphan', single_parent=True))
+    question = db.relationship("Question", backref=backref('comments', cascade='all, delete-orphan', single_parent=True))
     children = db.relationship("Comment",back_populates='parent', cascade='all, delete-orphan')
     parent = db.relationship("Comment", back_populates='children', remote_side=[id])
 
