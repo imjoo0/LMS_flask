@@ -72,8 +72,8 @@ function get_ban_student(b_id) {
             console.log(response)
             let temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option>';
             for (var i = 0; i < response.length; i++) {
-                let id = target['register_no']
-                let name = target['name'];
+                let id = response[i]['register_no']
+                let name = response[i]['name'];
                 temp_target_student += `<option value="${id}"> ${name} </option>`;
                 $('#student_list').html(temp_target_student)
             }
