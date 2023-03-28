@@ -134,17 +134,17 @@ function get_consulting_student(is_done){
                 }
                 return acc;
             },[]);
-            console.log(result)
             if(result.length > 0){
                 $('#consulting_msg').html('오늘의 상담');
                 let temp_consulting_contents_box =''
                 for(i=0;i<result.length;i++){
+                    console.log(result[i])
                     var ban_name = result[i]['ban_name']
-                    var student_name = result[i]['student_name']
-                    var deadline = result[i]['deadline']
-                    var mobileno = result[i]['student_mobileno']
                     var student_id = result[i]['student_id']
+                    var student_name = result[i]['student_name']
+                    var mobileno = result[i]['student_mobileno']
                     var consulting_num = result[i]['consulting_num']
+                    var deadline = result[i]['deadline']
                     temp_consulting_contents_box += `
                     <tr class="row">
                     <td class="col-3">${ban_name}</td>
@@ -157,7 +157,6 @@ function get_consulting_student(is_done){
                     `;
                     $('#today_consulting_box').html(temp_consulting_contents_box);
                 }
-                console.log(result[i])
             }else{
                 $('#consulting_msg').html('오늘의 상담이 없습니다.');
             }
