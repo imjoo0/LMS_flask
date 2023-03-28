@@ -72,7 +72,6 @@ function get_ban_student(b_id) {
         success: function (response) {
             let temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option>';
             for (var i = 0; i < response.length; i++) {
-                target = data_list[i]
                 let id = target['register_no']
                 let name = target['name'];
                 temp_target_student += `<option value="${id}"> ${name} </option>`;
