@@ -54,16 +54,6 @@ def purple_allban(url):
     result = requests.post(config.api + url, headers=headers, data=json.dumps({'data':{}}))
     result = result.json()
     if(len(result)>0):
-        # for i in result:
-        #     standard = (i['semester']-13)%3
-        #     if standard == 1:
-        #         i['semester'] = 1
-        #     elif standard == 2:
-        #         i['semester'] = 5
-        #     elif standard == 0:
-        #         i['semester'] = 9
-        #     else:
-        #         i['semester'] = i['semester'] 
         return result
     else:
         return False

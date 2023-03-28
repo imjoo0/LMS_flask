@@ -50,15 +50,16 @@ function get_myban_list(){
         url: "/teacher/get_myban_list",
         data: {},
         success: function (response) {
-            let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
+            let temp_ban_option = '<option value="none" selected>기존 반을 선택해주세요</option>';
             for (i = 0; i < response.length; i++) {
                 let name = response[i]['name']
-                let semester = target_ban[i]['semester']
+                let semester = semester(target_ban[i]['semester'])
                 let register_no = response[i]['register_no']
                 temp_ban_option += `
                 <option value="${register_no}">${name}(${semester}월 학기)</option>
                 `;
             }
+            console.log(temp_ban_option)
             $('#my_ban_list').html(temp_ban_option)
         }
     })
