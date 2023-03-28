@@ -119,9 +119,53 @@ def attach_consulting_history(s_id):
             db.close()
         print(consulting_history)
         return jsonify({'consulting_history':consulting_history})
+# 선생님 문의 관련 
+@bp.route('/question', methods=['GET','POST'])
+def question():
+    if request.method == 'GET':
+        data = []
+        my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
+        for q in my_questions:
+            qdata = {}
+            qdata['id'] = q.id
+            qdata['category'] = q.category 
+            qdata['title'] = q.title
+            qdata['answer'] = q.answer
+            qdata['comments'] = len(q.qcomments)
+            if(q.answer != 0):
+                qdata['answer_created_at'] = q.qa.created_at.strftime('%Y-%m-%d')
+            data.append(qdata)
+        return json.dumps(data)
 
-@bp.route('/api/get_teacher_ban', methods=['GET'])
-def get_ban():
+    elif request.method == 'POST':
+        question_category = request.form['question_category']
+        title = request.form['question_title']
+        contents = request.form['question_contents']
+        teacher = session['user_registerno']
+        create_date = datetime.now().date()
+        # 첨부 파일 처리 
+        file = request.files['file-upload']
+        if question_category == '일반':
+            cateory = 0
+            new_question = Question(category=cateory,title=title,contents=contents,teacher_id=teacher,create_date=create_date,answer=0)
+        else :
+            ban_id = request.form['ban_id']
+            student_id = request.form['target_student'] 
+            history_id = request.form['consulting_history']
+            if question_category == '퇴소':
+                cateory = 1
+            elif question_category == '이반':
+                cateory = 2
+            else:
+                cateory = 3
+            new_question = Question(consulting_history=history_id,category=cateory,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,create_date=create_date,answer=0)
+        db.session.add(new_question)
+        db.session.commit()
+        common.save_attachment(file,new_question.id)
+        return redirect('/')
+    
+@bp.route('/get_data', methods=['GET'])
+def get_data():
     if request.method == 'GET':
         result = []
         mybans_info = callapi.purple_ban(session['user_id'],'get_mybans')
@@ -147,7 +191,7 @@ def get_ban():
             print('err')
         finally:
             db.close()
-
+        print(result)
         return json.dumps(result)        
 
 # 오늘 해야 할 업무들의 카데고리
@@ -333,50 +377,6 @@ def plus_consulting(student_id,b_id):
         db.session.commit()
         return{'result':'상담일지 저장 완료'}
 
-# 선생님 문의 관련 
-@bp.route('/question', methods=['GET','POST'])
-def question():
-    if request.method == 'GET':
-        data = []
-        my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
-        for q in my_questions:
-            qdata = {}
-            qdata['id'] = q.id
-            qdata['category'] = q.category 
-            qdata['title'] = q.title
-            qdata['answer'] = q.answer
-            qdata['comments'] = len(q.qcomments)
-            if(q.answer != 0):
-                qdata['answer_created_at'] = q.qa.created_at.strftime('%Y-%m-%d')
-            data.append(qdata)
-        return json.dumps(data)
-
-    elif request.method == 'POST':
-        question_category = request.form['question_category']
-        title = request.form['question_title']
-        contents = request.form['question_contents']
-        teacher = session['user_registerno']
-        create_date = datetime.now().date()
-        # 첨부 파일 처리 
-        file = request.files['file-upload']
-        if question_category == '일반':
-            cateory = 0
-            new_question = Question(category=cateory,title=title,contents=contents,teacher_id=teacher,create_date=create_date,answer=0)
-        else :
-            ban_id = request.form['ban_id']
-            student_id = request.form['target_student'] 
-            history_id = request.form['consulting_history']
-            if question_category == '퇴소':
-                cateory = 1
-            elif question_category == '이반':
-                cateory = 2
-            else:
-                cateory = 3
-            new_question = Question(consulting_history=history_id,category=cateory,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,create_date=create_date,answer=0)
-        db.session.add(new_question)
-        db.session.commit()
-        common.save_attachment(file,new_question.id)
-        return redirect('/')
 
 @bp.route('/nomal_question_detail/<int:id>', methods=['GET'])
 def nomal_question_detail(id):

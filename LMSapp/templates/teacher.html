@@ -70,7 +70,7 @@
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">대상 원생</span>
                             <select id="student_list" class="modal-body-select" name="target_student" onchange="attach_consulting_history(this.value)">
-                                
+                                <option value="none" selected>대상 원생을 선택해주세요</option>
                             </select>
                         </div>
                         <div class="modal-body-select-container">
@@ -106,6 +106,7 @@
         </div>
     </div>
 </div>
+
 <!-- 문의 조회 -->
 <div class="modal fade" id="question_list" tabindex="-1" aria-labelledby="questionListModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
