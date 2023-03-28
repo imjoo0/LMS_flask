@@ -31,7 +31,7 @@ class Question(db.Model):
     answer = db.Column(db.Integer,nullable=True)
 
     qa = db.relationship("Answer", uselist=False, back_populates="question", cascade="all, delete")
-    qcomments = db.relationship("Comment", uselist=False, back_populates="question", cascade='all, delete-orphan', single_parent=True)
+    qcomments = db.relationship("Comment", back_populates="question", cascade='all, delete-orphan', single_parent=True)
     attachments = db.relationship('Attachments', uselist=False,back_populates='question', cascade='all, delete-orphan', single_parent=True)
 
 
