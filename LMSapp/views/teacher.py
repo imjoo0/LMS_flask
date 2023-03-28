@@ -306,14 +306,27 @@ def plus_consulting(student_id,b_id):
 
 # 선생님 문의 관련 
 @bp.route('/question', methods=['GET','POST'])
-def request_question():
+def question():
     if request.method == 'GET':
+        data = []
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
         for q in my_questions:
-            print(q.qa)
-            print(q)
-            print(q.qcomments)
-            print(q.attachments)
+            qdata = {}
+            qdata['id'] = q.id
+            qdata['category'] = q.category 
+            qdata['title'] = q.title
+            qdata['contents'] = q.contents
+            qdata['consulting_h'] = q.consulting_history
+            qdata['create_date'] = q.create_date
+            qdata['answer'] = q.answer
+            qdata['answer_title'] = q.qa.title
+            qdata['answer_contents'] = q.qa.contents
+            qdata['answer_reject'] = q.qa.reject_code
+            qdata['answer_created_at'] = q.qa.created_at
+            qdata['comment'] = len(q.qcomments)
+            qdata['attachements'] = q.attachments
+            data.append(qdata)
+        return jsonify({'questions':data})
 
     elif request.method == 'POST':
         question_category = request.form['question_category']

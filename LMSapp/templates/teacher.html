@@ -172,9 +172,7 @@
                             <th class="col-2">답변</th>
                             <th class="col-2">삭제</th>
                         </tr>
-                        {% if questions is iterable %}
-                        {% for question in questions %}
-                        <tr class="row">
+                        <tr class="row" id="teacher_question_list">
                             {% if question.category == 0 %}
                             <td class="col-3">일반문의</td>
                             {% elif question.category == 1 %}
