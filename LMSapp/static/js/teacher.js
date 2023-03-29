@@ -98,17 +98,19 @@ function get_data() {
 
             if(today_task_len == 0){
                 $('#today_task_box0').html('오늘의 업무 끝 😆');
+            }else{
+                // 중복된 category_id값으로 묶은 객체 생성
+                const grouped_task = today_task.reduce((acc, task) => {
+                    // category_id값으로 그룹화
+                    if (acc[task.category_id]){
+                        acc[task.category_id].push(task);
+                    }else{
+                        acc[task.category_id] = [task];
+                    }
+                    return acc;
+                }, {});
+                console.log(grouped_task)
             }
-            else{
-                for(i=0;i<today_task_len;i++){
-                    console.log(today_task[i]);
-
-                }
-
-            }
-
-            
-
         },
         error:function(xhr, status, error){
                 alert('xhr.responseText');
