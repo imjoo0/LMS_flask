@@ -93,6 +93,8 @@ function get_data() {
             <td class="col-3"> ( ${answer_rate(consulting_done, consulting_t).toFixed(0)}% ) </td>
             `
             $('#classreport').html(temp_report)
+            task_doneview(0)
+            get_consulting_student(0)
 
             
 
@@ -101,8 +103,6 @@ function get_data() {
                 alert('xhr.responseText');
         }
     });
-    task_doneview(0)
-    get_consulting_student(0)
 }
 
 // 오늘의 업무 관련 함수 
