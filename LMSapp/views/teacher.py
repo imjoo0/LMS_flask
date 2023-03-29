@@ -227,7 +227,7 @@ def task_category(done_code):
         finally:
             db.close()
         print(all_task)
-        return json.dumps(all_task)
+        return jsonify(all_task)
 
         # target_cate = []
         # result = TaskBan.get_task_category(session['user_registerno'],done_code)
