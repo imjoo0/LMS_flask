@@ -219,7 +219,7 @@ def task_category(done_code):
         try:
             with db.cursor() as cur:
                 # 업무
-                cur.execute("SELECT task.id,taskcategory.name AS category,task.category_id,task.contents,task.deadline,task.cycle,task.priority FROM task LEFT JOIN taskban ON taskban.task_id = task.id LEFT JOIN taskcategory ON taskcategory.id = task.category_id WHERE task.category_id != 13 AND task.startdate <= %s AND %s <= task.deadline AND (task.cycle = %s or task.cycle = 0)taskban.teacher_id = %s AND taskban.done = %s GROUP BY task.id, task.category_id, task.contents, task.deadline, task.cycle, task.priority;",(Today,Today,today_yoil,session['user_registerno'],done_code,))
+                cur.execute("SELECT task.id,taskcategory.name AS category,task.category_id,task.contents,task.deadline,task.priority FROM task LEFT JOIN taskban ON taskban.task_id = task.id LEFT JOIN taskcategory ON taskcategory.id = task.category_id WHERE task.category_id != 13 AND task.startdate <= %s AND %s <= task.deadline AND (task.cycle = %s OR task.cycle = 0) AND taskban.teacher_id = %s AND taskban.done = %s GROUP BY task.id, task.category_id, task.contents, task.deadline, task.cycle, task.priority;",(Today,Today,today_yoil,session['user_registerno'],done_code,))
                 all_task = cur.fetchall()
         except:
             print('err')
