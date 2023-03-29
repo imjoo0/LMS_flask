@@ -28,7 +28,7 @@ function get_data() {
             }else{
                 let temp_ban_chart = ''
                 for(i=0;i<response.length;i++){
-                    let target = response['chart_data']
+                    let target = response[i]['chart_data']
                     let register_no = target['ban']['register_no']
                     let name = target['ban']['name']
                     let semester = make_semester(target['ban']['semester'])
