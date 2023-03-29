@@ -329,8 +329,8 @@ function get_consulting_student(is_done){
 
                 if (consultingList.length > 0) {
                     const deadline = consultingList.reduce((prev, current) => {
-                        const prevDueDate = prev.deadline instanceof Date ? prev.deadline.getTime() : Number.POSITIVE_INFINITY;
-                        const currentDueDate = current.deadline instanceof Date ? current.deadline.getTime() : Number.POSITIVE_INFINITY;
+                        const prevDueDate = prev.deadline instanceof Date ? prev.deadline : Number.POSITIVE_INFINITY;
+                        const currentDueDate = current.deadline instanceof Date ? current.deadline : Number.POSITIVE_INFINITY;
                         return currentDueDate < prevDueDate ? current : prev;
                     }, consultingList[0]);
                     acc.push({
@@ -359,8 +359,8 @@ function get_consulting_student(is_done){
                     <td class="col-3">${ban_name}</td>
                     <td class="col-2">${student_name}</td>
                     <td class="col-3">${mobileno}</td>
-                    <td class="col-1">${consulting_num}</td>
                     <td class="col-2">${deadline}</td>
+                    <td class="col-1">${consulting_num}</td>
                     <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">✅</td> 
                     `;
                     $('#today_consulting_box').html(temp_consulting_contents_box);
