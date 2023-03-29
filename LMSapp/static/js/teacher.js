@@ -11,7 +11,6 @@
 
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
-    task_doneview(0)
     get_data()
 })
 //  차트 관련 함수 
@@ -100,6 +99,8 @@ function get_data() {
                 alert('xhr.responseText');
         }
     });
+    task_doneview(0)
+    get_consulting_student(0)
 }
 
 
