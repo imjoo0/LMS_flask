@@ -115,18 +115,16 @@ function get_data() {
                 return acc;
             }, []);
 
-            result.sort((a, b) => {
-                // const aDate = new Date(a.deadline);
-                // const bDate = new Date(b.deadline);
-                // return aDate - bDate;
-                return a.deadline - b.deadline
-            });
-
             if (result.length > 0) {
+                result.sort((a, b) => {
+                    // const aDate = new Date(a.deadline);
+                    // const bDate = new Date(b.deadline);
+                    // return aDate - bDate;
+                    return a.deadline - b.deadline
+                });
                 $('#consulting_title').html('오늘의 상담');
                 let temp_consulting_contents_box = ''
                 for (i = 0; i < result.length; i++) {
-                    console.log(result[i])
                     var ban_name = result[i]['ban_name']
                     var student_id = result[i]['student_id']
                     var student_name = result[i]['student_name']
@@ -359,13 +357,13 @@ function get_consulting_student(is_done){
                 return acc;
             }, []);
             
-            result.sort((a, b) => {
-                return a.deadline - b.deadline
-            });
-            
             if (result.length > 0) {
+                result.sort((a, b) => {
+                    return a.deadline - b.deadline
+                });
                 let temp_consulting_contents_box = ''
                 for (i = 0; i < result.length; i++) {
+                    console.log(result[i])
                     var ban_name = result[i]['ban_name']
                     var student_id = result[i]['student_id']
                     var student_name = result[i]['student_name']
