@@ -22,13 +22,13 @@ function get_data() {
         dataType: 'json',
         data: {},
         success: function (response) {
+            console.log(response)
             if(response.length == 0){
                 nodatamsg = '<h3>데이터가 없습니다</h3>'
                 $('#ban_chart_list').html(nodatamsg);
             }else{
                 let temp_ban_chart = ''
                 for(i=0;i<response.length;i++){
-                    console.log(response)
                     let target = response[i]['chart_data']
                     let register_no = target['ban']['register_no']
                     let name = target['ban']['name']
