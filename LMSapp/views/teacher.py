@@ -186,7 +186,7 @@ def get_data():
                     # cur.execute("SELECT COUNT(CASE WHEN category_id < 100 THEN 1 END) AS total,COUNT(CASE WHEN ban_id = %s AND category_id < 100 THEN 1 END) AS ban_unlearn FROM consulting;",(ban['register_no'],))
                     # data['consulting'] = cur.fetchall()
                     # 업무
-                    cur.execute("select taskban.id,task.category_id,taskban.done from taskban left join task on taskban.task_id = task.id where task.category_id != 13 and task.startdate <= %s and taskban.teacher_id=%s;",(Today,session['user_registerno'],))
+                    cur.execute("select taskban.id,taskban.done from taskban left join task on taskban.task_id = task.id where task.startdate <= %s and %s <= task.deadline and taskban.teacher_id=%s;",(Today,session['user_registerno'],))
                     all_task['status'] = 200
                     all_task['data'] = cur.fetchall()
                     # 반 별 조회 / 이반 * 퇴소 * 문의 
