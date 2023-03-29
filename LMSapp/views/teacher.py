@@ -175,16 +175,14 @@ def get_data():
             try:
                 with db.cursor() as cur:
                     for ban in mybans_info:
-                        print(ban)
                         data = {}
                         # cur.execute(f"select id, ban_id, category_id, student_id, contents, date_format(startdate, '%Y-%m-%d') as startdate, date_format(deadline, '%Y-%m-%d') as deadline, week_code, done, missed from consulting where ban_id = {ban['register_no']};")
-                        cur.execute(f"select count(*) as 'count', category_id from consulting where ban_id = {ban['register_no']} group by category_id")
+                        cur.execute("select count(*) as 'count', category_id from consulting where ban_id = %s group by category_id",(ban['register_no'],))
                         data['consulting'] = cur.fetchall().copy()
 
-                        cur.execute(f"select count(*) as 'count', category from switchstudent where ban_id={ban['register_no']} group by category")
+                        cur.execute("select count(*) as 'count', category from switchstudent where ban_id=%s group by category",(ban['register_no'],))
                         data['switchstudent'] = cur.fetchall().copy()
 
-                        print(data)
                         alimnote = callapi.purple_info(ban['register_no'],'get_alimnote')
                         data['alimnote'] = alimnote
 
@@ -194,6 +192,8 @@ def get_data():
                 print('err')
             finally:
                 db.close()
+            
+        print(result)
         return json.dumps(result)        
 
 # 오늘 해야 할 업무들의 카데고리
