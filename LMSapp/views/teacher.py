@@ -191,7 +191,7 @@ def get_data():
                         alimnote = callapi.purple_info(ban['register_no'],'get_alimnote')
                         data['alimnote'] = alimnote
 
-                        result.append({'chart_data': data.copy()})
+                        result.append({'chart_data': data})
                         #result.append(ban['register_no'])
             except:
                 print('err')
