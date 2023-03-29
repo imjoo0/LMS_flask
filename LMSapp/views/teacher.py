@@ -185,7 +185,7 @@ def get_data():
                     # cur.execute("SELECT COUNT(CASE WHEN category_id < 100 THEN 1 END) AS total,COUNT(CASE WHEN ban_id = %s AND category_id < 100 THEN 1 END) AS ban_unlearn FROM consulting;",(ban['register_no'],))
                     # data['consulting'] = cur.fetchall()
                     # 업무
-                    cur.execute("SELECT taskban.id,taskban.done, task.id as task_id,taskcategory.name AS category,task.category_id,task.contents,task.deadline,task.priority FROM task LEFT JOIN taskban ON taskban.task_id = task.id LEFT JOIN taskcategory ON taskcategory.id = task.category_id WHERE task.category_id != 13 AND task.startdate <= %s AND %s <= task.deadline AND (task.cycle = %s OR task.cycle = 0) AND taskban.teacher_id = %s;",(Today,Today,today_yoil,session['user_registerno'],))
+                    cur.execute("SELECT taskban.id,taskban.done,taskban.ban_id,task.id as task_id,taskcategory.name AS category,task.category_id,task.contents,task.deadline,task.priority FROM task LEFT JOIN taskban ON taskban.task_id = task.id LEFT JOIN taskcategory ON taskcategory.id = task.category_id WHERE task.category_id != 13 AND task.startdate <= %s AND %s <= task.deadline AND (task.cycle = %s OR task.cycle = 0) AND taskban.teacher_id = %s;",(Today,Today,today_yoil,session['user_registerno'],))
                     all_task['status'] = 200
                     all_task['data'] = cur.fetchall()
                     # 반 별 조회 / 이반 * 퇴소 * 문의 

@@ -103,9 +103,11 @@ function get_data() {
                 const grouped_task = today_task.reduce((acc, task) => {
                     // category_id값으로 그룹화
                     if (acc[task.category_id]){
-                        acc[task.category_id].push(task);
+                        if(acc[task.task_id]){
+                            acc[task.category,task.contents,task.deadline].push({id: task.id});
+                        }
                     }else{
-                        acc[task.category_id] = [task];
+                        acc[task.category] = [task];
                     }
                     return acc;
                 }, {});
