@@ -329,9 +329,9 @@ function get_consulting_student(is_done){
 
                 if (consultingList.length > 0) {
                     const deadline = consultingList.reduce((prev, current) => {
-                        const prevDueDate = prev.deadline instanceof Date ? prev.deadline : Number.POSITIVE_INFINITY;
-                        const currentDueDate = current.deadline instanceof Date ? current.deadline : Number.POSITIVE_INFINITY;
-                        return currentDueDate < prevDueDate ? current : prev;
+                        // const prevDueDate = prev.deadline instanceof Date ? prev.deadline : Number.POSITIVE_INFINITY;
+                        // const currentDueDate = current.deadline instanceof Date ? current.deadline : Number.POSITIVE_INFINITY;
+                        return current.deadline < prev.deadline ? current : prev;
                     }, consultingList[0]);
                     acc.push({
                         'student_id': student.register_no,
