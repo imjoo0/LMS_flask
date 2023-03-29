@@ -119,7 +119,7 @@ def attach_consulting_history(s_id):
             db.close()
         print(consulting_history)
         return jsonify({'consulting_history':consulting_history})
-# 선생님 문의 관련 
+ 
 @bp.route('/question', methods=['GET','POST'])
 def question():
     if request.method == 'GET':
@@ -163,35 +163,37 @@ def question():
         db.session.commit()
         common.save_attachment(file,new_question.id)
         return redirect('/')
-    
+
+# 차트 관련  
 @bp.route('/get_data', methods=['GET'])
 def get_data():
     if request.method == 'GET':
         result = []
         mybans_info = callapi.purple_ban(session['user_id'],'get_mybans')
+        if len(mybans_info) != 0:
+            db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+            try:
+                with db.cursor() as cur:
+                    for ban in mybans_info:
+                        print(ban)
+                        data = {}
+                        # cur.execute(f"select id, ban_id, category_id, student_id, contents, date_format(startdate, '%Y-%m-%d') as startdate, date_format(deadline, '%Y-%m-%d') as deadline, week_code, done, missed from consulting where ban_id = {ban['register_no']};")
+                        cur.execute(f"select count(*) as 'count', category_id from consulting where ban_id = {ban['register_no']} group by category_id")
+                        data['consulting'] = cur.fetchall().copy()
 
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                for ban in mybans_info:
-                    data = {}
-                    # cur.execute(f"select id, ban_id, category_id, student_id, contents, date_format(startdate, '%Y-%m-%d') as startdate, date_format(deadline, '%Y-%m-%d') as deadline, week_code, done, missed from consulting where ban_id = {ban['register_no']};")
-                    cur.execute(f"select count(*) as 'count', category_id from consulting where ban_id = {ban['register_no']} group by category_id")
-                    data['consulting'] = cur.fetchall().copy()
+                        cur.execute(f"select count(*) as 'count', category from switchstudent where ban_id={ban['register_no']} group by category")
+                        data['switchstudent'] = cur.fetchall().copy()
 
-                    cur.execute(f"select count(*) as 'count', category from switchstudent where ban_id={ban['register_no']} group by category")
-                    data['switchstudent'] = cur.fetchall().copy()
+                        print(data)
+                        alimnote = callapi.purple_info(ban['register_no'],'get_alimnote')
+                        data['alimnote'] = alimnote
 
-                    print(data)
-                    alimnote = callapi.purple_info(ban['register_no'],'get_alimnote')
-                    data['alimnote'] = alimnote
-
-                    result.append({ban['name']: data.copy()})
-                    #result.append(ban['register_no'])
-        except:
-            print('err')
-        finally:
-            db.close()
+                        result.append({ban['name']: data.copy()})
+                        #result.append(ban['register_no'])
+            except:
+                print('err')
+            finally:
+                db.close()
         return json.dumps(result)        
 
 # 오늘 해야 할 업무들의 카데고리
