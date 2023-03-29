@@ -121,6 +121,7 @@ async function task_doneview(done_code) {
     await $.ajax({
         type: "GET",
         url: "/teacher/task/" + done_code,
+        dataType: 'json',
         data: {},
         success: function (response) {
             console.log(response['all_task']['data'])
