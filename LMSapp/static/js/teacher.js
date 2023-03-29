@@ -101,7 +101,6 @@ function get_data() {
                 alert('xhr.responseText');
         }
     });
-    task_doneview(0)
     get_consulting_student(0)
 }
 
