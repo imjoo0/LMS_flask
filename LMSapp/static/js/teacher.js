@@ -63,7 +63,7 @@ function get_data() {
                     <td class="col-3">${mobileno}</td>
                     <td class="col-1">${consulting_num}</td>
                     <td class="col-2">${deadline}</td>
-                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">상담 실행</td> 
+                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${0})">상담 실행</td> 
                     `;
                     $('#today_consulting_box').html(temp_consulting_contents_box);
                 }
