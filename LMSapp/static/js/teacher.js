@@ -59,7 +59,7 @@ function get_data() {
                     </div>
                 </div>
                 `
-                $('#chart'+register_no).css("background",`conic-gradient(#B9CDE5, #B9CDE5 ${total_student_num/(total_student_num+switchstudent+outstudent)*100}%, #D99694 ${total_student_num/(total_student_num+switchstudent+outstudent)*100}%, #D99694 ${total_student_num/(total_student_num+switchstudent+outstudent)*100+switchstudent/(total_student_num+switchstudent+outstudent)*100}%, #2B2B2B ${total_student_num/ttp*100+switchstudent/(total_student_num+switchstudent+outstudent)*100}%, #2B2B2B)`)
+                $('#chart'+register_no).css("background",`conic-gradient(#B9CDE5, #B9CDE5 ${total_student_num/(total_student_num+switchstudent+outstudent)*100}%, #D99694 ${total_student_num/(total_student_num+switchstudent+outstudent)*100}%, #D99694 ${total_student_num/(total_student_num+switchstudent+outstudent)*100+switchstudent/(total_student_num+switchstudent+outstudent)*100}%, #2B2B2B ${total_student_num/(total_student_num+switchstudent+outstudent)*100+switchstudent/(total_student_num+switchstudent+outstudent)*100}%, #2B2B2B)`)
 
                 temp_ban_chart += `
                 <div class="make_row" style="width:100%">
