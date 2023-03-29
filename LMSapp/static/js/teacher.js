@@ -44,23 +44,6 @@ function get_data() {
                 let alimnote = chart_data[i]['alimnote']['answer']
                 let alimnote_t = chart_data[i]['alimnote']['all']
                 
-
-                temp_ban_chart +=`
-                <div class="total_chart">
-                    <div class="chartWrap">
-                        <div class="chart">
-                            <div class="pie-chart1" id="chart${register_no}">
-                                <span class="chart-total-num">관리중: ${total_student_num}</br>이반 학생 수: ${switchstudent}</br>퇴소 학생 수: ${outstudent}</span>
-                                <span class="chart-total-text1"></span>
-                                <span class="chart-total-text2"></span>
-                            </div>   
-                        </div>
-                                    
-                    </div>
-                </div>
-                `
-                $('#chart'+register_no).css("background",`conic-gradient(#B9CDE5, #B9CDE5 ${total_student_num/(total_student_num+switchstudent+outstudent)*100}%, #D99694 ${total_student_num/(total_student_num+switchstudent+outstudent)*100}%, #D99694 ${total_student_num/(total_student_num+switchstudent+outstudent)*100+switchstudent/(total_student_num+switchstudent+outstudent)*100}%, #2B2B2B ${total_student_num/(total_student_num+switchstudent+outstudent)*100+switchstudent/(total_student_num+switchstudent+outstudent)*100}%, #2B2B2B)`)
-
                 temp_ban_chart += `
                 <div class="make_row" style="width:100%">
                     <div class="total_chart">
