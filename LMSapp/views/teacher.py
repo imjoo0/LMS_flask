@@ -169,23 +169,24 @@ def get_data():
     if request.method == 'GET':
         result = []
         mybans_info = callapi.purple_ban(session['user_id'],'get_mybans')
+        print(mybans_info)
 
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
                 for ban in mybans_info:
-                    temp = {}
+                    data = {}
                     # cur.execute(f"select id, ban_id, category_id, student_id, contents, date_format(startdate, '%Y-%m-%d') as startdate, date_format(deadline, '%Y-%m-%d') as deadline, week_code, done, missed from consulting where ban_id = {ban['register_no']};")
                     cur.execute(f"select count(*) as 'count', category_id from consulting where ban_id = {ban['register_no']} group by category_id")
-                    temp['consulting'] = cur.fetchall().copy()
+                    data['consulting'] = cur.fetchall().copy()
 
                     cur.execute(f"select count(*) as 'count', category from switchstudent where ban_id={ban['register_no']} group by category")
-                    temp['switchstudent'] = cur.fetchall().copy()
+                    data['switchstudent'] = cur.fetchall().copy()
 
                     alimnote = callapi.purple_info(ban['register_no'],'get_alimnote')
-                    temp['alimnote'] = alimnote
+                    data['alimnote'] = alimnote
 
-                    result.append({ban['name']: temp.copy()})
+                    result.append({ban['name']: data.copy()})
                     #result.append(ban['register_no'])
         except:
             print('err')
