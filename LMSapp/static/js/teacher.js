@@ -330,7 +330,7 @@ async function get_question_detail(q_id, answer, category) {
             temp_comment = `     
             <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents"
             placeholder="댓글을 남겨주세요">
-            <button onclick="post_comment(${q_id},${0})">등록</button>
+            <button onclick="post_comment(${q_id},${0},${answer},${category})">등록</button>
             `;
             $('#comment_post_box').html(temp_comment)
             title = response["title"]
@@ -366,8 +366,6 @@ async function get_question_detail(q_id, answer, category) {
                     <p>${answer_created_at}</p>
                 </div>`
             }
-            
-
             $('#comments').empty()
             if (comments.length != 0) {
                 for (i = 0; i < comments.length; i++) {
@@ -386,7 +384,7 @@ async function get_question_detail(q_id, answer, category) {
                             <summary><strong>대댓글 달기</strong></summary>
                                 <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents${c_id}"
                                 placeholder=" 대댓글 ">
-                                <button onclick="post_comment(${q_id},${c_id})">등록</button>
+                                <button onclick="post_comment(${q_id},${c_id},${answer},${category})">등록</button>
                             </details>
                         `;
                         $('#comments').append(temp_comments);
@@ -457,7 +455,6 @@ async function get_question_detail(q_id, answer, category) {
                     </div>
                 `;
             }
-                    
             $('#teacher_answer').html(temp_answer_list);
             $('#teacher_question').html(temp_question_list);
         }

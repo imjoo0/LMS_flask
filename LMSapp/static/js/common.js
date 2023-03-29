@@ -194,7 +194,7 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list, b_id)
     });
 }
 
-function post_comment(q_id,is_coco){
+function post_comment(q_id,is_coco,answer,category){
     let comment_contents = ''
     if(is_coco == 0 ){
         comment_contents = $('#comment_contents').val()
@@ -213,9 +213,9 @@ function post_comment(q_id,is_coco){
             },
             success: function (response) {{
 				alert(response["result"])
-                window.location.reload()
 			}}
 		})
+    get_question_detail(q_id,answer,category)    
 }
 
 // 문의 삭제 함수 
