@@ -27,7 +27,7 @@ function get_data() {
             }else{
                 let temp_ban_chart = ''
                 for(i=0;i<response.length;i++){
-                    target = response[i]['chart_data']
+                    target = response[i]
                     console.log(target)
                     let register_no = target['ban']['register_no']
                     let name = target['ban']['name']
