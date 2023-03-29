@@ -347,9 +347,9 @@ function get_consulting_student(is_done){
             }, []);
             
             result.sort((a, b) => {
-                // const aDate = new Date(a.deadline);
-                // const bDate = new Date(b.deadline);
-                return a.deadline - b.deadline;
+                const aDate = new Date(a.deadline);
+                const bDate = new Date(b.deadline);
+                return aDate - bDate;
             });
             
             if (result.length > 0) {
