@@ -77,6 +77,8 @@ function get_data() {
                 let name = chart_data[i]['ban']['name']
                 let semester = make_semester(chart_data[i]['ban']['semester'])
                 let total_student_num = chart_data[i]['ban']['total_student_num']
+                let unlearned = response['all_consulting']['data'].filter(consulting => consulting.category_id < 100 && consulting.ban_id === register_no).length;
+                let unlearned_t = response['all_consulting']['data'].filter(consulting => consulting.category_id < 100).length;
                 // let unlearned = chart_data[i]['consulting'][0]['ban_unlearn']
                 // let unlearned_t = chart_data[i]['consulting'][0]['total']
                 let switchstudent = chart_data[i]['switchstudent'][0]['ban_count']
@@ -108,10 +110,12 @@ function get_data() {
                             </tr>
                             <tr class="row">
                                 <th class="col-5">응답/문의</th>
+                                <th class="col-5">미학습</th>
                                 <th class="col-2">상세</th>
                             </tr>
                             <tr class="row">
                                 <td class="col-5">${alimnote}건 / 총 ${alimnote_t}건</td>
+                                <td class="col-5">${unlearned}건(${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</td>
                                 <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="getBanInfo(${register_no})">✔️</td>
                             </tr>
                         </tbody>
@@ -119,7 +123,7 @@ function get_data() {
                 </div>
                 `;
                 
-                // <td class="col-5">${unlearned}건(${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</td>
+                // 
 
             }
             $('#ban_chart_list').html(temp_ban_chart);
