@@ -285,9 +285,9 @@ def mystudents(is_done):
         try:
             with db.cursor() as cur:
                 if is_done == 2:
-                    cur.execute("select id, student_id,category_id,deadline,created_at from consulting where startdate <= %s and consulting.teacher_id=%s consulting.missed=%s;",(Today,session['user_registerno'],standard,))
+                    cur.execute("select id, student_id,category_id,deadline,created_at from consulting where startdate <= %s and teacher_id=%s and missed=%s;",(Today,session['user_registerno'],standard,))
                 else:
-                    cur.execute("select id, student_id,category_id,deadline,created_at from consulting where startdate <= %s and consulting.teacher_id=%s consulting.done=%s;",(Today,session['user_registerno'],is_done,))
+                    cur.execute("select id, student_id,category_id,deadline,created_at from consulting where startdate <= %s and teacher_id=%s and done=%s;",(Today,session['user_registerno'],is_done,))
                 all_consulting['status'] = 200
                 all_consulting['data'] = cur.fetchall()
         except Exception as e:
