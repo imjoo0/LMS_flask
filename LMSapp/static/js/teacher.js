@@ -123,8 +123,7 @@ async function task_doneview(done_code) {
         url: "/teacher/task/" + done_code,
         data: {},
         success: function (response) {
-            console.log(response)
-            if ((response["target_task"] == '없음') || (response["target_task"].length == 0)) {
+            if ((response['all_task']['data'] == '없음') || (response['all_task']['data'].length == 0)) {
                 if (done_code == 0) {
                     $('#today_task_box0').html('오늘의 업무 끝 😆');
                     $('#today_task_box1').empty()
@@ -149,12 +148,12 @@ async function task_doneview(done_code) {
                     $('#today_task_box' + done_code).append(temp_for_task)
                     $(`#for_task${done_code}${category_id}`).empty()
                 }
-                for (i = 0; i < response["target_task"].length; i++) {
-                    let id = response["target_task"][i]['id']
-                    let category = response["target_task"][i]['category']
-                    let contents = response["target_task"][i]['contents']
-                    let deadline = response["target_task"][i]['deadline']
-                    let priority = response["target_task"][i]['priority']
+                for (i = 0; i < response['all_task']['data'].length; i++) {
+                    let id = response['all_task']['data'][i]['id']
+                    let category = response['all_task']['data'][i]['category']
+                    let contents = response['all_task']['data'][i]['contents']
+                    let deadline = response['all_task']['data'][i]['deadline']
+                    let priority = response['all_task']['data'][i]['priority']
                     if (priority > 2) {
                         let temp_task_contents_box = `
                         <details>
