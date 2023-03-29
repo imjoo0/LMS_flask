@@ -23,7 +23,7 @@ function get_data() {
         data: {},
         success: function (response) {
             // 상담 필요 학생 그리기 
-            const result = response['my_students'].reduce((acc, student) => {
+            const consulting_student_list = response['my_students'].reduce((acc, student) => {
                 const consultingList = response['all_consulting']['data'].filter(consulting => consulting.student_id === student.register_no);
 
                 if (consultingList.length > 0) {
@@ -46,17 +46,16 @@ function get_data() {
                 }
                 return acc;
             }, []);
-            var consulting_num = result.length
-            if (consulting_num > 0) {
-                $('#consulting_title').html('오늘의 상담'+consulting_num+'건');
+            if (consulting_student_list.length > 0) {
+                $('#consulting_title').html('오늘의 상담'+consulting_student_list.length+'건');
                 let temp_consulting_contents_box = ''
-                for (i = 0; i < result.length; i++) {
-                    var ban_name = result[i]['ban_name']
-                    var student_id = result[i]['student_id']
-                    var student_name = result[i]['student_name']
-                    var mobileno = result[i]['student_mobileno']
-                    var consulting_num = result[i]['consulting_num']
-                    var deadline = result[i]['deadline']
+                for (i = 0; i < consulting_student_list.length; i++) {
+                    var ban_name = consulting_student_list[i]['ban_name']
+                    var student_id = consulting_student_list[i]['student_id']
+                    var student_name = consulting_student_list[i]['student_name']
+                    var mobileno = consulting_student_list[i]['student_mobileno']
+                    var consulting_num = consulting_student_list[i]['consulting_num']
+                    var deadline = consulting_student_list[i]['deadline']
                     temp_consulting_contents_box += `
                     <td class="col-3">${ban_name}</td>
                     <td class="col-2">${student_name}</td>
@@ -70,13 +69,9 @@ function get_data() {
             } else {
                 $('#consulting_title').html('오늘의 상담이 없습니다.');
             }
-            let answer_rate =  function(answer, all) {
-                if(Object.is(answer/all, NaN)) return 0;
-                else return answer/all*100;
-            }
             // 반 차트 데이터 
-            console.log(result)
             chart_data = response['chart_data']
+            let temp_ban_chart ='';
             for(i=0;i<chart_data.length;i++){
                 let register_no = chart_data[i]['ban']['register_no']
                 let name = chart_data[i]['ban']['name']
