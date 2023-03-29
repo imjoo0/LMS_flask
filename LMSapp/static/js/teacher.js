@@ -46,7 +46,7 @@ function get_data() {
                         else return answer/all*100;
                     }
                     temp_ban_chart += `
-                    <div class="make_row">
+                    <div class="make_row" style="width:100%">
                         <div class="total_chart">
                             <div class="chartWrap">
                                 <div class="chart">
