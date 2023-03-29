@@ -123,6 +123,7 @@ async function task_doneview(done_code) {
         url: "/teacher/task/" + done_code,
         data: {},
         success: function (response) {
+            console.log(response['all_task']['data'])
             if ((response['all_task']['data'] == '없음') || (response['all_task']['data'].length == 0)) {
                 if (done_code == 0) {
                     $('#today_task_box0').html('오늘의 업무 끝 😆');
