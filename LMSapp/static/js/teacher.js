@@ -61,7 +61,7 @@ function get_data() {
                                 </div>
                             </div>
                         </div>
-                        <table class="table text-center" id="class_list" style="width:100%; margin-top:50%;">
+                        <table class="table text-center" id="class_list" style="width:100%; margin-top:10%;">
                             <tbody style="width:100%;">
                                 <tr class="row">
                                     <th class="col-12">${name} (${semester}학기)</th>
