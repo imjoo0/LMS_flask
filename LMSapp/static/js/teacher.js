@@ -327,6 +327,13 @@ function done_consulting_history_view(ban_id, is_done) {
 
 }
 function get_consulting_student(is_done){
+    if(is_done == 0){
+        $('#consulting_title').html('오늘의 상담');
+    }else if(is_done == 1){
+        $('#consulting_title').html('오늘 완료한 상담');
+    }else{
+        $('#consulting_title').html('오늘의 부재중 상담');
+    }
     $.ajax({
         type: "GET",
         url: "/teacher/mystudents/" + is_done,
@@ -346,8 +353,7 @@ function get_consulting_student(is_done){
                         'student_mobileno': student.mobileno,
                         'ban_name': student.classname,
                         'consulting_num': consultingList.length,
-                        'consultings': consultingList,
-                        'deadline': new Date(deadline.deadline)
+                        'deadline': new Date(deadline.deadline),
                     });
                 }
                 return acc;
@@ -358,7 +364,6 @@ function get_consulting_student(is_done){
             });
             
             if (result.length > 0) {
-                $('#consulting_title').html('오늘의 상담');
                 let temp_consulting_contents_box = ''
                 for (i = 0; i < result.length; i++) {
                     var ban_name = result[i]['ban_name']
@@ -376,9 +381,9 @@ function get_consulting_student(is_done){
                     <td class="col-1">${consulting_num}</td>
                     <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">✅</td> 
                     `;
-                    $('#today_consulting_box').html(temp_consulting_contents_box);
                 }
-            } else {
+                $('#today_consulting_box').html(temp_consulting_contents_box);
+            }else{
                 $('#consulting_title').html('오늘의 상담이 없습니다.');
             }
         }

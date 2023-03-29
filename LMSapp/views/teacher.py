@@ -284,7 +284,10 @@ def mystudents(is_done):
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute("select id, student_id, category_id , deadline from consulting where startdate <= %s and consulting.teacher_id=%s;",(Today,session['user_registerno'],))
+                if is_done == 2:
+                    cur.execute("select id, student_id,category_id,deadline,created_at from consulting where startdate <= %s and consulting.teacher_id=%s consulting.missed=%s;",(Today,session['user_registerno'],standard,))
+                else:
+                    cur.execute("select id, student_id,category_id,deadline,created_at from consulting where startdate <= %s and consulting.teacher_id=%s consulting.done=%s;",(Today,session['user_registerno'],is_done,))
                 all_consulting['status'] = 200
                 all_consulting['data'] = cur.fetchall()
         except Exception as e:
