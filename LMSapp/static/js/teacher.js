@@ -22,6 +22,10 @@ function get_data() {
         dataType: 'json',
         data: {},
         success: function (response) {
+            let answer_rate =  function(answer, all) {
+                if(Object.is(answer/all, NaN)) return 0;
+                else return answer/all*100;
+            }
             // 반 차트 데이터 
             chart_data = response['chart_data']
             let temp_ban_chart ='';
@@ -40,10 +44,7 @@ function get_data() {
                 let outstudent_t = chart_data[i]['outstudent'][0]['total_count']
                 let alimnote = chart_data[i]['alimnote']['answer']
                 let alimnote_t = chart_data[i]['alimnote']['all']
-                let answer_rate =  function(answer, all) {
-                    if(Object.is(answer/all, NaN)) return 0;
-                    else return answer/all*100;
-                }
+                
                 temp_ban_chart += `
                 <div class="make_row" style="width:100%">
                     <div class="total_chart">
@@ -71,7 +72,7 @@ function get_data() {
                                 <th class="col-2">상세</th>
                             </tr>
                             <tr class="row">
-                                <td class="col-5">응답) ${alimnote}건 / 문의) ${alimnote_t}건</td>
+                                <td class="col-5">(응답) ${alimnote}건 / (문의) ${alimnote_t}건</td>
                                 <td class="col-5">${unlearned}건(${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</td>
                                 <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="getBanInfo(${register_no})">✔️</td>
                             </tr>
@@ -79,12 +80,19 @@ function get_data() {
                     </table>
                 </div>
                 `;
-                
-                // 
-
             }
             $('#ban_chart_list').html(temp_ban_chart);
-            
+
+            let consulting_done = response['all_consulting']['data'].filter(consulting => consulting.done === 1).length;
+            let consulting_t = response['all_consulting']['data'].length;
+            let temp_report = `
+            <td class="col-3" id="task_chart">{{total_done}}/{{total_todo}}</td>
+            <td class="col-3"> {{ ttp }}%</td>
+            <td class="col-3"> ${consulting}/${consulting_t} </td>
+            <td class="col-3"> ( ${answer_rate(consulting_done, consulting_t).toFixed(2)} )% </td>
+            `
+            $('#classreport').html(temp_report)
+
         },
         error:function(xhr, status, error){
                 alert('xhr.responseText');
