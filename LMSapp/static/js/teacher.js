@@ -64,10 +64,7 @@ function get_data() {
                         <table class="table text-center" id="class_list" style="width:100%;">
                             <tbody style="width:100%;">
                                 <tr class="row">
-                                    <th class="col-12">반</th>
-                                </tr>
-                                <tr class="row">
-                                    <td class="col-12">${name} (${semester}학기)</td>
+                                    <th class="col-12">${name} (${semester}학기)</th>
                                 </tr>
                                 <tr class="row">
                                     <th class="col-5">미학습(발생율)</th>
