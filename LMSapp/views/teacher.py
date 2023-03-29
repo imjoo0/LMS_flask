@@ -180,7 +180,7 @@ def get_data():
                         cur.execute("select count(*) as 'count', category_id from consulting where ban_id = %s group by category_id",(ban['register_no'],))
                         data['consulting'] = cur.fetchall().copy()
 
-                        cur.execute("select count(*) as 'count', category from switchstudent where ban_id=%s group by category",(ban['register_no'],))
+                        cur.execute("select count(*) as 'count' from switchstudent where ban_id=%s group by ban_id",(ban['register_no'],))
                         data['switchstudent'] = cur.fetchall().copy()
                         print(data)
 
