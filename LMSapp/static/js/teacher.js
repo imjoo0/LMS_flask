@@ -83,14 +83,15 @@ function get_data() {
             let consulting = response['all_consulting']['data'].filter(consulting => consulting.done === 0);
             let consulting_t = response['all_consulting']['data'].length;
             let consulting_done = consulting_t - consulting.length
-            // let task_done = response['all_task']['data'].filter(task => task.done === 1).length;
-            // let task_t = response['all_task']['data'].length;
-            // <td class="col-3"> ${task_done}/${task_t} </td>
-            // <td class="col-3"> ( ${answer_rate(task_done, task_t).toFixed(0)}% ) </td>
+            let task_done = response['all_task']['data'].filter(task => task.done === 1).length;
+            let task_t = response['all_task']['data'].length;
 
             let temp_report = `
             <td class="col-3"> ${consulting_done}/${consulting_t} </td>
             <td class="col-3"> ( ${answer_rate(consulting_done, consulting_t).toFixed(0)}% ) </td>
+            // <td class="col-3"> ${task_done}/${task_t} </td>
+            // <td class="col-3"> ( ${answer_rate(task_done, task_t).toFixed(0)}% ) </td>
+
             `
             $('#classreport').html(temp_report)
             task_doneview(0)
