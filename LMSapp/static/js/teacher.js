@@ -132,7 +132,7 @@ function get_data() {
                     var student_name = result[i]['student_name']
                     var mobileno = result[i]['student_mobileno']
                     var consulting_num = result[i]['consulting_num']
-                    var deadline = result[i]['deadline']
+                    var deadline = result[i]['deadline'].getFullYear()+'-'+(result[i]['deadline'].getMonth()+ 1).toString().padStart(2, '0')+'-'+result[i]['deadline'].getDate().toString().padStart(2, '0')
                     temp_consulting_contents_box += `
                     <td class="col-3">${ban_name}</td>
                     <td class="col-2">${student_name}</td>
