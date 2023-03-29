@@ -177,24 +177,25 @@ def get_data():
                     for ban in mybans_info:
                         data = {}
                         # cur.execute(f"select id, ban_id, category_id, student_id, contents, date_format(startdate, '%Y-%m-%d') as startdate, date_format(deadline, '%Y-%m-%d') as deadline, week_code, done, missed from consulting where ban_id = {ban['register_no']};")
-                        cur.execute("select count(*) as 'count', category_id from consulting where ban_id = %s group by category_id",(ban['register_no'],))
+                        # cur.execute("select count(*) as 'count', category_id from consulting where ban_id = %s group by category_id",(ban['register_no'],))
+                        cur.execute("SELECT COUNT(CASE WHEN category_id < 100 THEN 1 END) AS total,COUNT(CASE WHEN ban_id = %s AND category_id < 100 THEN 1 END) AS ban_unlearn FROM consulting;",(ban['register_no'],))
                         data['consulting'] = cur.fetchall().copy()
 
-                        cur.execute("select count(*) as 'count' from switchstudent where ban_id=%s group by ban_id",(ban['register_no'],))
+                        cur.execute("SELECT COUNT(CASE WHEN ban_id = %s THEN 1 END) AS ban_count,COUNT(*) AS total_count FROM switchstudent;",(ban['register_no'],))
                         data['switchstudent'] = cur.fetchall().copy()
-                        print(data)
+
+                        cur.execute("SELECT COUNT(CASE WHEN ban_id = %s THEN 1 END) AS ban_count,COUNT(*) AS total_count FROM outstudent;",(ban['register_no'],))
+                        data['outstudent'] = cur.fetchall().copy()
 
                         alimnote = callapi.purple_info(ban['register_no'],'get_alimnote')
                         data['alimnote'] = alimnote
 
-                        result.append({ban['name']: data.copy()})
+                        result.append({'chart_data': data.copy(),'ban_data':mybans_info})
                         #result.append(ban['register_no'])
             except:
                 print('err')
             finally:
                 db.close()
-            
-        print(result)
         return json.dumps(result)        
 
 # 오늘 해야 할 업무들의 카데고리

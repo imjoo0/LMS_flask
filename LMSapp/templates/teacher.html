@@ -394,39 +394,42 @@
                 <div class="info-title">
                     <span>Total Chart</span>
                 </div>
-                <div class="info make_row" style="overflow: scroll;">
-                    <div class="total_chart">
-                        <div class="chartWrap">
-                            <div class="chart">
-                                <div class="chart-total">
-                                    <span class="chart-total-num">관리중:{{ total_student_num }}<br>*이반:{{ switchstudent_num }}<br>*퇴소:{{ outstudent_num }}<br></span>
+                <div class="info" style="overflow: scroll;" id="ban_chart_list">
+                    <div class="make_row">
+                        <div class="total_chart">
+                            <div class="chartWrap">
+                                <div class="chart">
+                                    <div class="chart-total">
+                                        <span class="chart-total-num">관리중:{{ total_student_num }}<br>*이반:{{ switchstudent_num }}<br>*퇴소:{{ outstudent_num }}<br></span>
+                                    </div>
+                                </div>
+                                <div class="chart-bar" data-deg="{{outstudent_num}}"></div>
+                                <div class="chart-bar" data-deg="{{switchstudent_num}}"></div>
+                                <div class="chart-bar" data-deg="{{total_student_num}}"></div>
+                                <div class="chart-bar" data-deg="{{total_student_num}}/360*100">
                                 </div>
                             </div>
-                            <div class="chart-bar" data-deg="{{outstudent_num}}"></div>
-                            <div class="chart-bar" data-deg="{{switchstudent_num}}"></div>
-                            <div class="chart-bar" data-deg="{{total_student_num}}"></div>
-                            <div class="chart-bar" data-deg="{{total_student_num}}/360*100">
-                            </div>
                         </div>
+                        <table class="table text-center" id="class_list" style="width:100%;">
+                            <tbody style="width:100%;">
+                                <tr class="row">
+                                    <th class="col-4">반</th>
+                                    <th class="col-1">학기</th>
+                                    <th class="col-3">미학습</th>
+                                    <th class="col-3">문의</th>
+                                    <th class="col-1">상세</th>
+                                </tr>
+                                {% for ban in my_bans %}
+                                <tr class="row">
+                                    <td class="col-3">{{ ban['name'] }}</td>
+                                    <td class="col-2">{{ ban['semester'] }}학기</td>
+                                    <td class="col-1"> {{ban['unlearned']}}건</td>
+                                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="getBanInfo(`{{ban['register_no']}}`)">✔️</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
-                    <table class="table text-center" id="class_list" style="width:100%;">
-                        <tbody style="width:100%;">
-                            <tr class="row">
-                                <th class="col-5">반이름</th>
-                                <th class="col-2">학기</th>
-                                <th class="col-4">미학습</th>
-                                <th class="col-1">상세</th>
-                            </tr>
-                            {% for ban in my_bans %}
-                            <tr class="row">
-                                <td class="col-3">{{ ban['name'] }}</td>
-                                <td class="col-2">{{ ban['semester'] }}학기</td>
-                                <td class="col-1"> {{ban['unlearned']}}건</td>
-                                <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="getBanInfo(`{{ban['register_no']}}`)">✔️</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
                 </div>
             </div>
 
