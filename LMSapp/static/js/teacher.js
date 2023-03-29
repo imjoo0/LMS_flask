@@ -81,25 +81,23 @@ function get_data() {
             $('#ban_chart_list').html(temp_ban_chart);
 
             let consulting = response['all_consulting']['data'].filter(consulting => consulting.done != 1);
-            console.log(consulting)
             let consulting_t = response['all_consulting']['data'].length;
-            // let consulting_done = consulting_t - consulting.length
+            let consulting_done = consulting_t - consulting.length
             // let task_done = response['all_task']['data'].filter(task => task.done === 1).length;
             // let task_t = response['all_task']['data'].length;
             // <td class="col-3"> ${task_done}/${task_t} </td>
             // <td class="col-3"> ( ${answer_rate(task_done, task_t).toFixed(0)}% ) </td>
 
             let temp_report = `
-            <td class="col-3"> ${consulting.length}/${consulting_t} </td>
-            <td class="col-3"> ( ${answer_rate(consulting.length, consulting_t).toFixed(0)}% ) </td>
+            <td class="col-3"> ${consulting_done}/${consulting_t} </td>
+            <td class="col-3"> ( ${answer_rate(consulting_done, consulting_t).toFixed(0)}% ) </td>
             `
             $('#classreport').html(temp_report)
             task_doneview(0)
 
             // 상담 목록 
             const result = response['my_students'].reduce((acc, student) => {
-                const consultingList = response['all_consulting']['data'].filter(consulting => consulting.student_id === student.register_no);
-
+                const consultingList = consulting.filter(c => c.student_id === student.register_no);
                 if (consultingList.length > 0) {
                     const deadline = consultingList.reduce((prev, current) => {
                         const prevDueDate = prev.deadline instanceof Date ? prev.deadline.getTime() : Number.POSITIVE_INFINITY;
@@ -112,17 +110,16 @@ function get_data() {
                         'student_mobileno': student.mobileno,
                         'ban_name': student.classname,
                         'consulting_num': consultingList.length,
-                        'consultings': consultingList,
                         'deadline': deadline.deadline
                     });
                 }
                 return acc;
             }, []);
-            console.log(result)
             if (result.length > 0) {
                 $('#consulting_title').html('오늘의 상담');
                 let temp_consulting_contents_box = ''
                 for (i = 0; i < result.length; i++) {
+                    console.log(result[i])
                     var ban_name = result[i]['ban_name']
                     var student_id = result[i]['student_id']
                     var student_name = result[i]['student_name']
