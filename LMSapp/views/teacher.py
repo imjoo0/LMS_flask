@@ -178,7 +178,7 @@ def get_data():
             try:
                 with db.cursor() as cur:
                     # 상담
-                    cur.execute("select id, student_id, category_id , done, deadline from consulting where startdate <= %s and teacher_id=%s;",(Today,session['user_registerno'],))
+                    cur.execute("select id, student_id, category_id , done, deadline from consulting where created_at IS NULL and startdate <= %s and teacher_id=%s",(Today,session['user_registerno'],))
                     all_consulting['status'] = 200
                     all_consulting['data'] = cur.fetchall()
                     # cur.execute(f"select id, ban_id, category_id, startdate, deadline, week_code, done, missed from consulting where ban_id = {ban['register_no']};")
@@ -284,7 +284,7 @@ def mystudents(is_done):
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute("select id, student_id, category_id , done, deadline from consulting where startdate <= %s and consulting.teacher_id=%s;",(Today,session['user_registerno'],))
+                cur.execute("select id, student_id, category_id , deadline from consulting where startdate <= %s and consulting.teacher_id=%s;",(Today,session['user_registerno'],))
                 all_consulting['status'] = 200
                 all_consulting['data'] = cur.fetchall()
         except Exception as e:

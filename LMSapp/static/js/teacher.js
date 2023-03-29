@@ -137,8 +137,8 @@ function get_data() {
                     <td class="col-3">${ban_name}</td>
                     <td class="col-2">${student_name}</td>
                     <td class="col-3">${mobileno}</td>
-                    <td class="col-1">${consulting_num}</td>
                     <td class="col-2">${deadline}</td>
+                    <td class="col-1">${consulting_num}</td>
                     <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${0})">✅</td> 
                     `;
                     $('#today_consulting_box').html(temp_consulting_contents_box);
@@ -334,7 +334,6 @@ function get_consulting_student(is_done){
         success: function (response) {
             const result = response['my_students'].reduce((acc, student) => {
                 const consultingList = response['all_consulting']['data'].filter(consulting => consulting.student_id === student.register_no);
-
                 if (consultingList.length > 0) {
                     const deadline = consultingList.reduce((prev, current) => {
                         const prevDueDate = prev.deadline instanceof Date ? prev.deadline : Number.POSITIVE_INFINITY;
@@ -355,9 +354,6 @@ function get_consulting_student(is_done){
             }, []);
             
             result.sort((a, b) => {
-                // const aDate = new Date(a.deadline);
-                // const bDate = new Date(b.deadline);
-                // return aDate - bDate;
                 return a.deadline - b.deadline
             });
             
@@ -370,7 +366,8 @@ function get_consulting_student(is_done){
                     var student_name = result[i]['student_name']
                     var mobileno = result[i]['student_mobileno']
                     var consulting_num = result[i]['consulting_num']
-                    var deadline = result[i]['deadline']
+                    var deadline = result[i]['deadline'].getFullYear()+'-'+(result[i]['deadline'].getMonth()+ 1).toString().padStart(2, '0')+'-'+result[i]['deadline'].getDate().toString().padStart(2, '0')
+
                     temp_consulting_contents_box += `
                     <td class="col-3">${ban_name}</td>
                     <td class="col-2">${student_name}</td>
