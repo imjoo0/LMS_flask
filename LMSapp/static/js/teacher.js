@@ -64,6 +64,26 @@ function get_data() {
                         <table class="table text-center" id="class_list" style="width:100%;">
                             <tbody style="width:100%;">
                                 <tr class="row">
+                                    <th class="col-12">반</th>
+                                </tr>
+                                <tr class="row">
+                                    <td class="col-12">${name} (${semester}학기)</td>
+                                </tr>
+                                <tr class="row">
+                                    <th class="col-5">미학습(발생율)</th>
+                                    <th class="col-5">응답/문의</th>
+                                    <th class="col-2">상세</th>
+                                </tr>
+                                <tr class="row">
+                                    <td class="col-5">${unlearned}건(${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</td>
+                                    <td class="col-5">${alimnote}건 / 총 ${alimnote_t}건</td>
+                                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="getBanInfo(${register_no})">✔️</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table text-center" id="class_list" style="width:100%;">
+                            <tbody style="width:100%;">
+                                <tr class="row">
                                     <th class="col-4">반</th>
                                     <th class="col-1">학기</th>
                                     <th class="col-3">미학습(발생율)</th>
@@ -240,6 +260,7 @@ function get_data() {
                 alert('xhr.responseText');
         }
     });
+    chartDraw();
 }
 
 

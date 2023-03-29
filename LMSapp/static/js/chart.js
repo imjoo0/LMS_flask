@@ -28,5 +28,3 @@ function chartDraw() {
     newDeg[2] +
     "deg )";
 }
-
-chartDraw();
