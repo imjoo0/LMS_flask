@@ -213,9 +213,9 @@ function post_comment(q_id,is_coco,answer,category){
             },
             success: function (response) {{
 				alert(response["result"])
+                get_question_detail(q_id,answer,category)    
 			}}
 		})
-    get_question_detail(q_id,answer,category)    
 }
 
 // 문의 삭제 함수 
