@@ -182,10 +182,10 @@ def get_data():
                     cur.execute(f"select count(*) as 'count', category from switchstudent where ban_id={ban['register_no']} group by category")
                     data['switchstudent'] = cur.fetchall().copy()
 
+                    print(data)
                     alimnote = callapi.purple_info(ban['register_no'],'get_alimnote')
                     data['alimnote'] = alimnote
 
-                    print(data)
                     result.append({ban['name']: data.copy()})
                     #result.append(ban['register_no'])
         except:
