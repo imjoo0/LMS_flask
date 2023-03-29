@@ -88,9 +88,9 @@ function get_data() {
             let task_t = response['all_task']['data'].length;
             let temp_report = `
             <td class="col-3"> ${task_done}/${task_t} </td>
-            <td class="col-3"> ( ${answer_rate(task_done, task_t).toFixed(2)} )% </td>
+            <td class="col-3"> ( ${answer_rate(task_done, task_t).toFixed(0)}% ) </td>
             <td class="col-3"> ${consulting_done}/${consulting_t} </td>
-            <td class="col-3"> ( ${answer_rate(consulting_done, consulting_t).toFixed(0)} )% </td>
+            <td class="col-3"> ( ${answer_rate(consulting_done, consulting_t).toFixed(0)}% ) </td>
             `
             $('#classreport').html(temp_report)
 
@@ -123,6 +123,7 @@ async function task_doneview(done_code) {
         url: "/teacher/task/" + done_code,
         data: {},
         success: function (response) {
+            console.log(response)
             if ((response["target_task"] == '없음') || (response["target_task"].length == 0)) {
                 if (done_code == 0) {
                     $('#today_task_box0').html('오늘의 업무 끝 😆');

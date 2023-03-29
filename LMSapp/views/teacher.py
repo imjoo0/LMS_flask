@@ -214,29 +214,43 @@ def get_data():
 @bp.route("/task/<int:done_code>", methods=['GET','POST'])
 def task_category(done_code):
     if request.method == 'GET':
-        target_cate = []
-        result = TaskBan.get_task_category(session['user_registerno'],done_code)
-        if len(result['cate_data']) != 0:   
-            for cate in result['cate_data']:
-                cate_data = {}
-                cate_data['id'] = cate.id
-                cate_data['name'] = cate.name
-                target_cate.append(cate_data)
-        target_task = []
-        if len(result['task_data'])!=0:   
-            for task in result['task_data']:
-                task_data = {}
-                task_data['id'] = task.id
-                task_data['category'] = task.category_id
-                task_data['contents'] = task.contents
-                task_data['url'] = task.url
-                task_data['priority'] = task.priority
-                task_data['deadline'] = task.deadline.strftime('%Y-%m-%d')
-                target_task.append(task_data)
-            target_task.sort(key=lambda x: (-x['priority'],x['deadline']))
-        else: 
-            target_task = '없음'
-        return jsonify({'target_task':target_task,'target_cate':target_cate})
+        all_task = {}
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                # 업무
+                cur.execute("select taskban.id,taskban.ban_id,taskcategory.name as category,task.contents,task.deadline,task.cycle,task.priority from taskban left join task on taskban.task_id = task.id left join taskcategory on taskcategory.id = task.category_id where taskban.done=%s and task.category_id != 13 and task.startdate <= %s and taskban.teacher_id=%s;",(done_code,Today,session['user_registerno'],))
+                all_task['status'] = 200
+                all_task['data'] = cur.fetchall()
+        except:
+            print('err')
+        finally:
+            db.close()
+        return jsonify({'all_task':all_task})
+
+        # target_cate = []
+        # result = TaskBan.get_task_category(session['user_registerno'],done_code)
+        # if len(result['cate_data']) != 0:   
+        #     for cate in result['cate_data']:
+        #         cate_data = {}
+        #         cate_data['id'] = cate.id
+        #         cate_data['name'] = cate.name
+        #         target_cate.append(cate_data)
+        # target_task = []
+        # if len(result['task_data'])!=0:   
+        #     for task in result['task_data']:
+        #         task_data = {}
+        #         task_data['id'] = task.id
+        #         task_data['category'] = task.category_id
+        #         task_data['contents'] = task.contents
+        #         task_data['url'] = task.url
+        #         task_data['priority'] = task.priority
+        #         task_data['deadline'] = task.deadline.strftime('%Y-%m-%d')
+        #         target_task.append(task_data)
+        #     target_task.sort(key=lambda x: (-x['priority'],x['deadline']))
+        # else: 
+        #     target_task = '없음'
+        # return jsonify({'target_task':target_task,'target_cate':target_cate})
     elif request.method =='POST':
         # done_code = 완료한 task의 id
         target_task = TaskBan.query.get_or_404(done_code)
