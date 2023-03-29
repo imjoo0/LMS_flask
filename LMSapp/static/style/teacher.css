@@ -241,11 +241,6 @@
 #today_done_box,#consulting_student_list{display: none}
 #h_title,#missed_consulting_history_box{display: none}
 
-.task_summary,#mystudent_name_list,#make_plus_consulting{
+.task_summary,#make_plus_consulting{
   display: none;
-}
-.total_chart:hover + #mystudent_name_list{
-  display: flex;
-  width: 100%;
-
 }
