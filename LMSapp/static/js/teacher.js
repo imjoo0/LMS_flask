@@ -30,10 +30,10 @@ function get_data() {
                 let name = chart_data[i]['ban']['name']
                 let semester = make_semester(chart_data[i]['ban']['semester'])
                 let total_student_num = chart_data[i]['ban']['total_student_num']
-                // let unlearned = response['all_consulting']['data'].filter(consulting => consulting.category_id < 100 && consulting.ban_id === register_no).length;
-                // let unlearned_t = response['all_consulting']['data'].filter(consulting => consulting.category_id < 100).length;
-                let unlearned = chart_data[i]['consulting'][0]['ban_unlearn']
-                let unlearned_t = chart_data[i]['consulting'][0]['total']
+                let unlearned = response['all_consulting']['data'].filter(consulting => consulting.category_id < 100 && consulting.ban_id === register_no).length;
+                let unlearned_t = response['all_consulting']['data'].filter(consulting => consulting.category_id < 100).length;
+                // let unlearned = chart_data[i]['consulting'][0]['ban_unlearn']
+                // let unlearned_t = chart_data[i]['consulting'][0]['total']
                 let switchstudent = chart_data[i]['switchstudent'][0]['ban_count']
                 let switchstudent_t = chart_data[i]['switchstudent'][0]['total_count']
                 let outstudent = chart_data[i]['outstudent'][0]['ban_count']
