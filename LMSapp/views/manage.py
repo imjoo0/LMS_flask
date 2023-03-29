@@ -39,7 +39,7 @@ def get_ban(id):
             try:
                 with db.cursor() as cur:
                     cur.execute(f'select id, ban_id from outstudent')
-                    switch_student['status'] = 200
+                    out_student['status'] = 200
                     out_student['data'] = cur.fetchall()
 
                     cur.execute(f'select id, ban_id from switchstudent')

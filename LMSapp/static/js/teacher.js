@@ -19,6 +19,7 @@ function get_data() {
     $.ajax({
         type: "GET",
         url: "/teacher/get_data",
+        dataType: 'json',
         data: {},
         success: function (response) {
             if(response.length == 0){
@@ -27,7 +28,7 @@ function get_data() {
             }else{
                 let temp_ban_chart = ''
                 for(i=0;i<response.length;i++){
-                    target = response[i]
+                    target = response[i][0]
                     console.log(target)
                     let register_no = target['ban']['register_no']
                     let name = target['ban']['name']
