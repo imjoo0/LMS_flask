@@ -27,6 +27,7 @@ function get_data() {
             }else{
                 let temp_ban_chart = ''
                 for(i=0;i<response.length;i++){
+                    console.log(response)
                     let unlearned = response[i]['chart_data']['consulting'][0]['ban_unlearn']
                     let switchstudent = response[i]['chart_data']['switchstudent'][0]['ban_count']
                     let outstudent = response[i]['chart_data']['outstudent'][0]['ban_count']
