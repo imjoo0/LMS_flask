@@ -88,7 +88,7 @@ function get_data() {
             let temp_report = `
             <td class="col-3" id="task_chart">{{total_done}}/{{total_todo}}</td>
             <td class="col-3"> {{ ttp }}%</td>
-            <td class="col-3"> ${consulting}/${consulting_t} </td>
+            <td class="col-3"> ${consulting_done}/${consulting_t} </td>
             <td class="col-3"> ( ${answer_rate(consulting_done, consulting_t).toFixed(2)} )% </td>
             `
             $('#classreport').html(temp_report)
