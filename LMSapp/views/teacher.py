@@ -178,7 +178,7 @@ def get_data():
             try:
                 with db.cursor() as cur:
                     # 상담
-                    cur.execute("select consulting.id, consulting.ban_id, consulting.student_id, consulting.contents, consulting.week_code, consulting.category_id, consulting.deadline as deadline, consultingcategory.name as category from consulting left join consultingcategory on consultingcategory.id = consulting.category_id where consulting.startdate <= %s and consulting.teacher_id=%s;",(Today,session['user_registerno'],))
+                    cur.execute("select id, student_id, category_id, deadline, done as deadline from consulting where startdate <= %s and teacher_id=%s;",(Today,session['user_registerno'],))
                     all_consulting['status'] = 200
                     all_consulting['data'] = cur.fetchall()
                     # cur.execute(f"select id, ban_id, category_id, startdate, deadline, week_code, done, missed from consulting where ban_id = {ban['register_no']};")
