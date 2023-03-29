@@ -214,13 +214,14 @@ def get_data():
 @bp.route("/task/<int:done_code>", methods=['GET','POST'])
 def task_category(done_code):
     if request.method == 'GET':
-        all_task = []
+        all_task = {}
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
                 # 업무
                 cur.execute("SELECT task.id,taskcategory.name AS category,task.category_id,task.contents,task.deadline,task.priority FROM task LEFT JOIN taskban ON taskban.task_id = task.id LEFT JOIN taskcategory ON taskcategory.id = task.category_id WHERE task.category_id != 13 AND task.startdate <= %s AND %s <= task.deadline AND (task.cycle = %s OR task.cycle = 0) AND taskban.teacher_id = %s AND taskban.done = %s GROUP BY task.id, task.category_id, task.contents, task.deadline, task.cycle, task.priority;",(Today,Today,today_yoil,session['user_registerno'],done_code,))
-                all_task = cur.fetchall()
+                all_task['status'] = 200
+                all_task['data'] = cur.fetchall()
         except:
             print('err')
         finally:
