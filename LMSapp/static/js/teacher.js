@@ -27,15 +27,16 @@ function get_data() {
             }else{
                 let temp_ban_chart = ''
                 for(i=0;i<response.length;i++){
-                    console.log(response)
-                    let unlearned = response[i]['chart_data']['consulting'][0]['ban_unlearn']
-                    let switchstudent = response[i]['chart_data']['switchstudent'][0]['ban_count']
-                    let outstudent = response[i]['chart_data']['outstudent'][0]['ban_count']
-                    let alimnote = response[i]['chart_data']['alimnote']['all']
-                    let register_no = response[i]['ban_data']['register_no']
-                    let name = response[i]['ban_data']['name']
-                    let semester = make_semester(response[i]['ban_data']['semester'])
-                    let total_student_num = response[i]['ban_data']['total_student_num']
+                    target = response[i]['chart_data'][0]
+                    console.log(target)
+                    let register_no = target['ban']['register_no']
+                    let name = target['ban']['name']
+                    let semester = make_semester(target['ban']['semester'])
+                    let total_student_num = target['ban']['total_student_num']
+                    let unlearned = target['consulting'][0]['ban_unlearn']
+                    let switchstudent = target['switchstudent'][0]['ban_count']
+                    let outstudent = target['outstudent'][0]['ban_count']
+                    let alimnote = target['alimnote']['all']
 
                     temp_ban_chart += `
                     <div class="make_row">
@@ -311,7 +312,6 @@ function attach_consulting_history(student_id) {
         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
         data: {},
         success: function (response) {
-            console.log(response['consulting_history'])
             if(response['consulting_history'].length == 0) {
                 alert('상담을 우선 진행해주세요');
             }else{
