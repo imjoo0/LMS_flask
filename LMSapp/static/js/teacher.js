@@ -80,7 +80,7 @@ function get_data() {
             }
             $('#ban_chart_list').html(temp_ban_chart);
 
-            let consulting = response['all_consulting']['data'].filter(consulting => consulting.done != 1);
+            let consulting = response['all_consulting']['data'].filter(consulting => consulting.done === 0);
             let consulting_t = response['all_consulting']['data'].length;
             let consulting_done = consulting_t - consulting.length
             // let task_done = response['all_task']['data'].filter(task => task.done === 1).length;
