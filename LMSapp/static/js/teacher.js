@@ -329,8 +329,8 @@ function get_consulting_student(is_done){
 
                 if (consultingList.length > 0) {
                     const deadline = consultingList.reduce((prev, current) => {
-                        // const prevDueDate = prev.deadline instanceof Date ? prev.deadline : Number.POSITIVE_INFINITY;
-                        // const currentDueDate = current.deadline instanceof Date ? current.deadline : Number.POSITIVE_INFINITY;
+                        const prevDueDate = prev.deadline instanceof Date ? prev.deadline : Number.POSITIVE_INFINITY;
+                        const currentDueDate = current.deadline instanceof Date ? current.deadline : Number.POSITIVE_INFINITY;
                         return current.deadline < prev.deadline ? current : prev;
                     }, consultingList[0]);
                     acc.push({
@@ -345,6 +345,13 @@ function get_consulting_student(is_done){
                 }
                 return acc;
             }, []);
+            
+            result.sort((a, b) => {
+                // const aDate = new Date(a.deadline);
+                // const bDate = new Date(b.deadline);
+                return a.deadline - b.deadline;
+            });
+            
             if (result.length > 0) {
                 $('#consulting_title').html('오늘의 상담');
                 let temp_consulting_contents_box = ''
