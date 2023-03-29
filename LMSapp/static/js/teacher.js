@@ -109,11 +109,19 @@ function get_data() {
                         'student_mobileno': student.mobileno,
                         'ban_name': student.classname,
                         'consulting_num': consultingList.length,
-                        'deadline': deadline.deadline
+                        'deadline': new Date(deadline.deadline)
                     });
                 }
                 return acc;
             }, []);
+
+            result.sort((a, b) => {
+                // const aDate = new Date(a.deadline);
+                // const bDate = new Date(b.deadline);
+                // return aDate - bDate;
+                return a.deadline - b.deadline
+            });
+
             if (result.length > 0) {
                 $('#consulting_title').html('오늘의 상담');
                 let temp_consulting_contents_box = ''
@@ -340,16 +348,17 @@ function get_consulting_student(is_done){
                         'ban_name': student.classname,
                         'consulting_num': consultingList.length,
                         'consultings': consultingList,
-                        'deadline': deadline.deadline
+                        'deadline': new Date(deadline.deadline)
                     });
                 }
                 return acc;
             }, []);
             
             result.sort((a, b) => {
-                const aDate = new Date(a.deadline);
-                const bDate = new Date(b.deadline);
-                return aDate - bDate;
+                // const aDate = new Date(a.deadline);
+                // const bDate = new Date(b.deadline);
+                // return aDate - bDate;
+                return a.deadline - b.deadline
             });
             
             if (result.length > 0) {
