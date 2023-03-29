@@ -27,19 +27,23 @@ function get_data() {
                 $('#ban_chart_list').html(nodatamsg);
             }else{
                 let temp_ban_chart = ''
-                console.log(response)
                 for(i=0;i<response.length;i++){
-                    target = response[i]
-                    console.log(target)
                     let register_no = target['ban']['register_no']
                     let name = target['ban']['name']
                     let semester = make_semester(target['ban']['semester'])
                     let total_student_num = target['ban']['total_student_num']
                     let unlearned = target['consulting'][0]['ban_unlearn']
+                    let unlearned_t = target['consulting'][0]['total']
                     let switchstudent = target['switchstudent'][0]['ban_count']
+                    let switchstudent_t = target['switchstudent'][0]['total_count']
                     let outstudent = target['outstudent'][0]['ban_count']
-                    let alimnote = target['alimnote']['all']
-
+                    let outstudent_t = target['outstudent'][0]['total_count']
+                    let alimnote = target['alimnote']['answer']
+                    let alimnote_t = target['alimnote']['all']
+                    let answer_rate =  function(answer, all) {
+                        if(Object.is(answer/all, NaN)) return 0;
+                        else return answer/all*100;
+                    }
                     temp_ban_chart += `
                     <div class="make_row">
                         <div class="total_chart">
@@ -69,7 +73,7 @@ function get_data() {
                                     <td class="col-4">${name}</td>
                                     <td class="col-1">${semester}</td>
                                     <td class="col-3">${unlearned}</td>
-                                    <td class="col-3">${alimnote}건</td>
+                                    <td class="col-3">${alimnote}</td>
                                     <td class="col-1" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="getBanInfo(${register_no})">✔️</td>
                                 </tr>
                             </tbody>
