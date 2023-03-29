@@ -84,40 +84,24 @@ function get_data() {
 
             let consulting_done = response['all_consulting']['data'].filter(consulting => consulting.done === 1).length;
             let consulting_t = response['all_consulting']['data'].length;
-            
-            let today_task = response['all_task']['data'].filter(task => task.done === 0);
-            let today_task_len = today_task.length
+            let task_done = response['all_task']['data'].filter(task => task.done === 1).length;
             let task_t = response['all_task']['data'].length;
             let temp_report = `
-            <td class="col-3"> ${today_task_len}/${task_t} </td>
-            <td class="col-3"> ( ${answer_rate(today_task_len, task_t).toFixed(0)}% ) </td>
+            <td class="col-3"> ${task_done}/${task_t} </td>
+            <td class="col-3"> ( ${answer_rate(task_done, task_t).toFixed(0)}% ) </td>
             <td class="col-3"> ${consulting_done}/${consulting_t} </td>
             <td class="col-3"> ( ${answer_rate(consulting_done, consulting_t).toFixed(0)}% ) </td>
             `
             $('#classreport').html(temp_report)
 
-            if(today_task_len == 0){
-                $('#today_task_box0').html('오늘의 업무 끝 😆');
-            }else{
-                // 중복된 category_id값으로 묶은 객체 생성
-                const grouped_task = today_task.reduce((acc, task) => {
-                    // category_id값으로 그룹화
-                    if (acc[task.category_id]){
-                        if(acc[task.task_id]){
-                            acc[task.category,task.contents,task.deadline].push({id: task.id});
-                        }
-                    }else{
-                        acc[task.category] = [task];
-                    }
-                    return acc;
-                }, {});
-                console.log(grouped_task)
-            }
+            
+
         },
         error:function(xhr, status, error){
                 alert('xhr.responseText');
         }
     });
+    task_doneview(0)
     get_consulting_student(0)
 }
 
@@ -137,11 +121,9 @@ async function task_doneview(done_code) {
     await $.ajax({
         type: "GET",
         url: "/teacher/task/" + done_code,
-        dataType: 'json',
         data: {},
         success: function (response) {
-            console.log(response['all_task']['data'])
-            if (response['all_task']['data'].length == 0) {
+            if ((response['all_task']['data'] == '없음') || (response['all_task']['data'].length == 0)) {
                 if (done_code == 0) {
                     $('#today_task_box0').html('오늘의 업무 끝 😆');
                     $('#today_task_box1').empty()
@@ -149,51 +131,50 @@ async function task_doneview(done_code) {
                     $('#today_task_box1').html('완수한 업무가 없어요');
                     $('#today_task_box0').empty()
                 }
-            }
-            $('#cate_menu').empty()
-            $('#today_task_box' + done_code).empty()
-            let range = 12 / response['target_cate'].length;
-            for (i = 0; i < response['target_cate'].length; i++) {
-                let category_id = response['target_cate'][i]['id'];
-                let name = response['target_cate'][i]['name'];
-                let temp_cate_menu = `
-                <th class="col-${range}">${name}</th>
-                `;
-                $('#cate_menu').append(temp_cate_menu)
-                let temp_for_task = `
-                <td class="col-${range}" id="for_task${done_code}${category_id}"></td>
-                `;
-                $('#today_task_box' + done_code).append(temp_for_task)
-                $(`#for_task${done_code}${category_id}`).empty()
-            }
-            for (i = 0; i < response['all_task']['data'].length; i++) {
-                let id = response['all_task']['data'][i]['id']
-                let task_id = response['all_task']['data'][i]['task_id']
-                let category = response['all_task']['data'][i]['category']
-                let contents = response['all_task']['data'][i]['contents']
-                let deadline = response['all_task']['data'][i]['deadline']
-                let priority = response['all_task']['data'][i]['priority']
-                if (priority > 2) {
-                    let temp_task_contents_box = `
-                    <details>
-                        <summary onclick="get_taskban(${id},${done_code})">⭐우선업무:<strong>${contents}</strong>(마감 : ${deadline})</summary>
-                        <div class="make_row" id="task_ban_box_incomplete${done_code}${id}">
-                        </div>
-                    </details>  
+            } else {
+                $('#cate_menu').empty()
+                $('#today_task_box' + done_code).empty()
+                let range = 12 / response['target_cate'].length;
+                for (i = 0; i < response['target_cate'].length; i++) {
+                    let category_id = response['target_cate'][i]['id'];
+                    let name = response['target_cate'][i]['name'];
+                    let temp_cate_menu = `
+                    <th class="col-${range}">${name}</th>
                     `;
-                    $(`#for_task${done_code}${category}`).append(temp_task_contents_box);
-                } else {
-                    let temp_task_contents_box = `
-                    <details>
-                        <summary onclick="get_taskban(${id},${done_code})">✅<strong>${contents}</strong>(마감 : ${deadline})</summary>
-                        <div class="make_row" id="task_ban_box_incomplete${done_code}${id}">
-                        </div>
-                    </details> 
+                    $('#cate_menu').append(temp_cate_menu)
+                    let temp_for_task = `
+                    <td class="col-${range}" id="for_task${done_code}${category_id}"></td>
                     `;
-                    $(`#for_task${done_code}${category}`).append(temp_task_contents_box);
+                    $('#today_task_box' + done_code).append(temp_for_task)
+                    $(`#for_task${done_code}${category_id}`).empty()
+                }
+                for (i = 0; i < response['all_task']['data'].length; i++) {
+                    let id = response['all_task']['data'][i]['id']
+                    let category = response['all_task']['data'][i]['category']
+                    let contents = response['all_task']['data'][i]['contents']
+                    let deadline = response['all_task']['data'][i]['deadline']
+                    let priority = response['all_task']['data'][i]['priority']
+                    if (priority > 2) {
+                        let temp_task_contents_box = `
+                        <details>
+                            <summary onclick="get_taskban(${id},${done_code})">⭐우선업무:<strong>${contents}</strong>(마감 : ${deadline})</summary>
+                            <div class="make_row" id="task_ban_box_incomplete${done_code}${id}">
+                            </div>
+                        </details>  
+                        `;
+                        $(`#for_task${done_code}${category}`).append(temp_task_contents_box);
+                    } else {
+                        let temp_task_contents_box = `
+                        <details>
+                            <summary onclick="get_taskban(${id},${done_code})">✅<strong>${contents}</strong>(마감 : ${deadline})</summary>
+                            <div class="make_row" id="task_ban_box_incomplete${done_code}${id}">
+                            </div>
+                        </details> 
+                        `;
+                        $(`#for_task${done_code}${category}`).append(temp_task_contents_box);
+                    }
                 }
             }
-            
         }
     });
 }
