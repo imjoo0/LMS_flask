@@ -131,7 +131,7 @@ function get_data() {
                     <td class="col-3">${mobileno}</td>
                     <td class="col-1">${consulting_num}</td>
                     <td class="col-2">${deadline}</td>
-                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${0})">상담 실행</td> 
+                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${0})">✅</td> 
                     `;
                     $('#today_consulting_box').html(temp_consulting_contents_box);
                     $('#consulting_student_list').show();
@@ -361,7 +361,7 @@ function get_consulting_student(is_done){
                     <td class="col-3">${mobileno}</td>
                     <td class="col-1">${consulting_num}</td>
                     <td class="col-2">${deadline}</td>
-                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">상담 실행</td> 
+                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">✅</td> 
                     `;
                     $('#today_consulting_box').html(temp_consulting_contents_box);
                 }
