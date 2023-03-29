@@ -176,7 +176,7 @@ def get_data():
             db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
             try:
                 with db.cursor() as cur:
-                    cur.execute("select consulting.id, consulting.ban_id, consulting.student_id, consulting.contents, consulting.week_code, consulting.category_id, consulting.deadline as deadline, consultingcategory.name as category from consulting left join consultingcategory on consultingcategory.id = consulting.category_id where consulting.done=0 and consulting.teacher_id=%s;",(session['user_registerno'],))
+                    cur.execute("select consulting.id, consulting.ban_id, consulting.student_id, consulting.contents, consulting.week_code, consulting.category_id, consulting.deadline as deadline, consultingcategory.name as category from consulting left join consultingcategory on consultingcategory.id = consulting.category_id where consulting.startdate <= %s and consulting.done=0 and consulting.teacher_id=%s;",(Today,session['user_registerno'],))
                     all_consulting['status'] = 200
                     all_consulting['data'] = cur.fetchall()
                     # cur.execute(f"select id, ban_id, category_id, student_id, contents, date_format(startdate, '%Y-%m-%d') as startdate, date_format(deadline, '%Y-%m-%d') as deadline, week_code, done, missed from consulting where ban_id = {ban['register_no']};")
@@ -198,7 +198,7 @@ def get_data():
                         alimnote = callapi.purple_info(ban['register_no'],'get_alimnote')
                         data['alimnote'] = alimnote
 
-                        result.append({'chart_data': data})
+                        result.append(data)
                         #result.append(ban['register_no'])
             except:
                 print('err')

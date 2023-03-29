@@ -22,69 +22,113 @@ function get_data() {
         dataType: 'json',
         data: {},
         success: function (response) {
-            console.log(response)
-            if(response.length == 0){
-                nodatamsg = '<h3>데이터가 없습니다</h3>'
-                $('#ban_chart_list').html(nodatamsg);
-            }else{
-                let temp_ban_chart = ''
-                for(i=0;i<response.length;i++){
-                    let target = response[i]['chart_data']
-                    let register_no = target['ban']['register_no']
-                    let name = target['ban']['name']
-                    let semester = make_semester(target['ban']['semester'])
-                    let total_student_num = target['ban']['total_student_num']
-                    let unlearned = target['consulting'][0]['ban_unlearn']
-                    let unlearned_t = target['consulting'][0]['total']
-                    let switchstudent = target['switchstudent'][0]['ban_count']
-                    let switchstudent_t = target['switchstudent'][0]['total_count']
-                    let outstudent = target['outstudent'][0]['ban_count']
-                    let outstudent_t = target['outstudent'][0]['total_count']
-                    let alimnote = target['alimnote']['answer']
-                    let alimnote_t = target['alimnote']['all']
-                    let answer_rate =  function(answer, all) {
-                        if(Object.is(answer/all, NaN)) return 0;
-                        else return answer/all*100;
-                    }
-                    temp_ban_chart += `
-                    <div class="make_row" style="width:100%">
-                        <div class="total_chart">
-                            <div class="chartWrap">
-                                <div class="chart">
-                                    <div class="chart-total">
-                                        <span class="chart-total-num">관리중:${ total_student_num }<br>*이반:${ switchstudent }<br>*퇴소:${ outstudent }<br></span>
-                                    </div>
-                                </div>
-                                <div class="chart-bar" data-deg="${ outstudent }"></div>
-                                <div class="chart-bar" data-deg="${ switchstudent }"></div>
-                                <div class="chart-bar" data-deg="${ total_student_num }"></div>
-                                <div class="chart-bar" data-deg="${ total_student_num+switchstudent+outstudent }/360*100">
+            // 상담 필요 학생 그리기 
+            const result = response['my_students'].reduce((acc, student) => {
+                const consultingList = response['all_consulting']['data'].filter(consulting => consulting.student_id === student.register_no);
+
+                if (consultingList.length > 0) {
+                    // 마감일 임박한 상담 날짜로 deadline 설정 
+                    const deadline = consultingList.reduce((prev, current) => {
+                        const prevDueDate = prev.deadline instanceof Date ? prev.deadline.getTime() : Number.POSITIVE_INFINITY;
+                        const currentDueDate = current.deadline instanceof Date ? current.deadline.getTime() : Number.POSITIVE_INFINITY;
+                        return currentDueDate < prevDueDate ? current : prev;
+                    }, consultingList[0]);
+                    // 상담 필요학생 정보에 필요 정보 정리해서 입력 
+                    acc.push({
+                        'student_id': student.register_no,
+                        'student_name': student.name,
+                        'student_mobileno': student.mobileno,
+                        'ban_name': student.classname,
+                        'consulting_num': consultingList.length,
+                        'consultings': consultingList,
+                        'deadline': deadline.deadline
+                    });
+                }
+                return acc;
+            }, []);
+            var consulting_num = result.length
+            if (consulting_num > 0) {
+                $('#consulting_title').html('오늘의 상담'+consulting_num+'건');
+                let temp_consulting_contents_box = ''
+                for (i = 0; i < result.length; i++) {
+                    var ban_name = result[i]['ban_name']
+                    var student_id = result[i]['student_id']
+                    var student_name = result[i]['student_name']
+                    var mobileno = result[i]['student_mobileno']
+                    var consulting_num = result[i]['consulting_num']
+                    var deadline = result[i]['deadline']
+                    temp_consulting_contents_box += `
+                    <td class="col-3">${ban_name}</td>
+                    <td class="col-2">${student_name}</td>
+                    <td class="col-3">${mobileno}</td>
+                    <td class="col-1">${consulting_num}</td>
+                    <td class="col-2">${deadline}</td>
+                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">상담 실행</td> 
+                    `;
+                    $('#today_consulting_box').html(temp_consulting_contents_box);
+                }
+            } else {
+                $('#consulting_title').html('오늘의 상담이 없습니다.');
+            }
+            let answer_rate =  function(answer, all) {
+                if(Object.is(answer/all, NaN)) return 0;
+                else return answer/all*100;
+            }
+            // 반 차트 데이터 
+            console.log(result)
+            chart_data = response['chart_data']
+            for(i=0;i<chart_data.length;i++){
+                let register_no = chart_data[i]['ban']['register_no']
+                let name = chart_data[i]['ban']['name']
+                let semester = make_semester(chart_data[i]['ban']['semester'])
+                let total_student_num = chart_data[i]['ban']['total_student_num']
+                // let unlearned = chart_data[i]['consulting'][0]['ban_unlearn']
+                // let unlearned_t = chart_data[i]['consulting'][0]['total']
+                let switchstudent = chart_data[i]['switchstudent'][0]['ban_count']
+                let switchstudent_t = chart_data[i]['switchstudent'][0]['total_count']
+                let outstudent = chart_data[i]['outstudent'][0]['ban_count']
+                let outstudent_t = chart_data[i]['outstudent'][0]['total_count']
+                let alimnote = chart_data[i]['alimnote']['answer']
+                let alimnote_t = chart_data[i]['alimnote']['all']
+                temp_ban_chart += `
+                <div class="make_row" style="width:100%">
+                    <div class="total_chart">
+                        <div class="chartWrap">
+                            <div class="chart">
+                                <div class="chart-total">
+                                    <span class="chart-total-num">관리중:${ total_student_num }<br>*이반:${ switchstudent }<br>*퇴소:${ outstudent }<br></span>
                                 </div>
                             </div>
+                            <div class="chart-bar" data-deg="${ outstudent }"></div>
+                            <div class="chart-bar" data-deg="${ switchstudent }"></div>
+                            <div class="chart-bar" data-deg="${ total_student_num }"></div>
+                            <div class="chart-bar" data-deg="${ total_student_num+switchstudent+outstudent }/360*100">
+                            </div>
                         </div>
-                        <table class="table text-center" id="class_list" style="width:100%; margin-top:10%;">
-                            <tbody style="width:100%;">
-                                <tr class="row">
-                                    <th class="col-12">${name} (${semester}학기)</th>
-                                </tr>
-                                <tr class="row">
-                                    <th class="col-5">미학습(발생율)</th>
-                                    <th class="col-5">응답/문의</th>
-                                    <th class="col-2">상세</th>
-                                </tr>
-                                <tr class="row">
-                                    <td class="col-5">${unlearned}건(${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</td>
-                                    <td class="col-5">${alimnote}건 / 총 ${alimnote_t}건</td>
-                                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="getBanInfo(${register_no})">✔️</td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
-                    `;
+                    <table class="table text-center" id="class_list" style="width:100%; margin-top:10%;">
+                        <tbody style="width:100%;">
+                            <tr class="row">
+                                <th class="col-12">${name} (${semester}학기)</th>
+                            </tr>
+                            <tr class="row">
+                                <th class="col-5">응답/문의</th>
+                                <th class="col-2">상세</th>
+                            </tr>
+                            <tr class="row">
+                                <td class="col-5">${alimnote}건 / 총 ${alimnote_t}건</td>
+                                <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="getBanInfo(${register_no})">✔️</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                `;
+                
+                // <td class="col-5">${unlearned}건(${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</td>
 
-                }
-                $('#ban_chart_list').html(temp_ban_chart);
             }
+            $('#ban_chart_list').html(temp_ban_chart);
+            
         },
         error:function(xhr, status, error){
                 alert('xhr.responseText');
