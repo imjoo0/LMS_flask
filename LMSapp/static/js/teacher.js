@@ -73,8 +73,8 @@ function get_data() {
                                 <tr class="row">
                                     <td class="col-4">${name}</td>
                                     <td class="col-1">${semester}</td>
-                                    <td class="col-3">${unlearned}(${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</td>
-                                    <td class="col-3">${alimnote}/${alimnote_t}</td>
+                                    <td class="col-3">${unlearned}건(${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</td>
+                                    <td class="col-3">${alimnote}건 / 총 ${alimnote_t}건</td>
                                     <td class="col-1" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="getBanInfo(${register_no})">✔️</td>
                                 </tr>
                             </tbody>
