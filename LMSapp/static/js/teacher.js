@@ -134,7 +134,7 @@ function get_data() {
                     <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${0})">상담 실행</td> 
                     `;
                     $('#today_consulting_box').html(temp_consulting_contents_box);
-                    $('#today_consulting_box').show();
+                    $('#consulting_student_list').show();
                 }
             } else {
                 $('#consulting_title').html('오늘의 상담이 없습니다.');
