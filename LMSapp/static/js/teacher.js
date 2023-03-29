@@ -69,7 +69,7 @@ function get_data() {
                             <tr class="row">
                                 <th class="col-5">알림장</th>
                                 <th class="col-5">미학습</th>
-                                <th class="col-2">상세</th>
+                                <th class="col-2">원생</th>
                             </tr>
                             <tr class="row">
                                 <td class="col-5">(응답) ${alimnote}건 / (문의) ${alimnote_t}건</td>
@@ -85,9 +85,11 @@ function get_data() {
 
             let consulting_done = response['all_consulting']['data'].filter(consulting => consulting.done === 1).length;
             let consulting_t = response['all_consulting']['data'].length;
+            let task_done = response['all_task']['data'].filter(task => task.done === 1).length;
+            let task_t = response['all_task']['data'].length;
             let temp_report = `
-            <td class="col-3" id="task_chart">{{total_done}}/{{total_todo}}</td>
-            <td class="col-3"> {{ ttp }}%</td>
+            <td class="col-3"> ${task_done}/${task_t} </td>
+            <td class="col-3"> ( ${answer_rate(task_done, task_t).toFixed(2)} )% </td>
             <td class="col-3"> ${consulting_done}/${consulting_t} </td>
             <td class="col-3"> ( ${answer_rate(consulting_done, consulting_t).toFixed(2)} )% </td>
             `

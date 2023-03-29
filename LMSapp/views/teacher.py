@@ -169,12 +169,14 @@ def question():
 def get_data():
     if request.method == 'GET':
         all_consulting = {}
+        all_task = {}
         result = []
         mybans_info = callapi.purple_ban(session['user_id'],'get_mybans')
         if len(mybans_info) != 0:
             db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
             try:
                 with db.cursor() as cur:
+                    # 상담
                     cur.execute("select id, ban_id,category_id,done from consulting where consulting.startdate <= %s and consulting.teacher_id=%s;",(Today,session['user_registerno'],))
                     all_consulting['status'] = 200
                     all_consulting['data'] = cur.fetchall()
@@ -182,7 +184,10 @@ def get_data():
                     # cur.execute("select count(*) as 'count', category_id from consulting where ban_id = %s group by category_id",(ban['register_no'],))
                     # cur.execute("SELECT COUNT(CASE WHEN category_id < 100 THEN 1 END) AS total,COUNT(CASE WHEN ban_id = %s AND category_id < 100 THEN 1 END) AS ban_unlearn FROM consulting;",(ban['register_no'],))
                     # data['consulting'] = cur.fetchall()
-
+                    # 업무
+                    cur.execute("select taskban.id,task.category_id,taskban.done from taskban left join task on taskban.task_id = task.id where task.startdate <= %s and taskban.teacher_id=%s;",(Today,session['user_registerno'],))
+                    all_task['status'] = 200
+                    all_task['data'] = cur.fetchall()
                     # 반 별 조회 / 이반 * 퇴소 * 문의 
                     for ban in mybans_info:
                         data = {}
@@ -203,7 +208,7 @@ def get_data():
                 print('err')
             finally:
                 db.close()
-            return jsonify({'chart_data': result,'all_consulting':all_consulting})
+            return jsonify({'chart_data': result,'all_consulting':all_consulting,'all_task':all_task})
         
 # 오늘 해야 할 업무들의 카데고리
 @bp.route("/task/<int:done_code>", methods=['GET','POST'])
