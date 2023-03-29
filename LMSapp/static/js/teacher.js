@@ -87,11 +87,10 @@ function get_data() {
             let task_t = response['all_task']['data'].length;
 
             let temp_report = `
+            <td class="col-3"> ${task_done}/${task_t} </td>
+            <td class="col-3"> ( ${answer_rate(task_done, task_t).toFixed(0)}% ) </td>
             <td class="col-3"> ${consulting_done}/${consulting_t} </td>
             <td class="col-3"> ( ${answer_rate(consulting_done, consulting_t).toFixed(0)}% ) </td>
-            // <td class="col-3"> ${task_done}/${task_t} </td>
-            // <td class="col-3"> ( ${answer_rate(task_done, task_t).toFixed(0)}% ) </td>
-
             `
             $('#classreport').html(temp_report)
             task_doneview(0)
