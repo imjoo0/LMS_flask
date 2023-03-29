@@ -169,7 +169,6 @@ def get_data():
     if request.method == 'GET':
         result = []
         mybans_info = callapi.purple_ban(session['user_id'],'get_mybans')
-        print(mybans_info)
 
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
@@ -186,13 +185,13 @@ def get_data():
                     alimnote = callapi.purple_info(ban['register_no'],'get_alimnote')
                     data['alimnote'] = alimnote
 
+                    print(data)
                     result.append({ban['name']: data.copy()})
                     #result.append(ban['register_no'])
         except:
             print('err')
         finally:
             db.close()
-        print(result)
         return json.dumps(result)        
 
 # 오늘 해야 할 업무들의 카데고리

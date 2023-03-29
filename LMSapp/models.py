@@ -55,7 +55,7 @@ class Comment(db.Model):
     parent_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
     created_at = db.Column(db.DateTime(), nullable=False)
     # 관계설정
-    question = db.relationship("Question", backref=backref('comments', cascade='all, delete-orphan', single_parent=True))
+    question = db.relationship("Question", backref=backref('comments', cascade='all, delete-orphan', single_parent=True),overlaps="qcomments")
     children = db.relationship("Comment",back_populates='parent', cascade='all, delete-orphan')
     parent = db.relationship("Comment", back_populates='children', remote_side=[id])
 
@@ -69,7 +69,7 @@ class Answer(db.Model):
     created_at = db.Column(db.DateTime(), nullable=False)
     reject_code = db.Column(db.Integer,nullable=True) # 1이면 반려 
     # 관계설정 
-    question = db.relationship("Question", backref="qanswer")
+    question = db.relationship("Question", backref="qanswer",overlaps="qa")
 
 class OutStudent(db.Model):
     __tablename__ = "outstudent"
