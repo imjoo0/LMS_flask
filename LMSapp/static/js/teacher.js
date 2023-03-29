@@ -27,8 +27,9 @@ function get_data() {
                 $('#ban_chart_list').html(nodatamsg);
             }else{
                 let temp_ban_chart = ''
+                console.log(response)
                 for(i=0;i<response.length;i++){
-                    target = response[i][0]
+                    target = response[i]
                     console.log(target)
                     let register_no = target['ban']['register_no']
                     let name = target['ban']['name']
