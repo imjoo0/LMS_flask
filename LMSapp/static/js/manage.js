@@ -229,7 +229,7 @@ function getBanlist(){
                     <td class="col-3">${name}</td>
                     <td class="col-3">${student_num}</td>
                     <td class="col-3">${count_per_ban}(${answer_rate(count_per_ban, totla_out_ban).toFixed(0)}%)</td>
-                    <td class="col-3" onclick="getBanChart(${value})">👉</td>`;
+                    <td class="col-3" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart(${value})">👉</td>`;
                 }
                 $('#semester_banlist'+j).html(temp_semester_banlist)
                 $('#out_msg'+j).html(`${make_semester(j)}학기 총 퇴소학생 수:${semester_out_student}`)
