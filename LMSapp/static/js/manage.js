@@ -51,7 +51,7 @@ async function sodata(){
                 register_no = response['switch_out_bans'][i]['target_ban']['register_no']
                 ban_name = response['switch_out_bans'][i]['target_ban']['ban_name']
                 semester = response['switch_out_bans'][i]['target_ban']['semester']
-                teacher_name = response['switch_out_bans'][i]['target_ban']['teacher_name'] +'( ' +response['switch_out_bans'][i]['teacher_engname'] +' )'
+                teacher_name = response['switch_out_bans'][i]['target_ban']['teacher_name'] +'( ' +response['switch_out_bans'][i]['target_ban']['teacher_engname'] +' )'
                 switch_count = response['switch_out_bans'][i]['switch_out_count']['switchcount_per_ban']
                 out_count = response['switch_out_bans'][i]['switch_out_count']['outcount_per_ban']
                 sp = answer_rate(switch_count,response['switch_out_bans'][i]['switch_out_count']['switchtotal_count']).toFixed(0)
