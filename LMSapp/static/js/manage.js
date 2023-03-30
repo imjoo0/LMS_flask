@@ -199,14 +199,13 @@ function getBanlist(){
             $('#ninesemester').css('background-color','#EBF1DE');
             $('#ninesemester_msg').html(`9학기 학기 학생 수: ${ninesemester}명`);
 
-            // 내림차순 정렬 먼저
-            response['outstudent']['data'].sort((a, b) => b.count_per_ban - a.count_per_ban);
-
-            
             for(j=0;j<3;j++){
                 let key = j.toString()
                 let temp_semester_banlist = ''
                 let semester_out_student = 0
+                semesterGroupedresult[j][key].sort(function(a, b) {
+                    return b.student_num - a.student_num;
+                });
                 semesterGroupedresult[j][key].forEach(ban_data => {
                     let b_id = ban_data['ban_id']
                     let on = response['outstudent']['data'].filter(a => a.ban_id == b_id);
@@ -215,9 +214,6 @@ function getBanlist(){
                     if(on.length != 0){
                         count_per_ban = on[0]['count_per_ban']
                         total_out_ban = on[0]['total_count']
-                    }else{
-                        count_per_ban = 0
-                        total_out_ban = 0
                     }
                     semester_out_student += count_per_ban
                     let name = ban_data['name']
@@ -229,6 +225,7 @@ function getBanlist(){
                     <td class="col-3">${count_per_ban}(${answer_rate(count_per_ban, total_out_ban).toFixed(0)}%)</td>
                     <td class="col-3" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')">👉</td>`;
                 });
+
                 $('#semester_banlist'+j).html(temp_semester_banlist)
                 $('#out_msg'+j).html(`${make_semester(j)}학기 총 퇴소학생 수:${semester_out_student}`)
 
