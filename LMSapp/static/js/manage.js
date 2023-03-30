@@ -86,10 +86,12 @@ function so_paginating(done_code) {
                 pageClassName: 'float-end',
                 pageSize: 5,
                 callback: function (qdata, pagination) {
-                    var dataHtml = '';
                     if(qdata.length==0){
-                        dataHtml = '문의가 없었습니다'
+                        $('#so_question').hide()
+                        $('#no_data_msg').html('문의가 없습니다')
                     }else{
+                        $('#no_data_msg').hide()
+                        var dataHtml = '';
                         $.each(qdata, function (index, item) {
                             let category = q_category(item.category)
                             dataHtml += `
