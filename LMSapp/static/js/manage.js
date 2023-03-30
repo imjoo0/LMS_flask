@@ -24,7 +24,7 @@ async function sodata(){
         data: {},
         success: function(response){
             if (response['status'] == 400 || response['switch_out_bans'].length == 0){
-                let no_data_title = ` ${response.text} `
+                let no_data_title =  '이반 * 퇴소 발생이 없었어요'
                 $('#sotitle').html(no_data_title);
                 $('#sotable').hide()
                 return
