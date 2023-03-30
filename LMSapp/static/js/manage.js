@@ -598,13 +598,9 @@ async function uldata(){
             }
             $('#ultitle').empty();
             target_students = response['target_students']
-            unlearned_count = response['unlearned_count']
-
-            if (unlearned_count.length > 0) {
-                unlearned_count.sort((a, b) =>{
-                    return b.unlearned- a.unlearned
-                });
-            }
+            unlearned_count = response['unlearned_count'].sort((a, b) =>{
+                return b.unlearned- a.unlearned
+            });
             // console.log(target_students)
             console.log(unlearned_count)
             // let temp_html = ``
