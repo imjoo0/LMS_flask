@@ -122,7 +122,7 @@ def sodata():
             if len(switch_out_count['data']) != 0:
                 for data in switch_out_count['data']:
                     target_ban = callapi.purple_ban(data['ban_id'],'get_ban')
-                    switch_out_bans.append({'target_ban': target_ban,'switch_out_count':switch_out_count['data']})
+                    switch_out_bans.append({'target_ban': target_ban,'switch_out_count':data})
                 return ({'switch_out_bans': switch_out_bans})
             else:
                 return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
