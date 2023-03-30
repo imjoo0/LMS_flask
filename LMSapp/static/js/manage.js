@@ -625,7 +625,7 @@ async function uldata(){
                         let reco_book_code = student_data['reco_book_code']
                         let ban_name = student_data['ban_name']
                         dataHtml += `
-                        <td class="col-1">${index*pagination+1}</td>
+                        <td class="col-1">${index*pageSize+1}</td>
                         <td class="col-2">${name}</td>
                         <td class="col-2">${consulting.unlearned}</td>
                         <td class="col-2">${ban_name}</td>
