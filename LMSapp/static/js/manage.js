@@ -632,7 +632,7 @@ async function uldata(){
                         <td class="col-2">${ban_name}</td>
                         <td class="col-2">${mobileno}</td>
                         <td class="col-2">${reco_book_code}</td>
-                        <td class="col-1"> <button class="modal-tbody-btn" onclick="get_student_detail(${student_id})">✅</button> `;
+                        <td class="col-1"> <button class="modal-tbody-btn" onclick="get_student_detail(${student_id})">📝</button> `;
                     });
                     $('#static_data2').html(dataHtml);
                 }
