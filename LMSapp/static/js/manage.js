@@ -23,19 +23,14 @@ async function sodata(){
         type: 'GET',
         data: {},
         success: function(response){
-            if (response['status'] == 400){
+            if (response['status'] == 400 || response['switch_out_bans'].length == 0){
                 let no_data_title = `<h1> ${response.text} </h1>`
                 $('#sotitle').html(no_data_title);
                 $('#sotable').hide()
                 return
             }
             $('#sotitle').empty();
-            // switch_out_count = response['switch_out_count']['data']
-            // response['switch_out_bans'].forEach((elem) =>{
-            //     so = switch_out_count.filter(a => a.ban_id == elem.register_no)[0]
-            //     elem.switch_count = so ? so['switch_count'] : 0;
-            //     elem.out_count = so ? so['out_count'] : 0;
-            // })
+
             response['switch_out_bans'].sort((a,b)=>(answer_rate(b.out_count,b.outtotal_count).toFixed(0)) - (answer_rate(a.out_count,a.outtotal_count).toFixed(0)))
             // top 5만 보여주는 경우 
             // total_num = 0
@@ -67,6 +62,8 @@ async function sodata(){
                 `;
             }
             $('#static_data1').html(temp_html)
+            
+            
         }
     }) 
     
