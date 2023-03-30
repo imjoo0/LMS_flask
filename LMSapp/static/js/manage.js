@@ -594,6 +594,7 @@ async function uldata(){
         success: function(response){
             target_students = response['target_students']
             unlearned_count = response['unlearned_count']['data']
+
             if (response['status'] == 400  || unlearned_count.length == 0 ){
                 let no_data_title = `<h1> ${response.text} </h1>`
                 $('#ultitle').html(no_data_title);
@@ -607,6 +608,21 @@ async function uldata(){
             unlearned_count.sort((a, b) => {
                 return b.unlearned - a.unlearned 
             });
+            const studentGrouped = unlearned_count.reduce((result, item) => {
+                const student_id = item.student_id;
+                if (!result[student_id]) {
+                  result[semester] = [];
+                }
+                result[student_id].push(item);
+                return result;
+            }, {});
+
+            // 결과를 객체의 배열로 변환
+            const studentGroupedresult = Object.entries(studentGrouped).map(([student_id, items]) => {
+                return { [student_id]: items };
+            });
+            console.log(studentGroupedresult)
+            
             // 미학습 높은 순 정렬 
             container.pagination({
                 dataSource: unlearned_count,
@@ -641,7 +657,6 @@ async function uldata(){
     })
     
 }
-
 
 // 업무 요청 관련 함수 
 async function request_task() {
