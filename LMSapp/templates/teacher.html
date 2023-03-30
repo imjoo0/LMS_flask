@@ -34,9 +34,9 @@
 <script type="text/javascript">
     axios.defaults.headers.common["X-CSRFToken"] = "{{ csrf_token() }}";
 </script>
-<!-- 문의 남기기 -->
+<!-- 본원 문의 문의 남기기 -->
 <div class="modal fade" id="question" tabindex="-1" aria-labelledby="questionModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="questionModalLabel">
@@ -84,21 +84,20 @@
                     <div id="question_box">
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">문의 제목</span>
-                            <input class="modal-body-select" type="text" size="50" name="question_title"
-                                style="width: 75%;">
+                            <input class="modal-body-select modal-body-select-100" type="text" size="50" name="question_title">
                         </div>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">문의 내용</span>
-                            <textarea id="question_contents" class="modal-body-select" type="text" rows="5" cols="25"
-                                name="question_contents" style="width: 75%;"></textarea>
+                            <textarea id="question_contents" class="modal-body-select modal-body-select-100" type="text" rows="5" cols="25"
+                                name="question_contents"></textarea>
                         </div>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">첨부 파일</span>
-                            <input type="file" id="file-upload" name="file-upload">
+                            <input type="file" id="file-upload" class="py-sm-0 py-3" name="file-upload">
                         </div>
                     </div>
                     <div class="d-flex justify-content-center mt-4 mb-2">
-                        <button class="btn btn-dark" type="submit">저장</button>
+                        <button class="btn btn-success" type="submit">저장</button>
                         <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin-top: 13px;">취소</button> -->
                     </div>
                 </form>
@@ -107,9 +106,9 @@
     </div>
 </div>
 
-<!-- 문의 조회 -->
+<!-- 문의 답변, 문의 조회 -->
 <div class="modal fade" id="question_list" tabindex="-1" aria-labelledby="questionListModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="questionListModalLabel">
@@ -120,28 +119,28 @@
             </div>
             <div class="modal-body by-4 px-5">
                 <div id="questiondetail" style="width:100%;">
-                    <button type="button" class="btn btn-back" onclick="go_back()">다른 문의조회🔙 </button>
-                    <div id="questiondetail_box" style="width:100%;">
-                        <table class="table text-center" style="width:100%;" id="consulting_history_attach">
-                            <tbody style="width:100%;">
-                                <thead>
+                    <button type="button" class="btn btn-back" onclick="go_back()">🔙 다른 문의조회 </button>
+                    <div id="questiondetail_box" class="responsive-table-wrapper">
+                        <table class="table text-center responsive-table" id="consulting_history_attach">
+                            <thead>
                                     <tr class="row">
                                         <th class="col-12">진행한 상담 내용</th>
                                     </tr>
-                                </thead>
+                            </thead>
+                            <tbody style="width:100%;">  
                                 <tr class="row">
                                     <td class="col-12"><div id="cha"></div> </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <table class="table text-center" style="width:100%;">
+                        <table class="table text-center responsive-table">
+                            <thead>
+                                <tr class="row">
+                                    <th class="col-6">문의 내용</th>
+                                    <th class="col-6">답변 내용</th>
+                                </tr>
+                            </thead>
                             <tbody style="width:100%;">
-                                <thead>
-                                    <tr class="row">
-                                        <th class="col-6">문의 내용</th>
-                                        <th class="col-6">답변 내용</th>
-                                    </tr>
-                                </thead>
                                 <tr class="row">
                                     <td class="col-6"><div id="teacher_question"></div></td>
                                     <td class="col-6"><div id="teacher_answer"></div> </td>
@@ -161,31 +160,33 @@
                         </div>
                     </div>
                 </div>
-                <table class="table text-center" id="questionlist" style="width:100%;">
-                    <tbody style="width:100%;">
-                        <tr class="row">
-                            <th class="col-2">종류</th>
-                            <th class="col-4">제목</th>
-                            <th class="col-3">답변</th>
-                            <th class="col-1">상세보기</th>
-                            <th class="col-1">삭제</th>
-                            <th class="col-1">댓글</th>
-                        </tr>
-                        <tr class="row" id="teacher_question_list">
+                <div class="responsive-table-wrapper">
+                    <table class="table text-center responsive-table" id="questionlist">
+                        <tbody style="width:100%;">
+                            <tr class="row">
+                                <th class="col-2">종류</th>
+                                <th class="col-4">제목</th>
+                                <th class="col-3">답변</th>
+                                <th class="col-1">상세보기</th>
+                                <th class="col-1">삭제</th>
+                                <th class="col-1">댓글</th>
+                            </tr>
+                            <tr class="row" id="teacher_question_list">
 
-                        </tr>
-                    </tbody>
-                </table>
-                <div id="question_pagination" class="py-2 text-center"></div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="question_pagination" class="d-flex justify-content-center align-items-center py-2"></div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- 상담 일지 조회 -->
+<!-- 지난 상담 조회 상담 일지 조회 -->
 <div class="modal fade" id="consulting_history_list" tabindex="-1" aria-labelledby="consultingListModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="consultingListModalLabel">
@@ -194,24 +195,24 @@
                 </h5>
                 <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body by-4 px-5">
+            <div class="modal-body px-md-5 px-2">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
-                <h5 class="d-flex justify-content-center align-items-center m-0" id="consulting_title">상담을 진행한 반을 선택해주세요
+                <h5 class="d-flex justify-content-center align-items-center my-lg-4 mt-2 mb-4" id="consulting_title">
                 </h5>
-                <div class="make_row">
-                    <select id="history_ban" class="form-select text-center w-50" name="work_done">
+                <div class="d-flex justify-content-between align-items-center flex-md-row flex-column">
+                    <select id="history_ban" class="form-select text-center" name="work_done">
                         <option value=0 selected>상담을 진행한 반을 선택해주세요</option>
                         {% for ban in my_bans %}
                         {% set ban_regi = ban['register_no'] %}
                         <option value={{ban_regi}}>{{ ban['name'] }} 상담</option>
                         {% endfor %}
                     </select>
-                    <select id="history_done" class="form-select text-center w-50" name="work_done">
+                    <select id="history_done" class="form-select text-center" name="work_done">
                         <option value=-1 selected>종류를 선택해주세요</option>
                         <option value=1>완료한 상담</option>
                         <option value=0>미진행 상담</option>
                     </select>
-                    <button onclick="get_consulting_history()">검색</button>
+                    <button class="btn btn-dark mt-md-0 mt-2" onclick="get_consulting_history()">검색</button>
                 </div>
 
                 <p id="h_title">진행 내역이 없습니다! 😂</p>
@@ -236,10 +237,11 @@
         </div>
     </div>
 </div>
+
 <!-- 상담 일지 작성 모달-->
 <div class="modal fade" id="consultinghistory" tabindex="-1" aria-labelledby="consultinghistoryModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="consultinghistoryModalLabelt">
@@ -252,6 +254,7 @@
                 <div class="d-flex justify-content-center mt-4 mb-2">
                     <div id="consulting_write_box">
 
+
                     </div>
                 </div>
             </div>
@@ -262,7 +265,7 @@
 <!-- 원생 조회 모달 -->
 <div class="modal fade" id="ban_student_list" tabindex="-1" aria-labelledby="banstudentlistModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="banstudentlistModalLabel">
@@ -366,10 +369,10 @@
                             <span>{{ user['name'] }}({{ user['engname'] }}) 선생님 안녕하세요.</span>
                             <div class="mt-2">
                                 <a href="#" class="me-1" data-bs-toggle="modal" data-bs-target="#sign-out">
-                                    <i class="fas fa-sign-out-alt text-danger fa-lg fs-6"></i>
+                                    <i class="fas fa-sign-out-alt text-danger fa-lg fs-5"></i>
                                 </a>
                                 <a href="#" class="ms-1" data-bs-toggle="modal" data-bs-target="#">
-                                    <i class="fa-solid fa-gear text-primary fa-lg fs-6"></i>
+                                    <i class="fa-solid fa-gear text-primary fa-lg fs-5"></i>
                                 </a>
                             </div>
                         </div>
@@ -394,8 +397,14 @@
                 <div class="info-title">
                     <span>Total Chart</span>
                 </div>
-                <div class="info make_col" style="overflow: scroll;" id="ban_chart_list">
-                    
+                <div class="info make_col" id="ban_chart_list">
+                    <div class="loader loader--style2" title="1">
+                            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                            <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                                <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
+                            </path>
+                        </svg>
+                    </div>
                 </div>
             </div>
         </div>
@@ -432,21 +441,21 @@
                                 <option value=1>완료한 업무</option>
                             </select>
                     </div>
-                    <div class="w-100 mt-4">
-                        <table class="table text-center" style="width:100%;">
-                            <tbody style="width:100%;">
-                                <thead>
-                                    <tr class="row" id="cate_menu">
-                                    </tr>
-                                </thead>
+                    <div class="responsive-table-wrapper d-flex justify-content-start align-items-start flex-column w-100 mt-4">
+                        <table class="table text-center responsive-table">
+                            <thead>
+                                <tr class="row" id="cate_menu">
+                                </tr>
+                            </thead>
+                            <tbody style="width:100%;">    
                                 <tr class="row" id="today_task_box0">
                                 </tr>
                                 <tr class="row" id="today_task_box1">
                                 </tr>
                             </tbody>
                         </table>
-                        <button onclick="get_update_done()" id="task_button">업무 완료 저장</button>
                     </div>
+                    <button onclick="get_update_done()" id="task_button" class="btn btn-success mt-4">업무 완료 저장</button> 
                 </div>
             </div>
 
@@ -465,8 +474,8 @@
                             <option value=2>오늘의 부재중 상담</option>
                         </select>
                     </div>
-                    <div class="w-100 mt-4" id="consulting_student_list">
-                        <table class="table text-center" style="width:100%;">
+                    <div class="responsive-table-wrapper w-100 mt-4" id="consulting_student_list">
+                        <table class="table text-center responsive-table">
                             <thead>
                                 <tr class="row">
                                     <th class="col-3">반</th>

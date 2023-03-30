@@ -38,6 +38,16 @@
   border-bottom: 2px groove #333333;
 }
 
+.teacher-btn {
+  background-color:#845EC2;
+  border: none;
+  border-radius: 15px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+  transform: translate(1px, 1px);
+}
 
 * {
     font-family: 'pretendard', sans-serif;
@@ -124,11 +134,31 @@ footer{
   font-weight: 600;
 }
 
+@media all and (max-width : 568px) {
+  .modal-body-select-container {
+    flex-direction: column;
+  }
+
+  .modal-body-select-label {
+    width: 100%;
+  }
+}
+
 .modal-body-select {
   width: 35%;
   padding: 7px;
   border: none;
   border-bottom: 2px groove #2b2b2b44;
+}
+
+.modal-body-select-100 {
+  width: 75%;
+}
+
+@media all and (max-width : 768px) {
+  .modal-body-select {
+    width: 100%;
+  }
 }
 
 .modal-body-select:active {
@@ -140,7 +170,7 @@ footer{
 .modal-body-select:focus {
   border: none;
   outline: none;
-  border-bottom: 2px groove #2b2b2b44;
+  border-bottom: 2px groove #2b2b2b;
 }
 
 .modal-tbody-btn {
