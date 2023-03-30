@@ -248,10 +248,10 @@ function getBanlist(){
                     //     total_out_ban = on[0]['total_count']
                     // }
                     temp_semester_banlist += `
-                    <td class="col-1">${name}</td>
-                    <td class="col-1">${student_num}</td>
-                    <td class="col-1">${count_per_ban}(${op}%)</td>
-                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')">👉</td>`;
+                    <td class="col-3">${name}</td>
+                    <td class="col-3">${student_num}</td>
+                    <td class="col-3">${count_per_ban}(${op}%)</td>
+                    <td class="col-3" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')">👉</td>`;
                 });
 
                 $('#semester_banlist'+j).html(temp_semester_banlist)
