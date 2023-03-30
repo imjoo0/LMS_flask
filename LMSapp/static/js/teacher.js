@@ -10,7 +10,7 @@
 // }
 
 $(document).ready(function () {
-    get_data()
+    get_data();
 })
 //  차트 관련 함수 
 function get_data() {
