@@ -596,9 +596,13 @@ async function uldata(){
             if (response['status'] == 400  || unlearned_count.length == 0 ){
                 let no_data_title = `<h1> ${response.text} </h1>`
                 $('#ultitle').html(no_data_title);
+                $('#ul_data_box').hide()
+                $('#ul_pagination').hide()
                 return
             }
             $('#ultitle').empty();
+            $('#ul_data_box').show()
+            $('#ul_pagination').show()
             // 미학습 높은 순 정렬 
             container.pagination({
                 dataSource: unlearned_count,
@@ -607,30 +611,23 @@ async function uldata(){
                 pageSize: 10,
                 callback: function (unlearned_count, pagination) {
                     var dataHtml = '';
-                    var idxHtml = `<option value="none">전체</option>`;
                     $.each(unlearned_count, function (index, consulting) {
-                        let student_data = target_students.filter(a => a.student_id == consulting.student_id )
-                        console.log(student_data)
+                        let student_data = target_students.filter(a => a.student_id == consulting.student_id )[0]
+                        let student_id = student_data['student_id']
+                        let name = student_data['name']
+                        let mobileno = student_data['mobileno']
+                        let reco_book_code = student_data['reco_book_code']
+                        let ban_name = student_data['ban_name']
                         dataHtml += `
                         <td class="col-1">${index+1}</td>
-                        <td class="col-3">반 이름</td>
-                        <td class="col-2">학기</td>
-                        <td class="col-3">담임 T</td>
-                        <td class="col-3">미학습발생</td>
-                    <td class="col-3">${consulting.startdate} ~ ${consulting.deadline}</td>
-                    <td class="col-2">${consulting.name}</td>
-                    <td class="col-1"> 미진행 </td>
-                    <td class="col-4"> ${consulting.contents}</td>
-                    <td class="col-2"> <button class="modal-tbody-btn" onclick="update_consulting(${consulting.id})">✏️</button> 
-                    <button class="modal-tbody-btn" onclick="delete_consulting(${consulting.id})">❌</button></td>`;
+                        <td class="col-2">${name}</td>
+                        <td class="col-2">${consulting.unlearned}</td>
+                        <td class="col-2">${ban_name}</td>
+                        <td class="col-2">${mobileno}</td>
+                        <td class="col-2">${reco_book_code}</td>
+                        <td class="col-1"> <button class="modal-tbody-btn" onclick="get_student_detail(${student_id})">✅</button> `;
                     });
-                    category_set = new Set(category_list)
-                    category_list = [...category_set]
-                    $.each(category_list, function (idx, val) {
-                        idxHtml += `<option value="${val}">${val}</option>`
-                    })
-                    $('#consulting-option').html(idxHtml);
-                    $('#tr-row').html(dataHtml);
+                    $('#static_data2').html(dataHtml);
                 }
             })
         },
