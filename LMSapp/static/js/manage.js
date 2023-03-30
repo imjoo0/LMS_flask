@@ -208,21 +208,22 @@ function getBanlist(){
             // if(response['outstudent']['data'].length != 0){
 
             // }
+            console.log(response['outstudent'])
             for(j=0;j<3;j++){
                 let key = j.toString()
                 let temp_semester_banlist = ''
                 for(i=0;i<semesterGroupedresult[j][key].length;i++){
                     ban_data = semesterGroupedresult[j][key][i]
                     let b_id = ban_data['ban_id']
-                    let on = response['outstudent']['data'].filter(a => a.ban_id == b_id);
-                    console.log(on)
+                    // let on = response['outstudent']['data'].filter(a => a.ban_id == b_id);
+                    // console.log(on)
                     let name = ban_data['name']
                     let student_num = ban_data['student_num']
                     let value = b_id + '_' + ban_data['teacher_id'] +'_' + name
                     temp_semester_banlist += `
                     <td class="col-3">${name}</td>
                     <td class="col-3">${student_num}</td>
-                    <td class="col-3">${on}</td>
+                    <td class="col-3"></td>
                     <td class="col-3" onclick="getBanChart(${value})">👇</td>`;
                 }
                 $('#semester_banlist'+j).html(temp_semester_banlist)
