@@ -259,6 +259,7 @@ async function getBanChart(btid){
         b_id = Number(v[0])
         $('#target_ban_info_requestModalLabel').html(v[2]+'반 상세 현황')
         $('#inloading').show()
+        $('#target_ban_info_body').hide()
         await $.ajax({
             type: "GET",
             url: "/manage/ban/"+b_id,
@@ -424,6 +425,7 @@ async function getBanChart(btid){
         })
     }
     $('#inloading').hide()
+    $('#target_ban_info_body').show()
 }
 
 // 업무 요청 관련 함수 
