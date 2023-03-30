@@ -199,7 +199,7 @@ function getBanlist(){
             $('#ninesemester').css('background-color','#EBF1DE');
             $('#ninesemester_msg').html(`9학기 학기 학생 수: ${ninesemester}명`);
 
-
+            let total_student_num = 0
             for(j=0;j<3;j++){
                 let key = j.toString()
                 let temp_semester_banlist = ''
@@ -237,6 +237,7 @@ function getBanlist(){
                     let value = b_id + '_' + ban_data['teacher_id'] +'_' + name
                     let count_per_ban = ban_data['count_per_ban']
                     let op = ban_data['op']
+                    total_student_num += student_num
                     // let on = response['outstudent']['data'].filter(a => a.ban_id == b_id);
                     
                     // if(on.length != 0){
@@ -254,6 +255,8 @@ function getBanlist(){
                 $('#out_msg'+j).html(`${make_semester(j)}학기 총 퇴소학생 수:${semester_out_student}`)
 
             }
+            $('#total_student_num').html(`퍼플 총 원생: ${total_student_num} 명`)
+
         },
         error: function (xhr, status, error) {
             alert('xhr.responseText');

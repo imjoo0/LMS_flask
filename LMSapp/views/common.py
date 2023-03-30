@@ -41,8 +41,8 @@ def save_attachment(file, q_id):
 def get_ban():
     if request.method == 'GET':
         all_ban = callapi.purple_allban('get_all_ban')
-        outstudent = {}
         # name / ban_id/semester/teacher_id/student_num/total_student_num(학기별 총 학생 수)
+        outstudent = {}
         
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
