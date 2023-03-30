@@ -82,12 +82,12 @@ function so_paginating(done_code) {
             sdata_noanswer = data.filter(a=>a.category == 2 && a.answer == 0).length
             odata_noanswer = data.filter(a=>a.category == 1 && a.answer == 0).length
             let temp_newso = `
-            <td class="col-3">${sdata}</td>
-            <td class="col-3">${sdata-sdata_noanswer}</td>
-            <td class="col-3">${sdata_noanswer}</td>
-            <td class="col-3">${odata}</td>
-            <td class="col-3">${sdata-sdata_noanswer}</td>
-            <td class="col-3">${odata_noanswer}</td>
+            <td class="col-2">${sdata}</td>
+            <td class="col-2">${sdata-sdata_noanswer}</td>
+            <td class="col-2">${sdata_noanswer}</td>
+            <td class="col-2">${odata}</td>
+            <td class="col-2">${sdata-sdata_noanswer}</td>
+            <td class="col-2">${odata_noanswer}</td>
             `;
             $('#newso').html(temp_newso)
             qdata = data.filter(a => a.answer == done_code)
