@@ -624,7 +624,7 @@ async function uldata(){
                         let mobileno = student_data['mobileno']
                         let reco_book_code = student_data['reco_book_code']
                         let ban_name = student_data['ban_name']
-                        let total_index = pagination.pageSize * (pagination.currentPage - 1) + index + 1; // 전체 데이터의 인덱스 계산
+                        let total_index = student_data ? index + 1 : ''; // 전체 데이터의 인덱스 계산
                         dataHtml += `
                         <td class="col-1">${total_index}</td>
                         <td class="col-2">${name}</td>
