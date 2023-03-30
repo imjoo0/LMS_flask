@@ -169,7 +169,6 @@ function getBanlist(){
             $('#ban_list').html(temp_ban_option)
             $('#consulting_target_ban').html(temp_ban_option)
             $('#task_target_ban').html(temp_ban_option)
-            console.log(all_ban)
 
             const semesterGrouped = all_ban.reduce((result, item) => {
                 const semester = item.semester;
@@ -182,7 +181,8 @@ function getBanlist(){
                 
             // 결과를 객체의 배열로 변환
             const semesterGroupedresult = Object.entries(semesterGrouped).map(([semester, items]) => {
-                return { [semester]: items };
+                // return { [semester]: items };
+                return { [semester]: {'ban_id':items.ban_id,'teacher_id':items.teacher_id,'name':items.name,'student_num':items.student_num,'total_student_num':items.total_student_num,} };
             });
             console.log(semesterGroupedresult)
 
