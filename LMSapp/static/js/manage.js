@@ -210,6 +210,7 @@ function getBanlist(){
             for(j=0;j<3;j++){
                 let key = toString(j)
                 let temp_semester_banlist = ''
+                console.log(key)
                 for(i=0;i<semesterGroupedresult[j][key].length;i++){
                     ban_data = semesterGroupedresult[j][key][i]
                     let name = ban_data['name']
