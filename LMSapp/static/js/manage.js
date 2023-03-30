@@ -105,6 +105,8 @@ function so_paginating(done_code) {
                         $('#no_data_msg').show()
                     }else{
                         $('#no_data_msg').hide()
+                        $('#so_question').show()
+                        $('#so_pagination').show()
                         var dataHtml = '';
                         $.each(qdata, function (index, item) {
                             let category = q_category(item.category)
