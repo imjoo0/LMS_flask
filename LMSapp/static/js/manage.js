@@ -199,12 +199,12 @@ function getBanlist(){
 
             ninesemester = semesterGroupedresult[2]['2'][0]['total_student_num']
             $('#ninesemester').css('width',`${ninesemester}%`);
-            $('#ninesemester').css('background-color','#95B3D7');
+            $('#ninesemester').css('background-color','#D99694');
             $('#ninesemester_msg').html(`5월학기 학생 수: ${ninesemester}명`);
-            
+
             onesemester = semesterGroupedresult[0]['0'][0]['total_student_num']
             $('#onesemester').css('width',`${onesemester}%`);
-            $('#onesemester').css('background-color','#95B3D7');
+            $('#onesemester').css('background-color','#EBF1DE');
             $('#onesemester_msg').html(`9월학기 학기 학생 수: ${onesemester}명`);
 
             for(i=0;i<semesterGroupedresult.length;i++){
