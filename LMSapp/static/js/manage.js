@@ -216,8 +216,8 @@ function getBanlist(){
                 for(i=0;i<semesterGroupedresult[j][key].length;i++){
                     ban_data = semesterGroupedresult[j][key][i]
                     let b_id = ban_data['ban_id']
-                    // let on = response['outstudent']['data'].filter(a => a.ban_id == b_id);
-                    // console.log(on)
+                    let on = response['outstudent']['data'].filter(a => a.ban_id == b_id);
+                    console.log(on)
                     let name = ban_data['name']
                     let student_num = ban_data['student_num']
                     let value = b_id + '_' + ban_data['teacher_id'] +'_' + name
