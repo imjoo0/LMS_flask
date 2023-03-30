@@ -106,26 +106,29 @@ def sodata():
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         switch_out_count = {}
         switch_out_bans = []
-
+        question_switch_out = {}
         try:
             with db.cursor() as cur:
                 cur.execute(f'SELECT ban_id,SUM(outcount_per_ban) AS outcount_per_ban,MAX(outtotal_count) AS outtotal_count,SUM(switchcount_per_ban) AS switchcount_per_ban,MAX(switchtotal_count) AS switchtotal_count FROM (SELECT ban_id, COUNT(*) AS outcount_per_ban, 0 AS switchcount_per_ban, (SELECT COUNT(*) FROM outstudent) AS outtotal_count, 0 AS switchtotal_count FROM outstudent GROUP BY ban_id UNION ALL SELECT ban_id, 0 AS outcount_per_ban, COUNT(*) AS switchcount_per_ban, 0 AS outtotal_count, (SELECT COUNT(*) FROM switchstudent) AS switchtotal_count FROM switchstudent GROUP BY ban_id) AS temp_table GROUP BY ban_id;')
                 switch_out_count['status'] = 200
                 switch_out_count['data'] = cur.fetchall()
+                cur.execute(f'SELECT * FROM question where category != 0;')
+                question_switch_out['status'] = 200
+                question_switch_out['data'] = cur.fetchall()
         except Exception as e:
             print(e)
             switch_out_count['status'] = 401
             switch_out_count['text'] = str(e)
+            question_switch_out['status'] = 401
+            question_switch_out['data'] = str(e)
         finally:
             db.close()
-        if switch_out_count['status'] != 401: 
-            if len(switch_out_count['data']) != 0:
-                for data in switch_out_count['data']:
-                    target_ban = callapi.purple_ban(data['ban_id'],'get_ban')
+        if switch_out_count['status'] != 401 and question_switch_out['status'] != 401: 
+            for data in switch_out_count['data']:
+                target_ban = callapi.purple_ban(data['ban_id'],'get_ban')
+                if target_ban:
                     switch_out_bans.append({'target_ban': target_ban,'switch_out_count':data})
-                return ({'switch_out_bans': switch_out_bans})
-            else:
-                return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
+            return ({'switch_out_bans': switch_out_bans,'question_switch_out': question_switch_out['data']})
         else:
             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
 
