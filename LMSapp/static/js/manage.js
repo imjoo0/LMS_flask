@@ -230,10 +230,8 @@ function getBanlist(){
                         return b.op- a.op
                 });}
                 
-                console.log(result)
                 result.forEach(ban_data => {
-                    console.log(ban_data)
-                    let b_id = ban_data['ban_id']
+                    let b_id = ban_data['b_id']
                     let name = ban_data['name']
                     let student_num = ban_data['student_num']
                     let value = b_id + '_' + ban_data['teacher_id'] +'_' + name
