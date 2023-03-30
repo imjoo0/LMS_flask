@@ -220,7 +220,7 @@ function getBanlist(){
                             'teacher_id':ban_data.teacher_id ,
                             'count_per_ban': onList.count_per_ban,
                             'total_out_ban': onList.total_out_ban,
-                            'op':answer_rate(onList.count_per_ban, onList.total_out_ban).toFixed(0)
+                            'op':answer_rate(onList.count_per_ban, onList.total_out_ban)
                         });
                     }else{
                         acc.push({
