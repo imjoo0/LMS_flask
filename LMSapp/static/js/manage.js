@@ -219,7 +219,7 @@ function getBanlist(){
                 <td class="col-4">${student_num}</td>
                 <td class="col-4" onclick="getBanChart(${value})">👇</td>`;
             }
-            $('#semester_banlist').html(temp_semester_banlist)
+            $('#semester_banlist1').html(temp_semester_banlist)
         },
         error: function (xhr, status, error) {
             alert('xhr.responseText');
