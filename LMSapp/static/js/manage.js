@@ -370,8 +370,6 @@ async function sodata(){
                 `;
             }
             $('#static_data1').html(temp_html)
-            
-           
         }
     }) 
     so_paginating(0)
@@ -580,6 +578,7 @@ async function get_question_detail(q_id,answer,category) {
         }
     });
 }
+
 // 미학습 (학습관리)
 async function uldata(){
     $('#qubox').hide()
@@ -597,26 +596,27 @@ async function uldata(){
                 return
             }
             $('#ultitle').empty();
-            unlearned_count = response['unlearned_count']['data']
+            unlearned_count = response['unlearned_students']
+            console.log(unlearned_count)
 
-            let temp_html = ``
-            for(i=0;i<response['unlearned_bans'].length;i++){
-                register_no = response['unlearned_bans'][i]['register_no']
-                ban_name = response['unlearned_bans'][i]['ban_name']
-                semester = response['unlearned_bans'][i]['semester']
-                teacher_name = response['unlearned_bans'][i]['teacher_name'] +'( ' +response['unlearned_bans'][i]['teacher_engname'] +' )'
-                ul = unlearned_count.filter(a => a.ban_id == register_no)[0]
-                unlearned = ul['unlearned'] +'건( '+ul['unlearned_p']+'% )' 
+            // let temp_html = ``
+            // for(i=0;i<response['unlearned_bans'].length;i++){
+            //     register_no = response['unlearned_bans'][i]['register_no']
+            //     ban_name = response['unlearned_bans'][i]['ban_name']
+            //     semester = response['unlearned_bans'][i]['semester']
+            //     teacher_name = response['unlearned_bans'][i]['teacher_name'] +'( ' +response['unlearned_bans'][i]['teacher_engname'] +' )'
+            //     ul = unlearned_count.filter(a => a.ban_id == register_no)[0]
+            //     unlearned = ul['unlearned'] +'건( '+ul['unlearned_p']+'% )' 
                 
-                temp_html += `
-                <td class="col-1">${i+1}</td>
-                <td class="col-3">${ban_name}</td>
-                <td class="col-2">${semester}</td>
-                <td class="col-3">${teacher_name}</td>
-                <td class="col-3">${unlearned}</td>
-                `;
-            }
-            $('#static_data2').html(temp_html)
+            //     temp_html += `
+            //     <td class="col-1">${i+1}</td>
+            //     <td class="col-3">${ban_name}</td>
+            //     <td class="col-2">${semester}</td>
+            //     <td class="col-3">${teacher_name}</td>
+            //     <td class="col-3">${unlearned}</td>
+            //     `;
+            // }
+            // $('#static_data2').html(temp_html)
         }
     }) 
     
