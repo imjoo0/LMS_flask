@@ -585,44 +585,59 @@ async function uldata(){
     $('#sobox').hide()
     $('#detailban').hide()
     $('#ulbox').show()
+    let container = $('#ul_pagination')
     await $.ajax({
         url: '/manage/uldata',
         type: 'GET',
         data: {},
         success: function(response){
-            console.log('hi')
-            if (response['status'] == 400){
+            target_students = response['target_students']
+            unlearned_count = response['unlearned_count']['data']
+            if (response['status'] == 400  || unlearned_count.length == 0 ){
                 let no_data_title = `<h1> ${response.text} </h1>`
                 $('#ultitle').html(no_data_title);
                 return
             }
             $('#ultitle').empty();
-            target_students = response['target_students']
-            unlearned_count = response['unlearned_count']['data'].sort((a, b) =>{
-                return b.unlearned- a.unlearned
-            });
-            // console.log(target_students)
-            console.log(unlearned_count)
-            // let temp_html = ``
-            // for(i=0;i<response['unlearned_bans'].length;i++){
-            //     register_no = response['unlearned_bans'][i]['register_no']
-            //     ban_name = response['unlearned_bans'][i]['ban_name']
-            //     semester = response['unlearned_bans'][i]['semester']
-            //     teacher_name = response['unlearned_bans'][i]['teacher_name'] +'( ' +response['unlearned_bans'][i]['teacher_engname'] +' )'
-            //     ul = unlearned_count.filter(a => a.ban_id == register_no)[0]
-            //     unlearned = ul['unlearned'] +'건( '+ul['unlearned_p']+'% )' 
-                
-            //     temp_html += `
-            //     <td class="col-1">${i+1}</td>
-            //     <td class="col-3">${ban_name}</td>
-            //     <td class="col-2">${semester}</td>
-            //     <td class="col-3">${teacher_name}</td>
-            //     <td class="col-3">${unlearned}</td>
-            //     `;
-            // }
-            // $('#static_data2').html(temp_html)
+            // 미학습 높은 순 정렬 
+            container.pagination({
+                dataSource: JSON.parse(unlearned_count),
+                prevText: '이전',
+                nextText: '다음',
+                pageSize: 10,
+                callback: function (unlearned_count, pagination) {
+                    var dataHtml = '';
+                    var idxHtml = `<option value="none">전체</option>`;
+                    $.each(unlearned_count, function (index, consulting) {
+                        let student_data = target_students.filter(a => a.student_id == consulting.student_id )
+                        console.log(student_data)
+                        dataHtml += `
+                        <td class="col-1">${index+1}</td>
+                        <td class="col-3">반 이름</td>
+                        <td class="col-2">학기</td>
+                        <td class="col-3">담임 T</td>
+                        <td class="col-3">미학습발생</td>
+                    <td class="col-3">${consulting.startdate} ~ ${consulting.deadline}</td>
+                    <td class="col-2">${consulting.name}</td>
+                    <td class="col-1"> 미진행 </td>
+                    <td class="col-4"> ${consulting.contents}</td>
+                    <td class="col-2"> <button class="modal-tbody-btn" onclick="update_consulting(${consulting.id})">✏️</button> 
+                    <button class="modal-tbody-btn" onclick="delete_consulting(${consulting.id})">❌</button></td>`;
+                    });
+                    category_set = new Set(category_list)
+                    category_list = [...category_set]
+                    $.each(category_list, function (idx, val) {
+                        idxHtml += `<option value="${val}">${val}</option>`
+                    })
+                    $('#consulting-option').html(idxHtml);
+                    $('#tr-row').html(dataHtml);
+                }
+            })
+        },
+        error: function (xhr, status, error) {
+            alert(xhr.responseText);
         }
-    }) 
+    })
     
 }
 
