@@ -206,10 +206,7 @@ function getBanlist(){
             $('#ninesemester').css('width',`${ninesemester}%`);
             $('#ninesemester').css('background-color','#EBF1DE');
             $('#ninesemester_msg').html(`9월학기 학기 학생 수: ${ninesemester}명`);
-            // if(response['outstudent']['data'].length != 0){
 
-            // }
-            console.log(response['outstudent']['data'])
             for(j=0;j<3;j++){
                 let key = j.toString()
                 let temp_semester_banlist = ''
@@ -217,14 +214,19 @@ function getBanlist(){
                     ban_data = semesterGroupedresult[j][key][i]
                     let b_id = ban_data['ban_id']
                     let on = response['outstudent']['data'].filter(a => a.ban_id == b_id);
-                    console.log(on)
+                    let count_per_ban = 0
+                    let totla_out_ban = 0
+                    if(on.length != 0){
+                        count_per_ban = on[0]['count_per_ban']
+                        totla_out_ban = on[0]['total_count']
+                    }
                     let name = ban_data['name']
                     let student_num = ban_data['student_num']
                     let value = b_id + '_' + ban_data['teacher_id'] +'_' + name
                     temp_semester_banlist += `
                     <td class="col-3">${name}</td>
                     <td class="col-3">${student_num}</td>
-                    <td class="col-3"></td>
+                    <td class="col-3">${count_per_ban}(${answer_rate(count_per_ban, totla_out_ban).toFixed(0)}%)</td>
                     <td class="col-3" onclick="getBanChart(${value})">👇</td>`;
                 }
                 $('#semester_banlist'+j).html(temp_semester_banlist)
@@ -272,10 +274,6 @@ async function getBanChart(btid){
                 let answer = Number(response['answer_alim'])
                 let all_alim = Number(response['all_alim'])
                 
-                let answer_rate =  function(answer, all) {
-                    if(Object.is(answer/all, NaN)) return 0;
-                    else return answer/all*100;
-                }
                 
                 // 이반 학생 
                 let switch_student = response['switch_student']['data'].filter(a => a.ban_id == b_id).length;
