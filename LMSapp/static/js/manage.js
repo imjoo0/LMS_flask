@@ -179,7 +179,7 @@ function getBanlist(){
                 result[semester].push(item);
                 return result;
             }, {});
-                
+
             // 결과를 객체의 배열로 변환
             const semesterGroupedresult = Object.entries(semesterGrouped).map(([semester, items]) => {
                 return { [semester]: items };
@@ -199,30 +199,66 @@ function getBanlist(){
             $('#ninesemester').css('background-color','#EBF1DE');
             $('#ninesemester_msg').html(`9학기 학기 학생 수: ${ninesemester}명`);
 
+
             for(j=0;j<3;j++){
                 let key = j.toString()
                 let temp_semester_banlist = ''
                 let semester_out_student = 0
-                semesterGroupedresult[j][key].sort(function(a, b) {
-                    return b.student_num - a.student_num;
-                });
-                semesterGroupedresult[j][key].forEach(ban_data => {
-                    let b_id = ban_data['ban_id']
-                    let on = response['outstudent']['data'].filter(a => a.ban_id == b_id);
-                    let count_per_ban = 0
-                    let total_out_ban = 0
-                    if(on.length != 0){
-                        count_per_ban = on[0]['count_per_ban']
-                        total_out_ban = on[0]['total_count']
+                // semesterGroupedresult[j][key].sort(function(a, b) {
+                //     return b.student_num - a.student_num;
+                // });
+                const result = semesterGroupedresult[j][key].reduce((acc, ban_data) => {
+                    const onList = response['outstudent']['data'].filter(a => a.ban_id == ban_data.ban_id );
+                    // const consultingList = consulting.filter(c => c.student_id === student.register_no);
+                    if (onList.length > 0) {
+                        const onList = consultingList[0];
+                        acc.push({
+                            'b_id':ban_data.ban_id ,
+                            'name':ban_data.name ,
+                            'student_num':ban_data.student_num ,
+                            'teacher_id':ban_data.teacher_id ,
+                            'count_per_ban': onList.count_per_ban,
+                            'total_out_ban': onList.total_out_ban,
+                            'op':answer_rate(count_per_ban, total_out_ban).toFixed(0)
+                        });
+                    }else{
+                        acc.push({
+                            'b_id':ban_data.ban_id ,
+                            'name':ban_data.name ,
+                            'student_num':ban_data.student_num ,
+                            'teacher_id':ban_data.teacher_id ,
+                            'count_per_ban': 0,
+                            'total_out_ban': 0,
+                            'op':0
+                        });
                     }
-                    semester_out_student += count_per_ban
+                    return acc;
+                }, []);
+    
+                if (result.length > 0) {
+                    result.sort((a, b) => {
+                        return a.op - b.op
+                });}
+                result.forEach(ban_data => {
+                    let b_id = ban_data['ban_id']
                     let name = ban_data['name']
                     let student_num = ban_data['student_num']
                     let value = b_id + '_' + ban_data['teacher_id'] +'_' + name
+                    let count_per_ban = ban_data['count_per_ban']
+                    let total_out_ban = ban_data['total_out_ban']
+                    let op = ban_data['op']
+                    semester_out_student += count_per_ban
+                    // let on = response['outstudent']['data'].filter(a => a.ban_id == b_id);
+                    // let count_per_ban = 0
+                    // let total_out_ban = 0
+                    // if(on.length != 0){
+                    //     count_per_ban = on[0]['count_per_ban']
+                    //     total_out_ban = on[0]['total_count']
+                    // }
                     temp_semester_banlist += `
                     <td class="col-3">${name}</td>
                     <td class="col-3">${student_num}</td>
-                    <td class="col-3">${count_per_ban}(${answer_rate(count_per_ban, total_out_ban).toFixed(0)}%)</td>
+                    <td class="col-3">${count_per_ban}(${op}%)</td>
                     <td class="col-3" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')">👉</td>`;
                 });
 
