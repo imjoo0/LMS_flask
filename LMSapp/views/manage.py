@@ -217,7 +217,7 @@ def uldata():
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         unlearned_count = {}
         unlearned_students = []
-
+        print('1')
         try:
             with db.cursor() as cur:
                 # cur.execute(f'SELECT consulting.ban_id, COUNT(*) AS unlearned, COUNT(*) / (SELECT COUNT(*) FROM consulting WHERE category_id < 100)*100 AS unlearned_p FROM consulting WHERE category_id < 100 GROUP BY consulting.ban_id;')
@@ -247,9 +247,9 @@ def uldata():
                     if target_student:
                         unlearned_students.append({'target_student': target_student,'unlearned_count':data})
                 return({'unlearned_students': unlearned_students})
-            else:
+            else:                
+                print('2')
                 return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
-        
         else:
             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})    
     

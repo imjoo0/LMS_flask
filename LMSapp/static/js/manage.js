@@ -590,6 +590,7 @@ async function uldata(){
         type: 'GET',
         data: {},
         success: function(response){
+            console.log('hi')
             if (response['status'] == 400){
                 let no_data_title = `<h1> ${response.text} </h1>`
                 $('#ultitle').html(no_data_title);
