@@ -208,7 +208,7 @@ function getBanlist(){
             // if(response['outstudent']['data'].length != 0){
 
             // }
-            console.log(response['outstudent'])
+            console.log(response['outstudent']['data'])
             for(j=0;j<3;j++){
                 let key = j.toString()
                 let temp_semester_banlist = ''
