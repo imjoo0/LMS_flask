@@ -211,15 +211,13 @@ function getBanlist(){
             let temp_semester_banlist = ''
             for(i=0;i<semesterGroupedresult[1]['1'].length;i++){
                 ban_data = semesterGroupedresult[1]['1'][i]
-                let ban_id = ban_data['ban_id']
-                let teacher_id = ban_data['teacher_id']
                 let name = ban_data['name']
                 let student_num = ban_data['student_num']
-                let value = ban_id + '_' + teacher_id +'_' + name
+                let value = ban_data['ban_id'] + '_' + ban_data['teacher_id'] +'_' + name
                 temp_semester_banlist += `
                 <td class="col-4">${name}</td>
                 <td class="col-4">${student_num}</td>
-                <td class="col-4">👇</td>`;
+                <td class="col-4" onclick="getBanChart(${value})">👇</td>`;
             }
             $('#semester_banlist').html(temp_semester_banlist)
         },
