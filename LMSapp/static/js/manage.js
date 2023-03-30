@@ -87,16 +87,20 @@ function so_paginating(done_code) {
                 pageSize: 5,
                 callback: function (qdata, pagination) {
                     var dataHtml = '';
-                    $.each(qdata, function (index, item) {
-                        let category = q_category(item.category)
-                        dataHtml += `
-                        <td class="col-2">${category}</td>
-                        <td class="col-4">${item.title}</td>
-                        <td class="col-4">${item.contents}</td>
-                        <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-                        data-bs-target="#answer" onclick="get_question(${item.id},${0})">✏️</button> 
-                        <button onclick="delete_question(${item.id})">❌</button></td>`;
-                    });
+                    if(qdata.length==0){
+                        dataHtml = '문의가 없었습니다'
+                    }else{
+                        $.each(qdata, function (index, item) {
+                            let category = q_category(item.category)
+                            dataHtml += `
+                            <td class="col-2">${category}</td>
+                            <td class="col-4">${item.title}</td>
+                            <td class="col-4">${item.contents}</td>
+                            <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
+                            data-bs-target="#answer" onclick="get_question(${item.id},${0})">✏️</button> 
+                            <button onclick="delete_question(${item.id})">❌</button></td>`;
+                        });
+                    }
                     $('#so_tr').html(dataHtml);
                 }
             })
