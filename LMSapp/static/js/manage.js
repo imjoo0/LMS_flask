@@ -238,7 +238,7 @@ function getBanlist(){
     
                 if (result.length > 0) {
                     result.sort((a, b) => {
-                        return a.op - b.op
+                        return b.op- a.op
                 });}
                 result.forEach(ban_data => {
                     let b_id = ban_data['ban_id']
