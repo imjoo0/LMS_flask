@@ -93,6 +93,7 @@ def question():
         else :
             ban_id = request.form['ban_id']
             student_id = request.form['target_student'] 
+            print(student_id)
             history_id = request.form['consulting_history']
             if question_category == '퇴소':
                 cateory = 1

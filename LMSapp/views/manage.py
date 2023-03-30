@@ -126,6 +126,7 @@ def sodata():
         else:
             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
 
+# 이반 / 퇴소 문의 리스트 
 @bp.route('/get_so_questions', methods=['GET'])
 def get_so_questions():
     if request.method == 'GET':
@@ -141,6 +142,73 @@ def get_so_questions():
             db.close()
         
         return json.dumps(all_questions)
+
+# 문의 상세 보기 
+@bp.route('/question_detail/<int:id>/<int:answer>/<int:category>', methods=['GET'])
+def get_question_detail(id,answer,category):
+    if request.method == 'GET':
+        q = Question.query.filter((Question.id == id)).first()
+        b = callapi.purple_ban(q.ban_id,'get_ban')    
+        return_data = {}
+        return_data['title'] = q.title
+        return_data['contents'] = q.contents
+        return_data['create_date'] = q.create_date.strftime('%Y-%m-%d')
+        return_data['ban'] = b['ban_name']
+        return_data['teacher'] = b['teacher_name'] +'('+ b['teacher_engname'] +')'
+        if(answer == 0):
+            return_data['answer_title'] = '미응답'
+            return_data['answer_content'] = '미응답'
+            return_data['answer_reject_code'] = '미응답'
+            return_data['answer_created_at'] = '미응답'
+        else:
+            return_data['answer_title'] = q.qa.title
+            return_data['answer_content'] = q.qa.content
+            return_data['answer_created_at'] = q.qa.created_at.strftime('%Y-%m-%d')
+            return_data['answer_reject_code'] = q.qa.reject_code
+
+        if  q.attachments is None:
+            return_data['attach'] = "없음"
+        else:
+            return_data['attach'] = q.attachments.file_name
+
+        if category == 0:
+            return_data['answer_reject_code'] = ''
+            return_data['history'] = ''
+            return_data['history_reason'] = ''
+            return_data['history_solution'] = ''
+            return_data['history_result'] = ''
+            return_data['history_created_at'] = ''
+            return_data['student'] = ''
+        else:
+            s = callapi.purple_info(q.student_id,'get_student_info')
+            return_data['student'] = s['name']
+            if(q.qconsulting.done != 0):
+                return_data['history'] = q.qconsulting.id
+                return_data['history_reason'] = q.qconsulting.reason
+                return_data['history_solution'] = q.qconsulting.solution
+                return_data['history_result'] = q.qconsulting.result
+                return_data['history_created_at'] = q.qconsulting.created_at.strftime('%Y-%m-%d')
+            else:
+                return_data['history'] = ''
+                return_data['history_reason'] = ''
+                return_data['history_solution'] = ''
+                return_data['history_result'] = ''
+                return_data['history_created_at'] = ''
+
+        return_data['comment'] = []
+        for comment in q.qcomments :
+            comment_data = {}
+            comment_data['c_id'] = comment.id
+            comment_data['c_contents'] = comment.contents
+            comment_data['c_created_at'] = comment.created_at.strftime('%Y-%m-%d')
+            comment_data['parent_id'] = comment.parent_id
+            if(q.teacher_id == comment.user_id):
+                comment_data['writer'] = return_data['teacher']
+            else:
+                comment_data['writer'] = '퍼플'
+            return_data['comment'].append(comment_data)
+
+        return jsonify(return_data)
 
 # 미학습 
 @bp.route("/uldata", methods=['GET'])

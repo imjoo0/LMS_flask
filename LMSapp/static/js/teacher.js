@@ -623,9 +623,9 @@ function get_ban_student(b_id) {
         success: function (response) {
             let temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option>';
             for (var i = 0; i < response.length; i++) {
-                let id = response[i]['register_no']
                 let name = response[i]['name'];
-                temp_target_student += `<option value="${id}"> ${name} </option>`;
+                let value = response[i]['register_no']+'_'+name
+                temp_target_student += `<option value="${value}"> ${name} </option>`;
                 $('#student_list').html(temp_target_student)
             }
         },
@@ -634,7 +634,8 @@ function get_ban_student(b_id) {
         }
     })
 }
-function attach_consulting_history(student_id) {
+function attach_consulting_history(value) {
+    student_id = Number(value.split('_')[0])
     $.ajax({
         type: "GET",
         url: "/teacher/attach_consulting_history/" + student_id,

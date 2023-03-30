@@ -423,7 +423,7 @@ function so_paginating(done_code) {
                             <td class="col-4">${item.title}</td>
                             <td class="col-4">${item.contents}</td>
                             <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-                            data-bs-target="#answer" onclick="get_question(${item.id},${0})">✏️</button> 
+                            data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code},${item.category})">✏️</button> 
                             <button onclick="delete_question(${item.id})">❌</button></td>`;
                         });
                     }
@@ -432,6 +432,153 @@ function so_paginating(done_code) {
             })
         }
     })
+}
+
+// 문의 내용 상세보기
+async function get_question_detail(q_id,answer,category) {
+    $('#questionlist').hide()
+    $('#questiondetail').show()
+    var temp_comment = ''
+    var temp_answer_list = ''
+    var temp_question_list = ''
+    await $.ajax({
+        type: "GET",
+        url: "/manage/question_detail/" + q_id + "/" + answer + "/" + category ,
+        data: {},
+        success: function (response) {
+            category_name = q_category(category)
+            temp_comment = `     
+            <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents"
+            placeholder="댓글을 남겨주세요">
+            <button onclick="post_comment(${q_id},${0},${answer},${category})">등록</button>
+            `;
+            $('#comment_post_box').html(temp_comment)
+            title = response["title"]
+            contents = response["contents"]
+            create_date = response["create_date"]
+            attach = response['attach']
+            comments = response['comment']
+            ban = response["ban"]
+            student = response["student"]
+            reject = response['answer_reject_code']
+            answer_title = response['answer_title']
+            answer_content = response['answer_content']
+            answer_created_at = response['answer_created_at']
+
+            if(answer == 0){
+                temp_answer_list = `
+                <div class="modal-body-select-container">
+                <span class="modal-body-select-label">응답</span>
+                <p>미응답</p>
+                </div>`;
+            }else{
+                temp_answer_list = `
+                <div class="modal-body-select-container">
+                <span class="modal-body-select-label">응답제목</span>
+                <p>${answer_title}</p>
+                </div>
+                <div class="modal-body-select-container">
+                <span class="modal-body-select-label">응답</span>
+                <p>${answer_content}</p>
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">응답일</span>
+                    <p>${answer_created_at}</p>
+                </div>`
+            }
+            $('#comments').empty()
+            if (comments.length != 0) {
+                for (i = 0; i < comments.length; i++) {
+                    c_id = comments[i]['c_id']
+                    c_contents = comments[i]['c_contents']
+                    c_created_at = comments[i]['c_created_at']
+                    writer = comments[i]['writer']
+                    parent_id = comments[i]['parent_id']
+
+                    if (parent_id == 0) {
+                        temp_comments = `
+                        <div id="for_comment${c_id}" style="margin-top:10px">
+                            <p class="p_comment">${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
+                        </div>
+                        <details style="margin-top:0px;margin-right:5px;font-size:0.9rem;">
+                            <summary><strong>대댓글 달기</strong></summary>
+                                <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents${c_id}"
+                                placeholder=" 대댓글 ">
+                                <button onclick="post_comment(${q_id},${c_id},${answer},${category})">등록</button>
+                            </details>
+                        `;
+                        $('#comments').append(temp_comments);
+                    } else {
+                        let temp_comments = `
+                        <p class="c_comment"> ➖ ${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
+                        `;
+                        $(`#for_comment${parent_id}`).append(temp_comments);
+                    }
+
+                }
+            }
+            if(category == 0){
+                $('#consulting_history_attach').hide()
+                temp_question_list = `
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">문의 종류</span>
+                        <p>${category_name}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">제목</span>
+                        <p>${title}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">내용</span>
+                        <p>${contents}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">작성일</span>
+                        <p>${create_date}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">첨부파일</span>
+                        <a href="/common/downloadfile/question/${q_id}" download="${attach}">${attach}</a>
+                    </div>
+                `;
+            }else{
+                //  이반 / 퇴소 등 문의 
+                $('#consulting_history_attach').show()
+                temp_question_list = `
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">문의 종류</span>
+                        <p>${category_name}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">제목</span>
+                        <p>${title}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">내용</span>
+                        <p>${contents}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">작성일</span>
+                        <p>${create_date}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">대상 반 | 학생</span>
+                        <p>${ban} ➖ ${student}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">처리</span>
+                        <p>${reject}</p>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">첨부파일</span>
+                        <a href="/common/downloadfile/question/${q_id}" download="${attach}">${attach}</a>
+                    </div>
+                `;
+            }
+            $('#teacher_answer').html(temp_answer_list);
+            $('#teacher_question').html(temp_question_list);
+        }
+    });
 }
 // 미학습 (학습관리)
 async function uldata(){

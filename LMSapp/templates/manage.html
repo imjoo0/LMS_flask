@@ -27,75 +27,102 @@
         }
     });
 </script>
-<!-- 이반/퇴소 문의 조회 모달
-<div class="modal fade" id="so_question" tabindex="-1" aria-labelledby="so_questionModalLabel"
-    aria-hidden="true">
+<!-- 이반/퇴소 문의 조회 모달 -->
+<div class="modal fade" id="soanswer" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="so_questionModalLabel">
-                    <img src="#" style="width: 30px;">&nbsp;&nbsp;원생목록
+                <h5 class="modal-title" id="answerModalLabel">
+                    선생님 문의
                 </h5>
-                <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body py-4 px-5">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
-                <div id="teachers_student_list">
-                    <div class="d-flex justify-content-center mb-2">
-                        <div class="d-flex justify-content-start align-items-start w-100" style="overflow: scroll;">
-                            <div class="d-flex justify-content-center align-items-center flex-column" style="width: 1362px important;">
-                                <div id="profile_data" class="w-100"></div>
-                                <div id="ban_data" class="w-100"></div>
-                                <table class="table text-center" style="width:100%;" id="student_data">
-                                    <tr class="row" style="background: #DCE6F2;">
-                                        <th class="col-12" id="displayCount"></th>
-                                    </tr>
-                                    <tr class="row" style="background:#DCE6F2;">
-                                        <th class="col-2">원생 정보</th>
-                                        <th class="col-2">연락처</th>
-                                        <th class="col-3">부모님 정보</th>
-                                        <th class="col-2">추천도서</th>
-                                        <th class="col-2">미학습</th>
-                                        <th class="col-1">상담 실시</th>
-                                    </tr>
-                                    <tr id="s_data" class="row"></tr>
-                                </table>
-                                <ul id="pagingul"></ul>
-                                <div id="ban_statistics" class="make_row w-100"></div>
-                            </div>
+
+            <div class="modal-body">
+                <table class="table text-center" style="width:100%;" id="consulting_history_attach">
+                    <tbody style="width:100%;">
+                        <thead>
+                            <tr class="row">
+                                <th class="col-12">진행한 상담 내용</th>
+                            </tr>
+                        </thead>
+                        <tr class="row">
+                            <td class="col-12">
+                                <div id="cha"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table text-center" style="width:100%;">
+                    <tbody style="width:100%;">
+                        <thead>
+                            <tr class="row">
+                                <th class="col-6">문의 내용</th>
+                                <th class="col-6">답변 내용</th>
+                            </tr>
+                        </thead>
+                        <tr class="row">
+                            <td class="col-6">
+                                <div id="teacher_question"></div>
+                            </td>
+                            <td class="col-6">
+                                <div id="teacher_answer"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="manage_answer_1">
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">답변 제목</span>
+                        <input class="modal-body-select" type="text" size="50" id="answer_title" style="width: 75%;">
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">답변 내용</span>
+                        <textarea id="answer_contents" class="modal-body-select" type="text" rows="5" cols="25"
+                            name="answer_contents1" style="width: 75%;"></textarea>
+                    </div>
+                </div>
+                <div id="manage_answer_2">
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">이반 요청 결과</span>
+                        <select class="modal-body-select" id="o_ban_id2">
+                            <option value="none" selected>이반 처리 결과를 선택해주세요</option>
+                            <option value=0>반려</option>
+                            {% for ban in all_ban %}
+                            {% set ban_registerno = ban['register_no'] %}
+                            <option value={{ban_registerno}}>{{ ban['name'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div id="manage_answer_3">
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">요청 처리 결과</span>
+                        <select class="modal-body-select" id="o_ban_id3">
+                            <option value="none" selected>처리 결과를 선택해주세요</option>
+                            <option value=0>반려</option>
+                            <option value=1>승인</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="comment_box">
+                    <div class="notice_message">
+                        <p>👇Comment </p>
+                        <div class="make_row" id="comment_post_box">
+
+                        </div>
+                        <div id="comments" class="make_col" style="margin-top:20px">
+
                         </div>
                     </div>
                 </div>
-                <div id="make_plus_consulting">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
-                    <button type="button" class="btn btn-back" onclick="go_back()">원생 목록으로 돌아가기🔙 </button>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">상담 제목</span>
-                        <input class="modal-body-select" type="text" size="50"
-                            id="plus_consulting_contents" style="width: 75%;">
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">상담 사유</span>
-                        <input class="modal-body-select" type="text" size="50"
-                            id="plus_consulting_reason" style="width: 75%;">
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">제공한 가이드</span>
-                        <input class="modal-body-select" type="text" size="50"
-                            id="plus_consulting_solution" style="width: 75%;">
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">상담 결과</span>
-                        <textarea class="modal-body-select" type="text" rows="5" cols="25"
-                            id="plus_consulting_result" style="width: 75%;"></textarea>
-                    </div>
-                    <div class="d-flex justify-content-center mt-4 mb-2" id="plusconsulting_button_box"></div>
+                <div id="fileforbox"></div>
+                <div class="d-flex justify-content-center mt-4 mb-2" id="button_box">
                 </div>
             </div>
         </div>
     </div>
-</div> -->
-
+</div>
 <!-- 문의 조회 모달 창 -->
 <div class="modal fade" id="answer" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
