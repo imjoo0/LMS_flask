@@ -89,7 +89,7 @@ function so_paginating(done_code) {
             <td class="col-3">${sdata-sdata_noanswer}</td>
             <td class="col-3">${odata_noanswer}</td>
             `;
-            ('#newso').html(temp_newso)
+            $('#newso').html(temp_newso)
             qdata = data.filter(a => a.answer == done_code)
             container.pagination({
                 dataSource: qdata,
