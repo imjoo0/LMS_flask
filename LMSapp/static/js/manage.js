@@ -12,7 +12,7 @@ $(document).ready(function () {
 })
 
 // 이반 * 퇴소 
-    // 조회
+// 조회
 async function sodata(){
     $('#qubox').hide()
     $('#ulbox').hide()
@@ -143,7 +143,7 @@ async function uldata(){
     }) 
     
 }
-// 전체 반 정보 가져오는 함수 
+// 전체 반 정보(차트) 가져오는 함수 
 function getBanlist(){
     $('#detailban').show();
     $('#qubox').hide()
@@ -693,7 +693,7 @@ function post_consulting_request(){
     }
 }
 
-// 문의 관리 
+// CS 관리 
 function paginating(done_code) {
     $('#detailban').hide()
     $('#sobox').hide()
