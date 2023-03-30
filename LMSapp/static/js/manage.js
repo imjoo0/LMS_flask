@@ -252,7 +252,7 @@ async function getBanChart(btid){
         $('#ban_data').empty();
         $('#student_data').hide();
         $('#ban_statistics').empty();
-        $('#s_pagingul').hide();
+        $('#pagingul').hide();
         $('#inloading').hide()
     }else{
         v = btid.split('_')
@@ -268,7 +268,7 @@ async function getBanChart(btid){
                 if (response['status'] == 400){
                     let no_data_title = `<h1> ${response.text} </h1>`
                     $('#s_data').html(no_data_title);
-                    $('#s_pagingul').hide();
+                    $('#pagingul').hide();
                     return
                 }
                 let students_num = target_ban['student_num'];
@@ -356,7 +356,7 @@ async function getBanChart(btid){
                 displayData(totalData, 1, dataPerPage,data_list, b_id);
                 paging(totalData, dataPerPage, pageCount, 1,data_list, b_id);
                 $('#student_data').show()
-                $('#s_pagingul').show();
+                $('#pagingul').show();
                 let temp_ban_statistics = `
                 <table class="table text-center" id="unlearned" style="margin-left:1%; margin-right: 4%;width: 40%;">
                         <tbody  style="width:100%;">
