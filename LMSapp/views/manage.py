@@ -126,14 +126,14 @@ def sodata():
         else:
             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
 
-@bp.route('/get_so_questions/<int:done_code>', methods=['GET'])
-def get_so_questions(done_code):
+@bp.route('/get_so_questions', methods=['GET'])
+def get_so_questions():
     if request.method == 'GET':
         all_questions = []
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute('select id, category, title, contents, answer from question where answer = %s and category != 0  ;',(done_code,))
+                cur.execute('select id, category, title, contents, answer from question where category != 0;')
                 all_questions = cur.fetchall()
         except:
             print('err')

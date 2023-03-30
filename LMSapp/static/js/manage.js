@@ -72,28 +72,29 @@ async function sodata(){
 function so_paginating(done_code) {
     let container = $('#so_pagination')
     $.ajax({
-        url: '/manage/get_so_questions/' + done_code,
+        url: '/manage/get_so_questions',
         type: 'get',
         data: {},
+        dataType: 'json',
         success: function (data) {
+            console.log(data)
+            qdata = data.filter(a => a.answer == done_code)
             container.pagination({
-                dataSource: JSON.parse(data),
+                dataSource: JSON.parse(qdata),
                 prevText: '이전',
                 nextText: '다음',
                 pageClassName: 'float-end',
                 pageSize: 5,
-                callback: function (data, pagination) {
+                callback: function (qdata, pagination) {
                     var dataHtml = '';
-                    $.each(data, function (index, item) {
-                        if (item.category == 1) { item.category = '퇴소 요청' }
-                        else if (item.category == 2) { item.category = '이반 요청' }
-                        else { item.category = '취소/환불 요청' }
+                    $.each(qdata, function (index, item) {
+                        let category = q_category(item.category)
                         dataHtml += `
-                        <td class="col-2">${item.category}</td>
+                        <td class="col-2">${category}</td>
                         <td class="col-4">${item.title}</td>
                         <td class="col-4">${item.contents}</td>
                         <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-                        data-bs-target="#answer" onclick="get_question(${item.id},${done_code})">✏️</button> 
+                        data-bs-target="#answer" onclick="get_question(${item.id},${0})">✏️</button> 
                         <button onclick="delete_question(${item.id})">❌</button></td>`;
                     });
                     $('#so_tr').html(dataHtml);
@@ -783,18 +784,6 @@ async function get_consulting() {
         }
     })
 }
-
-async function update_consulting(idx) {
-    await $.ajax({
-        url: '/manage/api/update_consulting',
-        type: 'get',
-        data: { 'text': 'good' },
-        success: function (data) {
-            console.log(data)
-        }
-    })
-}
-
 async function sort_consulting(value) {
     var dataHtml = '';
     let container = $('#consulting-pagination')
@@ -823,6 +812,17 @@ async function sort_consulting(value) {
                     <button onclick="delete_consulting(${consulting.id})">❌</button></td>`;
             });
             $('#tr-row').html(dataHtml);
+        }
+    })
+}
+
+async function update_consulting(idx) {
+    await $.ajax({
+        url: '/manage/api/update_consulting',
+        type: 'get',
+        data: { 'text': 'good' },
+        success: function (data) {
+            console.log(data)
         }
     })
 }

@@ -595,18 +595,6 @@ function go_back() {
     $('#make_plus_consulting').hide();
     $('#banstudentlistModalLabel').html('원생목록')
 }
-function q_category(category) {
-    if (category == 0) {
-        category = '일반문의'
-    } else if (category == 1) {
-        category = '퇴소문의'
-    } else if (category == 2) {
-        category = '이반문의'
-    } else {
-        category = '취소/환불문의'
-    }
-    return category
-}
     // 문의 작성 
 function get_myban_list(){
     $.ajax({
