@@ -200,7 +200,7 @@ function getBanlist(){
             $('#ninesemester_msg').html(`9학기 학기 원생 수: ${ninesemester}명`);
 
             total_student_num = onesemester + fivesemester + ninesemester
-            $('#total_student_num').css('width',`${total_student_num}%`);
+            // $('#total_student_num').css('width',`${total_student_num}%`);
             $('#total_student_num').css('background-color','#D7E4BD');
             $('#total_student_num_msg').html(`퍼플 총 원생: ${total_student_num}명`);
 
