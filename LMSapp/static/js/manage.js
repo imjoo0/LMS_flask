@@ -80,7 +80,7 @@ function so_paginating(done_code) {
             console.log(data)
             qdata = data.filter(a => a.answer == done_code)
             container.pagination({
-                dataSource: JSON.parse(qdata),
+                dataSource: qdata,
                 prevText: '이전',
                 nextText: '다음',
                 pageClassName: 'float-end',
