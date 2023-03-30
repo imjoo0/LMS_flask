@@ -509,6 +509,54 @@
     </div>
 </div>
 
+<!-- 반 정보 상세 조회 모달 창 -->
+<div class="modal fade" id="target_ban_info" tabindex="-1" aria-labelledby="target_ban_info_requestModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="target_ban_info_requestModalLabel">
+                    요청한 상담 목록
+                </h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="my-4 d-flex flex-wrap justify-content-end align-items-center">
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 상담 카테고리 선택</span></div>
+                    <div class="col-md-4 col-sm-6 col-12">
+                        <select id="category-select" onchange="sort_consulting(this.value)" class="form-select form-select-sm"
+                            aria-label="Default select example">
+                            <optgroup id="consulting-option">
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-start align-items-start flex-column" style="overflow: auto;">
+                    <table class="table text-center" id="consulting_task_list">
+                        <thead>
+                            <tr class="row w-100">
+                                <th class="col-3">날짜</th>
+                                <th class="col-2">종류</th>
+                                <th class="col-1">진행</th>
+                                <th class="col-4">내용</th>
+                                <th class="col-2">수정/삭제</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="row w-100" id="tr-row">
+                                <td>Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center align-items-center w-100">
+                    <div id="consulting-pagination" class="mt-4 mb-5 text-center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container_box">
     <div id="user-info" class="border-bottom">
         <div class="d-flex justify-content-center flex-xl-row row-cols-xl-2 flex-column-reverse">
@@ -734,7 +782,7 @@
                 <span id="banchart_title">반 관리 상세 현황</span>
             </div>
             <div class="info">
-                <div class="d-flex justify-content-center align-items-center flex-column w-100">
+                <div class="d-flex justify-content-center align-items-center flex-column w-100 make_col">
                     <div id="ban-statistics" class="d-flex justify-content-end align-items-center w-100">
                         <div class="info-container" style="width:100%;">
                             <div class="progress_box make_row">
