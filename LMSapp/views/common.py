@@ -40,8 +40,9 @@ def save_attachment(file, q_id):
 @bp.route("/all_ban", methods=['GET'])
 def get_ban():
     if request.method == 'GET':
-        target_ban = callapi.purple_allban('get_all_ban')
-        return jsonify({'target_ban': target_ban})
+        all_ban = callapi.purple_allban('get_all_ban')
+        # name / ban_id/semester/teacher_id/student_num/total_student_num(학기별 총 학생 수)
+        return jsonify({'all_ban': all_ban})
     
 
 # @bp.route("/sodata", methods=['GET'])

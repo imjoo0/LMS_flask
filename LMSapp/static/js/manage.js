@@ -155,12 +155,12 @@ function getBanlist(){
         data: {},
         success: function (response) {
             let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
-            let target_ban = response['target_ban']
-            for (i = 0; i < target_ban.length; i++) {
-                let name = target_ban[i]['name']
-                let semester = target_ban[i]['semester']
-                let t_id = target_ban[i]['teacher_register_no']
-                let btid = target_ban[i]['register_no']
+            let all_ban = response['all_ban']
+            for (i = 0; i < all_ban.length; i++) {
+                let name = all_ban[i]['name']
+                let semester = all_ban[i]['semester']
+                let t_id = all_ban[i]['teacher_id']
+                let btid = all_ban[i]['ban_id']
                 let value = btid + '_' + t_id +'_' + name
                 temp_ban_option += `
                 <option value="${value}">${name} (${semester}월 학기)</option>
