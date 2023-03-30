@@ -183,30 +183,24 @@ function getBanlist(){
             // 결과를 객체의 배열로 변환
             const semesterGroupedresult = Object.entries(semesterGrouped).map(([semester, items]) => {
                 return { [semester]: items };
-                // const resultItems = items.map(item => ({
-                //     ban_id: item.ban_id,
-                //     teacher_id: item.teacher_id,
-                //     name: item.name,
-                //     student_num: item.student_num,
-                //     total_student_num: item.total_student_num,
-                //   }));
-                //   return { [semester]: resultItems };
             });
             onesemester = semesterGroupedresult[1]['1'][0]['total_student_num']
-            // $('#onesemester').css('width',`${onesemester}%`);
-            // $('#onesemester').css('background-color','#95B3D7');
+            $('#onesemester').css('width',`${onesemester}%`);
+            $('#onesemester').css('background-color','#95B3D7');
             $('#onesemester_msg').html(`1학기 학생 수: ${onesemester}명`);
 
             fivesemester = semesterGroupedresult[2]['2'][0]['total_student_num']
-            // $('#fivesemester').css('width',`${fivesemester}%`);
-            // $('#fivesemester').css('background-color','#D99694');
+            $('#fivesemester').css('width',`${fivesemester}%`);
+            $('#fivesemester').css('background-color','#D99694');
             $('#fivesemester_msg').html(`5학기 학생 수: ${fivesemester}명`);
 
             ninesemester = semesterGroupedresult[0]['0'][0]['total_student_num']
-            // $('#ninesemester').css('width',`${ninesemester}%`);
-            // $('#ninesemester').css('background-color','#EBF1DE');
+            $('#ninesemester').css('width',`${ninesemester}%`);
+            $('#ninesemester').css('background-color','#EBF1DE');
             $('#ninesemester_msg').html(`9학기 학기 학생 수: ${ninesemester}명`);
-
+            
+            // 내림차순 정렬 먼저
+            response['outstudent']['data'].sort((a, b) => b.count_per_ban - a.count_per_ban);
             for(j=0;j<3;j++){
                 let key = j.toString()
                 let temp_semester_banlist = ''
