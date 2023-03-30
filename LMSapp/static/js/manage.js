@@ -187,19 +187,23 @@ function getBanlist(){
             onesemester = semesterGroupedresult[1]['1'][0]['total_student_num']
             $('#onesemester').css('width',`${onesemester}%`);
             $('#onesemester').css('background-color','#95B3D7');
-            $('#onesemester_msg').html(`1학기 학생 수: ${onesemester}명`);
+            $('#onesemester_msg').html(`1학기 원생 수: ${onesemester}명`);
 
             fivesemester = semesterGroupedresult[2]['2'][0]['total_student_num']
             $('#fivesemester').css('width',`${fivesemester}%`);
             $('#fivesemester').css('background-color','#D99694');
-            $('#fivesemester_msg').html(`5학기 학생 수: ${fivesemester}명`);
+            $('#fivesemester_msg').html(`5학기 원생 수: ${fivesemester}명`);
 
             ninesemester = semesterGroupedresult[0]['0'][0]['total_student_num']
             $('#ninesemester').css('width',`${ninesemester}%`);
             $('#ninesemester').css('background-color','#EBF1DE');
-            $('#ninesemester_msg').html(`9학기 학기 학생 수: ${ninesemester}명`);
+            $('#ninesemester_msg').html(`9학기 학기 원생 수: ${ninesemester}명`);
 
-            let total_student_num = 0
+            total_student_num = onesemester + fivesemester + ninesemester
+            $('#total_student_num').css('width',`${total_student_num}%`);
+            $('#total_student_num').css('background-color','#D7E4BD');
+            $('#total_student_num_msg').html(`퍼플 총 원생: ${total_student_num}명`);
+
             for(j=0;j<3;j++){
                 let key = j.toString()
                 let temp_semester_banlist = ''
@@ -237,7 +241,6 @@ function getBanlist(){
                     let value = b_id + '_' + ban_data['teacher_id'] +'_' + name
                     let count_per_ban = ban_data['count_per_ban']
                     let op = ban_data['op']
-                    total_student_num += student_num
                     // let on = response['outstudent']['data'].filter(a => a.ban_id == b_id);
                     
                     // if(on.length != 0){
@@ -255,7 +258,6 @@ function getBanlist(){
                 $('#out_msg'+j).html(`${make_semester(j)}학기 총 퇴소학생 수:${semester_out_student}`)
 
             }
-            $('#total_student_num').html(`퍼플 총 원생: ${total_student_num} 명`)
 
         },
         error: function (xhr, status, error) {
