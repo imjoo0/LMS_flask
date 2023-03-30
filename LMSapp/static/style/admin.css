@@ -1,27 +1,3 @@
-.progress_box{
-    width: 100%;
-}
-.progress_msg{
-    width: 30%;
-    font-size: 20px;
-    color:white;
-}
-.progress-bar {
-    width: 70%;
-    height: 30px;
-    background-color:white;
-    font-weight: 600;
-    font-size: .8rem;
-    margin-top:5px;
-}
-
-.progress-bar .progress {     /* // 나타내고자 하는 퍼센트 값을 넣으면 됩니다. */
-    height: 30px;
-    padding: 0;
-    text-align: center;
-    color: #111;
-}
-
 #pagingul1,#pagingul2,#pagingul3{
     text-align: center;
     margin-left: 3px;
