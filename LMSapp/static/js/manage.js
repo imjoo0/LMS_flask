@@ -207,9 +207,21 @@ function getBanlist(){
             $('#ninesemester').css('background-color','#EBF1DE');
             $('#ninesemester_msg').html(`9월학기 학기 학생 수: ${ninesemester}명`);
 
-            for(i=0;i<semesterGroupedresult.length;i++){
-
+            // 1월 학기 이반 수 
+            let temp_semester_banlist = ''
+            for(i=0;i<semesterGroupedresult[1]['1'].length;i++){
+                ban_data = semesterGroupedresult[1]['1'][i]
+                let ban_id = ban_data['ban_id']
+                let teacher_id = ban_data['teacher_id']
+                let name = ban_data['name']
+                let student_num = ban_data['student_num']
+                let value = ban_id + '_' + teacher_id +'_' + name
+                temp_semester_banlist += `
+                <td class="col-4">${name}</td>
+                <td class="col-4">${student_num}</td>
+                <td class="col-4">👇</td>`;
             }
+            $('#semester_banlist').html(temp_semester_banlist)
         },
         error: function (xhr, status, error) {
             alert('xhr.responseText');
