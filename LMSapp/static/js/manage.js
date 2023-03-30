@@ -211,10 +211,13 @@ function getBanlist(){
                     let b_id = ban_data['ban_id']
                     let on = response['outstudent']['data'].filter(a => a.ban_id == b_id);
                     let count_per_ban = 0
-                    let totla_out_ban = 0
+                    let total_out_ban = 0
                     if(on.length != 0){
                         count_per_ban = on[0]['count_per_ban']
-                        totla_out_ban = on[0]['total_count']
+                        total_out_ban = on[0]['total_count']
+                    }else{
+                        count_per_ban = 0
+                        total_out_ban = 0
                     }
                     semester_out_student += count_per_ban
                     let name = ban_data['name']
@@ -223,7 +226,7 @@ function getBanlist(){
                     temp_semester_banlist += `
                     <td class="col-3">${name}</td>
                     <td class="col-3">${student_num}</td>
-                    <td class="col-3">${count_per_ban}(${answer_rate(count_per_ban, totla_out_ban).toFixed(0)}%)</td>
+                    <td class="col-3">${count_per_ban}(${answer_rate(count_per_ban, total_out_ban).toFixed(0)}%)</td>
                     <td class="col-3" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')">👉</td>`;
                 });
                 $('#semester_banlist'+j).html(temp_semester_banlist)
