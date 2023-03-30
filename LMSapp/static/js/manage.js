@@ -237,7 +237,6 @@ function getBanlist(){
                     let value = b_id + '_' + ban_data['teacher_id'] +'_' + name
                     let count_per_ban = ban_data['count_per_ban']
                     let op = ban_data['op']
-                    semester_out_student += count_per_ban
                     // let on = response['outstudent']['data'].filter(a => a.ban_id == b_id);
                     
                     // if(on.length != 0){
