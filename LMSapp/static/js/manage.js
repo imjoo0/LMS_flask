@@ -318,6 +318,7 @@ async function getBanChart(btid){
     $('#inloading').hide()
     $('#target_ban_info_body').show()
 }
+
 // 이반 * 퇴소 
 // 조회
 async function sodata(){
@@ -603,6 +604,9 @@ async function uldata(){
             $('#ultitle').empty();
             $('#ul_data_box').show()
             $('#ul_pagination').show()
+            unlearned_count.sort((a, b) => {
+                return b.unlearned - a.unlearned 
+            });
             // 미학습 높은 순 정렬 
             container.pagination({
                 dataSource: unlearned_count,
