@@ -192,20 +192,20 @@ function getBanlist(){
                 //   return { [semester]: resultItems };
             });
             console.log(semesterGroupedresult)
-            onesemester = semesterGroupedresult[0]['0'][0]['total_student_num']
-            $('#onesemester').css('width',`${onesemester}%`);
-            $('#onesemester').css('background-color','#95B3D7');
-            $('#onesemester_msg').html(`이반 학생 수: ${onesemester}명`);
-
             fivesemester = semesterGroupedresult[1]['1'][0]['total_student_num']
             $('#fivesemester').css('width',`${fivesemester}%`);
             $('#fivesemester').css('background-color','#95B3D7');
-            $('#fivesemester_msg').html(`이반 학생 수: ${fivesemester}명`);
+            $('#fivesemester_msg').html(`1월학기 학생 수: ${fivesemester}명`);
 
             ninesemester = semesterGroupedresult[2]['2'][0]['total_student_num']
             $('#ninesemester').css('width',`${ninesemester}%`);
             $('#ninesemester').css('background-color','#95B3D7');
-            $('#ninesemester_msg').html(`이반 학생 수: ${ninesemester}명`);
+            $('#ninesemester_msg').html(`5월학기 학생 수: ${ninesemester}명`);
+            
+            onesemester = semesterGroupedresult[0]['0'][0]['total_student_num']
+            $('#onesemester').css('width',`${onesemester}%`);
+            $('#onesemester').css('background-color','#95B3D7');
+            $('#onesemester_msg').html(`9월학기 학기 학생 수: ${onesemester}명`);
 
             for(i=0;i<semesterGroupedresult.length;i++){
 
