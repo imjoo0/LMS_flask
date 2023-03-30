@@ -191,7 +191,10 @@ function getBanlist(){
                 //   }));
                 //   return { [semester]: resultItems };
             });
-
+            console.log(semesterGroupedresult)
+            for(i=0;i<semesterGroupedresult.length;i++){
+                
+            }
         },
         error: function (xhr, status, error) {
             alert('xhr.responseText');
