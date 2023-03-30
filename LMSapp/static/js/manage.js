@@ -208,7 +208,7 @@ function getBanlist(){
             $('#ninesemester_msg').html(`9월학기 학기 학생 수: ${ninesemester}명`);
 
             for(j=0;j<3;j++){
-                let key = toString(j)
+                let key = j.toString()
                 let temp_semester_banlist = ''
                 console.log(key)
                 for(i=0;i<semesterGroupedresult[j][key].length;i++){
