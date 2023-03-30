@@ -27,7 +27,7 @@ async function sodata(){
                 let no_data_title =  '이반 * 퇴소 발생이 없었어요'
                 $('#sotitle').html(no_data_title);
                 $('#sotable').hide()
-                return
+                return so_paginating(0)
             }
             $('#sotitle').empty();
 
@@ -63,6 +63,7 @@ async function sodata(){
             }
             $('#static_data1').html(temp_html)
             
+            so_paginating(0)
             
         }
     }) 
