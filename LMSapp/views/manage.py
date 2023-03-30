@@ -14,22 +14,14 @@ bp = Blueprint('manage', __name__, url_prefix='/manage')
 @bp.route("/", methods=['GET'])
 def home():
     if request.method == 'GET':
-        user = callapi.purple_info(session['user_id'],'get_teacher_info')
-        
-        # all_ban = callapi.purple_allban('get_all_ban')
-        
-        # all_consulting = Consulting.query.all()
-        # all_task = Task.query.all()
-        # all_questions = Question.query.order_by(Question.id.desc())
-
-        # return render_template('manage.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting, task_category=all_task_category, tasks=all_task, questions=all_questions)
+        user = callapi.purple_info(session['user_id'],'get_teacher_info')        
         return render_template('manage.html', user=user,)
 
 # 반 차트 관련 
 @bp.route("/ban/<int:id>", methods=['GET'])
 def get_ban(id):
     if request.method == 'GET':
-        target_ban = callapi.purple_ban(id,'get_ban')
+        target_ban = callapi.purple_info(id,'get_ban')
         if target_ban:
             db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
             switch_student = {}
@@ -183,7 +175,7 @@ def uldata():
                     total_num = 5
                 unlearned_count['data'].sort(key=lambda x: (-x['unlearned_p']))
                 for i in range(total_num):
-                    target_ban = callapi.purple_ban(unlearned_count['data'][i]['ban_id'],'get_ban')
+                    target_ban = callapi.purple_info(unlearned_count['data'][i]['ban_id'],'get_ban')
                     unlearned_bans.append(target_ban)
                 return ({'unlearned_bans': unlearned_bans,'unlearned_count':unlearned_count})
             else:
