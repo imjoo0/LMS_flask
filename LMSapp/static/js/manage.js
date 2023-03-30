@@ -597,7 +597,7 @@ async function uldata(){
                 return
             }
             $('#ultitle').empty();
-            target_students = response['target_students'].sort()
+            target_students = response['target_students']
             if (target_students.length > 0) {
                 target_students.sort((a, b) =>{
                     return b.unlearned- a.unlearned
