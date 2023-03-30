@@ -46,6 +46,7 @@ async function sodata(){
             // }
 
             let temp_html = ``
+            console.log(response['switch_out_bans'])
             for(i=0;i< response['switch_out_bans'].length;i++){
                 register_no = response['switch_out_bans'][i]['target_ban']['register_no']
                 ban_name = response['switch_out_bans'][i]['target_ban']['ban_name']
