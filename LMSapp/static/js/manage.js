@@ -192,6 +192,7 @@ function getBanlist(){
                 //   return { [semester]: resultItems };
             });
             console.log(semesterGroupedresult)
+            console.log(semesterGroupedresult[0][0])
 
             onesemester = semesterGroupedresult[0][0]['total_student_num']
             $('#onesemester').css('width',`${onesemester}%`);
