@@ -204,35 +204,25 @@ function getBanlist(){
                 let key = j.toString()
                 let temp_semester_banlist = ''
                 let semester_out_student = 0
-                // semesterGroupedresult[j][key].sort(function(a, b) {
-                //     return b.student_num - a.student_num;
-                // });
                 const result = semesterGroupedresult[j][key].reduce((acc, ban_data) => {
                     let onList = [];
                     onList = response['outstudent']['data'].filter(a => a.ban_id == ban_data.ban_id );
-                    // const consultingList = consulting.filter(c => c.student_id === student.register_no);
+                    let count_per_ban = 0
+                    let op = 0
                     if (onList.length > 0) {
                         onList = onList[0];
-                        acc.push({
-                            'b_id':ban_data.ban_id ,
-                            'name':ban_data.name ,
-                            'student_num':ban_data.student_num ,
-                            'teacher_id':ban_data.teacher_id ,
-                            'count_per_ban': onList.count_per_ban,
-                            'total_out_ban': onList.total_count,
-                            'op':answer_rate(onList.count_per_ban, onList.total_count).toFixed(0)
-                        });
-                    }else{
-                        acc.push({
-                            'b_id':ban_data.ban_id ,
-                            'name':ban_data.name ,
-                            'student_num':ban_data.student_num ,
-                            'teacher_id':ban_data.teacher_id ,
-                            'count_per_ban': 0,
-                            'total_out_ban': 0,
-                            'op':0
-                        });
+                        count_per_ban = onList.count_per_ban
+                        semester_out_student += count_per_ban
                     }
+                    acc.push({
+                        'b_id':ban_data.ban_id ,
+                        'name':ban_data.name ,
+                        'student_num':ban_data.student_num ,
+                        'teacher_id':ban_data.teacher_id ,
+                        'count_per_ban': count_per_ban,
+                        'semester_out_student':semester_out_student,
+                        'op':answer_rate(count_per_ban, semester_out_student).toFixed(0)
+                    });
                     return acc;
                 }, []);
     
@@ -249,8 +239,7 @@ function getBanlist(){
                     let op = ban_data['op']
                     semester_out_student += count_per_ban
                     // let on = response['outstudent']['data'].filter(a => a.ban_id == b_id);
-                    // let count_per_ban = 0
-                    // let total_out_ban = 0
+                    
                     // if(on.length != 0){
                     //     count_per_ban = on[0]['count_per_ban']
                     //     total_out_ban = on[0]['total_count']
