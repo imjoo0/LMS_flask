@@ -102,6 +102,7 @@ function so_paginating(done_code) {
                         $('#so_question').hide()
                         $('#so_pagination').hide()
                         $('#no_data_msg').html('문의가 없습니다')
+                        $('#no_data_msg').show()
                     }else{
                         $('#no_data_msg').hide()
                         var dataHtml = '';
