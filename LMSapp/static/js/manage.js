@@ -194,7 +194,7 @@ function getBanlist(){
             console.log(semesterGroupedresult)
             console.log(type(semesterGroupedresult[0][0]))
 
-            onesemester = semesterGroupedresult[0][0]['total_student_num']
+            onesemester = semesterGroupedresult[0][semester]['total_student_num']
             $('#onesemester').css('width',`${onesemester}%`);
             $('#onesemester').css('background-color','#95B3D7');
             $('#onesemester_msg').html(`이반 학생 수: ${onesemester}명`);
