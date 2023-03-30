@@ -158,3 +158,9 @@
     width: 1200px;
   }
 }
+
+.progress_msg{
+  width: 30%;
+  font-size: 20px;
+  color:black !important;
+}

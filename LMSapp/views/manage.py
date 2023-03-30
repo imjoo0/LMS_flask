@@ -14,22 +14,14 @@ bp = Blueprint('manage', __name__, url_prefix='/manage')
 @bp.route("/", methods=['GET'])
 def home():
     if request.method == 'GET':
-        user = callapi.purple_info(session['user_id'],'get_teacher_info')
-        
-        # all_ban = callapi.purple_allban('get_all_ban')
-        
-        # all_consulting = Consulting.query.all()
-        # all_task = Task.query.all()
-        # all_questions = Question.query.order_by(Question.id.desc())
-
-        # return render_template('manage.html', user=user, all_ban=all_ban, consulting_category=all_consulting_category, consultings=all_consulting, task_category=all_task_category, tasks=all_task, questions=all_questions)
+        user = callapi.purple_info(session['user_id'],'get_teacher_info')        
         return render_template('manage.html', user=user,)
 
 # 반 차트 관련 
 @bp.route("/ban/<int:id>", methods=['GET'])
 def get_ban(id):
     if request.method == 'GET':
-        target_ban = callapi.purple_ban(id,'get_ban')
+        target_ban = callapi.purple_info(id,'get_ban')
         if target_ban:
             db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
             switch_student = {}
@@ -114,10 +106,9 @@ def sodata():
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         switch_out_count = {}
         switch_out_bans = []
-
         try:
             with db.cursor() as cur:
-                cur.execute(f'SELECT COALESCE(switchstudent.ban_id, outstudent.ban_id) AS ban_id, COALESCE(switch_count, 0) AS switch_count, COALESCE(out_count, 0) AS out_count FROM (SELECT ban_id, COUNT(*) AS switch_count FROM switchstudent GROUP BY ban_id) AS switch_counts LEFT OUTER JOIN (SELECT ban_id, COUNT(*) AS out_count FROM outstudent GROUP BY ban_id) AS out_counts ON switch_counts.ban_id = out_counts.ban_id LEFT OUTER JOIN switchstudent ON switch_counts.ban_id = switchstudent.ban_id LEFT OUTER JOIN outstudent ON out_counts.ban_id = outstudent.ban_id UNION SELECT COALESCE(switch_counts.ban_id, out_counts.ban_id) AS ban_id, COALESCE(switch_count, 0) AS switch_count, COALESCE(out_count, 0) AS out_count FROM (SELECT ban_id, COUNT(*) AS switch_count FROM switchstudent GROUP BY ban_id) AS switch_counts RIGHT OUTER JOIN (SELECT ban_id, COUNT(*) AS out_count FROM outstudent GROUP BY ban_id) AS out_counts ON switch_counts.ban_id = out_counts.ban_id WHERE switch_counts.ban_id IS NULL;')
+                cur.execute(f'SELECT ban_id,SUM(outcount_per_ban) AS outcount_per_ban,MAX(outtotal_count) AS outtotal_count,SUM(switchcount_per_ban) AS switchcount_per_ban,MAX(switchtotal_count) AS switchtotal_count FROM (SELECT ban_id, COUNT(*) AS outcount_per_ban, 0 AS switchcount_per_ban, (SELECT COUNT(*) FROM outstudent) AS outtotal_count, 0 AS switchtotal_count FROM outstudent GROUP BY ban_id UNION ALL SELECT ban_id, 0 AS outcount_per_ban, COUNT(*) AS switchcount_per_ban, 0 AS outtotal_count, (SELECT COUNT(*) FROM switchstudent) AS switchtotal_count FROM switchstudent GROUP BY ban_id) AS temp_table GROUP BY ban_id;')
                 switch_out_count['status'] = 200
                 switch_out_count['data'] = cur.fetchall()
         except Exception as e:
@@ -126,15 +117,12 @@ def sodata():
             switch_out_count['text'] = str(e)
         finally:
             db.close()
-        if switch_out_count['status'] != 401: 
-            if len(switch_out_count['data']) != 0:
-                for data in switch_out_count['data']:
-                    target_ban = callapi.purple_ban(data['ban_id'],'get_ban')
-                    switch_out_bans.append(target_ban)
-                return ({'switch_out_bans': switch_out_bans,'switch_out_count':switch_out_count})
-            else:
-                return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
-        
+        if switch_out_count['status'] != 401 : 
+            for data in switch_out_count['data']:
+                target_ban = callapi.purple_ban(data['ban_id'],'get_ban')
+                if target_ban:
+                    switch_out_bans.append({'target_ban': target_ban,'switch_out_count':data})
+            return ({'switch_out_bans': switch_out_bans})
         else:
             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
 
@@ -183,7 +171,7 @@ def uldata():
                     total_num = 5
                 unlearned_count['data'].sort(key=lambda x: (-x['unlearned_p']))
                 for i in range(total_num):
-                    target_ban = callapi.purple_ban(unlearned_count['data'][i]['ban_id'],'get_ban')
+                    target_ban = callapi.purple_info(unlearned_count['data'][i]['ban_id'],'get_ban')
                     unlearned_bans.append(target_ban)
                 return ({'unlearned_bans': unlearned_bans,'unlearned_count':unlearned_count})
             else:

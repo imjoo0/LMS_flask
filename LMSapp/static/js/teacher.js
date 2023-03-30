@@ -9,16 +9,14 @@
 //     return str;
 // }
 
-// 처음 get 할때 뿌려질 정보 보내는 함수 
-let answer_rate =  function(answer, all) {
-    if(Object.is(answer/all, NaN)) return 0;
-    else return answer/all*100;
-}
 $(document).ready(function () {
-    get_data()
+    get_data();
+
 })
+
 //  차트 관련 함수 
 function get_data() {
+
     $.ajax({
         type: "GET",
         url: "/teacher/get_data",
@@ -28,7 +26,7 @@ function get_data() {
             // 반 차트 데이터 
             chart_data = response['chart_data']
             let temp_ban_chart ='';
-            for(i=0;i<chart_data.length;i++){
+            for (i=0;i<chart_data.length;i++) {
                 let register_no = chart_data[i]['ban']['register_no']
                 let name = chart_data[i]['ban']['name']
                 let semester = make_semester(chart_data[i]['ban']['semester'])
@@ -43,42 +41,70 @@ function get_data() {
                 let alimnote_t = chart_data[i]['alimnote']['all']
                 
                 temp_ban_chart += `
-                <div class="make_row" style="width:100%">
-                    <div class="total_chart">
-                        <div class="chartWrap">
-                            <div class="chart">
-                                <div class="chart-total">
-                                    <span class="chart-total-num">관리중:${ total_student_num }<br>*이반:${ switchstudent }<br>*퇴소:${ outstudent }<br></span>
-                                </div>
-                            </div>
-                            <div class="chart-bar" data-deg="${ outstudent }"></div>
-                            <div class="chart-bar" data-deg="${ switchstudent }"></div>
-                            <div class="chart-bar" data-deg="${ total_student_num }"></div>
-                            <div class="chart-bar" data-deg="${ total_student_num+switchstudent+outstudent }/360*100">
+                <div class="d-flex justify-content-start align-items-start flex-column w-100 my-2">
+                    <h5 class="mb-3">📌  ${name}</h5>
+                    <div class="row w-100">
+                        <div class="chart-wrapper col-sm-5">
+                            <canvas id="total-chart-element${i}" class="total-chart-element p-sm-3 p-2"></canvas>
+                            <div class ="chart-data-summary">
+                                <span>관리중:${ total_student_num }</span><br>
+                                <span>* 이반:${ switchstudent }</span><br>
+                                <span>* 퇴소:${ outstudent }</span>
                             </div>
                         </div>
+                        <div class="col-sm-7 d-flex justify-content-center align-items-center">
+                            <table class="table text-center" id="class_list">
+                                <tbody style="width:100%;">
+                                    <tr class="row">
+                                        <th class="col-12">${name} (${semester}월 학기)</th>
+                                    </tr>
+                                    <tr class="row">
+                                        <th class="col-5">알림장(응답/문의)</th>
+                                        <th class="col-5">미학습</th>
+                                        <th class="col-2">원생</th>
+                                    </tr>
+                                    <tr class="row">
+                                        <td class="col-5">${alimnote}건 / ${alimnote_t}건</td>
+                                        <td class="col-5">${unlearned}건(${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</td>
+                                        <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="getBanInfo(${register_no})">✔️</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <table class="table text-center" id="class_list" style="width:100%; margin-top:10%;">
-                        <tbody style="width:100%;">
-                            <tr class="row">
-                                <th class="col-12">${name} (${semester}학기)</th>
-                            </tr>
-                            <tr class="row">
-                                <th class="col-5">알림장</th>
-                                <th class="col-5">미학습</th>
-                                <th class="col-2">원생</th>
-                            </tr>
-                            <tr class="row">
-                                <td class="col-5">(응답) ${alimnote}건 / (문의) ${alimnote_t}건</td>
-                                <td class="col-5">${unlearned}건(${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</td>
-                                <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="getBanInfo(${register_no})">✔️</td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
                 `;
             }
             $('#ban_chart_list').html(temp_ban_chart);
+
+            for(let i = 0; i < chart_data.length; i++) {
+
+                let total_student_num = chart_data[i]['ban']['total_student_num']
+                let switchstudent = chart_data[i]['switchstudent'][0]['ban_count']
+                let outstudent = chart_data[i]['outstudent'][0]['ban_count']
+
+                new Chart(document.getElementById(`total-chart-element${i}`), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['관리중', '이반', '퇴소'],
+                        datasets: [
+                            {
+                                data: [total_student_num, switchstudent, outstudent],
+                                backgroundColor: ['#B39CD0', '#ffd400', '#F23966'],
+                                hoverOffset: 4,
+                            },
+                        ],
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                display: false,
+                            },
+                        },
+                    },
+                });
+
+            }
 
             let consulting = response['all_consulting']['data'].filter(consulting => consulting.done === 0);
             let consulting_t = response['all_consulting']['data'].length;
@@ -137,7 +163,7 @@ function get_data() {
                     <td class="col-3">${mobileno}</td>
                     <td class="col-2">${deadline}</td>
                     <td class="col-1">${consulting_num}</td>
-                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${0})">✅</td> 
+                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${0})"><span class="cursor-pointer">📞</span></td> 
                     `;
                     $('#today_consulting_box').html(temp_consulting_contents_box);
                     $('#consulting_student_list').show();
@@ -418,22 +444,22 @@ function get_consulting(student_id, is_done) {
                         let history_created = target['history_created']
                         let temp_consulting_contents_box = `
                     <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
-                    <p >✅<strong>${category}</strong></br>${contents}</br>*마감:
+                    <p mt-lg-4 mt-5>✅<strong>${category}</strong></br></br>${contents}</br>*마감:
                         ~${deadline}까지 | 부재중 : ${consulting_missed}</br></p>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">상담 사유</span>
                         <input class="modal-body-select" type="text" size="50"
-                            id="consulting_reason${consulting_id}" style="width: 75%;" placeholder="${history_reason}">
+                            id="consulting_reason${consulting_id}" placeholder="${history_reason}">
                     </div>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">제공한 가이드</span>
                         <input class="modal-body-select" type="text" size="50"
-                            id="consulting_solution${consulting_id}" style="width: 75%;" placeholder="${history_solution}">
+                            id="consulting_solution${consulting_id}" placeholder="${history_solution}">
                     </div>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">상담 결과</span>
                         <textarea class="modal-body-select" type="text" rows="5" cols="25"
-                            id="consulting_result${consulting_id}" style="width: 75%;" placeholder="${history_result}"></textarea>
+                            id="consulting_result${consulting_id}" placeholder="${history_result}"></textarea>
                     </div>
                     <p>상담 일시 : ${history_created}</p>
                     `;
@@ -441,22 +467,22 @@ function get_consulting(student_id, is_done) {
                     } else {
                         let temp_consulting_contents_box = `
                     <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
-                    <p >✅<strong>${category}</strong></br>${contents}</br>*마감:
+                    <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br></br>${contents}</br>*마감:
                         ~${deadline}까지 | 부재중 : ${consulting_missed}</br></p>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">상담 사유</span>
                         <input class="modal-body-select" type="text" size="50"
-                            id="consulting_reason${consulting_id}" style="width: 75%;">
+                            id="consulting_reason${consulting_id}">
                     </div>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">제공한 가이드</span>
                         <input class="modal-body-select" type="text" size="50"
-                            id="consulting_solution${consulting_id}" style="width: 75%;">
+                            id="consulting_solution${consulting_id}">
                     </div>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">상담 결과</span>
                         <textarea class="modal-body-select" type="text" rows="5" cols="25"
-                            id="consulting_result${consulting_id}" style="width: 75%;"></textarea>
+                            id="consulting_result${consulting_id}"></textarea>
                     </div>
                     `;
                         $('#consulting_write_box').append(temp_consulting_contents_box);
@@ -464,7 +490,7 @@ function get_consulting(student_id, is_done) {
 
                 }
                 let temp_post_box = `
-                <p>✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
+                <p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
                     <div class="modal-body-select-container">
                     <span class="modal-body-select-label">부재중</span>
                     <label><input type="checkbox" id="missed">부재중</label>
@@ -668,8 +694,8 @@ function get_question_list() {
                         <td class="col-2">${q_category(item.category)}</td>
                         <td class="col-4">${item.title}</td>
                         <td class="col-3"> ${done_code} </td>
-                        <td class="col-1" onclick="get_question_detail(${item.id},${item.answer},${item.category})"> ✅ </td>
-                        <td class="col-1" onclick="delete_question(${item.id})"> ❌ </td>
+                        <td class="col-1" onclick="get_question_detail(${item.id},${item.answer},${item.category})"> <span class="cursor-pointer">🔍</span> </td>
+                        <td class="col-1" onclick="delete_question(${item.id})"> <span class="cursor-pointer">❌</span> </td>
                         <td class="col-1"> ${item.comments} </td>`;
                     });
                     $('#teacher_question_list').html(dataHtml);

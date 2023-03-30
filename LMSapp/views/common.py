@@ -40,8 +40,21 @@ def save_attachment(file, q_id):
 @bp.route("/all_ban", methods=['GET'])
 def get_ban():
     if request.method == 'GET':
-        target_ban = callapi.purple_allban('get_all_ban')
-        return jsonify({'target_ban': target_ban})
+        all_ban = callapi.purple_allban('get_all_ban')
+        # name / ban_id/semester/teacher_id/student_num/total_student_num(학기별 총 학생 수)
+        outstudent = {}
+        
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute("SELECT ban_id, COUNT(*) AS count_per_ban, (SELECT COUNT(*) FROM outstudent) AS total_count FROM outstudent GROUP BY ban_id;")
+                outstudent['status'] = 200
+                outstudent['data'] = cur.fetchall()
+        except:
+                print('err')
+        finally:
+                db.close()        
+        return jsonify({'all_ban': all_ban,'outstudent': outstudent})
     
 
 # @bp.route("/sodata", methods=['GET'])

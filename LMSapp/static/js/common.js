@@ -6,6 +6,11 @@ var data_list;
 var consultingData = [];
 var taskData = [];
 
+let answer_rate =  function(answer, all) {
+    if(Object.is(answer/all, NaN)) return 0;
+    else return answer/all*100;
+}
+
 function make_semester(semester){
     if (semester == 1){
         return 1;
