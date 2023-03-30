@@ -601,7 +601,7 @@ async function uldata(){
             $('#ultitle').empty();
             // 미학습 높은 순 정렬 
             container.pagination({
-                dataSource: JSON.parse(unlearned_count),
+                dataSource: unlearned_count,
                 prevText: '이전',
                 nextText: '다음',
                 pageSize: 10,
