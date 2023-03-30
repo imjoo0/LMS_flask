@@ -208,7 +208,8 @@ function getBanlist(){
                 //     return b.student_num - a.student_num;
                 // });
                 const result = semesterGroupedresult[j][key].reduce((acc, ban_data) => {
-                    const onList = response['outstudent']['data'].filter(a => a.ban_id == ban_data.ban_id );
+                    let onList = [];
+                    onList = response['outstudent']['data'].filter(a => a.ban_id == ban_data.ban_id );
                     // const consultingList = consulting.filter(c => c.student_id === student.register_no);
                     if (onList.length > 0) {
                         const onList = onList[0];
