@@ -247,17 +247,17 @@ function getBanlist(){
 async function getBanChart(btid){
     console.log(btid)
     if(btid == 0){
-        $('#banchart_title').html('반 관리 상세 현황')
+        $('#target_ban_info_requestModalLabel').html('반 상세 현황')
         $('#profile_data').empty()
         $('#ban_data').empty();
         $('#student_data').hide();
         $('#ban_statistics').empty();
-        $('#pagingul').hide();
+        $('#s_pagingul').hide();
         $('#inloading').hide()
     }else{
         v = btid.split('_')
         b_id = Number(v[0])
-        $('#banchart_title').html(v[2]+'반 관리 상세 현황')
+        $('#target_ban_info_requestModalLabel').html(v[2]+'반 상세 현황')
         $('#inloading').show()
         await $.ajax({
             type: "GET",
@@ -268,7 +268,7 @@ async function getBanChart(btid){
                 if (response['status'] == 400){
                     let no_data_title = `<h1> ${response.text} </h1>`
                     $('#s_data').html(no_data_title);
-                    $('#pagingul').hide();
+                    $('#s_pagingul').hide();
                     return
                 }
                 let students_num = target_ban['student_num'];
@@ -356,7 +356,7 @@ async function getBanChart(btid){
                 displayData(totalData, 1, dataPerPage,data_list, b_id);
                 paging(totalData, dataPerPage, pageCount, 1,data_list, b_id);
                 $('#student_data').show()
-                $('#pagingul').show();
+                $('#s_pagingul').show();
                 let temp_ban_statistics = `
                 <table class="table text-center" id="unlearned" style="margin-left:1%; margin-right: 4%;width: 40%;">
                         <tbody  style="width:100%;">
