@@ -86,7 +86,7 @@ function so_paginating(done_code) {
             <td class="col-2">${sdata-sdata_noanswer}</td>
             <td class="col-2">${sdata_noanswer}</td>
             <td class="col-2">${odata}</td>
-            <td class="col-2">${sdata-odata_noanswer}</td>
+            <td class="col-2">${odata-odata_noanswer}</td>
             <td class="col-2">${odata_noanswer}</td>
             `;
             $('#newso').html(temp_newso)
