@@ -246,9 +246,9 @@ def uldata():
                     target_student = callapi.purple_info(data['student_id'],'get_student_info')
                     if target_student:
                         unlearned_students.append({'target_student': target_student,'unlearned_count':data})
+                print('2')
                 return({'unlearned_students': unlearned_students})
             else:                
-                print('2')
                 return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
         else:
             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})    
