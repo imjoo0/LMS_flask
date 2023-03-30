@@ -211,7 +211,7 @@ function getBanlist(){
                     const onList = response['outstudent']['data'].filter(a => a.ban_id == ban_data.ban_id );
                     // const consultingList = consulting.filter(c => c.student_id === student.register_no);
                     if (onList.length > 0) {
-                        const onList = consultingList[0];
+                        const onList = onList[0];
                         acc.push({
                             'b_id':ban_data.ban_id ,
                             'name':ban_data.name ,
