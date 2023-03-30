@@ -44,11 +44,10 @@ def get_ban():
         outstudent = {}
         # name / ban_id/semester/teacher_id/student_num/total_student_num(학기별 총 학생 수)
         
-        # SELECT ban_id, COUNT(*) AS count_per_ban, (SELECT COUNT(*) FROM outstudent) AS total_count FROM outstudent GROUP BY ban_id;
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute("SELECT COUNT(CASE WHEN ban_id = %s THEN 1 END) AS ban_count,COUNT(*) AS total_count FROM outstudent;",(ban['register_no'],))
+                cur.execute("SELECT ban_id, COUNT(*) AS count_per_ban, (SELECT COUNT(*) FROM outstudent) AS total_count FROM outstudent GROUP BY ban_id;")
                 outstudent['status'] = 200
                 outstudent['data'] = cur.fetchall()
         except:
