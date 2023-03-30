@@ -191,7 +191,7 @@ function getBanlist(){
                 //   }));
                 //   return { [semester]: resultItems };
             });
-
+            console.log(semesterGroupedresult)
             onesemester = semesterGroupedresult[0]['0']['total_student_num']
             $('#onesemester').css('width',`${onesemester}%`);
             $('#onesemester').css('background-color','#95B3D7');
