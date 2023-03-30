@@ -210,6 +210,7 @@ function getBanlist(){
             for(j=0;j<3;j++){
                 let key = j.toString()
                 let temp_semester_banlist = ''
+                let semester_out_student = 0
                 for(i=0;i<semesterGroupedresult[j][key].length;i++){
                     ban_data = semesterGroupedresult[j][key][i]
                     let b_id = ban_data['ban_id']
@@ -220,6 +221,7 @@ function getBanlist(){
                         count_per_ban = on[0]['count_per_ban']
                         totla_out_ban = on[0]['total_count']
                     }
+                    semester_out_student += count_per_ban
                     let name = ban_data['name']
                     let student_num = ban_data['student_num']
                     let value = b_id + '_' + ban_data['teacher_id'] +'_' + name
@@ -230,6 +232,8 @@ function getBanlist(){
                     <td class="col-3" onclick="getBanChart(${value})">👇</td>`;
                 }
                 $('#semester_banlist'+j).html(temp_semester_banlist)
+                $('#out_msg'+j).html(`${make_semester(j)}학기 총 퇴소학생 수:${semester_out_student}`)
+
             }
         },
         error: function (xhr, status, error) {
