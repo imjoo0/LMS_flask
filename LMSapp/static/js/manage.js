@@ -77,7 +77,19 @@ function so_paginating(done_code) {
         data: {},
         dataType: 'json',
         success: function (data) {
-            console.log(data)
+            sdata = data.filter(a=>a.category == 2).length
+            odata = data.filter(a=>a.category == 1).length
+            sdata_noanswer = data.filter(a=>a.category == 2 && a.answer == 0).length
+            odata_noanswer = data.filter(a=>a.category == 1 && a.answer == 0).length
+            let temp_newso = `
+            <td class="col-3">${sdata}</td>
+            <td class="col-3">${sdata-sdata_noanswer}</td>
+            <td class="col-3">${sdata_noanswer}</td>
+            <td class="col-3">${odata}</td>
+            <td class="col-3">${sdata-sdata_noanswer}</td>
+            <td class="col-3">${odata_noanswer}</td>
+            `;
+            ('#newso').html(temp_newso)
             qdata = data.filter(a => a.answer == done_code)
             container.pagination({
                 dataSource: qdata,
@@ -88,6 +100,7 @@ function so_paginating(done_code) {
                 callback: function (qdata, pagination) {
                     if(qdata.length==0){
                         $('#so_question').hide()
+                        $('#so_pagination').hide()
                         $('#no_data_msg').html('문의가 없습니다')
                     }else{
                         $('#no_data_msg').hide()
