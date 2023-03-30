@@ -611,7 +611,7 @@ async function uldata(){
             const studentGrouped = unlearned_count.reduce((result, item) => {
                 const student_id = item.student_id;
                 if (!result[student_id]) {
-                  result[semester] = [];
+                  result[student_id] = [];
                 }
                 result[student_id].push(item);
                 return result;
