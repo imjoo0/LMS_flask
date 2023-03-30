@@ -36,7 +36,7 @@ async function sodata(){
             //     elem.switch_count = so ? so['switch_count'] : 0;
             //     elem.out_count = so ? so['out_count'] : 0;
             // })
-            response['switch_out_bans'].sort((a,b)=>(b.out_count+b.switch_count) - (a.out_count+a.switch_count))
+            response['switch_out_bans'].sort((a,b)=>(answer_rate(b.out_count,b.outtotal_count).toFixed(0)) - (answer_rate(a.out_count,a.outtotal_count).toFixed(0)))
             // top 5만 보여주는 경우 
             // total_num = 0
             // if(response['switch_out_bans'].length > 5){
@@ -52,16 +52,18 @@ async function sodata(){
                 ban_name = response['switch_out_bans'][i]['target_ban']['ban_name']
                 semester = response['switch_out_bans'][i]['target_ban']['semester']
                 teacher_name = response['switch_out_bans'][i]['target_ban']['teacher_name'] +'( ' +response['switch_out_bans'][i]['teacher_engname'] +' )'
-                switch_count = response['switch_out_bans'][i]['switch_out_count']['switch_count']
-                out_count = response['switch_out_bans'][i]['switch_out_count']['out_count']
+                switch_count = response['switch_out_bans'][i]['switch_out_count']['switchcount_per_ban']
+                out_count = response['switch_out_bans'][i]['switch_out_count']['outcount_per_ban']
+                sp = answer_rate(switch_count,response['switch_out_bans'][i]['switch_out_count']['switchtotal_count']).toFixed(0)
+                op = answer_rate(out_count,response['switch_out_bans'][i]['switch_out_count']['outtotal_count']).toFixed(0)
                 
                 temp_html += `
                 <td class="col-1">${i+1}위</td>
                 <td class="col-3">${ban_name}</td>
                 <td class="col-1">${semester}</td>
                 <td class="col-3">${teacher_name}</td>
-                <td class="col-2">${switch_count}</td>
-                <td class="col-2">${out_count}</td>
+                <td class="col-2">${switch_count}(${sp}%)</td>
+                <td class="col-2">${out_count}(${op}%)</td>
                 `;
             }
             $('#static_data1').html(temp_html)
