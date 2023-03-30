@@ -181,17 +181,16 @@ function getBanlist(){
                 
             // 결과를 객체의 배열로 변환
             const semesterGroupedresult = Object.entries(semesterGrouped).map(([semester, items]) => {
-                // return { [semester]: items };
-                const resultItems = items.map(item => ({
-                    ban_id: item.ban_id,
-                    teacher_id: item.teacher_id,
-                    name: item.name,
-                    student_num: item.student_num,
-                    total_student_num: item.total_student_num,
-                  }));
-                  return { [semester]: resultItems };
+                return { [semester]: items };
+                // const resultItems = items.map(item => ({
+                //     ban_id: item.ban_id,
+                //     teacher_id: item.teacher_id,
+                //     name: item.name,
+                //     student_num: item.student_num,
+                //     total_student_num: item.total_student_num,
+                //   }));
+                //   return { [semester]: resultItems };
             });
-            console.log(semesterGroupedresult)
 
         },
         error: function (xhr, status, error) {
