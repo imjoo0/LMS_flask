@@ -170,8 +170,21 @@ function getBanlist(){
             $('#consulting_target_ban').html(temp_ban_option)
             $('#task_target_ban').html(temp_ban_option)
             console.log(all_ban)
-            
 
+            const semesterGrouped = all_ban.reduce((result, item) => {
+                const semester = item.semester;
+                if (!result[semester]) {
+                  result[semester] = [];
+                }
+                result[semester].push(item);
+                return result;
+            }, {});
+                
+            // 결과를 객체의 배열로 변환
+            const semesterGroupedresult = Object.entries(semesterGrouped).map(([semester, items]) => {
+                return { [semester]: items };
+            });
+            console.log(semesterGroupedresult)
 
         },
         error: function (xhr, status, error) {
