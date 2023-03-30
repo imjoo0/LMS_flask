@@ -158,7 +158,7 @@ function getBanlist(){
             let all_ban = response['all_ban']
             for (i = 0; i < all_ban.length; i++) {
                 let name = all_ban[i]['name']
-                let semester = all_ban[i]['semester']
+                let semester = make_semester(all_ban[i]['semester'])
                 let t_id = all_ban[i]['teacher_id']
                 let btid = all_ban[i]['ban_id']
                 let value = btid + '_' + t_id +'_' + name
@@ -169,6 +169,10 @@ function getBanlist(){
             $('#ban_list').html(temp_ban_option)
             $('#consulting_target_ban').html(temp_ban_option)
             $('#task_target_ban').html(temp_ban_option)
+            console.log(all_ban)
+            
+
+
         },
         error: function (xhr, status, error) {
             alert('xhr.responseText');
