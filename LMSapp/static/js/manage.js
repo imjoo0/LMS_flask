@@ -598,15 +598,15 @@ async function uldata(){
             }
             $('#ultitle').empty();
             target_students = response['target_students']
-            if (target_students.length > 0) {
-                target_students.sort((a, b) =>{
+            unlearned_count = response['unlearned_count']
+
+            if (unlearned_count.length > 0) {
+                unlearned_count.sort((a, b) =>{
                     return b.unlearned- a.unlearned
                 });
             }
-            unlearned_count = response['unlearned_count']
-            console.log(target_students)
+            // console.log(target_students)
             console.log(unlearned_count)
-
             // let temp_html = ``
             // for(i=0;i<response['unlearned_bans'].length;i++){
             //     register_no = response['unlearned_bans'][i]['register_no']
