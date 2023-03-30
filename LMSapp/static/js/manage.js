@@ -605,25 +605,11 @@ async function uldata(){
             $('#ultitle').empty();
             $('#ul_data_box').show()
             $('#ul_pagination').show()
+            
+            // 미학습 높은 순 정렬 
             unlearned_count.sort((a, b) => {
                 return b.unlearned - a.unlearned 
             });
-            const studentGrouped = unlearned_count.reduce((result, item) => {
-                const student_id = item.student_id;
-                if (!result[student_id]) {
-                  result[student_id] = [];
-                }
-                result[student_id].push(item);
-                return result;
-            }, {});
-
-            // 결과를 객체의 배열로 변환
-            const studentGroupedresult = Object.entries(studentGrouped).map(([student_id, items]) => {
-                return { [student_id]: items };
-            });
-            console.log(studentGroupedresult)
-            
-            // 미학습 높은 순 정렬 
             container.pagination({
                 dataSource: unlearned_count,
                 prevText: '이전',

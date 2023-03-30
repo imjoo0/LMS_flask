@@ -220,7 +220,7 @@ def uldata():
             unlearned_count = {}
             try:
                 with db.cursor() as cur:
-                    cur.execute(f'SELECT consulting.student_id,consultingcategory.name,COUNT(*) AS unlearned,COUNT(*) OVER (PARTITION BY consulting.student_id) AS total FROM consulting LEFT JOIN consultingcategory ON consultingcategory.id = consulting.category_id WHERE category_id < 100 AND consulting.startdate <= curdate() GROUP BY consulting.student_id,consultingcategory.name;')
+                    cur.execute(f'SELECT consulting.student_id, COUNT(*) AS unlearned FROM consulting WHERE category_id < 100 and consulting.startdate <= curdate() GROUP BY consulting.student_id;')
                     unlearned_count['status'] = 200
                     unlearned_count['data'] = cur.fetchall()
 
