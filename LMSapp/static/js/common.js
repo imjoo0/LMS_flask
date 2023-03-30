@@ -22,6 +22,16 @@ function make_semester(semester){
         return semester
     }
 }
+function q_category(category) {
+    if (category == 0) {
+        category = '일반문의'
+    } else if (category == 1) {
+        category = '퇴소문의'
+    } else{
+        category = '이반문의'
+    }
+    return category
+}
 // function sodata(){
 //     $.ajax({
 //         url: '/common/sodata',

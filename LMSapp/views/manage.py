@@ -77,7 +77,7 @@ def get_ban(id):
 @bp.route("/so", methods=['GET'])
 def get_soban():
     if request.method == 'GET':
-        target_ban = callapi.purple_allinfo('/get_all_ban')
+        target_ban = callapi.purple_allinfo('get_all_ban')
         if target_ban:
             db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
             so = {}
@@ -126,14 +126,15 @@ def sodata():
         else:
             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
 
-@bp.route('/get_so_questions/<int:done_code>', methods=['GET'])
-def get_so_questions(done_code):
+# 이반 / 퇴소 문의 리스트 
+@bp.route('/get_so_questions', methods=['GET'])
+def get_so_questions():
     if request.method == 'GET':
         all_questions = []
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute('select id, category, title, contents, answer from question where answer = %s and category != 0  ;',(done_code,))
+                cur.execute('select id, category, title, contents, answer from question where category != 0;')
                 all_questions = cur.fetchall()
         except:
             print('err')
@@ -142,17 +143,107 @@ def get_so_questions(done_code):
         
         return json.dumps(all_questions)
 
+# 문의 상세 보기 
+@bp.route('/question_detail/<int:id>/<int:answer>/<int:category>', methods=['GET'])
+def get_question_detail(id,answer,category):
+    if request.method == 'GET':
+        q = Question.query.filter((Question.id == id)).first()
+        b = callapi.purple_ban(q.ban_id,'get_ban')    
+        return_data = {}
+        return_data['title'] = q.title
+        return_data['contents'] = q.contents
+        return_data['create_date'] = q.create_date.strftime('%Y-%m-%d')
+        return_data['ban'] = b['ban_name']
+        return_data['teacher'] = b['teacher_name'] +'('+ b['teacher_engname'] +')'
+        if(answer == 0):
+            return_data['answer_title'] = '미응답'
+            return_data['answer_content'] = '미응답'
+            return_data['answer_reject_code'] = '미응답'
+            return_data['answer_created_at'] = '미응답'
+        else:
+            return_data['answer_title'] = q.qa.title
+            return_data['answer_content'] = q.qa.content
+            return_data['answer_created_at'] = q.qa.created_at.strftime('%Y-%m-%d')
+            return_data['answer_reject_code'] = q.qa.reject_code
+
+        if  q.attachments is None:
+            return_data['attach'] = "없음"
+        else:
+            return_data['attach'] = q.attachments.file_name
+
+        if category == 0:
+            return_data['answer_reject_code'] = ''
+            return_data['history'] = ''
+            return_data['history_reason'] = ''
+            return_data['history_solution'] = ''
+            return_data['history_result'] = ''
+            return_data['history_created_at'] = ''
+            return_data['student'] = ''
+        else:
+            s = callapi.purple_info(q.student_id,'get_student_info')
+            return_data['student'] = s['name']
+            if(q.qconsulting.done != 0):
+                return_data['history'] = q.qconsulting.id
+                return_data['history_reason'] = q.qconsulting.reason
+                return_data['history_solution'] = q.qconsulting.solution
+                return_data['history_result'] = q.qconsulting.result
+                return_data['history_created_at'] = q.qconsulting.created_at.strftime('%Y-%m-%d')
+            else:
+                return_data['history'] = ''
+                return_data['history_reason'] = ''
+                return_data['history_solution'] = ''
+                return_data['history_result'] = ''
+                return_data['history_created_at'] = ''
+
+        return_data['comment'] = []
+        for comment in q.qcomments :
+            comment_data = {}
+            comment_data['c_id'] = comment.id
+            comment_data['c_contents'] = comment.contents
+            comment_data['c_created_at'] = comment.created_at.strftime('%Y-%m-%d')
+            comment_data['parent_id'] = comment.parent_id
+            if(q.teacher_id == comment.user_id):
+                comment_data['writer'] = return_data['teacher']
+            else:
+                comment_data['writer'] = '퍼플'
+            return_data['comment'].append(comment_data)
+
+        return jsonify(return_data)
+
 # 미학습 
 @bp.route("/uldata", methods=['GET'])
 def uldata():
     if request.method == 'GET':
+        target_students = callapi.purple_allinfo('get_all_student')
+        if target_students:
+            db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+            unlearned_count = {}
+            try:
+                with db.cursor() as cur:
+                    cur.execute(f'SELECT consulting.student_id, COUNT(*) AS unlearned FROM consulting WHERE category_id < 100 and consulting.startdate <= curdate() GROUP BY consulting.student_id;')
+                    unlearned_count['status'] = 200
+                    unlearned_count['data'] = cur.fetchall()
+
+            except Exception as e:
+                print(e)
+                unlearned_count['status'] = 401
+                unlearned_count['text'] = str(e)
+            finally:
+                db.close()
+            return jsonify({
+            'target_students': target_students,
+            'unlearned_count': unlearned_count
+            })
+        else:
+            return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
+    elif request.method == 'GET':
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         unlearned_count = {}
-        unlearned_bans = []
-
+        unlearned_students = []
         try:
             with db.cursor() as cur:
-                cur.execute(f'SELECT consulting.ban_id, COUNT(*) AS unlearned, COUNT(*) / (SELECT COUNT(*) FROM consulting WHERE category_id < 100)*100 AS unlearned_p FROM consulting WHERE category_id < 100 GROUP BY consulting.ban_id;')
+                # cur.execute(f'SELECT consulting.ban_id, COUNT(*) AS unlearned, COUNT(*) / (SELECT COUNT(*) FROM consulting WHERE category_id < 100)*100 AS unlearned_p FROM consulting WHERE category_id < 100 GROUP BY consulting.ban_id;')
+                cur.execute(f'SELECT consulting.student_id, COUNT(*) AS unlearned FROM consulting WHERE category_id < 100 GROUP BY consulting.student_id;')
                 unlearned_count['status'] = 200
                 unlearned_count['data'] = cur.fetchall()
         except Exception as e:
@@ -163,20 +254,24 @@ def uldata():
             db.close()
         if unlearned_count['status'] != 401: 
             if len(unlearned_count['data']) != 0:
-                total_num = 0
-                i=0
-                if(len(unlearned_count['data']) < 5):
-                    total_num = len(unlearned_count['data'])
-                else:
-                    total_num = 5
-                unlearned_count['data'].sort(key=lambda x: (-x['unlearned_p']))
-                for i in range(total_num):
-                    target_ban = callapi.purple_info(unlearned_count['data'][i]['ban_id'],'get_ban')
-                    unlearned_bans.append(target_ban)
-                return ({'unlearned_bans': unlearned_bans,'unlearned_count':unlearned_count})
-            else:
+                # total_num = 0
+                # i=0
+                # if(len(unlearned_count['data']) < 5):
+                #     total_num = len(unlearned_count['data'])
+                # else:
+                #     total_num = 5
+                # unlearned_count['data'].sort(key=lambda x: (-x['unlearned']))
+                # for i in range(total_num):
+                #     target_ban = callapi.purple_info(unlearned_count['data'][i]['ban_id'],'get_ban')
+                #     unlearned_bans.append(target_ban)
+                for data in unlearned_count['data']:
+                    target_student = callapi.purple_info(data['student_id'],'get_student_info')
+                    print(target_student)
+                    if target_student:
+                        unlearned_students.append({'target_student': target_student,'unlearned_count':data})
+                return({'unlearned_students': unlearned_students})
+            else:                
                 return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
-        
         else:
             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})    
     
