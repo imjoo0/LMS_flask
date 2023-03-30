@@ -598,7 +598,7 @@ async function uldata(){
             }
             $('#ultitle').empty();
             target_students = response['target_students']
-            unlearned_count = response['unlearned_count'].sort((a, b) =>{
+            unlearned_count = response['unlearned_count']['data'].sort((a, b) =>{
                 return b.unlearned- a.unlearned
             });
             // console.log(target_students)
