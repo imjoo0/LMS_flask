@@ -195,17 +195,17 @@ function getBanlist(){
             onesemester = semesterGroupedresult[1]['1'][0]['total_student_num']
             $('#onesemester').css('width',`${onesemester}%`);
             $('#onesemester').css('background-color','#95B3D7');
-            $('#onesemester_msg').html(`1월학기 학생 수: ${onesemester}명`);
+            $('#onesemester_msg').html(`1학기 학생 수: ${onesemester}명`);
 
             fivesemester = semesterGroupedresult[2]['2'][0]['total_student_num']
             $('#fivesemester').css('width',`${fivesemester}%`);
             $('#fivesemester').css('background-color','#D99694');
-            $('#fivesemester_msg').html(`5월학기 학생 수: ${fivesemester}명`);
+            $('#fivesemester_msg').html(`5학기 학생 수: ${fivesemester}명`);
 
             ninesemester = semesterGroupedresult[0]['0'][0]['total_student_num']
             $('#ninesemester').css('width',`${ninesemester}%`);
             $('#ninesemester').css('background-color','#EBF1DE');
-            $('#ninesemester_msg').html(`9월학기 학기 학생 수: ${ninesemester}명`);
+            $('#ninesemester_msg').html(`9학기 학기 학생 수: ${ninesemester}명`);
 
             for(j=0;j<3;j++){
                 let key = j.toString()
@@ -229,7 +229,7 @@ function getBanlist(){
                     <td class="col-3">${name}</td>
                     <td class="col-3">${student_num}</td>
                     <td class="col-3">${count_per_ban}(${answer_rate(count_per_ban, totla_out_ban).toFixed(0)}%)</td>
-                    <td class="col-3" onclick="getBanChart(${value})">👇</td>`;
+                    <td class="col-3" onclick="getBanChart(${value})">👉</td>`;
                 }
                 $('#semester_banlist'+j).html(temp_semester_banlist)
                 $('#out_msg'+j).html(`${make_semester(j)}학기 총 퇴소학생 수:${semester_out_student}`)
