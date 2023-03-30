@@ -43,7 +43,7 @@
                     <img src="https://purpleacademy.net/free_project/public/image/head-office-question-btn.png"
                         style="width: 30px;">&nbsp;&nbsp;본원에 문의 남기기
                 </h5>
-                <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body py-4 px-5">
                 <form action="/teacher/question" method="POST" enctype="multipart/form-data">
@@ -116,7 +116,7 @@
                     <img src="https://purpleacademy.net/free_project/public/image/answer-a-question.png"
                         style="width: 30px; margin-bottom: 2px;">&nbsp;&nbsp;문의 답변 확인
                 </h5>
-                <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body by-4 px-5">
                 <div id="questiondetail" style="width:100%;">
@@ -245,7 +245,7 @@
                 <h5 class="modal-title" id="consultinghistoryModalLabelt">
                     <img src="#" style="width: 30px;">&nbsp;&nbsp;상담일지 작성
                 </h5>
-                <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body py-4 px-5">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
@@ -268,7 +268,7 @@
                 <h5 class="modal-title" id="banstudentlistModalLabel">
                     <img src="#" style="width: 30px;">&nbsp;&nbsp;원생목록
                 </h5>
-                <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body py-4 px-5">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
