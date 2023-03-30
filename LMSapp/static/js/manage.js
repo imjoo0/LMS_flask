@@ -30,12 +30,12 @@ async function sodata(){
                 return
             }
             $('#sotitle').empty();
-            switch_out_count = response['switch_out_count']['data']
-            response['switch_out_bans'].forEach((elem) =>{
-                so = switch_out_count.filter(a => a.ban_id == elem.register_no)[0]
-                elem.switch_count = so ? so['switch_count'] : 0;
-                elem.out_count = so ? so['out_count'] : 0;
-            })
+            // switch_out_count = response['switch_out_count']['data']
+            // response['switch_out_bans'].forEach((elem) =>{
+            //     so = switch_out_count.filter(a => a.ban_id == elem.register_no)[0]
+            //     elem.switch_count = so ? so['switch_count'] : 0;
+            //     elem.out_count = so ? so['out_count'] : 0;
+            // })
             response['switch_out_bans'].sort((a,b)=>(b.out_count+b.switch_count) - (a.out_count+a.switch_count))
             // top 5만 보여주는 경우 
             // total_num = 0
@@ -47,12 +47,12 @@ async function sodata(){
 
             let temp_html = ``
             for(i=0;i< response['switch_out_bans'].length;i++){
-                register_no = response['switch_out_bans'][i]['register_no']
-                ban_name = response['switch_out_bans'][i]['ban_name']
-                semester = response['switch_out_bans'][i]['semester']
-                teacher_name = response['switch_out_bans'][i]['teacher_name'] +'( ' +response['switch_out_bans'][i]['teacher_engname'] +' )'
-                switch_count = response['switch_out_bans'][i]['switch_count']
-                out_count = response['switch_out_bans'][i]['out_count']
+                register_no = response['switch_out_bans'][i]['target_ban']['register_no']
+                ban_name = response['switch_out_bans'][i]['target_ban']['ban_name']
+                semester = response['switch_out_bans'][i]['target_ban']['semester']
+                teacher_name = response['switch_out_bans'][i]['target_ban']['teacher_name'] +'( ' +response['switch_out_bans'][i]['teacher_engname'] +' )'
+                switch_count = response['switch_out_bans'][i]['switch_out_count']['switch_count']
+                out_count = response['switch_out_bans'][i]['switch_out_count']['out_count']
                 
                 temp_html += `
                 <td class="col-1">${i+1}위</td>
