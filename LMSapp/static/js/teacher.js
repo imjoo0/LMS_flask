@@ -9,11 +9,6 @@
 //     return str;
 // }
 
-// 처음 get 할때 뿌려질 정보 보내는 함수 
-let answer_rate =  function(answer, all) {
-    if(Object.is(answer/all, NaN)) return 0;
-    else return answer/all*100;
-}
 $(document).ready(function () {
     get_data();
 })
