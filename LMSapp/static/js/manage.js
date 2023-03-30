@@ -597,7 +597,9 @@ async function uldata(){
                 return
             }
             $('#ultitle').empty();
-            unlearned_count = response['unlearned_students']
+            target_students = response['target_students']
+            unlearned_count = response['unlearned_count']
+            console.log(target_students)
             console.log(unlearned_count)
 
             // let temp_html = ``

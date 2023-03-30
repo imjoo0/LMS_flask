@@ -77,7 +77,7 @@ def get_ban(id):
 @bp.route("/so", methods=['GET'])
 def get_soban():
     if request.method == 'GET':
-        target_ban = callapi.purple_allinfo('/get_all_ban')
+        target_ban = callapi.purple_allinfo('get_all_ban')
         if target_ban:
             db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
             so = {}
@@ -214,6 +214,29 @@ def get_question_detail(id,answer,category):
 @bp.route("/uldata", methods=['GET'])
 def uldata():
     if request.method == 'GET':
+        target_students = callapi.purple_allinfo('get_all_student')
+        if target_students:
+            db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+            unlearned_count = {}
+            try:
+                with db.cursor() as cur:
+                    cur.execute(f'SELECT consulting.student_id, COUNT(*) AS unlearned FROM consulting WHERE category_id < 100 GROUP BY consulting.student_id;')
+                    unlearned_count['status'] = 200
+                    unlearned_count['data'] = cur.fetchall()
+
+            except Exception as e:
+                print(e)
+                unlearned_count['status'] = 401
+                unlearned_count['text'] = str(e)
+            finally:
+                db.close()
+            return jsonify({
+            'target_students': target_students,
+            'unlearned_count': unlearned_count
+            })
+        else:
+            return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
+    elif request.method == 'GET':
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         unlearned_count = {}
         unlearned_students = []
