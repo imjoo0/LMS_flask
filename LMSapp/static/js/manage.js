@@ -152,6 +152,7 @@ function getBanlist(){
     $.ajax({
         type: "GET",
         url: "/common/all_ban",
+        dataType: 'json',
         data: {},
         success: function (response) {
             let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
