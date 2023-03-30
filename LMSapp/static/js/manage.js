@@ -191,7 +191,6 @@ function getBanlist(){
                 //   }));
                 //   return { [semester]: resultItems };
             });
-            console.log(semesterGroupedresult)
             onesemester = semesterGroupedresult[1]['1'][0]['total_student_num']
             $('#onesemester').css('width',`${onesemester}%`);
             $('#onesemester').css('background-color','#95B3D7');
@@ -216,8 +215,7 @@ function getBanlist(){
                 let value = ban_data['ban_id'] + '_' + ban_data['teacher_id'] +'_' + name
                 temp_semester_banlist += `
                 <td class="col-4">${name}</td>
-                <td class="col-4">${student_num}</td>
-                <td class="col-4" onclick="getBanChart(${value})">👇</td>`;
+                <td class="col-4">${student_num}</td>`;
             }
             $('#semester_banlist1').html(temp_semester_banlist)
         },
