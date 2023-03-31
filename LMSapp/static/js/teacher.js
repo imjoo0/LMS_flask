@@ -576,10 +576,10 @@ function plusconsulting_history(student_id, b_id) {
 // 본원 문의 관련 함수 
 //  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
 function change_question_kind(str) {
-    if (str == "일반") {
+    if (str == "일반"){
         $('#invisible_for_2').hide();
         $('#question_box').show();
-    } else {
+    } else{
         $('#invisible_for_2').show();
         $('#question_box').show();
     }
@@ -591,26 +591,7 @@ function go_back() {
     $('#make_plus_consulting').hide();
     $('#banstudentlistModalLabel').html('원생목록')
 }
-//     // 문의 작성 
-// function get_myban_list(){
-//     $.ajax({
-//         type: "GET",
-//         url: "/teacher/get_myban_list",
-//         data: {},
-//         success: function (response) {
-//             let temp_ban_option = '<option value="none" selected>기존 반을 선택해주세요</option>';
-//             for (i = 0; i < response.length; i++) {
-//                 let name = response[i]['name']
-//                 // let semester = make_semester(target_ban[i]['semester'])
-//                 let register_no = response[i]['register_no']
-//                 temp_ban_option += `
-//                 <option value="${register_no}">${name}</option>
-//                 `;
-//             }
-//             $('#my_ban_list').html(temp_ban_option)
-//         }
-//     })
-// }
+
 function get_ban_student(b_id) {
     $.ajax({
         type: "GET",
