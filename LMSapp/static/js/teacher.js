@@ -112,7 +112,7 @@ function get_data() {
             console.log(response['all_task'][2]['created_at'])
             console.log(typeof today)
             console.log(today)
-            let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task => task.created_at == today).length : 0;
+            let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task =>  new Date(task.created_at) == today).length : 0;
             let task_t = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done === 0).length : 0;
 
             let temp_report = `
