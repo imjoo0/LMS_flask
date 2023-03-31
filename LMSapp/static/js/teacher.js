@@ -109,7 +109,7 @@ function get_data() {
             let consulting_t = response['all_consulting'].length;
             let consulting_done = consulting_t - consulting.length
             console.log(new Date(response['all_task'][2]['created_at']))
-            console.log(response['all_task'][2]['created_at'])
+            console.log(typeof response['all_task'][2]['created_at'])
             console.log(typeof today)
             console.log(today)
             if(today == new Date(response['all_task'][2]['created_at'])){
