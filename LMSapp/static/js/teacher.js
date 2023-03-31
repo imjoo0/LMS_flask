@@ -608,6 +608,7 @@ function get_ban_student(b_id) {
         }
     })
 }
+// 뭐지 
 function attach_consulting_history(value) {
     student_id = Number(value.split('_')[0])
     $.ajax({
