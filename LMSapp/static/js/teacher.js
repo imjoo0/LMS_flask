@@ -622,9 +622,9 @@ function attach_consulting_history(value) {
                 let temp_consulting_contents_box = '<option value="none" selected>상담을 선택해주세요</option>'
                 for (i = 0; i < response['consulting_history'].length; i++) {
                     console.log(response['consulting_history'][i])
-                    let cid = response['consulting_history'][response['consulting_history'][i]'id']
-                    let category = response['consulting_historesponse['consulting_history'][i]][i]['category']
-                    let contents = response['consulting_hisresponse['consulting_history'][i]y'][i]['contents']
+                    let cid = response['consulting_history'][i]['id']
+                    let category = response['consulting_history'][i]['category']
+                    let contents = response['consulting_history'][i]['contents']
                     let result = response['consulting_history'][i]['result']
                     temp_consulting_contents_box += `
                      <option value=${cid}>${category}|${contents} - 상담결과: ${result}</option>
