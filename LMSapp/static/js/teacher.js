@@ -21,24 +21,26 @@ function get_data() {
         dataType: 'json',
         data: {},
         success: function (response) {
-            console.log(response)
+            if(response['ban_data']=='없음'){
+                // 예외 처리 
+            }
             // 반 차트 데이터 
             // 본원 문의 ban선택 옵션 같이 붙이기 
             // let switchstudent_t =  response['switchstudent'].length ( 선생님 기준 이반 율에 사용 )
             // let outstudent_t = response['outstudent'].length ( 선생님 기준 퇴소 율에 사용 )
             $('#ban_chart_list').empty()
-            let unlearned_t = response['all_consulting'].filter(consulting => consulting.category_id < 100).length;
+            let unlearned_t =response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.category_id < 100).length : 0;
             // let temp_ban_option = '<option value="none" selected>기존 반을 선택해주세요</option>';
             for (i=0;i< response['ban_data'].length;i++) {
                 let register_no =  response['ban_data'][i]['register_no']
                 let name =  response['ban_data'][i]['name']
                 let semester = make_semester( response['ban_data'][i]['semester'])
                 let total_student_num =  response['ban_data'][i]['total_student_num']
-                let unlearned = response['all_consulting'].filter(consulting => consulting.category_id < 100 && consulting.ban_id === register_no).length;
-                let switchstudent = response['switchstudent'].filter(a=> a.ban_id === register_no).length;
-                let outstudent = response['outstudent'].filter(a=> a.ban_id === register_no).length;
-                let alimnote = response['alimnote'].filter(a=> a.ban_id === register_no)['answer'];
-                let alimnote_t = response['alimnote'].filter(a=> a.ban_id === register_no)['all']
+                let unlearned = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.category_id < 100 && consulting.ban_id === register_no).length: 0;
+                let switchstudent =response['switchstudent'].length > 0 ? response['switchstudent'].filter(a=> a.ban_id === register_no).length : 0;
+                let outstudent =response['outstudent'].length > 0 ? response['outstudent'].filter(a=> a.ban_id === register_no).length : 0;
+                let alimnote =response['alimnote'].length > 0 ? response['alimnote'].filter(a=> a.ban_id === register_no)['answer'] : 0;
+                let alimnote_t =response['alimnote'].length > 0 ? response['alimnote'].filter(a=> a.ban_id === register_no)['all'] : 0;
                 temp_ban_option += `
                 <option value="${register_no}">${name}</option>
                 `;
@@ -102,11 +104,11 @@ function get_data() {
             // 본원 문의 ban선택 옵션 같이 붙이기 
             // $('#my_ban_list').html(temp_ban_option)
             
-            let consulting = response['all_consulting'].filter(consulting => consulting.done === 0);
+            let consulting = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.done === 0) : 0;
             let consulting_t = response['all_consulting'].length;
             let consulting_done = consulting_t - consulting.length
-            let task_done = response['all_task'].filter(task => task.done === 1).length;
-            let task_t = response['all_task'].length;
+            let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done === 1).length : 0;
+            let task_t = response['all_task'].length > 0 ? response['all_task'].length : 0;
 
             let temp_report = `
             <td class="col-3"> ${task_done}/${task_t} </td>

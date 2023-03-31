@@ -143,8 +143,8 @@ def get_data():
                 print('err')
             finally:
                 db.close()
-        return jsonify({'switchstudent': switchstudent,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'outStudent':outStudent,'ban_data':ban_data,'alimnote':alimnote})
-
+            return jsonify({'switchstudent': switchstudent,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'outStudent':outStudent,'ban_data':ban_data,'alimnote':alimnote})
+        return jsonify({'ban_data':'없음'})
 
 # 차트 관련  
 # @bp.route('/get_data', methods=['GET'])
