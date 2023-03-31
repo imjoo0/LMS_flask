@@ -125,10 +125,11 @@ function get_data() {
                 $('#today_task_box1').empty()
             }else{
                 // 오늘의 업무 중복 카테고리로 묶기 
+                // 오늘의 업무 중복 카테고리로 묶기 
                 const categoryGrouped = task_notdone.reduce((result, item) => {
                     const category = item.category;
                     if (!result[category]) {
-                    result[category] = [];
+                        result[category] = [];
                     }
                     result[category].push(item);
                     return result;
@@ -138,29 +139,41 @@ function get_data() {
                 const categoryGroupedresult = Object.entries(categoryGrouped).map(([category, items]) => {
                     return { [category]: items };
                 });
+
                 $('#cate_menu').empty()
-                // $('#today_task_box0').empty()
-                for(i=0;i<categoryGroupedresult.length;i++){
-                    const category = categoryGroupedresult[i].category
-                    const items = categoryGroupedresult[i][category]
+
+                for(i=0; i < categoryGroupedresult.length; i++){
+                    const category = Object.keys(categoryGroupedresult[i])[0];
+                    const items = categoryGroupedresult[i][category];
                     let temp_cate_menu = `
                     <thead>
                         <tr class="row">
-                        <th class="col-12">${categoryGroupedresult[i].category}</th>
+                        <th class="col-12">${category}</th>
                         </tr>
                     </thead>
                     <tbody style="width:100%;">  
-                    `
-                    for(j=0; j < items.length; j++){
+                    `;
+
+                    if (items && items.length > 0) {
+                        for(j=0; j < items.length; j++){
+                            temp_cate_menu += `
+                                <tr class="row">
+                                    <td class="col-6">${items[j].contents}</th>
+                                    <td class="col-6">마감일 :${items[j].deadline}</th>
+                                </tr>`;
+                        }
+                    } else {
                         temp_cate_menu += `
                             <tr class="row">
-                                <td class="col-6">${items[j].contents}</th>
-                                <td class="col-6">마감일 :${items[j].deadline}</th>
-                            </tr>`;
+                                <td class="col-12">해당 카테고리의 업무가 없습니다.</td>
+                            </tr>
+                        `;
                     }
+
                     temp_cate_menu += `</tbody>`;
                     $('#cate_menu').append(temp_cate_menu);
                 }
+
             }
             
             // 상담 목록 
