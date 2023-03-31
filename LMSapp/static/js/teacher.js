@@ -145,6 +145,8 @@ function get_data() {
                 for(i=0; i < categoryGroupedresult.length; i++){
                     const category = Object.keys(categoryGroupedresult[i])[0];
                     const items = categoryGroupedresult[i][category];
+                    items.sort((a, b) => b.priority - a.priority);
+
                     let temp_cate_menu = `
                     <thead>
                         <tr class="row">
@@ -158,6 +160,7 @@ function get_data() {
                         for(j=0; j < items.length; j++){
                             temp_cate_menu += `
                                 <tr class="row">
+                                    <td class="col-2">${make_priority(items[j].priority)}</th>
                                     <td class="col-6">${items[j].contents}</th>
                                     <td class="col-6">마감일 :${items[j].deadline}</th>
                                 </tr>`;
