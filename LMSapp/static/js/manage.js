@@ -51,6 +51,44 @@ function getBanlist(){
             const semesterGroupedresult = Object.entries(semesterGrouped).map(([semester, items]) => {
                 return { [semester]: items };
             });
+
+            let ctx = document.getElementById('semester-student-chart').getContext('2d');
+
+            let semesterStudentChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['퍼플 총 원생', '1월 학기', '5월 학기', '9월 학기'],
+                    datasets: [{
+                        label: 'Sales',
+                        data: [total_student_num, onesemester, fivesemester, ninesemester],
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255,99,132,1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            });
+
+            semesterStudentChart.data.datasets.push({
+                type: 'line',
+                label: 'Average Sales',
+                data: [7, 7, 7, 7, 7, 7],
+                fill: false,
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 2
+            });
+
+            semesterStudentChart.update();
+            
+
             onesemester = Number(semesterGroupedresult[1]['1'][0]['total_student_num'])
             $('#onesemester').css('width',`${onesemester}%`);
             $('#onesemester').css('background-color','#95B3D7');
