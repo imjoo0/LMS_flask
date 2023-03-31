@@ -30,7 +30,7 @@ function get_data() {
             // let outstudent_t = response['outstudent'].length ( 선생님 기준 퇴소 율에 사용 )
             $('#ban_chart_list').empty()
             let unlearned_t =response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.category_id < 100).length : 0;
-            // let temp_ban_option = '<option value="none" selected>기존 반을 선택해주세요</option>';
+            let temp_ban_option = '<option value="none" selected>기존 반을 선택해주세요</option>';
             for (i=0;i< response['ban_data'].length;i++) {
                 console.log(response)
                 let register_no =  response['ban_data'][i]['register_no']
