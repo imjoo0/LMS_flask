@@ -129,7 +129,7 @@ def get_data():
                     all_consulting = cur.fetchall()
 
                     # 업무
-                    cur.execute("select taskban.id,taskban.done from taskban left join task on taskban.task_id = task.id where (task.cycle = %s or task.cycle = %s) and task.startdate <= %s and %s <= task.deadline and taskban.teacher_id=%s;", (today_yoil, 0, Today, Today, session['user_registerno'],))
+                    cur.execute("select taskban.id,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id where (task.cycle = %s or task.cycle = %s) and task.startdate <= %s and %s <= task.deadline and taskban.teacher_id=%s;", (today_yoil, 0, Today, Today, session['user_registerno'],))
                     all_task = cur.fetchall()
                     
                     cur.execute("SELECT ban_id, id, student_id FROM switchstudent WHERE teacher_id = %s GROUP BY ban_id, id, student_id;", (session['user_registerno'],))
@@ -145,54 +145,6 @@ def get_data():
                 db.close()
             return jsonify({'switchstudent': switchstudent,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'outstudent':outstudent,'ban_data':ban_data,'alimnote':alimnote})
         return jsonify({'ban_data':'없음'})
-
-# 차트 관련  
-# @bp.route('/get_data', methods=['GET'])
-# def get_data():
-    # if request.method == 'GET':
-    #     all_consulting = {}
-    #     all_task = {}
-    #     result = []
-    #     mybans_info = callapi.purple_info(session['user_id'],'get_mybans')
-    #     my_students = callapi.purple_info(session['user_id'],'get_mystudents')
-    #     if len(mybans_info) != 0:
-    #         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-    #         try:
-    #             with db.cursor() as cur:
-    #                 # 상담
-    #                 cur.execute("select id, student_id, category_id , done, deadline from consulting where created_at IS NULL and startdate <= %s and teacher_id=%s",(Today,session['user_registerno'],))
-    #                 all_consulting['status'] = 200
-    #                 all_consulting['data'] = cur.fetchall()
-    #                 # cur.execute(f"select id, ban_id, category_id, startdate, deadline, week_code, done, missed from consulting where ban_id = {ban['register_no']};")
-    #                 # cur.execute("select count(*) as 'count', category_id from consulting where ban_id = %s group by category_id",(ban['register_no'],))
-    #                 # cur.execute("SELECT COUNT(CASE WHEN category_id < 100 THEN 1 END) AS total,COUNT(CASE WHEN ban_id = %s AND category_id < 100 THEN 1 END) AS ban_unlearn FROM consulting;",(ban['register_no'],))
-    #                 # data['consulting'] = cur.fetchall()
-    #                 # 업무
-    #                 cur.execute("select taskban.id,taskban.done from taskban left join task on taskban.task_id = task.id where (task.cycle = %s or task.cycle = %s) and task.startdate <= %s and %s <= task.deadline and taskban.teacher_id=%s;",(today_yoil,0,Today,Today,session['user_registerno'],))
-    #                 all_task['status'] = 200
-    #                 all_task['data'] = cur.fetchall()
-                    
-    #                 # 반 별 조회 / 이반 * 퇴소 * 문의 
-    #                 for ban in mybans_info:
-    #                     data = {}
-    #                     data['ban'] = ban
-                        
-    #                     cur.execute("SELECT COUNT(CASE WHEN ban_id = %s THEN 1 END) AS ban_count,COUNT(*) AS total_count FROM switchstudent;",(ban['register_no'],))
-    #                     data['switchstudent'] = cur.fetchall()
-
-    #                     cur.execute("SELECT COUNT(CASE WHEN ban_id = %s THEN 1 END) AS ban_count,COUNT(*) AS total_count FROM outstudent;",(ban['register_no'],))
-    #                     data['outstudent'] = cur.fetchall()
-
-    #                     alimnote = callapi.purple_info(ban['register_no'],'get_alimnote')
-    #                     data['alimnote'] = alimnote
-
-    #                     result.append(data)
-    #                     #result.append(ban['register_no'])
-    #         except:
-    #             print('err')
-    #         finally:
-    #             db.close()
-    #         return jsonify({'chart_data': result,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students})
         
 # 오늘 해야 할 업무들의 카데고리
 @bp.route("/task/<int:done_code>", methods=['GET','POST'])

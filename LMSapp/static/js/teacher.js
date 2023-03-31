@@ -81,7 +81,7 @@ function get_data() {
                 `;
                 $('#ban_chart_list').append(temp_ban_chart);
 
-                new Chart($(document.getElementById(`total-chart-element${i}`)), {
+                new Chart($((`#total-chart-element${i}`)), {
                     type: 'doughnut',
                     data: {
                         labels: ['관리중', '이반', '퇴소'],
@@ -108,7 +108,7 @@ function get_data() {
             let consulting = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.done === 0) : 0;
             let consulting_t = response['all_consulting'].length;
             let consulting_done = consulting_t - consulting.length
-            let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done === 1).length : 0;
+            let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done === 1 && task.created_at == today).length : 0;
             let task_t = response['all_task'].length > 0 ? response['all_task'].length : 0;
 
             let temp_report = `
