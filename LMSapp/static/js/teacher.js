@@ -622,6 +622,7 @@ function attach_consulting_history(value) {
             if(response['consulting_history'].length == 0) {
                 alert('상담을 우선 진행해주세요');
             }else{
+                console.log('h')
                 let temp_consulting_contents_box = '<option value="none" selected>상담을 선택해주세요</option>'
                 for (i = 0; i < response.length; i++) {
                     let cid = response[i]['id']
