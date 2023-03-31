@@ -25,7 +25,7 @@ function get_data() {
         success: function (response) {
             // 반 차트 데이터 
             chart_data = response['chart_data']
-            let temp_ban_chart ='';
+            $('#ban_chart_list').empty()
             for (i=0;i<chart_data.length;i++) {
                 let register_no = chart_data[i]['ban']['register_no']
                 let name = chart_data[i]['ban']['name']
@@ -40,7 +40,7 @@ function get_data() {
                 let alimnote = chart_data[i]['alimnote']['answer']
                 let alimnote_t = chart_data[i]['alimnote']['all']
                 
-                temp_ban_chart += `
+                temp_ban_chart = `
                 <div class="d-flex justify-content-start align-items-start flex-column w-100 my-2">
                     <h5 class="mb-3">📌  ${name}</h5>
                     <div class="row w-100">
@@ -74,14 +74,7 @@ function get_data() {
                     </div>
                 </div>
                 `;
-            }
-            $('#ban_chart_list').html(temp_ban_chart);
-
-            for(let i = 0; i < chart_data.length; i++) {
-
-                let total_student_num = chart_data[i]['ban']['total_student_num']
-                let switchstudent = chart_data[i]['switchstudent'][0]['ban_count']
-                let outstudent = chart_data[i]['outstudent'][0]['ban_count']
+                $('#ban_chart_list').append(temp_ban_chart);
 
                 new Chart(document.getElementById(`total-chart-element${i}`), {
                     type: 'doughnut',
@@ -103,8 +96,17 @@ function get_data() {
                         },
                     },
                 });
-
             }
+
+            // for(let i = 0; i < chart_data.length; i++) {
+
+            //     let total_student_num = chart_data[i]['ban']['total_student_num']
+            //     let switchstudent = chart_data[i]['switchstudent'][0]['ban_count']
+            //     let outstudent = chart_data[i]['outstudent'][0]['ban_count']
+
+                
+
+            // }
 
             let consulting = response['all_consulting']['data'].filter(consulting => consulting.done === 0);
             let consulting_t = response['all_consulting']['data'].length;
