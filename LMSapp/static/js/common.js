@@ -6,7 +6,9 @@ var data_list;
 var consultingData = [];
 var taskData = [];
 const today = new Date().setHours(0, 0, 0, 0);
-
+let make_date = function(d){
+    return d.getFullYear()+'-'+(d.getMonth()+ 1).toString().padStart(2, '0')+'-'+d.getDate().toString().padStart(2, '0')
+}
 let make_priority = function(priority) {
     if(priority==1) return '';
     else if(priority==2) return '오후업무';

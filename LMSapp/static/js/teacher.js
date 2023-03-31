@@ -162,7 +162,7 @@ function get_data() {
                                 <tr class="row">
                                     <td class="col-1">${make_priority(items[j].priority)}</th>
                                     <td class="col-6">${items[j].contents}</th>
-                                    <td class="col-5">마감일 :${items[j].deadline}</th>
+                                    <td class="col-5">마감일 :${make_date(items[j].deadline)}</th>
                                 </tr>`;
                         }
                     } else {
