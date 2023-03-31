@@ -141,18 +141,25 @@ function get_data() {
                 $('#cate_menu').empty()
                 // $('#today_task_box0').empty()
                 for(i=0;i<categoryGroupedresult.length;i++){
+                    const category = categoryGroupedresult[i].category
+                    const items = categoryGroupedresult[i][category]
                     let temp_cate_menu = `
                     <thead>
                         <tr class="row">
-                        <th class="col-12">${categoryGroupedresult[i].key}</th>
+                        <th class="col-12">${categoryGroupedresult[i].category}</th>
                         </tr>
                     </thead>
-                    <tbody style="width:100%;">    
-                        <tr class="row">
-                        </tr>
-                    </tbody>
+                    <tbody style="width:100%;">  
                     `
-                    $('#cate_menu').append(temp_cate_menu)
+                    for(j=0; j < items.length; j++){
+                        temp_cate_menu += `
+                            <tr class="row">
+                                <td class="col-6">${items[j].contents}</th>
+                                <td class="col-6">마감일 :${items[j].deadline}</th>
+                            </tr>`;
+                    }
+                    temp_cate_menu += `</tbody>`;
+                    $('#cate_menu').append(temp_cate_menu);
                 }
             }
             
