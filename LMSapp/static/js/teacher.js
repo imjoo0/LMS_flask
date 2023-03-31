@@ -21,11 +21,12 @@ function get_data() {
         dataType: 'json',
         data: {},
         success: function (response) {
+            console.log(response)
             // 반 차트 데이터 
-            $('#ban_chart_list').empty()
             // 본원 문의 ban선택 옵션 같이 붙이기 
             // let switchstudent_t =  response['switchstudent'].length ( 선생님 기준 이반 율에 사용 )
             // let outstudent_t = response['outstudent'].length ( 선생님 기준 퇴소 율에 사용 )
+            $('#ban_chart_list').empty()
             let unlearned_t = response['all_consulting'].filter(consulting => consulting.category_id < 100).length;
             let temp_ban_option = '<option value="none" selected>기존 반을 선택해주세요</option>';
             for (i=0;i< response['ban_data'].length;i++) {
@@ -100,6 +101,7 @@ function get_data() {
             }
             // 본원 문의 ban선택 옵션 같이 붙이기 
             $('#my_ban_list').html(temp_ban_option)
+            
             let consulting = response['all_consulting'].filter(consulting => consulting.done === 0);
             let consulting_t = response['all_consulting'].length;
             let consulting_done = consulting_t - consulting.length
@@ -135,6 +137,7 @@ function get_data() {
                 return acc;
             }, []);
 
+            console.log('response')
             if (result.length > 0) {
                 result.sort((a, b) => {
                     return a.deadline - b.deadline
