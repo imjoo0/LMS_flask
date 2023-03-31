@@ -118,7 +118,33 @@ function get_data() {
             <td class="col-3"> ( ${answer_rate(consulting_done, consulting_t).toFixed(0)}% ) </td>
             `
             $('#classreport').html(temp_report)
+
+            // 오늘의 업무 뿌려주기 
             task_doneview(0)
+            if(task_notdone == 0){
+                $('#today_task_box0').html('오늘의 업무 끝 😆');
+                $('#today_task_box1').empty()
+            }else{
+                // 오늘의 업무 중복 카테고리로 묶기 
+                const categoryGrouped = response['all_task'].reduce((result, item) => {
+                    const category = item.category;
+                    if (!result[category]) {
+                    result[category] = [];
+                    }
+                    result[category].push(item);
+                    return result;
+                }, {});
+
+                // 결과를 객체의 배열로 변환
+                const categoryGroupedresult = Object.entries(categoryGrouped).map(([category, items]) => {
+                    return { [category]: items };
+                });
+
+                console.log(categoryGroupedresult)
+            }
+            let temp_cate_menu  = ''
+            $('#cate_menu').append(temp_cate_menu)
+
             // 상담 목록 
             const result = response['my_students'].reduce((acc, student) => {
                 const consultingList = consulting.filter(c => c.student_id === student.register_no);
