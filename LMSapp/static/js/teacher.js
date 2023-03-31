@@ -120,7 +120,7 @@ function get_data() {
             $('#classreport').html(temp_report)
 
             // 오늘의 업무 뿌려주기 
-            task_doneview(0)
+            // task_doneview(0)
             if(task_notdone == 0){
                 $('#today_task_box0').html('오늘의 업무 끝 😆');
                 $('#today_task_box1').empty()
@@ -140,10 +140,19 @@ function get_data() {
                     return { [category]: items };
                 });
 
-                console.log(categoryGroupedresult)
+                console.log(categoryGroupedresult.keys)
             }
-            let temp_cate_menu  = ''
-            $('#cate_menu').append(temp_cate_menu)
+            $('#cate_menu').empty()
+            $('#today_task_box0').empty()
+            for(i=0;i<categoryGroupedresult.length;i++){
+                console.log()
+                let temp_cate_menu = `<th class="col-12">${categoryGroupedresult[i].keys}</th>`
+                $('#cate_menu').append(temp_cate_menu)
+                let temp_for_task = `
+                
+                `
+                $('#today_task_box0').append(temp_for_task)
+            }
 
             // 상담 목록 
             const result = response['my_students'].reduce((acc, student) => {
