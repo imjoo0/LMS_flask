@@ -300,3 +300,49 @@
     margin: 4px 0;
   }
 }
+
+/* 댓글 css */
+#comment_post_box {
+  border: 2px solid #dfdfdf;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.comment-typing {
+  width: 100%;
+  padding-left: 10px;
+}
+
+.comment-typing-input {
+  width: 100%;
+  border: none;
+  outline: none;
+}
+
+.comment-typing-input:active, .comment-typing-input:focus {
+  border: none;
+  outline: none;
+}
+
+.comment-typing-save {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  flex-direction: row;
+}
+
+.comment-typing-save-btn {
+  width: 60px;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+.comment-typing-save-btn:hover {
+  font-weight: 600;
+}
