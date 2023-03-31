@@ -138,11 +138,9 @@ function get_data() {
                 const categoryGroupedresult = Object.entries(categoryGrouped).map(([category, items]) => {
                     return { [category]: items };
                 });
-                console.log(categoryGroupedresult)
                 $('#cate_menu').empty()
                 // $('#today_task_box0').empty()
                 for(i=0;i<categoryGroupedresult.length;i++){
-                    console.log(categoryGroupedresult[i])
                     let temp_cate_menu = `
                     <thead>
                         <tr class="row">
@@ -151,8 +149,6 @@ function get_data() {
                     </thead>
                     <tbody style="width:100%;">    
                         <tr class="row">
-                            <td class="col-6">${categoryGroupedresult[i].key[i]['contents']}</th>
-                            <td class="col-6">마감일 :${categoryGroupedresult[i].key[i]['deadline']} </th>
                         </tr>
                     </tbody>
                     `
