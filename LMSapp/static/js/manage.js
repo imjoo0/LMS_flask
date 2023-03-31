@@ -80,7 +80,7 @@ function getBanlist(){
             semesterStudentChart.data.datasets.push({
                 type: 'line',
                 label: 'Average Sales',
-                data: [7, 7, 7, 7, 7, 7],
+                data: [7, 7, 7, 7],
                 fill: false,
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 2
