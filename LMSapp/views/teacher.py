@@ -116,7 +116,7 @@ def get_data():
         all_task = []
         ban_data = callapi.purple_info(session['user_id'], 'get_mybans')
         switchstudent = []
-        outStudent = []
+        outstudent = []
         alimnote = []
         my_students = callapi.purple_info(session['user_id'], 'get_mystudents')
         if len(ban_data) != 0:
@@ -136,14 +136,14 @@ def get_data():
                     switchstudent = cur.fetchall()
 
                     cur.execute("SELECT ban_id, id, student_id FROM outstudent WHERE teacher_id = %s GROUP BY ban_id, id, student_id;", (session['user_registerno'],))
-                    outStudent = cur.fetchall()
+                    outstudent = cur.fetchall()
 
                     alimnote = callapi.purple_info(session['register_no'],'get_alimnote_teacher')
             except:
                 print('err')
             finally:
                 db.close()
-            return jsonify({'switchstudent': switchstudent,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'outStudent':outStudent,'ban_data':ban_data,'alimnote':alimnote})
+            return jsonify({'switchstudent': switchstudent,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'outstudent':outstudent,'ban_data':ban_data,'alimnote':alimnote})
         return jsonify({'ban_data':'없음'})
 
 # 차트 관련  
