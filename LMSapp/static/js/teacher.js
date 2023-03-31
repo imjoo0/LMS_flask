@@ -706,10 +706,13 @@ async function get_question_detail(q_id, answer, category) {
         data: {},
         success: function (response) {
             category_name = q_category(category)
-            temp_comment = `     
-            <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents"
-            placeholder="댓글을 남겨주세요">
-            <button onclick="post_comment(${q_id},${0},${answer},${category})">등록</button>
+            temp_comment = `
+            <div class="comment-typing">
+                <input class="comment-typing-input" type="text" id="comment_contents" placeholder="댓글을 남겨주세요">
+            </div>
+            <div class="comment-typing-save">
+                <button class="comment-typing-save-btn" onclick="post_comment(${q_id},${0},${answer},${category})">등록</button>
+            </div>
             `;
             $('#comment_post_box').html(temp_comment)
             title = response["title"]
