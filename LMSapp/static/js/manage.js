@@ -52,63 +52,14 @@ function getBanlist(){
                 return { [semester]: items };
             });
 
-            let ctx = document.getElementById('semester-student-chart').getContext('2d');
-
-            let semesterStudentChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['퍼플 총 원생', '1월 학기', '5월 학기', '9월 학기'],
-                    datasets: [{
-                        label: 'Sales',
-                        data: [total_student_num, onesemester, fivesemester, ninesemester],
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255,99,132,1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero:true
-                            }
-                        }]
-                    }
-                }
-            });
-
-            semesterStudentChart.data.datasets.push({
-                type: 'line',
-                label: 'Average Sales',
-                data: [7, 7, 7, 7],
-                fill: false,
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 2
-            });
-
-            semesterStudentChart.update();
-            
-
+            // 총 원생 구하기
             onesemester = Number(semesterGroupedresult[1]['1'][0]['total_student_num'])
-            $('#onesemester').css('width',`${onesemester}%`);
-            $('#onesemester').css('background-color','#95B3D7');
-            $('#onesemester_msg').html(`1학기 원생 수: ${onesemester}명`);
-
             fivesemester = Number(semesterGroupedresult[2]['2'][0]['total_student_num'])
-            $('#fivesemester').css('width',`${fivesemester}%`);
-            $('#fivesemester').css('background-color','#D99694');
-            $('#fivesemester_msg').html(`5학기 원생 수: ${fivesemester}명`);
-
             ninesemester = Number(semesterGroupedresult[0]['0'][0]['total_student_num'])
-            $('#ninesemester').css('width',`${ninesemester}%`);
-            $('#ninesemester').css('background-color','#EBF1DE');
-            $('#ninesemester_msg').html(`9학기 학기 원생 수: ${ninesemester}명`);
-
             total_student_num = onesemester + fivesemester + ninesemester
-            $('#total_student_num').css('width',`${total_student_num}%`);
-            $('#total_student_num').css('background-color','#D7E4BD');
-            $('#total_student_num_msg').html(`퍼플 총 원생: ${total_student_num}명`);
 
+            // 퇴소 원생 구하기
+            let outstudentArr = [];
             for(j=0;j<3;j++){
                 let key = j.toString()
                 let temp_semester_banlist = ''
@@ -161,9 +112,139 @@ function getBanlist(){
 
                 $('#semester_banlist'+j).html(temp_semester_banlist)
                 $('#out_msg'+j).html(`${make_semester(j)}학기 총 퇴소학생 수:${semester_out_student}`)
-
+                
+                outstudentArr.push(semester_out_student);
             }
+            console.log(outstudentArr);
+            let outstudentTotal = 0;
+            outstudentArr.forEach(ele => { 
+                outstudentTotal += Number(ele)
+            });
 
+            let semester_student_table = `
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>총 원생 수</th>
+                        <th>퇴소 원생 수</th>
+                    </tr>
+                    <tr>
+                        <th>전체</th>
+                        <td>${total_student_num}</td>
+                        <td>${outstudentTotal}</td>
+                    </tr>
+                    <tr>
+                        <th>1월 학기</th>
+                        <td>${onesemester}명</td>
+                        <td>${outstudentArr[0]}명</td>
+                    </tr>
+                    <tr>
+                        <th>5월 학기</th>
+                        <td>${fivesemester}명</td>
+                        <td>${outstudentArr[1]}명</td>
+                    </tr>
+                    <tr>
+                        <th>9월 학기</th>
+                        <td>${ninesemester}명</td>
+                        <td>${outstudentArr[2]}명</td>
+                    </tr>
+                </table>
+            `;
+            $('#semester-student-table').html(semester_student_table);
+
+            // PURPLE 섹션 차트 그리기
+            let ctx = document.getElementById('semester-student-chart').getContext('2d');
+
+            let semesterStudentChart = new Chart(ctx, {
+                type : 'scatter',
+                data: {
+                    labels: ['퍼플 총 원생', '1월 학기', '5월 학기', '9월 학기'],
+                    datasets: [{
+                        type: 'bar',
+                        label: '원생 수',
+                        data: [total_student_num, onesemester, fivesemester, ninesemester],
+                        backgroundColor: ['#00769C55', '#81F9BF55', '#45C08A55', '#00895755'],
+                        borderColor: ['#00769C', '#81F9BF', '#45C08A', '#008957'],
+                        borderWidth: 1
+                    },{
+                        type: 'line',
+                        label: '퇴소 원생 수',
+                        data: [outstudentTotal, outstudentArr[0], outstudentArr[1], outstudentArr[2]],
+                        fill: false,
+                        borderColor: '#F23966cc',
+                        borderWidth: 2    
+                    }]
+                },
+                options: {
+                    maxBarThickness: 60,
+                    interaction: {
+                        mode: 'index',
+                    },
+                    plugins : {
+                        tooltip: {
+                            padding: 10,
+                            bodySpacing: 5,
+                            bodyFont: {
+                                font: {
+                                    family: "pretendard",
+                                }
+                            },
+                            usePointStyle: true,
+                            filter: (item) => item.parsed.y !== null,
+                            callbacks: {
+                                label: (context) => {
+                                    return ' ' + context.parsed.y + '명';
+                                },
+                            },
+                        },
+                    },
+                    scales: {
+                        y: {
+                            afterDataLimits: (scale) => {
+                                scale.max = scale.max * 1.2;
+                            },
+                            axis : 'y',
+                            display: true,
+                            position: 'top',
+                            title: {
+                                display:true,
+                                align: 'end',
+                                color: '#2b2b2b',
+                                        font: {
+                                            size: 10,
+                                            family: "pretendard",
+                                            weight: 500,
+                                        },
+                                text : '단위 : 명'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            /*
+            onesemester = Number(semesterGroupedresult[1]['1'][0]['total_student_num'])
+            $('#onesemester').css('width',`${onesemester}%`);
+            $('#onesemester').css('background-color','#95B3D7');
+            $('#onesemester_msg').html(`1학기 원생 수: ${onesemester}명`);
+
+            fivesemester = Number(semesterGroupedresult[2]['2'][0]['total_student_num'])
+            $('#fivesemester').css('width',`${fivesemester}%`);
+            $('#fivesemester').css('background-color','#D99694');
+            $('#fivesemester_msg').html(`5학기 원생 수: ${fivesemester}명`);
+
+            ninesemester = Number(semesterGroupedresult[0]['0'][0]['total_student_num'])
+            $('#ninesemester').css('width',`${ninesemester}%`);
+            $('#ninesemester').css('background-color','#EBF1DE');
+            $('#ninesemester_msg').html(`9학기 학기 원생 수: ${ninesemester}명`);
+
+            total_student_num = onesemester + fivesemester + ninesemester
+            $('#total_student_num').css('width',`${total_student_num}%`);
+            $('#total_student_num').css('background-color','#D7E4BD');
+            $('#total_student_num_msg').html(`퍼플 총 원생: ${total_student_num}명`);
+            */
+
+            
         },
         error: function (xhr, status, error) {
             alert('xhr.responseText');
