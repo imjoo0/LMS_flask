@@ -108,7 +108,7 @@ function get_data() {
             let consulting = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.done === 0) : 0;
             let consulting_t = response['all_consulting'].length;
             let consulting_done = consulting_t - consulting.length
-            let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task =>  new Date(task.created_at) == today).length : 0;
+            let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task =>  new Date(task.created_at).setHours(0, 0, 0, 0) == today).length : 0;
             let task_t = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done === 0).length : 0;
 
             let temp_report = `
