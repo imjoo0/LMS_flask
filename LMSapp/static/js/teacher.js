@@ -32,7 +32,6 @@ function get_data() {
             let unlearned_t =response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.category_id < 100).length : 0;
             let temp_ban_option = '<option value="none" selected>기존 반을 선택해주세요</option>';
             for (i=0;i< response['ban_data'].length;i++) {
-                console.log(response)
                 let register_no =  response['ban_data'][i]['register_no']
                 let name =  response['ban_data'][i]['name']
                 let semester = make_semester( response['ban_data'][i]['semester'])
@@ -139,7 +138,7 @@ function get_data() {
                 const categoryGroupedresult = Object.entries(categoryGrouped).map(([category, items]) => {
                     return { [category]: items };
                 });
-                console.log(categoryGroupedresult.keys)
+                console.log(categoryGroupedresult)
                 $('#cate_menu').empty()
                 // $('#today_task_box0').empty()
                 for(i=0;i<categoryGroupedresult.length;i++){
@@ -152,8 +151,8 @@ function get_data() {
                     </thead>
                     <tbody style="width:100%;">    
                         <tr class="row">
-                            <td class="col-6">${categoryGroupedresult[i].key[i][contents]}</th>
-                            <td class="col-6">마감일 :${categoryGroupedresult[i].key[i][deadline]} </th>
+                            <td class="col-6">${categoryGroupedresult[i].key[i]['contents']}</th>
+                            <td class="col-6">마감일 :${categoryGroupedresult[i].key[i]['deadline']} </th>
                         </tr>
                     </tbody>
                     `
