@@ -5,7 +5,7 @@ var globalCurrentPage = 1; //현재 페이지
 var data_list;
 var consultingData = [];
 var taskData = [];
-const today = new Date().toLocaleDateString('ko-KR');
+const today = new Date();
 
 let answer_rate =  function(answer, all) {
     if(Object.is(answer/all, NaN)) return 0;
