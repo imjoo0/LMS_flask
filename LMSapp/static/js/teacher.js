@@ -11,7 +11,6 @@
 
 $(document).ready(function () {
     get_data();
-
 })
 
 //  차트 관련 함수 
@@ -23,23 +22,23 @@ function get_data() {
         data: {},
         success: function (response) {
             // 반 차트 데이터 
-            chart_data = response['chart_data']
+            ban_data =
             $('#ban_chart_list').empty()
             // 본원 문의 ban선택 옵션 같이 붙이기 
+            // let switchstudent_t =  response['switchstudent'].length ( 선생님 기준 이반 율에 사용 )
+            // let outstudent_t = response['outstudent'].length ( 선생님 기준 퇴소 율에 사용 )
+            let unlearned_t = response['all_consulting'].filter(consulting => consulting.category_id < 100).length;
             let temp_ban_option = '<option value="none" selected>기존 반을 선택해주세요</option>';
-            for (i=0;i<chart_data.length;i++) {
-                let register_no = chart_data[i]['ban']['register_no']
-                let name = chart_data[i]['ban']['name']
-                let semester = make_semester(chart_data[i]['ban']['semester'])
-                let total_student_num = chart_data[i]['ban']['total_student_num']
-                let unlearned = response['all_consulting']['data'].filter(consulting => consulting.category_id < 100 && consulting.ban_id === register_no).length;
-                let unlearned_t = response['all_consulting']['data'].filter(consulting => consulting.category_id < 100).length;
-                let switchstudent = chart_data[i]['switchstudent'][0]['ban_count']
-                let switchstudent_t = chart_data[i]['switchstudent'][0]['total_count']
-                let outstudent = chart_data[i]['outstudent'][0]['ban_count']
-                let outstudent_t = chart_data[i]['outstudent'][0]['total_count']
-                let alimnote = chart_data[i]['alimnote']['answer']
-                let alimnote_t = chart_data[i]['alimnote']['all']
+            for (i=0;i< response['ban_data'].length;i++) {
+                let register_no =  response['ban_data'][i]['register_no']
+                let name =  response['ban_data'][i]['name']
+                let semester = make_semester( response['ban_data'][i]['semester'])
+                let total_student_num =  response['ban_data'][i]['total_student_num']
+                let unlearned = response['all_consulting'].filter(consulting => consulting.category_id < 100 && consulting.ban_id === register_no).length;
+                let switchstudent = response['switchstudent'].filter(a=> a.ban_id === register_no).length;
+                let outstudent = response['outstudent'].filter(a=> a.ban_id === register_no).length;
+                let alimnote = response['alimnote'].filter(a=> a.ban_id === register_no)['answer'];
+                let alimnote_t = response['alimnote'].filter(a=> a.ban_id === register_no)['all']
                 temp_ban_option += `
                 <option value="${register_no}">${name}</option>
                 `;
@@ -102,11 +101,11 @@ function get_data() {
             }
             // 본원 문의 ban선택 옵션 같이 붙이기 
             $('#my_ban_list').html(temp_ban_option)
-            let consulting = response['all_consulting']['data'].filter(consulting => consulting.done === 0);
-            let consulting_t = response['all_consulting']['data'].length;
+            let consulting = response['all_consulting'].filter(consulting => consulting.done === 0);
+            let consulting_t = response['all_consulting'].length;
             let consulting_done = consulting_t - consulting.length
-            let task_done = response['all_task']['data'].filter(task => task.done === 1).length;
-            let task_t = response['all_task']['data'].length;
+            let task_done = response['all_task'].filter(task => task.done === 1).length;
+            let task_t = response['all_task'].length;
 
             let temp_report = `
             <td class="col-3"> ${task_done}/${task_t} </td>
@@ -139,9 +138,6 @@ function get_data() {
 
             if (result.length > 0) {
                 result.sort((a, b) => {
-                    // const aDate = new Date(a.deadline);
-                    // const bDate = new Date(b.deadline);
-                    // return aDate - bDate;
                     return a.deadline - b.deadline
                 });
                 $('#consulting_title').html('오늘의 상담');

@@ -1,75 +1,82 @@
-from flask import Blueprint,render_template, jsonify, request,redirect,url_for,flash
+import callapi
+import pymysql
+import json
+from LMSapp.views import *
+from LMSapp.models import *
+from flask import session
+from flask import Blueprint, render_template, jsonify, request, redirect, url_for, flash
 from datetime import datetime, timedelta, date
-# file-upload 로 자동 바꿈 방지 모듈 
+# file-upload 로 자동 바꿈 방지 모듈
 from LMSapp.views import common
 
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 
-from flask import session
-from LMSapp.models import *
-from LMSapp.views import *
-import json
-import pymysql
-
-import callapi
 
 current_time = datetime.now()
 Today = current_time.date()
 today_yoil = current_time.weekday() + 1
-standard = datetime.strptime('11110101',"%Y%m%d").date()
+standard = datetime.strptime('11110101', "%Y%m%d").date()
 
 # def task_cycle(){
     # UPDATE taskban A LEFT JOIN task B
-    # ON A.task_id= B.id 
+    # ON A.task_id= B.id
     # SET A.done = 0
     # WHERE date_format(A.created_at, '%Y-%m-%d') < date_format(curdate(),'%Y-%m-%d') AND B.cycle < 6 AND A.done = 1
 # }
 
 # 선생님 메인 페이지
-# 테스트 계정 id : T1031 pw동일  
+# 테스트 계정 id : T1031 pw동일
+
+
 @bp.route("/", methods=['GET'])
 def home():
-    if request.method =='GET':
-        teacher_info = callapi.purple_info(session['user_id'],'get_teacher_info')
-        return render_template('teacher.html',user=teacher_info)
+    if request.method == 'GET':
+        teacher_info = callapi.purple_info(
+            session['user_id'], 'get_teacher_info')
+        return render_template('teacher.html', user=teacher_info)
 
-# 문의 요청 관련 함수 
+# 문의 요청 관련 함수
 @bp.route("/get_ban_student/<int:b_id>", methods=['GET'])
 def get_ban_student(b_id):
-    if request.method =='GET':
-        students = callapi.purple_info(b_id,'get_student_simple')
+    if request.method == 'GET':
+        students = callapi.purple_info(b_id, 'get_student_simple')
         return jsonify(students)
+
 
 @bp.route("/attach_consulting_history/<int:s_id>", methods=['GET'])
 def attach_consulting_history(s_id):
-    if request.method =='GET':
+    if request.method == 'GET':
         consulting_history = []
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00',
+                             port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute("SELECT consulting.id as id, consultingcategory.name as category, consulting.contents, consulting.result from consulting left join consultingcategory on consultingcategory.id = consulting.category_id where consulting.done=1 and consulting.created_at is not null and consulting.student_id=%s;",(s_id))
+                cur.execute("SELECT consulting.id as id, consultingcategory.name as category, consulting.contents, consulting.result from consulting left join consultingcategory on consultingcategory.id = consulting.category_id where consulting.done=1 and consulting.created_at is not null and consulting.student_id=%s;", (s_id))
                 consulting_history = cur.fetchall()
         except:
             print('err')
         finally:
             db.close()
         print(consulting_history)
-        return jsonify({'consulting_history':consulting_history})
- 
-@bp.route('/question', methods=['GET','POST'])
+        return jsonify({'consulting_history': consulting_history})
+
+
+@bp.route('/question', methods=['GET', 'POST'])
 def question():
     if request.method == 'GET':
         data = []
-        my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
+        my_questions = Question.query.filter(
+            Question.teacher_id == session['user_registerno']).all()
         for q in my_questions:
             qdata = {}
             qdata['id'] = q.id
-            qdata['category'] = q.category 
+            qdata['category'] = q.category
             qdata['title'] = q.title
             qdata['answer'] = q.answer
             qdata['comments'] = len(q.qcomments)
-            if(q.answer != 0):
-                qdata['answer_created_at'] = q.qa.created_at.strftime('%Y-%m-%d')
+            if (q.answer != 0):
+                qdata['answer_created_at'] = q.qa.created_at.strftime(
+                    '%Y-%m-%d')
             data.append(qdata)
         return json.dumps(data)
 
@@ -79,72 +86,115 @@ def question():
         contents = request.form['question_contents']
         teacher = session['user_registerno']
         create_date = datetime.now().date()
-        # 첨부 파일 처리 
+        # 첨부 파일 처리
         file = request.files['file-upload']
         if question_category == '일반':
             cateory = 0
-            new_question = Question(category=cateory,title=title,contents=contents,teacher_id=teacher,create_date=create_date,answer=0)
-        else :
+            new_question = Question(category=cateory, title=title, contents=contents,
+                                    teacher_id=teacher, create_date=create_date, answer=0)
+        else:
             ban_id = request.form['ban_id']
-            student_id = request.form['target_student'] 
+            student_id = request.form['target_student']
             print(student_id)
             history_id = request.form['consulting_history']
             if question_category == '퇴소':
                 cateory = 1
             else:
                 cateory = 2
-            new_question = Question(consulting_history=history_id,category=cateory,title=title,contents=contents,teacher_id=teacher,ban_id=ban_id,student_id=student_id,create_date=create_date,answer=0)
+            new_question = Question(consulting_history=history_id, category=cateory, title=title, contents=contents,
+                                    teacher_id=teacher, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         db.session.add(new_question)
         db.session.commit()
-        common.save_attachment(file,new_question.id)
+        common.save_attachment(file, new_question.id)
         return redirect('/')
 
-# 차트 관련  
+# 차트 관련
 @bp.route('/get_data', methods=['GET'])
 def get_data():
     if request.method == 'GET':
-        all_consulting = {}
-        all_task = {}
-        result = []
-        mybans_info = callapi.purple_ban(session['user_id'],'get_mybans')
-        my_students = callapi.purple_info(session['user_id'],'get_mystudents')
-        if len(mybans_info) != 0:
-            db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        all_consulting = []
+        all_task = []
+        ban_data = callapi.purple_info(session['user_id'], 'get_mybans')
+        switchstudent = []
+        outStudent = []
+        alimnote = []
+        my_students = callapi.purple_info(session['user_id'], 'get_mystudents')
+        if len(ban_data) != 0:
+            db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00',
+                                 port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
             try:
                 with db.cursor() as cur:
                     # 상담
-                    cur.execute("select id, student_id, category_id , done, deadline from consulting where created_at IS NULL and startdate <= %s and teacher_id=%s",(Today,session['user_registerno'],))
-                    all_consulting['status'] = 200
-                    all_consulting['data'] = cur.fetchall()
-                    # cur.execute(f"select id, ban_id, category_id, startdate, deadline, week_code, done, missed from consulting where ban_id = {ban['register_no']};")
-                    # cur.execute("select count(*) as 'count', category_id from consulting where ban_id = %s group by category_id",(ban['register_no'],))
-                    # cur.execute("SELECT COUNT(CASE WHEN category_id < 100 THEN 1 END) AS total,COUNT(CASE WHEN ban_id = %s AND category_id < 100 THEN 1 END) AS ban_unlearn FROM consulting;",(ban['register_no'],))
-                    # data['consulting'] = cur.fetchall()
+                    cur.execute("select id, student_id, category_id , done, deadline from consulting where created_at IS NULL and startdate <= %s and teacher_id=%s", (
+                        Today, session['user_registerno'],))
+                    all_consulting = cur.fetchall()
+
                     # 업무
-                    cur.execute("select taskban.id,taskban.done from taskban left join task on taskban.task_id = task.id where (task.cycle = %s or task.cycle = %s) and task.startdate <= %s and %s <= task.deadline and taskban.teacher_id=%s;",(today_yoil,0,Today,Today,session['user_registerno'],))
-                    all_task['status'] = 200
-                    all_task['data'] = cur.fetchall()
-                    # 반 별 조회 / 이반 * 퇴소 * 문의 
-                    for ban in mybans_info:
-                        data = {}
-                        data['ban'] = ban
-                        
-                        cur.execute("SELECT COUNT(CASE WHEN ban_id = %s THEN 1 END) AS ban_count,COUNT(*) AS total_count FROM switchstudent;",(ban['register_no'],))
-                        data['switchstudent'] = cur.fetchall()
+                    cur.execute("select taskban.id,taskban.done from taskban left join task on taskban.task_id = task.id where (task.cycle = %s or task.cycle = %s) and task.startdate <= %s and %s <= task.deadline and taskban.teacher_id=%s;", (today_yoil, 0, Today, Today, session['user_registerno'],))
+                    all_task = cur.fetchall()
+                    
+                    cur.execute("SELECT ban_id, id, student_id FROM switchstudent WHERE teacher_id = %s GROUP BY ban_id, id, student_id;", (session['user_registerno'],))
+                    switchstudent = cur.fetchall()
 
-                        cur.execute("SELECT COUNT(CASE WHEN ban_id = %s THEN 1 END) AS ban_count,COUNT(*) AS total_count FROM outstudent;",(ban['register_no'],))
-                        data['outstudent'] = cur.fetchall()
+                    cur.execute("SELECT ban_id, id, student_id FROM outstudent WHERE teacher_id = %s GROUP BY ban_id, id, student_id;", (session['user_registerno'],))
+                    outStudent = cur.fetchall()
 
-                        alimnote = callapi.purple_info(ban['register_no'],'get_alimnote')
-                        data['alimnote'] = alimnote
-
-                        result.append(data)
-                        #result.append(ban['register_no'])
+                    alimnote = callapi.purple_info(session['register_no'],'get_alimnote_teacher')
+                    alimnote = alimnote
             except:
                 print('err')
             finally:
                 db.close()
-            return jsonify({'chart_data': result,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students})
+            return jsonify({'switchstudent': switchstudent,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'outStudent':outStudent,'ban_data':ban_data})
+
+
+# 차트 관련  
+# @bp.route('/get_data', methods=['GET'])
+# def get_data():
+    # if request.method == 'GET':
+    #     all_consulting = {}
+    #     all_task = {}
+    #     result = []
+    #     mybans_info = callapi.purple_info(session['user_id'],'get_mybans')
+    #     my_students = callapi.purple_info(session['user_id'],'get_mystudents')
+    #     if len(mybans_info) != 0:
+    #         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+    #         try:
+    #             with db.cursor() as cur:
+    #                 # 상담
+    #                 cur.execute("select id, student_id, category_id , done, deadline from consulting where created_at IS NULL and startdate <= %s and teacher_id=%s",(Today,session['user_registerno'],))
+    #                 all_consulting['status'] = 200
+    #                 all_consulting['data'] = cur.fetchall()
+    #                 # cur.execute(f"select id, ban_id, category_id, startdate, deadline, week_code, done, missed from consulting where ban_id = {ban['register_no']};")
+    #                 # cur.execute("select count(*) as 'count', category_id from consulting where ban_id = %s group by category_id",(ban['register_no'],))
+    #                 # cur.execute("SELECT COUNT(CASE WHEN category_id < 100 THEN 1 END) AS total,COUNT(CASE WHEN ban_id = %s AND category_id < 100 THEN 1 END) AS ban_unlearn FROM consulting;",(ban['register_no'],))
+    #                 # data['consulting'] = cur.fetchall()
+    #                 # 업무
+    #                 cur.execute("select taskban.id,taskban.done from taskban left join task on taskban.task_id = task.id where (task.cycle = %s or task.cycle = %s) and task.startdate <= %s and %s <= task.deadline and taskban.teacher_id=%s;",(today_yoil,0,Today,Today,session['user_registerno'],))
+    #                 all_task['status'] = 200
+    #                 all_task['data'] = cur.fetchall()
+                    
+    #                 # 반 별 조회 / 이반 * 퇴소 * 문의 
+    #                 for ban in mybans_info:
+    #                     data = {}
+    #                     data['ban'] = ban
+                        
+    #                     cur.execute("SELECT COUNT(CASE WHEN ban_id = %s THEN 1 END) AS ban_count,COUNT(*) AS total_count FROM switchstudent;",(ban['register_no'],))
+    #                     data['switchstudent'] = cur.fetchall()
+
+    #                     cur.execute("SELECT COUNT(CASE WHEN ban_id = %s THEN 1 END) AS ban_count,COUNT(*) AS total_count FROM outstudent;",(ban['register_no'],))
+    #                     data['outstudent'] = cur.fetchall()
+
+    #                     alimnote = callapi.purple_info(ban['register_no'],'get_alimnote')
+    #                     data['alimnote'] = alimnote
+
+    #                     result.append(data)
+    #                     #result.append(ban['register_no'])
+    #         except:
+    #             print('err')
+    #         finally:
+    #             db.close()
+    #         return jsonify({'chart_data': result,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students})
         
 # 오늘 해야 할 업무들의 카데고리
 @bp.route("/task/<int:done_code>", methods=['GET','POST'])
@@ -191,7 +241,7 @@ def taskban(task_id,done_code):
         # tb = json.loads(TaskBan.get_ban(session['user_registerno'],task_id))
         # return jsonify({'target_taskban':tb})
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        mybans_info = callapi.purple_ban(session['user_id'],'get_mybans')
+        mybans_info = callapi.purple_info(session['user_id'],'get_mybans')
         taskban = {}
         try:
             with db.cursor() as cur:
@@ -360,7 +410,7 @@ def nomal_question_detail(id):
         #     return_data['history_created_at'] = q.qconsulting.created_at.strftime('%Y-%m-%d')
         # if q.category != 0:
         #     s = callapi.purple_info(q.student_id,'get_student_info')
-        #     b = callapi.purple_ban(q.ban_id,'get_ban' )    
+        #     b = callapi.purple_info(q.ban_id,'get_ban' )    
         #     return_data['student'] = s['name']
         #     return_data['ban'] = b['ban_name']
         return_data['comment'] = []
@@ -434,7 +484,7 @@ def get_question_detail(id,answer,category):
             return_data['ban'] = ''
         else:
             s = callapi.purple_info(q.student_id,'get_student_info')
-            b = callapi.purple_ban(q.ban_id,'get_ban' )    
+            b = callapi.purple_info(q.ban_id,'get_ban' )    
             return_data['student'] = s['name']
             return_data['ban'] = b['ban_name']
             if(q.qconsulting.done != 0):
