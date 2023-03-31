@@ -108,8 +108,8 @@ function get_data() {
             let consulting = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.done === 0) : 0;
             let consulting_t = response['all_consulting'].length;
             let consulting_done = consulting_t - consulting.length
-            console.log(typeof response['all_task'][0]['created_at'])
-            console.log(response['all_task'][0]['created_at'])
+            console.log(typeof response['all_task'][2]['created_at'])
+            console.log(response['all_task'][2]['created_at'])
             console.log(typeof today)
             console.log(today)
             let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task => task.created_at == today).length : 0;
