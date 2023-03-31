@@ -109,7 +109,7 @@ function get_data() {
             let consulting_t = response['all_consulting'].length;
             let consulting_done = consulting_t - consulting.length
             let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done === 1 && task.created_at == today).length : 0;
-            let task_t = response['all_task'].length > 0 ? response['all_task'].length : 0;
+            let task_t = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done === 0).length : 0;
 
             let temp_report = `
             <td class="col-3"> ${task_done}/${task_t} </td>
