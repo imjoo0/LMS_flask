@@ -81,7 +81,7 @@ function get_data() {
                 `;
                 $('#ban_chart_list').append(temp_ban_chart);
 
-                new Chart($((`#total-chart-element${i}`)), {
+                new Chart($(document.getElementById(`#total-chart-element${i}`)), {
                     type: 'doughnut',
                     data: {
                         labels: ['관리중', '이반', '퇴소'],
