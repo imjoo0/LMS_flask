@@ -34,12 +34,6 @@ def home():
         return render_template('teacher.html',user=teacher_info)
 
 # 문의 요청 관련 함수 
-@bp.route("/get_myban_list", methods=['GET'])
-def get_myban_list():
-    if request.method =='GET':
-        mybans_info = callapi.purple_info(session['user_id'],'get_mybans')
-        return jsonify(mybans_info)
-    
 @bp.route("/get_ban_student/<int:b_id>", methods=['GET'])
 def get_ban_student(b_id):
     if request.method =='GET':
@@ -53,7 +47,7 @@ def attach_consulting_history(s_id):
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute("SELECT consulting.id as id, consultingcategory.name as category, consulting.contents, consulting.result from consulting left join consultingcategory on consultingcategory.id = consulting.category_id where consulting.done=1 and consulting.created_at != null and consulting.student_id=%s;",(s_id))
+                cur.execute("SELECT consulting.id as id, consultingcategory.name as category, consulting.contents, consulting.result from consulting left join consultingcategory on consultingcategory.id = consulting.category_id where consulting.done=1 and consulting.created_at is not null and consulting.student_id=%s;",(s_id))
                 consulting_history = cur.fetchall()
         except:
             print('err')

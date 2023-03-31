@@ -16,7 +16,6 @@ $(document).ready(function () {
 
 //  차트 관련 함수 
 function get_data() {
-
     $.ajax({
         type: "GET",
         url: "/teacher/get_data",
@@ -25,7 +24,9 @@ function get_data() {
         success: function (response) {
             // 반 차트 데이터 
             chart_data = response['chart_data']
-            let temp_ban_chart ='';
+            $('#ban_chart_list').empty()
+            // 본원 문의 ban선택 옵션 같이 붙이기 
+            let temp_ban_option = '<option value="none" selected>기존 반을 선택해주세요</option>';
             for (i=0;i<chart_data.length;i++) {
                 let register_no = chart_data[i]['ban']['register_no']
                 let name = chart_data[i]['ban']['name']
@@ -39,8 +40,10 @@ function get_data() {
                 let outstudent_t = chart_data[i]['outstudent'][0]['total_count']
                 let alimnote = chart_data[i]['alimnote']['answer']
                 let alimnote_t = chart_data[i]['alimnote']['all']
-                
-                temp_ban_chart += `
+                temp_ban_option += `
+                <option value="${register_no}">${name}</option>
+                `;
+                let temp_ban_chart = `
                 <div class="d-flex justify-content-start align-items-start flex-column w-100 my-2">
                     <h5 class="mb-3">📌  ${name}</h5>
                     <div class="row w-100">
@@ -74,14 +77,7 @@ function get_data() {
                     </div>
                 </div>
                 `;
-            }
-            $('#ban_chart_list').html(temp_ban_chart);
-
-            for(let i = 0; i < chart_data.length; i++) {
-
-                let total_student_num = chart_data[i]['ban']['total_student_num']
-                let switchstudent = chart_data[i]['switchstudent'][0]['ban_count']
-                let outstudent = chart_data[i]['outstudent'][0]['ban_count']
+                $('#ban_chart_list').append(temp_ban_chart);
 
                 new Chart(document.getElementById(`total-chart-element${i}`), {
                     type: 'doughnut',
@@ -103,9 +99,9 @@ function get_data() {
                         },
                     },
                 });
-
             }
-
+            // 본원 문의 ban선택 옵션 같이 붙이기 
+            $('#my_ban_list').html(temp_ban_option)
             let consulting = response['all_consulting']['data'].filter(consulting => consulting.done === 0);
             let consulting_t = response['all_consulting']['data'].length;
             let consulting_done = consulting_t - consulting.length
@@ -580,10 +576,10 @@ function plusconsulting_history(student_id, b_id) {
 // 본원 문의 관련 함수 
 //  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
 function change_question_kind(str) {
-    if (str == "일반") {
+    if (str == "일반"){
         $('#invisible_for_2').hide();
         $('#question_box').show();
-    } else {
+    } else{
         $('#invisible_for_2').show();
         $('#question_box').show();
     }
@@ -595,26 +591,7 @@ function go_back() {
     $('#make_plus_consulting').hide();
     $('#banstudentlistModalLabel').html('원생목록')
 }
-    // 문의 작성 
-function get_myban_list(){
-    $.ajax({
-        type: "GET",
-        url: "/teacher/get_myban_list",
-        data: {},
-        success: function (response) {
-            let temp_ban_option = '<option value="none" selected>기존 반을 선택해주세요</option>';
-            for (i = 0; i < response.length; i++) {
-                let name = response[i]['name']
-                // let semester = make_semester(target_ban[i]['semester'])
-                let register_no = response[i]['register_no']
-                temp_ban_option += `
-                <option value="${register_no}">${name}</option>
-                `;
-            }
-            $('#my_ban_list').html(temp_ban_option)
-        }
-    })
-}
+
 function get_ban_student(b_id) {
     $.ajax({
         type: "GET",
