@@ -109,8 +109,8 @@ function get_data() {
             let consulting_t = response['all_consulting'].length;
             let consulting_done = consulting_t - consulting.length
             let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task =>  new Date(task.created_at).setHours(0, 0, 0, 0) == today).length : 0;
-            let task_notdone = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done === 0).length : 0;
-            let total_task = task_notdone+task_done
+            let task_notdone = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done === 0) : 0;
+            let total_task = task_notdone.length+task_done
             let temp_report = `
             <td class="col-3"> ${task_done}/${total_task} </td>
             <td class="col-3"> ( ${answer_rate(task_done,total_task).toFixed(0)}% ) </td>
@@ -121,12 +121,12 @@ function get_data() {
 
             // 오늘의 업무 뿌려주기 
             // task_doneview(0)
-            if(task_notdone == 0){
+            if(task_notdone.length == 0){
                 $('#today_task_box0').html('오늘의 업무 끝 😆');
                 $('#today_task_box1').empty()
             }else{
                 // 오늘의 업무 중복 카테고리로 묶기 
-                const categoryGrouped = response['all_task'].reduce((result, item) => {
+                const categoryGrouped = task_notdone.reduce((result, item) => {
                     const category = item.category;
                     if (!result[category]) {
                     result[category] = [];
@@ -139,21 +139,28 @@ function get_data() {
                 const categoryGroupedresult = Object.entries(categoryGrouped).map(([category, items]) => {
                     return { [category]: items };
                 });
-
                 console.log(categoryGroupedresult.keys)
+                $('#cate_menu').empty()
+                // $('#today_task_box0').empty()
+                for(i=0;i<categoryGroupedresult.length;i++){
+                    console.log(categoryGroupedresult[i])
+                    let temp_cate_menu = `
+                    <thead>
+                        <tr class="row">
+                        <th class="col-12">${categoryGroupedresult[i].key}</th>
+                        </tr>
+                    </thead>
+                    <tbody style="width:100%;">    
+                        <tr class="row">
+                            <td class="col-6">${categoryGroupedresult[i].key[i][contents]}</th>
+                            <td class="col-6">마감일 :${categoryGroupedresult[i].key[i][deadline]} </th>
+                        </tr>
+                    </tbody>
+                    `
+                    $('#cate_menu').append(temp_cate_menu)
+                }
             }
-            $('#cate_menu').empty()
-            $('#today_task_box0').empty()
-            for(i=0;i<categoryGroupedresult.length;i++){
-                console.log()
-                let temp_cate_menu = `<th class="col-12">${categoryGroupedresult[i].keys}</th>`
-                $('#cate_menu').append(temp_cate_menu)
-                let temp_for_task = `
-                
-                `
-                $('#today_task_box0').append(temp_for_task)
-            }
-
+            
             // 상담 목록 
             const result = response['my_students'].reduce((acc, student) => {
                 const consultingList = consulting.filter(c => c.student_id === student.register_no);
