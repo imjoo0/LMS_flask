@@ -109,11 +109,11 @@ function get_data() {
             let consulting_t = response['all_consulting'].length;
             let consulting_done = consulting_t - consulting.length
             let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task =>  new Date(task.created_at).setHours(0, 0, 0, 0) == today).length : 0;
-            let task_t = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done === 0).length : 0;
-
+            let task_notdone = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done === 0).length : 0;
+            let total_task = task_notdone+task_done
             let temp_report = `
-            <td class="col-3"> ${task_done}/${task_t} </td>
-            <td class="col-3"> ( ${answer_rate(task_done, task_t).toFixed(0)}% ) </td>
+            <td class="col-3"> ${task_done}/${total_task} </td>
+            <td class="col-3"> ( ${answer_rate(task_done,total_task).toFixed(0)}% ) </td>
             <td class="col-3"> ${consulting_done}/${consulting_t} </td>
             <td class="col-3"> ( ${answer_rate(consulting_done, consulting_t).toFixed(0)}% ) </td>
             `
