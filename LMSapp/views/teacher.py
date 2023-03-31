@@ -139,12 +139,11 @@ def get_data():
                     outStudent = cur.fetchall()
 
                     alimnote = callapi.purple_info(session['register_no'],'get_alimnote_teacher')
-                    alimnote = alimnote
             except:
                 print('err')
             finally:
                 db.close()
-        return jsonify({'switchstudent': switchstudent,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'outStudent':outStudent,'ban_data':ban_data})
+        return jsonify({'switchstudent': switchstudent,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'outStudent':outStudent,'ban_data':ban_data,'alimnote':alimnote})
 
 
 # 차트 관련  

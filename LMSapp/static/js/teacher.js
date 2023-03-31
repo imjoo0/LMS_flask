@@ -21,7 +21,6 @@ function get_data() {
         dataType: 'json',
         data: {},
         success: function (response) {
-            console.log(response)
             // 반 차트 데이터 
             // 본원 문의 ban선택 옵션 같이 붙이기 
             // let switchstudent_t =  response['switchstudent'].length ( 선생님 기준 이반 율에 사용 )
@@ -136,8 +135,6 @@ function get_data() {
                 }
                 return acc;
             }, []);
-
-            console.log('response')
             if (result.length > 0) {
                 result.sort((a, b) => {
                     return a.deadline - b.deadline
