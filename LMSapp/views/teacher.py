@@ -125,7 +125,7 @@ def get_data():
             try:
                 with db.cursor() as cur:
                     # 상담
-                    cur.execute("select id, student_id, category_id , done, deadline from consulting where created_at IS NULL and startdate <= %s and teacher_id=%s", (Today, session['user_registerno'],))
+                    cur.execute("select id, student_id, category_id , done, deadline,created_at from consulting where startdate <= %s and teacher_id=%s", (Today, session['user_registerno'],))
                     all_consulting = cur.fetchall()
 
                     # 업무

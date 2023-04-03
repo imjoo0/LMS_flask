@@ -273,36 +273,38 @@ function get_data() {
     });
 }
 //  상담 관련 
-// async function get_consulting_student(value) {
-//     var dataHtml = '';
-//     let container = $('#consultingstudent_pagination')
-//     const data = await JSON.parse(consultingStudentData).filter((e) => {
-//         if (value == 'none') {
-//             return e.name
-//         } else {
-//             return e.name == value;
-//         }
-//     })
-//     await container.pagination({
-//         dataSource: data,
-//         prevText: '이전',
-//         nextText: '다음',
-//         pageSize: 10,
-//         callback: function (data, pagination) {
-//             var dataHtml = '';
-//             $.each(data, function (index, consulting) {
-//                 dataHtml += `
-//                     <td class="col-3">${consulting.startdate} ~ ${consulting.deadline}</td>
-//                     <td class="col-2">${consulting.name}</td>
-//                     <td class="col-1"> 미진행 </td>
-//                     <td class="col-4"> ${consulting.contents}</td>
-//                     <td class="col-2"> <button onclick="update_consulting(${consulting.id})">✏️</button> 
-//                     <button onclick="delete_consulting(${consulting.id})">❌</button></td>`;
-//             });
-//             $('#tr-row').html(dataHtml);
-//         }
-//     })
-// }
+async function get_consulting_student(value) {
+    var dataHtml = '';
+    let container = $('#consultingstudent_pagination')
+    const data = await JSON.parse(consultingStudentData).filter((e) => {
+        if (value == 2) {
+            return e.done === 0 && new Date(e.created_at).setHours(0, 0, 0, 0) == today;
+        } else{
+            return e.done === value;
+        }
+    })
+    await container.pagination({
+        dataSource: data,
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 10,
+        callback: function (data, pagination) {
+            var dataHtml = '';
+            $.each(data, function (index, consulting) {
+                temp_consulting_contents_box += `
+                <td class="col-3">${consulting.ban_name}</td>
+                <td class="col-2">${consulting.student_name}</td>
+                <td class="col-3">${consulting.student_mobileno}</td>
+                <td class="col-2">${make_date(consulting.deadline)}</td>
+                <td class="col-1">${consulting.consulting_num}</td>
+                <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${0})"><span class="cursor-pointer">📞</span></td> 
+                `;
+            });
+            $('#today_consulting_box').html(temp_consulting_contents_box);
+            $('#consulting_student_list').show();
+        }
+    })
+}
 
 // 오늘의 업무 관련 함수 
 async function task_doneview(done_code) {
