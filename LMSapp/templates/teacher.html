@@ -202,10 +202,7 @@
                 <div class="d-flex justify-content-between align-items-center flex-md-row flex-column">
                     <select id="history_ban" class="form-select text-center" name="work_done">
                         <option value=0 selected>상담을 진행한 반을 선택해주세요</option>
-                        {% for ban in my_bans %}
-                        {% set ban_regi = ban['register_no'] %}
-                        <option value={{ban_regi}}>{{ ban['name'] }} 상담</option>
-                        {% endfor %}
+                        
                     </select>
                     <select id="history_done" class="form-select text-center" name="work_done">
                         <option value=-1 selected>종류를 선택해주세요</option>
@@ -493,6 +490,9 @@
 
                             </tr>
                         </table>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center w-100">
+                        <div id="consultingstudent_pagination" class="mt-4 mb-5 text-center"></div>
                     </div>
                 </div>
             </div>

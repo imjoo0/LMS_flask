@@ -15,6 +15,7 @@ $(document).ready(function () {
 
 //  차트 관련 함수 
 function get_data() {
+    let container = $('#consultingstudent_pagination')
     $.ajax({
         type: "GET",
         url: "/teacher/get_data",
@@ -29,6 +30,7 @@ function get_data() {
             // let switchstudent_t =  response['switchstudent'].length ( 선생님 기준 이반 율에 사용 )
             // let outstudent_t = response['outstudent'].length ( 선생님 기준 퇴소 율에 사용 )
             $('#ban_chart_list').empty()
+            $('#history_ban').empty()
             let unlearned_t =response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.category_id < 100).length : 0;
             let temp_ban_option = '<option value="none" selected>기존 반을 선택해주세요</option>';
             for (i=0;i< response['ban_data'].length;i++) {
@@ -103,6 +105,8 @@ function get_data() {
             }
             // 본원 문의 ban선택 옵션 같이 붙이기 
             $('#my_ban_list').html(temp_ban_option)
+            // 상담일지 조회 ban 선택 옵션 같이 붙이기 
+            $('#history_ban').append(temp_ban_option)
             
             let consulting = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.done === 0) : 0;
             let consulting_t = response['all_consulting'].length;
@@ -236,25 +240,32 @@ function get_data() {
                     return a.deadline - b.deadline
                 });
                 $('#consulting_title').html('오늘의 상담');
-                let temp_consulting_contents_box = ''
-                for (i = 0; i < result.length; i++) {
-                    var ban_name = result[i]['ban_name']
-                    var student_id = result[i]['student_id']
-                    var student_name = result[i]['student_name']
-                    var mobileno = result[i]['student_mobileno']
-                    var consulting_num = result[i]['consulting_num']
-                    var deadline = result[i]['deadline'].getFullYear()+'-'+(result[i]['deadline'].getMonth()+ 1).toString().padStart(2, '0')+'-'+result[i]['deadline'].getDate().toString().padStart(2, '0')
-                    temp_consulting_contents_box += `
-                    <td class="col-3">${ban_name}</td>
-                    <td class="col-2">${student_name}</td>
-                    <td class="col-3">${mobileno}</td>
-                    <td class="col-2">${deadline}</td>
-                    <td class="col-1">${consulting_num}</td>
-                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${0})"><span class="cursor-pointer">📞</span></td> 
-                    `;
-                    $('#today_consulting_box').html(temp_consulting_contents_box);
-                    $('#consulting_student_list').show();
-                }
+                container.pagination({
+                    dataSource: JSON.parse(result),
+                    prevText: '이전',
+                    nextText: '다음',
+                    pageSize: 10,
+                    callback: function (result, pagination) {
+                        let temp_consulting_contents_box = ''
+                        $.each(result, function (index, consulting) {
+                            temp_consulting_contents_box += `
+                            <td class="col-3">${consulting.ban_name}</td>
+                            <td class="col-2">${consulting.student_name}</td>
+                            <td class="col-3">${consulting.student_mobileno}</td>
+                            <td class="col-2">${make_date(consulting.deadline)}</td>
+                            <td class="col-1">${consulting.consulting_num}</td>
+                            <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${0})"><span class="cursor-pointer">📞</span></td> 
+                            `;
+                        });
+                        category_set = new Set(category_list)
+                        category_list = [...category_set]
+                        $.each(category_list, function (idx, val) {
+                            idxHtml += `<option value="${val}">${val}</option>`
+                        })
+                        $('#today_consulting_box').html(temp_consulting_contents_box);
+                        $('#consulting_student_list').show();
+                    }
+                })
             } else {
                 $('#consulting_title').html('오늘의 상담이 없습니다.');
             }
