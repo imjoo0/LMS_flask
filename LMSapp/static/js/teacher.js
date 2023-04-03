@@ -274,7 +274,7 @@ function get_data() {
 }
 //  상담 관련 
 async function get_consulting_student(value) {
-    var dataHtml = '';
+    var temp_consulting_contents_box = '';
     let container = $('#consultingstudent_pagination')
     const data = await JSON.parse(consultingStudentData).filter((e) => {
         if (value == 2) {
