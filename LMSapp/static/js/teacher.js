@@ -148,18 +148,22 @@ function get_data() {
                         const contents = item.contents;
                         const priority = item.priority;
                         const deadline = item.deadline;
+                        const doc = {
+                            'ban_id':item.ban_id,
+                            'done':item.done,
+                            'created_at':item.created_at
+                        }
                         const key =  priority + '_' + contents + '_' + deadline;
                         if (!result[key]) {
                             result[key] = [];
                         }
-                        result[key].push(item);
+                        result[key].push(doc);
                         return result;
                     }, {});
     
                     // 결과를 객체의 배열로 변환
                     const contentsGroupedresult = Object.entries(contentsGrouped).map(([key, items]) => {
-                        const [contents,priority,deadline] = key.split('_');
-                        return { contents,priority,deadline : items };
+                        return { [key]: items };
                     });
                     console.log(contentsGroupedresult)
                     temp_cate_menu += `
