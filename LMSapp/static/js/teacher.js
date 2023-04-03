@@ -187,14 +187,15 @@ function get_data() {
                                     <td class="col-2">${make_priority(v[0])}</th>
                                     <td class="col-8">${v[1]}</th>
                                     <td class="col-2">${make_date(v[2])}</th>
-                                </tr>`;
+                                </tr>
+                                <tr class="row">`;
                                 for(k=0; k < items.length; k++){
+                                    const range = 12/items.length;
                                     temp_cate_menu += `
-                                        <tr class="row">
-                                            <td class="col-6">${items[k].ban_id}</th>
-                                            <td class="col-6">checkbox</th>
-                                        </tr>`;
+                                            <td class="col-${range}">${items[k].ban_id}</th>
+                                            <td class="col-${range}">checkbox</th>`;
                                 }
+                                temp_cate_menu += `</tr>`;
                         }
                     } else {
                         temp_cate_menu += `
