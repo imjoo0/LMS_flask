@@ -135,28 +135,34 @@ function get_data() {
                     result[key].push(item);
                     return result;
                 }, {});
-                const categoryOnlyGrouped = categoryGrouped.reduce((result, item) => {
-                    console.log(result)
-                    console.log(item)
-                    // const category = item.category;
-                    // if (!result[category]) {
-                    //     result[category] = [];
-                    // }
-                    // result[category].push(item);
-                    // return result;
-                }, {});
+                // const categoryOnlyGrouped = task_notdone.reduce((result, item) => {
+                //     const category = item.category;
+                //     if (!result[category]) {
+                //         result[category] = [];
+                //     }
+                //     result[category].push(item);
+                //     return result;
+                // }, {});
 
                 const categoryGroupedresult = Object.entries(categoryGrouped).map(([key, items]) => {
                     const [id, category] = key.split('_');
                     return { id, category, items };
                 });
                 
+                const finalResult = Object.values(categoryGroupedresult.reduce((result, item) => {
+                    const category = item.category;
+                    if (!result[category]) {
+                      result[category] = { category, items: [] };
+                    }
+                    result[category].items = result[category].items.concat(item.items);
+                    return result;
+                  }, {}));
                 // const categoryOnlyGroupedresult = Object.entries(categoryOnlyGrouped).map(([category, items]) => {
                 //     return { category, items };
                 // });
                 
                 // const result = [...categoryGroupedresult, ...categoryOnlyGroupedresult];
-                console.log(categoryGroupedresult)
+                console.log(finalResult)
 
                 // 결과를 객체의 배열로 변환
                 // const categoryGroupedresult = Object.entries(categoryGrouped).map(([category, items]) => {
