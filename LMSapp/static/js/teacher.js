@@ -275,9 +275,9 @@ function get_data() {
 async function get_consulting_student(value) {
     let container = $('#consultingstudent_pagination')
     const data = await consultingStudentData.filter((e) => {
-        cdate = e.created_at
-        mdate = e.missed
-        console.log(cdate)
+        // cdate = new Date(e.created_at)
+        // mdate = new Date(e.missed)
+        console.log(e)
         console.log(today)
         if(cdate == today){
             console.log('hello')
