@@ -250,7 +250,7 @@ function get_data() {
                     callback: function (result, pagination) {
                         let temp_consulting_contents_box = ''
                         $.each(result, function (index, consulting) {
-                            let target_consultings = consulting.consultingList.length > 0 ? consulting.consultingList.filter(e=>e.done === 0 && e.created_at === null) : 0;
+                            let target_consultings = consulting.consulting_list.length > 0 ? consulting.consulting_list.filter(e=>e.done === 0 && e.created_at === null) : 0;
                             if(target_consulting != 0){
                                 temp_consulting_contents_box += `
                                 <td class="col-3">${consulting.ban_name}</td>
@@ -309,13 +309,13 @@ async function get_consulting_student(value) {
                     let target_consultings;
                     if(value == 0) {
                         $('#consulting_title').html('오늘의 상담');
-                        target_consultings = consulting.consultingList.length > 0 ? consulting.consultingList.filter(e=>e.done === 0 && e.created_at === null) : 0;
+                        target_consultings = consulting.consulting_list.length > 0 ? consulting.consulting_list.filter(e=>e.done === 0 && e.created_at === null) : 0;
                     } else if (value == 1){
                         $('#consulting_title').html('오늘 완료한 상담');
-                        target_consultings = consulting.consultingList.length > 0 ? consulting.consultingList.filter(e=>e.done === 1 && e.created_at === today) : 0;
+                        target_consultings = consulting.consulting_list.length > 0 ? consulting.consulting_list.filter(e=>e.done === 1 && e.created_at === today) : 0;
                     }else{
                         $('#consulting_title').html('오늘의 부재중 상담');
-                        target_consultings = consulting.consultingList.length > 0 ? consulting.consultingList.filter(e=>e.done === 0 && e.missed == today) : 0;
+                        target_consultings = consulting.consulting_list.length > 0 ? consulting.consulting_list.filter(e=>e.done === 0 && e.missed == today) : 0;
                     }
                     if(target_consulting != 0){
                         temp_consulting_contents_box += `
