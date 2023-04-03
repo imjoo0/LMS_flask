@@ -214,7 +214,7 @@ function get_data() {
             }
             
             // 상담 목록 
-            const result = response['my_students'].reduce((acc, student) => {
+            let result = response['my_students'].reduce((acc, student) => {
                 const consultingList = consulting.filter(c => c.student_id === student.register_no);
                 if (consultingList.length > 0) {
                     const deadline = consultingList.reduce((prev, current) => {
