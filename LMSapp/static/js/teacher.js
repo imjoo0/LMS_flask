@@ -135,14 +135,16 @@ function get_data() {
                     result[key].push(item);
                     return result;
                 }, {});
-                // const categoryOnlyGrouped = task_notdone.reduce((result, item) => {
-                //     const category = item.category;
-                //     if (!result[category]) {
-                //         result[category] = [];
-                //     }
-                //     result[category].push(item);
-                //     return result;
-                // }, {});
+                const categoryOnlyGrouped = categoryGrouped.reduce((result, item) => {
+                    console.log(result)
+                    console.log(item)
+                    // const category = item.category;
+                    // if (!result[category]) {
+                    //     result[category] = [];
+                    // }
+                    // result[category].push(item);
+                    // return result;
+                }, {});
 
                 const categoryGroupedresult = Object.entries(categoryGrouped).map(([key, items]) => {
                     const [id, category] = key.split('_');
