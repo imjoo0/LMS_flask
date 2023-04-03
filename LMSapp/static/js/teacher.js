@@ -91,7 +91,7 @@ function get_data() {
                                         <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="getBanInfo(${register_no})">✔️</td>
                                     </tr>
                                     <tr class="row">
-                                        <th class="col-12">${name}반 미학습 상세</th>
+                                        <th class="col-12">미학습 카테고리별</th>
                                     </tr>
                                     <tr class="row">
                                     <th class="col-2">IXL</th>
