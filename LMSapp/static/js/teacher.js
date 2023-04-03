@@ -240,7 +240,10 @@ function get_data() {
                     return a.deadline - b.deadline
                 });
                 result.sort((a, b) => {
-                    return b.consulting_num  - a.consulting_num 
+                    if (a.deadline === b.deadline) {
+                        return b.consulting_num - a.consulting_num;
+                    }
+                    return a.deadline - b.deadline;
                 });
                 $('#consulting_title').html('오늘의 상담');
                 container.pagination({
