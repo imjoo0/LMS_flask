@@ -124,8 +124,18 @@ function get_data() {
                 $('#today_task_box1').empty()
             }else{
                 // 오늘의 업무 중복 카테고리로 묶기 
-                // 오늘의 업무 중복 카테고리로 묶기 
                 const categoryGrouped = task_notdone.reduce((result, item) => {
+                    const id = item.task_id;
+                    const category = item.category;
+                    const key = id +'_'+category;
+
+                    if (!result[key]) {
+                        result[key] = [];
+                    }
+                    result[key].push(item);
+                    return result;
+                }, {});
+                const categoryOnlyGrouped = task_notdone.reduce((result, item) => {
                     const category = item.category;
                     if (!result[category]) {
                         result[category] = [];
@@ -134,10 +144,22 @@ function get_data() {
                     return result;
                 }, {});
 
-                // 결과를 객체의 배열로 변환
-                const categoryGroupedresult = Object.entries(categoryGrouped).map(([category, items]) => {
-                    return { [category]: items };
+                const categoryGroupedresult = Object.entries(categoryGrouped).map(([key, items]) => {
+                    const [id, category] = key.split('_');
+                    return { id, category, items };
                 });
+                
+                const categoryOnlyGroupedresult = Object.entries(categoryOnlyGrouped).map(([category, items]) => {
+                    return { category, items };
+                });
+                
+                const result = [...categoryGroupedresult, ...categoryOnlyGroupedresult];
+                console.log(result)
+
+                // 결과를 객체의 배열로 변환
+                // const categoryGroupedresult = Object.entries(categoryGrouped).map(([category, items]) => {
+                //     return { [category]: items };
+                // });
 
                 let temp_cate_menu = ''
                 for(i=0; i < categoryGroupedresult.length; i++){
