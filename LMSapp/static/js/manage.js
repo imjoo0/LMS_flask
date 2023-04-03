@@ -1,3 +1,4 @@
+
 const today = new Date();
 var selectedBanList = [];
 var selectedStudentList = [];
@@ -9,6 +10,11 @@ $(document).ready(function () {
         $('.nav-link').removeClass('active');
         $(this).addClass('active');
     })
+        
+    $('#semester1').hide();
+    $('#semester5').hide();
+    $('#semester9').hide();
+    
 })
 // 전체 반 정보(차트) 가져오는 함수 
 function getBanlist(){
@@ -22,6 +28,22 @@ function getBanlist(){
         dataType: 'json',
         data: {},
         success: function (response) {
+            function make_semester(semester){
+                if (semester == 1){
+                    return 1;
+                }else if(semester == 2){
+                    return 5;
+                }else if(semester == 0){
+                    return 9;
+                }else{
+                    return semester
+                }
+            }
+            let answer_rate =  function(answer, all) {
+                if(Object.is(answer/all, NaN)) return 0;
+                else return answer/all*100;
+            }
+
             let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
             let all_ban = response['all_ban']
             for (i = 0; i < all_ban.length; i++) {
@@ -124,34 +146,65 @@ function getBanlist(){
             let semester_student_table = `
                 <table>
                     <tr>
-                        <th></th>
+                        <th class="need"></th>
                         <th>총 원생 수</th>
                         <th>퇴소 원생 수</th>
+                        <th>반 리스트</th>
                     </tr>
                     <tr>
-                        <th>전체</th>
-                        <td>${total_student_num}</td>
-                        <td>${outstudentTotal}</td>
+                        <th class="need">전체</th>
+                        <td>${total_student_num}명</td>
+                        <td>${outstudentTotal}명</td>
+                        <td><span class='cursor-pointer fs-4 allSemesterShow'>📜</span></td>
                     </tr>
                     <tr>
-                        <th>1월 학기</th>
+                        <th class="need">1월 학기</th>
                         <td>${onesemester}명</td>
                         <td>${outstudentArr[0]}명</td>
+                        <td><span class='cursor-pointer fs-4 semester1Show'>📜</span></td>
                     </tr>
                     <tr>
-                        <th>5월 학기</th>
+                        <th class="need">5월 학기</th>
                         <td>${fivesemester}명</td>
                         <td>${outstudentArr[1]}명</td>
+                        <td><span class='cursor-pointer fs-4 semester5Show'>📜</span></td>
                     </tr>
                     <tr>
                         <th>9월 학기</th>
                         <td>${ninesemester}명</td>
                         <td>${outstudentArr[2]}명</td>
+                        <td><span class='cursor-pointer fs-4 semester9Show'>📜</span></td>
                     </tr>
                 </table>
             `;
             $('#semester-student-table').html(semester_student_table);
 
+            $('.allSemesterShow').on('click', function() {
+                $('#semester1').hide();
+                $('#semester5').hide();
+                $('#semester9').hide();                
+                $('#semester1').show();
+                $('#semester5').show();
+                $('#semester9').show();
+            });
+            $('.semester1Show').on('click', function() {
+                $('#semester1').hide();
+                $('#semester5').hide();
+                $('#semester9').hide();
+                $('#semester1').show();
+            });            
+            $('.semester5Show').on('click', function() {
+                $('#semester1').hide();
+                $('#semester5').hide();
+                $('#semester9').hide();
+                $('#semester5').show();
+            });            
+            $('.semester9Show').on('click', function() {
+                $('#semester1').hide();
+                $('#semester5').hide();
+                $('#semester9').hide();             
+                $('#semester9').show();
+            });
             // PURPLE 섹션 차트 그리기
             let ctx = document.getElementById('semester-student-chart').getContext('2d');
 
@@ -163,9 +216,9 @@ function getBanlist(){
                         type: 'bar',
                         label: '원생 수',
                         data: [total_student_num, onesemester, fivesemester, ninesemester],
-                        backgroundColor: ['#00769C55', '#81F9BF55', '#45C08A55', '#00895755'],
-                        borderColor: ['#00769C', '#81F9BF', '#45C08A', '#008957'],
-                        borderWidth: 1
+                        backgroundColor: ['#F66F5B77', '#FFBCE277', '#FE85AB77', '#C24F7777'],
+                        borderColor: ['#F66F5B', '#FFBCE2', '#FE85AB', '#C24F77'],
+                        borderWidth: 2
                     },{
                         type: 'line',
                         label: '퇴소 원생 수',

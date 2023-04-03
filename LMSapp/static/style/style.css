@@ -44,9 +44,13 @@
   border-radius: 15px;
 }
 
-.cursor-pointer {
+.cursor-pointer:hover {
   cursor: pointer;
   transform: translate(1px, 1px);
+}
+
+.need {
+    border-bottom: 2px groove #333333;
 }
 
 * {

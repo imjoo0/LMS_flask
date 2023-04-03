@@ -664,7 +664,7 @@
 
     <div class="mb-5" style="border-bottom: 2px solid #2b2b2b11;"></div>
 
-    <nav class="navbar navbar-expand mb-3" style="background-color: #f1f1f1; border-radius: 14px; border-bottom: 3px solid #FF7069;">
+    <nav class="navbar navbar-expand mb-3" style="background-color: #f1f1f1; border-radius: 14px; border-bottom: 3px solid #F66F5B;">
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ps-sm-2 ps-lg-4 p-0">
@@ -686,23 +686,25 @@
     </nav>
     <!-- 전체 반 조회 -->
     <div class="info-container" id="detailban" style="display: none;">
-        <div class="info-title">
+        <div class="info-title" style="border-bottom: 2px groove #F66F5B">
             <span id="banchart_title">PURPLE</span>
         </div>
         <div class="info  make_col">
             <div class="d-flex justify-content-center align-items-center flex-column w-100 make_row">
                 <div id="ban-statistics" class="d-flex justify-content-end align-items-center w-100">
                     <div class="info-container" style="width:100%;">
-                        <div class="semester-student-chart-wrapper w-50">
-                            <canvas id="semester-student-chart"></canvas>
+                        <div class="row row-cols-2">
+                            <div class="semester-student-chart-wrapper col-7 px-4 py-5">
+                                <canvas id="semester-student-chart"></canvas>
+                            </div>  
+                           <div id="semester-student-table" class="col-5 px-4 py-5">
+    
+                            </div>
                         </div>
-                        <div id="semester-student-table">
-
-                        </div>
-                        <table class="table text-center" style="width:100%;">
+                        <table id="semester1" class="table text-center mt-5" style="width:100%;">
                             <thead>
                                 <tr class="row">
-                                    <th class="col-3">1학기</th>
+                                    <th class="col-3">1월 학기</th>
                                     <th class="col-3">학생 수</th>
                                     <th class="col-3">퇴소 수</th>
                                     <th class="col-3">상세</th>
@@ -712,10 +714,10 @@
 
                             </tr>
                         </table>
-                        <table class="table text-center" style="width:100%;">
+                        <table id="semester5" class="table text-center mt-5" style="width:100%;">
                             <thead>
                                 <tr class="row">
-                                    <th class="col-3">5학기</th>
+                                    <th class="col-3">5월 학기</th>
                                     <th class="col-3">학생 수</th>
                                     <th class="col-3">퇴소 수</th>
                                     <th class="col-3">상세</th>
@@ -725,10 +727,10 @@
 
                             </tr>
                         </table>
-                        <table class="table text-center" style="width:100%;">
+                        <table id="semester9" class="table text-center mt-5" style="width:100%;">
                             <thead>
                                 <tr class="row">
-                                    <th class="col-3">9학기</th>
+                                    <th class="col-3">9월 학기</th>
                                     <th class="col-3">학생 수</th>
                                     <th class="col-3">퇴소 수</th>
                                     <th class="col-3">상세</th>
