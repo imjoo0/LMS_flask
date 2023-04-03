@@ -227,7 +227,9 @@ function get_data() {
                         'student_mobileno': student.mobileno,
                         'ban_name': student.classname,
                         'consulting_num': consultingList.length,
-                        'deadline': new Date(deadline.deadline)
+                        'deadline': new Date(deadline.deadline),
+                        'created_at':new Date(consultingList[0].created_at),
+                        'missed':new Date(consultingList[0].missed)
                     });
                 }
                 return acc;
@@ -242,7 +244,7 @@ function get_data() {
                 $('#consulting_title').html('오늘의 상담');
                 consultingStudentData = result
                 container.pagination({
-                    dataSource: result.filter(e=>e.done != 1),
+                    dataSource: result.filter(e=>e.done === 0 && e.created_at == NaN),
                     prevText: '이전',
                     nextText: '다음',
                     pageSize: 10,
@@ -275,19 +277,15 @@ function get_data() {
 async function get_consulting_student(value) {
     let container = $('#consultingstudent_pagination')
     const data = await consultingStudentData.filter((e) => {
-        // cdate = new Date(e.created_at)
-        // mdate = new Date(e.missed)
-        console.log(e)
-        console.log(today)
-        if(cdate == today){
-            console.log('hello')
-        }
         if(value == 0) {
-            return e.done == 0;
+            $('#consulting_title').html('오늘의 상담');
+            return e.done === 0 && e.created_at == NaN
         } else if (value == 1){
-            return e.done == 1 && cdate == today;
+            $('#consulting_title').html('오늘 완료한 상담');
+            return e.done == 1 && e.created_at == today;
         }else{
-            return e.done === 0 && mdate == today;
+            $('#consulting_title').html('오늘의 부재중 상담');
+            return e.done === 0 && e.missed == today;
         }
     })
     await container.pagination({
@@ -296,19 +294,25 @@ async function get_consulting_student(value) {
         nextText: '다음',
         pageSize: 10,
         callback: function (data, pagination) {
-            var temp_consulting_contents_box = '';
-            $.each(data, function (index, consulting) {
-                temp_consulting_contents_box += `
-                <td class="col-3">${consulting.ban_name}</td>
-                <td class="col-2">${consulting.student_name}</td>
-                <td class="col-3">${consulting.student_mobileno}</td>
-                <td class="col-2">${make_date(consulting.deadline)}</td>
-                <td class="col-1">${consulting.consulting_num}</td>
-                <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${0})"><span class="cursor-pointer">📞</span></td> 
-                `;
-            });
-            $('#today_consulting_box').html(temp_consulting_contents_box);
-            $('#consulting_student_list').show();
+            if(data.length == 0){
+                $('#consulting_title').html('오늘의 상담이 없습니다.');
+                $('#consulting_student_list').hide();
+            }else{
+                var temp_consulting_contents_box = '';
+                $.each(data, function (index, consulting) {
+                    temp_consulting_contents_box += `
+                    <td class="col-3">${consulting.ban_name}</td>
+                    <td class="col-2">${consulting.student_name}</td>
+                    <td class="col-3">${consulting.student_mobileno}</td>
+                    <td class="col-2">${make_date(consulting.deadline)}</td>
+                    <td class="col-1">${consulting.consulting_num}</td>
+                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${0})"><span class="cursor-pointer">📞</span></td> 
+                    `;
+                });
+                $('#today_consulting_box').html(temp_consulting_contents_box);
+                $('#consulting_student_list').show();
+            }
+            
         }
     })
 }
