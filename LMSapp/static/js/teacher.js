@@ -237,12 +237,11 @@ function get_data() {
             }, []);
             if (result.length > 0) {
                 result.sort((a, b) => {
-                    if (a.deadline !== b.deadline) {
-                      return a.deadline - b.deadline;
-                    }
-                    return b.consulting_num - a.consulting_num;
-                  });
-                  
+                    return a.deadline - b.deadline
+                });
+                result.sort((a, b) => {
+                    return b.consulting_num  - a.consulting_num 
+                });
                 $('#consulting_title').html('오늘의 상담');
                 container.pagination({
                     dataSource: result,
