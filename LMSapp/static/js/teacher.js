@@ -179,16 +179,18 @@ function get_data() {
                         for(j=0; j < contentsGroupedresult.length; j++){
                             const contents = Object.keys(contentsGroupedresult[j])[0];
                             const items = contentsGroupedresult[j][contents];
+                            const v = contents.split('_')
                             temp_cate_menu += `
                                 <tr class="row">
-                                    <td class="col-12">${contents}</th>
+                                    <td class="col-2">${make_priority(v[0])}</th>
+                                    <td class="col-5">${v[1]}</th>
+                                    <td class="col-5">${make_date(v[2])}</th>
                                 </tr>`;
                                 for(k=0; k < items.length; k++){
                                     temp_cate_menu += `
                                         <tr class="row">
-                                            <td class="col-4">${make_priority(items[k].priority)}</th>
-                                            <td class="col-4">마감일 :${make_date(items[k].deadline)}</th>
-                                            <td class="col-4">${items[k].ban_id}</th>
+                                            <td class="col-6">${items[k].ban_id}</th>
+                                            <td class="col-6">checkbox</th>
                                         </tr>`;
                                 }
                         }
