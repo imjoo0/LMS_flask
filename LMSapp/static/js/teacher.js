@@ -244,11 +244,12 @@ function get_data() {
                 $('#consulting_title').html('오늘의 상담');
                 consultingStudentData = result
                 container.pagination({
-                    dataSource: result.filter(e=>e.done === 0 && e.created_at == NaN),
+                    dataSource: result.filter(e=>e.done === 0 && e.created_at === null),
                     prevText: '이전',
                     nextText: '다음',
                     pageSize: 10,
                     callback: function (result, pagination) {
+                        console.log(result)
                         let temp_consulting_contents_box = ''
                         $.each(result, function (index, consulting) {
                             temp_consulting_contents_box += `
@@ -279,12 +280,15 @@ async function get_consulting_student(value) {
     const data = await consultingStudentData.filter((e) => {
         if(value == 0) {
             $('#consulting_title').html('오늘의 상담');
+            console.log(value)
             return e.done === 0 && e.created_at === null;
         } else if (value == 1){
             $('#consulting_title').html('오늘 완료한 상담');
+            console.log(value)
             return e.done == 1 && e.created_at == today;
         }else{
             $('#consulting_title').html('오늘의 부재중 상담');
+            console.log(value)
             return e.done === 0 && e.missed == today;
         }
     })
