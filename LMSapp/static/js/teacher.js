@@ -247,7 +247,6 @@ function get_data() {
                     nextText: '다음',
                     pageSize: 10,
                     callback: function (result, pagination) {
-                        console.log(result)
                         let temp_consulting_contents_box = ''
                         $.each(result, function (index, consulting) {
                             temp_consulting_contents_box += `
@@ -274,13 +273,21 @@ function get_data() {
 }
 //  상담 관련 
 async function get_consulting_student(value) {
-    var temp_consulting_contents_box = '';
     let container = $('#consultingstudent_pagination')
     const data = await consultingStudentData.filter((e) => {
-        if (value == 2) {
-            return e.done === 0 && new Date(e.created_at).setHours(0, 0, 0, 0) == today;
-        } else{
-            return e.done === value;
+        cdate = new Date(e.created_at).setHours(0, 0, 0, 0)
+        mdate = new Date(e.missed).setHours(0, 0, 0, 0)
+        console.log(cdate)
+        console.log(today)
+        if(cdate == today){
+            console.log('hello')
+        }
+        if(value == 0) {
+            return e.done == 0;
+        } else if (value == 1){
+            return e.done == 1 && cdate == today;
+        }else{
+            return e.done === 0 && mdate == today;
         }
     })
     await container.pagination({
@@ -289,7 +296,7 @@ async function get_consulting_student(value) {
         nextText: '다음',
         pageSize: 10,
         callback: function (data, pagination) {
-            var dataHtml = '';
+            var temp_consulting_contents_box = '';
             $.each(data, function (index, consulting) {
                 temp_consulting_contents_box += `
                 <td class="col-3">${consulting.ban_name}</td>
