@@ -160,9 +160,9 @@ function get_data() {
                             <tr class="row">
                                 <details>
                                     <summary onclick="get_taskban(${items[j].id},${0})">
-                                        <td class="col-2"><strong>${make_priority(items[j].priority)}</strong></th>
-                                        <td class="col-7">${items[j].contents}</th>
-                                        <td class="col-3">마감일 :${make_date(items[j].deadline)}</th>
+                                        <td class="col-2"><strong>${make_priority(items[j].priority)}</strong></td>
+                                        <td class="col-7">${items[j].contents}</td>
+                                        <td class="col-3">마감일 :${make_date(items[j].deadline)}</td>
                                     </summary>
                                         <div class="make_row" id="task_ban_box_incomplete${0}${items[j].id}}">
                                         </div>
