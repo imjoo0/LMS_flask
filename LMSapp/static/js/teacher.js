@@ -215,16 +215,11 @@ function get_data() {
             // 상담 목록 
             let result = response['my_students'].reduce((acc, student) => {
                 const consultingList = response['all_consulting'].filter(c => c.student_id === student.register_no);
-                if (consultingList.length > 0) {
+                if (consultingList.length > 0){
                     const deadline = consultingList.reduce((prev, current) => {
                         const prevDueDate = prev.deadline instanceof Date ? prev.deadline.getTime() : Number.POSITIVE_INFINITY;
                         const currentDueDate = current.deadline instanceof Date ? current.deadline.getTime() : Number.POSITIVE_INFINITY;
                         return currentDueDate < prevDueDate ? current : prev;
-                    }, consultingList[0]);
-                    const created_at = consultingList.reduce((prev, current) => {
-                        const prevDueDate = prev.created_at instanceof Date ? prev.created_at.getTime() : Number.POSITIVE_INFINITY;
-                        const currentDueDate = current.created_at instanceof Date ? current.created_at.getTime() : Number.POSITIVE_INFINITY;
-                        return currentDueDate < prevDueDate ? prev : current;
                     }, consultingList[0]);
                     acc.push({
                         'student_id': student.register_no,
@@ -233,12 +228,12 @@ function get_data() {
                         'ban_name': student.classname,
                         'consulting_num': consultingList.length,
                         'deadline': new Date(deadline.deadline),
-                        'created_at': new Date(created_at.created_at),
-                        'missed':new Date(consultingList[0].missed)
+                        'consulting_list' : consultingList
                     });
                 }
                 return acc;
             }, []);
+            console.log(result)
             if (result.length > 0) {
                 result.sort((a, b) => {
                     return b.consulting_num - a.consulting_num;
