@@ -91,20 +91,23 @@ function get_data() {
                                         <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="getBanInfo(${register_no})">✔️</td>
                                     </tr>
                                     <tr class="row">
-                                    <th class="col-2">IXL 미학습</th>
-                                    <th class="col-2">리딩 부진</th>
-                                    <th class="col-2">리특 미진행</th>
-                                    <th class="col-2">인투리딩</th>
-                                    <th class="col-2">홈페이지미접속</th>
-                                    <th class="col-2">라이팅</th>
+                                        <th class="col-12">${name}반 미학습 상세</th>
                                     </tr>
                                     <tr class="row">
-                                    <td class="col-2">${unlearned_ixl}건(${answer_rate(unlearned_ixl, unlearned).toFixed(2)}%)</td>
-                                    <td class="col-2">${unlearned_reading}건(${answer_rate(unlearned_reading, unlearned).toFixed(2)}%)</td>
-                                    <td class="col-2">${unlearned_speacial}건(${answer_rate(unlearned_speacial, unlearned).toFixed(2)}%)</td>
-                                    <td class="col-2">${unlearned_intoreading}건(${answer_rate(unlearned_intoreading, unlearned).toFixed(2)}%)</td>
-                                    <td class="col-2">${unlearned_homepage}건(${answer_rate(unlearned_homepage, unlearned).toFixed(2)}%)</td>
-                                    <td class="col-2">${unlearned_writing}건(${answer_rate(unlearned_writing, unlearned).toFixed(2)}%)</td>
+                                    <th class="col-2">IXL</th>
+                                    <th class="col-2">리딩</th>
+                                    <th class="col-2">리특</th>
+                                    <th class="col-2">인투리딩</th>
+                                    <th class="col-2">라이팅</th>
+                                    <th class="col-2">홈페이지 미접속</th>
+                                    </tr>
+                                    <tr class="row">
+                                    <td class="col-2">${unlearned_ixl}건(${answer_rate(unlearned_ixl, unlearned).toFixed(0)}%)</td>
+                                    <td class="col-2">${unlearned_reading}건(${answer_rate(unlearned_reading, unlearned).toFixed(0)}%)</td>
+                                    <td class="col-2">${unlearned_speacial}건(${answer_rate(unlearned_speacial, unlearned).toFixed(0)}%)</td>
+                                    <td class="col-2">${unlearned_intoreading}건(${answer_rate(unlearned_intoreading, unlearned).toFixed(0)}%)</td>
+                                    <td class="col-2">${unlearned_writing}건(${answer_rate(unlearned_writing, unlearned).toFixed(0)}%)</td>
+                                    <td class="col-2">${unlearned_homepage}건(${answer_rate(unlearned_homepage, unlearned).toFixed(0)}%)</td>
                                     </tr>
                                 </tbody>
                             </table>
