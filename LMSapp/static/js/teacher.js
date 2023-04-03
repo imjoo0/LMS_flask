@@ -279,7 +279,7 @@ async function get_consulting_student(value) {
     const data = await consultingStudentData.filter((e) => {
         if(value == 0) {
             $('#consulting_title').html('오늘의 상담');
-            return e.done === 0 && isNaN(e.created_at);
+            return e.done === 0 && e.created_at === null;
         } else if (value == 1){
             $('#consulting_title').html('오늘 완료한 상담');
             return e.done == 1 && e.created_at == today;
