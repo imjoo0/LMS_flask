@@ -257,11 +257,6 @@ function get_data() {
                             <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${0})"><span class="cursor-pointer">📞</span></td> 
                             `;
                         });
-                        category_set = new Set(category_list)
-                        category_list = [...category_set]
-                        $.each(category_list, function (idx, val) {
-                            idxHtml += `<option value="${val}">${val}</option>`
-                        })
                         $('#today_consulting_box').html(temp_consulting_contents_box);
                         $('#consulting_student_list').show();
                     }
