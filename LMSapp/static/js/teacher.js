@@ -128,7 +128,6 @@ function get_data() {
                 $('#today_task_box1').empty()
             }else{
                 // 오늘의 업무 중복 카테고리로 묶기 
-                // 오늘의 업무 중복 카테고리로 묶기 
                 const categoryGrouped = task_notdone.reduce((result, item) => {
                     const category = item.category;
                     if (!result[category]) {
@@ -199,7 +198,7 @@ function get_data() {
                                     temp_cate_menu += `
                                     <label><input type="checkbox" name="taskid" value="${items[k].id}"/>${ban_name}</label>`;
                                 }
-                                temp_cate_menu += `</div>`;
+                                temp_cate_menu += `</div></tbody>`;
                         }
                     } else {
                         temp_cate_menu += `
