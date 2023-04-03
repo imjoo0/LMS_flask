@@ -240,7 +240,7 @@ function get_data() {
                     return a.deadline - b.deadline
                 });
                 result.sort((a, b) => {
-                    if (a.deadline === b.deadline) {
+                    while (a.deadline === b.deadline) {
                         return b.consulting_num - a.consulting_num;
                     }
                     return a.deadline - b.deadline;
