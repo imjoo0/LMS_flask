@@ -38,7 +38,23 @@ function get_data() {
                 let name =  response['ban_data'][i]['name']
                 let semester = make_semester( response['ban_data'][i]['semester'])
                 let total_student_num =  response['ban_data'][i]['total_student_num']
-                let unlearned = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.category_id < 100 && consulting.ban_id === register_no).length: 0;
+                let unlearned_arr = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.category_id < 100 && consulting.ban_id === register_no): 0;
+                let unlearned = 0
+                let unlearned_ixl = 0
+                let unlearned_reading = 0
+                let unlearned_speacial = 0
+                let unlearned_writing = 0
+                let unlearned_homepage = 0
+                let unlearned_intoreading = 0
+                if(unlearned_arr != 0){
+                    unlearned = unlearned_arr.length;
+                    unlearned_ixl = unlearned_arr.filter(a => a.category_id == 1).length
+                    unlearned_reading = unlearned_arr.filter(a => a.category_id == 4).length
+                    unlearned_speacial = unlearned_arr.filter(a => a.category_id == 3).length
+                    unlearned_writing = unlearned_arr.filter(a => a.category_id == 6).length
+                    unlearned_homepage = unlearned_arr.filter(a => a.category_id == 2).length
+                    unlearned_intoreading = unlearned_arr.filter(a => a.category_id == 5 || a.category_id == 7).length
+                }
                 let switchstudent =response['switchstudent'].length > 0 ? response['switchstudent'].filter(a=> a.ban_id === register_no).length : 0;
                 let outstudent = response['outstudent'].length > 0 ? response['outstudent'].filter(a=> a.ban_id === register_no).length : 0;
                 let alimnote = response['alimnote'].length > 0 ? response['alimnote'].filter(a=> a.ban_id === register_no)['answer'] : 0;
@@ -73,6 +89,22 @@ function get_data() {
                                         <td class="col-5">${alimnote}건 / ${alimnote_t}건</td>
                                         <td class="col-5">${unlearned}건(${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</td>
                                         <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="getBanInfo(${register_no})">✔️</td>
+                                    </tr>
+                                    <tr class="row">
+                                    <th class="col-2">IXL 미학습</th>
+                                    <th class="col-2">리딩 부진</th>
+                                    <th class="col-2">리특 미진행</th>
+                                    <th class="col-2">인투리딩</th>
+                                    <th class="col-2">홈페이지미접속</th>
+                                    <th class="col-2">라이팅</th>
+                                    </tr>
+                                    <tr class="row">
+                                    <td class="col-2">${unlearned_ixl}건(${answer_rate(unlearned_ixl, unlearned).toFixed(2)}%)</td>
+                                    <td class="col-2">${unlearned_reading}건(${answer_rate(unlearned_reading, unlearned).toFixed(2)}%)</td>
+                                    <td class="col-2">${unlearned_speacial}건(${answer_rate(unlearned_speacial, unlearned).toFixed(2)}%)</td>
+                                    <td class="col-2">${unlearned_intoreading}건(${answer_rate(unlearned_intoreading, unlearned).toFixed(2)}%)</td>
+                                    <td class="col-2">${unlearned_homepage}건(${answer_rate(unlearned_homepage, unlearned).toFixed(2)}%)</td>
+                                    <td class="col-2">${unlearned_writing}건(${answer_rate(unlearned_writing, unlearned).toFixed(2)}%)</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -238,6 +270,7 @@ function get_data() {
                 }
                 return acc;
             }, []);
+
             if (result.length > 0) {
                 result.sort((a, b) => {
                     return b.consulting_num - a.consulting_num;
