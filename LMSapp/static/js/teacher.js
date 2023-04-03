@@ -124,47 +124,26 @@ function get_data() {
                 $('#today_task_box1').empty()
             }else{
                 // 오늘의 업무 중복 카테고리로 묶기 
+                // 오늘의 업무 중복 카테고리로 묶기 
                 const categoryGrouped = task_notdone.reduce((result, item) => {
-                    const contents = item.contents;
-                    const priority = item.priority;
-                    const deadline = item.deadline;
                     const category = item.category;
-                    const key = category+'_'+priority+'_'+contents+ '_' +deadline;
-                    const doc = {'id':item.id,'ban_id':item.ban_id,'done':item.done,'created_at':item.created_at}
-                  
-                    if (!result[key]) {
-                      result[key] = { category, priority, contents,deadline, items: [doc] };
+                    if (!result[category]) {
+                        result[category] = [];
                     }
-                    result[key].items.push(doc);
+                    result[category].push(item);
                     return result;
                 }, {});
-                  
-                // const categoryGroupedresult = Object.values(categoryGrouped).reduce((result, item) => {
 
-                //     const { id, category, items } = item;
-                //     const key = category;
-                  
-                //     if (!result[key]) {
-                //       result[key] = { category, items: [] };
-                //     }
-                  
-                //     result[key].items.push({ id, items });
-                //     return result;
-                // }, {});
-                  
-                const finalResult = Object.values(categoryGrouped).map(({ category, items }) => {
-                    return { category, items };
+                // 결과를 객체의 배열로 변환
+                const categoryGroupedresult = Object.entries(categoryGrouped).map(([category, items]) => {
+                    return { [category]: items };
                 });
-                  
-                console.log(finalResult)
 
                 let temp_cate_menu = ''
-                for(i=0; i < finalResult.length; i++){
-                    const category = finalResult[i]['category'];
-                    console.log(category)
-                    const items = finalResult[i]['items']; 
-                    console.log(items)
-                    // items.sort((a, b) => b.priority - a.priority);
+                for(i=0; i < categoryGroupedresult.length; i++){
+                    const category = Object.keys(categoryGroupedresult[i])[0];
+                    const items = categoryGroupedresult[i][category];
+                    items.sort((a, b) => b.priority - a.priority);
 
                     temp_cate_menu += `
                     <thead>
@@ -177,18 +156,12 @@ function get_data() {
 
                     if (items && items.length > 0) {
                         for(j=0; j < items.length; j++){
-                            const bans = items[j]['items'];
-                            if (bans && bans.length > 0) {
-                                bans.sort((a, b) => b.priority - a.priority);
-                                for(k=0;k<bans.length;k++){
-                                    temp_cate_menu += `
-                                    <tr class="row">
-                                        <td class="col-2">${make_priority(bans[k].priority)}</td>
-                                        <td class="col-7">${bans[k].contents}</td>
-                                        <td class="col-3">마감일 :${make_date(bans[k].deadline)}</td>
-                                    </tr>`;
-                                }
-                            }
+                            temp_cate_menu += `
+                                <tr class="row">
+                                    <td class="col-2">${make_priority(items[j].priority)}</th>
+                                    <td class="col-7">${items[j].contents}</th>
+                                    <td class="col-3">마감일 :${make_date(items[j].deadline)}</th>
+                                </tr>`;
                         }
                     } else {
                         temp_cate_menu += `
