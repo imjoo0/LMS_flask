@@ -27,6 +27,564 @@
         }
     });
 </script>
+
+<!-- 신규 상담 요청 모달 -->
+<div class="modal fade" id="request_consulting" tabindex="-1" aria-labelledby="RequestConsultingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="RequestConsultingModalLabel">
+                    상담 요청
+                </h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input id="csrf_token" type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
+                <div class="d-flex justify-content-center align-items-center flex-column">
+                    <div class="row w-100 mt-3">
+                        <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 상담 카테고리 선택</span></div>
+                        <div class="col-sm-9">
+                            <select class="form-control form-control-sm" id="consulting_category_list">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row w-100 mt-3">
+                        <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 상담 내용 입력</span></div>
+                        <div class="col-sm-9">
+                            <input class="form-control form-control-sm" type="text" id="consulting_contents" placeholder="상담 내용을 입력해주세요">
+                        </div>
+                    </div>
+                </div>
+                <div class="notice_message mt-4">
+                    <p class="mb-2" style="padding: 0 12px">👇 상담을 진행할 반을 선택해주세요</p>
+                    <div class="plus_under_contents" style="padding: 0 12px;">
+                        <select class="border rounded-0 form-control form-control-sm" onchange="ban_change(this.value)" multiple id="consulting_target_aban">
+                            <optgroup label="전체 반 선택">
+                                <option value=0>전체 반 대상 진행</option>
+                                <option value=1>PLUS/ALPHA반 대상 진행</option>
+                                <option value=2>NF/NOVEL반 대상 진행</option>
+                            </optgroup>
+                            <optgroup id="consulting_target_ban" label="개별 반 선택" multiple>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div class="notice_message mt-4" id="select_student">
+                    <p class="mb-2" style="padding: 0 12px;">👇 상담을 진행할 학생을 선택해주세요</p>
+                    <div class="plus_under_contents" style="padding: 0 12px;">
+                        <select class="border rounded-0 form-control form-control-sm" id="consulting_target_students" multiple>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="notice_message">
+                    <table class="table text-center" >
+                        <tbody style="width:100%;">
+                            <tr class="row">
+                                <th class="col-12" id="consulting_msg"></th>
+                            </tr>
+                            <tr class="row" id="result_tbox">
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="notice_message">
+                    <p class="mb-2" style="padding: 0 12px;">👇 상담을 시작해야 하는 날짜를 2022-01-01 형식으로 적어주세요</p>
+                    <div style="padding: 0 12px;">
+                        <input class="border rounded-0 form-control form-control-sm" type="text" id="consulting_date" placeholder="2023-01-01">
+                    </div>
+                </div>
+
+                <div class="notice_message mt-4">
+                    <p class="mb-2" style="padding: 0 12px;">👇 상담을 끝내야 하는 마감 날짜를 2022-01-01 형식으로 적어주세요</p>
+                    <div style="padding: 0 12px;">
+                        <input class="border rounded-0 form-control form-control-sm" type="text" id="consulting_deadline" placeholder="2023-01-01">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" onclick="post_consulting_request()">저장</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 요청한 상담 관리 모달 창 -->
+<div class="modal fade" id="my_consulting_request" tabindex="-1" aria-labelledby="my_consulting_requestModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="my_consulting_requestModalLabel">
+                    요청한 상담 목록
+                </h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="my-4 d-flex flex-wrap justify-content-end align-items-center">
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 상담 카테고리 선택</span></div>
+                    <div class="col-md-4 col-sm-6 col-12">
+                        <select id="category-select" onchange="sort_consulting(this.value)" class="form-select form-select-sm w-100" aria-label="Default select example">
+                            <optgroup id="consulting-option">
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-start align-items-start flex-column" style="overflow: auto;">
+                    <table class="table text-center" id="consulting_task_list">
+                        <thead>
+                            <tr class="row">
+                                <th class="col-3">날짜</th>
+                                <th class="col-2">종류</th>
+                                <th class="col-1">진행</th>
+                                <th class="col-4">내용</th>
+                                <th class="col-2">수정/삭제</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="row" id="tr-row">
+                                <td>
+                                    <div class="loader loader--style2" title="1">
+                                            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                                            <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                                                <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
+                                            </path>
+                                        </svg>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center align-items-center w-100">
+                    <div id="consulting-pagination" class="mt-4 mb-5 text-center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 상담 일지 조회 모달-->
+<div class="modal fade" id="consultinghistory" tabindex="-1" aria-labelledby="consultinghistoryModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="consultinghistoryModalLabelt">
+                    <img src="#" style="width: 30px;">&nbsp;&nbsp;상담일지 작성
+                </h5>
+                <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body py-4 px-5">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
+                <div class="d-flex justify-content-center mt-4 mb-2">
+                    <div id="consulting_write_box">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 신규 업무 요청 모달 -->
+<div class="modal fade" id="request_task" tabindex="-1" aria-labelledby="RequestTaskModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="RequestTaskModalLabel">
+                    업무 요청
+                </h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/manage/task" method="POST">
+                <div class="modal-body">
+                    <input id="csrf_token" type="hidden" name="csrf_token" value="{{ csrf_token() }}"
+                        style="display: block;" />
+                    <div class="d-flex justify-content-center align-items-center flex-column">
+                        <div class="row w-100 mt-3">
+                            <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 업무 카테고리 선택</span></div>
+                            <div class="col-sm-9">
+                                <select class="form-control form-control-sm" name="task_category" id="task_category_list">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row w-100 mt-3">
+                            <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 업무 내용 입력</span></div>
+                            <div class="col-sm-9">
+                                <input class="form-control form-control-sm" type="text" name="task_contents" placeholder="업무 내용을 입력해주세요">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="make_row">
+                        <select class="border rounded-0 form-control form-control-sm" name="task_category"
+                            style=" width: 200px; height: 100%; margin-left:0;" id="task_category_list">
+                            
+                        </select>
+                        <input class="border rounded-0 form-control form-control-sm" type="text" name="task_contents"
+                            placeholder="업무 내용을 입력해주세요">
+                    </div> -->
+
+                    <div class="notice_message mt-4">
+                        <p class="mb-2" style="padding: 0 12px">👇 업무를 진행할 반을 선택해주세요</p>
+                        <div class="plus_under_contents" style="padding: 0 12px;">
+                            <select class="border rounded-0 form-control form-control-sm" onchange="task_ban_change(this.value)" multiple name="task_target_ban[]">
+                                <optgroup label="전체 반 선택">
+                                    <option value=0>전체 반 대상 진행</option>
+                                    <option value=1>PLUS/ALPHA반 대상 진행</option>
+                                    <option value=2>NF/NOVEL반 대상 진행</option>
+                                </optgroup>
+                                <optgroup id="task_target_ban" label="개별 반 선택" multiple>
+                                </optgroup>
+                            </select>
+                            <table class="table text-center mt-4">
+                                <tbody style="width:100%;">
+                                    <tr class="row">
+                                        <th class="col-12" id="task_msg"></th>
+                                    </tr>
+                                    <tr class="row" id="target_task_bans">
+                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="notice_message">
+                        <table class="table text-center" >
+                            <tbody style="width:100%;">
+                                <tr class="row">
+                                    <th class="col-12" id="consulting_msg"></th>
+                                </tr>
+                                <tr class="row" id="result_tbox">
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="notice_message">
+                        <p class="mb-2" style="padding: 0 12px;">👇 업무을 시작해야 하는 날짜를 2022-01-01 형식으로 적어주세요</p>
+                        <div style="padding: 0 12px;">
+                            <input class="border rounded-0 form-control form-control-sm" type="text" name="task_date" placeholder="2023-01-01">
+                        </div>
+                    </div>
+
+                    <div class="notice_message mt-4">
+                        <p class="mb-2" style="padding: 0 12px;">👇 업무을 끝내야 하는 마감 날짜를 2022-01-01 형식으로 적어주세요</p>
+                        <div style="padding: 0 12px;">
+                            <input class="border rounded-0 form-control form-control-sm" type="text" name="task_deadline" placeholder="2023-01-01">
+                        </div>
+                    </div>
+                    
+                    <div class="notice_message mt-4">
+                        <p class="mb-2" style="padding: 0 12px;">👇 업무 참고 url 을 알려주세요 (없을 경우: 없음)</p>
+                        <div style="padding: 0 12px;">
+                            <input class="border rounded-0 form-control form-control-sm" type="text" name="task_url" placeholder="https://www.purpleacademy.co.kr/">
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center align-items-center flex-column mt-3">
+                        <div class="row w-100 mt-3">
+                            <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 업무 주기</span></div>
+                            <div class="col-sm-9">
+                                <select class="border rounded-0 form-control form-control-sm" name="task_cycle">
+                                    <optgroup>
+                                        <option value="none" selected>업무 주기를 선택해주세요</option>
+                                        <option value=0>업무 주기 없음</option>
+                                        <option value=1>월요일 업무</option>
+                                        <option value=2>화요일 업무</option>
+                                        <option value=3>수요일 업무</option>
+                                        <option value=4>목요일 업무</option>
+                                        <option value=5>금요일 업무</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row w-100 my-3">
+                            <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 업무 우선순위</span></div>
+                            <div class="col-sm-9">
+                                <select class="border rounded-0 form-control form-control-sm" name="task_priority">
+                                    <optgroup>
+                                        <option value="none" selected>업무 우선순위를 선택해주세요</option>
+                                        <option value=1>우선순위 무관</option>
+                                        <option value=2>오후 업무</option>
+                                        <option value=3>오전 업무</option>
+                                        <option value=4>최우선 업무</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit">저장</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
+                </div>
+
+                    <!-- <div class="notice_message">
+                        <p>👇 업무를 진행할 반을 선택해주세요</p>
+                        <div class="plus_under_contents">
+                            <select class="border rounded-0 form-control form-control-sm" onchange="task_ban_change(this.value)" multiple name="task_target_ban[]">
+                                <optgroup label="전체 반 선택">
+                                    <option value=0>전체 반 대상 진행</option>
+                                    <option value=1>PLUS/ALPHA반 대상 진행</option>
+                                    <option value=2>NF/NOVEL반 대상 진행</option>
+                                </optgroup>
+                                <optgroup id="task_target_ban" label="개별 반 선택" multiple>
+                                </optgroup>
+                            </select>
+                            <table class="table text-center" >
+                                <tbody style="width:100%;">
+                                    <tr class="row">
+                                        <th class="col-12" id="task_msg"></th>
+                                    </tr>
+                                    <tr class="row" id="target_task_bans">
+                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="notice_message">
+                        <p>👇 업무을 시작해야 하는 날짜를 2022-01-01 형식으로 적어주세요</p>
+                        <input class="border rounded-0 form-control form-control-sm" type="text" name="task_date"
+                            placeholder="2023-01-01">
+                    </div>
+
+                    <div class="notice_message">
+                        <p>👇 업무을 끝내야 하는 마감 날짜를 2022-01-01 형식으로 적어주세요</p>
+                        <input class="border rounded-0 form-control form-control-sm" type="text" name="task_deadline"
+                            placeholder="2023-01-01">
+                    </div>
+                    <div class="notice_message">
+                        <p>👇 업무 참고 url 을 알려주세요 (없을 경우: 없음)</p>
+                        <input class="border rounded-0 form-control form-control-sm" type="text" name="task_url"
+                            placeholder="https://www.purpleacademy.co.kr/">
+                    </div>
+                    <div class="notice_message">
+                        <p style="margin-right: 6px;"> 업무 주기와 업무 우선순위설정 : </p>
+                        <div class="make_row">
+                            <select class="border rounded-0 form-control form-control-sm" name="task_cycle"
+                                style=" width: 200px; height: 100%; margin-left:0;">
+                                <optgroup>
+                                    <option value="none" selected>업무 주기를 선택해주세요</option>
+                                    <option value=0>업무 주기 없음</option>
+                                    <option value=1>월요일 업무</option>
+                                    <option value=2>화요일 업무</option>
+                                    <option value=3>수요일 업무</option>
+                                    <option value=4>목요일 업무</option>
+                                    <option value=5>금요일 업무</option>
+                                </optgroup>
+                            </select>
+                            <select class="border rounded-0 form-control form-control-sm" name="task_priority"
+                                style=" width: 200px; height: 100%; margin-left:0;">
+                                <optgroup>
+                                    <option value="none" selected>업무 우선순위를 선택해주세요</option>
+                                    <option value=1>우선순위 무관</option>
+                                    <option value=2>오후 업무</option>
+                                    <option value=3>오전 업무</option>
+                                    <option value=4>최우선 업무</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display: flex; float: right;">
+                        <button class="btn btn-success" type="submit" style="margin-top: 13px;">저장</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                            style="margin-top: 13px;">취소</button>
+                    </div> -->            
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 요청한 업무 관리 모달 창 -->
+<div class="modal fade" id="my_task_request" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="taskModalLabel">
+                    요청 중인 업무 목록
+                </h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="for_task_list">
+                    <div class="my-4 d-flex flex-wrap justify-content-end align-items-center">
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 업무 카테고리 선택</span></div>
+                        <div class="col-md-4 col-sm-6 col-12">
+                            <select id="task-category-select" onchange="sort_task(this.value)" class="form-select form-select w-100" aria-label="Default select example">
+                                <optgroup id="task-option">
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-start align-items-start flex-column" style="overflow: auto;">
+                        <table class="table text-center" id="consulting_task_list">
+                            <thead>
+                                <tr class="row">
+                                    <th class="col-3">날짜</th>
+                                    <th class="col-3">종류</th>
+                                    <th class="col-4">내용</th>
+                                    <th class="col-2">상세/삭제</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="row" id="task-tr">
+                                    <td>
+                                        <div class="loader loader--style2" title="1">
+                                            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                                                <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                                                    <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
+                                                </path>
+                                            </svg>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center w-100">
+                        <div id="task-pagination" class="py-5"></div>
+                    </div>
+                </div>
+
+                <div id="for_taskban_list">
+                    <button type="button" class="btn btn-back" onclick="go_back()">업무 목록보기🔙 </button>
+                    <table class="table text-center" style="width:100%;">
+                        <tbody style="width:100%;">
+                            <thead>
+                                <tr class="row">
+                                    <th class="col-4">반</th>
+                                    <th class="col-4">진행</th>
+                                    <th class="col-4">삭제</th>
+                                </tr>
+                            </thead>
+                            <tr class="row" id="taskban_list">
+                                <td class="col-4">ddd</td>
+                                <td class="col-4">ddd</td>
+                                <td class="col-4">✖️</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>            
+            </div>
+    
+            <!-- <div id="for_task_list">
+                <div class="modal-header">
+                    <select id="task-category-select" onchange="sort_task(this.value)" class="form-select"
+                        aria-label="Default select example">
+                        <optgroup id="task-option">
+                        </optgroup>
+                    </select>
+                </div>
+                <div>
+                    <table class="table text-center" id="task_list" style="width:100%;">
+                        <tbody style="width:100%;">
+                            <thead>
+                                <tr class="row">
+                                    <th class="col-3">날짜</th>
+                                    <th class="col-3">종류</th>
+                                    <th class="col-4">내용</th>
+                                    <th class="col-2">상세|삭제</th>
+                                </tr>
+                            </thead>
+                            <tr id="task-tr" class="row"></tr>
+                        </tbody>
+                    </table>
+                    <div id="task-pagination" class="py-5"></div>
+                </div>
+            </div>
+            <div id="for_taskban_list">
+                <button type="button" class="btn btn-back" onclick="go_back()">업무 목록보기🔙 </button>
+                <table class="table text-center" style="width:100%;">
+                    <tbody style="width:100%;">
+                        <thead>
+                            <tr class="row">
+                                <th class="col-4">반</th>
+                                <th class="col-4">진행</th>
+                                <th class="col-4">삭제</th>
+                            </tr>
+                        </thead>
+                        <tr class="row" id="taskban_list">
+                            <td class="col-4">ddd</td>
+                            <td class="col-4">ddd</td>
+                            <td class="col-4">✖️</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+<!-- PURPLE 섹션 -->
+<!-- 반 정보 상세 조회 모달 창 -->
+<div class="modal fade" id="target_ban_info" tabindex="-1" aria-labelledby="target_ban_info_requestModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="target_ban_info_requestModalLabel">
+                    반 상세 현황
+                </h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="inloading" class="loader loader--style2 text-center" title="1">
+                    <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                        <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                            <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
+                        </path>
+                    </svg>
+                </div>
+                <!-- <h1 id="inloading" style="display: none;">로딩중..</h1> -->
+                <div id="target_ban_info_body">
+                    <div class="my-4 d-flex flex-wrap justify-content-end align-items-center">
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 상세조회 할 반 선택</span></div>
+                        <div class="col-md-4 col-sm-6 col-12">
+                            <select id="category-select" onchange="getBanChart(this.value)" class="form-select form-select-sm"
+                                aria-label="Default select example">
+                                <optgroup id="ban_list">
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-start align-items-start flex-column" style="overflow: auto;">
+                        <table class="table text-center" id="profile_data" >
+                        </table>
+                        <table class="table text-center" id="ban_data" >
+                        </table>
+    
+                        <table class="table text-center" id="student_data">
+                            <tr class="row" style="background: #DCE6F2;">
+                                <th class="col-12" id="displayCount"></th>
+                            </tr>
+                            <tr class="row" style="background:#DCE6F2;">
+                                <th class="col-2">원생 정보</th>
+                                <th class="col-2">연락처</th>
+                                <th class="col-3">부모님 정보</th>
+                                <th class="col-2">추천도서</th>
+                                <th class="col-2">미학습</th>
+                                <th class="col-1">상세</th>
+                            </tr>
+                            <tr id="s_data" class="row"></tr>
+                        </table>
+                        <ul id="pagingul"></ul>
+                        <div id="ban_statistics" class="make_row w-100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 <!-- 이반/퇴소 문의 조회 모달 -->
 <div class="modal fade" id="soanswer" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -123,6 +681,7 @@
         </div>
     </div>
 </div>
+
 <!-- 문의 조회 모달 창 -->
 <div class="modal fade" id="answer" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -220,374 +779,6 @@
     </div>
 </div>
 
-<!-- 요청한 업무 리스트 모달 창 -->
-<div class="modal fade" id="my_task_request" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="taskModalLabel">
-                    요청 중인 업무 목록
-                </h5>
-                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <div id="for_task_list">
-                <div class="modal-header">
-                    <select id="task-category-select" onchange="sort_task(this.value)" class="form-select"
-                        aria-label="Default select example">
-                        <optgroup id="task-option">
-                        </optgroup>
-                    </select>
-                </div>
-                <div>
-                    <table class="table text-center" id="task_list" style="width:100%;">
-                        <tbody style="width:100%;">
-                            <thead>
-                                <tr class="row">
-                                    <th class="col-3">날짜</th>
-                                    <th class="col-3">종류</th>
-                                    <th class="col-4">내용</th>
-                                    <th class="col-2">상세|삭제</th>
-                                </tr>
-                            </thead>
-                            <tr id="task-tr" class="row"></tr>
-                        </tbody>
-                    </table>
-                    <div id="task-pagination" class="py-5"></div>
-                </div>
-            </div>
-            <div id="for_taskban_list">
-                <button type="button" class="btn btn-back" onclick="go_back()">업무 목록보기🔙 </button>
-                <table class="table text-center" style="width:100%;">
-                    <tbody style="width:100%;">
-                        <thead>
-                            <tr class="row">
-                                <th class="col-4">반</th>
-                                <th class="col-4">진행</th>
-                                <th class="col-4">삭제</th>
-                            </tr>
-                        </thead>
-                        <tr class="row" id="taskban_list">
-                            <td class="col-4">ddd</td>
-                            <td class="col-4">ddd</td>
-                            <td class="col-4">✖️</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- 요청한 상담 리스트 모달 창 -->
-<div class="modal fade" id="my_consulting_request" tabindex="-1" aria-labelledby="my_consulting_requestModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="my_consulting_requestModalLabel">
-                    요청한 상담 목록
-                </h5>
-                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div class="my-4 d-flex flex-wrap justify-content-end align-items-center">
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 상담 카테고리 선택</span></div>
-                    <div class="col-md-4 col-sm-6 col-12">
-                        <select id="category-select" onchange="sort_consulting(this.value)" class="form-select form-select-sm"
-                            aria-label="Default select example">
-                            <optgroup id="consulting-option">
-                            </optgroup>
-                        </select>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-start align-items-start flex-column" style="overflow: auto;">
-                    <table class="table text-center" id="consulting_task_list">
-                        <thead>
-                            <tr class="row w-100">
-                                <th class="col-3">날짜</th>
-                                <th class="col-2">종류</th>
-                                <th class="col-1">진행</th>
-                                <th class="col-4">내용</th>
-                                <th class="col-2">수정/삭제</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="row w-100" id="tr-row">
-                                <td>Loading...</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="d-flex justify-content-center align-items-center w-100">
-                    <div id="consulting-pagination" class="mt-4 mb-5 text-center"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- 상담요청 모달 -->
-<div class="modal fade" id="request_consulting" tabindex="-1" aria-labelledby="RequestConsultingModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="RequestConsultingModalLabel">
-                    상담 요청
-                </h5>
-                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <input id="csrf_token" type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
-                <div class="d-flex justify-content-center align-items-center flex-column">
-                    <div class="row w-100 mt-3">
-                        <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 상담 카테고리 선택</span></div>
-                        <div class="col-sm-9">
-                            <select class="form-control form-control-sm" id="consulting_category_list">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row w-100 mt-3">
-                        <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 상담 내용 입력</span></div>
-                        <div class="col-sm-9">
-                            <input class="form-control form-control-sm" type="text" id="consulting_contents" placeholder="상담 내용을 입력해주세요">
-                        </div>
-                    </div>
-                </div>
-                <div class="notice_message mt-4">
-                    <p class="mb-2" style="padding: 0 12px">👇 상담을 진행할 반을 선택해주세요</p>
-                    <div class="plus_under_contents" style="padding: 0 12px;">
-                        <select class="border rounded-0 form-control form-control-sm" onchange="ban_change(this.value)" multiple id="consulting_target_aban">
-                            <optgroup label="전체 반 선택">
-                                <option value=0>전체 반 대상 진행</option>
-                                <option value=1>PLUS/ALPHA반 대상 진행</option>
-                                <option value=2>NF/NOVEL반 대상 진행</option>
-                            </optgroup>
-                            <optgroup id="consulting_target_ban" label="개별 반 선택" multiple>
-                            </optgroup>
-                        </select>
-                    </div>
-                </div>
-                <div class="notice_message mt-4" id="select_student">
-                    <p class="mb-2" style="padding: 0 12px;">👇 상담을 진행할 학생을 선택해주세요</p>
-                    <div class="plus_under_contents" style="padding: 0 12px;">
-                        <select class="border rounded-0 form-control form-control-sm" id="consulting_target_students" multiple>
-
-                        </select>
-                    </div>
-                </div>
-                <div class="notice_message">
-                    <table class="table text-center" >
-                        <tbody style="width:100%;">
-                            <tr class="row">
-                                <th class="col-12" id="consulting_msg"></th>
-                            </tr>
-                            <tr class="row" id="result_tbox">
-                                
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="notice_message">
-                    <p class="mb-2" style="padding: 0 12px;">👇 상담을 시작해야 하는 날짜를 2022-01-01 형식으로 적어주세요</p>
-                    <div style="padding: 0 12px;">
-                        <input class="border rounded-0 form-control form-control-sm" type="text" id="consulting_date" placeholder="2023-01-01">
-                    </div>
-                </div>
-
-                <div class="notice_message mt-4">
-                    <p class="mb-2" style="padding: 0 12px;">👇 상담을 끝내야 하는 마감 날짜를 2022-01-01 형식으로 적어주세요</p>
-                    <div style="padding: 0 12px;">
-                        <input class="border rounded-0 form-control form-control-sm" type="text" id="consulting_deadline" placeholder="2023-01-01">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-success" onclick="post_consulting_request()">저장</button>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- 상담 일지 조회 모달-->
-<div class="modal fade" id="consultinghistory" tabindex="-1" aria-labelledby="consultinghistoryModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="consultinghistoryModalLabelt">
-                    <img src="#" style="width: 30px;">&nbsp;&nbsp;상담일지 작성
-                </h5>
-                <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body py-4 px-5">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
-                <div class="d-flex justify-content-center mt-4 mb-2">
-                    <div id="consulting_write_box">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- 업무요청 모달 -->
-<div class="modal fade" id="request_task" tabindex="-1" aria-labelledby="RequestTaskModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="RequestTaskModalLabel">
-                    업무 요청
-                </h5>
-                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body" style="padding-top: 0;">
-                <form action="/manage/task" method="POST">
-                    <input id="csrf_token" type="hidden" name="csrf_token" value="{{ csrf_token() }}"
-                        style="display: block;" />
-                    <div class="make_row">
-                        <select class="border rounded-0 form-control form-control-sm" name="task_category"
-                            style=" width: 200px; height: 100%; margin-left:0;" id="task_category_list">
-                            
-                        </select>
-                        <input class="border rounded-0 form-control form-control-sm" type="text" name="task_contents"
-                            placeholder="업무 내용을 입력해주세요">
-                    </div>
-                    <div class="notice_message">
-                        <p>👇 업무를 진행할 반을 선택해주세요</p>
-                        <div class="plus_under_contents">
-                            <select class="border rounded-0 form-control form-control-sm" onchange="task_ban_change(this.value)" multiple name="task_target_ban[]">
-                                <optgroup label="전체 반 선택">
-                                    <option value=0>전체 반 대상 진행</option>
-                                    <option value=1>PLUS/ALPHA반 대상 진행</option>
-                                    <option value=2>NF/NOVEL반 대상 진행</option>
-                                </optgroup>
-                                <optgroup id="task_target_ban" label="개별 반 선택" multiple>
-                                </optgroup>
-                            </select>
-                            <table class="table text-center" >
-                                <tbody style="width:100%;">
-                                    <tr class="row">
-                                        <th class="col-12" id="task_msg"></th>
-                                    </tr>
-                                    <tr class="row" id="target_task_bans">
-                                        
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="notice_message">
-                        <p>👇 업무을 시작해야 하는 날짜를 2022-01-01 형식으로 적어주세요</p>
-                        <input class="border rounded-0 form-control form-control-sm" type="text" name="task_date"
-                            placeholder="2023-01-01">
-                    </div>
-
-                    <div class="notice_message">
-                        <p>👇 업무을 끝내야 하는 마감 날짜를 2022-01-01 형식으로 적어주세요</p>
-                        <input class="border rounded-0 form-control form-control-sm" type="text" name="task_deadline"
-                            placeholder="2023-01-01">
-                    </div>
-                    <div class="notice_message">
-                        <p>👇 업무 참고 url 을 알려주세요 (없을 경우: 없음)</p>
-                        <input class="border rounded-0 form-control form-control-sm" type="text" name="task_url"
-                            placeholder="https://www.purpleacademy.co.kr/">
-                    </div>
-                    <div class="notice_message">
-                        <p style="margin-right: 6px;"> 업무 주기와 업무 우선순위설정 : </p>
-                        <div class="make_row">
-                            <select class="border rounded-0 form-control form-control-sm" name="task_cycle"
-                                style=" width: 200px; height: 100%; margin-left:0;">
-                                <optgroup>
-                                    <option value="none" selected>업무 주기를 선택해주세요</option>
-                                    <option value=0>업무 주기 없음</option>
-                                    <option value=1>월요일 업무</option>
-                                    <option value=2>화요일 업무</option>
-                                    <option value=3>수요일 업무</option>
-                                    <option value=4>목요일 업무</option>
-                                    <option value=5>금요일 업무</option>
-                                </optgroup>
-                            </select>
-                            <select class="border rounded-0 form-control form-control-sm" name="task_priority"
-                                style=" width: 200px; height: 100%; margin-left:0;">
-                                <optgroup>
-                                    <option value="none" selected>업무 우선순위를 선택해주세요</option>
-                                    <option value=1>우선순위 무관</option>
-                                    <option value=2>오후 업무</option>
-                                    <option value=3>오전 업무</option>
-                                    <option value=4>최우선 업무</option>
-                                </optgroup>
-                            </select>
-                        </div>
-                    </div>
-                    <div style="display: flex; float: right;">
-                        <button class="btn btn-success" type="submit" style="margin-top: 13px;">저장</button>
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
-                            style="margin-top: 13px;">취소</button>
-                    </div>
-                </form>
-
-            </div>
-
-
-        </div>
-    </div>
-</div>
-
-<!-- 반 정보 상세 조회 모달 창 -->
-<div class="modal fade" id="target_ban_info" tabindex="-1" aria-labelledby="target_ban_info_requestModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="target_ban_info_requestModalLabel">
-                    반 상세 현황
-                </h5>
-                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <h1 id="inloading" style="display: none;">로딩중..</h1>
-                <div id="target_ban_info_body">
-                    <div class="my-4 d-flex flex-wrap justify-content-end align-items-center">
-                        <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 상세조회 할 반 선택</span></div>
-                        <div class="col-md-4 col-sm-6 col-12">
-                            <select id="category-select" onchange="getBanChart(this.value)" class="form-select form-select-sm"
-                                aria-label="Default select example">
-                                <optgroup id="ban_list">
-                                </optgroup>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-start align-items-start flex-column" style="overflow: auto;">
-                        <table class="table text-center" id="profile_data" >
-                        </table>
-                        <table class="table text-center" id="ban_data" >
-                        </table>
-    
-                        <table class="table text-center" id="student_data">
-                            <tr class="row" style="background: #DCE6F2;">
-                                <th class="col-12" id="displayCount"></th>
-                            </tr>
-                            <tr class="row" style="background:#DCE6F2;">
-                                <th class="col-2">원생 정보</th>
-                                <th class="col-2">연락처</th>
-                                <th class="col-3">부모님 정보</th>
-                                <th class="col-2">추천도서</th>
-                                <th class="col-2">미학습</th>
-                                <th class="col-1">상세</th>
-                            </tr>
-                            <tr id="s_data" class="row"></tr>
-                        </table>
-                        <ul id="pagingul"></ul>
-                        <div id="ban_statistics" class="make_row w-100"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="container_box">
     <div id="user-info" class="border-bottom">

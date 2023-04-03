@@ -9,6 +9,11 @@
     color: #b02b74;
 }
 
+td, th {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
 .table .row .fa-check:hover, .table .row .fa-circle-check:hover {
     color: #b04272;
     cursor: pointer;

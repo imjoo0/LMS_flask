@@ -202,10 +202,7 @@
                 <div class="d-flex justify-content-between align-items-center flex-md-row flex-column">
                     <select id="history_ban" class="form-select text-center" name="work_done">
                         <option value=0 selected>상담을 진행한 반을 선택해주세요</option>
-                        {% for ban in my_bans %}
-                        {% set ban_regi = ban['register_no'] %}
-                        <option value={{ban_regi}}>{{ ban['name'] }} 상담</option>
-                        {% endfor %}
+                        
                     </select>
                     <select id="history_done" class="form-select text-center" name="work_done">
                         <option value=-1 selected>종류를 선택해주세요</option>
@@ -418,8 +415,10 @@
                         <table class="table text-center" id="unlearned">
                             <tbody style="width:100%;">
                                 <tr class="row">
-                                    <th class="col-6">오늘의 업무 | 완수율</th>
-                                    <th class="col-6">상담 | 완수율</th>
+                                    <th class="col-3">오늘의 업무</th>
+                                    <th class="col-3">완수율</th>
+                                    <th class="col-3">오늘의 상담</th>
+                                    <th class="col-3">완수율</th>
                                 </tr>
                                 <tr id="classreport" class="row">
                                 </tr>
@@ -445,18 +444,6 @@
                         <table class="table text-center responsive-table" id="cate_menu">
                             
                         </table>
-                        <!-- <table class="table text-center responsive-table">
-                            <thead>
-                                <tr class="row" id="cate_menu">
-                                </tr>
-                            </thead>
-                            <tbody style="width:100%;">    
-                                <tr class="row" id="today_task_box0">
-                                </tr>
-                                <tr class="row" id="today_task_box1">
-                                </tr>
-                            </tbody>
-                        </table> -->
                     </div>
                     <button onclick="get_update_done()" id="task_button" class="btn btn-success mt-4">업무 완료 저장</button> 
                 </div>
@@ -473,8 +460,7 @@
                         <select class="form-select text-center w-25"
                             onchange="get_consulting_student(this.value)">
                             <option value=0 selected>오늘의 상담</option>
-                            <option value=1>오늘 완료한 상담</option>
-                            <option value=2>오늘의 부재중 상담</option>
+                            <option value=1>오늘의 부재중 상담</option>
                         </select>
                     </div>
                     <div class="responsive-table-wrapper w-100 mt-4" id="consulting_student_list">
@@ -493,6 +479,9 @@
 
                             </tr>
                         </table>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center w-100">
+                        <div id="consultingstudent_pagination" class="mt-4 mb-5 text-center"></div>
                     </div>
                 </div>
             </div>

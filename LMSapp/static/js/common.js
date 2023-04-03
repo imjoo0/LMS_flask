@@ -5,7 +5,7 @@ var globalCurrentPage = 1; //현재 페이지
 var data_list;
 var consultingData = [];
 var taskData = [];
-const today = new Date().setHours(0, 0, 0, 0);
+const today = new Date();
 let make_date = function(d){
     const date = new Date(d)
     return date.getFullYear()+'-'+(date.getMonth()+ 1).toString().padStart(2, '0')+'-'+date.getDate().toString().padStart(2, '0')
