@@ -251,7 +251,6 @@ function get_data() {
             // 상담 목록 
             let result = response['my_students'].reduce((acc, student) => {
                 const consultingList = response['all_consulting'].filter(c => c.student_id === student.register_no && c.done === 0 && c.created_at === null&& c.done === 0);
-                console.log(consultingList)
                 if (consultingList.length > 0){
                     const deadline = consultingList.reduce((prev, current) => {
                         const prevDueDate = prev.deadline instanceof Date ? prev.deadline.getTime() : Number.POSITIVE_INFINITY;
@@ -285,13 +284,15 @@ function get_data() {
                 });
                 $('#consulting_title').html('오늘의 상담');
                 consultingStudentData = result
+                console.log(result)
+                console.log(today)
+                console.log(result.filter(e=>e.missed == today))
                 container.pagination({
                     dataSource: result.filter(e=>e.missed == today),
                     prevText: '이전',
                     nextText: '다음',
                     pageSize: 10,
                     callback: function (result, pagination) {
-                        console.log(result)
                         let temp_consulting_contents_box = ''
                         $.each(result, function (index, consulting) {
                             temp_consulting_contents_box += `
