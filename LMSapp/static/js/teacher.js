@@ -172,14 +172,17 @@ function get_data() {
                     });
                     console.log(contentsGroupedresult)
                     temp_cate_menu += `
-                    <thead>
-                        <tr class="row">
-                        <th class="col-2">우선순위</th>
-                        <th class="col-8">${category}업무</th>
-                        <th class="col-2">마감일</th>
-                        </tr>
-                    </thead>
-                    <tbody style="width:100%;">  
+                    <details>
+                        <summary>
+                        <thead>
+                            <tr class="row">
+                            <th class="col-2">우선순위</th>
+                            <th class="col-8">${category}업무</th>
+                            <th class="col-2">마감일</th>
+                            </tr>
+                        </thead>
+                        </summary>
+                        <tbody style="width:100%;">  
                     `;
 
                     if (contentsGroupedresult && contentsGroupedresult.length > 0) {
@@ -200,7 +203,8 @@ function get_data() {
                                     temp_cate_menu += `
                                     <td class="col-${range}"><label><input type="checkbox" name="taskid" value="${items[k].id}"/>${ban_name}</label></th>`;
                                 }
-                                temp_cate_menu += `</tr>`;
+                                temp_cate_menu += `</tr>
+                                </details>  `;
                         }
                     } else {
                         temp_cate_menu += `
@@ -237,12 +241,11 @@ function get_data() {
             }, []);
             if (result.length > 0) {
                 result.sort((a, b) => {
-                    if (a.deadline !== b.deadline) {
-                      return a.deadline - b.deadline;
-                    } else {
-                      return b.consulting_num - a.consulting_num;
-                    }
-                  });
+                    return b.consulting_num - a.consulting_num;
+                });
+                result.sort((a, b) => {
+                    return a.deadline - b.deadline
+                });
                 $('#consulting_title').html('오늘의 상담');
                 container.pagination({
                     dataSource: result,
