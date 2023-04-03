@@ -233,7 +233,6 @@ function get_data() {
                 }
                 return acc;
             }, []);
-            console.log(result)
             if (result.length > 0) {
                 result.sort((a, b) => {
                     return b.consulting_num - a.consulting_num;
@@ -245,7 +244,7 @@ function get_data() {
                 consultingStudentData = result
                 console.log(result)
                 container.pagination({
-                    dataSource: result.filter(e=>e.done === 0),
+                    dataSource: result,
                     prevText: '이전',
                     nextText: '다음',
                     pageSize: 10,
