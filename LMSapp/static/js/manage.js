@@ -129,7 +129,7 @@ function getBanlist(){
                     <td class="col-3">${name}</td>
                     <td class="col-3">${student_num}</td>
                     <td class="col-3">${count_per_ban}(${op}%)</td>
-                    <td class="col-3" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')">👉</td>`;
+                    <td class="col-3" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')"><span class="cursor-pointer">👉</span></td>`;
                 });
 
                 $('#semester_banlist'+j).html(temp_semester_banlist)
@@ -1130,8 +1130,10 @@ async function get_consulting() {
                     <td class="col-2">${consulting.name}</td>
                     <td class="col-1"> 미진행 </td>
                     <td class="col-4"> ${consulting.contents}</td>
-                    <td class="col-2"> <button class="modal-tbody-btn" onclick="update_consulting(${consulting.id})">✏️</button> 
-                    <button class="modal-tbody-btn" onclick="delete_consulting(${consulting.id})">❌</button></td>`;
+                    <td class="col-2">
+                        <button class="modal-tbody-btn" onclick="update_consulting(${consulting.id})">✏️</button> 
+                        <button class="modal-tbody-btn" onclick="delete_consulting(${consulting.id})">❌</button>
+                    </td>`;
                     });
                     category_set = new Set(category_list)
                     category_list = [...category_set]
@@ -1227,8 +1229,10 @@ async function get_task() {
                     <td class="col-3">${task.startdate} ~ ${task.deadline} (${progress})</td>               
                     <td class="col-3">${task.name}업무</td>          
                     <td class="col-4"> ${task.contents}</td>
-                    <td class="col-2"> <button onclick="get_taskban(${task.id})">✏️</button>
-                    <button onclick="delete_task(${task.id})">❌</button></td>`;
+                    <td class="col-2">
+                        <button class="modal-tbody-btn" onclick="get_taskban(${task.id})">🔍</button>
+                        <button class="modal-tbody-btn" onclick="delete_task(${task.id})">❌</button>
+                    </td>`;
                     });
                     category_set = new Set(category_list)
                     category_list = [...category_set]
