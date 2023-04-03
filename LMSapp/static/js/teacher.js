@@ -242,24 +242,25 @@ function get_data() {
                 });
                 $('#consulting_title').html('오늘의 상담');
                 consultingStudentData = result
-                console.log(result)
                 container.pagination({
                     dataSource: result,
                     prevText: '이전',
                     nextText: '다음',
                     pageSize: 10,
                     callback: function (result, pagination) {
-                        console.log(result)
                         let temp_consulting_contents_box = ''
                         $.each(result, function (index, consulting) {
-                            temp_consulting_contents_box += `
-                            <td class="col-3">${consulting.ban_name}</td>
-                            <td class="col-2">${consulting.student_name}</td>
-                            <td class="col-3">${consulting.student_mobileno}</td>
-                            <td class="col-2">${make_date(consulting.deadline)}</td>
-                            <td class="col-1">${consulting.consulting_num}</td>
-                            <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${0})"><span class="cursor-pointer">📞</span></td> 
-                            `;
+                            let target_consultings = consulting.consultingList.length > 0 ? consulting.consultingList.filter(e=>e.done === 0 && e.created_at === null) : 0;
+                            if(target_consulting != 0){
+                                temp_consulting_contents_box += `
+                                <td class="col-3">${consulting.ban_name}</td>
+                                <td class="col-2">${consulting.student_name}</td>
+                                <td class="col-3">${consulting.student_mobileno}</td>
+                                <td class="col-2">${make_date(consulting.deadline)}</td>
+                                <td class="col-1">${target_consultings.length}</td>
+                                <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${0})"><span class="cursor-pointer">📞</span></td> 
+                                `;
+                            }
                         });
                         $('#today_consulting_box').html(temp_consulting_contents_box);
                         $('#consulting_student_list').show();
@@ -277,21 +278,22 @@ function get_data() {
 //  상담 관련 
 async function get_consulting_student(value) {
     let container = $('#consultingstudent_pagination')
-    const data = await consultingStudentData.filter((e) => {
-        if(value == 0) {
-            $('#consulting_title').html('오늘의 상담');
-            console.log(value)
-            return e.done === 0;
-        } else if (value == 1){
-            $('#consulting_title').html('오늘 완료한 상담');
-            console.log(value)
-            return e.done == 1 && e.created_at == today;
-        }else{
-            $('#consulting_title').html('오늘의 부재중 상담');
-            console.log(value)
-            return e.done === 0 && e.missed == today;
-        }
-    })
+    const data = consultingStudentData
+    // .filter((e) => {
+    //     if(value == 0) {
+    //         $('#consulting_title').html('오늘의 상담');
+    //         console.log(value)
+    //         return e.done === 0;
+    //     } else if (value == 1){
+    //         $('#consulting_title').html('오늘 완료한 상담');
+    //         console.log(value)
+    //         return e.done == 1 && e.created_at == today;
+    //     }else{
+    //         $('#consulting_title').html('오늘의 부재중 상담');
+    //         console.log(value)
+    //         return e.done === 0 && e.missed == today;
+    //     }
+    // })
     await container.pagination({
         dataSource: data,
         prevText: '이전',
@@ -304,14 +306,27 @@ async function get_consulting_student(value) {
             }else{
                 var temp_consulting_contents_box = '';
                 $.each(data, function (index, consulting) {
-                    temp_consulting_contents_box += `
-                    <td class="col-3">${consulting.ban_name}</td>
-                    <td class="col-2">${consulting.student_name}</td>
-                    <td class="col-3">${consulting.student_mobileno}</td>
-                    <td class="col-2">${make_date(consulting.deadline)}</td>
-                    <td class="col-1">${consulting.consulting_num}</td>
-                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${0})"><span class="cursor-pointer">📞</span></td> 
-                    `;
+                    let target_consultings;
+                    if(value == 0) {
+                        $('#consulting_title').html('오늘의 상담');
+                        target_consultings = consulting.consultingList.length > 0 ? consulting.consultingList.filter(e=>e.done === 0 && e.created_at === null) : 0;
+                    } else if (value == 1){
+                        $('#consulting_title').html('오늘 완료한 상담');
+                        target_consultings = consulting.consultingList.length > 0 ? consulting.consultingList.filter(e=>e.done === 1 && e.created_at === today) : 0;
+                    }else{
+                        $('#consulting_title').html('오늘의 부재중 상담');
+                        target_consultings = consulting.consultingList.length > 0 ? consulting.consultingList.filter(e=>e.done === 0 && e.missed == today) : 0;
+                    }
+                    if(target_consulting != 0){
+                        temp_consulting_contents_box += `
+                        <td class="col-3">${consulting.ban_name}</td>
+                        <td class="col-2">${consulting.student_name}</td>
+                        <td class="col-3">${consulting.student_mobileno}</td>
+                        <td class="col-2">${make_date(consulting.deadline)}</td>
+                        <td class="col-1">${target_consultings.length}</td>
+                        <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${0})"><span class="cursor-pointer">📞</span></td> 
+                        `;
+                    }
                 });
                 $('#today_consulting_box').html(temp_consulting_contents_box);
                 $('#consulting_student_list').show();
