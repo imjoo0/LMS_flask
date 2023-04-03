@@ -146,6 +146,7 @@ function get_data() {
             let consulting = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.done === 0) : 0;
             let consulting_t = response['all_consulting'].length;
             let consulting_done = consulting_t - consulting.length
+            
             let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task =>  new Date(task.created_at).setHours(0, 0, 0, 0) == today).length : 0;
             let task_notdone = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done === 0) : 0;
             let total_task = task_notdone.length+task_done
@@ -249,7 +250,8 @@ function get_data() {
             
             // 상담 목록 
             let result = response['my_students'].reduce((acc, student) => {
-                const consultingList = response['all_consulting'].filter(c => c.student_id === student.register_no && c.done === 0 && c.created_at === null);
+                const consultingList = response['all_consulting'].filter(c => c.student_id === student.register_no && c.done === 0 && c.created_at === null&& c.done === 0 && c.missed != today);
+                console.log(consultingList)
                 if (consultingList.length > 0){
                     const deadline = consultingList.reduce((prev, current) => {
                         const prevDueDate = prev.deadline instanceof Date ? prev.deadline.getTime() : Number.POSITIVE_INFINITY;
