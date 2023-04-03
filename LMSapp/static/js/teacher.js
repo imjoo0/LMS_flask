@@ -152,19 +152,13 @@ function get_data() {
                     return { category, items };
                 });
                   
-                
-                // const result = [...categoryGroupedresult, ...categoryOnlyGroupedresult];
                 console.log(finalResult)
 
-                // 결과를 객체의 배열로 변환
-                // const categoryGroupedresult = Object.entries(categoryGrouped).map(([category, items]) => {
-                //     return { [category]: items };
-                // });
-
                 let temp_cate_menu = ''
-                for(i=0; i < categoryGroupedresult.length; i++){
-                    const category = Object.keys(categoryGroupedresult[i])[0];
-                    const items = categoryGroupedresult[i][category];
+                for(i=0; i < finalResult.length; i++){
+                    const category = Object.keys(finalResult[i])[0];
+                    const items = finalResult[i][category]['items'];
+                    console.log(items)
                     items.sort((a, b) => b.priority - a.priority);
 
                     temp_cate_menu += `
