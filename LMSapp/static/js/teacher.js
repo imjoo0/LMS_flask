@@ -146,16 +146,20 @@ function get_data() {
                     items.sort((a, b) => b.priority - a.priority);
                     const contentsGrouped = items.reduce((result, item) => {
                         const contents = item.contents;
-                        if (!result[contents]) {
-                            result[contents] = [];
+                        const priority = item.priority;
+                        const deadline = item.deadline;
+                        const key =  priority + '_' + contents + '_' + deadline;
+                        if (!result[key]) {
+                            result[key] = [];
                         }
-                        result[contents].push(item);
+                        result[key].push(item);
                         return result;
                     }, {});
     
                     // 결과를 객체의 배열로 변환
-                    const contentsGroupedresult = Object.entries(contentsGrouped).map(([contents, items]) => {
-                        return { [contents]: items };
+                    const contentsGroupedresult = Object.entries(contentsGrouped).map(([key, items]) => {
+                        const [contents,priority,deadline] = key.split('_');
+                        return { contents,priority,deadline : items };
                     });
                     console.log(contentsGroupedresult)
                     temp_cate_menu += `
