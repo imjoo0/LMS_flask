@@ -157,17 +157,18 @@ function get_data() {
                     if (items && items.length > 0) {
                         for(j=0; j < items.length; j++){
                             temp_cate_menu += `
-                            <tr class="row">
                                 <details>
                                     <summary onclick="get_taskban(${items[j].id},${0})">
+                                    
+                                        <tr class="row">
                                         <td class="col-2"><strong>${make_priority(items[j].priority)}</strong></td>
                                         <td class="col-7">${items[j].contents}</td>
                                         <td class="col-3">마감일 :${make_date(items[j].deadline)}</td>
+                                        </tr>               
                                     </summary>
                                         <div class="make_row" id="task_ban_box_incomplete${0}${items[j].id}}">
                                         </div>
-                                </details>
-                            </tr>                            
+                                </details>             
                             `;
                         }
                     } else {
