@@ -285,15 +285,13 @@ function get_data() {
                 $('#consulting_title').html('오늘의 상담');
                 consultingStudentData = result
                 container.pagination({
-                    dataSource: result.filter(e=>e.missed == today),
+                    dataSource: result.filter(e=>e.missed != today),
                     prevText: '이전',
                     nextText: '다음',
                     pageSize: 10,
                     callback: function (result, pagination) {
                         let temp_consulting_contents_box = ''
                         $.each(result, function (index, consulting) {
-                            console.log(consulting.missed)
-                            console.log(today)
                             temp_consulting_contents_box += `
                             <td class="col-3">${consulting.ban_name}</td>
                             <td class="col-2">${consulting.student_name}</td>
