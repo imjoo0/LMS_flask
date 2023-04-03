@@ -139,19 +139,20 @@ function get_data() {
                     return result;
                 }, {});
                   
-                const categoryGroupedresult = Object.values(categoryGrouped).reduce((result, item) => {
-                    const { id, category, items } = item;
-                    const key = category;
+                // const categoryGroupedresult = Object.values(categoryGrouped).reduce((result, item) => {
+
+                //     const { id, category, items } = item;
+                //     const key = category;
                   
-                    if (!result[key]) {
-                      result[key] = { category, items: [] };
-                    }
+                //     if (!result[key]) {
+                //       result[key] = { category, items: [] };
+                //     }
                   
-                    result[key].items.push({ id, items });
-                    return result;
-                }, {});
+                //     result[key].items.push({ id, items });
+                //     return result;
+                // }, {});
                   
-                const finalResult = Object.values(categoryGroupedresult).map(({ category, items }) => {
+                const finalResult = Object.values(categoryGrouped).map(({ category, items }) => {
                     return { category, items };
                 });
                   
