@@ -157,7 +157,8 @@ function get_data() {
                 let temp_cate_menu = ''
                 for(i=0; i < finalResult.length; i++){
                     const category = Object.keys(finalResult[i])[0];
-                    const items = finalResult[i][category]['items'];
+                    console.log(category)
+                    const items = finalResult[i]['items'];
                     console.log(items)
                     items.sort((a, b) => b.priority - a.priority);
 
