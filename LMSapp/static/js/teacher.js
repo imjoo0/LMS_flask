@@ -170,7 +170,6 @@ function get_data() {
                     const contentsGroupedresult = Object.entries(contentsGrouped).map(([key, items]) => {
                         return { [key]: items };
                     });
-                    console.log(contentsGroupedresult)
                     temp_cate_menu += `
                     <thead>
                         <tr class="row">
@@ -196,14 +195,13 @@ function get_data() {
                                     <td class="col-2">${make_date(v[2])}</th>
                                 </tr>
                                 </summary>
-                                <tr class="row">`;
+                                <div class="make_row">`;
                                 for(k=0; k < items.length; k++){
-                                    const range = 12/(items.length);
                                     const ban_name = response['ban_data'].filter(a => a.register_no === items[k].ban_id)[0]['name']
                                     temp_cate_menu += `
-                                    <td class="col-${range}"><label><input type="checkbox" name="taskid" value="${items[k].id}"/>${ban_name}</label></th>`;
+                                    <label><input type="checkbox" name="taskid" value="${items[k].id}"/>${ban_name}</label>`;
                                 }
-                                temp_cate_menu += `</tr></details>  `;
+                                temp_cate_menu += `</div></details>`;
                         }
                     } else {
                         temp_cate_menu += `
