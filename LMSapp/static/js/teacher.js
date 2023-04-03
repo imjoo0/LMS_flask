@@ -243,6 +243,7 @@ function get_data() {
                 });
                 $('#consulting_title').html('오늘의 상담');
                 consultingStudentData = result
+                console.log(result)
                 container.pagination({
                     dataSource: result.filter(e=>e.done === 0 && e.created_at === null),
                     prevText: '이전',
