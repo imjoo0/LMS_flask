@@ -156,11 +156,11 @@ function get_data() {
 
                 let temp_cate_menu = ''
                 for(i=0; i < finalResult.length; i++){
-                    const category = Object.keys(finalResult[i])[0];
+                    const category = finalResult[i]['category'];
                     console.log(category)
-                    const items = finalResult[i]['items'];
+                    const items = finalResult[i]['items']; 
                     console.log(items)
-                    items.sort((a, b) => b.priority - a.priority);
+                    // items.sort((a, b) => b.priority - a.priority);
 
                     temp_cate_menu += `
                     <thead>
@@ -173,12 +173,18 @@ function get_data() {
 
                     if (items && items.length > 0) {
                         for(j=0; j < items.length; j++){
-                            temp_cate_menu += `
-                            <tr class="row">
-                                <td class="col-2">${make_priority(items[j].priority)}</td>
-                                <td class="col-7">${items[j].contents}</td>
-                                <td class="col-3">마감일 :${make_date(items[j].deadline)}</td>
-                            </tr>`;
+                            const bans = items[j]['items'];
+                            if (bans && bans.length > 0) {
+                                bans.sort((a, b) => b.priority - a.priority);
+                                for(k=0;k<bans.length;k++){
+                                    temp_cate_menu += `
+                                    <tr class="row">
+                                        <td class="col-2">${make_priority(bans[k].priority)}</td>
+                                        <td class="col-7">${bans[k].contents}</td>
+                                        <td class="col-3">마감일 :${make_date(bans[k].deadline)}</td>
+                                    </tr>`;
+                                }
+                            }
                         }
                     } else {
                         temp_cate_menu += `
