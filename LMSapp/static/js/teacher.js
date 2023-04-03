@@ -688,6 +688,9 @@ function post_bulk_consultings(c_length, is_done) {
         target = $('#target_consulting_id' + i).val()
         post_target_consulting(target, is_done)
     }
+    alert("상담 저장 완료")
+    window.location.reload()
+
 }
 function post_target_consulting(consulting, is_done) {
     consulting_missed = $(`input:checkbox[id="missed"]`).is(":checked")
@@ -711,12 +714,6 @@ function post_target_consulting(consulting, is_done) {
             consulting_result: consulting_result,
             consulting_missed: consulting_missed,
         },
-        success: function (response) {
-            {
-                alert(response["result"])
-                window.location.reload()
-            }
-        }
     })
 }
 function plusconsulting(student_id, b_id) {
