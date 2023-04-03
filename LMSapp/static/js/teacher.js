@@ -222,13 +222,8 @@ function get_data() {
                         return currentDueDate < prevDueDate ? current : prev;
                     }, consultingList[0]);
                     const created_at = consultingList.reduce((prev, current) => {
-                        const prevDueDate = prev.deadline instanceof Date ? prev.deadline.getTime() : Number.POSITIVE_INFINITY;
-                        const currentDueDate = current.deadline instanceof Date ? current.deadline.getTime() : Number.POSITIVE_INFINITY;
-                        return currentDueDate < prevDueDate ? prev : current;
-                    }, consultingList[0]);
-                    const missed = consultingList.reduce((prev, current) => {
-                        const prevDueDate = prev.deadline instanceof Date ? prev.deadline.getTime() : Number.POSITIVE_INFINITY;
-                        const currentDueDate = current.deadline instanceof Date ? current.deadline.getTime() : Number.POSITIVE_INFINITY;
+                        const prevDueDate = prev.created_at instanceof Date ? prev.created_at.getTime() : Number.POSITIVE_INFINITY;
+                        const currentDueDate = current.created_at instanceof Date ? current.created_at.getTime() : Number.POSITIVE_INFINITY;
                         return currentDueDate < prevDueDate ? prev : current;
                     }, consultingList[0]);
                     acc.push({
@@ -238,8 +233,8 @@ function get_data() {
                         'ban_name': student.classname,
                         'consulting_num': consultingList.length,
                         'deadline': new Date(deadline.deadline),
-                        'created_at':new Date(created_at.created_at),
-                        'missed':new Date(missed.missed)
+                        'created_at': new Date(created_at.created_at),
+                        'missed':new Date(consultingList[0].missed)
                     });
                 }
                 return acc;
@@ -255,7 +250,7 @@ function get_data() {
                 consultingStudentData = result
                 console.log(result)
                 container.pagination({
-                    dataSource: result.filter(e=>e.done === 0 && e.created_at === null),
+                    dataSource: result.filter(e=>e.done === 0),
                     prevText: '이전',
                     nextText: '다음',
                     pageSize: 10,
@@ -292,7 +287,7 @@ async function get_consulting_student(value) {
         if(value == 0) {
             $('#consulting_title').html('오늘의 상담');
             console.log(value)
-            return e.done === 0 && e.created_at === null;
+            return e.done === 0;
         } else if (value == 1){
             $('#consulting_title').html('오늘 완료한 상담');
             console.log(value)
