@@ -170,7 +170,7 @@ function get_data() {
                     if (contentsGroupedresult && contentsGroupedresult.length > 0) {
                         for(j=0; j < contentsGroupedresult.length; j++){
                         const contents = Object.keys(contentsGroupedresult[j])[0];
-                        const items = contentsGroupedresult[j]['items'];
+                        const items = contentsGroupedresult[j][contents];
                             temp_cate_menu += `
                                 <tr class="row">
                                     <td class="col-2">${make_priority(items[j].priority)}</th>
