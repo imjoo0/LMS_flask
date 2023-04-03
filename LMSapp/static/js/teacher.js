@@ -99,7 +99,7 @@ function get_data() {
                                     <th class="col-2">리특</th>
                                     <th class="col-2">인투리딩</th>
                                     <th class="col-2">라이팅</th>
-                                    <th class="col-2">홈페이지 미접속</th>
+                                    <th class="col-2">미접속</th>
                                     </tr>
                                     <tr class="row">
                                     <td class="col-2">${unlearned_ixl}건(${answer_rate(unlearned_ixl, unlearned).toFixed(0)}%)</td>
