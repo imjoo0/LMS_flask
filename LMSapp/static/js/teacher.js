@@ -251,7 +251,7 @@ function get_data() {
                         let temp_consulting_contents_box = ''
                         $.each(result, function (index, consulting) {
                             let target_consultings = consulting.consulting_list.length > 0 ? consulting.consulting_list.filter(e=>e.done === 0 && e.created_at === null) : 0;
-                            if(target_consulting != 0){
+                            if(target_consultings != 0){
                                 temp_consulting_contents_box += `
                                 <td class="col-3">${consulting.ban_name}</td>
                                 <td class="col-2">${consulting.student_name}</td>
@@ -317,7 +317,7 @@ async function get_consulting_student(value) {
                         $('#consulting_title').html('오늘의 부재중 상담');
                         target_consultings = consulting.consulting_list.length > 0 ? consulting.consulting_list.filter(e=>e.done === 0 && e.missed == today) : 0;
                     }
-                    if(target_consulting != 0){
+                    if(target_consultings != 0){
                         temp_consulting_contents_box += `
                         <td class="col-3">${consulting.ban_name}</td>
                         <td class="col-2">${consulting.student_name}</td>
