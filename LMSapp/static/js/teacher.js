@@ -183,8 +183,8 @@ function get_data() {
                             temp_cate_menu += `
                                 <tr class="row">
                                     <td class="col-2">${make_priority(v[0])}</th>
-                                    <td class="col-5">${v[1]}</th>
-                                    <td class="col-5">${make_date(v[2])}</th>
+                                    <td class="col-8">${v[1]}</th>
+                                    <td class="col-2">${make_date(v[2])}</th>
                                 </tr>`;
                                 for(k=0; k < items.length; k++){
                                     temp_cate_menu += `
