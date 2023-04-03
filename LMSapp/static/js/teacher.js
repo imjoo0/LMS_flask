@@ -144,7 +144,20 @@ function get_data() {
                     const category = Object.keys(categoryGroupedresult[i])[0];
                     const items = categoryGroupedresult[i][category];
                     items.sort((a, b) => b.priority - a.priority);
-
+                    const contentsGrouped = items.reduce((result, item) => {
+                        const contents = item.contents;
+                        if (!result[contents]) {
+                            result[contents] = [];
+                        }
+                        result[contents].push(item);
+                        return result;
+                    }, {});
+    
+                    // 결과를 객체의 배열로 변환
+                    const contentsGroupedresult = Object.entries(contentsGrouped).map(([contents, items]) => {
+                        return { [contents]: items };
+                    });
+                    console.log(contentsGroupedresult)
                     temp_cate_menu += `
                     <thead>
                         <tr class="row">
@@ -154,12 +167,14 @@ function get_data() {
                     <tbody style="width:100%;">  
                     `;
 
-                    if (items && items.length > 0) {
-                        for(j=0; j < items.length; j++){
+                    if (contentsGroupedresult && contentsGroupedresult.length > 0) {
+                        for(j=0; j < contentsGroupedresult.length; j++){
+                        const contents = Object.keys(contentsGroupedresult[j])[0];
+                        const items = contentsGroupedresult[j]['items'];
                             temp_cate_menu += `
                                 <tr class="row">
                                     <td class="col-2">${make_priority(items[j].priority)}</th>
-                                    <td class="col-5">${items[j].contents}</th>
+                                    <td class="col-5">${contents}</th>
                                     <td class="col-3">마감일 :${make_date(items[j].deadline)}</th>
                                     <td class="col-2">${items[j].ban_id}</th>
                                 </tr>`;
@@ -442,7 +457,6 @@ function get_consulting_student(is_done){
                 });
                 let temp_consulting_contents_box = ''
                 for (i = 0; i < result.length; i++) {
-                    console.log(result[i])
                     var ban_name = result[i]['ban_name']
                     var student_id = result[i]['student_id']
                     var student_name = result[i]['student_name']
@@ -682,7 +696,6 @@ function attach_consulting_history(value) {
             }else{
                 let temp_consulting_contents_box = '<option value="none" selected>상담을 선택해주세요</option>'
                 for (i = 0; i < response['consulting_history'].length; i++) {
-                    console.log(response['consulting_history'][i])
                     let cid = response['consulting_history'][i]['id']
                     let category = response['consulting_history'][i]['category']
                     let contents = response['consulting_history'][i]['contents']
