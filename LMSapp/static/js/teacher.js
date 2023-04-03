@@ -169,7 +169,6 @@ function get_data() {
                     const contentsGroupedresult = Object.entries(contentsGrouped).map(([key, items]) => {
                         return { [key]: items };
                     });
-                    console.log(contentsGroupedresult)
                     temp_cate_menu += `
                     <thead>
                         <tr class="row">
@@ -243,11 +242,12 @@ function get_data() {
                 $('#consulting_title').html('오늘의 상담');
                 consultingStudentData = result
                 container.pagination({
-                    dataSource: result.filter(e=>e.done === 0),
+                    dataSource: result.filter(e=>e.done != 1),
                     prevText: '이전',
                     nextText: '다음',
                     pageSize: 10,
                     callback: function (result, pagination) {
+                        console.log(result)
                         let temp_consulting_contents_box = ''
                         $.each(result, function (index, consulting) {
                             temp_consulting_contents_box += `
@@ -289,7 +289,6 @@ async function get_consulting_student(value) {
         nextText: '다음',
         pageSize: 10,
         callback: function (data, pagination) {
-            console.log(data)
             var dataHtml = '';
             $.each(data, function (index, consulting) {
                 dataHtml += `
