@@ -190,10 +190,10 @@ function get_data() {
                                 </tr>
                                 <tr class="row">`;
                                 for(k=0; k < items.length; k++){
-                                    const range = 12/items.length;
+                                    const range = 12/((items.length+1)*2);
                                     temp_cate_menu += `
-                                            <td class="col-${range}">${items[k].ban_id}</th>
-                                            <td class="col-${range}">checkbox</th>`;
+                                    <td class="col-${range}">${items[k].ban_id}</th>
+                                    <td class="col-${range}">checkbox</th>`;
                                 }
                                 temp_cate_menu += `</tr>`;
                         }
