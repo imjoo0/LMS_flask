@@ -273,36 +273,36 @@ function get_data() {
     });
 }
 //  상담 관련 
-async function get_consulting_student(value) {
-    var dataHtml = '';
-    let container = $('#consultingstudent_pagination')
-    const data = await JSON.parse(consultingStudentData).filter((e) => {
-        if (value == 'none') {
-            return e.name
-        } else {
-            return e.name == value;
-        }
-    })
-    await container.pagination({
-        dataSource: data,
-        prevText: '이전',
-        nextText: '다음',
-        pageSize: 10,
-        callback: function (data, pagination) {
-            var dataHtml = '';
-            $.each(data, function (index, consulting) {
-                dataHtml += `
-                    <td class="col-3">${consulting.startdate} ~ ${consulting.deadline}</td>
-                    <td class="col-2">${consulting.name}</td>
-                    <td class="col-1"> 미진행 </td>
-                    <td class="col-4"> ${consulting.contents}</td>
-                    <td class="col-2"> <button onclick="update_consulting(${consulting.id})">✏️</button> 
-                    <button onclick="delete_consulting(${consulting.id})">❌</button></td>`;
-            });
-            $('#tr-row').html(dataHtml);
-        }
-    })
-}
+// async function get_consulting_student(value) {
+//     var dataHtml = '';
+//     let container = $('#consultingstudent_pagination')
+//     const data = await JSON.parse(consultingStudentData).filter((e) => {
+//         if (value == 'none') {
+//             return e.name
+//         } else {
+//             return e.name == value;
+//         }
+//     })
+//     await container.pagination({
+//         dataSource: data,
+//         prevText: '이전',
+//         nextText: '다음',
+//         pageSize: 10,
+//         callback: function (data, pagination) {
+//             var dataHtml = '';
+//             $.each(data, function (index, consulting) {
+//                 dataHtml += `
+//                     <td class="col-3">${consulting.startdate} ~ ${consulting.deadline}</td>
+//                     <td class="col-2">${consulting.name}</td>
+//                     <td class="col-1"> 미진행 </td>
+//                     <td class="col-4"> ${consulting.contents}</td>
+//                     <td class="col-2"> <button onclick="update_consulting(${consulting.id})">✏️</button> 
+//                     <button onclick="delete_consulting(${consulting.id})">❌</button></td>`;
+//             });
+//             $('#tr-row').html(dataHtml);
+//         }
+//     })
+// }
 
 // 오늘의 업무 관련 함수 
 async function task_doneview(done_code) {
@@ -476,68 +476,68 @@ function done_consulting_history_view(ban_id, is_done) {
     });
 
 }
-function get_consulting_student(is_done){
-    if(is_done == 0){
-        $('#consulting_title').html('오늘의 상담');
-    }else if(is_done == 1){
-        $('#consulting_title').html('오늘 완료한 상담');
-    }else{
-        $('#consulting_title').html('오늘의 부재중 상담');
-    }
-    $.ajax({
-        type: "GET",
-        url: "/teacher/mystudents/" + is_done,
-        data: {},
-        success: function (response) {
-            const result = response['my_students'].reduce((acc, student) => {
-                const consultingList = response['all_consulting']['data'].filter(consulting => consulting.student_id === student.register_no);
-                if (consultingList.length > 0) {
-                    const deadline = consultingList.reduce((prev, current) => {
-                        const prevDueDate = prev.deadline instanceof Date ? prev.deadline : Number.POSITIVE_INFINITY;
-                        const currentDueDate = current.deadline instanceof Date ? current.deadline : Number.POSITIVE_INFINITY;
-                        return current.deadline < prev.deadline ? current : prev;
-                    }, consultingList[0]);
-                    acc.push({
-                        'student_id': student.register_no,
-                        'student_name': student.name,
-                        'student_mobileno': student.mobileno,
-                        'ban_name': student.classname,
-                        'consulting_num': consultingList.length,
-                        'deadline': new Date(deadline.deadline),
-                    });
-                }
-                return acc;
-            }, []);
+// function get_consulting_student(is_done){
+//     if(is_done == 0){
+//         $('#consulting_title').html('오늘의 상담');
+//     }else if(is_done == 1){
+//         $('#consulting_title').html('오늘 완료한 상담');
+//     }else{
+//         $('#consulting_title').html('오늘의 부재중 상담');
+//     }
+//     $.ajax({
+//         type: "GET",
+//         url: "/teacher/mystudents/" + is_done,
+//         data: {},
+//         success: function (response) {
+//             const result = response['my_students'].reduce((acc, student) => {
+//                 const consultingList = response['all_consulting']['data'].filter(consulting => consulting.student_id === student.register_no);
+//                 if (consultingList.length > 0) {
+//                     const deadline = consultingList.reduce((prev, current) => {
+//                         const prevDueDate = prev.deadline instanceof Date ? prev.deadline : Number.POSITIVE_INFINITY;
+//                         const currentDueDate = current.deadline instanceof Date ? current.deadline : Number.POSITIVE_INFINITY;
+//                         return current.deadline < prev.deadline ? current : prev;
+//                     }, consultingList[0]);
+//                     acc.push({
+//                         'student_id': student.register_no,
+//                         'student_name': student.name,
+//                         'student_mobileno': student.mobileno,
+//                         'ban_name': student.classname,
+//                         'consulting_num': consultingList.length,
+//                         'deadline': new Date(deadline.deadline),
+//                     });
+//                 }
+//                 return acc;
+//             }, []);
             
-            if (result.length > 0) {
-                result.sort((a, b) => {
-                    return a.deadline - b.deadline
-                });
-                let temp_consulting_contents_box = ''
-                for (i = 0; i < result.length; i++) {
-                    var ban_name = result[i]['ban_name']
-                    var student_id = result[i]['student_id']
-                    var student_name = result[i]['student_name']
-                    var mobileno = result[i]['student_mobileno']
-                    var consulting_num = result[i]['consulting_num']
-                    var deadline = result[i]['deadline'].getFullYear()+'-'+(result[i]['deadline'].getMonth()+ 1).toString().padStart(2, '0')+'-'+result[i]['deadline'].getDate().toString().padStart(2, '0')
+//             if (result.length > 0) {
+//                 result.sort((a, b) => {
+//                     return a.deadline - b.deadline
+//                 });
+//                 let temp_consulting_contents_box = ''
+//                 for (i = 0; i < result.length; i++) {
+//                     var ban_name = result[i]['ban_name']
+//                     var student_id = result[i]['student_id']
+//                     var student_name = result[i]['student_name']
+//                     var mobileno = result[i]['student_mobileno']
+//                     var consulting_num = result[i]['consulting_num']
+//                     var deadline = result[i]['deadline'].getFullYear()+'-'+(result[i]['deadline'].getMonth()+ 1).toString().padStart(2, '0')+'-'+result[i]['deadline'].getDate().toString().padStart(2, '0')
 
-                    temp_consulting_contents_box += `
-                    <td class="col-3">${ban_name}</td>
-                    <td class="col-2">${student_name}</td>
-                    <td class="col-3">${mobileno}</td>
-                    <td class="col-2">${deadline}</td>
-                    <td class="col-1">${consulting_num}</td>
-                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">✅</td> 
-                    `;
-                }
-                $('#today_consulting_box').html(temp_consulting_contents_box);
-            }else{
-                $('#consulting_title').html('오늘의 상담이 없습니다.');
-            }
-        }
-    });
-}
+//                     temp_consulting_contents_box += `
+//                     <td class="col-3">${ban_name}</td>
+//                     <td class="col-2">${student_name}</td>
+//                     <td class="col-3">${mobileno}</td>
+//                     <td class="col-2">${deadline}</td>
+//                     <td class="col-1">${consulting_num}</td>
+//                     <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">✅</td> 
+//                     `;
+//                 }
+//                 $('#today_consulting_box').html(temp_consulting_contents_box);
+//             }else{
+//                 $('#consulting_title').html('오늘의 상담이 없습니다.');
+//             }
+//         }
+//     });
+// }
 function get_consulting(student_id, is_done) {
     $.ajax({
         type: "GET",
