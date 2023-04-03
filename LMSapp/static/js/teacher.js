@@ -127,39 +127,31 @@ function get_data() {
                 const categoryGrouped = task_notdone.reduce((result, item) => {
                     const id = item.task_id;
                     const category = item.category;
-                    const key = id +'_'+category;
-
+                    const key = id + '_' + category;
+                  
                     if (!result[key]) {
-                        result[key] = [];
+                      result[key] = { id, category, items: [] };
                     }
-                    result[key].push(item);
+                    result[key].items.push(item);
                     return result;
                 }, {});
-                // const categoryOnlyGrouped = task_notdone.reduce((result, item) => {
-                //     const category = item.category;
-                //     if (!result[category]) {
-                //         result[category] = [];
-                //     }
-                //     result[category].push(item);
-                //     return result;
-                // }, {});
-
-                const categoryGroupedresult = Object.entries(categoryGrouped).map(([key, items]) => {
-                    const [id, category] = key.split('_');
-                    return { id, category, items };
-                });
-                
-                const finalResult = Object.values(categoryGroupedresult.reduce((result, item) => {
-                    const category = item.category;
-                    if (!result[category]) {
-                      result[category] = { category, items: [] };
+                  
+                const categoryGroupedresult = Object.values(categoryGrouped).reduce((result, item) => {
+                    const { id, category, items } = item;
+                    const key = category;
+                  
+                    if (!result[key]) {
+                      result[key] = { category, items: [] };
                     }
-                    result[category].items = result[category].items.concat(item.items);
+                  
+                    result[key].items.push({ id, items });
                     return result;
-                  }, {}));
-                // const categoryOnlyGroupedresult = Object.entries(categoryOnlyGrouped).map(([category, items]) => {
-                //     return { category, items };
-                // });
+                }, {});
+                  
+                const finalResult = Object.values(categoryGroupedresult).map(({ category, items }) => {
+                    return { category, items };
+                });
+                  
                 
                 // const result = [...categoryGroupedresult, ...categoryOnlyGroupedresult];
                 console.log(finalResult)
