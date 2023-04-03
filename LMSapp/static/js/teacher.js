@@ -236,10 +236,10 @@ function get_data() {
                 return acc;
             }, []);
             if (result.length > 0) {
+                result.sort((a, b) => {,
+                    return b.consulting_num - a.consulting_num;,
+                });
                 result.sort((a, b) => {
-                    if (a.deadline === b.deadline) {
-                        return a.consulting_num - b.consulting_num;
-                    }
                     return a.deadline - b.deadline
                 });
                 $('#consulting_title').html('오늘의 상담');
