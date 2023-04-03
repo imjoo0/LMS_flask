@@ -276,7 +276,7 @@ function get_data() {
 async function get_consulting_student(value) {
     var temp_consulting_contents_box = '';
     let container = $('#consultingstudent_pagination')
-    const data = await JSON.parse(consultingStudentData).filter((e) => {
+    const data = await consultingStudentData.filter((e) => {
         if (value == 2) {
             return e.done === 0 && new Date(e.created_at).setHours(0, 0, 0, 0) == today;
         } else{
