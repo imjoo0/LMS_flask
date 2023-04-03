@@ -159,8 +159,9 @@ function get_data() {
                             temp_cate_menu += `
                                 <tr class="row">
                                     <td class="col-2">${make_priority(items[j].priority)}</th>
-                                    <td class="col-7">${items[j].contents}</th>
+                                    <td class="col-5">${items[j].contents}</th>
                                     <td class="col-3">마감일 :${make_date(items[j].deadline)}</th>
+                                    <td class="col-2">${items[j].ban_id}</th>
                                 </tr>`;
                         }
                     } else {
