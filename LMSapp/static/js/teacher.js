@@ -143,7 +143,7 @@ function get_data() {
                     return { [category]: items };
                 });
 
-                let temp_cate_menu = ''
+                let temp_cate_menu = '<details><summary>'
                 for(i=0; i < categoryGroupedresult.length; i++){
                     const category = Object.keys(categoryGroupedresult[i])[0];
                     const items = categoryGroupedresult[i][category];
@@ -171,8 +171,6 @@ function get_data() {
                         return { [key]: items };
                     });
                     temp_cate_menu += `
-                    <details>
-                        <summary>
                         <thead>
                             <tr class="row">
                             <th class="col-2">우선순위</th>
