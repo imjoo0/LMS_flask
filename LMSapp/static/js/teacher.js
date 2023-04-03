@@ -192,13 +192,13 @@ function get_data() {
                                     <td class="col-8">${v[1]}</td>
                                     <td class="col-2">${make_date(v[2])}</td>
                                 </tr>
-                                <div class="make_row">`;
+                                <td class="col-12">`;
                                 for(k=0; k < items.length; k++){
                                     const ban_name = response['ban_data'].filter(a => a.register_no === items[k].ban_id)[0]['name']
                                     temp_cate_menu += `
                                     <label><input type="checkbox" name="taskid" value="${items[k].id}"/>${ban_name}</label>`;
                                 }
-                                temp_cate_menu += `</div></tbody>`;
+                                temp_cate_menu += `</td></tbody>`;
                         }
                     } else {
                         temp_cate_menu += `
