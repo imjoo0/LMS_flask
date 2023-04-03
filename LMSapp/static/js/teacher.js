@@ -169,15 +169,20 @@ function get_data() {
 
                     if (contentsGroupedresult && contentsGroupedresult.length > 0) {
                         for(j=0; j < contentsGroupedresult.length; j++){
-                        const contents = Object.keys(contentsGroupedresult[j])[0];
-                        const items = contentsGroupedresult[j][contents];
+                            const contents = Object.keys(contentsGroupedresult[j])[0];
+                            const items = contentsGroupedresult[j][contents];
                             temp_cate_menu += `
                                 <tr class="row">
-                                    <td class="col-2">${make_priority(items[j].priority)}</th>
-                                    <td class="col-5">${contents}</th>
-                                    <td class="col-3">마감일 :${make_date(items[j].deadline)}</th>
-                                    <td class="col-2">${items[j].ban_id}</th>
+                                    <td class="col-12">${contents}</th>
                                 </tr>`;
+                                for(k=0; k < items.length; k++){
+                                    temp_cate_menu += `
+                                        <tr class="row">
+                                            <td class="col-4">${make_priority(items[k].priority)}</th>
+                                            <td class="col-4">마감일 :${make_date(items[k].deadline)}</th>
+                                            <td class="col-4">${items[k].ban_id}</th>
+                                        </tr>`;
+                                }
                         }
                     } else {
                         temp_cate_menu += `
