@@ -108,7 +108,6 @@ function get_data() {
             // 상담일지 조회 ban 선택 옵션 같이 붙이기 
             $('#history_ban').append(temp_ban_option)
             
-            let consulting = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.done === 0) : 0;
             let consulting_t = response['all_consulting'].length;
             let consulting_done = consulting_t - consulting.length
             let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task =>  new Date(task.created_at).setHours(0, 0, 0, 0) == today).length : 0;
@@ -212,9 +211,10 @@ function get_data() {
                 $('#cate_menu').html(temp_cate_menu);
             }
             
+            // let consulting = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.done === 0) : 0;
             // 상담 목록 
             let result = response['my_students'].reduce((acc, student) => {
-                const consultingList = consulting.filter(c => c.student_id === student.register_no);
+                const consultingList = response['all_consulting'].length > 0 ? response['all_consulting'].filter(c => c.student_id === student.register_no);
                 if (consultingList.length > 0) {
                     const deadline = consultingList.reduce((prev, current) => {
                         const prevDueDate = prev.deadline instanceof Date ? prev.deadline.getTime() : Number.POSITIVE_INFINITY;
