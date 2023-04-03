@@ -214,7 +214,7 @@ function get_data() {
             
             // 상담 목록 
             let result = response['my_students'].reduce((acc, student) => {
-                const consultingList = response['all_consulting'].filter(c => c.student_id === student.register_no,c.done === 0,c.created_at === null);
+                const consultingList = response['all_consulting'].filter(c => c.student_id === student.register_no && c.done === 0 && c.created_at === null);
                 if (consultingList.length > 0){
                     const deadline = consultingList.reduce((prev, current) => {
                         const prevDueDate = prev.deadline instanceof Date ? prev.deadline.getTime() : Number.POSITIVE_INFINITY;
