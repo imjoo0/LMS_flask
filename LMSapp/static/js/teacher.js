@@ -189,18 +189,17 @@ function get_data() {
                             const v = contents.split('_')
                             temp_cate_menu += `
                                 <tr class="row" style="background-color:#ffc107;">
-                                    <td class="col-2">${make_priority(v[0])}</th>
-                                    <td class="col-8">${v[1]}</th>
-                                    <td class="col-2">${make_date(v[2])}</th>
+                                    <td class="col-2">${make_priority(v[0])}</td>
+                                    <td class="col-8">${v[1]}</td>
+                                    <td class="col-2">${make_date(v[2])}</td>
                                 </tr>
-                                <tr class="row">`;
+                                <div class="make_row">`;
                                 for(k=0; k < items.length; k++){
-                                    const range = 12/(items.length);
                                     const ban_name = response['ban_data'].filter(a => a.register_no === items[k].ban_id)[0]['name']
                                     temp_cate_menu += `
-                                    <td class="col-${range}"><label><input type="checkbox" name="taskid" value="${items[k].id}"/>${ban_name}</label></th>`;
+                                    <label><input type="checkbox" name="taskid" value="${items[k].id}"/>${ban_name}</label>`;
                                 }
-                                temp_cate_menu += `</tr>`;
+                                temp_cate_menu += `</div>`;
                         }
                     } else {
                         temp_cate_menu += `
