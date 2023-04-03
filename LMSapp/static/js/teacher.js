@@ -269,7 +269,7 @@ function get_data() {
                         'ban_name': student.classname,
                         'consulting_num': consultingList.length,
                         'deadline': new Date(deadline.deadline),
-                        'missed' : new Date(missed.missed)
+                        'missed' : new Date(missed.missed).setHours(0, 0, 0, 0)
                     });
                 }
                 return acc;
