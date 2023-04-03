@@ -102,7 +102,7 @@ function get_data() {
                 });
             }
             // 본원 문의 ban선택 옵션 같이 붙이기 
-            // $('#my_ban_list').html(temp_ban_option)
+            $('#my_ban_list').html(temp_ban_option)
             
             let consulting = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.done === 0) : 0;
             let consulting_t = response['all_consulting'].length;
@@ -119,7 +119,6 @@ function get_data() {
             $('#classreport').html(temp_report)
 
             // 오늘의 업무 뿌려주기 
-            // task_doneview(0)
             if(task_notdone.length == 0){
                 $('#today_task_box0').html('오늘의 업무 끝 😆');
                 $('#today_task_box1').empty()
@@ -140,14 +139,13 @@ function get_data() {
                     return { [category]: items };
                 });
 
-                $('#cate_menu').empty()
-
+                let temp_cate_menu = ''
                 for(i=0; i < categoryGroupedresult.length; i++){
                     const category = Object.keys(categoryGroupedresult[i])[0];
                     const items = categoryGroupedresult[i][category];
                     items.sort((a, b) => b.priority - a.priority);
 
-                    let temp_cate_menu = `
+                    temp_cate_menu += `
                     <thead>
                         <tr class="row">
                         <th class="col-12">${category}</th>
@@ -159,11 +157,18 @@ function get_data() {
                     if (items && items.length > 0) {
                         for(j=0; j < items.length; j++){
                             temp_cate_menu += `
-                                <tr class="row">
-                                    <td class="col-2">${make_priority(items[j].priority)}</th>
-                                    <td class="col-7">${items[j].contents}</th>
-                                    <td class="col-3">마감일 :${make_date(items[j].deadline)}</th>
-                                </tr>`;
+                            <tr class="row">
+                                <details>
+                                    <summary onclick="get_taskban(${items[j].id},${0})">
+                                        <td class="col-2"><strong>${make_priority(items[j].priority)}</strong></th>
+                                        <td class="col-7">${items[j].contents}</th>
+                                        <td class="col-3">마감일 :${make_date(items[j].deadline)}</th>
+                                    </summary>
+                                        <div class="make_row" id="task_ban_box_incomplete${0}${items[j].id}}">
+                                        </div>
+                                </details>
+                            </tr>                            
+                            `;
                         }
                     } else {
                         temp_cate_menu += `
@@ -174,9 +179,8 @@ function get_data() {
                     }
 
                     temp_cate_menu += `</tbody>`;
-                    $('#cate_menu').append(temp_cate_menu);
                 }
-
+                $('#cate_menu').html(temp_cate_menu);
             }
             
             // 상담 목록 
