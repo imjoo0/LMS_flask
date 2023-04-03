@@ -143,7 +143,7 @@ function get_data() {
                     return { [category]: items };
                 });
 
-                let temp_cate_menu = '<details><summary>'
+                let temp_cate_menu = ''
                 for(i=0; i < categoryGroupedresult.length; i++){
                     const category = Object.keys(categoryGroupedresult[i])[0];
                     const items = categoryGroupedresult[i][category];
@@ -170,16 +170,16 @@ function get_data() {
                     const contentsGroupedresult = Object.entries(contentsGrouped).map(([key, items]) => {
                         return { [key]: items };
                     });
+                    console.log(contentsGroupedresult)
                     temp_cate_menu += `
-                        <thead>
-                            <tr class="row">
-                            <th class="col-2">우선순위</th>
-                            <th class="col-8">${category}업무</th>
-                            <th class="col-2">마감일</th>
-                            </tr>
-                        </thead>
-                        </summary>
-                        <tbody style="width:100%;">  
+                    <thead>
+                        <tr class="row">
+                        <th class="col-2">우선순위</th>
+                        <th class="col-8">${category}업무</th>
+                        <th class="col-2">마감일</th>
+                        </tr>
+                    </thead>
+                    <tbody style="width:100%;">  
                     `;
 
                     if (contentsGroupedresult && contentsGroupedresult.length > 0) {
@@ -193,13 +193,14 @@ function get_data() {
                                     <td class="col-8">${v[1]}</th>
                                     <td class="col-2">${make_date(v[2])}</th>
                                 </tr>
-                                <div class="make_row">`;
+                                <tr class="row">`;
                                 for(k=0; k < items.length; k++){
+                                    const range = 12/(items.length);
                                     const ban_name = response['ban_data'].filter(a => a.register_no === items[k].ban_id)[0]['name']
                                     temp_cate_menu += `
-                                    <label><input type="checkbox" name="taskid" value="${items[k].id}"/>${ban_name}</label>`;
+                                    <td class="col-${range}"><label><input type="checkbox" name="taskid" value="${items[k].id}"/>${ban_name}</label></th>`;
                                 }
-                                temp_cate_menu += `</div></details>`;
+                                temp_cate_menu += `</tr>`;
                         }
                     } else {
                         temp_cate_menu += `
