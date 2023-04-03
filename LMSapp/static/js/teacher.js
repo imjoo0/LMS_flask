@@ -241,7 +241,7 @@ function get_data() {
                 });
                 $('#consulting_title').html('오늘의 상담');
                 container.pagination({
-                    dataSource: JSON.parse(result),
+                    dataSource: result,
                     prevText: '이전',
                     nextText: '다음',
                     pageSize: 10,
