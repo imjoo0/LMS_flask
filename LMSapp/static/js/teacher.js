@@ -125,14 +125,17 @@ function get_data() {
             }else{
                 // 오늘의 업무 중복 카테고리로 묶기 
                 const categoryGrouped = task_notdone.reduce((result, item) => {
-                    const id = item.task_id;
+                    const contents = item.contents;
+                    const priority = item.priority;
+                    const deadline = item.deadline;
                     const category = item.category;
-                    const key = id + '_' + category;
+                    const key = category+'_'+priority+'_'+contents+ '_' +deadline;
+                    const doc = {'id':item.id,'ban_id':item.ban_id,'done':item.done,'created_at':item.created_at}
                   
                     if (!result[key]) {
-                      result[key] = { id, category, items: [] };
+                      result[key] = { category, priority, contents,deadline, items: [doc] };
                     }
-                    result[key].items.push(item);
+                    result[key].items.push(doc);
                     return result;
                 }, {});
                   
