@@ -214,12 +214,17 @@ function get_data() {
             
             // 상담 목록 
             let result = response['my_students'].reduce((acc, student) => {
-                const consultingList = response['all_consulting'].filter(c => c.student_id === student.register_no);
+                const consultingList = response['all_consulting'].filter(c => c.student_id === student.register_no,c.done === 0,c.created_at === null);
                 if (consultingList.length > 0){
                     const deadline = consultingList.reduce((prev, current) => {
                         const prevDueDate = prev.deadline instanceof Date ? prev.deadline.getTime() : Number.POSITIVE_INFINITY;
                         const currentDueDate = current.deadline instanceof Date ? current.deadline.getTime() : Number.POSITIVE_INFINITY;
                         return currentDueDate < prevDueDate ? current : prev;
+                    }, consultingList[0]);
+                    const missed = consultingList.reduce((prev, current) => {
+                        const prevDueDate = prev.missed instanceof Date ? prev.missed.getTime() : Number.POSITIVE_INFINITY;
+                        const currentDueDate = current.missed instanceof Date ? current.missed.getTime() : Number.POSITIVE_INFINITY;
+                        return currentDueDate < prevDueDate ? prev : current;
                     }, consultingList[0]);
                     acc.push({
                         'student_id': student.register_no,
@@ -228,7 +233,7 @@ function get_data() {
                         'ban_name': student.classname,
                         'consulting_num': consultingList.length,
                         'deadline': new Date(deadline.deadline),
-                        'consulting_list' : consultingList
+                        'missed' : new Date(missed.missed)
                     });
                 }
                 return acc;
@@ -243,24 +248,21 @@ function get_data() {
                 $('#consulting_title').html('오늘의 상담');
                 consultingStudentData = result
                 container.pagination({
-                    dataSource: result,
+                    dataSource: result.filter(e=>e.missed != today),
                     prevText: '이전',
                     nextText: '다음',
                     pageSize: 10,
                     callback: function (result, pagination) {
                         let temp_consulting_contents_box = ''
                         $.each(result, function (index, consulting) {
-                            let target_consultings = consulting.consulting_list.length > 0 ? consulting.consulting_list.filter(e=>e.done === 0 && e.created_at === null) : 0;
-                            if(target_consultings != 0){
-                                temp_consulting_contents_box += `
-                                <td class="col-3">${consulting.ban_name}</td>
-                                <td class="col-2">${consulting.student_name}</td>
-                                <td class="col-3">${consulting.student_mobileno}</td>
-                                <td class="col-2">${make_date(consulting.deadline)}</td>
-                                <td class="col-1">${target_consultings.length}</td>
-                                <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${0})"><span class="cursor-pointer">📞</span></td> 
-                                `;
-                            }
+                            temp_consulting_contents_box += `
+                            <td class="col-3">${consulting.ban_name}</td>
+                            <td class="col-2">${consulting.student_name}</td>
+                            <td class="col-3">${consulting.student_mobileno}</td>
+                            <td class="col-2">${make_date(consulting.deadline)}</td>
+                            <td class="col-1">${consulting.consulting_num}</td>
+                            <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${0})"><span class="cursor-pointer">📞</span></td> 
+                            `;
                         });
                         $('#today_consulting_box').html(temp_consulting_contents_box);
                         $('#consulting_student_list').show();
@@ -278,22 +280,15 @@ function get_data() {
 //  상담 관련 
 async function get_consulting_student(value) {
     let container = $('#consultingstudent_pagination')
-    const data = consultingStudentData
-    // .filter((e) => {
-    //     if(value == 0) {
-    //         $('#consulting_title').html('오늘의 상담');
-    //         console.log(value)
-    //         return e.done === 0;
-    //     } else if (value == 1){
-    //         $('#consulting_title').html('오늘 완료한 상담');
-    //         console.log(value)
-    //         return e.done == 1 && e.created_at == today;
-    //     }else{
-    //         $('#consulting_title').html('오늘의 부재중 상담');
-    //         console.log(value)
-    //         return e.done === 0 && e.missed == today;
-    //     }
-    // })
+    const data = consultingStudentData.filter((e) => {
+        if(value == 0) {
+            $('#consulting_title').html('오늘의 상담');
+            return e.missed != today;
+        }else{
+            $('#consulting_title').html('오늘의 부재중 상담');
+            return e.missed == today;
+        }
+    })
     await container.pagination({
         dataSource: data,
         prevText: '이전',
@@ -306,27 +301,14 @@ async function get_consulting_student(value) {
             }else{
                 var temp_consulting_contents_box = '';
                 $.each(data, function (index, consulting) {
-                    let target_consultings;
-                    if(value == 0) {
-                        $('#consulting_title').html('오늘의 상담');
-                        target_consultings = consulting.consulting_list.length > 0 ? consulting.consulting_list.filter(e=>e.done === 0 && e.created_at === null) : 0;
-                    } else if (value == 1){
-                        $('#consulting_title').html('오늘 완료한 상담');
-                        target_consultings = consulting.consulting_list.length > 0 ? consulting.consulting_list.filter(e=>e.done === 1 && e.created_at === today) : 0;
-                    }else{
-                        $('#consulting_title').html('오늘의 부재중 상담');
-                        target_consultings = consulting.consulting_list.length > 0 ? consulting.consulting_list.filter(e=>e.done === 0 && e.missed == today) : 0;
-                    }
-                    if(target_consultings != 0){
-                        temp_consulting_contents_box += `
-                        <td class="col-3">${consulting.ban_name}</td>
-                        <td class="col-2">${consulting.student_name}</td>
-                        <td class="col-3">${consulting.student_mobileno}</td>
-                        <td class="col-2">${make_date(consulting.deadline)}</td>
-                        <td class="col-1">${target_consultings.length}</td>
-                        <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${0})"><span class="cursor-pointer">📞</span></td> 
-                        `;
-                    }
+                    temp_consulting_contents_box += `
+                    <td class="col-3">${consulting.ban_name}</td>
+                    <td class="col-2">${consulting.student_name}</td>
+                    <td class="col-3">${consulting.student_mobileno}</td>
+                    <td class="col-2">${make_date(consulting.deadline)}</td>
+                    <td class="col-1">${consulting.consulting_num}</td>
+                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${0})"><span class="cursor-pointer">📞</span></td> 
+                    `;
                 });
                 $('#today_consulting_box').html(temp_consulting_contents_box);
                 $('#consulting_student_list').show();
