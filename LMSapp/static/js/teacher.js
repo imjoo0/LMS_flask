@@ -149,6 +149,7 @@ function get_data() {
                         const priority = item.priority;
                         const deadline = item.deadline;
                         const doc = {
+                            'id':item.id,
                             'ban_id':item.ban_id,
                             'done':item.done,
                             'created_at':item.created_at
@@ -190,11 +191,10 @@ function get_data() {
                                 </tr>
                                 <tr class="row">`;
                                 for(k=0; k < items.length; k++){
-                                    const range = 12/((items.length)*2);
+                                    const range = 12/(items.length);
                                     const ban_name = response['ban_data'].filter(a => a.register_no === items[k].ban_id)[0]['name']
                                     temp_cate_menu += `
-                                    <td class="col-${range}">${ban_name}</th>
-                                    <td class="col-${range}">checkbox</th>`;
+                                    <td class="col-${range}"><label><input type="checkbox" name="taskid" value="${items[k].id}"/>${ban_name}</label></th>`;
                                 }
                                 temp_cate_menu += `</tr>`;
                         }
