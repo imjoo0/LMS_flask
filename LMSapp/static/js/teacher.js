@@ -221,6 +221,16 @@ function get_data() {
                         const currentDueDate = current.deadline instanceof Date ? current.deadline.getTime() : Number.POSITIVE_INFINITY;
                         return currentDueDate < prevDueDate ? current : prev;
                     }, consultingList[0]);
+                    const created_at = consultingList.reduce((prev, current) => {
+                        const prevDueDate = prev.deadline instanceof Date ? prev.deadline.getTime() : Number.POSITIVE_INFINITY;
+                        const currentDueDate = current.deadline instanceof Date ? current.deadline.getTime() : Number.POSITIVE_INFINITY;
+                        return currentDueDate < prevDueDate ? prev : current;
+                    }, consultingList[0]);
+                    const missed = consultingList.reduce((prev, current) => {
+                        const prevDueDate = prev.deadline instanceof Date ? prev.deadline.getTime() : Number.POSITIVE_INFINITY;
+                        const currentDueDate = current.deadline instanceof Date ? current.deadline.getTime() : Number.POSITIVE_INFINITY;
+                        return currentDueDate < prevDueDate ? prev : current;
+                    }, consultingList[0]);
                     acc.push({
                         'student_id': student.register_no,
                         'student_name': student.name,
@@ -228,8 +238,8 @@ function get_data() {
                         'ban_name': student.classname,
                         'consulting_num': consultingList.length,
                         'deadline': new Date(deadline.deadline),
-                        'created_at':new Date(consultingList[0].created_at),
-                        'missed':new Date(consultingList[0].missed)
+                        'created_at':new Date(created_at.created_at),
+                        'missed':new Date(missed.missed)
                     });
                 }
                 return acc;
