@@ -148,8 +148,8 @@ function get_data() {
             let consulting_done = consulting_t - consulting.length
             
             let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task =>  new Date(task.created_at).setHours(0, 0, 0, 0) == today).length : 0;
-            let task_notdone = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done === 0) : 0;
-            let total_task = task_notdone.length+task_done
+            let total_task = response['all_task'].length
+            let task_notdone = total_task-task_done;
             let temp_report = `
             <td class="col-3"> ${task_done}/${total_task} </td>
             <td class="col-3"> ( ${answer_rate(task_done,total_task).toFixed(0)}% ) </td>
@@ -164,7 +164,7 @@ function get_data() {
                 $('#today_task_box1').empty()
             }else{
                 // 오늘의 업무 중복 카테고리로 묶기 
-                const categoryGrouped = task_notdone.reduce((result, item) => {
+                const categoryGrouped = response['all_task'].reduce((result, item) => {
                     const category = item.category;
                     if (!result[category]) {
                         result[category] = [];
@@ -181,7 +181,9 @@ function get_data() {
                 let temp_cate_menu = ''
                 for(i=0; i < categoryGroupedresult.length; i++){
                     const category = Object.keys(categoryGroupedresult[i])[0];
+                    // const items = categoryGroupedresult[i][category].filter( e => e.done === 0 );
                     const items = categoryGroupedresult[i][category];
+                    
                     items.sort((a, b) => b.priority - a.priority);
                     const contentsGrouped = items.reduce((result, item) => {
                         const contents = item.contents;
@@ -191,7 +193,7 @@ function get_data() {
                             'id':item.id,
                             'ban_id':item.ban_id,
                             'done':item.done,
-                            'created_at':item.created_at
+                            'created_at':new Date(item.created_at).setHours(0, 0, 0, 0)
                         }
                         const key =  priority + '_' + contents + '_' + deadline;
                         if (!result[key]) {
@@ -219,7 +221,7 @@ function get_data() {
                     if (contentsGroupedresult && contentsGroupedresult.length > 0) {
                         for(j=0; j < contentsGroupedresult.length; j++){
                             const contents = Object.keys(contentsGroupedresult[j])[0];
-                            const items = contentsGroupedresult[j][contents];
+                            task_items = contentsGroupedresult[j][contents]
                             const v = contents.split('_')
                             temp_cate_menu += `
                                 <tr class="row" style="background-color:#ffc107;">
@@ -228,10 +230,15 @@ function get_data() {
                                     <td class="col-2">${make_date(v[2])}</td>
                                 </tr>
                                 <td class="col-12">`;
-                                for(k=0; k < items.length; k++){
-                                    const ban_name = response['ban_data'].filter(a => a.register_no === items[k].ban_id)[0]['name']
-                                    temp_cate_menu += `
-                                    <label><input type="checkbox" name="taskid" value="${items[k].id}"/>${ban_name}</label>`;
+                                for(k=0; k < task_items.length; k++){
+                                    const ban_name = response['ban_data'].filter(a => a.register_no === task_items[k].ban_id)[0]['name']
+                                    if(task_items[k].done == 0){
+                                        temp_cate_menu += `
+                                        <label><input type="checkbox" name="taskid" value="${task_items[k].id}"/>${ban_name}</label>`;
+                                    }else if(task_items[k].done == 1&&task_items[k].created_at == today){
+                                        temp_cate_menu += `
+                                        <label>✅(완료) ${ban_name}</label>`;
+                                    }
                                 }
                                 temp_cate_menu += `</td></tbody>`;
                         }
@@ -314,11 +321,11 @@ function get_data() {
         }
     });
 }
-//  상담 관련 
-async function get_consulting_student(value) {
+// 메인화면 상담 관련 
+async function get_consulting_student(done_code) {
     let container = $('#consultingstudent_pagination')
     const data = consultingStudentData.filter((e) => {
-        if(value == 0) {
+        if(done_code == 0) {
             $('#consulting_title').html('오늘의 상담');
             return e.missed != today;
         }else{
@@ -354,80 +361,93 @@ async function get_consulting_student(value) {
         }
     })
 }
-
-// 오늘의 업무 관련 함수 
+// 메인화면 업무관련
 async function task_doneview(done_code) {
-    if (done_code == 0) {
+    if(done_code == 0) {
         $('#task_title').html('오늘의 업무')
-        $('#today_task_box0').show();
-        $('#today_task_box1').hide();
+        $('#cate_menu0').show();
+        $('#cate_menu1').hide();
         $('#task_button').show()
-    } else {
+    }else{
         $('#task_title').html('오늘 완료한 업무')
-        $('#today_task_box0').hide();
-        $('#today_task_box1').show();
+        $('#cate_menu0').hide();
+        $('#cate_menu1').show();
         $('#task_button').hide()
     }
-    await $.ajax({
-        type: "GET",
-        url: "/teacher/task/" + done_code,
-        data: {},
-        success: function (response) {
-            if ((response["target_task"] == '없음') || (response["target_task"].length == 0)) {
-                if (done_code == 0) {
-                    $('#today_task_box0').html('오늘의 업무 끝 😆');
-                    $('#today_task_box1').empty()
-                } else {
-                    $('#today_task_box1').html('완수한 업무가 없어요');
-                    $('#today_task_box0').empty()
-                }
-            } else {
-                $('#cate_menu').empty()
-                $('#today_task_box' + done_code).empty()
-                let range = 12 / response['target_cate'].length;
-                for (i = 0; i < response['target_cate'].length; i++) {
-                    let category_id = response['target_cate'][i]['id'];
-                    let name = response['target_cate'][i]['name'];
-                    let temp_cate_menu = `
-                    <th class="col-${range}">${name}</th>
-                    `;
-                    $('#cate_menu').append(temp_cate_menu)
-                    let temp_for_task = `
-                    <td class="col-${range}" id="for_task${done_code}${category_id}"></td>
-                    `;
-                    $('#today_task_box' + done_code).append(temp_for_task)
-                    $(`#for_task${done_code}${category_id}`).empty()
-                }
-                for (i = 0; i < response["target_task"].length; i++) {
-                    let id = response["target_task"][i]['id']
-                    let category = response["target_task"][i]['category']
-                    let contents = response["target_task"][i]['contents']
-                    let deadline = response["target_task"][i]['deadline']
-                    let priority = response["target_task"][i]['priority']
-                    if (priority > 2) {
-                        let temp_task_contents_box = `
-                        <details>
-                            <summary onclick="get_taskban(${id},${done_code})">⭐우선업무:<strong>${contents}</strong>(마감 : ${deadline})</summary>
-                            <div class="make_row" id="task_ban_box_incomplete${done_code}${id}">
-                            </div>
-                        </details>  
-                        `;
-                        $(`#for_task${done_code}${category}`).append(temp_task_contents_box);
-                    } else {
-                        let temp_task_contents_box = `
-                        <details>
-                            <summary onclick="get_taskban(${id},${done_code})">✅<strong>${contents}</strong>(마감 : ${deadline})</summary>
-                            <div class="make_row" id="task_ban_box_incomplete${done_code}${id}">
-                            </div>
-                        </details> 
-                        `;
-                        $(`#for_task${done_code}${category}`).append(temp_task_contents_box);
-                    }
-                }
-            }
-        }
-    });
 }
+// 오늘의 업무 관련 함수 
+// async function task_doneview(done_code) {
+//     if (done_code == 0) {
+//         $('#task_title').html('오늘의 업무')
+//         $('#cate_menu0').show();
+//         $('#cate_menu1').hide();
+//         $('#task_button').show()
+//     } else {
+//         $('#task_title').html('오늘 완료한 업무')
+//         $('#cate_menu0').hide();
+//         $('#cate_menu1').show();
+//         $('#task_button').hide()
+//     }
+//     await $.ajax({
+//         type: "GET",
+//         url: "/teacher/task/" + done_code,
+//         data: {},
+//         success: function (response) {
+//             if ((response["target_task"] == '없음') || (response["target_task"].length == 0)) {
+//                 if (done_code == 0) {
+//                     $('#today_task_box0').html('오늘의 업무 끝 😆');
+//                     $('#today_task_box1').empty()
+//                 } else {
+//                     $('#today_task_box1').html('완수한 업무가 없어요');
+//                     $('#today_task_box0').empty()
+//                 }
+//             } else {
+//                 $('#cate_menu').empty()
+//                 $('#today_task_box' + done_code).empty()
+//                 let range = 12 / response['target_cate'].length;
+//                 for (i = 0; i < response['target_cate'].length; i++) {
+//                     let category_id = response['target_cate'][i]['id'];
+//                     let name = response['target_cate'][i]['name'];
+//                     let temp_cate_menu = `
+//                     <th class="col-${range}">${name}</th>
+//                     `;
+//                     $('#cate_menu').append(temp_cate_menu)
+//                     let temp_for_task = `
+//                     <td class="col-${range}" id="for_task${done_code}${category_id}"></td>
+//                     `;
+//                     $('#today_task_box' + done_code).append(temp_for_task)
+//                     $(`#for_task${done_code}${category_id}`).empty()
+//                 }
+//                 for (i = 0; i < response["target_task"].length; i++) {
+//                     let id = response["target_task"][i]['id']
+//                     let category = response["target_task"][i]['category']
+//                     let contents = response["target_task"][i]['contents']
+//                     let deadline = response["target_task"][i]['deadline']
+//                     let priority = response["target_task"][i]['priority']
+//                     if (priority > 2) {
+//                         let temp_task_contents_box = `
+//                         <details>
+//                             <summary onclick="get_taskban(${id},${done_code})">⭐우선업무:<strong>${contents}</strong>(마감 : ${deadline})</summary>
+//                             <div class="make_row" id="task_ban_box_incomplete${done_code}${id}">
+//                             </div>
+//                         </details>  
+//                         `;
+//                         $(`#for_task${done_code}${category}`).append(temp_task_contents_box);
+//                     } else {
+//                         let temp_task_contents_box = `
+//                         <details>
+//                             <summary onclick="get_taskban(${id},${done_code})">✅<strong>${contents}</strong>(마감 : ${deadline})</summary>
+//                             <div class="make_row" id="task_ban_box_incomplete${done_code}${id}">
+//                             </div>
+//                         </details> 
+//                         `;
+//                         $(`#for_task${done_code}${category}`).append(temp_task_contents_box);
+//                     }
+//                 }
+//             }
+//         }
+//     });
+// }
 function get_taskban(task_id, idx) {
     $.ajax({
         type: "GET",
@@ -527,68 +547,7 @@ function done_consulting_history_view(ban_id, is_done) {
     });
 
 }
-// function get_consulting_student(is_done){
-//     if(is_done == 0){
-//         $('#consulting_title').html('오늘의 상담');
-//     }else if(is_done == 1){
-//         $('#consulting_title').html('오늘 완료한 상담');
-//     }else{
-//         $('#consulting_title').html('오늘의 부재중 상담');
-//     }
-//     $.ajax({
-//         type: "GET",
-//         url: "/teacher/mystudents/" + is_done,
-//         data: {},
-//         success: function (response) {
-//             const result = response['my_students'].reduce((acc, student) => {
-//                 const consultingList = response['all_consulting']['data'].filter(consulting => consulting.student_id === student.register_no);
-//                 if (consultingList.length > 0) {
-//                     const deadline = consultingList.reduce((prev, current) => {
-//                         const prevDueDate = prev.deadline instanceof Date ? prev.deadline : Number.POSITIVE_INFINITY;
-//                         const currentDueDate = current.deadline instanceof Date ? current.deadline : Number.POSITIVE_INFINITY;
-//                         return current.deadline < prev.deadline ? current : prev;
-//                     }, consultingList[0]);
-//                     acc.push({
-//                         'student_id': student.register_no,
-//                         'student_name': student.name,
-//                         'student_mobileno': student.mobileno,
-//                         'ban_name': student.classname,
-//                         'consulting_num': consultingList.length,
-//                         'deadline': new Date(deadline.deadline),
-//                     });
-//                 }
-//                 return acc;
-//             }, []);
-            
-//             if (result.length > 0) {
-//                 result.sort((a, b) => {
-//                     return a.deadline - b.deadline
-//                 });
-//                 let temp_consulting_contents_box = ''
-//                 for (i = 0; i < result.length; i++) {
-//                     var ban_name = result[i]['ban_name']
-//                     var student_id = result[i]['student_id']
-//                     var student_name = result[i]['student_name']
-//                     var mobileno = result[i]['student_mobileno']
-//                     var consulting_num = result[i]['consulting_num']
-//                     var deadline = result[i]['deadline'].getFullYear()+'-'+(result[i]['deadline'].getMonth()+ 1).toString().padStart(2, '0')+'-'+result[i]['deadline'].getDate().toString().padStart(2, '0')
 
-//                     temp_consulting_contents_box += `
-//                     <td class="col-3">${ban_name}</td>
-//                     <td class="col-2">${student_name}</td>
-//                     <td class="col-3">${mobileno}</td>
-//                     <td class="col-2">${deadline}</td>
-//                     <td class="col-1">${consulting_num}</td>
-//                     <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">✅</td> 
-//                     `;
-//                 }
-//                 $('#today_consulting_box').html(temp_consulting_contents_box);
-//             }else{
-//                 $('#consulting_title').html('오늘의 상담이 없습니다.');
-//             }
-//         }
-//     });
-// }
 function get_consulting(student_id, is_done) {
     $.ajax({
         type: "GET",
@@ -999,3 +958,65 @@ async function get_question_detail(q_id, answer, category) {
 }
 
 
+// function get_consulting_student(is_done){
+//     if(is_done == 0){
+//         $('#consulting_title').html('오늘의 상담');
+//     }else if(is_done == 1){
+//         $('#consulting_title').html('오늘 완료한 상담');
+//     }else{
+//         $('#consulting_title').html('오늘의 부재중 상담');
+//     }
+//     $.ajax({
+//         type: "GET",
+//         url: "/teacher/mystudents/" + is_done,
+//         data: {},
+//         success: function (response) {
+//             const result = response['my_students'].reduce((acc, student) => {
+//                 const consultingList = response['all_consulting']['data'].filter(consulting => consulting.student_id === student.register_no);
+//                 if (consultingList.length > 0) {
+//                     const deadline = consultingList.reduce((prev, current) => {
+//                         const prevDueDate = prev.deadline instanceof Date ? prev.deadline : Number.POSITIVE_INFINITY;
+//                         const currentDueDate = current.deadline instanceof Date ? current.deadline : Number.POSITIVE_INFINITY;
+//                         return current.deadline < prev.deadline ? current : prev;
+//                     }, consultingList[0]);
+//                     acc.push({
+//                         'student_id': student.register_no,
+//                         'student_name': student.name,
+//                         'student_mobileno': student.mobileno,
+//                         'ban_name': student.classname,
+//                         'consulting_num': consultingList.length,
+//                         'deadline': new Date(deadline.deadline),
+//                     });
+//                 }
+//                 return acc;
+//             }, []);
+            
+//             if (result.length > 0) {
+//                 result.sort((a, b) => {
+//                     return a.deadline - b.deadline
+//                 });
+//                 let temp_consulting_contents_box = ''
+//                 for (i = 0; i < result.length; i++) {
+//                     var ban_name = result[i]['ban_name']
+//                     var student_id = result[i]['student_id']
+//                     var student_name = result[i]['student_name']
+//                     var mobileno = result[i]['student_mobileno']
+//                     var consulting_num = result[i]['consulting_num']
+//                     var deadline = result[i]['deadline'].getFullYear()+'-'+(result[i]['deadline'].getMonth()+ 1).toString().padStart(2, '0')+'-'+result[i]['deadline'].getDate().toString().padStart(2, '0')
+
+//                     temp_consulting_contents_box += `
+//                     <td class="col-3">${ban_name}</td>
+//                     <td class="col-2">${student_name}</td>
+//                     <td class="col-3">${mobileno}</td>
+//                     <td class="col-2">${deadline}</td>
+//                     <td class="col-1">${consulting_num}</td>
+//                     <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${is_done})">✅</td> 
+//                     `;
+//                 }
+//                 $('#today_consulting_box').html(temp_consulting_contents_box);
+//             }else{
+//                 $('#consulting_title').html('오늘의 상담이 없습니다.');
+//             }
+//         }
+//     });
+// }

@@ -211,31 +211,31 @@ def taskban(task_id,done_code):
             'target_taskban': taskban
             })
 
-# 선생님이 담당 중인 반 학생중 상담을 하지 않은 학생(is_done = 0) 상담을 한 학생(is_done = 1) 정보
-@bp.route("/mystudents/<int:is_done>", methods=['GET'])
-def mystudents(is_done):
-    if request.method == 'GET':
-        all_consulting = {}
-        my_students = callapi.purple_info(session['user_id'],'get_mystudents')
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                if is_done == 2:
-                    cur.execute("select id, student_id,category_id,deadline,created_at from consulting where startdate <= %s and teacher_id=%s and missed=%s;",(Today,session['user_registerno'],Today,))
-                else:
-                    cur.execute("select id, student_id,category_id,deadline,created_at from consulting where startdate <= %s and teacher_id=%s and done=%s;",(Today,session['user_registerno'],is_done,))
-                all_consulting['status'] = 200
-                all_consulting['data'] = cur.fetchall()
-        except Exception as e:
-            print(e)
-            all_consulting['status'] = 401
-            all_consulting['text'] = str(e)
-        finally:
-            db.close()
-        return jsonify({
-            'my_students': my_students,
-            'all_consulting': all_consulting,
-        })
+# # 선생님이 담당 중인 반 학생중 상담을 하지 않은 학생(is_done = 0) 상담을 한 학생(is_done = 1) 정보
+# @bp.route("/mystudents/<int:is_done>", methods=['GET'])
+# def mystudents(is_done):
+#     if request.method == 'GET':
+#         all_consulting = {}
+#         my_students = callapi.purple_info(session['user_id'],'get_mystudents')
+#         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+#         try:
+#             with db.cursor() as cur:
+#                 if is_done == 2:
+#                     cur.execute("select id, student_id,category_id,deadline,created_at from consulting where startdate <= %s and teacher_id=%s and missed=%s;",(Today,session['user_registerno'],Today,))
+#                 else:
+#                     cur.execute("select id, student_id,category_id,deadline,created_at from consulting where startdate <= %s and teacher_id=%s and done=%s;",(Today,session['user_registerno'],is_done,))
+#                 all_consulting['status'] = 200
+#                 all_consulting['data'] = cur.fetchall()
+#         except Exception as e:
+#             print(e)
+#             all_consulting['status'] = 401
+#             all_consulting['text'] = str(e)
+#         finally:
+#             db.close()
+#         return jsonify({
+#             'my_students': my_students,
+#             'all_consulting': all_consulting,
+#         })
 
 
 # 학생에게 해야할 상담 목록 ( is_done = 0 ) 상담을 한 목록 (is_done = 1)
