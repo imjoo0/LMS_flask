@@ -171,14 +171,17 @@ function get_data() {
                         return { [key]: items };
                     });
                     temp_cate_menu += `
-                    <thead>
-                        <tr class="row">
-                        <th class="col-2">우선순위</th>
-                        <th class="col-8">${category}업무</th>
-                        <th class="col-2">마감일</th>
-                        </tr>
-                    </thead>
-                    <tbody style="width:100%;">  
+                    <details>
+                        <summary>
+                        <thead>
+                            <tr class="row">
+                            <th class="col-2">우선순위</th>
+                            <th class="col-8">${category}업무</th>
+                            <th class="col-2">마감일</th>
+                            </tr>
+                        </thead>
+                        </summary>
+                        <tbody style="width:100%;">  
                     `;
 
                     if (contentsGroupedresult && contentsGroupedresult.length > 0) {
@@ -187,14 +190,11 @@ function get_data() {
                             const items = contentsGroupedresult[j][contents];
                             const v = contents.split('_')
                             temp_cate_menu += `
-                            <details>
-                                <summary>
                                 <tr class="row" style="background-color:#ffc107;">
                                     <td class="col-2">${make_priority(v[0])}</th>
                                     <td class="col-8">${v[1]}</th>
                                     <td class="col-2">${make_date(v[2])}</th>
                                 </tr>
-                                </summary>
                                 <div class="make_row">`;
                                 for(k=0; k < items.length; k++){
                                     const ban_name = response['ban_data'].filter(a => a.register_no === items[k].ban_id)[0]['name']
