@@ -223,7 +223,6 @@ function get_data() {
                             const contents = Object.keys(contentsGroupedresult[j])[0];
                             task_items = contentsGroupedresult[j][contents]
                             notdone_items = contentsGroupedresult[j][contents].filter(e=>e.done === 0);
-                            done_items = contentsGroupedresult[j][contents].filter(e=>e.done === 1 && e.created_at === today)
                             const v = contents.split('_')
                             temp_cate_menu += `
                                 <tr class="row" style="background-color:#ffc107;">
@@ -236,11 +235,6 @@ function get_data() {
                                     const ban_name = response['ban_data'].filter(a => a.register_no === notdone_items[k].ban_id)[0]['name']
                                     temp_cate_menu += `
                                     <label><input type="checkbox" name="taskid" value="${notdone_items[k].id}"/>${ban_name}</label>`;
-                                }
-                                for(k=0; k < done_items.length; k++){
-                                    const ban_name = response['ban_data'].filter(a => a.register_no === done_items[k].ban_id)[0]['name']
-                                    temp_cate_menu += `
-                                    <label>✅${ban_name}</label>`;
                                 }
                                 temp_cate_menu += `</td></tbody>`;
                         }
