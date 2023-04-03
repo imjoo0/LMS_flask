@@ -129,7 +129,7 @@ def get_data():
                     all_consulting = cur.fetchall()
 
                     # 업무
-                    cur.execute("select taskban.id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id left join taskcategory on task.category_id = taskcategory.id where (task.cycle = %s or task.cycle = %s) and task.startdate <= %s and %s <= task.deadline and taskban.teacher_id=%s;", (today_yoil, 0, Today, Today, session['user_registerno'],))
+                    cur.execute("select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id left join taskcategory on task.category_id = taskcategory.id where (task.cycle = %s or task.cycle = %s) and task.startdate <= %s and %s <= task.deadline and taskban.teacher_id=%s;", (today_yoil, 0, Today, Today, session['user_registerno'],))
                     # cur.execute("select taskban.id,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id where (task.cycle = %s or task.cycle = %s) and task.startdate <= %s and %s <= task.deadline and taskban.teacher_id=%s;", (today_yoil, 0, Today, Today, session['user_registerno'],))
                     all_task = cur.fetchall()
                     
