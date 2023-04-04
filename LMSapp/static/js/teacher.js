@@ -147,7 +147,7 @@ function get_data() {
             let consulting_t = response['all_consulting'].length;
             let consulting_done = consulting_t - consulting_notdone.length
             
-            let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task =>  new Date(task.created_at).setHours(0, 0, 0, 0) == today).length : 0;
+            let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done != 0  && new Date(task.created_at).setHours(0, 0, 0, 0) == today).length : 0;
             let total_task = response['all_task'].length
             let task_notdone = total_task-task_done;
             let temp_report = `
