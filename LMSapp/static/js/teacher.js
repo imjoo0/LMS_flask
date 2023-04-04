@@ -295,8 +295,8 @@ function get_data() {
                     'ban_id': student.ban_id,
                     'ban_name': student.classname,
                     'consulting_num': 0,
-                    'deadline': null,
-                    'missed' : null,
+                    'deadline': '3000-01-01',
+                    'missed' : '1111-01-01',
                     'consulting_list': []
                   });
                 }
@@ -344,6 +344,7 @@ function get_data() {
         }
     });
 }
+
 // 메인화면 상담 관련 
 async function get_consulting_student(done_code) {
     let container = $('#consultingstudent_pagination')
