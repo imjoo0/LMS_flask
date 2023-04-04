@@ -30,8 +30,8 @@ from datetime import datetime, timedelta
 
 scheduler = BackgroundScheduler()
 
-# 스케줄러에 작업 추가 매일 12시마다 실행 
-@scheduler.scheduled_job('cron', hour='0')
+# 스케줄러에 작업 추가 매일 12시마다 실행 (오후3시 테스트)
+@scheduler.scheduled_job('cron', hour='15')
 def update_database():
     try:
         pydb = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)

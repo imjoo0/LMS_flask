@@ -301,7 +301,7 @@ function get_data() {
                 }
                 return acc;
             }, []);
-
+            console.log(result)
             if (result.length > 0) {
                 result = result.sort((a, b) => {
                     return b.consulting_num - a.consulting_num;
