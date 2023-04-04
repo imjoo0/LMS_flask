@@ -36,7 +36,7 @@ def update_database():
     try:
         pydb = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         with pydb.cursor() as cursor:
-            query= "UPDATE taskban AS A INNER JOIN task AS B ON A.task_id = B.id SET A.done = 0 WHERE (A.created_at is not null AND A.created_at < curdate()) AND (B.cycle < 6) AND (A.done = 1)"
+            query= "UPDATE taskban AS A INNER JOIN task AS B ON A.task_id = B.id SET A.done = 0 WHERE B.cycle < 6 "
             cursor.execute(query)
         pydb.commit()
     except Exception as e:
