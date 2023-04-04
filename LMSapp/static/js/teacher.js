@@ -309,7 +309,7 @@ function get_data() {
                     return a.deadline - b.deadline
                 });
                 $('#today_consulting_title').html('오늘의 상담');
-                // consultingStudentData = result
+                consultingStudentData = result
                 // container.pagination({
                 //     dataSource: result.filter(e=>e.missed != "오늘" && e.consulting_num != 0),
                 //     prevText: '이전',
@@ -347,7 +347,7 @@ function get_data() {
 // 메인화면 상담 관련 
 async function get_consulting_student(done_code) {
     let container = $('#consultingstudent_pagination')
-    const data = result.filter((e) => {
+    const data = consultingStudentData.filter((e) => {
         if(done_code == 0) {
             $('#today_consulting_title').html('오늘의 상담');
             return e.missed != "오늘" && e.consulting_num != 0;
