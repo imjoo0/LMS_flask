@@ -310,7 +310,7 @@ function get_data() {
                             temp_consulting_contents_box += `
                             <td class="col-2">${consulting.ban_name}</td>
                             <td class="col-3">${consulting.student_name}</td>
-                            <td class="col-1">${student.reco_book_code}</td>
+                            <td class="col-1">${consulting.student_reco_book_code}</td>
                             <td class="col-2">${consulting.student_mobileno}</td>
                             <td class="col-2">${make_date(consulting.deadline)}</td>
                             <td class="col-1">${consulting.consulting_num}</td>
@@ -358,7 +358,7 @@ async function get_consulting_student(done_code) {
                     temp_consulting_contents_box += `
                     <td class="col-2">${consulting.ban_name}</td>
                     <td class="col-3">${consulting.student_name}</td>
-                    <td class="col-1">${student.reco_book_code}</td>
+                    <td class="col-1">${consulting.student_reco_book_code}</td>
                     <td class="col-2">${consulting.student_mobileno}</td>
                     <td class="col-2">${make_date(consulting.deadline)}</td>
                     <td class="col-1">${consulting.consulting_num}</td>
