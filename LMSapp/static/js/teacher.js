@@ -233,7 +233,6 @@ function get_data() {
                                 <td class="col-2">${make_date(v[2])}</td>
                             </tr>
                             <td class="col-12">`;
-                            console.log(task_items)
                             for(k=0; k < task_items.length; k++){
                                 const ban_name = response['ban_data'].filter(a => a.register_no === task_items[k].ban_id)[0]['name']
                                 if(task_items[k].done == 0){
@@ -356,7 +355,7 @@ async function get_consulting_student(done_code) {
                     <td class="col-3">${consulting.student_mobileno}</td>
                     <td class="col-2">${make_date(consulting.deadline)}</td>
                     <td class="col-1">${consulting.consulting_num}</td>
-                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${value}',${done_code})"><span class="cursor-pointer">📞</span></td> 
+                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${value}',${0})"><span class="cursor-pointer">📞</span></td> 
                     `;
                 });
                 $('#today_consulting_box').html(temp_consulting_contents_box);
@@ -384,7 +383,6 @@ function get_consulting(value, is_done) {
                 //     `;
                 //     $('#consulting_msg').html(temp_consulting_contents_box);
             } else {
-                $('#consultinghistoryModalLabelt').html('상담일지 작성')
                 $('#consulting_write_box').empty();
                 let r_target = response["consulting_list"]
                 for (i = 0; i < r_target.length; i++) {
