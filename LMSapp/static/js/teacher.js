@@ -441,7 +441,6 @@ async function get_student(ban_id) {
                 $('#s_data').html(temp_consulting_contents_box);
                 $('#student_data').show();
             }
-            
         }
     })
 }
@@ -605,14 +604,19 @@ function post_target_consulting(consulting, is_done) {
     }
     $.ajax({
         type: "POST",
-        url: '/teacher/consulting/' + consulting + '/' + is_done,
+        url: '/teacher/consulting_history/' + consulting + '/' + is_done,
         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
         data: {
             consulting_reason: consulting_reason,
             consulting_solution: consulting_solution,
             consulting_result: consulting_result,
             consulting_missed: consulting_missed,
-        },
+        },success: function (response) {
+            if (response['result'] == '완료') {
+            } else {
+                alert("상담일지 저장 실패")
+            }
+        }
     })
 }
 
