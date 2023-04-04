@@ -178,6 +178,7 @@ def task_category(done_code):
         # done_code = 완료한 task의 id
         target_task = TaskBan.query.get_or_404(done_code)
         target_task.done = 1
+        print(Today)
         target_task.created_at = Today
         try:
             db.session.commit()

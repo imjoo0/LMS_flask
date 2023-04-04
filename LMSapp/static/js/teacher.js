@@ -143,9 +143,9 @@ function get_data() {
             // 상담일지 조회 ban 선택 옵션 같이 붙이기 
             $('#history_ban').append(temp_ban_option)
             
-            let consulting = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.done === 0) : 0;
+            let consulting_notdone = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.done === 0  && c.created_at === null) : 0;
             let consulting_t = response['all_consulting'].length;
-            let consulting_done = consulting_t - consulting.length
+            let consulting_done = consulting_t - consulting_notdone.length
             
             let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task =>  new Date(task.created_at).setHours(0, 0, 0, 0) == today).length : 0;
             let total_task = response['all_task'].length
@@ -258,7 +258,7 @@ function get_data() {
             
             // 상담 목록 
             let result = response['my_students'].reduce((acc, student) => {
-                const consultingList = response['all_consulting'].filter(c => c.student_id === student.register_no && c.done === 0 && c.created_at === null&& c.done === 0);
+                const consultingList = consulting_notdone.length > 0 ? consulting_notdone.filter(c => c.student_id === student.register_no) : 0;
                 if (consultingList.length > 0){
                     const deadline = consultingList.reduce((prev, current) => {
                         const prevDueDate = prev.deadline instanceof Date ? prev.deadline.getTime() : Number.POSITIVE_INFINITY;
@@ -362,20 +362,7 @@ async function get_consulting_student(done_code) {
         }
     })
 }
-// 메인화면 업무관련
-async function task_doneview(done_code) {
-    if(done_code == 0) {
-        $('#task_title').html('오늘의 업무')
-        $('#cate_menu0').show();
-        $('#cate_menu1').hide();
-        $('#task_button').show()
-    }else{
-        $('#task_title').html('오늘 완료한 업무')
-        $('#cate_menu0').hide();
-        $('#cate_menu1').show();
-        $('#task_button').hide()
-    }
-}
+
 // 오늘의 업무 관련 함수 
 // async function task_doneview(done_code) {
 //     if (done_code == 0) {
