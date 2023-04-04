@@ -393,6 +393,9 @@ function get_consulting(value, is_done) {
                     let contents = target['contents']
                     let consulting_missed = make_date(target['missed'])
                     let deadline = make_date(target['deadline'])
+                    if(target['category_id'] < 100){
+                        category = target['week_code']+'간' + category
+                    }
 
                     if (is_done == 1) {
                         let history_reason = target['reason']
@@ -427,10 +430,6 @@ function get_consulting(value, is_done) {
                         <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br></br>${contents}</br>*마감:
                             ~${deadline}까지 | 부재중 : ${consulting_missed}</br></p>
                         <div class="modal-body-select-container">
-                            <span class="modal-body-select-label">부재중</span>
-                            <label><input type="checkbox" id="missed">부재중</label>
-                        </div>
-                        <div class="modal-body-select-container">
                             <span class="modal-body-select-label">상담 사유</span>
                             <input class="modal-body-select" type="text" size="50"
                                 id="consulting_reason${consulting_id}">
@@ -450,7 +449,7 @@ function get_consulting(value, is_done) {
                     }
 
                 }
-                let temp_post_box = `
+                temp_post_box = `
                 <p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
                     <div class="modal-body-select-container">
                     <span class="modal-body-select-label">부재중</span>
