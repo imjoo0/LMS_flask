@@ -448,10 +448,8 @@ function get_consulting(value, is_done) {
                             </div>
                             `;
                         }else{
-                            temp_consulting_contents_box += `<div class="modal-body-select-container">
-                            <span class="modal-body-select-label" style="color:red;">원생이 이미 학습을 완료했습니다.</span>
-                              <p class="modal-body-select">학습 일시 : ${history_created}</p>
-                            </div>`
+                            temp_consulting_contents_box += `
+                            <p style="color:red;">원생이 이미 학습을 완료했습니다.  학습 일시 : ${history_created}</p>`
                         }
                         $('#consulting_write_box').append(temp_consulting_contents_box);
                     }
