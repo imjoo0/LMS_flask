@@ -348,10 +348,10 @@ async function get_consulting_student(done_code) {
     let container = $('#consultingstudent_pagination')
     const data = consultingStudentData.filter((e) => {
         if(done_code == 0) {
-            $('#consulting_title').html('오늘의 상담');
+            $('#today_consulting_title').html('오늘의 상담');
             return e.missed != "오늘" && e.consulting_num != 0;
         }else{
-            $('#consulting_title').html('오늘의 부재중 상담');
+            $('#today_consulting_title').html('오늘의 부재중 상담');
             return e.missed == "오늘" && e.consulting_num != 0;
         }
     })
@@ -362,9 +362,10 @@ async function get_consulting_student(done_code) {
         pageSize: 10,
         callback: function (data, pagination) {
             console.log(data)
+            $('#today_consulting_title').append('상담 건수: '+data.length);
             if(data.length == 0){
-                $('#consulting_title').html('오늘의 상담이 없습니다.');
                 $('#consulting_student_list').hide();
+                $('#consultingstudent_pagination').hide
             }else{
                 var temp_consulting_contents_box = '';
                 $.each(data, function (index, consulting) {
