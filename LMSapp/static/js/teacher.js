@@ -389,6 +389,8 @@ async function get_consulting_student(done_code) {
 // 메인화면 원생 조회 및 추가 상담 기능 
 async function get_student(ban_id) {
     let container = $('#banstudent_pagination')
+    $('#teachers_student_list').show();
+    $('#make_plus_consulting').hide();
     const data = consultingStudentData.filter((e) => {
             return e.ban_id === ban_id;
     })
