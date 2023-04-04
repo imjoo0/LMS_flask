@@ -394,7 +394,7 @@ function get_consulting(value, is_done) {
                     let consulting_missed = make_date(target['missed'])
                     let deadline = make_date(target['deadline'])
                     if(target['category_id'] < 100){
-                        category = target['week_code']+'간' + category
+                        category = target['week_code']+'주간  ' + category
                     }
 
                     if (is_done == 1) {
