@@ -350,10 +350,10 @@ async function get_consulting_student(done_code) {
     const data = consultingStudentData.filter((e) => {
         if(done_code == 0) {
             $('#consulting_title').html('오늘의 상담');
-            return e.missed != today && e.consulting_num != 0;
+            return e.missed != "오늘" && e.consulting_num != 0;
         }else{
             $('#consulting_title').html('오늘의 부재중 상담');
-            return e.missed == today && e.consulting_num != 0;
+            return e.missed == "오늘" && e.consulting_num != 0;
         }
     })
     await container.pagination({
