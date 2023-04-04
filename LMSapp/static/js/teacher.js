@@ -144,6 +144,7 @@ function get_data() {
             $('#history_ban').append(temp_ban_option)
             
             let consulting_notdone = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.done === 0  && consulting.created_at === null) : 0;
+            let consulting_deadlinemissed = consulting_notdone.length > 0 ? consulting_notdone.filter(c => new Date(c.deadline).setHours(0, 0, 0, 0) < today).length : 0;
             let consulting_t = response['all_consulting'].length;
             let consulting_done = consulting_t - consulting_notdone.length
             
@@ -154,6 +155,7 @@ function get_data() {
             <td class="col-3"> ${task_done}/${total_task} </td>
             <td class="col-3"> ( ${answer_rate(task_done,total_task).toFixed(0)}% ) </td>
             <td class="col-3"> ${consulting_done}/${consulting_t} </td>
+            <td class="col-1"> ( ${consulting_deadlinemissed}건 )</td>
             <td class="col-3"> ( ${answer_rate(consulting_done, consulting_t).toFixed(0)}% ) </td>
             `
             $('#classreport').html(temp_report)
