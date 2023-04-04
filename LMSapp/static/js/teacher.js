@@ -308,7 +308,6 @@ function get_data() {
                 result = result.sort((a, b) => {
                     return a.deadline - b.deadline
                 });
-                console.log(result)
                 $('#consulting_title').html('오늘의 상담');
                 consultingStudentData = result
                 container.pagination({
@@ -472,7 +471,7 @@ function plusconsulting_history(student_id, b_id) {
         success: function (response) {
             {
                 alert(response["result"])
-                window.location.reload()
+                get_student(b_id)
             }
         }
     })
@@ -491,7 +490,6 @@ function get_consulting(value, is_done) {
             $('#consulting_write_box').empty();
             let consulting_list = response["consulting_list"].length  > 0 ? response["consulting_list"].filter( c=>c.created_at == null) : 0
             let cant_consulting_list = response["consulting_list"].length  > 0 ? response["consulting_list"].filter( c=>c.created_at != null) : 0
-            console.log(cant_consulting_list)
             let consultinglist_len = consulting_list.length
             if (cant_consulting_list.length > 0){
                 $('#consulting_cant_write_box').empty();
