@@ -310,9 +310,9 @@ function get_data() {
                             temp_consulting_contents_box += `
                             <td class="col-2">${consulting.ban_name}</td>
                             <td class="col-3">${consulting.student_name}</td>
-                            <td class="col-1">${consulting.student_reco_book_code}</td>
+                            <td class="col-2">${consulting.student_reco_book_code}</td>
                             <td class="col-2">${consulting.student_mobileno}</td>
-                            <td class="col-2">${make_date(consulting.deadline)}</td>
+                            <td class="col-1">${make_date(consulting.deadline)}</td>
                             <td class="col-1">${consulting.consulting_num}</td>
                             <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${value}',${0})"><span class="cursor-pointer">📞</span></td> 
                             `;
@@ -358,9 +358,9 @@ async function get_consulting_student(done_code) {
                     temp_consulting_contents_box += `
                     <td class="col-2">${consulting.ban_name}</td>
                     <td class="col-3">${consulting.student_name}</td>
-                    <td class="col-1">${consulting.student_reco_book_code}</td>
+                    <td class="col-2">${consulting.student_reco_book_code}</td>
                     <td class="col-2">${consulting.student_mobileno}</td>
-                    <td class="col-2">${make_date(consulting.deadline)}</td>
+                    <td class="col-1">${make_date(consulting.deadline)}</td>
                     <td class="col-1">${consulting.consulting_num}</td>
                     <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${value}',${0})"><span class="cursor-pointer">📞</span></td> 
                     `;
