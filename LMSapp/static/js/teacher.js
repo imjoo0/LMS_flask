@@ -161,6 +161,7 @@ function get_data() {
             // 오늘의 업무 뿌려주기 
             if(task_notdone == 0){
                 $('#task_title').html('오늘의 업무 끝 😆');
+                $('#task_button').hide();
             }else{
                 $('#task_title').html('오늘의 업무'+task_notdone+'건');
             }
