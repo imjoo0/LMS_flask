@@ -281,31 +281,34 @@
             </div>
             <div class="modal-body py-4 px-5">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
-                <div class="d-flex justify-content-center align-items-center flex-column" style="width: 1362px important;">
-                    <table class="table text-center" style="width:100%;" id="student_data">
-                        <tr class="row" style="background: #DCE6F2;">
-                            <th class="col-5">원생 정보</th>
-                            <th class="col-6">미학습</th>
-                            <th class="col-1">상담</th>
-                        </tr>
-                        <tr class="row" style="background:#DCE6F2;">
-                            <th class="col-2">이름</th>
-                            <th class="col-1">추천도서</th>
-                            <th class="col-2">연락처</th>
-                            <th class="col-1">미접속</th>
-                            <th class="col-1">IXL</th>
-                            <th class="col-1">리특</th>
-                            <th class="col-1">리딩</th>
-                            <th class="col-1">라이팅</th>
-                            <th class="col-1">인투리딩</th>
-                            <th class="col-1">상담추가</th>
-                        </tr>
-                        <tr id="s_data" class="row"></tr>
-                    </table>
+                <div id="teachers_student_list">
+                    <div class="d-flex justify-content-center align-items-center flex-column" style="width: 1362px important;">
+                        <table class="table text-center" style="width:100%;" id="student_data">
+                            <tr class="row" style="background: #DCE6F2;">
+                                <th class="col-5">원생 정보</th>
+                                <th class="col-6">미학습</th>
+                                <th class="col-1">상담</th>
+                            </tr>
+                            <tr class="row" style="background:#DCE6F2;">
+                                <th class="col-2">이름</th>
+                                <th class="col-1">추천도서</th>
+                                <th class="col-2">연락처</th>
+                                <th class="col-1">미접속</th>
+                                <th class="col-1">IXL</th>
+                                <th class="col-1">리특</th>
+                                <th class="col-1">리딩</th>
+                                <th class="col-1">라이팅</th>
+                                <th class="col-1">인투리딩</th>
+                                <th class="col-1">상담추가</th>
+                            </tr>
+                            <tr id="s_data" class="row"></tr>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center w-100">
+                        <div id="banstudent_pagination" class="mt-4 mb-5 text-center"></div>
+                    </div>
                 </div>
-                <div class="d-flex justify-content-center align-items-center w-100">
-                    <div id="banstudent_pagination" class="mt-4 mb-5 text-center"></div>
-                </div>
+                
                 <div id="make_plus_consulting">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
                     <button type="button" class="btn btn-back" onclick="go_back()">원생 목록으로 돌아가기🔙 </button>
