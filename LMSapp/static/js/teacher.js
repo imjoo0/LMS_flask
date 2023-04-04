@@ -265,8 +265,10 @@ function get_data() {
                 const consultingList = consulting_notdone.filter(c => c.student_id === student.register_no);
                 if (consultingList.length > 0) {
                     const deadline = consultingList.reduce((prev, current) => {
-                        const prevDueDate = prev.deadline instanceof Date ? prev.deadline.getTime() : new Date(prev.deadline);
-                        const currentDueDate = current.deadline instanceof Date ? current.deadline.getTime() : new Date(current.deadline);
+                        const prevDueDate = new Date(prev.deadline);
+                        prevDueDate = prevDueDate.getFullYear()+'-'+(prevDueDate.getMonth()+ 1).toString().padStart(2, '0')+'-'+prevDueDate.getDate().toString().padStart(2, '0')
+                        const currentDueDate = new Date(current.deadline);
+                        currentDueDate = currentDueDate.getFullYear()+'-'+(currentDueDate.getMonth()+ 1).toString().padStart(2, '0')+'-'+currentDueDate.getDate().toString().padStart(2, '0')
                         return currentDueDate < prevDueDate ? current : prev;
                     }, consultingList[0]);
                     const missed = consultingList.reduce((prev, current) => {
@@ -282,7 +284,7 @@ function get_data() {
                     'ban_id': student.ban_id,
                     'ban_name': student.classname,
                     'consulting_num': consultingList.length,
-                    'deadline': deadline.deadline,
+                    'deadline': new Date(deadline.deadline),
                     'missed' : missed.missed,
                     'consulting_list': consultingList
                   });
