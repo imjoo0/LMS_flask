@@ -282,8 +282,8 @@ function get_data() {
                     'ban_id': student.ban_id,
                     'ban_name': student.classname,
                     'consulting_num': consultingList.length,
-                    'deadline': deadline.deadline instanceof Date ? deadline.deadline.toISOString().slice(0, 10) : '3000-01-01',,
-                    'missed' : missed.missed instanceof Date ? missed.missed.toISOString().slice(0, 10) : '1111-01-01',,
+                    'deadline': deadline.deadline instanceof Date ? deadline.deadline.toISOString().slice(0, 10) : '3000-01-01',
+                    'missed' : missed.missed instanceof Date ? missed.missed.toISOString().slice(0, 10) : '1111-01-01',
                     'consulting_list': consultingList
                   });
                 } else {
