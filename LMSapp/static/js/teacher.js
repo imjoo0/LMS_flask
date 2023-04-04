@@ -409,12 +409,17 @@ async function get_student(ban_id) {
                 $.each(data, function (index, consulting) {
                     let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
                     temp_consulting_contents_box += `
-                    <td class="col-2">${consulting.student_name}</td>
-                    <td class="col-2">${consulting.student_reco_book_code}</td>
+                    <td class="col-1">${consulting.student_name}</td>
+                    <td class="col-1">${consulting.student_reco_book_code}</td>
                     <td class="col-2">${consulting.student_mobileno}</td>
-                    <td class="col-2">${consulting.consulting_num}</td>
-                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${value}',${1})"><span class="cursor-pointer">📝</span></td> 
-                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${value}',${1})"><span class="cursor-pointer">📞</span></td> 
+                    <td class="col-1">${consulting.consulting_num}건</td>
+                    <td class="col-1">${consulting.consulting_num}건</td>
+                    <td class="col-1">${consulting.consulting_num}건</td>
+                    <td class="col-1">${consulting.consulting_num}건</td>
+                    <td class="col-1">${consulting.consulting_num}건</td>
+                    <td class="col-1">${consulting.consulting_num}건</td>
+                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${value}',${1})"><span class="cursor-pointer">📝</span></td> 
+                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${value}',${1})"><span class="cursor-pointer">📞</span></td> 
                     `;
                 });
                 $('#s_data').html(temp_consulting_contents_box);
