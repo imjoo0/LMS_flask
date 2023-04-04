@@ -385,10 +385,8 @@ function get_consulting(value, is_done) {
             } else {
                 $('#consulting_write_box').empty();
                 let consultinglist_len = response["consulting_list"].length
-                let consulting =  response["consulting_list"].sort((a, b) => {return a.deadline - b.deadline});
-                let unlearned = consulting.filter(c=> c.category_id < 100)
-                consultinglist = consulting.filter(c=> c.category_id >= 100)
-                for (i = 0; i < consultinglist.length; i++) {
+                let consultinglist =  response["consulting_list"].sort((a, b) => {return a.deadline - b.deadline});
+                for (i = 0; i < consultinglist_len; i++) {
                     let target = consultinglist[i]
                     let category = target['category']
                     let consulting_id = target['id']
