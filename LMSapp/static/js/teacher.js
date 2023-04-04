@@ -143,7 +143,7 @@ function get_data() {
             // 상담일지 조회 ban 선택 옵션 같이 붙이기 
             $('#history_ban').append(temp_ban_option)
             
-            let consulting_notdone = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.done === 0  && c.created_at === null) : 0;
+            let consulting_notdone = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.done === 0  && consulting.created_at === null) : 0;
             let consulting_t = response['all_consulting'].length;
             let consulting_done = consulting_t - consulting_notdone.length
             
