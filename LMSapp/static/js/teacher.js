@@ -294,8 +294,8 @@ function get_data() {
                         'ban_id': student.ban_id,
                         'ban_name': student.classname,
                         'consulting_num': 0,
-                        'deadline': '3000-01-01',
-                        'missed' : '1111-01-01',
+                        'deadline': make_date('3000-01-01'),
+                        'missed' : missed_date('1111-01-01'),
                         'consulting_list': []
                     });
                 }
