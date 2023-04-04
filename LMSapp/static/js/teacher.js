@@ -312,7 +312,7 @@ function get_data() {
                 $('#consulting_title').html('오늘의 상담');
                 consultingStudentData = result
                 container.pagination({
-                    dataSource: result.filter(e=>e.missed != today && e.consulting_num != 0),
+                    dataSource: result.filter(e=>e.missed != "오늘" && e.consulting_num != 0),
                     prevText: '이전',
                     nextText: '다음',
                     pageSize: 10,
