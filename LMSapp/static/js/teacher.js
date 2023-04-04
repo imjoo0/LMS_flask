@@ -270,8 +270,8 @@ function get_data() {
                         return currentDueDate < prevDueDate ? current : prev;
                     }, consultingList[0]);
                     const missed = consultingList.reduce((prev, current) => {
-                        const prevDueDate = prev.missed instanceof Date ? prev.missed.getTime() : Number.POSITIVE_INFINITY;
-                        const currentDueDate = current.missed instanceof Date ? current.missed.getTime() : Number.POSITIVE_INFINITY;
+                        const prevDueDate = prev.missed instanceof Date ? prev.missed.getTime() : new Date(prev.missed);
+                        const currentDueDate = current.missed instanceof Date ? current.missed.getTime() : new Date(prev.missed);
                         return currentDueDate < prevDueDate ? prev : current;
                     }, consultingList[0]);
                   acc.push({
@@ -282,8 +282,8 @@ function get_data() {
                     'ban_id': student.ban_id,
                     'ban_name': student.classname,
                     'consulting_num': consultingList.length,
-                    'deadline': new Date(deadline.deadline),
-                    'missed' : new Date(missed.missed),
+                    'deadline': deadline.deadline,
+                    'missed' : missed.missed,
                     'consulting_list': consultingList
                   });
                 } else {
