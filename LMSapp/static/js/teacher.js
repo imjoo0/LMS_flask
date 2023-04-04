@@ -267,12 +267,12 @@ function get_data() {
                     const deadline = consultingList.reduce((prev, current) => {
                         let prevDueDate = make_date(prev.deadline);
                         let currentDueDate = make_date(current.deadline);
-                        return currentDueDate < prevDueDate ? current : prev;
+                        return currentDueDate < prevDueDate ? currentDueDate : prevDueDate;
                     }, consultingList[0]);
                     const missed = consultingList.reduce((prev, current) => {
                         let prevDueDate = make_date(prev.missed);
-                        let currentDueDate = make_date(prev.missed);
-                        return currentDueDate < prevDueDate ? prev : current;
+                        let currentDueDate = make_date(current.missed);
+                        return currentDueDate < prevDueDate ? prevDueDate : currentDueDate;
                     }, consultingList[0]);
                     acc.push({
                         'student_id': student.register_no,
@@ -282,8 +282,8 @@ function get_data() {
                         'ban_id': student.ban_id,
                         'ban_name': student.classname,
                         'consulting_num': consultingList.length,
-                        'deadline': deadline.deadline,
-                        'missed' : missed.missed,
+                        'deadline': deadline,
+                        'missed' : missed,
                         'consulting_list': consultingList
                     });
                 }else{
@@ -497,7 +497,7 @@ function get_consulting(value, is_done) {
                 //     <p> 오늘의 상담 업무를 완료했습니다 🎉</p>
                 //     `;
                 //     $('#consulting_msg').html(temp_consulting_contents_box);
-            } else {
+            }else{
                 $('#consulting_write_box').empty();
                 let consultinglist_len = response["consulting_list"].length
                 let consultinglist =  response["consulting_list"].sort((a, b) => {return a.deadline - b.deadline});
@@ -506,7 +506,7 @@ function get_consulting(value, is_done) {
                     let category = target['category']
                     let consulting_id = target['id']
                     let contents = target['contents']
-                    let consulting_missed = make_date(target['missed'])
+                    let consulting_missed = missed_date(target['missed'])
                     let deadline = make_date(target['deadline'])
                     let history_created = target['created_at']
                     if(target['category_id'] < 100){
