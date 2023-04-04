@@ -284,7 +284,7 @@ function get_data() {
                     'ban_id': student.ban_id,
                     'ban_name': student.classname,
                     'consulting_num': consultingList.length,
-                    'deadline': new Date(deadline.deadline),
+                    'deadline': deadline.deadline,
                     'missed' : missed.missed,
                     'consulting_list': consultingList
                   });
