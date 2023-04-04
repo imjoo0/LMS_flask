@@ -436,7 +436,7 @@ async function get_student(ban_id) {
                     <td class="col-1">${unlearned_reading}건</td>
                     <td class="col-1">${unlearned_writing}건</td>
                     <td class="col-1">${unlearned_intoreading}건</td>
-                    <td class="col-1" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">📞</span></td> 
+                    <td class="col-1" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">${consulting.consulting_num}건➕</span></td> 
                     `;
                 });
                 $('#s_data').html(temp_consulting_contents_box);
