@@ -164,6 +164,7 @@ function get_data() {
                 $('#task_button').hide();
             }else{
                 $('#task_title').html('오늘의 업무'+task_notdone+'건');
+                $('#task_button').show();
             }
                 // 오늘의 업무 중복 카테고리로 묶기 
             const categoryGrouped = response['all_task'].reduce((result, item) => {
@@ -212,7 +213,7 @@ function get_data() {
                 temp_cate_menu += `
                 <thead>
                     <tr class="row">
-                    <th class="col-2">< 우선순위</th>
+                    <th class="col-2">< 업무순위</th>
                     <th class="col-8">${category}업무</th>
                     <th class="col-2">마감일 ></th>
                     </tr>
