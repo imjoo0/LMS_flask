@@ -350,7 +350,6 @@ async function get_consulting_student(done_code) {
             }else{
                 var temp_consulting_contents_box = '';
                 $.each(data, function (index, consulting) {
-                    console.log(consulting.missed)
                     let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
                     temp_consulting_contents_box += `
                     <td class="col-3">${consulting.ban_name}</td>
@@ -390,6 +389,7 @@ function get_consulting(value, is_done) {
                 let consultinglist_len = response["consulting_list"].length
                 let consultinglist =  response["consulting_list"].sort((a, b) => {return a.deadline - b.deadline});
                 for (i = 0; i < consultinglist_len; i++) {
+                    console.log((target['missed']))
                     let target = consultinglist[i]
                     let category = target['category']
                     let consulting_id = target['id']
