@@ -116,6 +116,7 @@ class Consulting(db.Model):
     solution = db.Column(db.Text)
     result = db.Column(db.Text)
     created_at = db.Column(db.DateTime)
+    del_yn = db.Column(db.Integer,nullable=False)
 
     # 관계 설정 
     question_attach = db.relationship('Question',backref='qconsulting',lazy=True)
