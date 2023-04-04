@@ -350,7 +350,7 @@ async function get_consulting_student(done_code) {
             }else{
                 var temp_consulting_contents_box = '';
                 $.each(data, function (index, consulting) {
-                    console.log(consulting.deadline)
+                    console.log(consulting.missed)
                     let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
                     temp_consulting_contents_box += `
                     <td class="col-3">${consulting.ban_name}</td>
