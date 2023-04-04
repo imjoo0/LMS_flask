@@ -282,8 +282,8 @@ function get_data() {
                     'ban_id': student.ban_id,
                     'ban_name': student.classname,
                     'consulting_num': consultingList.length,
-                    'deadline': new Date(deadline.deadline).setHours(0, 0, 0, 0),
-                    'missed' : new Date(missed.missed).setHours(0, 0, 0, 0),
+                    'deadline': new Date(deadline.deadline.getFullYear(), deadline.deadline.getMonth(), deadline.deadline.getDate()),
+                    'missed' : new Date(missed.missed.getFullYear(), missed.missed.getMonth(), missed.missed.getDate()),
                     'consulting_list': consultingList
                   });
                 } else {
