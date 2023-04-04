@@ -505,7 +505,7 @@ function get_consulting(value, is_done) {
                     let temp_consulting_contents_box = `
                     <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br><strong>➖상담 마감일:
                         ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br>
-                        ➖ 이미 원생이 ${make_date(history_created)}일 날 학습을 완료했습니다.</br>
+                        <strong style="color:red;">➖ 이미 원생이 ${make_date(history_created)}일 날 학습을 완료했습니다.</strong></br>
                         ${contents}</br> 
                     </p>
                     `;
