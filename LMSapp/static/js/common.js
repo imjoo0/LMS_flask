@@ -15,7 +15,7 @@ let missed_date = function(d){
     const standard = new Date('1111-01-01')
     if(date.getTime() == standard.getTime()){
         return "없음"
-    }else if(date == today){
+    }else if(date.getTime() == today){
         return "오늘"
     }else{
         return date.getFullYear()+'-'+(date.getMonth()+ 1).toString().padStart(2, '0')+'-'+date.getDate().toString().padStart(2, '0')
