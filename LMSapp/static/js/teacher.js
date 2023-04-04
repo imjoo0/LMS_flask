@@ -270,35 +270,35 @@ function get_data() {
                         return currentDueDate < prevDueDate ? current : prev;
                     }, consultingList[0]);
                     const missed = consultingList.reduce((prev, current) => {
-                        let prevDueDate = new Date(prev.missed);
-                        let currentDueDate = new Date(prev.missed);
+                        let prevDueDate = make_date(prev.missed);
+                        let currentDueDate = make_date(prev.missed);
                         return currentDueDate < prevDueDate ? prev : current;
                     }, consultingList[0]);
-                  acc.push({
-                    'student_id': student.register_no,
-                    'student_name': student.name +'('+student.nick_name+')',
-                    'student_mobileno': student.mobileno,
-                    'student_reco_book_code': student.reco_book_code,
-                    'ban_id': student.ban_id,
-                    'ban_name': student.classname,
-                    'consulting_num': consultingList.length,
-                    'deadline': deadline.deadline,
-                    'missed' : missed.missed,
-                    'consulting_list': consultingList
-                  });
-                } else {
-                  acc.push({
-                    'student_id': student.register_no,
-                    'student_name': student.name +'('+student.nick_name+')',
-                    'student_mobileno': student.mobileno,
-                    'student_reco_book_code': student.reco_book_code,
-                    'ban_id': student.ban_id,
-                    'ban_name': student.classname,
-                    'consulting_num': 0,
-                    'deadline': '3000-01-01',
-                    'missed' : '1111-01-01',
-                    'consulting_list': []
-                  });
+                    acc.push({
+                        'student_id': student.register_no,
+                        'student_name': student.name +'('+student.nick_name+')',
+                        'student_mobileno': student.mobileno,
+                        'student_reco_book_code': student.reco_book_code,
+                        'ban_id': student.ban_id,
+                        'ban_name': student.classname,
+                        'consulting_num': consultingList.length,
+                        'deadline': deadline.deadline,
+                        'missed' : missed.missed,
+                        'consulting_list': consultingList
+                    });
+                }else{
+                    acc.push({
+                        'student_id': student.register_no,
+                        'student_name': student.name +'('+student.nick_name+')',
+                        'student_mobileno': student.mobileno,
+                        'student_reco_book_code': student.reco_book_code,
+                        'ban_id': student.ban_id,
+                        'ban_name': student.classname,
+                        'consulting_num': 0,
+                        'deadline': '3000-01-01',
+                        'missed' : '1111-01-01',
+                        'consulting_list': []
+                    });
                 }
                 return acc;
             }, []);
@@ -326,7 +326,7 @@ function get_data() {
                             <td class="col-2">${consulting.student_name}</td>
                             <td class="col-2">${consulting.student_reco_book_code}</td>
                             <td class="col-2">${consulting.student_mobileno}</td>
-                            <td class="col-2">${make_date(consulting.deadline)}</td>
+                            <td class="col-2">${consulting.deadline}</td>
                             <td class="col-1">${consulting.consulting_num}</td>
                             <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${value}',${0})"><span class="cursor-pointer">📞</span></td> 
                             `;
@@ -375,7 +375,7 @@ async function get_consulting_student(done_code) {
                     <td class="col-2">${consulting.student_name}</td>
                     <td class="col-2">${consulting.student_reco_book_code}</td>
                     <td class="col-2">${consulting.student_mobileno}</td>
-                    <td class="col-2">${make_date(consulting.deadline)}</td>
+                    <td class="col-2">${consulting.deadline}</td>
                     <td class="col-1">${consulting.consulting_num}</td>
                     <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${value}',${0})"><span class="cursor-pointer">📞</span></td> 
                     `;
