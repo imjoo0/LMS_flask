@@ -283,7 +283,7 @@ function get_data() {
                         'ban_name': student.classname,
                         'consulting_num': consultingList.length,
                         'deadline': make_date(deadline.deadline),
-                        'missed' : make_missed(missed.missed),
+                        'missed' : missed_date(missed.missed),
                         'consulting_list': consultingList
                     });
                 }else{
