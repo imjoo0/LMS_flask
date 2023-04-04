@@ -404,8 +404,8 @@ function get_consulting(value, is_done) {
                         let history_created = target['created_at']
                         let temp_consulting_contents_box = `
                         <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
-                        <p mt-lg-4 mt-5>✅<strong>${category}</strong></br></br>${contents}</br>*마감:
-                            ~${deadline}까지 | 부재중 : ${consulting_missed}</br></p>
+                        <p mt-lg-4 mt-5>✅<strong>${category}</strong></br></br>${contents}</br><strong>*마감:
+                            ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br></p>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">상담 사유</span>
                             <input class="modal-body-select" type="text" size="50"
@@ -427,8 +427,8 @@ function get_consulting(value, is_done) {
                     } else {
                         let temp_consulting_contents_box = `
                         <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
-                        <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br></br>${contents}</br>*마감:
-                            ~${deadline}까지 | 부재중 : ${consulting_missed}</br></p>
+                        <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br></br>${contents}</br><strong>*마감:
+                            ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br></p>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">상담 사유</span>
                             <input class="modal-body-select" type="text" size="50"
