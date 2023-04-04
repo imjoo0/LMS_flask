@@ -369,13 +369,13 @@ async function get_consulting_student(done_code) {
 function get_consulting(value, is_done) {
     // let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
     let v = value.split('_')
-    $('#consultinghistoryModalLabelt').html(`${v[0]}반 ${v[1]}원생 상담일지 ( 📞 ${v[2]} )}`)
+    $('#consultinghistoryModalLabelt').html(`${v[0]}반 ${v[1]} 원생 상담일지 ( 📞 ${v[2]}  )`)
     $.ajax({
         type: "GET",
         url: "/teacher/consulting/" + Number(v[3]) + "/" + is_done,
         data: {},
         success: function (response) {
-            if (response["consulting_list"] == '없음') {
+            if (response["consulting_list"].length < 0) {
                 $('#consultinghistoryModalLabelt').html('진행 할 상담이 없습니다.')
                 //     $('#consulting_list').hide();
                 //     let temp_consulting_contents_box = `
@@ -384,19 +384,23 @@ function get_consulting(value, is_done) {
                 //     $('#consulting_msg').html(temp_consulting_contents_box);
             } else {
                 $('#consulting_write_box').empty();
-                let r_target = response["consulting_list"]
-                for (i = 0; i < r_target.length; i++) {
-                    let target = r_target[i]
+                let consultinglist_len = response["consulting_list"].length
+                let consulting =  response["consulting_list"].sort((a, b) => {return a.deadline - b.deadline});
+                let unlearned = consulting.filter(c=> c.category_id < 100)
+                consultinglist = consulting.filter(c=> c.category_id >= 100)
+                for (i = 0; i < consultinglist.length; i++) {
+                    let target = consultinglist[i]
                     let category = target['category']
-                    let consulting_id = target['c_id']
+                    let consulting_id = target['id']
                     let contents = target['contents']
-                    let consulting_missed = target['consulting_missed']
+                    let consulting_missed = target['missed']
                     let deadline = target['deadline']
+
                     if (is_done == 1) {
-                        let history_reason = target['history_reason']
-                        let history_solution = target['history_solution']
-                        let history_result = target['history_result']
-                        let history_created = target['history_created']
+                        let history_reason = target['reason']
+                        let history_solution = target['solution']
+                        let history_result = target['result']
+                        let history_created = target['created_at']
                         let temp_consulting_contents_box = `
                     <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
                     <p mt-lg-4 mt-5>✅<strong>${category}</strong></br></br>${contents}</br>*마감:
@@ -452,7 +456,7 @@ function get_consulting(value, is_done) {
                     </div>
                     <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
                         <button class="btn btn-dark"
-                            onclick="post_bulk_consultings(${r_target.length},${is_done})"
+                            onclick="post_bulk_consultings(${consultinglist_len},${is_done})"
                             style="margin-right:5px">저장</button>
                     </div>
                 `;
