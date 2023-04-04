@@ -403,6 +403,11 @@ function get_consulting(value, is_done) {
                     <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
                     <p mt-lg-4 mt-5>✅<strong>${category}</strong></br></br>${contents}</br>*마감:
                         ~${deadline}까지 | 부재중 : ${consulting_missed}</br></p>
+                        
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">부재중</span>
+                        <label><input type="checkbox" id="missed">부재중</label>
+                    </div>
                     <div class="modal-body-select-container">
                         <span class="modal-body-select-label">상담 사유</span>
                         <input class="modal-body-select" type="text" size="50"
