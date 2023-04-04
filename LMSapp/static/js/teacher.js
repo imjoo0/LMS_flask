@@ -276,7 +276,7 @@ function get_data() {
                   }, consultingList[0]);
                   acc.push({
                     'student_id': student.register_no,
-                    'student_name': student.name +'('+student.nickname+')',
+                    'student_name': student.name +'('+student.nick_name+')',
                     'student_mobileno': student.mobileno,
                     'student_reco_book_code': student.reco_book_code,
                     'ban_name': student.classname,
@@ -288,7 +288,7 @@ function get_data() {
                 } else {
                   acc.push({
                     'student_id': student.register_no,
-                    'student_name': student.name +'('+student.nickname+')',
+                    'student_name': student.name +'('+student.nick_name+')',
                     'student_mobileno': student.mobileno,
                     'student_reco_book_code': student.reco_book_code,
                     'ban_name': student.classname,
