@@ -404,7 +404,7 @@ function get_consulting(value, is_done) {
                         let history_created = target['created_at']
                         let temp_consulting_contents_box = `
                         <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
-                        <p mt-lg-4 mt-5>✅<strong>${category}</strong></br><strong>*마감:
+                        <p mt-lg-4 mt-5>✅<strong>${category}</strong></br><strong>➖상담 마감일:
                             ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br></br>${contents}</br></p>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">상담 사유</span>
@@ -427,7 +427,7 @@ function get_consulting(value, is_done) {
                     } else {
                         let temp_consulting_contents_box = `
                         <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
-                        <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br><strong>*마감:
+                        <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br><strong>➖상담 마감일:
                             ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br></br>${contents}</br></p>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">상담 사유</span>
