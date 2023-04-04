@@ -31,6 +31,7 @@ function get_data() {
             // let outstudent_t = response['outstudent'].length ( 선생님 기준 퇴소 율에 사용 )
             $('#ban_chart_list').empty()
             $('#history_ban').empty()
+            console.log(my_students)
             let unlearned_t =response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.category_id < 100).length : 0;
             let temp_ban_option = '<option value="none" selected>기존 반을 선택해주세요</option>';
             for (i=0;i< response['ban_data'].length;i++) {
@@ -88,7 +89,7 @@ function get_data() {
                                     <tr class="row">
                                         <td class="col-5">${alimnote}건 / ${alimnote_t}건</td>
                                         <td class="col-5">${unlearned}건(${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</td>
-                                        <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="getBanInfo(${register_no})">✔️</td>
+                                        <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${name})">✔️</td>
                                     </tr>
                                     <tr class="row">
                                         <th class="col-12">미학습 카테고리별</th>
@@ -157,7 +158,7 @@ function get_data() {
             <td class="col-3"> ${consulting_done}/${consulting_t} </td>
             <td class="col-2"> ( ${answer_rate(consulting_done, consulting_t).toFixed(0)}% ) </td>
             <td class="col-1"> 🥹${consulting_deadlinemissed}건</td>
-            `
+            `;
             $('#classreport').html(temp_report)
 
             // 오늘의 업무 뿌려주기 
@@ -280,7 +281,12 @@ function get_data() {
                         'ban_name': student.classname,
                         'consulting_num': consultingList.length,
                         'deadline': new Date(deadline.deadline),
-                        'missed' : new Date(missed.missed).setHours(0, 0, 0, 0)
+                        'missed' : new Date(missed.missed).setHours(0, 0, 0, 0),
+                        'consulting_list':consultingList,
+                        'student_id': student.register_no,
+                        'student_id': student.register_no,
+                        'student_id': student.register_no,
+                        
                     });
                 }
                 return acc;
@@ -337,6 +343,41 @@ async function get_consulting_student(done_code) {
             $('#consulting_title').html('오늘의 부재중 상담');
             return e.missed == today;
         }
+    })
+    await container.pagination({
+        dataSource: data,
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 10,
+        callback: function (data, pagination) {
+            if(data.length == 0){
+                $('#consulting_title').html('오늘의 상담이 없습니다.');
+                $('#consulting_student_list').hide();
+            }else{
+                var temp_consulting_contents_box = '';
+                $.each(data, function (index, consulting) {
+                    let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
+                    temp_consulting_contents_box += `
+                    <td class="col-3">${consulting.ban_name}</td>
+                    <td class="col-2">${consulting.student_name}</td>
+                    <td class="col-3">${consulting.student_mobileno}</td>
+                    <td class="col-2">${make_date(consulting.deadline)}</td>
+                    <td class="col-1">${consulting.consulting_num}</td>
+                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${value}',${0})"><span class="cursor-pointer">📞</span></td> 
+                    `;
+                });
+                $('#today_consulting_box').html(temp_consulting_contents_box);
+                $('#consulting_student_list').show();
+            }
+            
+        }
+    })
+}
+
+// 메인화면 원생 조회 
+async function get_student(ban_name) {
+    const data = consultingStudentData.filter((e) => {
+            return e.ban_name === ban_name;
     })
     await container.pagination({
         dataSource: data,
