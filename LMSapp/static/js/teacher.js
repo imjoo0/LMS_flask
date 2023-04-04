@@ -425,6 +425,7 @@ async function get_student(ban_id) {
                         unlearned_homepage = unlearned_arr.filter(a => a.category_id == 2).length
                         unlearned_intoreading = unlearned_arr.filter(a => a.category_id == 5 || a.category_id == 7).length
                     }
+                    let value = `${consulting.student_id}_${consulting.student_name}_${consulting.student_mobileno}`
                     temp_consulting_contents_box += `
                     <td class="col-2">${consulting.student_name}</td>
                     <td class="col-1">${consulting.student_reco_book_code}</td>
@@ -435,7 +436,7 @@ async function get_student(ban_id) {
                     <td class="col-1">${unlearned_reading}건</td>
                     <td class="col-1">${unlearned_writing}건</td>
                     <td class="col-1">${unlearned_intoreading}건</td>
-                    <td class="col-1" onclick="plusconsulting('${consulting.student_id}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
+                    <td class="col-1" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">📞</span></td> 
                     `;
                 });
                 $('#s_data').html(temp_consulting_contents_box);
@@ -446,12 +447,13 @@ async function get_student(ban_id) {
     })
 }
 
-function plusconsulting(student_id, b_id) {
+function plusconsulting(value, b_id) {
+    let v = value.split('_')
     $('#teachers_student_list').hide();
     $('#make_plus_consulting').show();
-    $('#banstudentlistModalLabel').html('추가 상담 상담일지 작성')
+    $('#banstudentlistModalLabel').html(`${v[1]} 원생 추가 상담 상담일지 ( 📞 ${v[2]}  )`)
     let temp_button = `
-    <button class="btn btn-dark" onclick=plusconsulting_history(${student_id},${b_id})>저장</button>
+    <button class="btn btn-dark" onclick=plusconsulting_history(${Number(v[0])},${b_id})>저장</button>
     `;
     $('#plusconsulting_button_box').html(temp_button)
 }
