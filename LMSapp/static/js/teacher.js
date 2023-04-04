@@ -369,11 +369,11 @@ async function get_consulting_student(done_code) {
 // 상담일지 작성 창 
 function get_consulting(value, is_done) {
     // let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
-    let value = value.split('_')
-    $('#consultinghistoryModalLabelt').html(`${value[0]}반 ${value[1]}원생 상담일지 ( 📞 ${v[2]} )}`)
+    let v = value.split('_')
+    $('#consultinghistoryModalLabelt').html(`${v[0]}반 ${v[1]}원생 상담일지 ( 📞 ${v[2]} )}`)
     $.ajax({
         type: "GET",
-        url: "/teacher/consulting/" + Number(value[3]) + "/" + is_done,
+        url: "/teacher/consulting/" + Number(v[3]) + "/" + is_done,
         data: {},
         success: function (response) {
             if (response["consulting_list"] == '없음') {
