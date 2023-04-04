@@ -308,34 +308,10 @@ function get_data() {
                 result = result.sort((a, b) => {
                     return a.deadline - b.deadline
                 });
-                $('#today_consulting_title').html('오늘의 상담');
                 consultingStudentData = result
-                // container.pagination({
-                //     dataSource: result.filter(e=>e.missed != "오늘" && e.consulting_num != 0),
-                //     prevText: '이전',
-                //     nextText: '다음',
-                //     pageSize: 10,
-                //     callback: function (result, pagination) {
-                //         let temp_consulting_contents_box = ''
-                //         $.each(result, function (index, consulting) {
-                //             let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
-                //             temp_consulting_contents_box += `
-                //             <td class="col-2">${consulting.ban_name}</td>
-                //             <td class="col-2">${consulting.student_name}</td>
-                //             <td class="col-2">${consulting.student_reco_book_code}</td>
-                //             <td class="col-2">${consulting.student_mobileno}</td>
-                //             <td class="col-2">${consulting.deadline}</td>
-                //             <td class="col-1">${consulting.consulting_num}</td>
-                //             <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${value}',${0})"><span class="cursor-pointer">📞</span></td> 
-                //             `;
-                //         });
-                //         $('#today_consulting_box').html(temp_consulting_contents_box);
-                //         $('#consulting_student_list').show();
-                //     }
-                // })
                 get_consulting_student(0)
             } else {
-                $('#consulting_title').html('오늘의 상담이 없습니다.');
+                $('#today_consulting_title').html('진행 할 상담이 없습니다');
             }
         },
         error:function(xhr, status, error){
@@ -349,10 +325,8 @@ async function get_consulting_student(done_code) {
     let container = $('#consultingstudent_pagination')
     const data = consultingStudentData.filter((e) => {
         if(done_code == 0) {
-            $('#today_consulting_title').html('오늘의 상담');
             return e.missed != "오늘" && e.consulting_num != 0;
         }else{
-            $('#today_consulting_title').html('오늘의 부재중 상담');
             return e.missed == "오늘" && e.consulting_num != 0;
         }
     })
@@ -362,7 +336,11 @@ async function get_consulting_student(done_code) {
         nextText: '다음',
         pageSize: 10,
         callback: function (data, pagination) {
-            $('#today_consulting_title').append('   ✏️상담 건수: '+data.length);
+            if(done_code == 0) {
+                $('#today_consulting_title').html('오늘의 상담   ✏️상담 건수: '+data.length);
+            }else{
+                $('#today_consulting_title').html('오늘의 부재중 상담   ✏️상담 건수: '+data.length);
+            }
             if(data.length == 0){
                 $('#consulting_student_list').hide();
                 $('#consultingstudent_pagination').hide();
@@ -390,6 +368,7 @@ async function get_consulting_student(done_code) {
 
 // 메인화면 원생 조회 및 추가 상담 기능 
 async function get_student(ban_id) {
+    console.log(consultingStudentData)
     let container = $('#banstudent_pagination')
     $('#teachers_student_list').show();
     $('#make_plus_consulting').hide();
