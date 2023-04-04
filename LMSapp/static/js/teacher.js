@@ -393,6 +393,7 @@ function get_consulting(value, is_done) {
                     let contents = target['contents']
                     let consulting_missed = make_date(target['missed'])
                     let deadline = make_date(target['deadline'])
+                    let history_created = target['created_at']
                     if(target['category_id'] < 100){
                         category = target['week_code']+'주간  ' + category
                     }
@@ -401,7 +402,6 @@ function get_consulting(value, is_done) {
                         let history_reason = target['reason']
                         let history_solution = target['solution']
                         let history_result = target['result']
-                        let history_created = target['created_at']
                         let temp_consulting_contents_box = `
                         <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
                         <p mt-lg-4 mt-5>✅<strong>${category}</strong></br><strong>➖상담 마감일:
@@ -428,23 +428,30 @@ function get_consulting(value, is_done) {
                         let temp_consulting_contents_box = `
                         <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
                         <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br><strong>➖상담 마감일:
-                            ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br></br>${contents}</br></p>
-                        <div class="modal-body-select-container">
+                            ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br></br>${contents}</br></p>`;
+                        
+                        if(history_created == null){
+                            temp_consulting_contents_box += `<div class="modal-body-select-container">
                             <span class="modal-body-select-label">상담 사유</span>
                             <input class="modal-body-select" type="text" size="50"
                                 id="consulting_reason${consulting_id}">
-                        </div>
-                        <div class="modal-body-select-container">
-                            <span class="modal-body-select-label">제공한 가이드</span>
-                            <input class="modal-body-select" type="text" size="50"
-                                id="consulting_solution${consulting_id}">
-                        </div>
-                        <div class="modal-body-select-container">
-                            <span class="modal-body-select-label">상담 결과</span>
-                            <textarea class="modal-body-select" type="text" rows="5" cols="25"
-                                id="consulting_result${consulting_id}"></textarea>
-                        </div>
-                        `;
+                            </div>
+                            <div class="modal-body-select-container">
+                                <span class="modal-body-select-label">제공한 가이드</span>
+                                <input class="modal-body-select" type="text" size="50"
+                                    id="consulting_solution${consulting_id}">
+                            </div>
+                            <div class="modal-body-select-container">
+                                <span class="modal-body-select-label">상담 결과</span>
+                                <textarea class="modal-body-select" type="text" rows="5" cols="25"
+                                    id="consulting_result${consulting_id}"></textarea>
+                            </div>
+                            `;
+                        }else{
+                            temp_consulting_contents_box += `<div class="modal-body-select-container">
+                            <span class="modal-body-select-label">원생이 학습을 완료했습니다.</span>
+                            <p>학습 일시 : ${history_created}</p>`
+                        }
                         $('#consulting_write_box').append(temp_consulting_contents_box);
                     }
 
