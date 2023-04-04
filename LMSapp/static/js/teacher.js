@@ -265,28 +265,28 @@ function get_data() {
                 const consultingList = consulting_notdone.filter(c => c.student_id === student.register_no);
                 if (consultingList.length > 0) {
                     const deadline = consultingList.reduce((prev, current) => {
-                        const prevDueDate = prev.deadline instanceof Date ? prev.deadline : new Date(Number.POSITIVE_INFINITY);
-                        const currentDueDate = current.deadline instanceof Date ? current.deadline : new Date(Number.POSITIVE_INFINITY);
-                        return currentDueDate.getTime() < prevDueDate.getTime() ? current : prev;
+                        const prevDueDate = prev.deadline instanceof Date ? prev.deadline.getTime() : new Date(prev.deadline);
+                        const currentDueDate = current.deadline instanceof Date ? current.deadline.getTime() : new Date(current.deadline);
+                        return currentDueDate < prevDueDate ? current : prev;
                     }, consultingList[0]);
                     const missed = consultingList.reduce((prev, current) => {
-                        const prevDueDate = prev.missed instanceof Date ? prev.missed.getTime() : new Date(Number.POSITIVE_INFINITY);
-                        const currentDueDate = current.missed instanceof Date ? current.missed.getTime() : new Date(Number.POSITIVE_INFINITY);
-                        return currentDueDate.getTime() < prevDueDate.getTime() ? current : prev;
+                        const prevDueDate = prev.missed instanceof Date ? prev.missed.getTime() : Number.POSITIVE_INFINITY;
+                        const currentDueDate = current.missed instanceof Date ? current.missed.getTime() : Number.POSITIVE_INFINITY;
+                        return currentDueDate < prevDueDate ? prev : current;
                     }, consultingList[0]);
-                    acc.push({
-                        'student_id': student.register_no,
-                        'student_name': student.name +'('+student.nick_name+')',
-                        'student_mobileno': student.mobileno,
-                        'student_reco_book_code': student.reco_book_code,
-                        'ban_id': student.ban_id,
-                        'ban_name': student.classname,
-                        'consulting_num': consultingList.length,
-                        'deadline': new Date(deadline.deadline),
-                        'missed' : new Date(missed.missed),
-                        'consulting_list': consultingList
-                    });
-                }else{
+                  acc.push({
+                    'student_id': student.register_no,
+                    'student_name': student.name +'('+student.nick_name+')',
+                    'student_mobileno': student.mobileno,
+                    'student_reco_book_code': student.reco_book_code,
+                    'ban_id': student.ban_id,
+                    'ban_name': student.classname,
+                    'consulting_num': consultingList.length,
+                    'deadline': new Date(deadline.deadline),
+                    'missed' : new Date(missed.missed),
+                    'consulting_list': consultingList
+                  });
+                } else {
                   acc.push({
                     'student_id': student.register_no,
                     'student_name': student.name +'('+student.nick_name+')',
@@ -302,7 +302,6 @@ function get_data() {
                 }
                 return acc;
             }, []);
-
 
             if (result.length > 0) {
                 result.sort((a, b) => {
