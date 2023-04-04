@@ -265,15 +265,13 @@ function get_data() {
                 const consultingList = consulting_notdone.filter(c => c.student_id === student.register_no);
                 if (consultingList.length > 0) {
                     const deadline = consultingList.reduce((prev, current) => {
-                        let prevDueDate = new Date(prev.deadline);
-                        prevDueDate = prevDueDate.getFullYear()+'-'+(prevDueDate.getMonth()+ 1).toString().padStart(2, '0')+'-'+prevDueDate.getDate().toString().padStart(2, '0')
-                        let currentDueDate = new Date(current.deadline);
-                        currentDueDate = currentDueDate.getFullYear()+'-'+(currentDueDate.getMonth()+ 1).toString().padStart(2, '0')+'-'+currentDueDate.getDate().toString().padStart(2, '0')
+                        let prevDueDate = make_date(prev.deadline);
+                        let currentDueDate = make_date(current.deadline);
                         return currentDueDate < prevDueDate ? current : prev;
                     }, consultingList[0]);
                     const missed = consultingList.reduce((prev, current) => {
-                        const prevDueDate = prev.missed instanceof Date ? prev.missed.getTime() : new Date(prev.missed);
-                        const currentDueDate = current.missed instanceof Date ? current.missed.getTime() : new Date(prev.missed);
+                        let prevDueDate = new Date(prev.missed);
+                        let currentDueDate = new Date(prev.missed);
                         return currentDueDate < prevDueDate ? prev : current;
                     }, consultingList[0]);
                   acc.push({
