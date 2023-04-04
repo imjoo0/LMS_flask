@@ -159,10 +159,11 @@ function get_data() {
             $('#classreport').html(temp_report)
 
             // 오늘의 업무 뿌려주기 
-            if(task_notdone.length == 0){
+            if(task_notdone == 0){
                 $('#task_title').html('오늘의 업무 끝 😆');
                 // $('#cate_menu').empty()
             }else{
+                $('#task_title').html('오늘의 업무'+task_notdone+'건');
                 // 오늘의 업무 중복 카테고리로 묶기 
                 const categoryGrouped = response['all_task'].reduce((result, item) => {
                     const category = item.category;
