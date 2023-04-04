@@ -463,7 +463,7 @@ function get_consulting(value, is_done) {
                             <textarea class="modal-body-select" type="text" rows="5" cols="25"
                                 id="consulting_result${consulting_id}" placeholder="${history_result}"></textarea>
                         </div>
-                        <p>상담 일시 : ${history_created}</p>
+                        <p>상담 일시 : ${make_date(history_created)}</p>
                         `;
                         $('#consulting_write_box').append(temp_consulting_contents_box);
                     } else {
@@ -491,7 +491,7 @@ function get_consulting(value, is_done) {
                             `;
                         }else{
                             temp_consulting_contents_box += `
-                            <p style="color:red;">원생이 이미 학습을 완료했습니다.  학습 일시 : ${history_created}</p>`
+                            <p style="color:red;">원생이 이미 학습을 완료했습니다.  학습 일시 : ${make_date(history_created)}</p>`
                         }
                         $('#consulting_write_box').append(temp_consulting_contents_box);
                     }
