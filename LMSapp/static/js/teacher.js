@@ -163,7 +163,7 @@ function get_data() {
                 $('#task_title').html('오늘의 업무 끝 😆');
                 $('#task_button').hide();
             }else{
-                $('#task_title').html('오늘의 업무'+task_notdone+'건');
+                $('#task_title').html('오늘의 업무 '+task_notdone+'건');
                 $('#task_button').show();
             }
                 // 오늘의 업무 중복 카테고리로 묶기 
@@ -365,114 +365,42 @@ async function get_consulting_student(done_code) {
     })
 }
 
-// 오늘의 업무 관련 함수 
-// async function task_doneview(done_code) {
-//     if (done_code == 0) {
-//         $('#task_title').html('오늘의 업무')
-//         $('#cate_menu0').show();
-//         $('#cate_menu1').hide();
-//         $('#task_button').show()
-//     } else {
-//         $('#task_title').html('오늘 완료한 업무')
-//         $('#cate_menu0').hide();
-//         $('#cate_menu1').show();
-//         $('#task_button').hide()
-//     }
-//     await $.ajax({
+// function get_taskban(task_id, idx) {
+//     $.ajax({
 //         type: "GET",
-//         url: "/teacher/task/" + done_code,
+//         url: "/teacher/taskban/" + task_id + "/" + idx,
 //         data: {},
 //         success: function (response) {
-//             if ((response["target_task"] == '없음') || (response["target_task"].length == 0)) {
-//                 if (done_code == 0) {
-//                     $('#today_task_box0').html('오늘의 업무 끝 😆');
-//                     $('#today_task_box1').empty()
+//             $(`#task_ban_box_incomplete${idx}${task_id}`).empty();
+//             for (i = 0; i < response['target_taskban']['data'].length; i++) {
+//                 let target = response['target_taskban']['data'][i]
+//                 let id = target["id"]
+//                 let ban_id = target["ban_id"]
+//                 let ban = function (ban_id) {
+//                     return response['mybans_info'].filter(a => a.register_no == ban_id)[0]['name'];
+//                 }
+//                 let temp_task_ban_box = ''
+//                 if (idx == 0) {
+//                     temp_task_ban_box = `
+//                     <label><input type="checkbox" name="taskid" value="${id}"/>${ban(ban_id)}</label>
+//                     `;
 //                 } else {
-//                     $('#today_task_box1').html('완수한 업무가 없어요');
-//                     $('#today_task_box0').empty()
+//                     temp_task_ban_box = `<p>➖ ${ban(ban_id)} </p>`
 //                 }
-//             } else {
-//                 $('#cate_menu').empty()
-//                 $('#today_task_box' + done_code).empty()
-//                 let range = 12 / response['target_cate'].length;
-//                 for (i = 0; i < response['target_cate'].length; i++) {
-//                     let category_id = response['target_cate'][i]['id'];
-//                     let name = response['target_cate'][i]['name'];
-//                     let temp_cate_menu = `
-//                     <th class="col-${range}">${name}</th>
-//                     `;
-//                     $('#cate_menu').append(temp_cate_menu)
-//                     let temp_for_task = `
-//                     <td class="col-${range}" id="for_task${done_code}${category_id}"></td>
-//                     `;
-//                     $('#today_task_box' + done_code).append(temp_for_task)
-//                     $(`#for_task${done_code}${category_id}`).empty()
-//                 }
-//                 for (i = 0; i < response["target_task"].length; i++) {
-//                     let id = response["target_task"][i]['id']
-//                     let category = response["target_task"][i]['category']
-//                     let contents = response["target_task"][i]['contents']
-//                     let deadline = response["target_task"][i]['deadline']
-//                     let priority = response["target_task"][i]['priority']
-//                     if (priority > 2) {
-//                         let temp_task_contents_box = `
-//                         <details>
-//                             <summary onclick="get_taskban(${id},${done_code})">⭐우선업무:<strong>${contents}</strong>(마감 : ${deadline})</summary>
-//                             <div class="make_row" id="task_ban_box_incomplete${done_code}${id}">
-//                             </div>
-//                         </details>  
-//                         `;
-//                         $(`#for_task${done_code}${category}`).append(temp_task_contents_box);
-//                     } else {
-//                         let temp_task_contents_box = `
-//                         <details>
-//                             <summary onclick="get_taskban(${id},${done_code})">✅<strong>${contents}</strong>(마감 : ${deadline})</summary>
-//                             <div class="make_row" id="task_ban_box_incomplete${done_code}${id}">
-//                             </div>
-//                         </details> 
-//                         `;
-//                         $(`#for_task${done_code}${category}`).append(temp_task_contents_box);
-//                     }
-//                 }
+
+//                 $(`#task_ban_box_incomplete${idx}${task_id}`).append(temp_task_ban_box);
 //             }
 //         }
+
 //     });
 // }
-function get_taskban(task_id, idx) {
-    $.ajax({
-        type: "GET",
-        url: "/teacher/taskban/" + task_id + "/" + idx,
-        data: {},
-        success: function (response) {
-            $(`#task_ban_box_incomplete${idx}${task_id}`).empty();
-            for (i = 0; i < response['target_taskban']['data'].length; i++) {
-                let target = response['target_taskban']['data'][i]
-                let id = target["id"]
-                let ban_id = target["ban_id"]
-                let ban = function (ban_id) {
-                    return response['mybans_info'].filter(a => a.register_no == ban_id)[0]['name'];
-                }
-                let temp_task_ban_box = ''
-                if (idx == 0) {
-                    temp_task_ban_box = `
-                    <label><input type="checkbox" name="taskid" value="${id}"/>${ban(ban_id)}</label>
-                    `;
-                } else {
-                    temp_task_ban_box = `<p>➖ ${ban(ban_id)} </p>`
-                }
-
-                $(`#task_ban_box_incomplete${idx}${task_id}`).append(temp_task_ban_box);
-            }
-        }
-
-    });
-}
 function get_update_done() {
     $('input:checkbox[name=taskid]').each(function (index) {
         if ($(this).is(":checked") == true) {
             return update_done($(this).val())
         }
     });
+    window.location.replace('/teacher')
 }
 function update_done(target) {
     $.ajax({
@@ -481,12 +409,9 @@ function update_done(target) {
         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
         data: {},
         success: function (response) {
-            {
-                if (response['result'] == '완료') {
-                } else {
-                    alert(response["result"])
-                }
-                window.location.replace('/teacher')
+            if (response['result'] == '완료') {
+            } else {
+                alert(response["result"])
             }
         }
     })
