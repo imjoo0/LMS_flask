@@ -270,8 +270,8 @@ function get_data() {
                         return currentDueDate.getTime() < prevDueDate.getTime() ? current : prev;
                     }, consultingList[0]);
                     const missed = consultingList.reduce((prev, current) => {
-                        const prevDueDate = prev.missed instanceof Date ? prev.missed.getTime() : Number.POSITIVE_INFINITY;
-                        const currentDueDate = current.missed instanceof Date ? current.missed.getTime() : Number.POSITIVE_INFINITY;
+                        const prevDueDate = prev.missed instanceof Date ? prev.missed.getTime() : new Date(Number.POSITIVE_INFINITY);
+                        const currentDueDate = current.missed instanceof Date ? current.missed.getTime() : new Date(Number.POSITIVE_INFINITY);
                         return currentDueDate.getTime() < prevDueDate.getTime() ? current : prev;
                     }, consultingList[0]);
                     acc.push({
