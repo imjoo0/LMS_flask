@@ -365,7 +365,7 @@ async function get_consulting_student(done_code) {
             $('#today_consulting_title').append('   ✏️상담 건수: '+data.length);
             if(data.length == 0){
                 $('#consulting_student_list').hide();
-                $('#consultingstudent_pagination').hide
+                $('#consultingstudent_pagination').hide();
             }else{
                 var temp_consulting_contents_box = '';
                 $.each(data, function (index, consulting) {
