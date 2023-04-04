@@ -282,7 +282,7 @@ function get_data() {
                     'ban_id': student.ban_id,
                     'ban_name': student.classname,
                     'consulting_num': consultingList.length,
-                    'deadline': new Date(deadline.deadline),
+                    'deadline': new Date(deadline.deadline).setHours(0, 0, 0, 0),
                     'missed' : new Date(missed.missed).setHours(0, 0, 0, 0),
                     'consulting_list': consultingList
                   });
