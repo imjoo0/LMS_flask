@@ -156,7 +156,7 @@ function get_data() {
             <td class="col-3"> ( ${answer_rate(task_done,total_task).toFixed(0)}% ) </td>
             <td class="col-3"> ${consulting_done}/${consulting_t} </td>
             <td class="col-1"> ( ${consulting_deadlinemissed}건 )</td>
-            <td class="col-3"> ( ${answer_rate(consulting_done, consulting_t).toFixed(0)}% ) </td>
+            <td class="col-2"> ( ${answer_rate(consulting_done, consulting_t).toFixed(0)}% ) </td>
             `
             $('#classreport').html(temp_report)
 
