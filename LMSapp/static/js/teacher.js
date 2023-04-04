@@ -391,7 +391,7 @@ function get_consulting(value, is_done) {
                     let category = target['category']
                     let consulting_id = target['id']
                     let contents = target['contents']
-                    let consulting_missed = target['missed']
+                    let consulting_missed = make_date(target['missed'])
                     let deadline = make_date(target['deadline'])
 
                     if (is_done == 1) {
