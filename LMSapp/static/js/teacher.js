@@ -426,7 +426,7 @@ async function get_student(ban_id) {
                     }
                     let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
                     temp_consulting_contents_box += `
-                    <td class="col-1">${consulting.student_name}</td>
+                    <td class="col-2">${consulting.student_name}</td>
                     <td class="col-1">${consulting.student_reco_book_code}</td>
                     <td class="col-2">${consulting.student_mobileno}</td>
                     <td class="col-1">${unlearned_homepage}건</td>
@@ -435,7 +435,6 @@ async function get_student(ban_id) {
                     <td class="col-1">${unlearned_reading}건</td>
                     <td class="col-1">${unlearned_writing}건</td>
                     <td class="col-1">${unlearned_intoreading}건</td>
-                    <td class="col-1">${consulting.consulting_num}건</td>
                     <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${value}',${1})"><span class="cursor-pointer">📞</span></td> 
                     `;
                 });
