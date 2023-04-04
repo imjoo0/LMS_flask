@@ -435,7 +435,7 @@ function get_consulting(value, is_done) {
                     let contents = target['contents']
                     let consulting_missed = make_date(target['missed'])
                     let deadline = make_date(target['deadline'])
-                    let history_created = make_date(target['created_at'])
+                    let history_created = target['created_at']
                     if(target['category_id'] < 100){
                         category = target['week_code']+'주간  ' + category
                     }
