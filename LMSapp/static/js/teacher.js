@@ -265,9 +265,9 @@ function get_data() {
                 const consultingList = consulting_notdone.filter(c => c.student_id === student.register_no);
                 if (consultingList.length > 0) {
                     const deadline = consultingList.reduce((prev, current) => {
-                        const prevDueDate = new Date(prev.deadline);
+                        let prevDueDate = new Date(prev.deadline);
                         prevDueDate = prevDueDate.getFullYear()+'-'+(prevDueDate.getMonth()+ 1).toString().padStart(2, '0')+'-'+prevDueDate.getDate().toString().padStart(2, '0')
-                        const currentDueDate = new Date(current.deadline);
+                        let currentDueDate = new Date(current.deadline);
                         currentDueDate = currentDueDate.getFullYear()+'-'+(currentDueDate.getMonth()+ 1).toString().padStart(2, '0')+'-'+currentDueDate.getDate().toString().padStart(2, '0')
                         return currentDueDate < prevDueDate ? current : prev;
                     }, consultingList[0]);
