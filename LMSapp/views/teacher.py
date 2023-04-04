@@ -149,7 +149,7 @@ def get_data():
         
 # 오늘 해야 할 업무들의 카데고리
 @bp.route("/task/<int:tb_id>", methods=['POST'])
-def task_category(tb_id):
+def task(tb_id):
     if request.method =='POST':
         # tb_id = 완료한 taskban의 id
         target_taskban = TaskBan.query.get_or_404(tb_id)
@@ -185,8 +185,6 @@ def task_category(tb_id):
     #         target_task = '없음'
     #     return jsonify({'target_task':target_task,'target_cate':target_cate})
     
-
-
 
 # 학생에게 해야할 상담 목록 ( is_done = 0 ) 상담을 한 목록 (is_done = 1)
 @bp.route("/consulting/<int:id>/<int:is_done>", methods=['GET','POST'])

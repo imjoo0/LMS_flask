@@ -364,36 +364,7 @@ async function get_consulting_student(done_code) {
         }
     })
 }
-
-// function get_taskban(task_id, idx) {
-//     $.ajax({
-//         type: "GET",
-//         url: "/teacher/taskban/" + task_id + "/" + idx,
-//         data: {},
-//         success: function (response) {
-//             $(`#task_ban_box_incomplete${idx}${task_id}`).empty();
-//             for (i = 0; i < response['target_taskban']['data'].length; i++) {
-//                 let target = response['target_taskban']['data'][i]
-//                 let id = target["id"]
-//                 let ban_id = target["ban_id"]
-//                 let ban = function (ban_id) {
-//                     return response['mybans_info'].filter(a => a.register_no == ban_id)[0]['name'];
-//                 }
-//                 let temp_task_ban_box = ''
-//                 if (idx == 0) {
-//                     temp_task_ban_box = `
-//                     <label><input type="checkbox" name="taskid" value="${id}"/>${ban(ban_id)}</label>
-//                     `;
-//                 } else {
-//                     temp_task_ban_box = `<p>➖ ${ban(ban_id)} </p>`
-//                 }
-
-//                 $(`#task_ban_box_incomplete${idx}${task_id}`).append(temp_task_ban_box);
-//             }
-//         }
-
-//     });
-// }
+// 업무 완료 저장 
 function get_update_done() {
     $('input:checkbox[name=taskid]').each(function (index) {
         if ($(this).is(":checked") == true) {
@@ -416,6 +387,7 @@ function update_done(target) {
         }
     })
 }
+
 // 상담 수행 관련 함수
 function get_consulting_history() {
     let is_done = $('#history_done option:selected').val()
@@ -933,5 +905,36 @@ async function get_question_detail(q_id, answer, category) {
 //                 $('#consulting_title').html('오늘의 상담이 없습니다.');
 //             }
 //         }
+//     });
+// }
+
+
+// function get_taskban(task_id, idx) {
+//     $.ajax({
+//         type: "GET",
+//         url: "/teacher/taskban/" + task_id + "/" + idx,
+//         data: {},
+//         success: function (response) {
+//             $(`#task_ban_box_incomplete${idx}${task_id}`).empty();
+//             for (i = 0; i < response['target_taskban']['data'].length; i++) {
+//                 let target = response['target_taskban']['data'][i]
+//                 let id = target["id"]
+//                 let ban_id = target["ban_id"]
+//                 let ban = function (ban_id) {
+//                     return response['mybans_info'].filter(a => a.register_no == ban_id)[0]['name'];
+//                 }
+//                 let temp_task_ban_box = ''
+//                 if (idx == 0) {
+//                     temp_task_ban_box = `
+//                     <label><input type="checkbox" name="taskid" value="${id}"/>${ban(ban_id)}</label>
+//                     `;
+//                 } else {
+//                     temp_task_ban_box = `<p>➖ ${ban(ban_id)} </p>`
+//                 }
+
+//                 $(`#task_ban_box_incomplete${idx}${task_id}`).append(temp_task_ban_box);
+//             }
+//         }
+
 //     });
 // }
