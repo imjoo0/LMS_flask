@@ -495,21 +495,17 @@ function get_consulting(value, is_done) {
             let consultinglist_len = consulting_list.length
             if (cant_consulting_list.length > 0){
                 $('#consulting_cant_write_box').empty();
-                for (i = 0; i < consultinglist_len; i++) {
-                    let target = consultinglist[i]
-                    let category = target['category']
-                    let consulting_id = target['id']
+                for (i = 0; i < cant_consulting_list.length; i++) {
+                    let target = cant_consulting_list[i]
+                    let category = target['week_code']+'주간  '+ target['category']
                     let contents = target['contents']
                     let consulting_missed = missed_date(target['missed'])
                     let deadline = make_date(target['deadline'])
                     let history_created = target['created_at']
-                    if(target['category_id'] < 100){
-                        category = target['week_code']+'주간  ' + category
-                    }
                     let temp_consulting_contents_box = `
                     <p class="mt-lg-4 mt-5" style="color:red;">✅<strong>${category}</strong></br><strong>➖상담 마감일:
                         ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br></br>${contents}</br>
-                        ➖ 이미 원생이 학습을 완료했습니다. 
+                        ➖ 이미 원생이 ${make_date(history_created)}일 날 학습을 완료했습니다. 
                     </p>
                     `;
                     $('#consulting_cant_write_box').append(temp_consulting_contents_box);
