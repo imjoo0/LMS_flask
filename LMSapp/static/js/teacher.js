@@ -212,9 +212,9 @@ function get_data() {
                 temp_cate_menu += `
                 <thead>
                     <tr class="row">
-                    <th class="col-2">우선순위</th>
+                    <th class="col-2">< 우선순위</th>
                     <th class="col-8">${category}업무</th>
-                    <th class="col-2">마감일</th>
+                    <th class="col-2">마감일 ></th>
                     </tr>
                 </thead>
                 <tbody style="width:100%;">  
