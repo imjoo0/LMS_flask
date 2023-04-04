@@ -276,17 +276,14 @@ function get_data() {
                     }, consultingList[0]);
                     acc.push({
                         'student_id': student.register_no,
-                        'student_name': student.name,
+                        'student_name': student.name +'('+student.nickname+')',
                         'student_mobileno': student.mobileno,
+                        'student_reco_book_code': student.reco_book_code,
                         'ban_name': student.classname,
                         'consulting_num': consultingList.length,
                         'deadline': new Date(deadline.deadline),
                         'missed' : new Date(missed.missed).setHours(0, 0, 0, 0),
-                        'consulting_list':consultingList,
-                        'student_id': student.register_no,
-                        'student_id': student.register_no,
-                        'student_id': student.register_no,
-                        
+                        'consulting_list':consultingList
                     });
                 }
                 return acc;
@@ -311,9 +308,10 @@ function get_data() {
                         $.each(result, function (index, consulting) {
                             let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
                             temp_consulting_contents_box += `
-                            <td class="col-3">${consulting.ban_name}</td>
-                            <td class="col-2">${consulting.student_name}</td>
-                            <td class="col-3">${consulting.student_mobileno}</td>
+                            <td class="col-2">${consulting.ban_name}</td>
+                            <td class="col-3">${consulting.student_name}</td>
+                            <td class="col-1">${student.reco_book_code}</td>
+                            <td class="col-2">${consulting.student_mobileno}</td>
                             <td class="col-2">${make_date(consulting.deadline)}</td>
                             <td class="col-1">${consulting.consulting_num}</td>
                             <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${value}',${0})"><span class="cursor-pointer">📞</span></td> 
@@ -358,9 +356,10 @@ async function get_consulting_student(done_code) {
                 $.each(data, function (index, consulting) {
                     let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
                     temp_consulting_contents_box += `
-                    <td class="col-3">${consulting.ban_name}</td>
-                    <td class="col-2">${consulting.student_name}</td>
-                    <td class="col-3">${consulting.student_mobileno}</td>
+                    <td class="col-2">${consulting.ban_name}</td>
+                    <td class="col-3">${consulting.student_name}</td>
+                    <td class="col-1">${student.reco_book_code}</td>
+                    <td class="col-2">${consulting.student_mobileno}</td>
                     <td class="col-2">${make_date(consulting.deadline)}</td>
                     <td class="col-1">${consulting.consulting_num}</td>
                     <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${value}',${0})"><span class="cursor-pointer">📞</span></td> 
