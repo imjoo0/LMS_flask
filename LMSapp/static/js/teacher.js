@@ -389,8 +389,8 @@ function get_consulting(value, is_done) {
                 let consultinglist_len = response["consulting_list"].length
                 let consultinglist =  response["consulting_list"].sort((a, b) => {return a.deadline - b.deadline});
                 for (i = 0; i < consultinglist_len; i++) {
-                    console.log((target['missed']))
                     let target = consultinglist[i]
+                    console.log((target['missed']))
                     let category = target['category']
                     let consulting_id = target['id']
                     let contents = target['contents']
