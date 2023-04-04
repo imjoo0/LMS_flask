@@ -31,7 +31,6 @@ function get_data() {
             // let outstudent_t = response['outstudent'].length ( 선생님 기준 퇴소 율에 사용 )
             $('#ban_chart_list').empty()
             $('#history_ban').empty()
-            console.log(response['my_students'])
             let unlearned_t =response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.category_id < 100).length : 0;
             let temp_ban_option = '<option value="none" selected>기존 반을 선택해주세요</option>';
             for (i=0;i< response['ban_data'].length;i++) {
@@ -388,7 +387,7 @@ async function get_consulting_student(done_code) {
     })
 }
 
-// 메인화면 원생 조회 
+// 메인화면 원생 조회 및 추가 상담 기능 
 async function get_student(ban_id) {
     let container = $('#banstudent_pagination')
     const data = consultingStudentData.filter((e) => {
@@ -436,7 +435,7 @@ async function get_student(ban_id) {
                     <td class="col-1">${unlearned_reading}건</td>
                     <td class="col-1">${unlearned_writing}건</td>
                     <td class="col-1">${unlearned_intoreading}건</td>
-                    <td class="col-1" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">(${consulting.consulting_num}건)➕</span></td> 
+                    <td class="col-1" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
                     `;
                 });
                 $('#s_data').html(temp_consulting_contents_box);
@@ -446,7 +445,6 @@ async function get_student(ban_id) {
         }
     })
 }
-
 function plusconsulting(value, b_id) {
     let v = value.split('_')
     $('#teachers_student_list').hide();
@@ -480,6 +478,7 @@ function plusconsulting_history(student_id, b_id) {
         }
     })
 }
+
 // 상담일지 작성 창 
 function get_consulting(value, is_done) {
     // let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
@@ -492,11 +491,6 @@ function get_consulting(value, is_done) {
         success: function (response) {
             if (response["consulting_list"].length < 0) {
                 $('#consultinghistoryModalLabelt').html('진행 할 상담이 없습니다.')
-                //     $('#consulting_list').hide();
-                //     let temp_consulting_contents_box = `
-                //     <p> 오늘의 상담 업무를 완료했습니다 🎉</p>
-                //     `;
-                //     $('#consulting_msg').html(temp_consulting_contents_box);
             }else{
                 $('#consulting_write_box').empty();
                 let consultinglist_len = response["consulting_list"].length
@@ -588,6 +582,39 @@ function get_consulting(value, is_done) {
     });
     // $('#today_consulting_box').show();
 }
+function post_bulk_consultings(c_length, is_done) {
+    for (i = 0; i < c_length; i++) {
+        target = $('#target_consulting_id' + i).val()
+        post_target_consulting(target, is_done)
+    }
+    alert("상담 저장 완료")
+    window.location.reload()
+}
+
+function post_target_consulting(consulting, is_done) {
+    consulting_missed = $(`input:checkbox[id="missed"]`).is(":checked")
+    consulting_reason = $('#consulting_reason' + consulting).val()
+    consulting_solution = $('#consulting_solution' + consulting).val()
+    consulting_result = $('#consulting_result' + consulting).val()
+    if ((consulting_reason.length == 0)) {
+        consulting_reason = "noupdate"
+    } if ((consulting_solution.length == 0)) {
+        consulting_solution = "noupdate"
+    } if ((consulting_result.length == 0)) {
+        consulting_result = "noupdate"
+    }
+    $.ajax({
+        type: "POST",
+        url: '/teacher/consulting/' + consulting + '/' + is_done,
+        // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+        data: {
+            consulting_reason: consulting_reason,
+            consulting_solution: consulting_solution,
+            consulting_result: consulting_result,
+            consulting_missed: consulting_missed,
+        },
+    })
+}
 
 // 업무 완료 저장 
 function get_update_done() {
@@ -660,39 +687,6 @@ function done_consulting_history_view(ban_id, is_done) {
 
 }
 
-function post_bulk_consultings(c_length, is_done) {
-    for (i = 0; i < c_length; i++) {
-        target = $('#target_consulting_id' + i).val()
-        post_target_consulting(target, is_done)
-    }
-    alert("상담 저장 완료")
-    window.location.reload()
-
-}
-function post_target_consulting(consulting, is_done) {
-    consulting_missed = $(`input:checkbox[id="missed"]`).is(":checked")
-    consulting_reason = $('#consulting_reason' + consulting).val()
-    consulting_solution = $('#consulting_solution' + consulting).val()
-    consulting_result = $('#consulting_result' + consulting).val()
-    if ((consulting_reason.length == 0)) {
-        consulting_reason = "noupdate"
-    } if ((consulting_solution.length == 0)) {
-        consulting_solution = "noupdate"
-    } if ((consulting_result.length == 0)) {
-        consulting_result = "noupdate"
-    }
-    $.ajax({
-        type: "POST",
-        url: '/teacher/consulting/' + consulting + '/' + is_done,
-        // data: JSON.stringify(jsonData), // String -> json 형태로 변환
-        data: {
-            consulting_reason: consulting_reason,
-            consulting_solution: consulting_solution,
-            consulting_result: consulting_result,
-            consulting_missed: consulting_missed,
-        },
-    })
-}
 
 // 본원 문의 관련 함수 
 //  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
