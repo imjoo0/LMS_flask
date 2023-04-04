@@ -305,10 +305,10 @@ function get_data() {
                 result = result.sort((a, b) => {
                     return b.consulting_num - a.consulting_num;
                 });
-                console.log(result)
                 result = result.sort((a, b) => {
                     return a.deadline - b.deadline
                 });
+                console.log(result)
                 $('#consulting_title').html('오늘의 상담');
                 consultingStudentData = result
                 container.pagination({
