@@ -489,8 +489,8 @@ function get_consulting(value, is_done) {
         data: {},
         success: function (response) {
             $('#consulting_write_box').empty();
-            let consulting_list = response["consulting_list"].length  > 0 ? response["consulting_list"].filter(created_at != null) : 0
-            let cant_consulting_list = response["consulting_list"].length  > 0 ? response["consulting_list"].filter(created_at == null) : 0
+            let consulting_list = response["consulting_list"].length  > 0 ? response["consulting_list"].filter( c=>c.created_at != null) : 0
+            let cant_consulting_list = response["consulting_list"].length  > 0 ? response["consulting_list"].filter( c=>c.created_at == null) : 0
             let consultinglist_len = consulting_list.length
             if (cant_consulting_list.length > 0){
                 $('#consulting_cant_write_box').empty();
