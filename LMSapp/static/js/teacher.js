@@ -403,6 +403,7 @@ async function get_student(ban_id) {
                 $('#banstudentlistModalLabel').html('반 원생이 없습니다.');
                 $('#student_data').hide();
             }else{
+                $('#banstudentlistModalLabel').html(data[0]['ban_name']+'반 원생 목록');
                 var temp_consulting_contents_box = '';
                 $.each(data, function (index, consulting) {
                     let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
