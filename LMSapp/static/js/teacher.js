@@ -160,8 +160,8 @@ function get_data() {
 
             // 오늘의 업무 뿌려주기 
             if(task_notdone.length == 0){
-                $('#today_task_box0').html('오늘의 업무 끝 😆');
-                $('#today_task_box1').empty()
+                $('#task_title').html('오늘의 업무 끝 😆');
+                // $('#cate_menu').empty()
             }else{
                 // 오늘의 업무 중복 카테고리로 묶기 
                 const categoryGrouped = response['all_task'].reduce((result, item) => {
