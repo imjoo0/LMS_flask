@@ -211,32 +211,31 @@ def consulting(id,is_done):
                 return jsonify({'result': '부재중 처리 완료'})
             except:
                 return jsonify({'result': '부재중 처리 실패'})
-        else:
-             # 상담 사유
-            received_reason = request.form['consulting_reason']
-            # 제공 가이드
-            received_solution = request.form['consulting_solution']
-            # 제공 가이드
-            received_result = request.form['consulting_result']
+        # else:
+        #      # 상담 사유
+        #     received_reason = request.form['consulting_reason']
+        #     # 제공 가이드
+        #     received_solution = request.form['consulting_solution']
+        #     # 제공 가이드
+        #     received_result = request.form['consulting_result']
 
-            if(is_done == 0):
-                target_consulting.reason = received_reason
-                target_consulting.solution = received_solution
-                target_consulting.result = received_result
-                target_consulting.created_at = Today
-            else:
-                if(received_reason !="noupdate"):
-                    target_consulting.reason = received_reason
-                if(received_solution !="noupdate"):    
-                    target_consulting.solution = received_solution
-                if(received_result !="noupdate"):    
-                    target_consulting.result = received_result
-                if((received_reason !="noupdate") or (received_solution !="noupdate") or (received_result !="noupdate")):
-                    target_consulting.created_at = Today
-            target_consulting.done = 1
-            db.session.commit()
-            return{'result':'상담일지 저장 완료'}
-
+        #     if(is_done == 0):
+        #         target_consulting.reason = received_reason
+        #         target_consulting.solution = received_solution
+        #         target_consulting.result = received_result
+        #         target_consulting.created_at = Today
+        #     else:
+        #         if(received_reason !="noupdate"):
+        #             target_consulting.reason = received_reason
+        #         if(received_solution !="noupdate"):    
+        #             target_consulting.solution = received_solution
+        #         if(received_result !="noupdate"):    
+        #             target_consulting.result = received_result
+        #         if((received_reason !="noupdate") or (received_solution !="noupdate") or (received_result !="noupdate")):
+        #             target_consulting.created_at = Today
+        #     target_consulting.done = 1
+        #     db.session.commit()
+        #     return{'result':'상담일지 저장 완료'}
 
 # 상담일지 작성 및 수정  is_done=0 작성 / is_done=1 수정 
 @bp.route("/consulting_history/<int:id>/<int:is_done>", methods=['POST'])
@@ -250,7 +249,7 @@ def consulting_history(id,is_done):
             target_consulting.done = 0
             try:
                 db.session.commit()
-                return jsonify({'result': '부재중 처리 완료'})
+                return jsonify({'result': '완료'})
             except:
                 return jsonify({'result': '부재중 처리 실패'})
         else:
@@ -267,13 +266,13 @@ def consulting_history(id,is_done):
                 target_consulting.result = received_result
                 target_consulting.created_at = Today
             else:
-                if(received_reason !="noupdate"):
+                if(received_reason !="No data"):
                     target_consulting.reason = received_reason
-                if(received_solution !="noupdate"):    
+                if(received_solution !="No data"):    
                     target_consulting.solution = received_solution
-                if(received_result !="noupdate"):    
+                if(received_result !="No data"):    
                     target_consulting.result = received_result
-                if((received_reason !="noupdate") or (received_solution !="noupdate") or (received_result !="noupdate")):
+                if((received_reason !="No data") or (received_solution !="No data") or (received_result !="No data")):
                     target_consulting.created_at = Today
             target_consulting.done = 1
             db.session.commit()

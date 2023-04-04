@@ -596,11 +596,11 @@ function post_target_consulting(consulting, is_done) {
     consulting_solution = $('#consulting_solution' + consulting).val()
     consulting_result = $('#consulting_result' + consulting).val()
     if ((consulting_reason.length == 0)) {
-        consulting_reason = "noupdate"
+        consulting_reason = "No data"
     } if ((consulting_solution.length == 0)) {
-        consulting_solution = "noupdate"
+        consulting_solution = "No data"
     } if ((consulting_result.length == 0)) {
-        consulting_result = "noupdate"
+        consulting_result = "No data"
     }
     $.ajax({
         type: "POST",
