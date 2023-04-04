@@ -7,8 +7,9 @@ var consultingData = [];
 var taskData = [];
 const today = new Date().setHours(0, 0, 0, 0);
 let make_date = function(d){
-    console.log(d)
+    // console.log(d)
     const date = new Date(d)
+    console.log(date)
     return date.getFullYear()+'-'+(date.getMonth()+ 1).toString().padStart(2, '0')+'-'+date.getDate().toString().padStart(2, '0')
 }
 let make_priority = function(priority) {
