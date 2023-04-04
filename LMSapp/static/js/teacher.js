@@ -361,6 +361,7 @@ async function get_consulting_student(done_code) {
         nextText: '다음',
         pageSize: 10,
         callback: function (data, pagination) {
+            console.log(data)
             if(data.length == 0){
                 $('#consulting_title').html('오늘의 상담이 없습니다.');
                 $('#consulting_student_list').hide();
