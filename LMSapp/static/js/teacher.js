@@ -89,7 +89,7 @@ function get_data() {
                                     <tr class="row">
                                         <td class="col-5">${alimnote}건 / ${alimnote_t}건</td>
                                         <td class="col-5">${unlearned}건(${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</td>
-                                        <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${name})">✔️</td>
+                                        <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${register_no})">✔️</td>
                                     </tr>
                                     <tr class="row">
                                         <th class="col-12">미학습 카테고리별</th>
@@ -279,6 +279,7 @@ function get_data() {
                     'student_name': student.name +'('+student.nick_name+')',
                     'student_mobileno': student.mobileno,
                     'student_reco_book_code': student.reco_book_code,
+                    'ban_id': student.ban_id,
                     'ban_name': student.classname,
                     'consulting_num': consultingList.length,
                     'deadline': new Date(deadline.deadline),
@@ -291,6 +292,7 @@ function get_data() {
                     'student_name': student.name +'('+student.nick_name+')',
                     'student_mobileno': student.mobileno,
                     'student_reco_book_code': student.reco_book_code,
+                    'ban_id': student.ban_id,
                     'ban_name': student.classname,
                     'consulting_num': 0,
                     'deadline': null,
@@ -386,9 +388,10 @@ async function get_consulting_student(done_code) {
 }
 
 // 메인화면 원생 조회 
-async function get_student(ban_name) {
+async function get_student(ban_id) {
+    let container = $('#banstudent_pagination')
     const data = consultingStudentData.filter((e) => {
-            return e.ban_name === ban_name;
+            return e.ban_id === ban_id;
     })
     await container.pagination({
         dataSource: data,
@@ -397,23 +400,23 @@ async function get_student(ban_name) {
         pageSize: 10,
         callback: function (data, pagination) {
             if(data.length == 0){
-                $('#consulting_title').html('오늘의 상담이 없습니다.');
-                $('#consulting_student_list').hide();
+                $('#banstudentlistModalLabel').html('반 원생이 없습니다.');
+                $('#student_data').hide();
             }else{
                 var temp_consulting_contents_box = '';
                 $.each(data, function (index, consulting) {
                     let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
                     temp_consulting_contents_box += `
-                    <td class="col-2">${consulting.ban_name}</td>
                     <td class="col-2">${consulting.student_name}</td>
+                    <td class="col-2">${consulting.student_reco_book_code}</td>
                     <td class="col-2">${consulting.student_mobileno}</td>
-                    <td class="col-2">${make_date(consulting.deadline)}</td>
-                    <td class="col-1">${consulting.consulting_num}</td>
-                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${value}',${0})"><span class="cursor-pointer">📞</span></td> 
+                    <td class="col-2">${consulting.consulting_num}</td>
+                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${value}',${1})"><span class="cursor-pointer">📝</span></td> 
+                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${value}',${1})"><span class="cursor-pointer">📞</span></td> 
                     `;
                 });
-                $('#today_consulting_box').html(temp_consulting_contents_box);
-                $('#consulting_student_list').show();
+                $('#s_data').html(temp_consulting_contents_box);
+                $('#student_data').show();
             }
             
         }
