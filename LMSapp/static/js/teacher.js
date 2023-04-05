@@ -9,9 +9,9 @@
 //     return str;
 // }
 
-// $(document).ready(function () {
-//     get_data()
-// })
+$(document).ready(function () {
+    get_data()
+})
 function go_back() {
     // 문의 관련 
     $('#questiondetail').hide();
@@ -882,7 +882,7 @@ async function get_question_detail(q_id) {
         $('#consulting_history_attach').hide()
     }else{
         $('#consulting_history_attach').show()
-
+        
     }
 
     // var temp_comment = ''
