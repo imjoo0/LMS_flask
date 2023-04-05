@@ -58,7 +58,7 @@ function get_data() {
                 let switchstudent =response['switchstudent'].length > 0 ? response['switchstudent'].filter(a=> a.ban_id === register_no).length : 0;
                 let outstudent = response['outstudent'].length > 0 ? response['outstudent'].filter(a=> a.ban_id === register_no).length : 0;
                 temp_ban_option += `
-                <option value="${register_no}">${name}</option>
+                <option value=${register_no}>${name} (${semester}월 학기)</option>
                 `;
                 let temp_ban_chart = `
                 <div class="d-flex justify-content-start align-items-start flex-column w-100 my-2">
@@ -685,7 +685,7 @@ function plusconsulting_history(student_id, b_id,t_id) {
         success: function (response) {
             {
                 alert(response["result"])
-                get_student(b_id)
+                window.location.reload()
             }
         }
     })
@@ -757,7 +757,7 @@ function go_back() {
 function get_ban_student(ban_id) {
     console.log('data')
     const data = consultingStudentData.filter((e) => {
-        return e.ban_id === ban_id;
+        return e.ban_id == ban_id;
     })
     console.log(data)
     let temp_target_student = ''
