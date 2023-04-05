@@ -43,7 +43,7 @@ def get_data():
     switchstudent = []
     outstudent = []
     my_students = callapi.purple_info(session['user_id'], 'get_mystudents')
-    print(session['user_id'])
+    print(ban_data)
     if len(ban_data) != 0:
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00',
                                 port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
