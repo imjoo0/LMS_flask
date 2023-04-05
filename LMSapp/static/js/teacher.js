@@ -385,28 +385,12 @@ async function get_consulting_student(done_code) {
 }
 // 상담일지 작성 창 
 function get_consulting(value, is_done) {
-    // let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
-    // let v = value.split('_')
     const data = consultingStudentData.filter((e) => {
         return e.student_id == value && e.consulting_num != 0;
     })[0]
     console.log(data)
-    $('#consultinghistoryModalLabelt').html(`${data['ban_name']}반 ${data['student_name']} 원생 ${data['consulting_num']}건 상담일지 ( 📞 ${data['student_mobileno']}  )`)
-    // var temp_consulting_contents_box = '';
-    // $.each(data['consulting_list'], function (index, consulting) {
-    //     // let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
-    //     temp_consulting_contents_box += `
-    //     <td class="col-2">${consulting.ban_name}</td>
-    //     <td class="col-2">${consulting.student_name}</td>
-    //     <td class="col-2">${consulting.student_reco_book_code}</td>
-    //     <td class="col-2">${consulting.student_mobileno}</td>
-    //     <td class="col-2">${consulting.deadline}</td>
-    //     <td class="col-1">${consulting.consulting_num}</td>
-    //     <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${consulting.student_id}',${0})"><span class="cursor-pointer">📞</span></td> 
-    //     `;
-    // });
-    // $('#today_consulting_box').html(temp_consulting_contents_box);
-    // $('#consulting_student_list').show();
+    $('#consultinghistoryModalLabelt').html(`${data['ban_name']}반 ${data['student_name']} 원생 ${data['consulting_num']}건 상담   ( 📞 ${data['student_mobileno']}  )`)
+
     let consulting_list = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=> c.done == is_done && c.created_at == null) : 0
     let cant_consulting_list = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == is_done && c.created_at != null) : 0
     let consultinglist_len = consulting_list.length
@@ -422,7 +406,7 @@ function get_consulting(value, is_done) {
             let temp_consulting_contents_box = `
             <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br><strong>➖상담 마감일:
                 ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br>
-                <strong style="color:red;">➖ 이미 원생이 ${make_date(history_created)}일 날 학습을 완료했습니다.</strong></br>
+                <strong style="color:red;">➖ 이미 원생이 ${make_date(history_created)}일 날 학습을 완료했습니다. (  ✏️ 추천: 원생목록에서 추가 상담 진행)</strong></br>
                 ${contents}</br> 
             </p>
             `;
