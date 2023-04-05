@@ -37,42 +37,42 @@ def home():
 # 차트 관련
 @bp.route('/get_data', methods=['GET'])
 def get_data():
-    if request.method == 'GET':
-        all_consulting = []
-        all_task = []
-        ban_data = callapi.purple_info(session['user_id'], 'get_mybans')
-        switchstudent = []
-        outstudent = []
-        alimnote = []
-        my_students = callapi.purple_info(session['user_id'], 'get_mystudents')
-        
-        if len(ban_data) != 0:
-            db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00',
-                                 port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
-            try:
-                with db.cursor() as cur:
-                    # 상담
-                    cur.execute("select consulting.id,consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result from consulting left join consultingcategory on consulting.category_id = consultingcategory.id where startdate <= %s and teacher_id=%s", (Today, session['user_registerno'],))
-                    all_consulting = cur.fetchall()
+    print(session.get('register_no'))
+    all_consulting = []
+    all_task = []
+    ban_data = callapi.purple_info(session['user_id'], 'get_mybans')
+    switchstudent = []
+    outstudent = []
+    alimnote = []
+    my_students = callapi.purple_info(session['user_id'], 'get_mystudents')
+    
+    if len(ban_data) != 0:
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00',
+                                port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                # 상담
+                cur.execute("select consulting.id,consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result from consulting left join consultingcategory on consulting.category_id = consultingcategory.id where startdate <= %s and teacher_id=%s", (Today, session['user_registerno'],))
+                all_consulting = cur.fetchall()
 
-                    # 업무
-                    cur.execute("select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id left join taskcategory on task.category_id = taskcategory.id where (task.cycle = %s or task.cycle = %s) and task.startdate <= %s and %s <= task.deadline and taskban.teacher_id=%s;", (today_yoil, 0, Today, Today, session['user_registerno'],))
-                    # cur.execute("select taskban.id,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id where (task.cycle = %s or task.cycle = %s) and task.startdate <= %s and %s <= task.deadline and taskban.teacher_id=%s;", (today_yoil, 0, Today, Today, session['user_registerno'],))
-                    all_task = cur.fetchall()
-                    
-                    cur.execute("SELECT ban_id, id, student_id FROM switchstudent WHERE teacher_id = %s GROUP BY ban_id, id, student_id;", (session['user_registerno'],))
-                    switchstudent = cur.fetchall()
+                # 업무
+                cur.execute("select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id left join taskcategory on task.category_id = taskcategory.id where (task.cycle = %s or task.cycle = %s) and task.startdate <= %s and %s <= task.deadline and taskban.teacher_id=%s;", (today_yoil, 0, Today, Today, session['user_registerno'],))
+                # cur.execute("select taskban.id,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id where (task.cycle = %s or task.cycle = %s) and task.startdate <= %s and %s <= task.deadline and taskban.teacher_id=%s;", (today_yoil, 0, Today, Today, session['user_registerno'],))
+                all_task = cur.fetchall()
+                
+                cur.execute("SELECT ban_id, id, student_id FROM switchstudent WHERE teacher_id = %s GROUP BY ban_id, id, student_id;", (session['user_registerno'],))
+                switchstudent = cur.fetchall()
 
-                    cur.execute("SELECT ban_id, id, student_id FROM outstudent WHERE teacher_id = %s GROUP BY ban_id, id, student_id;", (session['user_registerno'],))
-                    outstudent = cur.fetchall()
+                cur.execute("SELECT ban_id, id, student_id FROM outstudent WHERE teacher_id = %s GROUP BY ban_id, id, student_id;", (session['user_registerno'],))
+                outstudent = cur.fetchall()
 
-                    alimnote = callapi.purple_info(session['register_no'],'get_alimnote_teacher')
-            except:
-                print('err')
-            finally:
-                db.close()
-            return jsonify({'switchstudent': switchstudent,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'outstudent':outstudent,'ban_data':ban_data,'alimnote':alimnote})
-        return jsonify({'ban_data':'없음'})
+                alimnote = callapi.purple_info(session['register_no'],'get_alimnote_teacher')
+        except:
+            print('err')
+        finally:
+            db.close()
+        return jsonify({'switchstudent': switchstudent,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'outstudent':outstudent,'ban_data':ban_data,'alimnote':alimnote})
+    return jsonify({'ban_data':'없음'})
    
 # 문의 요청 관련 함수
 @bp.route("/get_ban_student/<int:b_id>", methods=['GET'])
@@ -213,7 +213,7 @@ def plus_consulting(student_id,b_id):
     # 제공 결과
     received_result = request.form['consulting_result']
     # 상담생성 
-    newconsulting =  Consulting(teacher_id=session.get('register_no'),ban_id=b_id,category_id=110,student_id=student_id,contents=received_contents,startdate=Today,deadline=Today,done=1,missed=standard,reason=received_reason,solution=received_solution,result=received_result,created_at=Today)
+    newconsulting =  Consulting(teacher_id=99,ban_id=b_id,category_id=110,student_id=student_id,contents=received_contents,startdate=Today,deadline=Today,done=1,missed=standard,reason=received_reason,solution=received_solution,result=received_result,created_at=Today)
     db.session.add(newconsulting)
     db.session.commit()
     return{'result':'추가 상담 저장 완료'}
