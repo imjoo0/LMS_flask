@@ -770,6 +770,7 @@ function get_ban_student(ban_id) {
             `;
             $('#student_list').html(temp_target_student)
         });
+        console.log('dkd')
     }
 }
 // 뭐지 
