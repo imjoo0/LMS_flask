@@ -263,28 +263,44 @@ function get_data() {
                 const consultingList = response['all_consulting'].filter(c => c.student_id === student.register_no);
                 if (consultingList.length > 0) {
                     const todoconsulting = consultingList.filter(c => c.done === 0)
-                    const deadline = todoconsulting.reduce((prev, current) => {
-                        let prevDueDate = make_date(prev.deadline);
-                        let currentDueDate = make_date(current.deadline);
-                        return currentDueDate < prevDueDate ? current : prev;
-                    }, todoconsulting[0]);
-                    const missed = todoconsulting.reduce((prev, current) => {
-                        let prevDueDate = make_date(prev.missed);
-                        let currentDueDate = make_date(current.missed);
-                        return currentDueDate < prevDueDate ? prev : current;
-                    }, todoconsulting[0]);
-                    acc.push({
-                        'student_id': student.register_no,
-                        'student_name': student.name +'('+student.nick_name+')',
-                        'student_mobileno': student.mobileno,
-                        'student_reco_book_code': student.reco_book_code,
-                        'ban_id': student.ban_id,
-                        'ban_name': student.classname,
-                        'consulting_num': todoconsulting.length,
-                        'deadline': make_date(deadline.deadline),
-                        'missed' : missed_date(missed.missed),
-                        'consulting_list': consultingList
-                    });
+                    if(todoconsulting.length > 0 ){
+                        const deadline = todoconsulting.reduce((prev, current) => {
+                            let prevDueDate = make_date(prev.deadline);
+                            let currentDueDate = make_date(current.deadline);
+                            return currentDueDate < prevDueDate ? current : prev;
+                        }, todoconsulting[0]);
+                        const missed = todoconsulting.reduce((prev, current) => {
+                            let prevDueDate = make_date(prev.missed);
+                            let currentDueDate = make_date(current.missed);
+                            return currentDueDate < prevDueDate ? prev : current;
+                        }, todoconsulting[0]);
+    
+                        acc.push({
+                            'student_id': student.register_no,
+                            'student_name': student.name +'('+student.nick_name+')',
+                            'student_mobileno': student.mobileno,
+                            'student_reco_book_code': student.reco_book_code,
+                            'ban_id': student.ban_id,
+                            'ban_name': student.classname,
+                            'consulting_num': todoconsulting.length,
+                            'deadline': make_date(deadline.deadline),
+                            'missed' : missed_date(missed.missed),
+                            'consulting_list': consultingList
+                        });
+                    }else{
+                        acc.push({
+                            'student_id': student.register_no,
+                            'student_name': student.name +'('+student.nick_name+')',
+                            'student_mobileno': student.mobileno,
+                            'student_reco_book_code': student.reco_book_code,
+                            'ban_id': student.ban_id,
+                            'ban_name': student.classname,
+                            'consulting_num': 0,
+                            'deadline': make_date('3000-01-01'),
+                            'missed' : missed_date('1111-01-01'),
+                            'consulting_list': consultingList
+                        });
+                    }
                 }else{
                     acc.push({
                         'student_id': student.register_no,
