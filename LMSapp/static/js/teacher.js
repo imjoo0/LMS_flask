@@ -143,11 +143,11 @@ function get_data() {
             // 상담일지 조회 ban 선택 옵션 같이 붙이기 
             $('#history_ban').append(temp_ban_option)
             
-            let consulting_notdone = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.done === 0  && consulting.created_at === null) : 0;
-            let consulting_deadlinemissed = consulting_notdone.length > 0 ? consulting_notdone.filter(c => new Date(c.deadline).setHours(0, 0, 0, 0) < today).length : 0;
+            // let consulting_deadlinemissed = consulting_notdone.length > 0 ? consulting_notdone.filter(c => new Date(c.deadline).setHours(0, 0, 0, 0) < today).length : 0;
             let consulting_t = response['all_consulting'].length;
-            let consulting_done = consulting_t - consulting_notdone.length
-            
+            let consulting_done = consulting_t != 0 ? response['all_consulting'].filter(consulting => consulting.done === 1).length : 0  
+            // let consulting_notdone = consulting_t - consulting_done
+
             let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done != 0  && new Date(task.created_at).setHours(0, 0, 0, 0) == today).length : 0;
             let total_task = response['all_task'].length
             let task_notdone = total_task-task_done;
@@ -155,8 +155,7 @@ function get_data() {
             <td class="col-3"> ${task_done}/${total_task} </td>
             <td class="col-3"> ( ${answer_rate(task_done,total_task).toFixed(0)}% ) </td>
             <td class="col-3"> ${consulting_done}/${consulting_t} </td>
-            <td class="col-2"> ( ${answer_rate(consulting_done, consulting_t).toFixed(0)}% ) </td>
-            <td class="col-1"> 🥹${consulting_deadlinemissed}건</td>
+            <td class="col-3"> ( ${answer_rate(consulting_done, consulting_t).toFixed(0)}% ) </td>
             `;
             $('#classreport').html(temp_report)
 
@@ -261,18 +260,19 @@ function get_data() {
             
             // 상담 목록 
             let result = response['my_students'].reduce((acc, student) => {
-                const consultingList = consulting_notdone.filter(c => c.student_id === student.register_no);
+                const consultingList = response['all_consulting'].filter(c => c.student_id === student.register_no);
                 if (consultingList.length > 0) {
-                    const deadline = consultingList.reduce((prev, current) => {
+                    const todoconsulting = consultingList.filter(c => c.done === 0)
+                    const deadline = todoconsulting.reduce((prev, current) => {
                         let prevDueDate = make_date(prev.deadline);
                         let currentDueDate = make_date(current.deadline);
                         return currentDueDate < prevDueDate ? current : prev;
-                    }, consultingList[0]);
-                    const missed = consultingList.reduce((prev, current) => {
+                    }, todoconsulting[0]);
+                    const missed = todoconsulting.reduce((prev, current) => {
                         let prevDueDate = make_date(prev.missed);
                         let currentDueDate = make_date(current.missed);
                         return currentDueDate < prevDueDate ? prev : current;
-                    }, consultingList[0]);
+                    }, todoconsulting[0]);
                     acc.push({
                         'student_id': student.register_no,
                         'student_name': student.name +'('+student.nick_name+')',
@@ -280,7 +280,7 @@ function get_data() {
                         'student_reco_book_code': student.reco_book_code,
                         'ban_id': student.ban_id,
                         'ban_name': student.classname,
-                        'consulting_num': consultingList.length,
+                        'consulting_num': todoconsulting.length,
                         'deadline': make_date(deadline.deadline),
                         'missed' : missed_date(missed.missed),
                         'consulting_list': consultingList
@@ -391,8 +391,8 @@ function get_consulting(value, is_done) {
     // });
     // $('#today_consulting_box').html(temp_consulting_contents_box);
     // $('#consulting_student_list').show();
-    let consulting_list = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.created_at == null) : 0
-    let cant_consulting_list = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.created_at != null) : 0
+    let consulting_list = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=> c.done == is_done && c.created_at == null) : 0
+    let cant_consulting_list = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == is_done && c.created_at != null) : 0
     let consultinglist_len = consulting_list.length
     if (cant_consulting_list.length > 0){
         $('#consulting_cant_write_box').empty();
