@@ -474,11 +474,10 @@ function get_consulting(student_id, is_done) {
             `;
             $('#consulting_write_box').append(temp_consulting_contents_box);
         }
-        let temp_post_box = `
-        <p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
-        `;
+        let temp_post_box = '';
         if(done_code == 0){
-            temp_post_box += `
+            temp_post_box = `
+            <p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
             <div class="modal-body-select-container">
             <span class="modal-body-select-label">부재중</span>
             <label><input type="checkbox" id="missed">부재중</label>
@@ -488,8 +487,9 @@ function get_consulting(student_id, is_done) {
                     onclick="post_bulk_consultings(${consultinglist_len},${is_done})"
                     style="margin-right:5px">저장</button>
             </div>`
-        }else{
-            temp_post_box += `
+        }else if(done_code == 1){
+            temp_post_box = `
+            <p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
             <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
                 <button class="btn btn-dark"
                     onclick="post_bulk_consultings(${consultinglist_len},${is_done})"
@@ -564,7 +564,7 @@ async function get_consulting_history() {
                     <td class="col-2">${consulting.student_mobileno}</td>
                     <td class="col-2">${consulting.student_reco_book_code}</td>
                     <td class="col-2">${consulting.done_consulting_num}</td>
-                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">상담일지 수정/작성</td> 
+                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">상담일지 수정</td> 
                     `;
                 });
                 $('#consulting_history_student_list').html(temp_consulting_history_student_list);
