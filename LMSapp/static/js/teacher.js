@@ -805,9 +805,9 @@ function attach_consulting_history(student_id) {
         $.each(consultinglist, function (index, consulting) {
             let category = ''
             if(consulting.category_id < 100 ){
-                category = `${consulting.week_code}간 + ${consulting.category}상담`
+                category = `${consulting.week_code}간 ${consulting.category}상담`
             }else{
-                category = `${consulting.category} + ${consulting.contents}`
+                category = `${consulting.category} ${consulting.contents}`
             }
             temp_consulting_contents_box += `
             <option value="${consulting.id}"> ${category} - 상담결과: ${consulting.result}</option>
