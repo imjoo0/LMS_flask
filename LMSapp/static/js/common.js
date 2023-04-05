@@ -6,6 +6,14 @@ var data_list;
 var consultingData = [];
 var taskData = [];
 const today = new Date().setHours(0, 0, 0, 0);
+let make_recobook = function(c){
+    if( c == null){
+        return '❌'
+    } else if(c == 'NOT'){
+        result = c + ' (추천도서없음)'
+        return result
+    }
+}
 let make_date = function(d){
     if(d==null){
         return '❌'
