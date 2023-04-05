@@ -890,7 +890,8 @@ async function get_question_detail(q_id) {
         let temp_his = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">상담 종류</span>
-            <p>${consulting_history.category}</br>${consulting_history.contents}</p>
+            <p>${consulting_history.category}</br></p>
+            <p>${consulting_history.contents}</p>
         </div>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">상담 사유</span>
@@ -910,6 +911,7 @@ async function get_question_detail(q_id) {
         </div>
         `;
         $('#cha').html(temp_his);
+        
     }
 
     // var temp_comment = ''
