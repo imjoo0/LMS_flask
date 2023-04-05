@@ -27,7 +27,6 @@ class Question(db.Model):
     ban_id = db.Column(db.Integer,nullable=True)
     consulting_history = db.Column(db.Integer,db.ForeignKey('consulting.id'))
     student_id = db.Column(db.Integer,nullable=True)
-    student_name = db.Column(db.Text())
     create_date = db.Column(db.DateTime(), nullable=False)
     answer = db.Column(db.Integer,nullable=True)
 

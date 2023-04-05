@@ -70,72 +70,43 @@ def get_data():
         return jsonify({'switchstudent': switchstudent,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'outstudent':outstudent,'ban_data':ban_data})
     return jsonify({'ban_data':'없음'})
    
-# 문의 요청 관련 함수
-@bp.route("/get_ban_student/<int:b_id>", methods=['GET'])
-def get_ban_student(b_id):
-    if request.method == 'GET':
-        students = callapi.purple_info(b_id, 'get_student_simple')
-        return jsonify(students)
-
-@bp.route("/attach_consulting_history/<int:s_id>", methods=['GET'])
-def attach_consulting_history(s_id):
-    if request.method == 'GET':
-        consulting_history = []
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00',
-                             port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                cur.execute("SELECT consulting.id as id, consultingcategory.name as category, consulting.contents, consulting.result from consulting left join consultingcategory on consultingcategory.id = consulting.category_id where consulting.done=1 and consulting.created_at is not null and consulting.student_id=%s;", (s_id))
-                consulting_history = cur.fetchall()
-        except:
-            print('err')
-        finally:
-            db.close()
-        print(consulting_history)
-        return jsonify({'consulting_history': consulting_history})
-
 @bp.route('/question', methods=['GET', 'POST'])
 def question():
     if request.method == 'GET':
-        data = []
-        my_questions = Question.query.filter(
-            Question.teacher_id == session['user_registerno']).all()
-        for q in my_questions:
-            qdata = {}
-            qdata['id'] = q.id
-            qdata['category'] = q.category
-            qdata['title'] = q.title
-            qdata['answer'] = q.answer
-            qdata['comments'] = len(q.qcomments)
-            if (q.answer != 0):
-                qdata['answer_created_at'] = q.qa.created_at.strftime(
-                    '%Y-%m-%d')
-            data.append(qdata)
-        return json.dumps(data)
+        # data = []
+        my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
+        # for q in my_questions:
+        #     qdata = {}
+        #     qdata['id'] = q.id
+        #     qdata['category'] = q.category
+        #     qdata['title'] = q.title
+        #     qdata['answer'] = q.answer
+        #     qdata['comments'] = len(q.qcomments)
+        #     if (q.answer != 0):
+        #         qdata['answer_created_at'] = q.qa.created_at.strftime('%Y-%m-%d')
+        #     data.append(qdata)
+        return json.dumps(my_questions)
 
     elif request.method == 'POST':
         question_category = request.form['question_category']
         title = request.form['question_title']
         contents = request.form['question_contents']
         teacher = session['user_registerno']
+        ban_id = request.form['ban_id']
+        student_id = request.form['target_student']
         create_date = datetime.now().date()
         # 첨부 파일 처리
         file = request.files['file-upload']
         if question_category == '일반':
             cateory = 0
-            new_question = Question(category=cateory, title=title, contents=contents,
-                                    teacher_id=teacher, create_date=create_date, answer=0)
+            new_question = Question(category=cateory, title=title, contents=contents,teacher_id=teacher, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         else:
-            ban_id = request.form['ban_id']
-            student_id = request.form['target_student']
-            print(student_id)
             history_id = request.form['consulting_history']
             if question_category == '퇴소':
                 cateory = 1
             else:
                 cateory = 2
-            new_question = Question(consulting_history=history_id, category=cateory, title=title, contents=contents,
-                                    teacher_id=teacher, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
+            new_question = Question(consulting_history=history_id, category=cateory, title=title, contents=contents,teacher_id=teacher, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         db.session.add(new_question)
         db.session.commit()
         common.save_attachment(file, new_question.id)

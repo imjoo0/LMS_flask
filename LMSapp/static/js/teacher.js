@@ -781,7 +781,7 @@ function attach_consulting_history(student_id) {
     console.log(consultinglist)
     let temp_h_select = ''
     if(consultinglist.length <= 0){
-        alert('상담을 우선 진행해주세요  원생목록 👉 해당 원생 상담추가')
+        alert('상담을 우선 진행해주세요  원생목록 👉 해당 원생 상담추가');
         temp_h_select = '<option value="none" selected>상담을 우선 진행해주세요  원생목록 👉 해당 원생 상담추가</option>'
     }else{
         temp_h_select = '<option value="none" selected>상담을 선택해주세요</option>'
