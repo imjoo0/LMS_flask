@@ -193,52 +193,77 @@
 </div>
 
 <!-- 지난 상담 조회 상담 일지 조회 -->
-<div class="modal fade" id="consulting_history_list" tabindex="-1" aria-labelledby="consultingListModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
+<!-- 요청한 업무 관리 모달 창 -->
+<div class="modal fade" id="consulting_history_list" tabindex="-1" aria-labelledby="consultingListModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="consultingListModalLabel">
                     <img src="https://purpleacademy.net/free_project/public/image/answer-a-question.png"
                         style="width: 30px; margin-bottom: 2px;">&nbsp;&nbsp;상담일지 확인
                 </h5>
-                <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body px-md-5 px-2">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
-                <h5 class="d-flex justify-content-center align-items-center my-lg-4 mt-2 mb-4" id="consulting_title">
-                </h5>
-                <div class="d-flex justify-content-between align-items-center flex-md-row flex-column">
-                    <select id="history_ban" class="form-select text-center" name="work_done">
-                        <option value=0 selected>상담을 진행한 반을 선택해주세요</option>
-
-                    </select>
-                    <select id="history_done" class="form-select text-center" name="work_done">
-                        <option value=-1 selected>종류를 선택해주세요</option>
-                        <option value=1>완료한 상담</option>
-                        <option value=0>미진행 상담</option>
-                    </select>
-                    <button class="btn btn-dark mt-md-0 mt-2" onclick="get_consulting_history()">검색</button>
+            <div class="modal-body">
+                <div id="for_task_list">
+                    <div class="my-4 d-flex flex-wrap justify-content-end align-items-center">
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 상담을 진행한 반 선택</span></div>
+                        <div class="col-md-4 col-sm-6 col-12">
+                            <select id="task-category-select" onchange="get_consulting_history(this.value)" class="form-select form-select w-100" aria-label="Default select example">
+                                <optgroup id="task-option">
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-start align-items-start flex-column" style="overflow: auto;">
+                        <table class="table text-center" id="consulting_task_list">
+                            <thead>
+                                <tr class="row">
+                                    <th class="col-3">날짜</th>
+                                    <th class="col-3">종류</th>
+                                    <th class="col-4">내용</th>
+                                    <th class="col-2">상세/삭제</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="row" id="task-tr">
+                                    <td>
+                                        <div class="loader loader--style2" title="1">
+                                            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                                                <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                                                    <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
+                                                </path>
+                                            </svg>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center w-100">
+                        <div id="task-pagination" class="py-5"></div>
+                    </div>
                 </div>
 
-                <p id="h_title">진행 내역이 없습니다! 😂</p>
-                <div class="w-100 mt-4" id="consulting_history_box">
+                <div id="for_taskban_list">
+                    <button type="button" class="btn btn-back" onclick="go_back()">업무 목록보기🔙 </button>
                     <table class="table text-center" style="width:100%;">
                         <tbody style="width:100%;">
                             <thead>
                                 <tr class="row">
-                                    <th class="col-3">이름</th>
-                                    <th class="col-3">연락처</th>
-                                    <th class="col-2">추천도서코드</th>
-                                    <th class="col-2">진행한 상담 수</th>
-                                    <th class="col-2">✅</th>
+                                    <th class="col-4">반</th>
+                                    <th class="col-4">진행</th>
+                                    <th class="col-4">삭제</th>
                                 </tr>
                             </thead>
-                            <tr class="row" id="consulting_history_student_list">
+                            <tr class="row" id="taskban_list">
+                                <td class="col-4">ddd</td>
+                                <td class="col-4">ddd</td>
+                                <td class="col-4">✖️</td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div>            
             </div>
         </div>
     </div>
@@ -367,7 +392,7 @@
                         <div class="question-btn show-last-counsulting">
                             <img src="https://purpleacademy.net/free_project/public/image/show-last-counsulting.png">
                         </div>
-                        <span class="question-label">지난 상담</span>
+                        <span class="question-label">상담 일지</span>
                     </div>
                 </div>
             </div>
