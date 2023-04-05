@@ -32,7 +32,7 @@ function get_data() {
             $('#ban_chart_list').empty()
             $('#history_ban').empty()
             let unlearned_t =response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.category_id < 100).length : 0;
-            let temp_ban_option = '<option value="none" selected>기존 반을 선택해주세요</option>';
+            let temp_ban_option = '<option value="none" selected>반을 선택해주세요</option>';
             for (i=0;i< response['ban_data'].length;i++) {
                 let register_no =  response['ban_data'][i]['register_no']
                 let name =  response['ban_data'][i]['name']
