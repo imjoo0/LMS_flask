@@ -804,9 +804,12 @@ function get_ban_student(ban_id){
 function attach_consulting_history(student_id) {
     const data = consultingStudentData.filter((e) => {
         return e.student_id == student_id && e.done_consulting_num.length != 0;
-    })[0]['consulting_list'].filter( c => c.done == 1 )
-    if(data.length <= 0){
+    })[0]['consulting_list']
+    const consultinglist = data.length>0?data.filter( c => c.done == 1 ):0
+    if(consultinglist.length <= 0){
         alert('상담을 우선 진행해주세요');
+    }else{
+        console.log(consultinglist)
     }
     // $('#consultinghistoryModalLabelt').html(`${data['ban_name']}반 ${data['student_name']} 원생 ${data['done_consulting_num']}건 상담  ( 📞 ${data['student_mobileno']}  )`)
     // let cant_consulting_list = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == 0 && c.created_at != null) : 0;
