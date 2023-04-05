@@ -204,38 +204,31 @@
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <div id="for_task_list">
+                <p id="h_title">진행 내역이 없습니다! 😂</p>
+                <div id="consulting_history_box">
                     <div class="my-4 d-flex flex-wrap justify-content-end align-items-center">
                         <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 상담을 진행한 반 선택</span></div>
                         <div class="col-md-4 col-sm-6 col-12">
-                            <select id="history_ban" onchange="get_consulting_history(this.value)" class="form-select form-select w-100" aria-label="Default select example">
+                            <select id="history_ban" onchange="sort_consulting_history(this.value)" class="form-select form-select w-100" aria-label="Default select example">
                                 
                             </select>
                         </div>
                     </div>
-                    <p id="h_title">진행 내역이 없습니다! 😂</p>
-                    <div class="d-flex justify-content-start align-items-start flex-column" style="overflow: auto;" id="consulting_history_box">
+                    <div class="d-flex justify-content-start align-items-start flex-column" style="overflow: auto;">
                         <table class="table text-center" >
                             <tbody style="width:100%;">
                                 <thead>
                                     <tr class="row">
-                                        <th class="col-3">이름</th>
-                                        <th class="col-3">연락처</th>
+                                        <th class="col-2">반</th>
+                                        <th class="col-2">이름</th>
+                                        <th class="col-2">연락처</th>
                                         <th class="col-2">추천도서코드</th>
                                         <th class="col-2">진행한 상담 수</th>
-                                        <th class="col-2">✅</th>
+                                        <th class="col-1">✅</th>
                                     </tr>
                                 </thead>
                                 <tr class="row" id="consulting_history_student_list">
-                                    <td>
-                                        <div class="loader loader--style2" title="1">
-                                            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
-                                                <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
-                                                    <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
-                                                </path>
-                                            </svg>
-                                        </div>
-                                    </td>
+                                    
                                 </tr>
                             </tbody>
                         </table>
@@ -388,7 +381,7 @@
                         <span class="question-label">문의 답변</span>
                     </div>
                     <div class="question-btn-container" data-bs-toggle="modal"
-                        data-bs-target="#consulting_history_list">
+                        data-bs-target="#consulting_history_list" onclick = "get_consulting_history()">
                         <div class="question-btn show-last-counsulting">
                             <img src="https://purpleacademy.net/free_project/public/image/show-last-counsulting.png">
                         </div>

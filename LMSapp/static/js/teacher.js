@@ -283,6 +283,7 @@ function get_data() {
                             'ban_id': student.ban_id,
                             'ban_name': student.classname,
                             'consulting_num': todoconsulting.length,
+                            'done_consulting_num': consultingList.length - todoconsulting.length,
                             'deadline': make_date(deadline.deadline),
                             'missed' : missed_date(missed.missed),
                             'consulting_list': consultingList
@@ -296,6 +297,7 @@ function get_data() {
                             'ban_id': student.ban_id,
                             'ban_name': student.classname,
                             'consulting_num': 0,
+                            'done_consulting_num': consultingList.length,
                             'deadline': make_date('3000-01-01'),
                             'missed' : missed_date('1111-01-01'),
                             'consulting_list': consultingList
@@ -310,6 +312,7 @@ function get_data() {
                         'ban_id': student.ban_id,
                         'ban_name': student.classname,
                         'consulting_num': 0,
+                        'done_consulting_num': 0,
                         'deadline': make_date('3000-01-01'),
                         'missed' : missed_date('1111-01-01'),
                         'consulting_list': []
@@ -545,9 +548,171 @@ function post_target_consulting(consulting, is_done) {
     })
 }
 // 상담일지 조회 창 
-function get_consulting_history(value, is_done) {
+function get_consulting_history() {
     const data = consultingStudentData.filter((e) => {
-        return e.student_id == value && e.consulting_num != 0;
+        return e.done_consulting_num != 0;
+    })
+    console.log(data)
+    if (data.length < 0) {
+        $('#consulting_history_box').hide()
+        $('#h_title').show();
+    } else {
+        $('#h_title').hide();
+        $('#consulting_history_box').show()
+        let temp_consulting_contents_box = `<td>
+        <div class="loader loader--style2" title="1">
+            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                    <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
+                </path>
+            </svg>
+        </div>
+        </td>`;
+        $.each(data, function (index, consulting) {
+            temp_consulting_contents_box += `
+            <tr class="row">
+            <td class="col-2">${consulting.ban_name}</td>
+            <td class="col-2">${consulting.student_name}</td>
+            <td class="col-2">${consulting.student_mobileno}</td>
+            <td class="col-2">${consulting.student_reco_book_code}</td>
+            <td class="col-2">${consulting.done_consulting_num}</td>
+            <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${1})">상담일지 수정/작성</td> 
+            </tr>
+            `;
+        });
+        // for (i = 0; i < response["consulting_student_list"].length; i++) {
+        //     let target = response["consulting_student_list"][i]
+        //     let student_name = target['name']
+        //     let student_id = target['s_id']
+        //     let mobileno = target['mobileno']
+        //     let student_reco_book_code = target['reco_book_code']
+        //     let consulting_num = target['consulting_num']
+            
+        // }
+        $('#consulting_history_student_list').html(temp_consulting_contents_box);
+
+    }
+    // 
+    $('#consultinghistoryModalLabelt').html(`${data['ban_name']}반 ${data['student_name']} 원생 ${data['consulting_num']}건 상담   ( 📞 ${data['student_mobileno']}  )`)
+    let consulting_list = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=> c.done == is_done && c.created_at == null) : 0
+    let cant_consulting_list = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == is_done && c.created_at != null) : 0
+    let consultinglist_len = consulting_list.length
+    if (cant_consulting_list.length > 0){
+        $('#consulting_cant_write_box').empty();
+        for (i = 0; i < cant_consulting_list.length; i++) {
+            let target = cant_consulting_list[i]
+            let category = target['week_code']+'주간  '+ target['category']
+            let contents = target['contents']
+            let consulting_missed = missed_date(target['missed'])
+            let deadline = make_date(target['deadline'])
+            let history_created = target['created_at']
+            let temp_consulting_contents_box = `
+            <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br><strong>➖상담 마감일:
+                ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br>
+                <strong style="color:red;">➖ 이미 원생이 ${make_date(history_created)}일 날 학습을 완료했습니다. (  ✏️ 추천: 원생목록에서 추가 상담 진행)</strong></br>
+                ${contents}</br> 
+            </p>
+            `;
+            $('#consulting_cant_write_box').append(temp_consulting_contents_box);
+        }
+        temp_post_box = `
+        <p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
+            <div class="modal-body-select-container">
+            <span class="modal-body-select-label">부재중</span>
+            <label><input type="checkbox" id="missed">부재중</label>
+            </div>
+            <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
+                <button class="btn btn-dark"
+                    onclick="post_bulk_consultings(${consultinglist_len},${is_done})"
+                    style="margin-right:5px">저장</button>
+            </div>
+        `;
+        $('#consulting_write_box').append(temp_post_box);
+    }
+    if (consultinglist_len == 0) {
+        $('#consultinghistoryModalLabelt').html('진행 할 수 있는 상담이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 *')
+    }else{
+        consultinglist =  consulting_list.sort((a, b) => {return make_date(a.deadline) - make_date(b.deadline)});
+        $('#consulting_write_box').empty();
+        for (i = 0; i < consultinglist_len; i++) {
+            let target = consultinglist[i]
+            let category = target['category']
+            let consulting_id = target['id']
+            let contents = target['contents']
+            let consulting_missed = missed_date(target['missed'])
+            let deadline = make_date(target['deadline'])
+            let history_created = target['created_at']
+            if(target['category_id'] < 100){
+                category = target['week_code']+'주간  ' + category
+            }
+            if (is_done == 1) {
+                let history_reason = target['reason']
+                let history_solution = target['solution']
+                let history_result = target['result']
+                let temp_consulting_contents_box = `
+                <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
+                <p mt-lg-4 mt-5>✅<strong>${category}</strong></br><strong>➖상담 마감일:
+                    ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br></br>${contents}</br></p>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">상담 사유</span>
+                    <input class="modal-body-select" type="text" size="50"
+                        id="consulting_reason${consulting_id}" placeholder="${history_reason}">
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">제공한 가이드</span>
+                    <input class="modal-body-select" type="text" size="50"
+                        id="consulting_solution${consulting_id}" placeholder="${history_solution}">
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">상담 결과</span>
+                    <textarea class="modal-body-select" type="text" rows="5" cols="25"
+                        id="consulting_result${consulting_id}" placeholder="${history_result}"></textarea>
+                </div>
+                <p>상담 일시 : ${make_date(history_created)}</p>
+                `;
+                $('#consulting_write_box').append(temp_consulting_contents_box);
+            }else{
+                let temp_consulting_contents_box = `
+                <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
+                <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br><strong>➖상담 마감일:
+                    ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br></br>${contents}</br></p>
+                <div class="modal-body-select-container">
+                <span class="modal-body-select-label">상담 사유</span>
+                <input class="modal-body-select" type="text" size="50"
+                    id="consulting_reason${consulting_id}">
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">제공한 가이드</span>
+                    <input class="modal-body-select" type="text" size="50"
+                        id="consulting_solution${consulting_id}">
+                </div>
+                <div class="modal-body-select-container">
+                    <span class="modal-body-select-label">상담 결과</span>
+                    <textarea class="modal-body-select" type="text" rows="5" cols="25"
+                        id="consulting_result${consulting_id}"></textarea>
+                </div>
+                `;
+                $('#consulting_write_box').append(temp_consulting_contents_box);
+            }
+        }
+        temp_post_box = `
+        <p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
+            <div class="modal-body-select-container">
+            <span class="modal-body-select-label">부재중</span>
+            <label><input type="checkbox" id="missed">부재중</label>
+            </div>
+            <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
+                <button class="btn btn-dark"
+                    onclick="post_bulk_consultings(${consultinglist_len},${is_done})"
+                    style="margin-right:5px">저장</button>
+            </div>
+        `;
+        $('#consulting_write_box').append(temp_post_box);
+    }
+}
+function sort_consulting_history(ban_id) {
+    const data = consultingStudentData.filter((e) => {
+        return e.ban_id == ban_id && e.done_consulting_num != 0;
     })[0]
     console.log(data)
     $('#consultinghistoryModalLabelt').html(`${data['ban_name']}반 ${data['student_name']} 원생 ${data['consulting_num']}건 상담   ( 📞 ${data['student_mobileno']}  )`)
