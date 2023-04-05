@@ -396,7 +396,7 @@ function get_consulting(student_id, is_done) {
     let consulting_list = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=> c.done == is_done) : 0;
     if(is_done == 0){
         $('#consultinghistoryModalLabelt').html(`${data['ban_name']}반 ${data['student_name']} 원생 ${data['consulting_num']}건 상담   ( 📞 ${data['student_mobileno']}  )`)
-        consulting_list = consulting_list.length  > 0 ? consulting_list.filter(c.created_at == null) : 0
+        consulting_list = consulting_list.length  > 0 ? consulting_list.filter(c=>c.created_at == null) : 0
     }
     let consultinglist_len = consulting_list != 0 ? consulting_list.length : 0;
     
@@ -488,7 +488,6 @@ function get_consulting(student_id, is_done) {
         `;
         $('#consulting_write_box').append(temp_post_box);
     }
-    window.location.reload()
 }
 function post_bulk_consultings(c_length, is_done) {
     for (i = 0; i < c_length; i++) {
