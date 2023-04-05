@@ -23,6 +23,7 @@ class LoginForm(FlaskForm):
             usertable = callapi.purple_info(user_id,'get_teacher_info')
             pw = usertable['register_no']
             print(pw)
+            print(user_pw)
             if pw != user_pw:
                 raise ValueError('비밀번호 틀림')
                 
