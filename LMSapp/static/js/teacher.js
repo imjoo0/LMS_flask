@@ -538,32 +538,40 @@ function post_target_consulting(consulting, is_done) {
 }
 
 // 상담일지 조회 창 
-function get_consulting_history() {
+async function get_consulting_history() {
+    let container = $('#consulting_history_student_list_pagination')
     const data = consultingStudentData.filter((e) => {
         return e.done_consulting_num != 0;
     })
-    console.log(data)
-    if (data.length < 0) {
-        $('#consulting_history_box').hide()
-        $('#h_title').show();
-    } else {
-        $('#h_title').hide();
-        $('#consulting_history_box').show()
-        let temp_consulting_history_student_list = '';
-        $.each(data, function (index, consulting) {
-            console.log(consulting)
-            temp_consulting_history_student_list += `
-            <td class="col-2">${consulting.ban_name}</td>
-            <td class="col-2">${consulting.student_name}</td>
-            <td class="col-2">${consulting.student_mobileno}</td>
-            <td class="col-2">${consulting.student_reco_book_code}</td>
-            <td class="col-2">${consulting.done_consulting_num}</td>
-            <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">상담일지 수정/작성</td> 
-            `;
-        });
-        $('#consulting_history_student_list').html(temp_consulting_history_student_list);
-    }
+    await container.pagination({
+        dataSource: data,
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 10,
+        callback: function (data, pagination) {
+            if (data.length < 0) {
+                $('#consulting_history_box').hide()
+                $('#h_title').show();
+            } else {
+                $('#h_title').hide();
+                $('#consulting_history_box').show()
+                let temp_consulting_history_student_list = '';
+                $.each(data, function (index, consulting) {
+                    console.log(consulting)
+                    temp_consulting_history_student_list += `
+                    <td class="col-2">${consulting.ban_name}</td>
+                    <td class="col-2">${consulting.student_name}</td>
+                    <td class="col-2">${consulting.student_mobileno}</td>
+                    <td class="col-2">${consulting.student_reco_book_code}</td>
+                    <td class="col-2">${consulting.done_consulting_num}</td>
+                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">상담일지 수정/작성</td> 
+                    `;
+                });
+                $('#consulting_history_student_list').html(temp_consulting_history_student_list);
+            }
+        }})
 }
+
 function sort_consulting_history(ban_id) {
     const data = consultingStudentData.filter((e) => {
         return e.ban_id == ban_id && e.done_consulting_num != 0;
