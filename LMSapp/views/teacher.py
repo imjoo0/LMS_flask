@@ -37,13 +37,11 @@ def home():
 # 차트 관련
 @bp.route('/get_data', methods=['GET'])
 def get_data():
-    print(session.get('register_no'))
     all_consulting = []
     all_task = []
     ban_data = callapi.purple_info(session['user_id'], 'get_mybans')
     switchstudent = []
     outstudent = []
-    alimnote = []
     my_students = callapi.purple_info(session['user_id'], 'get_mystudents')
     
     if len(ban_data) != 0:
