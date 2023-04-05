@@ -559,7 +559,7 @@ function get_consulting_history() {
     } else {
         $('#h_title').hide();
         $('#consulting_history_box').show()
-        let temp_consulting_contents_box = `<td>
+        let temp_consulting_history_student_list = `<td>
         <div class="loader loader--style2" title="1">
             <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
                 <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
@@ -569,7 +569,7 @@ function get_consulting_history() {
         </div>
         </td>`;
         $.each(data, function (index, consulting) {
-            temp_consulting_contents_box += `
+            temp_consulting_history_student_list += `
             <tr class="row">
             <td class="col-2">${consulting.ban_name}</td>
             <td class="col-2">${consulting.student_name}</td>
@@ -580,16 +580,7 @@ function get_consulting_history() {
             </tr>
             `;
         });
-        // for (i = 0; i < response["consulting_student_list"].length; i++) {
-        //     let target = response["consulting_student_list"][i]
-        //     let student_name = target['name']
-        //     let student_id = target['s_id']
-        //     let mobileno = target['mobileno']
-        //     let student_reco_book_code = target['reco_book_code']
-        //     let consulting_num = target['consulting_num']
-            
-        // }
-        $('#consulting_history_student_list').html(temp_consulting_contents_box);
+        $('#consulting_history_student_list').html(temp_consulting_history_student_list);
     }
 }
 function sort_consulting_history(ban_id) {
