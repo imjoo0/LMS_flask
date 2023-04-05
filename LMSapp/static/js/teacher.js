@@ -538,7 +538,7 @@ async function get_consulting_history() {
         nextText: '다음',
         pageSize: 10,
         callback: function (data, pagination) {
-            if (data.length < 0) {
+            if (data.length <= 0) {
                 $('#consulting_history_box').hide()
                 $('#h_title').show();
             } else {
