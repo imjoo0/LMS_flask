@@ -808,6 +808,7 @@ function get_question_list() {
         url: "/teacher/question",
         data: {},
         success: function (data) {
+            console.log(data)
             container.pagination({
                 dataSource: JSON.parse(data),
                 prevText: '이전',

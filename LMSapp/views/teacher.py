@@ -84,7 +84,16 @@ def question():
             qdata['answer'] = q.answer
             qdata['comments'] = len(q.qcomments)
             if (q.answer != 0):
-                qdata['answer_created_at'] = q.qa.created_at.strftime('%Y-%m-%d')
+                qdata['answer_data'] = {}
+                qdata['answer_data']['id']=q.qa.id
+                qdata['answer_data']['title']=q.qa.title
+                qdata['answer_data']['content']=q.qa.content
+                qdata['answer_data']['reject_code']=q.qa.reject_code
+                qdata['answer_data']['created_at']=q.qa.created_at.strftime('%Y-%m-%d')
+            if (q.attachments is None):
+                qdata['attach'] = "없음"
+            else:
+                qdata['attach'] = q.attachments.file_name
             data.append(qdata)
         return json.dumps(data)
 
