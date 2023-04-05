@@ -747,7 +747,6 @@ function change_question_kind(str) {
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">상담 내용</span>
             <select class="modal-body-select" name="consulting_history" id="h_select_box">
-                <option value="none" selected>관련상담일지를 선택해주세요</option>
             </select>
         </div>
         `;
@@ -773,35 +772,18 @@ function get_ban_student(ban_id){
         });
     }
 }
-// 뭐지 
-// function attach_consulting_history(value) {
-//     student_id = Number(value.split('_')[0])
-//     $.ajax({
-//         type: "GET",
-//         url: "/teacher/attach_consulting_history/" + student_id,
-//         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
-//         data: {},
-//         success: function (response) {
-//             if(response['consulting_history'].length == 0) {
-//                 alert('상담을 우선 진행해주세요');
-//             }else{
-//                 
-//             }
-//         }
-//     });
-// }
-// 상담일지 작성 
+// 상담일지 첨부 
 function attach_consulting_history(student_id) {
     const data = consultingStudentData.filter((e) => {
         return e.student_id == student_id && e.done_consulting_num.length != 0;
     })[0]['consulting_list']
     const consultinglist = data.length>0?data.filter( c => c.done == 1 ):0
     console.log(consultinglist)
-    let temp_consulting_contents_box = ''
+    let temp_h_select = ''
     if(consultinglist.length <= 0){
-        temp_consulting_contents_box = '<option value="none" selected>상담을 우선 진행해주세요  원생목록 👉 해당 원생 상담추가</option>'
+        temp_h_select = '<option value="none" selected>상담을 우선 진행해주세요  원생목록 👉 해당 원생 상담추가</option>'
     }else{
-        temp_consulting_contents_box = '<option value="none" selected>상담을 선택해주세요</option>'
+        temp_h_select = '<option value="none" selected>상담을 선택해주세요</option>'
         $.each(consultinglist, function (index, consulting) {
             let category = ''
             if(consulting.category_id < 100 ){
@@ -809,10 +791,10 @@ function attach_consulting_history(student_id) {
             }else{
                 category = `${consulting.category} ${consulting.contents}`
             }
-            temp_consulting_contents_box += `
+            temp_h_select += `
             <option value="${consulting.id}"> ${category} - 상담결과: ${consulting.result}</option>
             `;
-            $('#h_select_box').html(temp_consulting_contents_box)
+            $('#h_select_box').html(temp_h_select)
         });
     }
 }
