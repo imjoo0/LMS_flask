@@ -539,11 +539,13 @@ async function get_consulting_history() {
         pageSize: 10,
         callback: function (data, pagination) {
             if (data.length <= 0) {
+                $('#consulting_history_bansel_box').hide()
                 $('#consulting_history_box').hide()
                 $('#h_title').show();
             } else {
                 // data.sort((a,n))
                 $('#h_title').hide();
+                $('#consulting_history_bansel_box').show()
                 $('#consulting_history_box').show()
                 let temp_consulting_history_student_list = '';
                 $.each(data, function (index, consulting) {
@@ -575,7 +577,7 @@ async function sort_consulting_history(ban_id) {
         nextText: '다음',
         pageSize: 10,
         callback: function (data, pagination) {
-            if (data.length < 0) {
+            if (data.length <= 0) {
                 $('#consulting_history_box').hide()
                 $('#h_title').show();
             } else {
