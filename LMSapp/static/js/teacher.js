@@ -785,17 +785,7 @@ function get_ban_student(ban_id){
 //             if(response['consulting_history'].length == 0) {
 //                 alert('상담을 우선 진행해주세요');
 //             }else{
-//                 let temp_consulting_contents_box = '<option value="none" selected>상담을 선택해주세요</option>'
-//                 for (i = 0; i < response['consulting_history'].length; i++) {
-//                     let cid = response['consulting_history'][i]['id']
-//                     let category = response['consulting_history'][i]['category']
-//                     let contents = response['consulting_history'][i]['contents']
-//                     let result = response['consulting_history'][i]['result']
-//                     temp_consulting_contents_box += `
-//                      <option value=${cid}>${category}|${contents} - 상담결과: ${result}</option>
-//                     `;
-//                     $('#h_select_box').html(temp_consulting_contents_box)
-//                 }
+//                 
 //             }
 //         }
 //     });
@@ -806,10 +796,28 @@ function attach_consulting_history(student_id) {
         return e.student_id == student_id && e.done_consulting_num.length != 0;
     })[0]['consulting_list']
     const consultinglist = data.length>0?data.filter( c => c.done == 1 ):0
+    console.log(consultinglist)
+    let temp_consulting_contents_box = ''
     if(consultinglist.length <= 0){
-        alert('상담을 우선 진행해주세요  원생목록✔️클릭 👉 해당 원생 상담추가 ');
+        temp_consulting_contents_box = '<option value="none" selected>상담을 우선 진행해주세요  원생목록 👉 해당 원생 상담추가</option>'
     }else{
-        console.log(consultinglist)
+        temp_consulting_contents_box = '<option value="none" selected>상담을 선택해주세요</option>'
+        $.each(consultinglist, function (index, student) {
+            temp_target_student += `
+            <option value="${student.student_id}"> ${student.student_name}</option>
+            `;
+            $('#h_select_box').html(temp_consulting_contents_box)
+        });
+        // for (i = 0; i < response['consulting_history'].length; i++) {
+        //     let cid = response['consulting_history'][i]['id']
+        //     let category = response['consulting_history'][i]['category']
+        //     let contents = response['consulting_history'][i]['contents']
+        //     let result = response['consulting_history'][i]['result']
+        //     temp_consulting_contents_box += `
+        //         <option value=${cid}>${category}|${contents} - 상담결과: ${result}</option>
+        //     `;
+        //     $('#h_select_box').html(temp_consulting_contents_box)
+        // }
     }
     // $('#consultinghistoryModalLabelt').html(`${data['ban_name']}반 ${data['student_name']} 원생 ${data['done_consulting_num']}건 상담  ( 📞 ${data['student_mobileno']}  )`)
     // let cant_consulting_list = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == 0 && c.created_at != null) : 0;
