@@ -207,6 +207,10 @@ class TaskBan(db.Model):
 #         return [dict(id=row.id, contents=row.contents, bans=TaskBan.ban_id) for row in result]
     
 
-
+class MyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Question):
+            return {'id': obj.id, 'text': obj.text}
+        return json.JSONEncoder.default(self, obj)
 
 
