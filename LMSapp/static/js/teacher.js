@@ -804,7 +804,7 @@ function get_ban_student(ban_id){
 function attach_consulting_history(student_id) {
     const data = consultingStudentData.filter((e) => {
         return e.student_id == student_id && e.done_consulting_num.length != 0;
-    })[0]['consulting_list']
+    })[0]
     console.log(data)
     if(data.length <= 0){
         alert('상담을 우선 진행해주세요');
