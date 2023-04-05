@@ -85,7 +85,8 @@ def question():
         #     if (q.answer != 0):
         #         qdata['answer_created_at'] = q.qa.created_at.strftime('%Y-%m-%d')
         #     data.append(qdata)
-        return json.dumps(my_questions)
+        
+        return json.dumps(my_questions, cls=MyEncoder)
 
     elif request.method == 'POST':
         question_category = request.form['question_category']
