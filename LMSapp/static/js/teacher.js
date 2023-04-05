@@ -12,10 +12,17 @@
 $(document).ready(function () {
     get_data()
 })
-
-//  차트 관련 함수 
+function go_back() {
+    // 문의 관련 
+    $('#questiondetail').hide();
+    $('#questionlist').show();
+    // 원생 리스트 관련 
+    $('#teachers_student_list').show();
+    $('#make_plus_consulting').hide();
+    $('#banstudentlistModalLabel').html('원생목록')
+}
+// 메인화면 데이터 
 function get_data() {
-    let container = $('#consultingstudent_pagination')
     $.ajax({
         type: "GET",
         url: "/teacher/get_data",
@@ -331,8 +338,7 @@ function get_data() {
         }
     });
 }
-
-// 메인화면 상담 관련 
+// 메인화면 오늘의 상담
 async function get_consulting_student(done_code) {
     let container = $('#consultingstudent_pagination')
     const data = consultingStudentData.filter((e) => {
@@ -377,7 +383,7 @@ async function get_consulting_student(done_code) {
         }
     })
 }
-// 상담일지 작성 창 
+// 상담일지 작성 
 function get_consulting(student_id, is_done) {
     const data = consultingStudentData.filter((e) => {
         return e.student_id == student_id && e.consulting_list.length != 0;
@@ -526,7 +532,7 @@ function post_target_consulting(consulting, is_done) {
     })
 }
 
-// 상담일지 조회 창 
+// 상담기록 조회 
 async function get_consulting_history() {
     let container = $('#consulting_history_student_list_pagination')
     const data = consultingStudentData.filter((e) => {
@@ -598,7 +604,7 @@ async function sort_consulting_history(ban_id) {
         }})
 }
 
-// 메인화면 원생 조회 및 추가 상담 기능 
+// 메인화면 원생 리스트 조회 및 추가 상담 기능 
 async function get_student(ban_id) {
     let container = $('#banstudent_pagination')
     $('#teachers_student_list').show();
@@ -691,7 +697,7 @@ function plusconsulting_history(student_id, b_id,t_id) {
     })
 }
 
-// 업무 완료 저장 
+// 업무 완료 
 function get_update_done() {
     $('input:checkbox[name=taskid]').each(function (index) {
         if ($(this).is(":checked") == true) {
@@ -719,21 +725,32 @@ function update_done(target) {
 //  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
 function change_question_kind(str) {
     if (str == "일반"){
-        $('#invisible_for_2').hide();
-        $('#question_box').show();
+        let question_html = `
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">대상 원생</span>
+            <select id="student_list" class="modal-body-select" name="target_student">
+            </select>
+        </div>
+        `;
+        $('#question_box').html(question_html);
     } else{
-        $('#invisible_for_2').show();
-        $('#question_box').show();
+        let question_html = `
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">대상 원생</span>
+            <select id="student_list" class="modal-body-select" name="target_student"
+                onchange="attach_consulting_history(this.value)">
+            </select>
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">상담 내용</span>
+            <select class="modal-body-select" name="consulting_history" id="h_select_box">
+                <option value="none" selected>관련상담일지를 선택해주세요</option>
+            </select>
+        </div>
+        `;
+        $('#question_box').html(question_html);
     }
 }
-function go_back() {
-    $('#questiondetail').hide();
-    $('#questionlist').show();
-    $('#teachers_student_list').show();
-    $('#make_plus_consulting').hide();
-    $('#banstudentlistModalLabel').html('원생목록')
-}
-
 function get_ban_student(ban_id) {
     console.log('data')
     const data = consultingStudentData.filter((e) => {
@@ -750,7 +767,7 @@ function get_ban_student(ban_id) {
         $.each(data, function (index, student) {
             let value = student.id+'_'+student.name
             temp_target_student += `
-            <option value="${value}"> ${student.student_name} (추천도서 : ${student.student_reco_book_code} )</option>
+            <option value="${value}"> ${student.student_name}</option>
             `;
             $('#student_list').html(temp_target_student)
         });

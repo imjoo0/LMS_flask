@@ -58,44 +58,28 @@
                             <option value="퇴소">퇴소 승인 요청</option>
                         </select>
                     </div>
-                    <!-- invisible_for_2 start -->
-                    <div id="invisible_for_2">
-                        <div class="modal-body-select-container">
-                            <span class="modal-body-select-label">상담 내용</span>
-                            <select class="modal-body-select" name="consulting_history" id="h_select_box">
-                                <option value="none" selected>관련상담일지를 선택해주세요</option>
-                            </select>
-                        </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">대상 반</span>
+                        <select class="modal-body-select" name="ban_id" onchange="get_ban_student(this.value)"
+                            id="my_ban_list">
+                        </select>
                     </div>
-                    <!-- invisible_for_2 end -->
-                    <div id="question_box">
-                        <div class="modal-body-select-container">
-                            <span class="modal-body-select-label">문의 제목</span>
-                            <input class="modal-body-select modal-body-select-100" type="text" size="50"
-                                name="question_title">
-                        </div>
-                        <div class="modal-body-select-container">
-                            <span class="modal-body-select-label">문의 내용</span>
-                            <textarea id="question_contents" class="modal-body-select modal-body-select-100" type="text"
-                                rows="5" cols="25" name="question_contents"></textarea>
-                        </div>
-                        <div class="modal-body-select-container">
-                            <span class="modal-body-select-label">대상 반</span>
-                            <select class="modal-body-select" name="ban_id" onchange="get_ban_student(this.value)"
-                                id="my_ban_list">
+                    <div id="question_box" class="make_row">
 
-                            </select>
-                        </div>
-                        <div class="modal-body-select-container">
-                            <span class="modal-body-select-label">대상 원생</span>
-                            <select id="student_list" class="modal-body-select" name="target_student"
-                                onchange="attach_consulting_history(this.value)">
-                            </select>
-                        </div>
-                        <div class="modal-body-select-container">
-                            <span class="modal-body-select-label">첨부 파일</span>
-                            <input type="file" id="file-upload" class="py-sm-0 py-3" name="file-upload">
-                        </div>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">문의 제목</span>
+                        <input class="modal-body-select modal-body-select-100" type="text" size="50"
+                            name="question_title">
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">문의 내용</span>
+                        <textarea id="question_contents" class="modal-body-select modal-body-select-100" type="text"
+                            rows="5" cols="25" name="question_contents"></textarea>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">첨부 파일</span>
+                        <input type="file" id="file-upload" class="py-sm-0 py-3" name="file-upload">
                     </div>
                     <div class="d-flex justify-content-center mt-4 mb-2">
                         <button class="btn btn-success" type="submit">저장</button>
@@ -192,7 +176,8 @@
 </div>
 
 <!-- 지난 상담 조회 상담 일지 조회 -->
-<div class="modal fade" id="consulting_history_list" tabindex="-1" aria-labelledby="consultingListModalLabel" aria-hidden="true">
+<div class="modal fade" id="consulting_history_list" tabindex="-1" aria-labelledby="consultingListModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -203,18 +188,20 @@
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <div class="my-4 d-flex flex-wrap justify-content-end align-items-center" id="consulting_history_bansel_box">
+                <div class="my-4 d-flex flex-wrap justify-content-end align-items-center"
+                    id="consulting_history_bansel_box">
                     <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 반별 진행 상담 내역</span></div>
                     <div class="col-md-4 col-sm-6 col-12">
-                        <select id="history_ban" onchange="sort_consulting_history(this.value)" class="form-select form-select w-100" aria-label="Default select example">
-                            
+                        <select id="history_ban" onchange="sort_consulting_history(this.value)"
+                            class="form-select form-select w-100" aria-label="Default select example">
+
                         </select>
                     </div>
                 </div>
                 <h3 id="h_title">진행 내역이 없습니다! 😂</h3>
                 <div id="consulting_history_box">
                     <div class="d-flex justify-content-start align-items-start flex-column">
-                        <table class="table text-center" >
+                        <table class="table text-center">
                             <tbody style="width:100%;">
                                 <thead>
                                     <tr class="row">
@@ -227,7 +214,7 @@
                                     </tr>
                                 </thead>
                                 <tr class="row" id="consulting_history_student_list">
-                                    
+
                                 </tr>
                             </tbody>
                         </table>
@@ -235,7 +222,7 @@
                     <div class="d-flex justify-content-center align-items-center w-100">
                         <div id="consulting_history_student_list_pagination" class="py-5"></div>
                     </div>
-                </div>           
+                </div>
             </div>
         </div>
     </div>
@@ -254,8 +241,8 @@
             </div>
             <div class="modal-body py-4 px-5">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
-                
-                <div class="d-flex justify-content-center mt-4 mb-2"  id="consulting_cant_write_box">
+
+                <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_cant_write_box">
                 </div>
                 <div class="d-flex justify-content-center mt-4 mb-2">
                     <div id="consulting_write_box">
@@ -282,7 +269,8 @@
             <div class="modal-body py-4 px-5">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
                 <div id="teachers_student_list">
-                    <div class="d-flex justify-content-center align-items-center flex-column" style="width: 1362px important;">
+                    <div class="d-flex justify-content-center align-items-center flex-column"
+                        style="width: 1362px important;">
                         <table class="table text-center" style="width:100%;" id="student_data">
                             <tr class="row" style="background: #DCE6F2;">
                                 <th class="col-5">원생 정보</th>
@@ -308,7 +296,7 @@
                         <div id="banstudent_pagination" class="mt-4 mb-5 text-center"></div>
                     </div>
                 </div>
-                
+
                 <div id="make_plus_consulting">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
                     <button type="button" class="btn btn-back" onclick="go_back()">원생 목록으로 돌아가기🔙 </button>
@@ -359,8 +347,8 @@
                         </div>
                         <span class="question-label">문의 답변</span>
                     </div>
-                    <div class="question-btn-container" data-bs-toggle="modal"
-                        data-bs-target="#consulting_history_list" onclick = "get_consulting_history()">
+                    <div class="question-btn-container" data-bs-toggle="modal" data-bs-target="#consulting_history_list"
+                        onclick="get_consulting_history()">
                         <div class="question-btn show-last-counsulting">
                             <img src="https://purpleacademy.net/free_project/public/image/show-last-counsulting.png">
                         </div>
@@ -467,7 +455,8 @@
                 </div>
                 <div class="info d-flex justify-content-center align-items-center flex-column">
                     <div class="d-flex justify-content-between flex-row w-100 pb-4 border-bottom">
-                        <h5 class="d-flex justify-content-center align-items-center m-0" id="today_consulting_title">오늘의 상담
+                        <h5 class="d-flex justify-content-center align-items-center m-0" id="today_consulting_title">오늘의
+                            상담
                         </h5>
                         <select class="form-select text-center w-25" onchange="get_consulting_student(this.value)">
                             <option value=0 selected>오늘의 상담</option>
