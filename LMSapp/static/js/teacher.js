@@ -474,10 +474,9 @@ function get_consulting(student_id, is_done) {
             `;
             $('#consulting_write_box').append(temp_consulting_contents_box);
         }
-        let temp_post_box = '';
-        if(done_code == 0){
+        let temp_post_box = `<p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>`;
+        if(is_done == 0){
             temp_post_box = `
-            <p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
             <div class="modal-body-select-container">
             <span class="modal-body-select-label">부재중</span>
             <label><input type="checkbox" id="missed">부재중</label>
@@ -487,9 +486,8 @@ function get_consulting(student_id, is_done) {
                     onclick="post_bulk_consultings(${consultinglist_len},${is_done})"
                     style="margin-right:5px">저장</button>
             </div>`
-        }else if(done_code == 1){
+        }else if(is_done == 1){
             temp_post_box = `
-            <p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
             <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
                 <button class="btn btn-dark"
                     onclick="post_bulk_consultings(${consultinglist_len},${is_done})"
