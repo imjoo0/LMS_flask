@@ -569,15 +569,14 @@ function get_consulting_history() {
         </div>
         </td>`;
         $.each(data, function (index, consulting) {
+            console.log(consulting)
             temp_consulting_history_student_list += `
-            <tr class="row">
             <td class="col-2">${consulting.ban_name}</td>
             <td class="col-2">${consulting.student_name}</td>
             <td class="col-2">${consulting.student_mobileno}</td>
             <td class="col-2">${consulting.student_reco_book_code}</td>
             <td class="col-2">${consulting.done_consulting_num}</td>
             <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">상담일지 수정/작성</td> 
-            </tr>
             `;
         });
         $('#consulting_history_student_list').html(temp_consulting_history_student_list);
