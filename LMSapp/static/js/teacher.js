@@ -57,9 +57,6 @@ function get_data() {
                 }
                 let switchstudent =response['switchstudent'].length > 0 ? response['switchstudent'].filter(a=> a.ban_id === register_no).length : 0;
                 let outstudent = response['outstudent'].length > 0 ? response['outstudent'].filter(a=> a.ban_id === register_no).length : 0;
-                console.log(response['alimnote'])
-                let alimnote = response['alimnote'].length > 0 ? response['alimnote'].filter(a=> a.ban_id === register_no)['answer'] : 0;
-                let alimnote_t = response['alimnote'].length > 0 ? response['alimnote'].filter(a=> a.ban_id === register_no)['all'] : 0;
                 temp_ban_option += `
                 <option value="${register_no}">${name}</option>
                 `;
@@ -82,13 +79,11 @@ function get_data() {
                                         <th class="col-12">${name} (${semester}월 학기)</th>
                                     </tr>
                                     <tr class="row">
-                                        <th class="col-5">알림장(응답/문의)</th>
-                                        <th class="col-5">미학습</th>
+                                        <th class="col-10">미학습</th>
                                         <th class="col-2">원생</th>
                                     </tr>
                                     <tr class="row">
-                                        <td class="col-5">${alimnote}건 / ${alimnote_t}건</td>
-                                        <td class="col-5">${unlearned}건(${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</td>
+                                        <td class="col-10">${unlearned}건(${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</td>
                                         <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${register_no})">✔️</td>
                                     </tr>
                                     <tr class="row">
