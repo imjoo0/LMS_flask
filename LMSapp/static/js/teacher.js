@@ -9,9 +9,9 @@
 //     return str;
 // }
 
-$(document).ready(function () {
-    get_data()
-})
+// $(document).ready(function () {
+//     get_data()
+// })
 function go_back() {
     // 문의 관련 
     $('#questiondetail').hide();
@@ -877,11 +877,11 @@ async function get_question_detail(q_id) {
         <span class="modal-body-select-label">첨부파일</span>
         <a href="/common/downloadfile/question/${q_id}" download="${questiondata.attach}">${questiondata.attach}</a>
     </div>`;
-            
     $('#teacher_question').html(temp_question_list);
     if(questiondata.category == 0){
-
+        $('#consulting_history_attach').hide()
     }else{
+        $('#consulting_history_attach').show()
 
     }
 
