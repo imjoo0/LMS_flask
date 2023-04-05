@@ -808,7 +808,7 @@ function get_question_list() {
         url: "/teacher/question",
         data: {},
         success: function (data) {
-            questionAnswerdata = data
+            questionAnswerdata = [data];
             console.log(data)
             container.pagination({
                 dataSource: JSON.parse(data),
