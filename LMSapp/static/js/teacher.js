@@ -76,18 +76,11 @@ function get_data() {
                             <table class="table text-center" id="class_list">
                                 <tbody style="width:100%;">
                                     <tr class="row">
-                                        <th class="col-12">${name} (${semester}월 학기)</th>
+                                        <th class="col-10">${name} (${semester}월 학기)</th>
+                                        <th class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${register_no})">✔️</th>
                                     </tr>
                                     <tr class="row">
-                                        <th class="col-10">미학습</th>
-                                        <th class="col-2">원생</th>
-                                    </tr>
-                                    <tr class="row">
-                                        <td class="col-10">${unlearned}건(${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</td>
-                                        <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${register_no})">✔️</td>
-                                    </tr>
-                                    <tr class="row">
-                                        <th class="col-12">미학습 카테고리별</th>
+                                        <th class="col-12">총 미학습 ${unlearned}건(${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</th>
                                     </tr>
                                     <tr class="row">
                                     <th class="col-2">IXL</th>
