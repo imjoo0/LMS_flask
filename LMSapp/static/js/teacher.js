@@ -852,6 +852,10 @@ async function get_question_detail(q_id) {
     $('#questiondetail').show()
     questiondata = questionAnswerdata.filter( q=> q.id == q_id)[0]
     ban_student_data = consultingStudentData.filter(s=>s.student_id == questiondata.student_id)[0]
+    // 
+    console.log(questiondata)
+    console.log(ban_student_data)
+    // 
     let temp_question_list = `
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">문의 종류</span>
@@ -882,7 +886,30 @@ async function get_question_detail(q_id) {
         $('#consulting_history_attach').hide()
     }else{
         $('#consulting_history_attach').show()
-        
+        consulting_history = ban_student_data.consulting_list.filter(c=>c.id ==questiondata.consluting)[0]
+        let temp_his = `
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">상담 종류</span>
+            <p>${consulting_history.category}</br>${consulting_history.contents}</p>
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">상담 사유</span>
+            <p>${consulting_history.reason}</p>
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">제공한 가이드</span>
+            <p>${consulting_history.solution}</p>
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">상담 결과</span>
+            <p>${consulting_history.result}</p>
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">상담 일시</span>
+            <p>${consulting_history.created_at}</p>
+        </div>
+        `;
+        $('#cha').html(temp_his);
     }
 
     // var temp_comment = ''
