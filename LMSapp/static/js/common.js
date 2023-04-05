@@ -12,6 +12,8 @@ let make_recobook = function(c){
     } else if(c == 'NOT'){
         result = c + ' (추천도서없음)'
         return result
+    }else{
+        return c
     }
 }
 let make_date = function(d){
