@@ -52,7 +52,7 @@ def get_data():
             try:
                 with db.cursor() as cur:
                     # 상담
-                    cur.execute("select consulting.id, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result from consulting left join consultingcategory on consulting.category_id = consultingcategory.id where startdate <= %s and teacher_id=%s", (Today, session['user_registerno'],))
+                    cur.execute("select consulting.id,consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result from consulting left join consultingcategory on consulting.category_id = consultingcategory.id where startdate <= %s and teacher_id=%s", (Today, session['user_registerno'],))
                     all_consulting = cur.fetchall()
 
                     # 업무
