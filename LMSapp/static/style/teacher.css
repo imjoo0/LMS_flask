@@ -346,3 +346,7 @@
 .comment-typing-save-btn:hover {
   font-weight: 600;
 }
+
+#question_topurple{
+  display: none;
+}

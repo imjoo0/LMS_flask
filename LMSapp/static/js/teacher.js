@@ -724,7 +724,9 @@ function update_done(target) {
 // 본원 문의 관련 함수 
 //  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
 function change_question_kind(str) {
-    if (str == "일반" || str == "none"){
+    if(str == "none"){
+        $('#question_topurple').hide()
+    }else if(str == "일반"){
         let question_html = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">대상 원생</span>
@@ -733,7 +735,8 @@ function change_question_kind(str) {
         </div>
         `;
         $('#question_box').html(question_html);
-    } else{
+        $('#question_topurple').show()
+    }else{
         let question_html = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">대상 원생</span>
@@ -749,6 +752,7 @@ function change_question_kind(str) {
         </div>
         `;
         $('#question_box').html(question_html);
+        $('#question_topurple').show()
     }
 }
 function get_ban_student(ban_id) {
