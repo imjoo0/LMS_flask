@@ -16,6 +16,13 @@ let make_recobook = function(c){
         return c
     }
 }
+let make_reject_code = function(rc){
+    if( c == 0){
+        return '❌(반려)';
+    }else{
+        return '⭕(승인)';
+    }
+}
 let make_date = function(d){
     if(d==null){
         return '❌'

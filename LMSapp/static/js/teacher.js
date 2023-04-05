@@ -939,12 +939,13 @@ async function get_question_detail(q_id) {
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">응답일</span>
             <p>${questiondata.answer_data.created_at}</p>
-        </div>
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">처리</span>
-            <p>${questiondata.answer_data.reject_code}</p>
-        </div>
-        `;
+        </div>`;
+        if(questiondata.category != 0){
+           temp_answer_list += `<div class="modal-body-select-container">
+           <span class="modal-body-select-label">처리</span>
+           <p>${make_reject_code(questiondata.answer_data.reject_code)}</p>
+           </div>`
+        }
     }
     $('#teacher_answer').html(temp_answer_list);
 
