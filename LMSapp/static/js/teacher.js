@@ -568,7 +568,7 @@ async function sort_consulting_history(ban_id) {
     }
     let container = $('#consulting_history_student_list_pagination')
     const data = consultingStudentData.filter((e) => {
-        return e.done_consulting_num != 0 && e.ban_id ==ban_id;
+        return e.done_consulting_num != 0 && e.ban_id === ban_id;
     })
     await container.pagination({
         dataSource: data,
@@ -734,30 +734,10 @@ function go_back() {
     $('#banstudentlistModalLabel').html('원생목록')
 }
 
-// function get_ban_student(b_id) {
-//     $.ajax({
-//         type: "GET",
-//         url: "/teacher/get_ban_student/" + b_id,
-//         data: {},
-//         success: function (response) {
-//             let temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option>';
-//             for (var i = 0; i < response.length; i++) {
-//                 let name = response[i]['name'];
-//                 let value = response[i]['register_no']+'_'+name
-//                 temp_target_student += `<option value="${value}"> ${name} </option>`;
-//                 $('#student_list').html(temp_target_student)
-//             }
-//         },
-//         error: function (xhr, status, error) {
-//             alert('xhr.responseText');
-//         }
-//     })
-// }
-
 function get_ban_student(ban_id) {
     console.log('data')
     const data = consultingStudentData.filter((e) => {
-        return e.ban_id == ban_id;
+        return e.ban_id === ban_id;
     })
     console.log(data)
     let temp_target_student = ''
