@@ -214,6 +214,8 @@ def plus_consulting(student_id,b_id):
         # 제공 결과
         received_result = request.form['consulting_result']
         # 상담생성 
+        print(session['regitser_no'])
+        print(type(session['register_no']))
         newconsulting =  Consulting(teacher_id=session['register_no'],ban_id=b_id,category_id=110,student_id=student_id,contents=received_contents,startdate=Today,deadline=Today,done=1,missed=standard,reason=received_reason,solution=received_solution,result=received_result,created_at=Today)
         db.session.add(newconsulting)
         db.session.commit()
