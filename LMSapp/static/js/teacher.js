@@ -62,7 +62,7 @@ function get_data() {
                 `;
                 let temp_ban_chart = `
                 <div class="d-flex justify-content-start align-items-start flex-column w-100 my-2">
-                    <h5 class="mb-3">📌  ${name}</h5>
+                    <h5 class="mb-3">📌  ${name} (${semester}월 학기)</h5>
                     <div class="row w-100">
                         <div class="chart-wrapper col-sm-5">
                             <canvas id="total-chart-element${i}" class="total-chart-element p-sm-3 p-2"></canvas>
@@ -76,10 +76,10 @@ function get_data() {
                             <table class="table text-center" id="class_list">
                                 <tbody style="width:100%;">
                                     <tr class="row">
-                                        <th class="col-12" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${register_no})">${name} (${semester}월 학기) 원생 목록✔️</th>
+                                        <th class="col-12" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${register_no})">${name}반  원생 목록  ✔️</th>
                                     </tr>
                                     <tr class="row">
-                                        <th class="col-12">총 미학습 ${unlearned}건(${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</th>
+                                        <th class="col-12">총 미학습 ${unlearned}건  (${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</th>
                                     </tr>
                                     <tr class="row">
                                     <th class="col-2">IXL</th>
