@@ -812,7 +812,7 @@ function get_question_list() {
             questionAnswerdata = data;
             console.log(data)
             container.pagination({
-                dataSource: JSON.parse(data),
+                dataSource: data,
                 prevText: '이전',
                 nextText: '다음',
                 pageClassName: 'float-end',
