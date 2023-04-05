@@ -61,20 +61,6 @@
                     <!-- invisible_for_2 start -->
                     <div id="invisible_for_2">
                         <div class="modal-body-select-container">
-                            <span class="modal-body-select-label">대상 반</span>
-                            <select class="modal-body-select" name="ban_id" onchange="get_ban_student(this.value)"
-                                id="my_ban_list">
-
-                            </select>
-                        </div>
-                        <div class="modal-body-select-container">
-                            <span class="modal-body-select-label">대상 원생</span>
-                            <select id="student_list" class="modal-body-select" name="target_student"
-                                onchange="attach_consulting_history(this.value)">
-                                <option value="none" selected>대상 원생을 선택해주세요</option>
-                            </select>
-                        </div>
-                        <div class="modal-body-select-container">
                             <span class="modal-body-select-label">상담 내용</span>
                             <select class="modal-body-select" name="consulting_history" id="h_select_box">
                                 <option value="none" selected>관련상담일지를 선택해주세요</option>
@@ -92,6 +78,20 @@
                             <span class="modal-body-select-label">문의 내용</span>
                             <textarea id="question_contents" class="modal-body-select modal-body-select-100" type="text"
                                 rows="5" cols="25" name="question_contents"></textarea>
+                        </div>
+                        <div class="modal-body-select-container">
+                            <span class="modal-body-select-label">대상 반</span>
+                            <select class="modal-body-select" name="ban_id" onchange="get_ban_student(this.value)"
+                                id="my_ban_list">
+
+                            </select>
+                        </div>
+                        <div class="modal-body-select-container">
+                            <span class="modal-body-select-label">대상 원생</span>
+                            <select id="student_list" class="modal-body-select" name="target_student"
+                                onchange="attach_consulting_history(this.value)">
+                                <option value="none" selected>대상 원생을 선택해주세요</option>
+                            </select>
                         </div>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">첨부 파일</span>
@@ -365,7 +365,7 @@
                         <div class="question-btn show-last-counsulting">
                             <img src="https://purpleacademy.net/free_project/public/image/show-last-counsulting.png">
                         </div>
-                        <span class="question-label">상담 일지</span>
+                        <span class="question-label">상담 기록</span>
                     </div>
                 </div>
             </div>

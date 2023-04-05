@@ -264,6 +264,7 @@ function get_data() {
                         }, todoconsulting[0]);
     
                         acc.push({
+                            'teacher_id':student.id,
                             'student_id': student.register_no,
                             'student_name': student.name +'('+student.nick_name+')',
                             'student_mobileno': student.mobileno,
@@ -278,6 +279,7 @@ function get_data() {
                         });
                     }else{
                         acc.push({
+                            'teacher_id':student.id,
                             'student_id': student.register_no,
                             'student_name': student.name +'('+student.nick_name+')',
                             'student_mobileno': student.mobileno,
@@ -293,6 +295,7 @@ function get_data() {
                     }
                 }else{
                     acc.push({
+                        'teacher_id':student.id,
                         'student_id': student.register_no,
                         'student_name': student.name +'('+student.nick_name+')',
                         'student_mobileno': student.mobileno,
@@ -634,7 +637,7 @@ async function get_student(ban_id) {
                         unlearned_homepage = unlearned_arr.filter(a => a.category_id == 2).length
                         unlearned_intoreading = unlearned_arr.filter(a => a.category_id == 5 || a.category_id == 7).length
                     }
-                    let value = `${consulting.student_id}_${consulting.student_name}_${consulting.student_mobileno}`
+                    let value = `${consulting.student_id}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.teacher_id}`
                     temp_consulting_contents_box += `
                     <td class="col-2">${consulting.student_name}</td>
                     <td class="col-1">${consulting.student_reco_book_code}</td>
@@ -660,18 +663,18 @@ function plusconsulting(value, b_id) {
     $('#make_plus_consulting').show();
     $('#banstudentlistModalLabel').html(`${v[1]} 원생 추가 상담  ( 📞 ${v[2]}  )`)
     let temp_button = `
-    <button class="btn btn-dark" onclick=plusconsulting_history(${Number(v[0])},${b_id})>저장</button>
+    <button class="btn btn-dark" onclick=plusconsulting_history(${Number(v[0])},${b_id},${Number(v[3])})>저장</button>
     `;
     $('#plusconsulting_button_box').html(temp_button)
 }
-function plusconsulting_history(student_id, b_id) {
+function plusconsulting_history(student_id, b_id,t_id) {
     consulting_contents = $('#plus_consulting_contents').val()
     consulting_reason = $('#plus_consulting_reason').val()
     consulting_solution = $('#plus_consulting_solution').val()
     consulting_result = $('#plus_consulting_result').val()
     $.ajax({
         type: "POST",
-        url: '/teacher/plus_consulting/' + student_id + '/' + b_id,
+        url: '/teacher/plus_consulting/' + student_id + '/' + b_id+ '/' + t_id,
         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
         data: {
             consulting_contents: consulting_contents,
@@ -731,24 +734,43 @@ function go_back() {
     $('#banstudentlistModalLabel').html('원생목록')
 }
 
-function get_ban_student(b_id) {
-    $.ajax({
-        type: "GET",
-        url: "/teacher/get_ban_student/" + b_id,
-        data: {},
-        success: function (response) {
-            let temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option>';
-            for (var i = 0; i < response.length; i++) {
-                let name = response[i]['name'];
-                let value = response[i]['register_no']+'_'+name
-                temp_target_student += `<option value="${value}"> ${name} </option>`;
-                $('#student_list').html(temp_target_student)
-            }
-        },
-        error: function (xhr, status, error) {
-            alert('xhr.responseText');
-        }
+// function get_ban_student(b_id) {
+//     $.ajax({
+//         type: "GET",
+//         url: "/teacher/get_ban_student/" + b_id,
+//         data: {},
+//         success: function (response) {
+//             let temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option>';
+//             for (var i = 0; i < response.length; i++) {
+//                 let name = response[i]['name'];
+//                 let value = response[i]['register_no']+'_'+name
+//                 temp_target_student += `<option value="${value}"> ${name} </option>`;
+//                 $('#student_list').html(temp_target_student)
+//             }
+//         },
+//         error: function (xhr, status, error) {
+//             alert('xhr.responseText');
+//         }
+//     })
+// }
+
+function get_ban_student(ban_id) {
+    const data = consultingStudentData.filter((e) => {
+        return e.ban_id === ban_id;
     })
+    let temp_target_student = ''
+    if(data.length == 0){
+        temp_target_student ='<option value="none" selected>반 원생이 없습니다.</option>';
+    }else{
+        temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option>';
+        $.each(data, function (index, student) {
+            let value = student.id+'_'+student.name
+            temp_target_student += `
+            <option value="${value}"> ${student.student_name} (추천도서 : ${student.student_reco_book_code} )</option>
+            `;
+            $('#student_list').html(temp_target_student)
+        });
+    }
 }
 // 뭐지 
 function attach_consulting_history(value) {
