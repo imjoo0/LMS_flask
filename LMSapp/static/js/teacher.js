@@ -795,8 +795,8 @@ function attach_consulting_history(student_id) {
             <option value="${consulting.id}"> ${category} - 상담결과: ${consulting.result}</option>
             `;
         });
-        $('#h_select_box').html(temp_h_select)
     }
+    $('#h_select_box').html(temp_h_select)
 }
 
     // 문의 리스트
