@@ -882,16 +882,22 @@ async function get_question_detail(q_id) {
         <a href="/common/downloadfile/question/${q_id}" download="${questiondata.attach}">${questiondata.attach}</a>
     </div>`;
     $('#teacher_question').html(temp_question_list);
+    // 상담 일지 처리 
     if(questiondata.category == 0){
         $('#consulting_history_attach').hide()
     }else{
         $('#consulting_history_attach').show()
         consulting_history = ban_student_data.consulting_list.filter(c=>c.id ==questiondata.consluting)[0]
+        let category = ''
+        if(consulting_history.category_id < 100 ){
+            category = `${consulting_history.week_code}간 ${consulting_history.category}상담`
+        }else{
+            category = `${consulting_history.category} ${consulting_history.contents}`
+        }
         let temp_his = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">상담 종류</span>
-            <p>${consulting_history.category}</br></p>
-            <p>${consulting_history.contents}</p>
+            <p>${category}</p>
         </div>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">상담 사유</span>
@@ -907,12 +913,40 @@ async function get_question_detail(q_id) {
         </div>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">상담 일시</span>
-            <p>${consulting_history.created_at}</p>
+            <p>${make_date(consulting_history.created_at)}</p>
         </div>
         `;
         $('#cha').html(temp_his);
-        
     }
+    let temp_answer_list = ''
+    // 응답 처리 
+    if(questiondata.answer == 0){
+        temp_answer_list = `
+        <div class="modal-body-select-container">
+        <span class="modal-body-select-label">응답</span>
+        <p>미응답</p>
+        </div>`;
+    }else{
+        temp_answer_list = `
+        <div class="modal-body-select-container">
+        <span class="modal-body-select-label">응답제목</span>
+        <p>${questiondata.answer_data.title}</p>
+        </div>
+        <div class="modal-body-select-container">
+        <span class="modal-body-select-label">응답</span>
+        <p>${questiondata.answer_data.content}</p>
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">응답일</span>
+            <p>${questiondata.answer_data.created_at}</p>
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">처리</span>
+            <p>${questiondata.answer_data.reject_code}</p>
+        </div>
+        `;
+    }
+    $('#teacher_answer').html(temp_answer_list);
 
     // var temp_comment = ''
     // var temp_answer_list = ''

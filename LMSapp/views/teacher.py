@@ -84,7 +84,7 @@ def question():
             qdata['contents'] = q.contents
             qdata['ban_id'] = q.ban_id
             qdata['student_id'] = q.student_id
-            qdata['create_date'] = q.create_date
+            qdata['create_date'] = q.create_date.strftime('%Y-%m-%d')
             qdata['answer'] = q.answer
             # qdata['comments'] = len(q.qcomments)
             qdata['consluting'] = q.consulting_history
