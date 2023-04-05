@@ -724,7 +724,7 @@ function update_done(target) {
 // 본원 문의 관련 함수 
 //  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
 function change_question_kind(str) {
-    if (str == "일반"){
+    if (str == "일반" || str == "none"){
         let question_html = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">대상 원생</span>
