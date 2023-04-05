@@ -159,84 +159,7 @@ def task(tb_id):
             return jsonify({'result': '완료'})
         except:
             return jsonify({'result': '업무완료 실패'})    
-    # if request.method == 'GET':
-    #     target_cate = []
-    #     result = TaskBan.get_task_category(session['user_registerno'],done_code)
-    #     if len(result['cate_data']) != 0:   
-    #         for cate in result['cate_data']:
-    #             cate_data = {}
-    #             cate_data['id'] = cate.id
-    #             cate_data['name'] = cate.name
-    #             target_cate.append(cate_data)
-    #     target_task = []
-    #     if len(result['task_data'])!=0:   
-    #         for task in result['task_data']:
-    #             task_data = {}
-    #             task_data['id'] = task.id
-    #             task_data['category'] = task.category_id
-    #             task_data['contents'] = task.contents
-    #             task_data['url'] = task.url
-    #             task_data['priority'] = task.priority
-    #             task_data['deadline'] = task.deadline.strftime('%Y-%m-%d')
-    #             target_task.append(task_data)
-    #         target_task.sort(key=lambda x: (-x['priority'],x['deadline']))
-    #     else: 
-    #         target_task = '없음'
-    #     return jsonify({'target_task':target_task,'target_cate':target_cate})
     
-# 학생에게 해야할 상담 목록 
-@bp.route("/consulting/<int:id>/<int:is_done>", methods=['GET','POST'])
-def consulting(id,is_done):
-    if request.method == 'GET':
-        consulting_list = []
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00',port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                cur.execute("select consulting.id, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result from consulting left join consultingcategory on consulting.category_id = consultingcategory.id where startdate <= %s and student_id=%s and done = %s", (Today,id,is_done,))
-                consulting_list = cur.fetchall()
-        except:
-            print('err')
-        finally:
-            db.close()
-        return jsonify({'consulting_list':consulting_list})       
-    elif request.method =='POST':
-        # 부재중 체크 (id-consulting_id)
-        received_missed = request.form['consulting_missed']
-        target_consulting = Consulting.query.get_or_404(id)
-        if received_missed == "true":
-            target_consulting.missed = Today
-            target_consulting.done = 0
-            try:
-                db.session.commit()
-                return jsonify({'result': '부재중 처리 완료'})
-            except:
-                return jsonify({'result': '부재중 처리 실패'})
-        # else:
-        #      # 상담 사유
-        #     received_reason = request.form['consulting_reason']
-        #     # 제공 가이드
-        #     received_solution = request.form['consulting_solution']
-        #     # 제공 가이드
-        #     received_result = request.form['consulting_result']
-
-        #     if(is_done == 0):
-        #         target_consulting.reason = received_reason
-        #         target_consulting.solution = received_solution
-        #         target_consulting.result = received_result
-        #         target_consulting.created_at = Today
-        #     else:
-        #         if(received_reason !="noupdate"):
-        #             target_consulting.reason = received_reason
-        #         if(received_solution !="noupdate"):    
-        #             target_consulting.solution = received_solution
-        #         if(received_result !="noupdate"):    
-        #             target_consulting.result = received_result
-        #         if((received_reason !="noupdate") or (received_solution !="noupdate") or (received_result !="noupdate")):
-        #             target_consulting.created_at = Today
-        #     target_consulting.done = 1
-        #     db.session.commit()
-        #     return{'result':'상담일지 저장 완료'}
-
 # 상담일지 작성 및 수정  is_done=0 작성 / is_done=1 수정 
 @bp.route("/consulting_history/<int:id>/<int:is_done>", methods=['POST'])
 def consulting_history(id,is_done):
@@ -291,7 +214,7 @@ def plus_consulting(student_id,b_id):
         # 제공 결과
         received_result = request.form['consulting_result']
         # 상담생성 
-        newconsulting =  Consulting(ban_id=b_id,category_id=110,student_id=student_id,contents=received_contents,startdate=Today,deadline=Today,done=1,missed=standard,reason=received_reason,solution=received_solution,result=received_result,created_at=Today)
+        newconsulting =  Consulting(teacher_id=session['register_no'],ban_id=b_id,category_id=110,student_id=student_id,contents=received_contents,startdate=Today,deadline=Today,done=1,missed=standard,reason=received_reason,solution=received_solution,result=received_result,created_at=Today)
         db.session.add(newconsulting)
         db.session.commit()
         return{'result':'상담일지 저장 완료'}
@@ -431,57 +354,3 @@ def get_question_detail(id,answer,category):
     
 
 
-
-
-# task 안쓰는 것들 
-# # 오늘 해야할 업무의 반 이름들 
-# @bp.route("/taskban/<int:task_id>/<int:done_code>", methods=['GET'])
-# def taskban(task_id,done_code):
-#     if request.method == 'GET':
-#         # tb = json.loads(TaskBan.get_ban(session['user_registerno'],task_id))
-#         # return jsonify({'target_taskban':tb})
-#         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-#         mybans_info = callapi.purple_info(session['user_id'],'get_mybans')
-#         taskban = {}
-#         try:
-#             with db.cursor() as cur:
-#                 cur.execute(f"select taskban.id, taskban.ban_id from taskban where taskban.teacher_id = {session['user_registerno']} and taskban.task_id={task_id} and taskban.done = {done_code};" )
-#                 taskban['status'] = 200
-#                 taskban['data'] = cur.fetchall()
-#         except Exception as e:
-#             print(e)
-#             taskban['status'] = 401
-#             taskban['text'] = str(e)
-#         finally:
-#             db.close()
-
-#         return jsonify({
-#             'mybans_info':mybans_info,
-#             'target_taskban': taskban
-#             })
-
-# # 선생님이 담당 중인 반 학생중 상담을 하지 않은 학생(is_done = 0) 상담을 한 학생(is_done = 1) 정보
-# @bp.route("/mystudents/<int:is_done>", methods=['GET'])
-# def mystudents(is_done):
-#     if request.method == 'GET':
-#         all_consulting = {}
-#         my_students = callapi.purple_info(session['user_id'],'get_mystudents')
-#         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-#         try:
-#             with db.cursor() as cur:
-#                 if is_done == 2:
-#                     cur.execute("select id, student_id,category_id,deadline,created_at from consulting where startdate <= %s and teacher_id=%s and missed=%s;",(Today,session['user_registerno'],Today,))
-#                 else:
-#                     cur.execute("select id, student_id,category_id,deadline,created_at from consulting where startdate <= %s and teacher_id=%s and done=%s;",(Today,session['user_registerno'],is_done,))
-#                 all_consulting['status'] = 200
-#                 all_consulting['data'] = cur.fetchall()
-#         except Exception as e:
-#             print(e)
-#             all_consulting['status'] = 401
-#             all_consulting['text'] = str(e)
-#         finally:
-#             db.close()
-#         return jsonify({
-#             'my_students': my_students,
-#             'all_consulting': all_consulting,
-#         })
