@@ -259,6 +259,7 @@ function post_comment(q_id,is_coco){
     }
     if((comment_contents.length == 0)){
         alert('댓글 내용을 입력해주세요')
+        get_question_list(q_id)  
     }
     $.ajax({
             type: "POST",
