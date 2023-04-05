@@ -730,7 +730,7 @@ function change_question_kind(str) {
         let question_html = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">대상 원생</span>
-            <select class="student_list" class="modal-body-select" name="target_student">
+            <select id="student_list" class="modal-body-select" name="target_student">
             </select>
         </div>
         `;
@@ -740,7 +740,7 @@ function change_question_kind(str) {
         let question_html = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">대상 원생</span>
-            <select class="student_list" class="modal-body-select" name="target_student"
+            <select id="student_list" class="modal-body-select" name="target_student"
                 onchange="attach_consulting_history(this.value)">
             </select>
         </div>
@@ -761,14 +761,14 @@ function get_ban_student(ban_id){
     let temp_target_student = ''
     if(data.length == 0){
         temp_target_student ='<option value="none" selected>반 원생이 없습니다.</option>';
-        $('.student_list').html(temp_target_student)
+        $('#student_list').html(temp_target_student)
     }else{
         temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option>';
         $.each(data, function (index, student) {
             temp_target_student += `
             <option value="${student.student_id}"> ${student.student_name}</option>
             `;
-            $('.student_list').html(temp_target_student)
+            $('#student_list').html(temp_target_student)
         });
     }
 }
