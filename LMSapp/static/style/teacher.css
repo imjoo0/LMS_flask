@@ -268,7 +268,10 @@
 */
 
 #today_done_box,#consulting_student_list{display: none}
-#h_title,#missed_consulting_history_box{display: none}
+#h_title{
+  display: none;
+  font-size:1.2rem;font-weight:400;margin-left:40%;
+}
 
 .task_summary,#make_plus_consulting{
   display: none;
