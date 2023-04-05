@@ -340,7 +340,7 @@ async function get_consulting_student(done_code) {
         nextText: '다음',
         pageSize: 10,
         callback: function (data, pagination) {
-            $('#today_consulting_title').html($('#today_consulting_title').html()+`     ✏️ ${data.length}건`);
+            $('#today_consulting_title').html($('#today_consulting_title').html()+`     ✏️ ${data.length + (pagination.pageNumber-1) * pagination.pageSize}건`);
             if(data.length == 0){
                 $('#consulting_student_list').hide();
                 $('#consultingstudent_pagination').hide();
