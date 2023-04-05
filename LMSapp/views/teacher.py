@@ -32,6 +32,7 @@ standard = datetime.strptime('11110101', "%Y%m%d").date()
 def home():
     if request.method == 'GET':
         teacher_info = callapi.purple_info(session['user_id'], 'get_teacher_info')
+        session['user_registerno'] = teacher_info['register_no']
         return render_template('teacher.html', user=teacher_info)
     
 # 차트 관련
