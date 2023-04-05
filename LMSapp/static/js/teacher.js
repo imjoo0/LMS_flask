@@ -547,10 +547,10 @@ async function get_consulting_history() {
             if (data.length <= 0) {
                 $('#consulting_history_bansel_box').hide()
                 $('#consulting_history_box').hide()
-                $('#h_title').show();
+                $('#h_title_msg').show();
             } else {
                 // data.sort((a,n))
-                $('#h_title').hide();
+                $('#h_title_msg').hide();
                 $('#consulting_history_bansel_box').show()
                 $('#consulting_history_box').show()
                 let temp_consulting_history_student_list = '';
@@ -584,9 +584,9 @@ async function sort_consulting_history(ban_id) {
         callback: function (data, pagination) {
             if (data.length <= 0) {
                 $('#consulting_history_box').hide()
-                $('#h_title').show();
+                $('#h_title_msg').show();
             } else {
-                $('#h_title').hide();
+                $('#h_title_msg').hide();
                 $('#consulting_history_box').show()
                 let temp_consulting_history_student_list = '';
                 $.each(data, function (index, consulting) {
@@ -810,38 +810,81 @@ function get_question_list() {
         data: {},
         success: function (data) {
             questionAnswerdata = data;
-            console.log(data)
-            container.pagination({
-                dataSource: data,
-                prevText: '이전',
-                nextText: '다음',
-                pageClassName: 'float-end',
-                pageSize: 5,
-                callback: function (data, pagination) {
-                    var dataHtml = '';
-                    $.each(data, function (index, item) {
-                        if (item.answer == 0) { done_code = '미응답' }
-                        else { done_code = item.answer_data.created_at + '에 응답' }
-                        dataHtml += `
-                        <td class="col-2">${q_category(item.category)}</td>
-                        <td class="col-4">${item.title}</td>
-                        <td class="col-3"> ${done_code} </td>
-                        <td class="col-1" onclick="get_question_detail(${item.id})"> <span class="cursor-pointer">🔍</span> </td>
-                        <td class="col-1" onclick="delete_question(${item.id})"> <span class="cursor-pointer">❌</span> </td>
-                        <td class="col-1"> ${item.comment_data.length} </td>`;
-                    });
-                    $('#teacher_question_list').html(dataHtml);
-                }
-            })
+            if(data.length > 0){
+                $('#q_title_msg').hide();
+                $('#questionlist').show()
+                $('#question_pagination').show()
+                container.pagination({
+                    dataSource: data,
+                    prevText: '이전',
+                    nextText: '다음',
+                    pageClassName: 'float-end',
+                    pageSize: 5,
+                    callback: function (data, pagination) {
+                        var dataHtml = '';
+                        $.each(data, function (index, item) {
+                            if (item.answer == 0) { done_code = '미응답' }
+                            else { done_code = item.answer_data.created_at + '에 응답' }
+                            dataHtml += `
+                            <td class="col-2">${q_category(item.category)}</td>
+                            <td class="col-4">${item.title}</td>
+                            <td class="col-3"> ${done_code} </td>
+                            <td class="col-1" onclick="get_question_detail(${item.id})"> <span class="cursor-pointer">🔍</span> </td>
+                            <td class="col-1" onclick="delete_question(${item.id})"> <span class="cursor-pointer">❌</span> </td>
+                            <td class="col-1"> ${item.comment_data.length} </td>`;
+                        });
+                        $('#teacher_question_list').html(dataHtml);
+                    }
+                })
+            }else{
+                $('#questionlist').hide()
+                $('#question_pagination').hide()
+                $('#q_title_msg').show();
+            }
+            
         }
     })
 }
     // 문의 내용 상세보기
 async function get_question_detail(q_id) {
     $('#questionlist').hide()
+    $('#question_pagination').hide()
     $('#questiondetail').show()
-    console.log(questionAnswerdata)
-    questionAnswerdata.filter( q=> q.id == q_id)
+    questiondata = questionAnswerdata.filter( q=> q.id == q_id)[0]
+    ban_student_data = consultingStudentData.filter(s=>s.student_id == questiondata.student_id)[0]
+    let temp_question_list = `
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">문의 종류</span>
+        <p>${q_category(questiondata.category)}</p>
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">제목</span>
+        <p>${questiondata.title}</p>
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">내용</span>
+        <p>${questiondata.contents}</p>
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">작성일</span>
+        <p>${questiondata.create_date}</p>
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">대상 반 | 학생</span>
+        <p>${ban_student_data.ban_name} ➖ ${ban_student_data.student_name}</p>
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">첨부파일</span>
+        <a href="/common/downloadfile/question/${q_id}" download="${questiondata.attach}">${questiondata.attach}</a>
+    </div>`;
+            
+    $('#teacher_question').html(temp_question_list);
+    if(questiondata.category == 0){
+
+    }else{
+
+    }
+
     // var temp_comment = ''
     // var temp_answer_list = ''
     // var temp_question_list = ''

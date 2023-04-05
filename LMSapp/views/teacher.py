@@ -81,6 +81,10 @@ def question():
             qdata['id'] = q.id
             qdata['category'] = q.category
             qdata['title'] = q.title
+            qdata['contents'] = q.contents
+            qdata['ban_id'] = q.ban_id
+            qdata['student_id'] = q.student_id
+            qdata['create_date'] = q.create_date
             qdata['answer'] = q.answer
             # qdata['comments'] = len(q.qcomments)
             qdata['consluting'] = q.consulting_history

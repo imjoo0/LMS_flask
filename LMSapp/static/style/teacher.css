@@ -265,7 +265,7 @@
 */
 
 #today_done_box,#consulting_student_list{display: none}
-#h_title{
+.h_title{
   display: none;
   font-size:1.2rem;font-weight:400;margin-left:40%;
 }
