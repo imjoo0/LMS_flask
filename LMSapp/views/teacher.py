@@ -83,6 +83,19 @@ def question():
             qdata['title'] = q.title
             qdata['answer'] = q.answer
             qdata['comments'] = len(q.qcomments)
+            qdata['consluting'] = q.consulting_history
+            qdata['comment_data'] = q.comments
+            # if(qdata['comments'] != 0):
+            #     for comment in q.qcomments :
+            #         qdata['comment_data'] = {}
+            #         qdata['comment_data']['c_id'] = comment.id
+            #         qdata['comment_data']['c_contents'] = comment.contents
+            #         qdata['comment_data']['c_created_at'] = comment.created_at.strftime('%Y-%m-%d')
+            #         qdata['comment_data']['parent_id'] = comment.parent_id
+            #         if(q.teacher_id == comment.user_id):
+            #             qdata['comment_data']['writer'] = '나'
+            #         else:
+            #             qdata['comment_data']['writer'] = '퍼플'
             if (q.answer != 0):
                 qdata['answer_data'] = {}
                 qdata['answer_data']['id']=q.qa.id
