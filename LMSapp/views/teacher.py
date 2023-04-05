@@ -88,7 +88,8 @@ def question():
             qdata['answer'] = q.answer
             # qdata['comments'] = len(q.qcomments)
             qdata['consluting'] = q.consulting_history
-            qdata['comment_data'] = q.comments
+            print(q.comments)
+            # qdata['comment_data'] = q.comments
             # if(qdata['comments'] != 0):
             #     for comment in q.qcomments :
             #         qdata['comment_data'] = {}
