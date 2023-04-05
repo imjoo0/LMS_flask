@@ -33,6 +33,8 @@ scheduler = BackgroundScheduler()
 # 스케줄러에 작업 추가 매일 12시마다 실행 (오후3시 테스트)
 @scheduler.scheduled_job('cron', hour='19')
 def update_database():
+    print('스케줄러 찍히는지 확인')
+    print(scheduler)
     try:
         pydb = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         with pydb.cursor() as cursor:
