@@ -216,7 +216,7 @@ def plus_consulting(student_id,b_id):
     newconsulting =  Consulting(teacher_id=session.get('register_no'),ban_id=b_id,category_id=110,student_id=student_id,contents=received_contents,startdate=Today,deadline=Today,done=1,missed=standard,reason=received_reason,solution=received_solution,result=received_result,created_at=Today)
     db.session.add(newconsulting)
     db.session.commit()
-    return{'result':'상담일지 저장 완료'}
+    return{'result':'추가 상담 저장 완료'}
 
 
 @bp.route('/nomal_question_detail/<int:id>', methods=['GET'])
