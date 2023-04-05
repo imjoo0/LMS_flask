@@ -576,7 +576,7 @@ function get_consulting_history() {
             <td class="col-2">${consulting.student_mobileno}</td>
             <td class="col-2">${consulting.student_reco_book_code}</td>
             <td class="col-2">${consulting.done_consulting_num}</td>
-            <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student_id},${1})">상담일지 수정/작성</td> 
+            <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">상담일지 수정/작성</td> 
             </tr>
             `;
         });
