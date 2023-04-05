@@ -809,6 +809,7 @@ function get_question_list() {
         data: {},
         success: function (data) {
             questionAnswerdata = data
+            console.log(data)
             container.pagination({
                 dataSource: JSON.parse(data),
                 prevText: '이전',
@@ -838,6 +839,7 @@ function get_question_list() {
 async function get_question_detail(q_id) {
     $('#questionlist').hide()
     $('#questiondetail').show()
+    questionAnswerdata.filter( q=> q.id == q_id)
     // var temp_comment = ''
     // var temp_answer_list = ''
     // var temp_question_list = ''
