@@ -311,7 +311,7 @@ function get_data() {
                 consultingStudentData = result
                 get_consulting_student(0)
             } else {
-                $('#today_consulting_title').html($('#today_consulting_title').val()+'   0건');
+                $('#today_consulting_title').html($('#today_consulting_title').html()+'   0건');
                 $('#consulting_student_list').hide();
                 $('#consultingstudent_pagination').hide();
             }
@@ -341,7 +341,7 @@ async function get_consulting_student(done_code) {
         pageSize: 10,
         callback: function (data, pagination) {
             if(data.length == 0){
-                $('#today_consulting_title').html($('#today_consulting_title').val()+'   0건');
+                $('#today_consulting_title').html($('#today_consulting_title').html()+'   0건');
                 $('#consulting_student_list').hide();
                 $('#consultingstudent_pagination').hide();
             }else{
