@@ -827,7 +827,7 @@ function get_question_list() {
                         <td class="col-3"> ${done_code} </td>
                         <td class="col-1" onclick="get_question_detail(${item.id})"> <span class="cursor-pointer">🔍</span> </td>
                         <td class="col-1" onclick="delete_question(${item.id})"> <span class="cursor-pointer">❌</span> </td>
-                        <td class="col-1"> ${item.comments} </td>`;
+                        <td class="col-1"> ${item.comment_data.length} </td>`;
                     });
                     $('#teacher_question_list').html(dataHtml);
                 }
@@ -839,6 +839,7 @@ function get_question_list() {
 async function get_question_detail(q_id) {
     $('#questionlist').hide()
     $('#questiondetail').show()
+    console.log(questionAnswerdata)
     questionAnswerdata.filter( q=> q.id == q_id)
     // var temp_comment = ''
     // var temp_answer_list = ''

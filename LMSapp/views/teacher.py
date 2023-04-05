@@ -82,7 +82,7 @@ def question():
             qdata['category'] = q.category
             qdata['title'] = q.title
             qdata['answer'] = q.answer
-            qdata['comments'] = len(q.qcomments)
+            # qdata['comments'] = len(q.qcomments)
             qdata['consluting'] = q.consulting_history
             qdata['comment_data'] = q.comments
             # if(qdata['comments'] != 0):
