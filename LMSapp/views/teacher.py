@@ -69,24 +69,24 @@ def get_data():
             db.close()
         return jsonify({'switchstudent': switchstudent,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'outstudent':outstudent,'ban_data':ban_data})
     return jsonify({'ban_data':'없음'})
-   
+
+# 문의 리스트 / 문의 작성    
 @bp.route('/question', methods=['GET', 'POST'])
 def question():
     if request.method == 'GET':
-        # data = []
+        data = []
         my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
-        # for q in my_questions:
-        #     qdata = {}
-        #     qdata['id'] = q.id
-        #     qdata['category'] = q.category
-        #     qdata['title'] = q.title
-        #     qdata['answer'] = q.answer
-        #     qdata['comments'] = len(q.qcomments)
-        #     if (q.answer != 0):
-        #         qdata['answer_created_at'] = q.qa.created_at.strftime('%Y-%m-%d')
-        #     data.append(qdata)
-        
-        return json.dumps(my_questions, cls=MyEncoder)
+        for q in my_questions:
+            qdata = {}
+            qdata['id'] = q.id
+            qdata['category'] = q.category
+            qdata['title'] = q.title
+            qdata['answer'] = q.answer
+            qdata['comments'] = len(q.qcomments)
+            if (q.answer != 0):
+                qdata['answer_created_at'] = q.qa.created_at.strftime('%Y-%m-%d')
+            data.append(qdata)
+        return json.dumps(data)
 
     elif request.method == 'POST':
         question_category = request.form['question_category']
@@ -113,7 +113,6 @@ def question():
         common.save_attachment(file, new_question.id)
         return redirect('/')
 
-     
 # 오늘 해야 할 업무완료 저장 
 @bp.route("/task/<int:tb_id>", methods=['POST'])
 def task(tb_id):
