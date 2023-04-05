@@ -311,7 +311,7 @@ function get_data() {
                 consultingStudentData = result
                 get_consulting_student(0)
             } else {
-                $('#today_consulting_title').html($('#today_consulting_title').html()+'   0건');
+                $('#today_consulting_title').html('진행할 상담이 없습니다');
                 $('#consulting_student_list').hide();
                 $('#consultingstudent_pagination').hide();
             }
@@ -340,8 +340,8 @@ async function get_consulting_student(done_code) {
         nextText: '다음',
         pageSize: 10,
         callback: function (data, pagination) {
+            $('#today_consulting_title').html($('#today_consulting_title').html()+`     ✏️ ${data.length}건`);
             if(data.length == 0){
-                $('#today_consulting_title').html($('#today_consulting_title').html()+'   0건');
                 $('#consulting_student_list').hide();
                 $('#consultingstudent_pagination').hide();
             }else{
