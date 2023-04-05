@@ -549,7 +549,6 @@ async function get_consulting_history() {
                 $('#consulting_history_box').show()
                 let temp_consulting_history_student_list = '';
                 $.each(data, function (index, consulting) {
-                    console.log(consulting)
                     temp_consulting_history_student_list += `
                     <td class="col-2">${consulting.ban_name}</td>
                     <td class="col-2">${consulting.student_name}</td>
@@ -585,7 +584,6 @@ async function sort_consulting_history(ban_id) {
                 $('#consulting_history_box').show()
                 let temp_consulting_history_student_list = '';
                 $.each(data, function (index, consulting) {
-                    console.log(consulting)
                     temp_consulting_history_student_list += `
                     <td class="col-2">${consulting.ban_name}</td>
                     <td class="col-2">${consulting.student_name}</td>
@@ -765,6 +763,7 @@ function get_ban_student(ban_id) {
         temp_target_student ='<option value="none" selected>반 원생이 없습니다.</option>';
     }else{
         temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option>';
+        console.log('data')
         $.each(data, function (index, student) {
             let value = student.id+'_'+student.name
             temp_target_student += `
@@ -772,7 +771,6 @@ function get_ban_student(ban_id) {
             `;
             $('#student_list').html(temp_target_student)
         });
-        console.log('dkd')
     }
 }
 // 뭐지 
