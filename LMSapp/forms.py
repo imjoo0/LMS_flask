@@ -20,9 +20,8 @@ class LoginForm(FlaskForm):
             user_id = form['user_id'].data
             user_pw = field.data
             
-            usertable = callapi.get_user(user_id)
-            pw = callapi.purple_info(user_id,'get_teacher_info')
-            pw = pw['user_id']
+            usertable = callapi.purple_info(user_id,'get_teacher_info')
+            pw = usertable['register_no']
             if usertable.status_code != 200:
                 raise ValueError('존재하지 않는 유저 입니다.')
             if pw != user_pw:
