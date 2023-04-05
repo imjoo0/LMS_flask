@@ -57,6 +57,7 @@ function get_data() {
                 }
                 let switchstudent =response['switchstudent'].length > 0 ? response['switchstudent'].filter(a=> a.ban_id === register_no).length : 0;
                 let outstudent = response['outstudent'].length > 0 ? response['outstudent'].filter(a=> a.ban_id === register_no).length : 0;
+                console.log(response['alimnote'])
                 let alimnote = response['alimnote'].length > 0 ? response['alimnote'].filter(a=> a.ban_id === register_no)['answer'] : 0;
                 let alimnote_t = response['alimnote'].length > 0 ? response['alimnote'].filter(a=> a.ban_id === register_no)['all'] : 0;
                 temp_ban_option += `
@@ -570,7 +571,6 @@ async function get_consulting_history() {
             }
         }})
 }
-
 async function sort_consulting_history(ban_id) {
     if(ban_id =="none"){
         return get_consulting_history()
@@ -700,8 +700,6 @@ function plusconsulting_history(student_id, b_id) {
         }
     })
 }
-
-
 
 // 업무 완료 저장 
 function get_update_done() {
