@@ -571,6 +571,9 @@ async function get_consulting_history() {
 }
 
 async function sort_consulting_history(ban_id) {
+    if(ban_id =="none"){
+        return get_consulting_history()
+    }
     let container = $('#consulting_history_student_list_pagination')
     const data = consultingStudentData.filter((e) => {
         return e.done_consulting_num != 0 && e.ban_id ==ban_id;
