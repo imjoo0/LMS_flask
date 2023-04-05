@@ -250,7 +250,7 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list, b_id)
     });
 }
 
-function post_comment(q_id,is_coco,answer,category){
+function post_comment(q_id,is_coco){
     let comment_contents = ''
     if(is_coco == 0 ){
         comment_contents = $('#comment_contents').val()
@@ -269,7 +269,7 @@ function post_comment(q_id,is_coco,answer,category){
             },
             success: function (response) {{
 				alert(response["result"])
-                get_question_detail(q_id,answer,category)    
+                get_question_detail(q_id)    
 			}}
 		})
 }

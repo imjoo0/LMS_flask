@@ -948,6 +948,47 @@ async function get_question_detail(q_id) {
         }
     }
     $('#teacher_answer').html(temp_answer_list);
+    // 댓글 처리
+    const temp_comment = `
+    <div class="comment-typing">
+        <input class="comment-typing-input" type="text" id="comment_contents" placeholder="댓글을 남겨주세요">
+    </div>
+    <div class="comment-typing-save">
+        <button class="comment-typing-save-btn" onclick="post_comment(${q_id},${0})">등록</button>
+    </div>
+    `;
+    $('#comment_post_box').html(temp_comment) 
+    $('#comments').empty()
+    const comments_len = questiondata.comment_data.length
+    if (comments_len != 0) {
+        for (i = 0; i < comments_len; i++) {
+            c_id = questiondata.comment_data[i]['id']
+            c_contents = questiondata.comment_data[i]['contents']
+            writer = questiondata.comment_data[i]['user_id']
+            parent_id = questiondata.comment_data[i]['parent_id']
+
+            if (parent_id == 0) {
+                temp_comments = `
+                <div id="for_comment${c_id}" style="margin-top:10px">
+                    <p class="p_comment">${c_contents}  (작성자 : ${writer} | ${make_date(questiondata.comment_data[i]['created_at'])} )</p>
+                </div>
+                <details style="margin-top:0px;margin-right:5px;font-size:0.9rem;">
+                    <summary><strong>대댓글 달기</strong></summary>
+                        <input class="border rounded-0 form-control form-control-sm" type="text" id="comment_contents${c_id}"
+                        placeholder=" 대댓글 ">
+                        <button onclick="post_comment(${q_id},${c_id})">등록</button>
+                    </details>
+                `;
+                $('#comments').append(temp_comments);
+            } else {
+                let temp_comments = `
+                <p class="c_comment"> ➖ ${c_contents}  (작성자 : ${writer} | ${c_created_at} )</p>
+                `;
+                $(`#for_comment${parent_id}`).append(temp_comments);
+            }
+
+        }
+    }
 
     // var temp_comment = ''
     // var temp_answer_list = ''
