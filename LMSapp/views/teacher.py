@@ -31,8 +31,7 @@ standard = datetime.strptime('11110101', "%Y%m%d").date()
 @bp.route("/", methods=['GET'])
 def home():
     if request.method == 'GET':
-        teacher_info = callapi.purple_info(
-            session['user_id'], 'get_teacher_info')
+        teacher_info = callapi.purple_info(session['user_id'], 'get_teacher_info')
         return render_template('teacher.html', user=teacher_info)
     
 # 차트 관련
@@ -46,6 +45,7 @@ def get_data():
         outstudent = []
         alimnote = []
         my_students = callapi.purple_info(session['user_id'], 'get_mystudents')
+        print(session['register_no'])
         if len(ban_data) != 0:
             db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00',
                                  port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
@@ -146,7 +146,7 @@ def question():
         return redirect('/')
 
      
-# 오늘 해야 할 업무들의 카데고리
+# 오늘 해야 할 업무완료 저장 
 @bp.route("/task/<int:tb_id>", methods=['POST'])
 def task(tb_id):
     if request.method =='POST':
@@ -204,22 +204,19 @@ def consulting_history(id,is_done):
 # 추가 상담 실행 함수 
 @bp.route("/plus_consulting/<int:student_id>/<int:b_id>", methods=['POST'])
 def plus_consulting(student_id,b_id):
-    if request.method =='POST':
-         # 상담 제목
-        received_contents = request.form['consulting_contents']
-        # 상담 사유
-        received_reason = request.form['consulting_reason']
-        # 제공 가이드
-        received_solution = request.form['consulting_solution']
-        # 제공 결과
-        received_result = request.form['consulting_result']
-        # 상담생성 
-        print(session['regitser_no'])
-        print(type(session['register_no']))
-        newconsulting =  Consulting(teacher_id=session['register_no'],ban_id=b_id,category_id=110,student_id=student_id,contents=received_contents,startdate=Today,deadline=Today,done=1,missed=standard,reason=received_reason,solution=received_solution,result=received_result,created_at=Today)
-        db.session.add(newconsulting)
-        db.session.commit()
-        return{'result':'상담일지 저장 완료'}
+    # 상담 제목
+    received_contents = request.form['consulting_contents']
+    # 상담 사유
+    received_reason = request.form['consulting_reason']
+    # 제공 가이드
+    received_solution = request.form['consulting_solution']
+    # 제공 결과
+    received_result = request.form['consulting_result']
+    # 상담생성 
+    newconsulting =  Consulting(teacher_id=??,ban_id=b_id,category_id=110,student_id=student_id,contents=received_contents,startdate=Today,deadline=Today,done=1,missed=standard,reason=received_reason,solution=received_solution,result=received_result,created_at=Today)
+    db.session.add(newconsulting)
+    db.session.commit()
+    return{'result':'상담일지 저장 완료'}
 
 
 @bp.route('/nomal_question_detail/<int:id>', methods=['GET'])
