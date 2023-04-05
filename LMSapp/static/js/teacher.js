@@ -389,14 +389,17 @@ async function get_consulting_student(done_code) {
 // 상담일지 작성 창 
 function get_consulting(value, is_done) {
     const data = consultingStudentData.filter((e) => {
-        return e.student_id == value && e.consulting_num != 0;
+        return e.student_id == value && e.consulting_list.length != 0;
     })[0]
-    console.log(data)
     $('#consultinghistoryModalLabelt').html(`${data['ban_name']}반 ${data['student_name']} 원생 ${data['consulting_num']}건 상담   ( 📞 ${data['student_mobileno']}  )`)
 
-    let consulting_list = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=> c.done == is_done && c.created_at == null) : 0
-    let cant_consulting_list = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == is_done && c.created_at != null) : 0
-    let consultinglist_len = consulting_list.length
+    let cant_consulting_list = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == 0 && c.created_at != null) : 0;
+    let consulting_list = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=> c.done == is_done) : 0;
+    if(is_done == 0){
+        consulting_list = consulting_list.length  > 0 ? consulting_list.filter(c.created_at == null) : 0
+    }
+    let consultinglist_len = consulting_list != 0 ? consulting_list.length : 0;
+    
     if (cant_consulting_list.length > 0){
         $('#consulting_cant_write_box').empty();
         for (i = 0; i < cant_consulting_list.length; i++) {
