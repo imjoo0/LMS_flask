@@ -755,12 +755,15 @@ function go_back() {
 // }
 
 function get_ban_student(ban_id) {
+    console.log('data')
     const data = consultingStudentData.filter((e) => {
         return e.ban_id === ban_id;
     })
+    console.log(data)
     let temp_target_student = ''
     if(data.length == 0){
         temp_target_student ='<option value="none" selected>반 원생이 없습니다.</option>';
+        $('#student_list').html(temp_target_student)
     }else{
         temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option>';
         console.log('data')
