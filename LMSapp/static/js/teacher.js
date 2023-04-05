@@ -807,7 +807,7 @@ function attach_consulting_history(student_id) {
     })[0]['consulting_list']
     const consultinglist = data.length>0?data.filter( c => c.done == 1 ):0
     if(consultinglist.length <= 0){
-        alert('상담을 우선 진행해주세요');
+        alert('상담을 우선 진행해주세요  원생목록✔️클릭 👉 해당 원생 상담추가 ');
     }else{
         console.log(consultinglist)
     }
