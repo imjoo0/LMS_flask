@@ -337,14 +337,16 @@ async function get_consulting_student(done_code) {
         pageSize: 10,
         callback: function (data, pagination) {
             if(done_code == 0) {
-                $('#today_consulting_title').html('오늘의 상담   ✏️상담 건수: '+data.length);
+                $('#today_consulting_title').html('오늘의 상담   ✏️'+data.length+'건');
             }else{
-                $('#today_consulting_title').html('오늘의 부재중 상담   ✏️상담 건수: '+data.length);
+                $('#today_consulting_title').html('오늘의 부재중 상담   ✏️'+data.length+'건');
             }
             if(data.length == 0){
                 $('#consulting_student_list').hide();
                 $('#consultingstudent_pagination').hide();
             }else{
+                $('#consulting_student_list').show();
+                $('#consultingstudent_pagination').show();
                 var temp_consulting_contents_box = '';
                 $.each(data, function (index, consulting) {
                     let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
