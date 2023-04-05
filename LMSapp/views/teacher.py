@@ -112,7 +112,7 @@ def question():
             else:
                 qdata['attach'] = q.attachments.file_name
             data.append(qdata)
-        return qdata
+        return data
 
     elif request.method == 'POST':
         question_category = request.form['question_category']
