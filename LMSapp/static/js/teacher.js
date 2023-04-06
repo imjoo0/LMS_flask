@@ -222,11 +222,9 @@ function get_data() {
                     for(j=0; j < contentsGroupedresult.length; j++){
                         const contents = Object.keys(contentsGroupedresult[j])[0];
                         task_items = contentsGroupedresult[j][contents];
-                        total_task_items = task_items.length
                         const v = contents.split('_')
-                        let done_num = 0
                         temp_cate_menu += `
-                            <tr class="row" id="underlined_task${j}">
+                            <tr class="row">
                                 <td class="col-2">${make_priority(v[0])}</td>
                                 <td class="col-8">${v[1]}</td>
                                 <td class="col-2">${make_date(v[2])}</td>
@@ -238,23 +236,20 @@ function get_data() {
                                     temp_cate_menu += `
                                     <label><input type="checkbox" name="taskid" value="${task_items[k].id}"/>${ban_name}</label>`;
                                 }else if(task_items[k].done == 1 && task_items[k].created_at == today){
-                                    done_num += 1
                                     temp_cate_menu += `
-                                    <label>✅ ${ban_name}</label>`;
+                                    <label class="done">✅ ${ban_name}</label>`;
                                 }
                             }
-                            if(total_task_items == done_num){
-                                $(`#underlined_task${j}`).addClass("done")
-                            }
-                        temp_cate_menu += `</td></tbody>`;
+                            temp_cate_menu += `</td></tbody>`;
                     }
-                }else {
+                } else {
                     temp_cate_menu += `
                         <tr class="row">
                             <td class="col-12">해당 카테고리의 업무가 없습니다.</td>
                         </tr>
                     `;
                 }
+
                 temp_cate_menu += `</tbody>`;
             }
             $('#cate_menu').html(temp_cate_menu);
