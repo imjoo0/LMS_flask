@@ -281,6 +281,7 @@ function getBanChart(ban_id,semester) {
     }
     // key값 `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
     result = data.filter(e=>Object.keys(e)[0].split('_')[0] == ban_id)[0]
+    console.log(result)
     key = Object.keys(result)[0]
     result = result[key]
     $('#target_ban_info_requestModalLabel').html(result[0].name + '반 상세 현황')
