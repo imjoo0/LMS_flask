@@ -221,7 +221,7 @@ function get_data() {
             alert('xhr.responseText');
         }
     })
-    $('#inloading').show()
+    $('#inloading').hide()
     $('#target_ban_info_body').show()
 
 }
