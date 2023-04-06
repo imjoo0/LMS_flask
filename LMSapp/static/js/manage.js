@@ -37,7 +37,7 @@ function getBanlist(){
                 let btid = all_ban[i]['ban_id']
                 let value = btid + '_' + t_id +'_' + name
                 temp_ban_option += `
-                <option value="${value}">${name} (${make_semester(all_ban[i]['semester'])}월 학기)</option>
+                <option value="${value}">${name} (${all_ban[i]['semester']}월 학기)</option>
                 `;
             }
             $('#ban_list').html(temp_ban_option)
