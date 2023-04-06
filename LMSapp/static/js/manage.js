@@ -957,6 +957,8 @@ function post_consulting_request(){
     consulting_contents = $('#consulting_contents').val()
     consulting_date = $('#consulting_date').val()
     consulting_deadline = $('#consulting_deadline').val()
+    console.log(consulting_date)
+    console.log(consulting_deadline)
     // 다중 선택 대상 선택일 경우  
     if(selectedStudentList.length != 0){
         let total_student_selections = selectedStudentList.filter(value => value.includes('-1') );
@@ -1010,7 +1012,8 @@ function post_consulting_request(){
         window.location.reload()    
     // 전체 반 대상 선택 일 경우 
     }else{
-        b_type = $('#consulting_target_aban').val()[0]
+        b_type = Number($('#consulting_target_aban').val()[0])
+        console.log(b_type)
         $.ajax({
             type: "POST",
             url:'/manage/consulting/all_ban/'+b_type,
