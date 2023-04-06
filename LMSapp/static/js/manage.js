@@ -29,102 +29,6 @@ function get_data(){
         dataType: 'json',
         data: {},
         success: function (response) {
-            // let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
-            // for (i = 0; i < total_student_num; i++) {
-            //     let name = all_ban[i]['name']
-            //     let t_id = all_ban[i]['teacher_id']
-            //     let btid = all_ban[i]['ban_id']
-            //     let value = btid + '_' + t_id +'_' + name
-            //     temp_ban_option += `
-            //     <option value="${value}">${name} (${make_semester(all_ban[i]['semester'])}월 학기)</option>
-            //     `;
-            // }
-            // $('#ban_list').html(temp_ban_option)
-            // $('#consulting_target_ban').html(temp_ban_option)
-            // $('#task_target_ban').html(temp_ban_option)
-
-            //const semesterGrouped = all_ban.reduce((result, item) => {
-                //     const semester = item.semester;
-                //     if (!result[semester]) {
-                //       result[semester] = [];
-                //     }
-                //     result[semester].push(item);
-                //     return result;
-                // }, {});
-    
-                // // 결과를 객체의 배열로 변환
-                // const semesterGroupedresult = Object.entries(semesterGrouped).map(([semester, items]) => {
-                //     return { [semester]: items };
-                // });
-    
-                // // 총 원생 구하기
-                // onesemester = Number(semesterGroupedresult[1]['1'][0]['total_student_num'])
-                // fivesemester = Number(semesterGroupedresult[2]['2'][0]['total_student_num'])
-                // ninesemester = Number(semesterGroupedresult[0]['0'][0]['total_student_num'])
-                // total_student_num = onesemester + fivesemester + ninesemester
-
-                //퇴소 원생 구하기 
-            //     let outstudentArr = [];
-            // for(j=0;j<3;j++){
-            //     let key = j.toString()
-            //     let temp_semester_banlist = ''
-            //     let semester_out_student = 0
-            //     const result = semesterGroupedresult[j][key].reduce((acc, ban_data) => {
-            //         let onList = [];
-            //         onList = response['outstudent']['data'].filter(a => a.ban_id == ban_data.ban_id );
-            //         let count_per_ban = 0
-            //         let ocount_per_ban = 0
-            //         let scount_per_ban = 0
-            //         if (onList.length > 0) {
-            //             onList = onList[0];
-            //             ocount_per_ban =  onList.outcount_per_ban;
-            //             scount_per_ban = onList.switchcount_per_ban;
-            //             count_per_ban = ocount_per_ban+scount_per_ban;
-            //             semester_out_student += ocount_per_ban;
-            //         }
-            //         acc.push({
-            //             'b_id':ban_data.ban_id ,
-            //             'name':ban_data.name ,
-            //             'student_num':ban_data.student_num ,
-            //             'teacher_id':ban_data.teacher_id ,
-            //             'ocount_per_ban': ocount_per_ban,
-            //             'scount_per_ban':scount_per_ban,
-            //             'count_per_ban': count_per_ban, // 총 나간 원생 ( 관리중인 학생 수 구하기 ) 
-            //             'semester_out_student':semester_out_student, // 학기별 총 퇴소 원생 수 
-            //             'op':answer_rate(ocount_per_ban, semester_out_student).toFixed(0)
-            //         });
-            //         return acc;
-            //     }, []);
-            //     console.log(result)
-            //     // outstudentArr.push(semester_out_student);
-            //     if (result.length > 0) {
-            //         result.sort((a, b) => {
-            //             return b.op- a.op
-            //     });}
-                
-            //     result.forEach(ban_data => {
-            //         let b_id = ban_data['b_id']
-            //         let name = ban_data['name']
-            //         let student_num = ban_data['student_num'] 
-            //         let value = b_id + '_' + ban_data['teacher_id'] +'_' + name
-            //         let ocount_per_ban = ban_data['ocount_per_ban']
-            //         let op = ban_data['op']
-                    
-            //         temp_semester_banlist += `
-            //         <td class="col-3">${name}</td>
-            //         <td class="col-3">${student_num+ban_data['count_per_ban']}</td>
-            //         <td class="col-3">${student_num}</td>
-            //         <td class="col-2">${ocount_per_ban}(${op}%)</td>
-            //         <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')"><span class="cursor-pointer">👉</span></td>`;
-            //     });
-            //     $('#semester_banlist'+j).html(temp_semester_banlist)
-                
-            // }
-            // let outstudentTotal = 0;
-            // outstudentArr.forEach(ele => { 
-            //     outstudentTotal += Number(ele)
-            // });
-            // console.log(outstudentArr)
             const result = response['all_ban'].map(obj1 => {
                 const { out_created } = response['outstudent'].find(obj2 => obj1.student_id === obj2.student_id) || { out_created: null };
                 const { switch_ban_id } = response['switchstudent'].find(obj2 => obj1.student_id === obj2.student_id) || { switch_ban_id: null };
@@ -146,56 +50,10 @@ function get_data(){
             let ninesemester_total = ninesemester != 0 ? ninesemester.length : 0
             let nineoutstudent = ninesemester != 0 ? ninesemester.filter(e=>e.out_created != null).length : 0
 
-           
             console.log(result)
             console.log(onesemester)
             console.log(fivesemester)
             console.log(ninesemester)
-
-            // let out_student_arr = []
-            // let one_out_student_arr = []
-            // let five_out_student_arr = []
-            // let nine_out_student_arr = []
-            // let oneoutstudent = 0;
-            // let fiveoutstudent = 0;
-            // let nineoutstudent = 0;
-            // 학기 퇴소 / 이반 원생 수 
-            // if(outstudent_num != 0 && total_student_num != 0){
-            //     for(i=0;i<outstudent_num;i++){
-            //         let out_student = all_ban.filter(e=>e.student_id == response['outstudent'][i].student_id)[0]
-            //         let out_semester = out_student['semester']
-            //         out_student_arr.push(out_student)
-            //         if(out_semester == 0){
-            //             nine_out_student_arr.push(out_student)
-            //             nineoutstudent += 1
-            //         }else if(out_semester == 1){
-            //             five_out_student_arr.push(out_student)
-            //             fiveoutstudent+= 1
-            //         }else{
-            //             one_out_student_arr.push(out_student)
-            //             oneoutstudent += 1
-            //         }
-            //     }
-            // }
-
-            // let switch_student_arr = []
-            // let oneswitchstudent = 0;
-            // let fiveswitchstudent = 0;
-            // let nineswitchstudent = 0;
-            // if(switchstudent_num != 0 && total_student_num != 0){
-            //     for(i=0;i<switchstudent_num;i++){
-            //         let switch_student = all_ban.filter(e=>e.student_id == response['switchstudent'][i].student_id)[0]
-            //         let switch_semester = switch_student['semester']
-            //         switch_student_arr.push(switch_student)
-            //         if(switch_semester == 0){
-            //             nineswitchstudent += 1
-            //         }else if(switch_semester == 1){
-            //             fiveswitchstudent+= 1
-            //         }else{
-            //             oneswitchstudent += 1
-            //         }
-            //     }
-            // }
 
             let semester_student_table = `
                 <table>
@@ -238,32 +96,6 @@ function get_data(){
             `;
             $('#semester-student-table').html(semester_student_table);
 
-            // $('.allSemesterShow').on('click', function() {
-            //     $('#semester1').hide();
-            //     $('#semester5').hide();
-            //     $('#semester9').hide();                
-            //     $('#semester1').show();
-            //     $('#semester5').show();
-            //     $('#semester9').show();
-            // });
-            // $('.semester1Show').on('click', function() {
-            //     $('#semester1').hide();
-            //     $('#semester5').hide();
-            //     $('#semester9').hide();
-            //     $('#semester1').show();
-            // });            
-            // $('.semester5Show').on('click', function() {
-            //     $('#semester1').hide();
-            //     $('#semester5').hide();
-            //     $('#semester9').hide();
-            //     $('#semester5').show();
-            // });            
-            // $('.semester9Show').on('click', function() {
-            //     $('#semester1').hide();
-            //     $('#semester5').hide();
-            //     $('#semester9').hide();             
-            //     $('#semester9').show();
-            // });
             var chart = Chart.getChart('semester-student-chart')
             if(chart){
                 chart.destroy()
@@ -343,7 +175,34 @@ function get_data(){
     })
 
 }
+$('.allSemesterShow').on('click', function() {
+    console.log('찍힌가')
+    $('#semester1').hide();
+    $('#semester5').hide();
+    $('#semester9').hide();                
+    $('#semester1').show();
+    $('#semester5').show();
+    $('#semester9').show();
 
+});
+$('.semester1Show').on('click', function() {
+    $('#semester1').hide();
+    $('#semester5').hide();
+    $('#semester9').hide();
+    $('#semester1').show();
+});            
+$('.semester5Show').on('click', function() {
+    $('#semester1').hide();
+    $('#semester5').hide();
+    $('#semester9').hide();
+    $('#semester5').show();
+});            
+$('.semester9Show').on('click', function() {
+    $('#semester1').hide();
+    $('#semester5').hide();
+    $('#semester9').hide();             
+    $('#semester9').show();
+}); 
 // 반 별 차트 정보 보내주는 함수 
 async function getBanChart(btid){
     console.log(btid)
