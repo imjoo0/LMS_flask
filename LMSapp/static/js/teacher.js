@@ -627,15 +627,14 @@ async function get_student(ban_id) {
                 var temp_consulting_contents_box = '';
                 $.each(data, function (index, consulting) {
                     let unlearned_arr = consulting.consulting_list.length > 0 ? consulting.consulting_list.filter(consulting => consulting.category_id < 100): 0;
-                    let unlearned = 0
+                    let unlearned = unlearned_arr != 0 ? unlearned_arr.length : 0;
                     let unlearned_ixl = 0
                     let unlearned_reading = 0
                     let unlearned_speacial = 0
                     let unlearned_writing = 0
                     let unlearned_homepage = 0
                     let unlearned_intoreading = 0
-                    if(unlearned_arr != 0){
-                        unlearned = unlearned_arr.length;
+                    if(unlearned != 0){
                         unlearned_ixl = unlearned_arr.filter(a => a.category_id == 1).length
                         unlearned_reading = unlearned_arr.filter(a => a.category_id == 4).length
                         unlearned_speacial = unlearned_arr.filter(a => a.category_id == 3).length
