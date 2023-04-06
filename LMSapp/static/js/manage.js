@@ -134,6 +134,8 @@ function get_data(){
             let fivesemester = total_student_num != 0 ? all_ban.filter(e=>e.semester == 2) : 0
             let ninesemester = total_student_num != 0 ? all_ban.filter(e=>e.semester == 0) : 0
             console.log(onesemester)
+            console.log( response['outstudent'])
+            console.log( response['switchstudent'])
             // // 퇴소 원생 구하기
             
             
