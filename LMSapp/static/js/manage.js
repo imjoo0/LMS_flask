@@ -50,11 +50,6 @@ function get_data(){
             let ninesemester_total = ninesemester != 0 ? ninesemester.length : 0
             let nineoutstudent = ninesemester != 0 ? ninesemester.filter(e=>e.out_created != null).length : 0
 
-            console.log(result)
-            console.log(onesemester)
-            console.log(fivesemester)
-            console.log(ninesemester)
-
             let semester_student_table = `
                 <table>
                     <tr>
@@ -168,6 +163,72 @@ function get_data(){
                     }
                 }
             });
+
+            $('.allSemesterShow').on('click', async function() {
+                $('#semester1').hide();
+                $('#semester5').hide();
+                $('#semester9').hide();                
+                $('#semester1').show();
+                $('#semester5').show();
+                $('#semester9').show();
+            });
+            $('.semester1Show').on('click', async function() {
+                $('#semester1').hide();
+                $('#semester5').hide();
+                $('#semester9').hide();
+                $('#semester1').show();
+                let container = $('#semester_banlist_pagination')
+                const banGrouped = onesemester.reduce((acc, item) => {
+                    const ban_id = item.ban_id;
+                    if (!acc[ban_id]) {
+                        acc[ban_id] = [];
+                    }
+                    acc[ban_id].push(item);
+                    return acc;
+                }, {});
+                    // 결과를 객체의 배열로 변환
+                const banGroupedresult = Object.entries(banGrouped).map(([ban_id, items]) => {
+                    return { [ban_id]: items };
+                });
+                console.log(banGroupedresult)
+                await container.pagination({
+                    dataSource: banGroupedresult,
+                    prevText: '이전',
+                    nextText: '다음',
+                    pageSize: 10,
+                    callback: function (banGroupedresult, pagination) {
+                        banGroupedresult.forEach(ban_data => {
+                            let b_id = ban_data['ban_id']
+                            let name = ban_data['name']
+                            let student_num = ban_data['student_num'] 
+                            let value = b_id + '_' + ban_data['teacher_id'] +'_' + name
+                            let ocount_per_ban = ban_data['ocount_per_ban']
+                            let op = ban_data['op']
+                            
+                            temp_semester_banlist += `
+                            <td class="col-3">${name}</td>
+                            <td class="col-3">${student_num+ban_data['count_per_ban']}</td>
+                            <td class="col-3">${student_num}</td>
+                            <td class="col-2">${ocount_per_ban}(${op}%)</td>
+                            <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')"><span class="cursor-pointer">👉</span></td>`;
+                        });
+                        $('#semester_banlist'+j).html(temp_semester_banlist)
+                    }})
+                
+
+            });            
+            $('.semester5Show').on('click', function() {
+                $('#semester1').hide();
+                $('#semester5').hide();
+                $('#semester9').hide();
+                $('#semester5').show();
+            });            
+            $('.semester9Show').on('click', function() {
+                $('#semester1').hide();
+                $('#semester5').hide();
+                $('#semester9').hide();             
+                $('#semester9').show();
+            }); 
         },
         error: function (xhr, status, error) {
             alert('xhr.responseText');
@@ -175,34 +236,6 @@ function get_data(){
     })
 
 }
-$('.allSemesterShow').on('click', function() {
-    console.log('찍힌가')
-    $('#semester1').hide();
-    $('#semester5').hide();
-    $('#semester9').hide();                
-    $('#semester1').show();
-    $('#semester5').show();
-    $('#semester9').show();
-
-});
-$('.semester1Show').on('click', function() {
-    $('#semester1').hide();
-    $('#semester5').hide();
-    $('#semester9').hide();
-    $('#semester1').show();
-});            
-$('.semester5Show').on('click', function() {
-    $('#semester1').hide();
-    $('#semester5').hide();
-    $('#semester9').hide();
-    $('#semester5').show();
-});            
-$('.semester9Show').on('click', function() {
-    $('#semester1').hide();
-    $('#semester5').hide();
-    $('#semester9').hide();             
-    $('#semester9').show();
-}); 
 // 반 별 차트 정보 보내주는 함수 
 async function getBanChart(btid){
     console.log(btid)
