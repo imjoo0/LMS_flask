@@ -350,3 +350,7 @@
 #question_topurple{
   display: none;
 }
+
+.done{
+  text-decoration:line-through
+}
