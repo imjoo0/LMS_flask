@@ -196,7 +196,7 @@ function get_data(){
                     prevText: '이전',
                     nextText: '다음',
                     pageSize: 10,
-                    callback: function (banGroupedresult, pagination) {
+                    callback:  async function (banGroupedresult, pagination) {
                         banGroupedresult.forEach(ban_data => {
                             let b_id = Object.keys(ban_data)[0];
                             let name = ban_data[b_id][0].name
