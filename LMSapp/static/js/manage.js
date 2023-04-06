@@ -199,6 +199,7 @@ function get_data() {
 function allsemesterShow() {
     $('#semester').show();
     $('#semester_s').html('전체 반')
+    data = allData
     // data.sort((a, b) => Object.keys(b)[0].split('_')[1] - Object.keys(a)[0].split('_')[1])
     //  const v = `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
     let temp_semester_banlist = ''
