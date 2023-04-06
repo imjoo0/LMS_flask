@@ -200,7 +200,6 @@ function allsemesterShow() {
     $('#semester').show();
     $('#semester_s').html('전체 반')
     data = allData
-    // data.sort((a, b) => Object.keys(b)[0].split('_')[1] - Object.keys(a)[0].split('_')[1])
     //  const v = `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
     let temp_semester_banlist = ''
     let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
@@ -208,6 +207,7 @@ function allsemesterShow() {
         let key = Object.keys(ban_data)[0];
         let ban_id = ban_data[key][0].ban_id
         let name = ban_data[key][0].name
+        let semester = ban_data[key][0].semester
         let student_num = ban_data[key][0].student_num
         let teacher_name = ban_data[key][0].teacher_name
         let op = oneoutstudent
@@ -215,7 +215,7 @@ function allsemesterShow() {
         // 원생 목록 
         let out_num = ban_data[key].filter(s => s.out_created != null || s.switch_ban_id != null).length;
         temp_ban_option += `
-        <option value="${value}">${name} (${make_semester(ban_data[key][0].semester)}월 학기)</option>
+        <option value="${value}">${name} (${make_semester(semester)}월 학기)</option>
         `;
         temp_semester_banlist += `
         <td class="col-2">${name}</td>
@@ -236,18 +236,14 @@ function semesterShow(semester) {
     $('#semester').show();
     if(semester == 0){
         data = ninesemesterData
-        $('#getbanChartsearch').html('📌 상세조회 할 9학기 반 선택')
         $('#semester_s').html('9월 학기')
     }else if(semester == 1){
         data = onesemesterData
-        $('#getbanChartsearch').html('📌 상세조회 할 1학기 반 선택')
         $('#semester_s').html('1월 학기')
     }else{
         data = fivesemesterData
-        $('#getbanChartsearch').html('📌 상세조회 할 5학기 반 선택')
         $('#semester_s').html('5월 학기')
     }
-    // data.sort((a, b) => Object.keys(b)[0].split('_')[1] - Object.keys(a)[0].split('_')[1])
     let temp_semester_banlist = ''
     data.forEach(ban_data => {
         let key = Object.keys(ban_data)[0];
@@ -256,7 +252,6 @@ function semesterShow(semester) {
         let student_num = ban_data[key][0].student_num
         let teacher_name = ban_data[key][0].teacher_name
         let op = oneoutstudent
-        // let items = categoryGroupedresult[i][category].filter( e => e.done === 0 );
         // 원생 목록 
         let out_num = ban_data[key].filter(s => s.out_created != null || s.switch_ban_id != null).length;
 
