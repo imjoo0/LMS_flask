@@ -142,7 +142,6 @@ function get_data() {
             let consulting_t = response['all_consulting'].length;
             let consulting_done = consulting_t != 0 ? response['all_consulting'].filter(consulting => consulting.done === 1).length : 0  
             // let consulting_notdone = consulting_t - consulting_done
-
             let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done != 0  && new Date(task.created_at).setHours(0, 0, 0, 0) == today).length : 0;
             let total_task = response['all_task'].length
             let task_notdone = total_task-task_done;
@@ -236,7 +235,7 @@ function get_data() {
                                     <label><input type="checkbox" name="taskid" value="${task_items[k].id}"/>${ban_name}</label>`;
                                 }else if(task_items[k].done == 1 && task_items[k].created_at == today){
                                     temp_cate_menu += `
-                                    <label>✅(완료) ${ban_name}</label>`;
+                                    <label class="done">✅(완료) ${ban_name}</label>`;
                                 }
                             }
                             temp_cate_menu += `</td></tbody>`;
