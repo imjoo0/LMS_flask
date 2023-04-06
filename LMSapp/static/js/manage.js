@@ -14,7 +14,7 @@ $(document).ready(function () {
 
 })
 // 전체 반 정보(차트) 가져오는 함수 
-function get_data() {
+async function get_data() {
     $('#semester').hide();
     $('#detailban').show();
     $('#qubox').hide()
@@ -22,7 +22,7 @@ function get_data() {
     $('#ulbox').hide()
     $('#target_ban_info_body').hide()
     $('#inloading').show()
-    $.ajax({
+    await $.ajax({
         type: "GET",
         url: "/common/all_ban",
         dataType: 'json',
