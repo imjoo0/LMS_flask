@@ -151,6 +151,7 @@ function get_data(){
             if(outstudent_num != 0 && total_student_num != 0){
                 for(i=0;i<outstudent_num;i++){
                     let out_student = all_ban.filter(e=>e.student_id == response['outstudent'][i].student_id)[0]
+                    console.log(out_student)
                     let out_semester = out_student['semester']
                     out_student_arr.push(out_student)
                     if(out_semester == 0){
