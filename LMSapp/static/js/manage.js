@@ -203,6 +203,7 @@ function allsemesterShow() {
     //  const v = `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
     let temp_semester_banlist = ''
     let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
+    let temp_banlist = '<option value=0 selected>반을 선택해주세요</option>';
     data.forEach(ban_data => {
         let key = Object.keys(ban_data)[0];
         let ban_id = ban_data[key][0].ban_id
@@ -226,7 +227,7 @@ function allsemesterShow() {
         <td class="col-2" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart(${ban_id},${semester})"><span class="cursor-pointer">👉</span></td>`;
     });
     $('#semester_banlist').html(temp_semester_banlist)
-    $('#ban_list').html(temp_ban_option)
+    // $('#ban_list').html(temp_ban_option)
     $('#consulting_target_ban').html(temp_ban_option)
     $('#task_target_ban').html(temp_ban_option)
 }
