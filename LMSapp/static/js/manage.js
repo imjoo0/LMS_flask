@@ -57,7 +57,7 @@ async function get_data() {
                 const v = item.ban_id;
               
                 if (!acc[v]){
-                  acc[v] = { students: [], total_out_count: 0 , total_out_per:0, total_switch_count: 0 , total_switch_per:0};
+                  acc[v] = {teacher_id:item.teacher_id, ban_id:item.ban_id, semester:item.semester,students: [], total_out_count: 0 , total_out_per:0, total_switch_count: 0 , total_switch_per:0};
                 }
               
                 if(item.out_created != null){
@@ -234,14 +234,13 @@ function allsemesterShow() {
     let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
     // let temp_banlist = '<option value=0 selected>반을 선택해주세요</option>';
     data.forEach(ban_data => {
-        let key = Object.keys(ban_data)[0];
-        let ban_id = ban_data[key][0].ban_id
-        let name = ban_data[key][0].name
-        let semester = ban_data[key][0].semester
-        let student_num = ban_data[key][0].student_num
-        let teacher_name = ban_data[key][0].teacher_name
+        let ban_id = ban_data['students'][0].ban_id
+        let name = ban_data['students'][0].name
+        let semester = ban_data['students'][0].semester
+        let student_num = ban_data['students'][0].student_num
+        let teacher_name = ban_data['students'][0].teacher_name
         
-        let value = `${ban_id}_${ban_data[key][0].teacher_id}_${name}`;
+        let value = `${ban_id}_${ban_data['students'][0].teacher_id}_${name}`;
         // 원생 목록 
         // let out_num = ban_data[key].filter(s => s.out_created != null || s.switch_ban_id != null).length;
         let total_out_count = ban_data['total_out_count']
@@ -265,16 +264,15 @@ function allsemesterShow() {
 
 function semesterShow(semester) {
     $('#semester').show();
-    data = allData.filter(e => Object.keys(e)[0].split('_')[2] == semester)
+    data = allData.filter(e => e.semester == semester)
     $('#semester_s').html(make_semester(semester)+'월 학기');
     // key값 `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
     let temp_semester_banlist = ''
     data.forEach(ban_data => {
-        let key = Object.keys(ban_data)[0];
-        let ban_id = ban_data[key][0].ban_id
-        let name = ban_data[key][0].name
-        let student_num = ban_data[key][0].student_num
-        let teacher_name = ban_data[key][0].teacher_name
+        let ban_id = ban_data['students'][0].ban_id
+        let name = ban_data['students'][0].name
+        let student_num = ban_data['students'][0].student_num
+        let teacher_name = ban_data['students'][0].teacher_name
         
         // 원생 목록 
         // let out_num = ban_data[key].filter(s => s.out_created != null || s.switch_ban_id != null).length;
@@ -295,10 +293,8 @@ function semesterShow(semester) {
 // 반 별 차트 정보 보내주는 함수 
 function getBanChart(ban_id) {
     // key값 `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
-    result = data.filter(e=>Object.keys(e)[0].split('_')[0] == ban_id)[0]
+    result = data.filter(e=>e.ban_id == ban_id)
     console.log(result)
-    key = Object.keys(result)[0]
-    result = result[key]
     $('#target_ban_info_requestModalLabel').html(result[0].name + '반 상세 현황')
     if(result.length <= 0){
         let no_data_title = `<h1> ${response.text} </h1>`
