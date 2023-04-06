@@ -47,7 +47,7 @@ def get_ban():
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute("SELECT ban_id, COUNT(*) AS count_per_ban, (SELECT COUNT(*) FROM outstudent) AS total_count FROM outstudent GROUP BY ban_id;")
+                cur.execute("SELECT COALESCE(switchstudent.ban_id, outstudent.ban_id) AS ban_id, COALESCE(switch_count, 0) AS switch_count, COALESCE(out_count, 0) AS out_count FROM (SELECT ban_id, COUNT(*) AS switch_count FROM switchstudent GROUP BY ban_id) AS switch_counts LEFT OUTER JOIN (SELECT ban_id, COUNT(*) AS out_count FROM outstudent GROUP BY ban_id) AS out_counts ON switch_counts.ban_id = out_counts.ban_id LEFT OUTER JOIN switchstudent ON switch_counts.ban_id = switchstudent.ban_id LEFT OUTER JOIN outstudent ON out_counts.ban_id = outstudent.ban_id UNION SELECT COALESCE(switch_counts.ban_id, out_counts.ban_id) AS ban_id, COALESCE(switch_count, 0) AS switch_count, COALESCE(out_count, 0) AS out_count FROM (SELECT ban_id, COUNT(*) AS switch_count FROM switchstudent GROUP BY ban_id) AS switch_counts RIGHT OUTER JOIN (SELECT ban_id, COUNT(*) AS out_count FROM outstudent GROUP BY ban_id) AS out_counts ON switch_counts.ban_id = out_counts.ban_id WHERE switch_counts.ban_id IS NULL;")
                 outstudent['status'] = 200
                 outstudent['data'] = cur.fetchall()
         except:
@@ -55,82 +55,6 @@ def get_ban():
         finally:
                 db.close()        
         return jsonify({'all_ban': all_ban,'outstudent': outstudent})
-    
-
-# @bp.route("/sodata", methods=['GET'])
-# def get_sodata():
-#     if request.method == 'GET':
-#         target_sban = []
-#         target_oban = []
-#         o = OutStudent.query.all()
-#         total_o = len(o)
-#         s = SwitchStudent.query.all()
-#         total_s = len(s)
-#         for sd in s:
-#             target_sban.append(sd.ban_id)
-#         for od in o:
-#             target_oban.append(od.ban_id)
-
-#         if(len(target_sban) != 0 or len(target_oban) != 0):
-#             target_ban = target_sban.copy()
-#             target_ban.extend(target_oban)
-#             target_ban = list(set(target_ban))
-#             sodata = []
-#             for ban in target_ban:
-#                 od = len(OutStudent.query.filter(OutStudent.ban_id==ban).all())
-#                 sd = len(SwitchStudent.query.filter(SwitchStudent.ban_id==ban).all())
-#                 data = {}
-#                 b = callapi.purple_ban(ban,'get_ban')
-#                 data['register_no'] = b['register_no']
-#                 data['ban_name'] = b['ban_name']
-#                 data['semester'] = b['semester']
-#                 data['teacher_name'] = b['teacher_name'] +'('+b['teacher_engname'] + ')'
-#                 data['standard'] = round((od/total_o)*100)+round((sd/total_s)*100)
-#                 data['out_data'] = str(od) +'('+ str(round((od/total_o)*100)) + '%)' if(total_o != 0) else 0
-#                 data['switch_data'] = str(sd) +'('+ str(round((sd/total_s)*100)) + '%)' if(total_s != 0) else 0
-#                 sodata.append(data)
-#             sodata.sort(key = lambda x:-x['standard'])
-
-#         else:
-#                 sodata = '없음'
-#         return jsonify({'sodata': sodata,'switch_num':total_s,'outstudent_num':total_o})
-
-# @bp.route("/uldata", methods=['GET'])
-# def get_uldata():
-#     if request.method == 'GET':
-#         target_ulban = []
-#         ul = Consulting.query.filter(Consulting.category_id<100).all()
-#         ixl_num = len(Consulting.query.filter(Consulting.category_id==1).all())
-#         sread_num = len(Consulting.query.filter(Consulting.category_id==3).all())
-#         read_num = len(Consulting.query.filter(Consulting.category_id==4).all())
-#         intoread_num = len(Consulting.query.filter(Consulting.category_id==5).all()) + len(Consulting.query.filter(Consulting.category_id==7).all())
-#         writing_num = len(Consulting.query.filter(Consulting.category_id==6).all())
-
-#         total_ul = len(ul)
-
-#         for u in ul:
-#             target_ulban.append(u.ban_id)
-
-#         if len(target_ulban) != 0:
-#             target_ulban = list(set(target_ulban))
-#             uldata = []
-#             for ban in target_ulban:
-#                 ud = len(Consulting.query.filter((Consulting.ban_id==ban) & (Consulting.category_id<100)).all())
-#                 data = {}
-#                 b = callapi.purple_ban(ban,'get_ban')
-#                 data['register_no'] = b['register_no']
-#                 data['ban_name'] = b['ban_name']
-#                 data['semester'] = b['semester']
-#                 data['teacher_name'] = b['teacher_name'] +'('+b['teacher_engname'] + ')'
-#                 data['standard'] = ud
-#                 data['ul_data'] = str(ud) +'('+ str(round((ud/total_ul)*100)) + '%)' if(total_ul != 0) else 0
-#                 uldata.append(data)
-#             uldata.sort(key = lambda x:-x['standard'])
-#         else:
-#                 uldata = '없음'
-#         return jsonify({'uldata': uldata,'unlearned_num':total_ul,'ixl_num':ixl_num,'sread_num':sread_num,'read_num':read_num,
-#                             'intoread_num':intoread_num,'writing_num':writing_num,'intoread_num':intoread_num})
-
         
 @bp.route('/downloadfile/question/<int:q_id>')
 def download_file(q_id):

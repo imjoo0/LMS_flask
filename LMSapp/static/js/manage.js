@@ -6,6 +6,7 @@ var selectedStudentList = [];
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
     getBanlist();
+
     $('.nav-link').on('click', function(){
         $('.nav-link').removeClass('active');
         $(this).addClass('active');
@@ -28,22 +29,6 @@ function getBanlist(){
         dataType: 'json',
         data: {},
         success: function (response) {
-            function make_semester(semester){
-                if (semester == 1){
-                    return 1;
-                }else if(semester == 2){
-                    return 5;
-                }else if(semester == 0){
-                    return 9;
-                }else{
-                    return semester
-                }
-            }
-            let answer_rate =  function(answer, all) {
-                if(Object.is(answer/all, NaN)) return 0;
-                else return answer/all*100;
-            }
-
             let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
             let all_ban = response['all_ban']
             for (i = 0; i < all_ban.length; i++) {
@@ -90,19 +75,25 @@ function getBanlist(){
                     let onList = [];
                     onList = response['outstudent']['data'].filter(a => a.ban_id == ban_data.ban_id );
                     let count_per_ban = 0
+                    let ocount_per_ban = 0
+                    let scount_per_ban = 0
                     if (onList.length > 0) {
                         onList = onList[0];
-                        count_per_ban = onList.count_per_ban
-                        semester_out_student += count_per_ban
+                        ocount_per_ban =  onList.outcount_per_ban;
+                        scount_per_ban = onList.switchcount_per_ban;
+                        count_per_ban = ocount_per_ban+scount_per_ban;
+                        semester_out_student += ocount_per_ban;
                     }
                     acc.push({
                         'b_id':ban_data.ban_id ,
                         'name':ban_data.name ,
                         'student_num':ban_data.student_num ,
                         'teacher_id':ban_data.teacher_id ,
-                        'count_per_ban': count_per_ban,
-                        'semester_out_student':semester_out_student,
-                        'op':answer_rate(count_per_ban, semester_out_student).toFixed(0)
+                        'ocount_per_ban': ocount_per_ban,
+                        'scount_per_ban':scount_per_ban,
+                        'count_per_ban': count_per_ban, // 총 나간 원생 ( 관리중인 학생 수 구하기 ) 
+                        'semester_out_student':semester_out_student, // 학기별 총 퇴소 원생 수 
+                        'op':answer_rate(ocount_per_ban, semester_out_student).toFixed(0)
                     });
                     return acc;
                 }, []);
@@ -115,21 +106,22 @@ function getBanlist(){
                 result.forEach(ban_data => {
                     let b_id = ban_data['b_id']
                     let name = ban_data['name']
-                    let student_num = ban_data['student_num']
+                    let student_num = ban_data['student_num'] 
                     let value = b_id + '_' + ban_data['teacher_id'] +'_' + name
-                    let count_per_ban = ban_data['count_per_ban']
+                    let ocount_per_ban = ban_data['ocount_per_ban']
                     let op = ban_data['op']
                     // let on = response['outstudent']['data'].filter(a => a.ban_id == b_id);
                     
                     // if(on.length != 0){
-                    //     count_per_ban = on[0]['count_per_ban']
+                    //     ocount_per_ban = on[0]['ocount_per_ban']
                     //     total_out_ban = on[0]['total_count']
                     // }
                     temp_semester_banlist += `
                     <td class="col-3">${name}</td>
                     <td class="col-3">${student_num}</td>
-                    <td class="col-3">${count_per_ban}(${op}%)</td>
-                    <td class="col-3" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')"><span class="cursor-pointer">👉</span></td>`;
+                    <td class="col-3">${student_num-ban_data['count_per_ban']}</td>
+                    <td class="col-2">${ocount_per_ban}(${op}%)</td>
+                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')"><span class="cursor-pointer">👉</span></td>`;
                 });
 
                 $('#semester_banlist'+j).html(temp_semester_banlist)
@@ -137,7 +129,6 @@ function getBanlist(){
                 
                 outstudentArr.push(semester_out_student);
             }
-            console.log(outstudentArr);
             let outstudentTotal = 0;
             outstudentArr.forEach(ele => { 
                 outstudentTotal += Number(ele)
@@ -274,30 +265,6 @@ function getBanlist(){
                     }
                 }
             });
-            
-            /*
-            onesemester = Number(semesterGroupedresult[1]['1'][0]['total_student_num'])
-            $('#onesemester').css('width',`${onesemester}%`);
-            $('#onesemester').css('background-color','#95B3D7');
-            $('#onesemester_msg').html(`1학기 원생 수: ${onesemester}명`);
-
-            fivesemester = Number(semesterGroupedresult[2]['2'][0]['total_student_num'])
-            $('#fivesemester').css('width',`${fivesemester}%`);
-            $('#fivesemester').css('background-color','#D99694');
-            $('#fivesemester_msg').html(`5학기 원생 수: ${fivesemester}명`);
-
-            ninesemester = Number(semesterGroupedresult[0]['0'][0]['total_student_num'])
-            $('#ninesemester').css('width',`${ninesemester}%`);
-            $('#ninesemester').css('background-color','#EBF1DE');
-            $('#ninesemester_msg').html(`9학기 학기 원생 수: ${ninesemester}명`);
-
-            total_student_num = onesemester + fivesemester + ninesemester
-            $('#total_student_num').css('width',`${total_student_num}%`);
-            $('#total_student_num').css('background-color','#D7E4BD');
-            $('#total_student_num_msg').html(`퍼플 총 원생: ${total_student_num}명`);
-            */
-
-            
         },
         error: function (xhr, status, error) {
             alert('xhr.responseText');
