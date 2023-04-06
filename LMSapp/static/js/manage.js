@@ -195,28 +195,28 @@ function get_data(){
                         <th class="need">전체</th>
                         <td>${total_student_num+outstudent_num}명</td>
                         <td>${total_student_num}명</td>
-                        <td>${outstudent_num}명 (${answer_rate(outstudent_num, total_student_num+outstudent_num).toFixed(0)}%)</td>
+                        <td>${outstudent_num}명</td>
                         <td><span class='cursor-pointer fs-4 allSemesterShow'>📜</span></td>
                     </tr>
                     <tr>
                         <th class="need">1월 학기</th>
                         <td>${onesemester_total+oneoutstudent+oneswitchstudent}명</td>
                         <td>${onesemester_total}명</td>
-                        <td>${oneoutstudent}명 (${answer_rate(oneoutstudent, onesemester_total+oneoutstudent+oneswitchstudent).toFixed(0)}%)</td>
+                        <td>${oneoutstudent}명</td>
                         <td><span class='cursor-pointer fs-4 semester1Show'>📜</span></td>
                     </tr>
                     <tr>
                         <th class="need">5월 학기</th>
                         <td>${fivesemester_total+fiveoutstudent+fiveswitchstudent}명</td>
                         <td>${fivesemester_total}명</td>
-                        <td>${fiveoutstudent}명 (${answer_rate(fiveoutstudent, fivesemester_total+fiveoutstudent+fiveswitchstudent).toFixed(0)}%)</td>
+                        <td>${fiveoutstudent}명</td>
                         <td><span class='cursor-pointer fs-4 semester5Show'>📜</span></td>
                     </tr>
                     <tr>
                         <th>9월 학기</th>
                         <td>${ninesemester_total+nineoutstudent+nineswitchstudent}명</td>
                         <td>${ninesemester_total}명</td>
-                        <td>${nineoutstudent}명 (${answer_rate(nineoutstudent, ninesemester_total+nineoutstudent+nineswitchstudent).toFixed(0)}%)</td>
+                        <td>${nineoutstudent}명</td>
                         <td><span class='cursor-pointer fs-4 semester9Show'>📜</span></td>
                     </tr>
                 </table>
@@ -249,78 +249,78 @@ function get_data(){
             //     $('#semester9').hide();             
             //     $('#semester9').show();
             // });
-            // var chart = Chart.getChart('semester-student-chart')
-            // if(chart){
-            //     chart.destroy()
-            // }
-            // // PURPLE 섹션 차트 그리기
-            // let ctx = document.getElementById('semester-student-chart').getContext('2d');
-            // let semesterStudentChart = new Chart(ctx, {
-            //     type : 'scatter',
-            //     data: {
-            //         labels: ['퍼플 총 원생', '1월 학기', '5월 학기', '9월 학기'],
-            //         datasets: [{
-            //             type: 'bar',
-            //             label: '원생 수',
-            //             data: [total_student_num, onesemester, fivesemester, ninesemester],
-            //             backgroundColor: ['#F66F5B77', '#FFBCE277', '#FE85AB77', '#C24F7777'],
-            //             borderColor: ['#F66F5B', '#FFBCE2', '#FE85AB', '#C24F77'],
-            //             borderWidth: 2
-            //         },{
-            //             type: 'line',
-            //             label: '퇴소 원생 수',
-            //             data: [outstudentTotal, outstudentArr[0], outstudentArr[1], outstudentArr[2]],
-            //             fill: false,
-            //             borderColor: '#F23966cc',
-            //             borderWidth: 2    
-            //         }]
-            //     },
-            //     options: {
-            //         maxBarThickness: 60,
-            //         interaction: {
-            //             mode: 'index',
-            //         },
-            //         plugins : {
-            //             tooltip: {
-            //                 padding: 10,
-            //                 bodySpacing: 5,
-            //                 bodyFont: {
-            //                     font: {
-            //                         family: "pretendard",
-            //                     }
-            //                 },
-            //                 usePointStyle: true,
-            //                 filter: (item) => item.parsed.y !== null,
-            //                 callbacks: {
-            //                     label: (context) => {
-            //                         return ' ' + context.parsed.y + '명';
-            //                     },
-            //                 },
-            //             },
-            //         },
-            //         scales: {
-            //             y: {
-            //                 afterDataLimits: (scale) => {
-            //                     scale.max = scale.max * 1.2;
-            //                 },
-            //                 axis : 'y',
-            //                 display: true,
-            //                 position: 'top',
-            //                 title: {
-            //                     display:true,
-            //                     align: 'end',
-            //                     color: '#2b2b2b',
-            //                             font: {
-            //                                 size: 10,
-            //                                 family: "pretendard",
-            //                                 weight: 500,
-            //                             },
-            //                     text : '단위 : 명'
-            //                 }
-            //             }
-            //         }
-            //     }
-            // });
+            var chart = Chart.getChart('semester-student-chart')
+            if(chart){
+                chart.destroy()
+            }
+            // PURPLE 섹션 차트 그리기
+            let ctx = document.getElementById('semester-student-chart').getContext('2d');
+            let semesterStudentChart = new Chart(ctx, {
+                type : 'scatter',
+                data: {
+                    labels: ['퍼플 총 원생', '1월 학기', '5월 학기', '9월 학기'],
+                    datasets: [{
+                        type: 'bar',
+                        label: '원생 수',
+                        data: [total_student_num, onesemester_total, fivesemester_total, ninesemester_total],
+                        backgroundColor: ['#F66F5B77', '#FFBCE277', '#FE85AB77', '#C24F7777'],
+                        borderColor: ['#F66F5B', '#FFBCE2', '#FE85AB', '#C24F77'],
+                        borderWidth: 2
+                    },{
+                        type: 'line',
+                        label: '퇴소 원생 수',
+                        data: [outstudent_num, oneoutstudent+oneswitchstudent, fiveoutstudent+fiveswitchstudent, nineoutstudent+nineswitchstudent],
+                        fill: false,
+                        borderColor: '#F23966cc',
+                        borderWidth: 2    
+                    }]
+                },
+                options: {
+                    maxBarThickness: 60,
+                    interaction: {
+                        mode: 'index',
+                    },
+                    plugins : {
+                        tooltip: {
+                            padding: 10,
+                            bodySpacing: 5,
+                            bodyFont: {
+                                font: {
+                                    family: "pretendard",
+                                }
+                            },
+                            usePointStyle: true,
+                            filter: (item) => item.parsed.y !== null,
+                            callbacks: {
+                                label: (context) => {
+                                    return ' ' + context.parsed.y + '명';
+                                },
+                            },
+                        },
+                    },
+                    scales: {
+                        y: {
+                            afterDataLimits: (scale) => {
+                                scale.max = scale.max * 1.2;
+                            },
+                            axis : 'y',
+                            display: true,
+                            position: 'top',
+                            title: {
+                                display:true,
+                                align: 'end',
+                                color: '#2b2b2b',
+                                        font: {
+                                            size: 10,
+                                            family: "pretendard",
+                                            weight: 500,
+                                        },
+                                text : '단위 : 명'
+                            }
+                        }
+                    }
+                }
+            });
         },
         error: function (xhr, status, error) {
             alert('xhr.responseText');
