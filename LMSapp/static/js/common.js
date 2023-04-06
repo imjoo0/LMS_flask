@@ -44,7 +44,7 @@ let missed_date = function(d){
 let make_priority = function(priority) {
     if(priority==1) return '';
     else if(priority==2) return '오후업무';
-    else if(priority==3) return '오전업무☀️';
+    else if(priority==3) return '오전업무🌞';
     else return '긴급업무⚡';
 }
 let answer_rate =  function(answer, all) {
