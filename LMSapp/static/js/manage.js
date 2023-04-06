@@ -54,7 +54,7 @@ async function get_data() {
 
             // 반으로 묶인 데이터 ban_id / student_num / semester / teacher_id
             const banGrouped = result.reduce((acc, item) => {
-                const v = `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
+                const v = item.ban_id;
               
                 if (!acc[v]){
                   acc[v] = { students: [], total_out_count: 0 , total_out_per:0, total_switch_count: 0 , total_switch_per:0};
@@ -450,6 +450,7 @@ function sodata(){
     let temp_html = ``
     for (i = 0; i < 10; i++) {
         let key = Object.keys(ban_data)[i];
+        console.log(key)
         let ban_id = ban_data[key][i].ban_id
         let name = ban_data[key][i].name
         let student_num = ban_data[key][i].student_num
