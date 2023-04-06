@@ -326,6 +326,8 @@ function getBanChart(ban_id,semester) {
         $('#student_data').show()
         $('#pagingul').show();
         my_task_data = all_taskData.filter(t=>t.ban_id == ban_id && t.startdate <= today )
+        done_task = my_task_data.filter(a => a.done == 1).length
+        done_consulting = my_consulting.filter(a => a.done == 1).length
         let temp_ban_statistics = `
         <table class="table text-center" id="unlearned" style="margin-left:1%; margin-right: 4%;width: 40%;">
                 <tbody  style="width:100%;">
@@ -350,7 +352,7 @@ function getBanChart(ban_id,semester) {
                     </tr>
                 </tbody>
             </table>
-            <table class="table text-center" id="teaching" style="margin-right: 4%; width: 25%;">
+            <table class="table text-center" id="teaching" style="margin-right: 4%; width: 50%;">
                 <tbody  style="width:100%;">
                     <tr class="row" style="background: #DCE6F2;">
                         <th class="col-12">상담*업무 관리</th>
@@ -360,10 +362,10 @@ function getBanChart(ban_id,semester) {
                         <th class="col-6">상담</th>
                     </tr>
                     <tr class="row">
-                        <td class="col-3">${my_task_data.filter(a => a.done == 1).length}/${my_task_data.length}</td>
-                        <td class="col-3">${answer_rate(task.filter(a => a.done == 1).length, task.length).toFixed(0)}%</td>
-                        <td class="col-3">${my_consulting.filter(a => a.done == 1).length}/${my_consulting.length}</td>
-                        <td class="col-3">${answer_rate(my_consulting.filter(a => a.done == 1).length, my_consulting.length).toFixed(0)}%</td>
+                        <td class="col-3">${done_task}/${my_task_data.length}</td>
+                        <td class="col-3">${answer_rate(done_task, task.length).toFixed(0)}%</td>
+                        <td class="col-3">${done_consulting}/${my_consulting.length}</td>
+                        <td class="col-3">${answer_rate(done_consulting, my_consulting.length).toFixed(0)}%</td>
                     </tr>
                 </tbody>
             </table>  
