@@ -113,8 +113,8 @@ function get_data() {
                 </div>
                 `;
                 $('#ban_chart_list').append(temp_ban_chart);
-                let ctx2 = document.getElementById(`total-chart-element${i}`).getContext('2d');
-                mychart = new Chart(ctx2, {
+
+                new Chart($((`#total-chart-element${i}`)), {
                     type: 'doughnut',
                     data: {
                         labels: ['관리중', '이반', '퇴소'],
