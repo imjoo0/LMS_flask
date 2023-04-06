@@ -118,8 +118,8 @@ function getBanlist(){
                     // }
                     temp_semester_banlist += `
                     <td class="col-3">${name}</td>
+                    <td class="col-3">${student_num+ban_data['count_per_ban']}</td>
                     <td class="col-3">${student_num}</td>
-                    <td class="col-3">${student_num-ban_data['count_per_ban']}</td>
                     <td class="col-2">${ocount_per_ban}(${op}%)</td>
                     <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')"><span class="cursor-pointer">👉</span></td>`;
                 });
