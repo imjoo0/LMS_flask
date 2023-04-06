@@ -446,7 +446,6 @@ function sodata(){
     }
     switch_out_bans = allData.filter(e=>Object.keys(e)[0].total_out_count != 0 || Object.keys(e)[0].total_switch_count != 0)
     $('#sotitle').empty();
-    console.log(response['switch_out_bans'])
 
     let temp_html = ``
     switch_out_bans.forEach(ban_data => {
