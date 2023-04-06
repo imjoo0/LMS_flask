@@ -222,13 +222,12 @@ function get_data() {
                         task_items = contentsGroupedresult[j][contents];
                         const v = contents.split('_')
                         temp_cate_menu += `
-                            <tr class="row done" style="background-color:#ffc107;">
+                            <tr class="row" style="background-color:#ffc107;">
                                 <td class="col-2">${make_priority(v[0])}</td>
                                 <td class="col-8">${v[1]}</td>
                                 <td class="col-2">${make_date(v[2])}</td>
                             </tr>
                             <td class="col-12">`;
-
                             for(k=0; k < task_items.length; k++){
                                 const ban_name = response['ban_data'].filter(a => a.register_no === task_items[k].ban_id)[0]['name']
                                 if(task_items[k].done == 0){
