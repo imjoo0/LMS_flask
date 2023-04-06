@@ -32,7 +32,9 @@ function get_data() {
                 return { ...obj1, out_created, switch_ban_id };
             });
             total_student_num = response['all_ban'].length
-            outstudent_num = response['outstudent'].length;
+            outstudentData = response['outstudent']
+            switchstudentData = response['switchstudent']
+            outstudent_num = outstudentData.length;
             first_total = total_student_num+outstudent_num
 
             const banGrouped = result.reduce((acc, item) => {
@@ -499,13 +501,13 @@ function so_paginating(done_code) {
             `;
             $('#newso').html(temp_newso)
             qdata = data.filter(a => a.answer == done_code)
-            container.pagination({
-                dataSource: qdata,
-                prevText: '이전',
-                nextText: '다음',
-                pageClassName: 'float-end',
-                pageSize: 5,
-                callback: function (qdata, pagination) {
+            // container.pagination({
+            //     dataSource: qdata,
+            //     prevText: '이전',
+            //     nextText: '다음',
+            //     pageClassName: 'float-end',
+            //     pageSize: 5,
+            //     callback: function (qdata, pagination) {
                     if (qdata.length == 0) {
                         $('#so_question').hide()
                         $('#so_pagination').hide()
@@ -528,8 +530,8 @@ function so_paginating(done_code) {
                         });
                     }
                     $('#so_tr').html(dataHtml);
-                }
-            })
+            //     }
+            // })
         }
     })
 }
