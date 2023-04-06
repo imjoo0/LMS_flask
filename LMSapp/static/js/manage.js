@@ -33,12 +33,11 @@ function getBanlist(){
             let all_ban = response['all_ban']
             for (i = 0; i < all_ban.length; i++) {
                 let name = all_ban[i]['name']
-                let semester = make_semester(all_ban[i]['semester'])
                 let t_id = all_ban[i]['teacher_id']
                 let btid = all_ban[i]['ban_id']
                 let value = btid + '_' + t_id +'_' + name
                 temp_ban_option += `
-                <option value="${value}">${name} (${semester}월 학기)</option>
+                <option value="${value}">${name} (${make_semester(all_ban[i]['semester'])}월 학기)</option>
                 `;
             }
             $('#ban_list').html(temp_ban_option)

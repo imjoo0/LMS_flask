@@ -51,8 +51,7 @@ let answer_rate =  function(answer, all) {
     if(Object.is(answer/all, NaN)) return 0;
     else return answer/all*100;
 }
-
-function make_semester(semester){
+let make_semester=function(semester){
     if (semester == 1){
         return 1;
     }else if(semester == 2){
