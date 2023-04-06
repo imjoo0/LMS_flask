@@ -205,7 +205,6 @@ function getBanlist(){
             });
             // PURPLE 섹션 차트 그리기
             let ctx = document.getElementById('semester-student-chart').getContext('2d');
-            chart.destroy()
             let semesterStudentChart = new Chart(ctx, {
                 type : 'scatter',
                 data: {
