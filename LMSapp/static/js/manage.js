@@ -48,9 +48,9 @@ function get_data() {
             });
             allData = banGroupedresult
             // 학기 별 원생
-            onesemester = total_student_num != 0 ? allData.filter(e => e.semester == 1) : 0
-            fivesemester = total_student_num != 0 ? allData.filter(e => e.semester == 2) : 0
-            ninesemester = total_student_num != 0 ? allData.filter(e => e.semester == 0) : 0
+            onesemester = total_student_num != 0 ? result.filter(e => e.semester == 1) : 0
+            fivesemester = total_student_num != 0 ? result.filter(e => e.semester == 2) : 0
+            ninesemester = total_student_num != 0 ? result.filter(e => e.semester == 0) : 0
 
             // 학기별 원생수 및 퇴소 원생 수 
             let onesemester_total = onesemester != 0 ? onesemester.length : 0
@@ -202,7 +202,7 @@ function semesterShow(semester) {
     }
     data.sort((a, b) => Object.keys(b)[0].split('_')[1] - Object.keys(a)[0].split('_')[1])
     let temp_semester_banlist = ''
-    banGroupedresult.forEach(ban_data => {
+    data.forEach(ban_data => {
         let key = Object.keys(ban_data)[0];
         let ban_id = ban_data[key][0].ban_id
         let name = ban_data[key][0].name
