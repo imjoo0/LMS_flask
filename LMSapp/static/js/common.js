@@ -164,24 +164,17 @@ function displayData(totalData, currentPage, dataPerPage,data_list,b_id) {
         i++
     ) {
         target = data_list[i]
-        let register_no = target['register_no']
-        let name = target['name'];
-        let original = target['origin'];
+        let register_no = target['student_id']
+        let name = target['student_name'];
         let mobileno = target['mobileno'];
         let parent_name_mobileno = target['pname'] +'('+target['pmobileno']+')';
-        let reco_book_code = target['reco_book_code'];
         let unlearned = target['unlearned'];
         let up = target['up'];
-        if( reco_book_code == null){
-            reco_book_code = '❌'
-        } else if(reco_book_code == 'NOT'){
-            reco_book_code += ' (추천도서없음)'
-        }
         chartHtml +=`
-        <td class="col-2">${name}(${original})</td>
+        <td class="col-2">${name}</td>
         <td class="col-2">${mobileno} </td>
         <td class="col-3">${parent_name_mobileno}</td>
-        <td class="col-2">${reco_book_code} </td>
+        <td class="col-2">${make_recobook(target['reco_book_code'])} </td>
         <td class="col-2">${unlearned}(${up}%)</td><br>
         <td class="col-1" onclick="plusconsulting(${register_no},${b_id})">📝</td><br>
         `;
