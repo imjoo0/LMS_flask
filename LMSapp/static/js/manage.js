@@ -47,6 +47,10 @@ function get_data() {
                 return { [v]: items };
             });
             allData = banGroupedresult
+            ninesemesterData = allData.filter(e => Object.keys(e)[0].split('_')[2] == 0)
+            onesemesterData = allData.filter(e => Object.keys(e)[0].split('_')[2] == 1)
+            fivesemesterData = allData.filter(e => Object.keys(e)[0].split('_')[2] == 2)
+            
             // 학기 별 원생
             onesemester = total_student_num != 0 ? result.filter(e => e.semester == 1) : 0
             fivesemester = total_student_num != 0 ? result.filter(e => e.semester == 2) : 0
@@ -54,7 +58,7 @@ function get_data() {
 
             // 학기별 원생수 및 퇴소 원생 수 
             let onesemester_total = onesemester != 0 ? onesemester.length : 0
-            oneoutstudent = onesemester != 0 ? onesemester.filter(e => e.out_created != null).length : 0
+            let oneoutstudent = onesemester != 0 ? onesemester.filter(e => e.out_created != null).length : 0
             let fivesemester_total = fivesemester != 0 ? fivesemester.length : 0
             let fiveoutstudent = fivesemester != 0 ? fivesemester.filter(e => e.out_created != null).length : 0
             let ninesemester_total = ninesemester != 0 ? ninesemester.length : 0
@@ -186,15 +190,16 @@ function get_data() {
 
 }
 function semesterShow(semester) {
+    // key값 `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
     $('#semester').show();
     if(semester == 0){
-        data = total_student_num != 0 ? allData.filter(e => Object.keys(e)[0].split('_')[2] == 0) : 0
+        data = ninesemesterData
         $('#semester_s').html('9월 학기')
     }else if(semester == 1){
-        data = total_student_num != 0 ? allData.filter(e => Object.keys(e)[0].split('_')[2] == 1) : 0
+        data = onesemesterData
         $('#semester_s').html('1월 학기')
     }else if(semester == 2){
-        data = total_student_num != 0 ? allData.filter(e => Object.keys(e)[0].split('_')[2] == 2) : 0
+        data = fivesemesterData
         $('#semester_s').html('5월 학기')
     }else{
         data = allData
@@ -236,7 +241,8 @@ function getBanChart(ban_id,semester) {
     }else{
         data = allData
     }
-    result = data.filter(s=>s.ban_id == ban_id)
+    // key값 `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
+    result = data.filter(e=>Object.keys(e)[0].split('_')[0] == ban_id)
     $('#target_ban_info_requestModalLabel').html(result[0].name + '반 상세 현황')
     if(result.length <= 0){
         let no_data_title = `<h1> ${response.text} </h1>`
