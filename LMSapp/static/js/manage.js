@@ -171,9 +171,8 @@ function get_data() {
     })
 
 }
-async function semesterShow(semester) {
+function semesterShow(semester) {
     $('#semester').show();
-    let container = $('#semester_banlist_pagination')
     if(semester == 0){
         data = ninesemesterData
         $('#semester_s').html('9월 학기')
@@ -201,7 +200,7 @@ async function semesterShow(semester) {
         return { [ban_id]: items };
     });
     console.log(banGroupedresult)
-    await container.pagination({
+    $('#semester_banlist_pagination').pagination({
         dataSource: data,
         prevText: '이전',
         nextText: '다음',
@@ -236,7 +235,6 @@ async function semester1Show(){
     $('#semester5').hide();
     $('#semester9').hide();
     $('#semester1').show();
-    let container = $('#semester_banlist_pagination')
     
 }
 async function semester5Show() {
