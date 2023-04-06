@@ -242,7 +242,7 @@ function allsemesterShow() {
         let value = `${ban_id}_${ban_data['students'][0].teacher_id}_${name}`;
         // 원생 목록 
         // let out_num = ban_data[key].filter(s => s.out_created != null || s.switch_ban_id != null).length;
-        let total_out_count = ban_data['total_out_count']
+        let total_out_count = ban_data['total_out_count']  + ban_data['total_switch_count']
         let total_out_per = ban_data['total_out_per']
         temp_ban_option += `
         <option value="${value}">${name} (${make_semester(semester)}월 학기)</option>
@@ -252,7 +252,7 @@ function allsemesterShow() {
         <td class="col-2">${teacher_name}</td>
         <td class="col-2">${student_num + total_out_count}</td>
         <td class="col-2">${student_num}</td>
-        <td class="col-2">${total_out_count}(${total_out_per}%)</td>
+        <td class="col-2">${total_out_count}명  (${total_out_per}%)</td>
         <td class="col-2" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart(${ban_id})"><span class="cursor-pointer">👉</span></td>`;
     });
     $('#semester_banlist').html(temp_semester_banlist)
@@ -275,7 +275,7 @@ function semesterShow(semester) {
         
         // 원생 목록 
         // let out_num = ban_data[key].filter(s => s.out_created != null || s.switch_ban_id != null).length;
-        let total_out_count = ban_data['total_out_count']
+        let total_out_count = ban_data['total_out_count'] + ban_data['total_switch_count']
         let total_out_per = ban_data['total_out_per']
 
         temp_semester_banlist += `
@@ -283,7 +283,7 @@ function semesterShow(semester) {
         <td class="col-2">${teacher_name}</td>
         <td class="col-2">${student_num + total_out_count}</td>
         <td class="col-2">${student_num}</td>
-        <td class="col-2">${total_out_count}(${total_out_per}%)</td>
+        <td class="col-2">${total_out_count}명  (${total_out_per}%)</td>
         <td class="col-2" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart(${ban_id})"><span class="cursor-pointer">👉</span></td>`;
     });
     $('#semester_banlist').html(temp_semester_banlist)
@@ -361,7 +361,7 @@ function getBanChart(ban_id) {
         `;
 
         $('#ban_data').html(temp_ban_data);
-        
+
         result['students'].forEach((elem) => {
             elem.unlearned = u_consulting_my.filter(a => a.student_id == elem.student_id).length
             elem.up = answer_rate(elem.unlearned, u_consulting_my.length).toFixed(0)
