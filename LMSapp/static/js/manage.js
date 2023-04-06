@@ -954,7 +954,7 @@ function delete_selected_student(idx){
 function post_consulting_request(){
     consulting_category = $('#consulting_category_list').val()
     consulting_contents = $('#consulting_contents').val()
-    consulting_date = $("#consulting_date").datepicker({ dateFormat: 'yy-mm-dd' });
+    consulting_date = $("#datepicker").datepicker({ dateFormat: 'yy-mm-dd' });
     consulting_deadline = $('#consulting_deadline').val()
     // 다중 선택 대상 선택일 경우  
     if(selectedStudentList.length != 0){
