@@ -293,8 +293,7 @@ function semesterShow(semester) {
 // 반 별 차트 정보 보내주는 함수 
 function getBanChart(ban_id) {
     // key값 `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
-    result = data.filter(e=>e.ban_id == ban_id)
-    console.log(result)
+    result = data.filter(e=>e.ban_id == ban_id)[0]
     $('#target_ban_info_requestModalLabel').html(result[0].name + '반 상세 현황')
     if(result.length <= 0){
         let no_data_title = `<h1> ${response.text} </h1>`
@@ -303,9 +302,9 @@ function getBanChart(ban_id) {
         return
     }else{
         // 이반 학생 
-        let switch_student = result.filter(s=>s.switch_ban_id != null).length;
+        let switch_student = result['students'].filter(s=>s.switch_ban_id != null).length;
         // 퇴소 학생 
-        let out_student = result.filter(s=>s.out_created != null).length;
+        let out_student = result['students'].filter(s=>s.out_created != null).length;
         let students_num = result[0]['student_num'];
         let teacher_name = result[0]['teacher_name']
         let teacher_e_name = result[0]['teacher_engname']
@@ -417,7 +416,7 @@ function getBanChart(ban_id) {
                     </tr>
                     <tr class="row">
                         <td class="col-3">${done_task}/${my_task_data.length}</td>
-                        <td class="col-3">${answer_rate(done_task, task.length).toFixed(0)}%</td>
+                        <td class="col-3">${answer_rate(done_task, my_task_data.length).toFixed(0)}%</td>
                         <td class="col-3">${done_consulting}/${my_consulting.length}</td>
                         <td class="col-3">${answer_rate(done_consulting, my_consulting.length).toFixed(0)}%</td>
                     </tr>
