@@ -596,101 +596,90 @@ let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl);
 });
 
-// ApexCharts
-function options_data(){
-  $.ajax({
-    type: "GET",
-    url: "/perform/charts",
-    data: {},
-    success: function (response) {
-      console.log(response)
-    }
-  })
-}
 // 만약 동적 데이터를 받는다면 아래처럼 표현 가능.
 // data: data?.map(price => price.close) as number[]
-var options = {
-  chart: {
-    type: "bar",
-    height: 300,
-  },
-  plotOptions: {
-    bar: {
-      horizontal: true,
-    },
-  },
-  series: [
-    {
-      data: [
-        {
-          x: "상담 필요 인원",
-          y: 8,
-          fillColor: "#1b1b1b",
-        },
-        {
-          x: "2주 미접속 인원",
-          y: 5,
-          fillColor: "#1b1b1b",
-          goals: [
-            {
-              name: "guideline",
-              value: 6,
-              strokeColor: "#b02b74",
-            },
-          ],
-        },
-        {
-          x: "4주 미접속 인원",
-          y: 1,
-          fillColor: "#1b1b1b",
-          goals: [
-            {
-              name: "guideline",
-              value: 3,
-              strokeColor: "#b02b74",
-            },
-          ],
-        },
-        {
-          x: "금주 학습 미진행 인원",
-          y: 5,
-          fillColor: "#1b1b1b",
-          goals: [
-            {
-              name: "guideline",
-              value: 5,
-              strokeColor: "#b02b74",
-            },
-          ],
-        },
-        {
-          x: "테스트 미진행 인원",
-          y: 3,
-          fillColor: "#1b1b1b",
-          goals: [
-            {
-              name: "guideline",
-              value: 5,
-              strokeColor: "#b02b74",
-            },
-          ],
-        },
-      ],
-    },
-  ],
-  title: {
-    text: "DARTMOUTH1401",
-  },
-  xaxis: {
-    axisBorder: { show: false },
-    axisTicks: { show: false },
-    labels: { show: false },
-  },
-  stroke: {
-    width: 1,
-    colors: ["#fff"],
-  },
-};
+// var options = {
+//   chart: {
+//     type: "bar",
+//     height: 300,
+//   },
+//   plotOptions: {
+//     bar: {
+//       horizontal: true,
+//     },
+//   },
+//   series: [
+//     {
+//       data: [
+//         {
+//           x: "상담 필요 인원",
+//           y: 8,
+//           fillColor: "#1b1b1b",
+//         },
+//         {
+//           x: "2주 미접속 인원",
+//           y: 5,
+//           fillColor: "#1b1b1b",
+//           goals: [
+//             {
+//               name: "guideline",
+//               value: 6,
+//               strokeColor: "#b02b74",
+//             },
+//           ],
+//         },
+//         {
+//           x: "4주 미접속 인원",
+//           y: 1,
+//           fillColor: "#1b1b1b",
+//           goals: [
+//             {
+//               name: "guideline",
+//               value: 3,
+//               strokeColor: "#b02b74",
+//             },
+//           ],
+//         },
+//         {
+//           x: "금주 학습 미진행 인원",
+//           y: 5,
+//           fillColor: "#1b1b1b",
+//           goals: [
+//             {
+//               name: "guideline",
+//               value: 5,
+//               strokeColor: "#b02b74",
+//             },
+//           ],
+//         },
+//         {
+//           x: "테스트 미진행 인원",
+//           y: 3,
+//           fillColor: "#1b1b1b",
+//           goals: [
+//             {
+//               name: "guideline",
+//               value: 5,
+//               strokeColor: "#b02b74",
+//             },
+//           ],
+//         },
+//       ],
+//     },
+//   ],
+//   title: {
+//     text: "DARTMOUTH1401",
+//   },
+//   xaxis: {
+//     axisBorder: { show: false },
+//     axisTicks: { show: false },
+//     labels: { show: false },
+//   },
+//   stroke: {
+//     width: 1,
+//     colors: ["#fff"],
+//   },
+// };
 
 // var chart = new ApexCharts(document.querySelector("#chart"), options);
 // chart.render();
