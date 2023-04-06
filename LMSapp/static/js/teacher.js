@@ -223,9 +223,6 @@ function get_data() {
                         const contents = Object.keys(contentsGroupedresult[j])[0];
                         task_items = contentsGroupedresult[j][contents];
                         total_task_items = task_items.length
-                        if(total_task_items == done_num){
-                            $(`#underlined_task${j}`).addClass("done")
-                        }
                         const v = contents.split('_')
                         let done_num = 0
                         temp_cate_menu += `
@@ -246,16 +243,18 @@ function get_data() {
                                     <label>✅ ${ban_name}</label>`;
                                 }
                             }
-                            temp_cate_menu += `</td></tbody>`;
+                            if(total_task_items == done_num){
+                                $(`#underlined_task${j}`).addClass("done")
+                            }
+                        temp_cate_menu += `</td></tbody>`;
                     }
-                } else {
+                }else {
                     temp_cate_menu += `
                         <tr class="row">
                             <td class="col-12">해당 카테고리의 업무가 없습니다.</td>
                         </tr>
                     `;
                 }
-
                 temp_cate_menu += `</tbody>`;
             }
             $('#cate_menu').html(temp_cate_menu);
