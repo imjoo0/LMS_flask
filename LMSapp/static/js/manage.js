@@ -29,6 +29,21 @@ function getBanlist(){
         dataType: 'json',
         data: {},
         success: function (response) {
+            let answer_rate =  function(answer, all) {
+                if(Object.is(answer/all, NaN)) return 0;
+                else return answer/all*100;
+            }
+            let make_semester=function(semester){
+                if (semester == 1){
+                    return 1;
+                }else if(semester == 2){
+                    return 5;
+                }else if(semester == 0){
+                    return 9;
+                }else{
+                    return semester
+                }
+            }
             let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
             let all_ban = response['all_ban']
             for (i = 0; i < all_ban.length; i++) {
@@ -37,7 +52,7 @@ function getBanlist(){
                 let btid = all_ban[i]['ban_id']
                 let value = btid + '_' + t_id +'_' + name
                 temp_ban_option += `
-                <option value="${value}">${name} (${all_ban[i]['semester']}월 학기)</option>
+                <option value="${value}">${name} (${make_semester(all_ban[i]['semester'])}월 학기)</option>
                 `;
             }
             $('#ban_list').html(temp_ban_option)
