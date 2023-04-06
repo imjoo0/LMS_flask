@@ -752,7 +752,7 @@ async function delete_consulting(idx) {
 }
 
 async function delete_task(idx) {
-    var con_val = confirm('정말 삭제하시겠습니까')
+    var con_val = confirm('업무 요청 진행중인 전체 반 대상 중지됩니다')
     if (con_val == true) {
         await $.ajax({
             url: '/manage/api/delete_task/' + idx,

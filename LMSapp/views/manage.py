@@ -156,7 +156,7 @@ def get_task():
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute("select task.id, task.category_id, task.contents, task.url, task.attachments, date_format(task.startdate, '%Y-%m-%d') as startdate, date_format(task.deadline, '%Y-%m-%d') as deadline, task.priority, task.cycle, taskcategory.name from task left join taskcategory on task.category_id = taskcategory.id;")
+                cur.execute("select task.id, task.category_id, task.contents, task.url, task.attachments, startdate, deadline, task.priority, task.cycle, taskcategory.name from task left join taskcategory on task.category_id = taskcategory.id;")
                 all_task = cur.fetchall()
         except Exception as e:
             print(e)
@@ -168,6 +168,19 @@ def get_task():
 # 오늘 해야할 업무의 반 이름들 
 @bp.route("/taskban/<int:task_id>", methods=['GET'])
 def taskban(task_id):
+    if request.method == 'GET':
+        all_task = []
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute("select taskban.id, taskban.ban_id, taskban.done from taskban;")
+                all_task = cur.fetchall()
+        except Exception as e:
+            print(e)
+        finally:
+            db.close()
+
+        return json.dumps(all_task)
     if request.method == 'GET':
         tb = TaskBan.query.filter(TaskBan.task_id == task_id).all()
         return json.dumps(tb)
@@ -201,6 +214,7 @@ def delete_task(id):
         try:
             with db.cursor() as cur:
                 cur.execute(f'delete from task where id={id}')
+                cur.execute(f'delete from taskban where id={id}')
                 db.commit()
                 result['status'] = 200
                 result['text'] = id
