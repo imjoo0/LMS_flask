@@ -111,7 +111,8 @@ function getBanlist(){
                     });
                     return acc;
                 }, []);
-    
+                console.log(result)
+                // outstudentArr.push(semester_out_student);
                 if (result.length > 0) {
                     result.sort((a, b) => {
                         return b.op- a.op
@@ -124,12 +125,7 @@ function getBanlist(){
                     let value = b_id + '_' + ban_data['teacher_id'] +'_' + name
                     let ocount_per_ban = ban_data['ocount_per_ban']
                     let op = ban_data['op']
-                    // let on = response['outstudent']['data'].filter(a => a.ban_id == b_id);
                     
-                    // if(on.length != 0){
-                    //     ocount_per_ban = on[0]['ocount_per_ban']
-                    //     total_out_ban = on[0]['total_count']
-                    // }
                     temp_semester_banlist += `
                     <td class="col-3">${name}</td>
                     <td class="col-3">${student_num+ban_data['count_per_ban']}</td>
@@ -137,17 +133,14 @@ function getBanlist(){
                     <td class="col-2">${ocount_per_ban}(${op}%)</td>
                     <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')"><span class="cursor-pointer">👉</span></td>`;
                 });
-
                 $('#semester_banlist'+j).html(temp_semester_banlist)
-                $('#out_msg'+j).html(`${make_semester(j)}학기 총 퇴소학생 수:${semester_out_student}`)
                 
-                outstudentArr.push(semester_out_student);
             }
             let outstudentTotal = 0;
             outstudentArr.forEach(ele => { 
                 outstudentTotal += Number(ele)
             });
-
+            console.log(outstudentArr)
             let semester_student_table = `
                 <table>
                     <tr>
