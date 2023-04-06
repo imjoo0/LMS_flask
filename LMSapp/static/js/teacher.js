@@ -851,10 +851,6 @@ async function get_question_detail(q_id) {
     $('#questiondetail').show()
     questiondata = questionAnswerdata.filter( q=> q.id == q_id)[0]
     ban_student_data = consultingStudentData.filter(s=>s.student_id == questiondata.student_id)[0]
-    // 
-    console.log(questiondata)
-    console.log(ban_student_data)
-    // 
     let temp_question_list = `
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">문의 종류</span>
