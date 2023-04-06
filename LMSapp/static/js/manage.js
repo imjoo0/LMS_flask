@@ -187,7 +187,7 @@ async function semester1Show(){
     $('#semester9').hide();
     $('#semester1').show();
     let container = $('#semester_banlist_pagination')
-    const banGrouped = onesemester.reduce((acc, item) => {
+    const banGrouped = onesemesterData.reduce((acc, item) => {
         const ban_id = item.ban_id;
         if (!acc[ban_id]) {
             acc[ban_id] = [];
