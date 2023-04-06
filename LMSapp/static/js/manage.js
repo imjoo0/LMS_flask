@@ -21,7 +21,7 @@ function get_data() {
     $('#sobox').hide()
     $('#ulbox').hide()
     $('#target_ban_info_body').hide()
-    $('#inloading').show()
+    $('#inloading').hide()
     $.ajax({
         type: "GET",
         url: "/common/all_ban",
@@ -221,8 +221,8 @@ function get_data() {
             alert('xhr.responseText');
         }
     })
-    $('#inloading').hide()
-    $('#target_ban_info_body').show()
+    $('#inloading').show()
+    $('#target_ban_info_body').hide()
 
 }
 function allsemesterShow() {
