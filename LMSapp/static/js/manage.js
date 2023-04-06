@@ -368,9 +368,9 @@ function getBanChart(ban_id) {
             elem.up = answer_rate(elem.unlearned, u_consulting_my.length).toFixed(0)
         });
         result['students'].sort((a, b) => b.up - a.up)
-        
-        data_list = result
-        totalData = result.length
+
+        data_list = result['students']
+        totalData = data_list.length
 
         displayData(totalData, 1, dataPerPage, data_list, ban_id);
         paging(totalData, dataPerPage, pageCount, 1, data_list, ban_id);
