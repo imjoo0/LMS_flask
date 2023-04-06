@@ -48,10 +48,10 @@ def get_ban():
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute("SELECT ban_id,switch_ban_id,teacher_id,student_id,created_at FROM switchstudent;")
+                cur.execute("SELECT ban_id,switch_ban_id,teacher_id,student_id FROM switchstudent;")
                 switchstudent = cur.fetchall()
 
-                cur.execute("SELECT ban_id,teacher_id,student_id,created_at FROM outstudent;")
+                cur.execute("SELECT ban_id,teacher_id,student_id,created_at as out_created FROM outstudent;")
                 outstudent = cur.fetchall()
         except:
                 print('err')

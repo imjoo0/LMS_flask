@@ -171,8 +171,8 @@ function get_data(){
 
             const result = all_ban.map(obj1 => {
                 const { out_created } = response['outstudent'].find(obj2 => obj1.student_id === obj2.student_id) || { out_created: null };
-                const { switch_ban_id } = response['outstudent'].find(obj2 => obj1.student_id === obj2.student_id) || { switch_ban_id: null };
-                return {...obj1, out_created_at: switch_ban_id};
+                const { switch_ban_id } = response['switchstudent'].find(obj2 => obj1.student_id === obj2.student_id) || { switch_ban_id: null };
+                return {...obj1, out_created, switch_ban_id};
             });
             console.log(result)
             // let switch_student_arr = []
