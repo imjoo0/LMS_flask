@@ -240,7 +240,7 @@ function allsemesterShow() {
         let semester = ban_data[key][0].semester
         let student_num = ban_data[key][0].student_num
         let teacher_name = ban_data[key][0].teacher_name
-        let op = oneoutstudent
+        
         let value = `${ban_id}_${ban_data[key][0].teacher_id}_${name}`;
         // 원생 목록 
         // let out_num = ban_data[key].filter(s => s.out_created != null || s.switch_ban_id != null).length;
@@ -252,7 +252,7 @@ function allsemesterShow() {
         temp_semester_banlist += `
         <td class="col-2">${name}</td>
         <td class="col-2">${teacher_name}</td>
-        <td class="col-2">${student_num + out_num}</td>
+        <td class="col-2">${student_num + total_out_count}</td>
         <td class="col-2">${student_num}</td>
         <td class="col-2">${total_out_count}(${total_out_per}%)</td>
         <td class="col-2" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart(${ban_id})"><span class="cursor-pointer">👉</span></td>`;
@@ -275,7 +275,7 @@ function semesterShow(semester) {
         let name = ban_data[key][0].name
         let student_num = ban_data[key][0].student_num
         let teacher_name = ban_data[key][0].teacher_name
-        let op = oneoutstudent
+        
         // 원생 목록 
         // let out_num = ban_data[key].filter(s => s.out_created != null || s.switch_ban_id != null).length;
         let total_out_count = ban_data['total_out_count']
@@ -284,7 +284,7 @@ function semesterShow(semester) {
         temp_semester_banlist += `
         <td class="col-2">${name}</td>
         <td class="col-2">${teacher_name}</td>
-        <td class="col-2">${student_num + out_num}</td>
+        <td class="col-2">${student_num + total_out_count}</td>
         <td class="col-2">${student_num}</td>
         <td class="col-2">${total_out_count}(${total_out_per}%)</td>
         <td class="col-2" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart(${ban_id})"><span class="cursor-pointer">👉</span></td>`;
