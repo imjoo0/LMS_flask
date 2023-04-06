@@ -448,12 +448,12 @@ function sodata(){
     $('#sotitle').empty();
 
     let temp_html = ``
-    switch_out_bans.forEach(ban_data => {
-        let key = Object.keys(ban_data)[0];
-        let ban_id = ban_data[key][0].ban_id
-        let name = ban_data[key][0].name
-        let student_num = ban_data[key][0].student_num
-        let teacher_name = ban_data[key][0].teacher_name
+    for (i = 0; i < 10; i++) {
+        let key = Object.keys(ban_data)[i];
+        let ban_id = ban_data[key][i].ban_id
+        let name = ban_data[key][i].name
+        let student_num = ban_data[key][i].student_num
+        let teacher_name = ban_data[key][i].teacher_name
         
         let total_out_count = ban_data['total_out_count']
         let total_out_per = ban_data['total_out_per']
@@ -462,15 +462,17 @@ function sodata(){
         let total_switch_per = ban_data['total_switch_per']
 
         temp_html += `
-        <td class="col-1">${name}</td>
-        <td class="col-2">${make_semester(ban_data[key][0].semester)}월 학기</td>
-        <td class="col-2">${student_num}</td>
-        <td class="col-2">${teacher_name}</td>
+        <td class="col-1">${i}위</td>
+        <td class="col-2">${name}</td>
+        <td class="col-1">${make_semester(ban_data[key][0].semester)}월 학기</td>
+        <td class="col-1">${student_num+total_switch_count+total_out_count}</td>
+        <td class="col-1">${student_num}</td>
+        <td class="col-1">${teacher_name}</td>
         <td class="col-2">${total_switch_count}(${total_switch_per}%)</td>
         <td class="col-2">${total_out_count}(${total_out_per}%)</td>
         <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart(${ban_id})">👉</td>
         `;
-    });
+    }
     $('#static_data1').html(temp_html)
     so_paginating(0)
 }
