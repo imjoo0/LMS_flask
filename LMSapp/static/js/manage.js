@@ -33,6 +33,7 @@ function get_data() {
             });
             total_student_num = response['all_ban'].length
             outstudent_num = response['outstudent'].length;
+            first_total = total_student_num+outstudent_num
 
             const banGrouped = result.reduce((acc, item) => {
                 const v = `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
@@ -42,7 +43,7 @@ function get_data() {
                 acc[v].push(item);
                 return acc;
             }, {});
-            // 결과를 객체의 배열로 변환
+            // 결과를 객체의 배열로 변환 -> 반 별 배열 
             const banGroupedresult = Object.entries(banGrouped).map(([v, items]) => {
                 return { [v]: items };
             });
@@ -57,12 +58,17 @@ function get_data() {
             ninesemester = total_student_num != 0 ? result.filter(e => e.semester == 0) : 0
 
             // 학기별 원생수 및 퇴소 원생 수 
-            let onesemester_total = onesemester != 0 ? onesemester.length : 0
-            let oneoutstudent = onesemester != 0 ? onesemester.filter(e => e.out_created != null).length : 0
-            let fivesemester_total = fivesemester != 0 ? fivesemester.length : 0
-            let fiveoutstudent = fivesemester != 0 ? fivesemester.filter(e => e.out_created != null).length : 0
-            let ninesemester_total = ninesemester != 0 ? ninesemester.length : 0
-            let nineoutstudent = ninesemester != 0 ? ninesemester.filter(e => e.out_created != null).length : 0
+            onesemester_total = onesemester != 0 ? onesemester.length : 0
+            oneoutstudent = onesemester != 0 ? onesemester.filter(e => e.out_created != null).length : 0
+            first_onesemester = onesemester_total+oneoutstudent
+
+            fivesemester_total = fivesemester != 0 ? fivesemester.length : 0
+            fiveoutstudent = fivesemester != 0 ? fivesemester.filter(e => e.out_created != null).length : 0
+            first_fivesemester = fivesemester_total+fiveoutstudent
+
+            ninesemester_total = ninesemester != 0 ? ninesemester.length : 0
+            nineoutstudent = ninesemester != 0 ? ninesemester.filter(e => e.out_created != null).length : 0
+            first_ninesemester = ninesemester_total+nineoutstudent
 
             // 학습 데이터
             all_consultingData = response['consulting']
@@ -80,30 +86,30 @@ function get_data() {
                     </tr>
                     <tr>
                         <th class="need">전체</th>
-                        <td>${total_student_num + outstudent_num}명</td>
+                        <td>${first_total}명</td>
                         <td>${total_student_num}명</td>
-                        <td>${outstudent_num}명</td>
+                        <td>${outstudent_num}명(${answer_rate(outstudent_num,first_total).toFixed(1)}%)</td>
                         <td><span class='cursor-pointer fs-4' onclick="semesterShow(${3})">📜</span></td>
                     </tr>
                     <tr>
                         <th class="need">1월 학기</th>
-                        <td>${onesemester_total + oneoutstudent}명</td>
+                        <td>${first_onesemester}명</td>
                         <td>${onesemester_total}명</td>
-                        <td>${oneoutstudent}명</td>
+                        <td>${oneoutstudent}명(${answer_rate(oneoutstudent,first_onesemester).toFixed(1)}%)</td>
                         <td><span class='cursor-pointer fs-4' onclick="semesterShow(${1})">📜</span></td>
                     </tr>
                     <tr>
                         <th class="need">5월 학기</th>
-                        <td>${fivesemester_total + fiveoutstudent}명</td>
+                        <td>${first_fivesemester}명</td>
                         <td>${fivesemester_total}명</td>
-                        <td>${fiveoutstudent}명</td>
+                        <td>${fiveoutstudent}명(${answer_rate(fiveoutstudent,first_fivesemester).toFixed(1)}%)</td>
                         <td><span class='cursor-pointer fs-4' onclick="semesterShow(${2})">📜</span></td>
                     </tr>
                     <tr>
                         <th>9월 학기</th>
-                        <td>${ninesemester_total + nineoutstudent}명</td>
+                        <td>${first_ninesemester}명</td>
                         <td>${ninesemester_total}명</td>
-                        <td>${nineoutstudent}명</td>
+                        <td>${nineoutstudent}명(${answer_rate(nineoutstudent,first_ninesemester).toFixed(1)}%)</td>
                         <td><span class='cursor-pointer fs-4' onclick="semesterShow(${0})">📜</span></td>
                     </tr>
                 </table>
@@ -187,7 +193,6 @@ function get_data() {
             alert('xhr.responseText');
         }
     })
-
 }
 function semesterShow(semester) {
     // key값 `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
@@ -228,6 +233,7 @@ function semesterShow(semester) {
     });
     $('#semester_banlist').html(temp_semester_banlist)
 }
+
 // 반 별 차트 정보 보내주는 함수 
 function getBanChart(ban_id,semester) {
     $('#inloading').show()
@@ -250,6 +256,7 @@ function getBanChart(ban_id,semester) {
         $('#pagingul').hide();
         return
     }else{
+        console.log(result)
         // 이반 학생 
         let switch_student = result.filter(s=>s.switch_ban_id != null).length;
         // 퇴소 학생 
