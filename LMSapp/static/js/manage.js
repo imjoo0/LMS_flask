@@ -329,7 +329,7 @@ function getBanChart(ban_id,semester) {
         done_task = my_task_data.filter(a => a.done == 1).length
         done_consulting = my_consulting.filter(a => a.done == 1).length
         let temp_ban_statistics = `
-        <table class="table text-center" id="unlearned" style="margin-left:1%; margin-right: 4%;width: 40%;">
+        <table class="table text-center" id="unlearned" style="margin-left:1%; margin-right: 4%;width: 50%;">
                 <tbody  style="width:100%;">
                     <tr class="row" style="background: #DCE6F2;">
                         <th class="col-12">미학습 관리</th>
