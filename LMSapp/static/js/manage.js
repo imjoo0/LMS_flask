@@ -32,7 +32,7 @@ function get_data() {
                 return { ...obj1, out_created, switch_ban_id };
             });
             let total_student_num = response['all_ban'].length
-            let outstudent_num = response['outstudent'].length;
+            outstudent_num = response['outstudent'].length;
             
             allData = result
             // 학기 별 원생
