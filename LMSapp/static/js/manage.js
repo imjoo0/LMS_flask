@@ -7,18 +7,18 @@ var selectedStudentList = [];
 $(document).ready(function () {
     get_data();
 
-    $('.nav-link').on('click', function(){
+    $('.nav-link').on('click', function () {
         $('.nav-link').removeClass('active');
         $(this).addClass('active');
     })
-        
+
     $('#semester1').hide();
     $('#semester5').hide();
     $('#semester9').hide();
-    
+
 })
 // 전체 반 정보(차트) 가져오는 함수 
-function get_data(){
+function get_data() {
     $('#detailban').show();
     $('#qubox').hide()
     $('#sobox').hide()
@@ -32,23 +32,23 @@ function get_data(){
             const result = response['all_ban'].map(obj1 => {
                 const { out_created } = response['outstudent'].find(obj2 => obj1.student_id === obj2.student_id) || { out_created: null };
                 const { switch_ban_id } = response['switchstudent'].find(obj2 => obj1.student_id === obj2.student_id) || { switch_ban_id: null };
-                return {...obj1, out_created, switch_ban_id};
+                return { ...obj1, out_created, switch_ban_id };
             });
             let total_student_num = response['all_ban'].length
             let outstudent_num = response['outstudent'].length;
 
             // 학기 별 원생
-            let onesemester = total_student_num != 0 ? result.filter(e=>e.semester == 1) : 0
-            let fivesemester = total_student_num != 0 ? result.filter(e=>e.semester == 2) : 0
-            let ninesemester = total_student_num != 0 ? result.filter(e=>e.semester == 0) : 0
+            let onesemester = total_student_num != 0 ? result.filter(e => e.semester == 1) : 0
+            let fivesemester = total_student_num != 0 ? result.filter(e => e.semester == 2) : 0
+            let ninesemester = total_student_num != 0 ? result.filter(e => e.semester == 0) : 0
 
             // 학기별 원생수 및 퇴소 원생 수 
             let onesemester_total = onesemester != 0 ? onesemester.length : 0
-            let oneoutstudent = onesemester != 0 ? onesemester.filter(e=>e.out_created != null).length : 0
+            let oneoutstudent = onesemester != 0 ? onesemester.filter(e => e.out_created != null).length : 0
             let fivesemester_total = fivesemester != 0 ? fivesemester.length : 0
-            let fiveoutstudent = fivesemester != 0 ? fivesemester.filter(e=>e.out_created != null).length : 0
+            let fiveoutstudent = fivesemester != 0 ? fivesemester.filter(e => e.out_created != null).length : 0
             let ninesemester_total = ninesemester != 0 ? ninesemester.length : 0
-            let nineoutstudent = ninesemester != 0 ? ninesemester.filter(e=>e.out_created != null).length : 0
+            let nineoutstudent = ninesemester != 0 ? ninesemester.filter(e => e.out_created != null).length : 0
 
             let semester_student_table = `
                 <table>
@@ -61,44 +61,44 @@ function get_data(){
                     </tr>
                     <tr>
                         <th class="need">전체</th>
-                        <td>${total_student_num+outstudent_num}명</td>
+                        <td>${total_student_num + outstudent_num}명</td>
                         <td>${total_student_num}명</td>
                         <td>${outstudent_num}명</td>
-                        <td><span class='cursor-pointer fs-4 allSemesterShow'>📜</span></td>
+                        <td><span class='cursor-pointer fs-4' onclick="allSemesterShow()">📜</span></td>
                     </tr>
                     <tr>
                         <th class="need">1월 학기</th>
-                        <td>${onesemester_total+oneoutstudent}명</td>
+                        <td>${onesemester_total + oneoutstudent}명</td>
                         <td>${onesemester_total}명</td>
                         <td>${oneoutstudent}명</td>
-                        <td><span class='cursor-pointer fs-4 semester1Show'>📜</span></td>
+                        <td><span class='cursor-pointer fs-4' onclick="semester1Show()">📜</span></td>
                     </tr>
                     <tr>
                         <th class="need">5월 학기</th>
-                        <td>${fivesemester_total+fiveoutstudent}명</td>
+                        <td>${fivesemester_total + fiveoutstudent}명</td>
                         <td>${fivesemester_total}명</td>
                         <td>${fiveoutstudent}명</td>
-                        <td><span class='cursor-pointer fs-4 semester5Show'>📜</span></td>
+                        <td><span class='cursor-pointer fs-4' onclick="semester5Show()">📜</span></td>
                     </tr>
                     <tr>
                         <th>9월 학기</th>
-                        <td>${ninesemester_total+nineoutstudent}명</td>
+                        <td>${ninesemester_total + nineoutstudent}명</td>
                         <td>${ninesemester_total}명</td>
                         <td>${nineoutstudent}명</td>
-                        <td><span class='cursor-pointer fs-4 semester9Show'>📜</span></td>
+                        <td><span class='cursor-pointer fs-4' onclick="semester9Show()">📜</span></td>
                     </tr>
                 </table>
             `;
             $('#semester-student-table').html(semester_student_table);
 
             var chart = Chart.getChart('semester-student-chart')
-            if(chart){
+            if (chart) {
                 chart.destroy()
             }
             // PURPLE 섹션 차트 그리기
             let ctx = document.getElementById('semester-student-chart').getContext('2d');
             let semesterStudentChart = new Chart(ctx, {
-                type : 'scatter',
+                type: 'scatter',
                 data: {
                     labels: ['퍼플 총 원생', '1월 학기', '5월 학기', '9월 학기'],
                     datasets: [{
@@ -108,13 +108,13 @@ function get_data(){
                         backgroundColor: ['#F66F5B77', '#FFBCE277', '#FE85AB77', '#C24F7777'],
                         borderColor: ['#F66F5B', '#FFBCE2', '#FE85AB', '#C24F77'],
                         borderWidth: 2
-                    },{
+                    }, {
                         type: 'line',
                         label: '퇴소 원생 수',
                         data: [outstudent_num, oneoutstudent, fiveoutstudent, nineoutstudent],
                         fill: false,
                         borderColor: '#F23966cc',
-                        borderWidth: 2    
+                        borderWidth: 2
                     }]
                 },
                 options: {
@@ -122,7 +122,7 @@ function get_data(){
                     interaction: {
                         mode: 'index',
                     },
-                    plugins : {
+                    plugins: {
                         tooltip: {
                             padding: 10,
                             bodySpacing: 5,
@@ -145,95 +145,24 @@ function get_data(){
                             afterDataLimits: (scale) => {
                                 scale.max = scale.max * 1.2;
                             },
-                            axis : 'y',
+                            axis: 'y',
                             display: true,
                             position: 'top',
                             title: {
-                                display:true,
+                                display: true,
                                 align: 'end',
                                 color: '#2b2b2b',
-                                        font: {
-                                            size: 10,
-                                            family: "pretendard",
-                                            weight: 500,
-                                        },
-                                text : '단위 : 명'
+                                font: {
+                                    size: 10,
+                                    family: "pretendard",
+                                    weight: 500,
+                                },
+                                text: '단위 : 명'
                             }
                         }
                     }
                 }
             });
-
-            $('.allSemesterShow').on('click', async function() {
-                $('#semester1').hide();
-                $('#semester5').hide();
-                $('#semester9').hide();                
-                $('#semester1').show();
-                $('#semester5').show();
-                $('#semester9').show();
-            });
-            $('.semester1Show').on('click', async function() {
-                $('#semester1').hide();
-                $('#semester5').hide();
-                $('#semester9').hide();
-                $('#semester1').show();
-                let container = $('#semester_banlist_pagination')
-                const banGrouped = onesemester.reduce((acc, item) => {
-                    const ban_id = item.ban_id;
-                    if (!acc[ban_id]) {
-                        acc[ban_id] = [];
-                    }
-                    acc[ban_id].push(item);
-                    return acc;
-                }, {});
-                    // 결과를 객체의 배열로 변환
-                const banGroupedresult = Object.entries(banGrouped).map(([ban_id, items]) => {
-                    return { [ban_id]: items };
-                });
-                console.log(banGroupedresult)
-                await container.pagination({
-                    dataSource: banGroupedresult,
-                    prevText: '이전',
-                    nextText: '다음',
-                    pageSize: 10,
-                    callback:  async function (banGroupedresult, pagination) {
-                        banGroupedresult.forEach(ban_data => {
-                            let b_id = Object.keys(ban_data)[0];
-                            let name = ban_data[b_id][0].name
-                            let semester = make_semester(ban_data[b_id][0].semester)
-                            let student_num = ban_data[b_id][0].student_num
-                            let teacher_id = ban_data[b_id][0].teacher_id
-                            let teacher_name = ban_data[b_id][0].teacher_name
-                            let value = b_id + '_' + teacher_id +'_' + name
-                            let op = oneoutstudent
-                            // let items = categoryGroupedresult[i][category].filter( e => e.done === 0 );
-                            // 원생 목록 
-                            let out_num = ban_data[b_id].filter(s=>s.out_created != null || s.switch_ban_id != null).length;
-                            
-                            temp_semester_banlist += `
-                            <td class="col-3">${name}</td>
-                            <td class="col-3">${student_num+out_num}</td>
-                            <td class="col-3">${student_num}</td>
-                            <td class="col-2">${out_num}(${answer_rate(out_num,op).toFixed(2)}%)</td>
-                            <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')"><span class="cursor-pointer">👉</span></td>`;
-                        });
-                        $('#semester_banlist'+semester).html(temp_semester_banlist)
-                    }})
-                
-
-            });            
-            $('.semester5Show').on('click', function() {
-                $('#semester1').hide();
-                $('#semester5').hide();
-                $('#semester9').hide();
-                $('#semester5').show();
-            });            
-            $('.semester9Show').on('click', function() {
-                $('#semester1').hide();
-                $('#semester5').hide();
-                $('#semester9').hide();             
-                $('#semester9').show();
-            }); 
         },
         error: function (xhr, status, error) {
             alert('xhr.responseText');
@@ -241,10 +170,79 @@ function get_data(){
     })
 
 }
+function allSemesterShow() {
+    $('#semester1').hide();
+    $('#semester5').hide();
+    $('#semester9').hide();
+    $('#semester1').show();
+    $('#semester5').show();
+    $('#semester9').show();
+}
+async function semester1Show(){
+    $('#semester1').hide();
+    $('#semester5').hide();
+    $('#semester9').hide();
+    $('#semester1').show();
+    let container = $('#semester_banlist_pagination')
+    const banGrouped = onesemester.reduce((acc, item) => {
+        const ban_id = item.ban_id;
+        if (!acc[ban_id]) {
+            acc[ban_id] = [];
+        }
+        acc[ban_id].push(item);
+        return acc;
+    }, {});
+    // 결과를 객체의 배열로 변환
+    const banGroupedresult = Object.entries(banGrouped).map(([ban_id, items]) => {
+        return { [ban_id]: items };
+    });
+    console.log(banGroupedresult)
+    await container.pagination({
+        dataSource: banGroupedresult,
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 10,
+        callback: async function (banGroupedresult, pagination) {
+            banGroupedresult.forEach(ban_data => {
+                let b_id = Object.keys(ban_data)[0];
+                let name = ban_data[b_id][0].name
+                // let semester = make_semester(ban_data[b_id][0].semester)
+                let student_num = ban_data[b_id][0].student_num
+                let teacher_id = ban_data[b_id][0].teacher_id
+                // let teacher_name = ban_data[b_id][0].teacher_name
+                let value = b_id + '_' + teacher_id + '_' + name
+                let op = oneoutstudent
+                // let items = categoryGroupedresult[i][category].filter( e => e.done === 0 );
+                // 원생 목록 
+                let out_num = ban_data[b_id].filter(s => s.out_created != null || s.switch_ban_id != null).length;
+
+                temp_semester_banlist += `
+                <td class="col-3">${name}</td>
+                <td class="col-3">${student_num + out_num}</td>
+                <td class="col-3">${student_num}</td>
+                <td class="col-2">${out_num}(${answer_rate(out_num, op).toFixed(2)}%)</td>
+                <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')"><span class="cursor-pointer">👉</span></td>`;
+            });
+            $('#semester_banlist' + semester).html(temp_semester_banlist)
+        }
+    })
+}
+async function semester5Show() {
+    $('#semester1').hide();
+    $('#semester5').hide();
+    $('#semester9').hide();
+    $('#semester5').show();
+}
+async function semester9Show(){
+    $('#semester1').hide();
+    $('#semester5').hide();
+    $('#semester9').hide();
+    $('#semester9').show();
+}
 // 반 별 차트 정보 보내주는 함수 
-async function getBanChart(btid){
+async function getBanChart(btid) {
     console.log(btid)
-    if(btid == 0){
+    if (btid == 0) {
         $('#target_ban_info_requestModalLabel').html('반 상세 현황')
         $('#profile_data').empty()
         $('#ban_data').empty();
@@ -252,19 +250,19 @@ async function getBanChart(btid){
         $('#ban_statistics').empty();
         $('#pagingul').hide();
         $('#inloading').hide()
-    }else{
+    } else {
         v = btid.split('_')
         b_id = Number(v[0])
-        $('#target_ban_info_requestModalLabel').html(v[2]+'반 상세 현황')
+        $('#target_ban_info_requestModalLabel').html(v[2] + '반 상세 현황')
         $('#inloading').show()
         $('#target_ban_info_body').hide()
         await $.ajax({
             type: "GET",
-            url: "/manage/ban/"+b_id,
+            url: "/manage/ban/" + b_id,
             data: {},
             success: function (response) {
                 let target_ban = response['target_ban']
-                if (response['status'] == 400){
+                if (response['status'] == 400) {
                     let no_data_title = `<h1> ${response.text} </h1>`
                     $('#s_data').html(no_data_title);
                     $('#pagingul').hide();
@@ -277,8 +275,8 @@ async function getBanChart(btid){
                 let teacher_email = target_ban['teacher_email']
                 let answer = Number(response['answer_alim'])
                 let all_alim = Number(response['all_alim'])
-                
-                
+
+
                 // 이반 학생 
                 let switch_student = response['switch_student']['data'].filter(a => a.ban_id == b_id).length;
                 let all_s_student = response['switch_student']['data'].length;
@@ -287,21 +285,21 @@ async function getBanChart(btid){
                 let all_o_student = response['out_student']['data'].length;
                 // 공지 
                 let notice = response['notice']
-                
+
                 // 상담
                 let consulting = response['consulting']['data'].filter(a => a.ban_id == b_id)
-    
+
                 let u_consulting = response['consulting']['data'].filter(a => a.category_id < 100);
                 let all_uc_consulting = u_consulting.length;
                 let u_consulting_my = u_consulting.filter(a => a.ban_id == b_id);
-    
+
                 let consulting_ixl = u_consulting_my.filter(a => a.category_id == 1).length
                 let consulting_reading = u_consulting_my.filter(a => a.category_id == 4).length
                 let consulting_speacial = u_consulting_my.filter(a => a.category_id == 3).length
                 let consulting_writing = u_consulting_my.filter(a => a.category_id == 6).length
                 let consulting_homepage = u_consulting_my.filter(a => a.category_id == 2).length
                 let consulting_intoreading = u_consulting_my.filter(a => a.category_id == 5 || a.category_id == 7).length
-                
+
                 let task = response['task']['data']
                 let switchstudent_num = response['switchstudent_num']
                 let switchstudent_num_p = response['switchstudent_num_p']
@@ -309,7 +307,7 @@ async function getBanChart(btid){
                 let outstudent_num_p = response['outstudent_num_p']
                 let unlearned_ttd = response['unlearned_ttd']
                 let unlearned_ttc = response['unlearned_ttc']
-    
+
                 let temp_profile_data = `
                 <tbody  style="width:100%;">
                     <tr class="row" style="background: #DCE6F2;">
@@ -323,8 +321,8 @@ async function getBanChart(btid){
                 </tbody>
                 `;
                 $('#profile_data').html(temp_profile_data);
-    
-    
+
+
                 let temp_ban_data = `
                 <tbody  style="width:100%;">
                     <tr class="row">
@@ -341,19 +339,19 @@ async function getBanChart(btid){
                     </tr>
                 </tbody>
                 `;
-    
+
                 $('#ban_data').html(temp_ban_data);
-                
-                response['student_info'].forEach((elem) =>{
-                    elem.unlearned = u_consulting_my.filter( a => a.student_id == elem.register_no).length
+
+                response['student_info'].forEach((elem) => {
+                    elem.unlearned = u_consulting_my.filter(a => a.student_id == elem.register_no).length
                     elem.up = answer_rate(elem.unlearned, u_consulting_my.length).toFixed(1)
                 })
-                response['student_info'].sort((a,b)=>b.up - a.up)
+                response['student_info'].sort((a, b) => b.up - a.up)
                 data_list = response['student_info']
                 totalData = students_num
-                
-                displayData(totalData, 1, dataPerPage,data_list, b_id);
-                paging(totalData, dataPerPage, pageCount, 1,data_list, b_id);
+
+                displayData(totalData, 1, dataPerPage, data_list, b_id);
+                paging(totalData, dataPerPage, pageCount, 1, data_list, b_id);
                 $('#student_data').show()
                 $('#pagingul').show();
                 let temp_ban_statistics = `
@@ -414,11 +412,11 @@ async function getBanChart(btid){
                         </tbody>
                     </table>      
                 `;
-    
+
                 $('#ban_statistics').html(temp_ban_statistics);
             },
-            error:function(xhr, status, error){
-                    alert('xhr.responseText');
+            error: function (xhr, status, error) {
+                alert('xhr.responseText');
             }
         })
     }
@@ -428,7 +426,7 @@ async function getBanChart(btid){
 
 // 이반 * 퇴소 
 // 조회
-async function sodata(){
+async function sodata() {
     $('#qubox').hide()
     $('#ulbox').hide()
     $('#detailban').hide()
@@ -437,16 +435,16 @@ async function sodata(){
         url: '/manage/sodata',
         type: 'GET',
         data: {},
-        success: function(response){
-            if (response['status'] == 400 || response['switch_out_bans'].length == 0){
-                let no_data_title =  '이반 * 퇴소 발생이 없었어요'
+        success: function (response) {
+            if (response['status'] == 400 || response['switch_out_bans'].length == 0) {
+                let no_data_title = '이반 * 퇴소 발생이 없었어요'
                 $('#sotitle').html(no_data_title);
                 $('#sotable').hide()
                 return
             }
             $('#sotitle').empty();
 
-            response['switch_out_bans'].sort((a,b)=>(answer_rate(b.out_count,b.outtotal_count).toFixed(0)) - (answer_rate(a.out_count,a.outtotal_count).toFixed(0)))
+            response['switch_out_bans'].sort((a, b) => (answer_rate(b.out_count, b.outtotal_count).toFixed(0)) - (answer_rate(a.out_count, a.outtotal_count).toFixed(0)))
             // top 5만 보여주는 경우 
             // total_num = 0
             // if(response['switch_out_bans'].length > 5){
@@ -457,18 +455,18 @@ async function sodata(){
 
             let temp_html = ``
             console.log(response['switch_out_bans'])
-            for(i=0;i< response['switch_out_bans'].length;i++){
+            for (i = 0; i < response['switch_out_bans'].length; i++) {
                 register_no = response['switch_out_bans'][i]['target_ban']['register_no']
                 ban_name = response['switch_out_bans'][i]['target_ban']['ban_name']
                 semester = response['switch_out_bans'][i]['target_ban']['semester']
-                teacher_name = response['switch_out_bans'][i]['target_ban']['teacher_name'] +'( ' +response['switch_out_bans'][i]['target_ban']['teacher_engname'] +' )'
+                teacher_name = response['switch_out_bans'][i]['target_ban']['teacher_name'] + '( ' + response['switch_out_bans'][i]['target_ban']['teacher_engname'] + ' )'
                 switch_count = response['switch_out_bans'][i]['switch_out_count']['switchcount_per_ban']
                 out_count = response['switch_out_bans'][i]['switch_out_count']['outcount_per_ban']
-                sp = answer_rate(switch_count,response['switch_out_bans'][i]['switch_out_count']['switchtotal_count']).toFixed(0)
-                op = answer_rate(out_count,response['switch_out_bans'][i]['switch_out_count']['outtotal_count']).toFixed(0)
-                value = register_no +'_'+response['switch_out_bans'][i]['target_ban']['teacher_register_no']+'_'+ban_name
+                sp = answer_rate(switch_count, response['switch_out_bans'][i]['switch_out_count']['switchtotal_count']).toFixed(0)
+                op = answer_rate(out_count, response['switch_out_bans'][i]['switch_out_count']['outtotal_count']).toFixed(0)
+                value = register_no + '_' + response['switch_out_bans'][i]['target_ban']['teacher_register_no'] + '_' + ban_name
                 temp_html += `
-                <td class="col-1">${i+1}위</td>
+                <td class="col-1">${i + 1}위</td>
                 <td class="col-2">${ban_name}</td>
                 <td class="col-2">${semester}학기</td>
                 <td class="col-2">${teacher_name}</td>
@@ -479,10 +477,10 @@ async function sodata(){
             }
             $('#static_data1').html(temp_html)
         }
-    }) 
+    })
     so_paginating(0)
 }
-    // 이반 퇴소 문의 관리
+// 이반 퇴소 문의 관리
 function so_paginating(done_code) {
     let container = $('#so_pagination')
     $.ajax({
@@ -491,16 +489,16 @@ function so_paginating(done_code) {
         data: {},
         dataType: 'json',
         success: function (data) {
-            sdata = data.filter(a=>a.category == 2).length
-            odata = data.filter(a=>a.category == 1).length
-            sdata_noanswer = data.filter(a=>a.category == 2 && a.answer == 0).length
-            odata_noanswer = data.filter(a=>a.category == 1 && a.answer == 0).length
+            sdata = data.filter(a => a.category == 2).length
+            odata = data.filter(a => a.category == 1).length
+            sdata_noanswer = data.filter(a => a.category == 2 && a.answer == 0).length
+            odata_noanswer = data.filter(a => a.category == 1 && a.answer == 0).length
             let temp_newso = `
             <td class="col-2">${sdata}</td>
-            <td class="col-2">${sdata-sdata_noanswer}</td>
+            <td class="col-2">${sdata - sdata_noanswer}</td>
             <td class="col-2">${sdata_noanswer}</td>
             <td class="col-2">${odata}</td>
-            <td class="col-2">${odata-odata_noanswer}</td>
+            <td class="col-2">${odata - odata_noanswer}</td>
             <td class="col-2">${odata_noanswer}</td>
             `;
             $('#newso').html(temp_newso)
@@ -512,12 +510,12 @@ function so_paginating(done_code) {
                 pageClassName: 'float-end',
                 pageSize: 5,
                 callback: function (qdata, pagination) {
-                    if(qdata.length==0){
+                    if (qdata.length == 0) {
                         $('#so_question').hide()
                         $('#so_pagination').hide()
                         $('#no_data_msg').html('문의가 없습니다')
                         $('#no_data_msg').show()
-                    }else{
+                    } else {
                         $('#no_data_msg').hide()
                         $('#so_question').show()
                         $('#so_pagination').show()
@@ -541,7 +539,7 @@ function so_paginating(done_code) {
 }
 
 // 문의 내용 상세보기
-async function get_question_detail(q_id,answer,category) {
+async function get_question_detail(q_id, answer, category) {
     $('#questionlist').hide()
     $('#questiondetail').show()
     var temp_comment = ''
@@ -549,7 +547,7 @@ async function get_question_detail(q_id,answer,category) {
     var temp_question_list = ''
     await $.ajax({
         type: "GET",
-        url: "/manage/question_detail/" + q_id + "/" + answer + "/" + category ,
+        url: "/manage/question_detail/" + q_id + "/" + answer + "/" + category,
         data: {},
         success: function (response) {
             category_name = q_category(category)
@@ -571,13 +569,13 @@ async function get_question_detail(q_id,answer,category) {
             answer_content = response['answer_content']
             answer_created_at = response['answer_created_at']
 
-            if(answer == 0){
+            if (answer == 0) {
                 temp_answer_list = `
                 <div class="modal-body-select-container">
                 <span class="modal-body-select-label">응답</span>
                 <p>미응답</p>
                 </div>`;
-            }else{
+            } else {
                 temp_answer_list = `
                 <div class="modal-body-select-container">
                 <span class="modal-body-select-label">응답제목</span>
@@ -623,7 +621,7 @@ async function get_question_detail(q_id,answer,category) {
 
                 }
             }
-            if(category == 0){
+            if (category == 0) {
                 $('#consulting_history_attach').hide()
                 temp_question_list = `
                     <div class="modal-body-select-container">
@@ -647,7 +645,7 @@ async function get_question_detail(q_id,answer,category) {
                         <a href="/common/downloadfile/question/${q_id}" download="${attach}">${attach}</a>
                     </div>
                 `;
-            }else{
+            } else {
                 //  이반 / 퇴소 등 문의 
                 $('#consulting_history_attach').show()
                 temp_question_list = `
@@ -688,7 +686,7 @@ async function get_question_detail(q_id,answer,category) {
 }
 
 // 미학습 (학습관리)
-async function uldata(){
+async function uldata() {
     $('#qubox').hide()
     $('#sobox').hide()
     $('#detailban').hide()
@@ -698,11 +696,11 @@ async function uldata(){
         url: '/manage/uldata',
         type: 'GET',
         data: {},
-        success: function(response){
+        success: function (response) {
             target_students = response['target_students']
             unlearned_count = response['unlearned_count']['data']
 
-            if (response['status'] == 400  || unlearned_count.length == 0 ){
+            if (response['status'] == 400 || unlearned_count.length == 0) {
                 let no_data_title = `<h1> ${response.text} </h1>`
                 $('#ultitle').html(no_data_title);
                 $('#ul_data_box').hide()
@@ -712,10 +710,10 @@ async function uldata(){
             $('#ultitle').empty();
             $('#ul_data_box').show()
             $('#ul_pagination').show()
-            
+
             // 미학습 높은 순 정렬 
             unlearned_count.sort((a, b) => {
-                return b.unlearned - a.unlearned 
+                return b.unlearned - a.unlearned
             });
             container.pagination({
                 dataSource: unlearned_count,
@@ -725,7 +723,7 @@ async function uldata(){
                 callback: function (unlearned_count, pagination) {
                     var dataHtml = '';
                     $.each(unlearned_count, function (index, consulting) {
-                        let student_data = target_students.filter(a => a.student_id == consulting.student_id )[0]
+                        let student_data = target_students.filter(a => a.student_id == consulting.student_id)[0]
                         let student_id = student_data['student_id']
                         let name = student_data['name']
                         let mobileno = student_data['mobileno']
@@ -733,7 +731,7 @@ async function uldata(){
                         let ban_name = student_data['ban_name']
                         // let total_index = (pagination.currentPage - 1) * pagination.pageSize + index + 1; // 전체 데이터의 인덱스 계산
                         dataHtml += `
-                        <td class="col-1">${index+1}</td>
+                        <td class="col-1">${index + 1}</td>
                         <td class="col-2">${name}</td>
                         <td class="col-2">${consulting.unlearned}</td>
                         <td class="col-2">${ban_name}</td>
@@ -749,7 +747,7 @@ async function uldata(){
             alert(xhr.responseText);
         }
     })
-    
+
 }
 
 // 업무 요청 관련 함수 
@@ -773,9 +771,9 @@ async function request_task() {
         }
     })
 }
-function show_ban_selection(){
+function show_ban_selection() {
     var selectedOptions = ''
-    for(i=0;i<selectedBanList.length;i++){
+    for (i = 0; i < selectedBanList.length; i++) {
         // bid+tid+bname+sid+sname
         var value = selectedBanList[i].split('_')
         selectedOptions += `
@@ -784,33 +782,33 @@ function show_ban_selection(){
         $('#target_task_bans').html(selectedOptions);
     }
 }
-function task_ban_change(btid){
-    if(btid.includes('_')){
+function task_ban_change(btid) {
+    if (btid.includes('_')) {
         // 다중 반 처리
-        $('#target_task_bans').show() 
+        $('#target_task_bans').show()
         $('#task_msg').html('👇 개별 반 대상 진행합니다 (대상 반을 확인해 주세요)')
-        if(selectedBanList.indexOf(btid) === -1) {
+        if (selectedBanList.indexOf(btid) === -1) {
             selectedBanList.push(btid);
         }
         $('select[name="task_target_ban[]"]').val(selectedBanList);
         return show_ban_selection()
-    }else{
-        selectedBanList.length=0
+    } else {
+        selectedBanList.length = 0
         $('#target_task_bans').empty()
-        if(btid == 0){
+        if (btid == 0) {
             // 전체 반 대상 진행 일 경우 처리 
             $('#task_msg').html('👉 전체 반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 화면이 이동하기 전 까지 대기 해 주세요)')
-        }else if(btid == 1){
+        } else if (btid == 1) {
             // plus alpha 처리
             $('#task_msg').html('👉 PLUS/ALPHA반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 화면이 이동하기 전 까지 대기 해 주세요)')
-        }else if(btid == 2){
+        } else if (btid == 2) {
             // nf 노블 처리 
             $('#task_msg').html('👉 NF/NOVEL반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 화면이 이동하기 전 까지 대기 해 주세요)')
         }
     }
 }
-function delete_selected_ban(idx){
-    selectedBanList.splice(idx,1)
+function delete_selected_ban(idx) {
+    selectedBanList.splice(idx, 1)
     $('select[name="task_target_ban[]"]').val(selectedBanList);
     return show_ban_selection()
 }
@@ -838,68 +836,68 @@ async function request_consulting() {
         }
     })
 }
-async function ban_change(btid){
-    if(btid.includes('_')){
+async function ban_change(btid) {
+    if (btid.includes('_')) {
         // 다중 반 처리
-        $('#select_student').show() 
+        $('#select_student').show()
         $('#consulting_msg').html('👇 개별 반 대상 진행합니다 (대상 학생을 확인해 주세요)')
         value = btid.split('_')
         await $.ajax({
             type: "GET",
-            url: "/manage/ban_student/"+value[0],
+            url: "/manage/ban_student/" + value[0],
             data: {},
             success: function (response) {
                 // 전체 학생 대상 진행 append 
                 let temp_target_student = `<option value="${btid}_-1_전체 학생 대상 진행">✔️${value[2]}반 전체 학생 대상 진행</option>`;
-                for (var i = 0; i <  response['students'].length; i++) {
+                for (var i = 0; i < response['students'].length; i++) {
                     let sname = response['students'][i]['name'];
                     temp_target_student += `<option value="${btid}_${response['students'][i]['register_no']}_${sname}"> ${sname}</option>`;
-                } 
+                }
                 $('#consulting_target_students').html(temp_target_student)
             },
-            error:function(xhr, status, error){
-                    alert('xhr.responseText');
+            error: function (xhr, status, error) {
+                alert('xhr.responseText');
             }
 
         })
-    }else{
+    } else {
         $('#select_student').hide()
         $('#result_tbox').empty()
-        if(btid == 0){
+        if (btid == 0) {
             // 전체 반 대상 진행 일 경우 처리 
             $('#consulting_msg').html('👉 전체 반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
-        }else if(btid == 1){
+        } else if (btid == 1) {
             // plus alpha 처리
             $('#consulting_msg').html('👉 PLUS/ALPHA반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
-        }else if(btid == 2){
+        } else if (btid == 2) {
             // nf 노블 처리 
             $('#consulting_msg').html('👉 NF/NOVEL반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
         }
     }
 }
-$('#consulting_target_students').change(function(){
+$('#consulting_target_students').change(function () {
     var selectedValues = $(this).val()[0];
-    if(selectedStudentList.indexOf(selectedValues) === -1) {
+    if (selectedStudentList.indexOf(selectedValues) === -1) {
         selectedStudentList.push(selectedValues);
     }
     return show_selections();
 });
-function show_selections(){
+function show_selections() {
     $('#result_tbox').empty()
-    for(i=selectedStudentList.length-1;i>=0;i--){
+    for (i = selectedStudentList.length - 1; i >= 0; i--) {
         // 전체 반이 선택된 경우 
-        if(String(selectedStudentList[i]).includes('-1')){
+        if (String(selectedStudentList[i]).includes('-1')) {
             // 같은 반 친구들 교집합을 저장 
-            let total_student_selections = selectedStudentList.filter(value => ( (String(value).split('_')[0] == selectedStudentList[i].split('_')[0]) && (!(value.includes('-1'))) ) );
-            if(total_student_selections.length != 0){
-                total_student_selections.forEach(value =>{
-                    selectedStudentList.splice(selectedStudentList.indexOf(value),1);
+            let total_student_selections = selectedStudentList.filter(value => ((String(value).split('_')[0] == selectedStudentList[i].split('_')[0]) && (!(value.includes('-1')))));
+            if (total_student_selections.length != 0) {
+                total_student_selections.forEach(value => {
+                    selectedStudentList.splice(selectedStudentList.indexOf(value), 1);
                 })
             }
-        } 
+        }
     }
     var selectedOptions = ''
-    for(i=0;i<selectedStudentList.length;i++){
+    for (i = 0; i < selectedStudentList.length; i++) {
         // bid+tid+bname+sid+sname
         var value = selectedStudentList[i].split('_')
         selectedOptions += `
@@ -909,86 +907,86 @@ function show_selections(){
         $('#result_tbox').html(selectedOptions);
     }
 }
-function delete_selected_student(idx){
-    selectedStudentList.splice(idx,1)
-    
+function delete_selected_student(idx) {
+    selectedStudentList.splice(idx, 1)
+
     // 선택 된거 보여주기 
     return show_selections();
-} 
-function post_consulting_request(){
+}
+function post_consulting_request() {
     consulting_category = $('#consulting_category_list').val()
     consulting_contents = $('#consulting_contents').val()
     consulting_date = $('#consulting_date').val()
     consulting_deadline = $('#consulting_deadline').val()
     // 다중 선택 대상 선택일 경우  
-    if(selectedStudentList.length != 0){
-        let total_student_selections = selectedStudentList.filter(value => value.includes('-1') );
+    if (selectedStudentList.length != 0) {
+        let total_student_selections = selectedStudentList.filter(value => value.includes('-1'));
         // 전체 학생 대상 인 경우
-        if(total_student_selections.length != 0){
-            total_student_selections.forEach(value =>{
+        if (total_student_selections.length != 0) {
+            total_student_selections.forEach(value => {
                 v = String(value).split('_')
                 $.ajax({
                     type: "POST",
-                    url:'/manage/consulting/request_all_student/'+v[0]+'/'+v[1],
+                    url: '/manage/consulting/request_all_student/' + v[0] + '/' + v[1],
                     // data: JSON.stringify(jsonData), // String -> json 형태로 변환
                     data: {
-                        consulting_category:consulting_category,
-                        consulting_contents:consulting_contents,
-                        consulting_date:consulting_date,
-                        consulting_deadline:consulting_deadline
+                        consulting_category: consulting_category,
+                        consulting_contents: consulting_contents,
+                        consulting_date: consulting_date,
+                        consulting_deadline: consulting_deadline
                     },
                     success: function (response) {
-                        if(response != 'success'){
+                        if (response != 'success') {
                             alert('상담 요청 실패')
                         }
                     }
                 })
-                alert(v[2] +'반에 상담요청 완료');
+                alert(v[2] + '반에 상담요청 완료');
             })
         }
         // 개별 학생 대상 인 경우  
-        let indivi_student_selections = selectedStudentList.filter(value => !(value.includes('-1')) );
-        if(indivi_student_selections.length != 0){
-            indivi_student_selections.forEach(value =>{
+        let indivi_student_selections = selectedStudentList.filter(value => !(value.includes('-1')));
+        if (indivi_student_selections.length != 0) {
+            indivi_student_selections.forEach(value => {
                 v = String(value).split('_')
                 $.ajax({
                     type: "POST",
-                    url:'/manage/consulting/request_indivi_student/'+v[0]+'/'+v[1]+'/'+v[3],
+                    url: '/manage/consulting/request_indivi_student/' + v[0] + '/' + v[1] + '/' + v[3],
                     // data: JSON.stringify(jsonData), // String -> json 형태로 변환
                     data: {
-                        consulting_category:consulting_category,
-                        consulting_contents:consulting_contents,
-                        consulting_date:consulting_date,
-                        consulting_deadline:consulting_deadline
+                        consulting_category: consulting_category,
+                        consulting_contents: consulting_contents,
+                        consulting_date: consulting_date,
+                        consulting_deadline: consulting_deadline
                     },
                     success: function (response) {
-                        if(response != 'success'){
+                        if (response != 'success') {
                             alert('상담 요청 실패')
                         }
                     }
                 })
-                alert(v[2]+'반 '+v[4]+'원생 상담요청 완료');
+                alert(v[2] + '반 ' + v[4] + '원생 상담요청 완료');
             })
         }
-        window.location.reload()    
-    // 전체 반 대상 선택 일 경우 
-    }else{
+        window.location.reload()
+        // 전체 반 대상 선택 일 경우 
+    } else {
         b_type = $('#consulting_target_aban').val()[0]
         console.log(b_type)
         $.ajax({
             type: "POST",
-            url:'/manage/consulting/all_ban/'+b_type,
+            url: '/manage/consulting/all_ban/' + b_type,
             // data: JSON.stringify(jsonData), // String -> json 형태로 변환
             data: {
-                consulting_category:consulting_category,
-                consulting_contents:consulting_contents,
-                consulting_date:consulting_date,
-                consulting_deadline:consulting_deadline
+                consulting_category: consulting_category,
+                consulting_contents: consulting_contents,
+                consulting_date: consulting_date,
+                consulting_deadline: consulting_deadline
             },
             success: function (response) {
-                if(response['result'] != 'success'){
+                if (response['result'] != 'success') {
                     alert('상담 요청 실패')
-                }else{
+                } else {
                     alert('해당 반 전체에 상담요청 완료')
                     window.location.reload()
                 }
