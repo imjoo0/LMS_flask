@@ -363,7 +363,7 @@ function getBanChart(ban_id,semester) {
                         <td class="col-3">${my_task_data.filter(a => a.done == 1).length}/${my_task_data.length}</td>
                         <td class="col-3">${answer_rate(task.filter(a => a.done == 1).length, task.length).toFixed(0)}%</td>
                         <td class="col-3">${my_consulting.filter(a => a.done == 1).length}/${my_consulting.length}</td>
-                        <td class="col-3">${answer_rate(my_consulting.filter(a => a.done == 1).length, consulting.length).toFixed(0)}%</td>
+                        <td class="col-3">${answer_rate(my_consulting.filter(a => a.done == 1).length, my_consulting.length).toFixed(0)}%</td>
                     </tr>
                 </tbody>
             </table>  
