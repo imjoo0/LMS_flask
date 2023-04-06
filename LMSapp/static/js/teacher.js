@@ -45,7 +45,7 @@ function get_data() {
             for (i=0;i< response['ban_data'].length;i++) {
                 let register_no =  response['ban_data'][i]['register_no']
                 let name =  response['ban_data'][i]['name']
-                let semester = make_semester( response['ban_data'][i]['semester'])
+                let semester = make_semester(response['ban_data'][i]['semester'])
                 let total_student_num =  response['ban_data'][i]['total_student_num']
                 let unlearned_arr = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.category_id < 100 && consulting.ban_id === register_no): 0;
                 let unlearned = 0
