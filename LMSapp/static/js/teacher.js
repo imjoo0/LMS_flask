@@ -206,7 +206,7 @@ function get_data() {
                     return { [key]: items };
                 });
                 temp_cate_menu += `
-                <thead>
+                <thead  style="background-color:#ffc107;">
                     <tr class="row">
                     <th class="col-2">< 업무순위</th>
                     <th class="col-8">${category}업무</th>
@@ -222,7 +222,7 @@ function get_data() {
                         task_items = contentsGroupedresult[j][contents];
                         const v = contents.split('_')
                         temp_cate_menu += `
-                            <tr class="row" style="background-color:#ffc107;">
+                            <tr class="row">
                                 <td class="col-2">${make_priority(v[0])}</td>
                                 <td class="col-8">${v[1]}</td>
                                 <td class="col-2">${make_date(v[2])}</td>
