@@ -91,11 +91,20 @@
                     </table>
                 </div>
                 <div class="notice_message">
-                    <p class="mb-2" style="padding: 0 12px;">👇 상담을 시작해야 하는 날짜를 2022-01-01 형식으로 적어주세요</p>
-                        <form>
-                            <label for="datepicker">날짜 선택: </label>
-                            <input type="text" id="datepicker"  name="datepicker" placeholder="2024-01-01">
-                        </form>
+                    <!-- <p class="mb-2" style="padding: 0 12px;">👇 상담을 시작해야 하는 날짜를 2022-01-01 형식으로 적어주세요</p>
+                    <div style="padding: 0 12px;">
+                        <input class="border rounded-0 form-control form-control-sm" type="text" id="consulting_date" placeholder="2023-01-01">
+                    </div> -->
+                    <label for="datepicker">날짜 선택: </label>
+                    <input type="text" id="datepicker">
+                
+                    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+                    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+                    <script>
+                        $( function() {
+                            $("#datepicker").datepicker({ dateFormat: 'yy-mm-dd' });
+                        });
+                    </script>
                 </div>
 
                 <div class="notice_message mt-4">
@@ -1118,8 +1127,6 @@
 </div>
 
     {% block jspart %}
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" src="../static/js/manage.js"></script>
     {% endblock %}
 
