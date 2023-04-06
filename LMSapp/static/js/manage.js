@@ -203,9 +203,6 @@ function getBanlist(){
                 $('#semester9').hide();             
                 $('#semester9').show();
             });
-            if(mychart != null){
-                mychart.destroy()
-            }
             // PURPLE 섹션 차트 그리기
             let ctx = document.getElementById('semester-student-chart').getContext('2d');
             let semesterStudentChart = new Chart(ctx, {
