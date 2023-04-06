@@ -31,7 +31,7 @@ function get_data() {
                 const { switch_ban_id } = response['switchstudent'].find(obj2 => obj1.student_id === obj2.student_id) || { switch_ban_id: null };
                 return { ...obj1, out_created, switch_ban_id };
             });
-            let total_student_num = response['all_ban'].length
+            total_student_num = response['all_ban'].length
             outstudent_num = response['outstudent'].length;
 
             const banGrouped = result.reduce((acc, item) => {
@@ -48,12 +48,9 @@ function get_data() {
             });
             allData = banGroupedresult
             // 학기 별 원생
-            let onesemester = total_student_num != 0 ? allData.filter(e => Object.keys(e)[0].split('_')[2] == 1) : 0
-            onesemesterData = onesemester
-            let fivesemester = total_student_num != 0 ? allData.filter(e => Object.keys(e)[0].split('_')[2] == 2) : 0
-            fivesemesterData = onesemester
-            let ninesemester = total_student_num != 0 ? allData.filter(e => Object.keys(e)[0].split('_')[2] == 0) : 0
-            ninesemesterData = onesemester
+            onesemester = total_student_num != 0 ? allData.filter(e => e.semester == 1) : 0
+            fivesemester = total_student_num != 0 ? allData.filter(e => e.semester == 2) : 0
+            ninesemester = total_student_num != 0 ? allData.filter(e => e.semester == 0) : 0
 
             // 학기별 원생수 및 퇴소 원생 수 
             let onesemester_total = onesemester != 0 ? onesemester.length : 0
@@ -191,31 +188,19 @@ function get_data() {
 function semesterShow(semester) {
     $('#semester').show();
     if(semester == 0){
-        data = ninesemesterData
+        data = total_student_num != 0 ? allData.filter(e => Object.keys(e)[0].split('_')[2] == 0) : 0
         $('#semester_s').html('9월 학기')
     }else if(semester == 1){
-        data = onesemesterData
+        data = total_student_num != 0 ? allData.filter(e => Object.keys(e)[0].split('_')[2] == 1) : 0
         $('#semester_s').html('1월 학기')
     }else if(semester == 2){
-        data = fivesemesterData
+        data = total_student_num != 0 ? allData.filter(e => Object.keys(e)[0].split('_')[2] == 2) : 0
         $('#semester_s').html('5월 학기')
     }else{
         data = allData
         $('#semester_s').html('전체 반')
     }
-    const banGrouped = data.reduce((acc, item) => {
-        const v = `${item.ban_id}_${item.student_num}`;
-        if (!acc[v]) {
-            acc[v] = [];
-        }
-        acc[v].push(item);
-        return acc;
-    }, {});
-    // 결과를 객체의 배열로 변환
-    const banGroupedresult = Object.entries(banGrouped).map(([v, items]) => {
-        return { [v]: items };
-    });
-    banGroupedresult.sort((a, b) => Object.keys(b)[0].split('_')[1] - Object.keys(a)[0].split('_')[1])
+    data.sort((a, b) => Object.keys(b)[0].split('_')[1] - Object.keys(a)[0].split('_')[1])
     let temp_semester_banlist = ''
     banGroupedresult.forEach(ban_data => {
         let key = Object.keys(ban_data)[0];
