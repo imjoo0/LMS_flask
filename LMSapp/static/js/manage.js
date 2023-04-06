@@ -128,54 +128,100 @@ function get_data(){
             let all_ban = response['all_ban']
             let total_student_num = all_ban.length
             let outstudent_num = response['outstudent'].length;
+            let switchstudent_num = response['switchstudent'].length;
 
             // 학기 별 원생
             let onesemester = total_student_num != 0 ? all_ban.filter(e=>e.semester == 1) : 0
             let fivesemester = total_student_num != 0 ? all_ban.filter(e=>e.semester == 2) : 0
             let ninesemester = total_student_num != 0 ? all_ban.filter(e=>e.semester == 0) : 0
+
+            let onesemester_total = onesemester != 0 ? onesemester.length : 0
+            let fivesemester_total = fivesemester != 0 ? fivesemester.length : 0
+            let ninesemester_total = ninesemester != 0 ? ninesemester.length : 0
+
             console.log(onesemester)
             console.log( response['outstudent'])
             console.log( response['switchstudent'])
-            // // 퇴소 원생 구하기
-            
-            
-            // let semester_student_table = `
-            //     <table>
-            //         <tr>
-            //             <th class="need"></th>
-            //             <th>초기 등록 원생 수</th>
-            //             <th>현재 원생 수</th>
-            //             <th>퇴소 원생 수</th>
-            //             <th>반 리스트</th>
-            //         </tr>
-            //         <tr>
-            //             <th class="need">전체</th>
-            //             <td>${total_student_num+outstudent_num}명</td>
-            //             <td>${total_student_num}명</td>
-            //             <td>${outstudent_num}명</td>
-            //             <td><span class='cursor-pointer fs-4 allSemesterShow'>📜</span></td>
-            //         </tr>
-            //         <tr>
-            //             <th class="need">1월 학기</th>
-            //             <td>${onesemester}명</td>
-            //             <td>${outstudentArr[0]}명</td>
-            //             <td><span class='cursor-pointer fs-4 semester1Show'>📜</span></td>
-            //         </tr>
-            //         <tr>
-            //             <th class="need">5월 학기</th>
-            //             <td>${fivesemester}명</td>
-            //             <td>${outstudentArr[1]}명</td>
-            //             <td><span class='cursor-pointer fs-4 semester5Show'>📜</span></td>
-            //         </tr>
-            //         <tr>
-            //             <th>9월 학기</th>
-            //             <td>${ninesemester}명</td>
-            //             <td>${outstudentArr[2]}명</td>
-            //             <td><span class='cursor-pointer fs-4 semester9Show'>📜</span></td>
-            //         </tr>
-            //     </table>
-            // `;
-            // $('#semester-student-table').html(semester_student_table);
+
+            let out_student_arr = []
+            let oneoutstudent = 0;
+            let fiveoutstudent = 0;
+            let nineoutstudent = 0;
+            // 학기 퇴소 / 이반 원생 수 
+            if(outstudent_num != 0 && total_student_num != 0){
+                for(i=0;i<outstudent_num;i++){
+                    let out_student = all_ban.filter(e=>e.student_id == response['outstudent'][i].student_id)[0]
+                    let out_semester = out_student['semester']
+                    out_student_arr.push(out_student)
+                    if(out_semester == 0){
+                        nineoutstudent += 1
+                    }else if(out_semester == 1){
+                        fiveoutstudent+= 1
+                    }else{
+                        oneoutstudent += 1
+                    }
+                }
+            }
+
+            let switch_student_arr = []
+            let oneswitchstudent = 0;
+            let fiveswitchstudent = 0;
+            let nineswitchstudent = 0;
+            if(switchstudent_num != 0 && total_student_num != 0){
+                for(i=0;i<switchstudent_num;i++){
+                    let switch_student = all_ban.filter(e=>e.student_id == response['switchstudent'][i].student_id)[0]
+                    let switch_semester = switch_student['semester']
+                    switch_student_arr.push(switch_student)
+                    if(switch_semester == 0){
+                        nineswitchstudent += 1
+                    }else if(switch_semester == 1){
+                        fiveswitchstudent+= 1
+                    }else{
+                        oneswitchstudent += 1
+                    }
+                }
+            }
+
+            let semester_student_table = `
+                <table>
+                    <tr>
+                        <th class="need"></th>
+                        <th>초기 등록 원생 수</th>
+                        <th>현재 원생 수</th>
+                        <th>퇴소 원생 수</th>
+                        <th>반 리스트</th>
+                    </tr>
+                    <tr>
+                        <th class="need">전체</th>
+                        <td>${total_student_num+outstudent_num}명</td>
+                        <td>${total_student_num}명</td>
+                        <td>${outstudent_num}명</td>
+                        <td><span class='cursor-pointer fs-4 allSemesterShow'>📜</span></td>
+                    </tr>
+                    <tr>
+                        <th class="need">1월 학기</th>
+                        <td>${onesemester_total+oneoutstudent+oneswitchstudent}명</td>
+                        <td>${onesemester_total}명</td>
+                        <td>${oneoutstudent}명</td>
+                        <td><span class='cursor-pointer fs-4 semester1Show'>📜</span></td>
+                    </tr>
+                    <tr>
+                        <th class="need">5월 학기</th>
+                        <td>${fivesemester_total+fiveoutstudent+fiveswitchstudent}명</td>
+                        <td>${fivesemester_total}명</td>
+                        <td>${fiveoutstudent}명</td>
+                        <td><span class='cursor-pointer fs-4 semester5Show'>📜</span></td>
+                    </tr>
+                    <tr>
+                        <th>9월 학기</th>
+                        <td>${ninesemester_total+nineoutstudent+nineswitchstudent}명</td>
+                        <td>${ninesemester_total}명</td>
+                        <td>${nineoutstudent}명</td>
+                        <td><span class='cursor-pointer fs-4 semester9Show'>📜</span></td>
+                    </tr>
+                </table>
+            `;
+            $('#semester-student-table').html(semester_student_table);
 
             // $('.allSemesterShow').on('click', function() {
             //     $('#semester1').hide();
