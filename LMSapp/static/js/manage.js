@@ -200,6 +200,7 @@ function semesterShow(semester) {
         return { [ban_id]: items };
     });
     console.log(banGroupedresult)
+    let temp_semester_banlist = ''
     banGroupedresult.forEach(ban_data => {
         let b_id = Object.keys(ban_data)[0];
         let name = ban_data[b_id][0].name
