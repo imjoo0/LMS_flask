@@ -205,14 +205,7 @@ function get_data(){
                             let teacher_id = ban_data[b_id][0].teacher_id
                             let teacher_name = ban_data[b_id][0].teacher_name
                             let value = b_id + '_' + teacher_id +'_' + name
-                            let op = 0
-                            if(semester == 9){
-                                op = nineoutstudent
-                            }else if(semester == 1){
-                                op = oneoutstudent
-                            }else{
-                                op = fiveoutstudent
-                            }
+                            let op = oneoutstudent
                             // let items = categoryGroupedresult[i][category].filter( e => e.done === 0 );
                             // 원생 목록 
                             let out_num = ban_data[b_id].filter(s=>s.out_created != null || s.switch_ban_id != null).length;
