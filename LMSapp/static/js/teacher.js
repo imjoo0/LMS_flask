@@ -507,11 +507,11 @@ function post_target_consulting(consulting, is_done) {
     consulting_solution = $('#consulting_solution' + consulting).val()
     consulting_result = $('#consulting_result' + consulting).val()
     if ((consulting_reason.length == 0)) {
-        consulting_reason = "No data"
+        consulting_reason = "작성 내역이 없습니다"
     } if ((consulting_solution.length == 0)) {
-        consulting_solution = "No data"
+        consulting_solution = "작성 내역이 없습니다"
     } if ((consulting_result.length == 0)) {
-        consulting_result = "No data"
+        consulting_result = "작성 내역이 없습니다"
     }
     $.ajax({
         type: "POST",

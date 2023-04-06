@@ -183,13 +183,13 @@ def consulting_history(id,is_done):
                 target_consulting.result = received_result
                 target_consulting.created_at = Today
             else:
-                if(received_reason !="No data"):
+                if(received_reason !="작성 내역이 없습니다"):
                     target_consulting.reason = received_reason
-                if(received_solution !="No data"):    
+                if(received_solution !="작성 내역이 없습니다"):    
                     target_consulting.solution = received_solution
-                if(received_result !="No data"):    
+                if(received_result !="작성 내역이 없습니다"):    
                     target_consulting.result = received_result
-                if((received_reason !="No data") or (received_solution !="No data") or (received_result !="No data")):
+                if((received_reason !="작성 내역이 없습니다") or (received_solution !="작성 내역이 없습니다") or (received_result !="작성 내역이 없습니다")):
                     target_consulting.created_at = Today
             target_consulting.done = 1
             db.session.commit()
