@@ -42,19 +42,22 @@ def get_ban():
     if request.method == 'GET':
         all_ban = callapi.purple_allinfo('get_all_info')
         # name / ban_id/semester/teacher_id/student_num/total_student_num(학기별 총 학생 수)
-        outstudent = {}
+        switchstudent = []
+        outstudent = []
         
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute("SELECT COALESCE(switchstudent.ban_id, outstudent.ban_id) AS ban_id, COALESCE(switch_count, 0) AS switch_count, COALESCE(out_count, 0) AS out_count, switchstudent.switch_ban_id, switchstudent.teacher_id as s_teacher, switchstudent.student_id as s_student, outstudent.teacher_id as o_teacher, outstudent.student_id as o_student FROM (SELECT ban_id, COUNT(*) AS switch_count FROM switchstudent GROUP BY ban_id) AS switch_counts LEFT OUTER JOIN (SELECT ban_id, COUNT(*) AS out_count FROM outstudent GROUP BY ban_id) AS out_counts ON switch_counts.ban_id = out_counts.ban_id LEFT OUTER JOIN switchstudent ON switch_counts.ban_id = switchstudent.ban_id LEFT OUTER JOIN outstudent ON out_counts.ban_id = outstudent.ban_id;")
-                outstudent['status'] = 200
-                outstudent['data'] = cur.fetchall()
+                cur.execute("SELECT ban_id,switch_ban_id,teacher_id,student_id,created_at FROM switchstudent;")
+                switchstudent = cur.fetchall()
+
+                cur.execute("SELECT ban_id,teacher_id,student_id,created_at FROM outstudent;")
+                outstudent = cur.fetchall()
         except:
                 print('err')
         finally:
                 db.close()        
-        return jsonify({'all_ban': all_ban,'outstudent': outstudent})
+        return jsonify({'all_ban': all_ban,'switchstudent': switchstudent,'outstudent': outstudent})
         
 @bp.route('/downloadfile/question/<int:q_id>')
 def download_file(q_id):

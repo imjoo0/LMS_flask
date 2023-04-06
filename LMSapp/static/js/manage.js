@@ -5,7 +5,7 @@ var selectedStudentList = [];
 
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
-    getBanlist();
+    get_data();
 
     $('.nav-link').on('click', function(){
         $('.nav-link').removeClass('active');
@@ -18,7 +18,7 @@ $(document).ready(function () {
     
 })
 // 전체 반 정보(차트) 가져오는 함수 
-function getBanlist(){
+function get_data(){
     $('#detailban').show();
     $('#qubox').hide()
     $('#sobox').hide()
@@ -29,237 +29,250 @@ function getBanlist(){
         dataType: 'json',
         data: {},
         success: function (response) {
-            let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
-            let all_ban = response['all_ban']
-            for (i = 0; i < all_ban.length; i++) {
-                let name = all_ban[i]['name']
-                let t_id = all_ban[i]['teacher_id']
-                let btid = all_ban[i]['ban_id']
-                let value = btid + '_' + t_id +'_' + name
-                temp_ban_option += `
-                <option value="${value}">${name} (${make_semester(all_ban[i]['semester'])}월 학기)</option>
-                `;
-            }
-            $('#ban_list').html(temp_ban_option)
-            $('#consulting_target_ban').html(temp_ban_option)
-            $('#task_target_ban').html(temp_ban_option)
+            // let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
+            // for (i = 0; i < total_student_num; i++) {
+            //     let name = all_ban[i]['name']
+            //     let t_id = all_ban[i]['teacher_id']
+            //     let btid = all_ban[i]['ban_id']
+            //     let value = btid + '_' + t_id +'_' + name
+            //     temp_ban_option += `
+            //     <option value="${value}">${name} (${make_semester(all_ban[i]['semester'])}월 학기)</option>
+            //     `;
+            // }
+            // $('#ban_list').html(temp_ban_option)
+            // $('#consulting_target_ban').html(temp_ban_option)
+            // $('#task_target_ban').html(temp_ban_option)
 
-            const semesterGrouped = all_ban.reduce((result, item) => {
-                const semester = item.semester;
-                if (!result[semester]) {
-                  result[semester] = [];
-                }
-                result[semester].push(item);
-                return result;
-            }, {});
+            //const semesterGrouped = all_ban.reduce((result, item) => {
+                //     const semester = item.semester;
+                //     if (!result[semester]) {
+                //       result[semester] = [];
+                //     }
+                //     result[semester].push(item);
+                //     return result;
+                // }, {});
+    
+                // // 결과를 객체의 배열로 변환
+                // const semesterGroupedresult = Object.entries(semesterGrouped).map(([semester, items]) => {
+                //     return { [semester]: items };
+                // });
+    
+                // // 총 원생 구하기
+                // onesemester = Number(semesterGroupedresult[1]['1'][0]['total_student_num'])
+                // fivesemester = Number(semesterGroupedresult[2]['2'][0]['total_student_num'])
+                // ninesemester = Number(semesterGroupedresult[0]['0'][0]['total_student_num'])
+                // total_student_num = onesemester + fivesemester + ninesemester
 
-            // 결과를 객체의 배열로 변환
-            const semesterGroupedresult = Object.entries(semesterGrouped).map(([semester, items]) => {
-                return { [semester]: items };
-            });
-
-            // 총 원생 구하기
-            onesemester = Number(semesterGroupedresult[1]['1'][0]['total_student_num'])
-            fivesemester = Number(semesterGroupedresult[2]['2'][0]['total_student_num'])
-            ninesemester = Number(semesterGroupedresult[0]['0'][0]['total_student_num'])
-            total_student_num = onesemester + fivesemester + ninesemester
-
-            // 퇴소 원생 구하기
-            let outstudentArr = [];
-            for(j=0;j<3;j++){
-                let key = j.toString()
-                let temp_semester_banlist = ''
-                let semester_out_student = 0
-                const result = semesterGroupedresult[j][key].reduce((acc, ban_data) => {
-                    let onList = [];
-                    onList = response['outstudent']['data'].filter(a => a.ban_id == ban_data.ban_id );
-                    let count_per_ban = 0
-                    let ocount_per_ban = 0
-                    let scount_per_ban = 0
-                    if (onList.length > 0) {
-                        onList = onList[0];
-                        ocount_per_ban =  onList.outcount_per_ban;
-                        scount_per_ban = onList.switchcount_per_ban;
-                        count_per_ban = ocount_per_ban+scount_per_ban;
-                        semester_out_student += ocount_per_ban;
-                    }
-                    acc.push({
-                        'b_id':ban_data.ban_id ,
-                        'name':ban_data.name ,
-                        'student_num':ban_data.student_num ,
-                        'teacher_id':ban_data.teacher_id ,
-                        'ocount_per_ban': ocount_per_ban,
-                        'scount_per_ban':scount_per_ban,
-                        'count_per_ban': count_per_ban, // 총 나간 원생 ( 관리중인 학생 수 구하기 ) 
-                        'semester_out_student':semester_out_student, // 학기별 총 퇴소 원생 수 
-                        'op':answer_rate(ocount_per_ban, semester_out_student).toFixed(0)
-                    });
-                    return acc;
-                }, []);
-                console.log(result)
-                // outstudentArr.push(semester_out_student);
-                if (result.length > 0) {
-                    result.sort((a, b) => {
-                        return b.op- a.op
-                });}
+                //퇴소 원생 구하기 
+            //     let outstudentArr = [];
+            // for(j=0;j<3;j++){
+            //     let key = j.toString()
+            //     let temp_semester_banlist = ''
+            //     let semester_out_student = 0
+            //     const result = semesterGroupedresult[j][key].reduce((acc, ban_data) => {
+            //         let onList = [];
+            //         onList = response['outstudent']['data'].filter(a => a.ban_id == ban_data.ban_id );
+            //         let count_per_ban = 0
+            //         let ocount_per_ban = 0
+            //         let scount_per_ban = 0
+            //         if (onList.length > 0) {
+            //             onList = onList[0];
+            //             ocount_per_ban =  onList.outcount_per_ban;
+            //             scount_per_ban = onList.switchcount_per_ban;
+            //             count_per_ban = ocount_per_ban+scount_per_ban;
+            //             semester_out_student += ocount_per_ban;
+            //         }
+            //         acc.push({
+            //             'b_id':ban_data.ban_id ,
+            //             'name':ban_data.name ,
+            //             'student_num':ban_data.student_num ,
+            //             'teacher_id':ban_data.teacher_id ,
+            //             'ocount_per_ban': ocount_per_ban,
+            //             'scount_per_ban':scount_per_ban,
+            //             'count_per_ban': count_per_ban, // 총 나간 원생 ( 관리중인 학생 수 구하기 ) 
+            //             'semester_out_student':semester_out_student, // 학기별 총 퇴소 원생 수 
+            //             'op':answer_rate(ocount_per_ban, semester_out_student).toFixed(0)
+            //         });
+            //         return acc;
+            //     }, []);
+            //     console.log(result)
+            //     // outstudentArr.push(semester_out_student);
+            //     if (result.length > 0) {
+            //         result.sort((a, b) => {
+            //             return b.op- a.op
+            //     });}
                 
-                result.forEach(ban_data => {
-                    let b_id = ban_data['b_id']
-                    let name = ban_data['name']
-                    let student_num = ban_data['student_num'] 
-                    let value = b_id + '_' + ban_data['teacher_id'] +'_' + name
-                    let ocount_per_ban = ban_data['ocount_per_ban']
-                    let op = ban_data['op']
+            //     result.forEach(ban_data => {
+            //         let b_id = ban_data['b_id']
+            //         let name = ban_data['name']
+            //         let student_num = ban_data['student_num'] 
+            //         let value = b_id + '_' + ban_data['teacher_id'] +'_' + name
+            //         let ocount_per_ban = ban_data['ocount_per_ban']
+            //         let op = ban_data['op']
                     
-                    temp_semester_banlist += `
-                    <td class="col-3">${name}</td>
-                    <td class="col-3">${student_num+ban_data['count_per_ban']}</td>
-                    <td class="col-3">${student_num}</td>
-                    <td class="col-2">${ocount_per_ban}(${op}%)</td>
-                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')"><span class="cursor-pointer">👉</span></td>`;
-                });
-                $('#semester_banlist'+j).html(temp_semester_banlist)
+            //         temp_semester_banlist += `
+            //         <td class="col-3">${name}</td>
+            //         <td class="col-3">${student_num+ban_data['count_per_ban']}</td>
+            //         <td class="col-3">${student_num}</td>
+            //         <td class="col-2">${ocount_per_ban}(${op}%)</td>
+            //         <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')"><span class="cursor-pointer">👉</span></td>`;
+            //     });
+            //     $('#semester_banlist'+j).html(temp_semester_banlist)
                 
-            }
-            let outstudentTotal = 0;
-            outstudentArr.forEach(ele => { 
-                outstudentTotal += Number(ele)
-            });
-            console.log(outstudentArr)
-            let semester_student_table = `
-                <table>
-                    <tr>
-                        <th class="need"></th>
-                        <th>총 원생 수</th>
-                        <th>퇴소 원생 수</th>
-                        <th>반 리스트</th>
-                    </tr>
-                    <tr>
-                        <th class="need">전체</th>
-                        <td>${total_student_num}명</td>
-                        <td>${outstudentTotal}명</td>
-                        <td><span class='cursor-pointer fs-4 allSemesterShow'>📜</span></td>
-                    </tr>
-                    <tr>
-                        <th class="need">1월 학기</th>
-                        <td>${onesemester}명</td>
-                        <td>${outstudentArr[0]}명</td>
-                        <td><span class='cursor-pointer fs-4 semester1Show'>📜</span></td>
-                    </tr>
-                    <tr>
-                        <th class="need">5월 학기</th>
-                        <td>${fivesemester}명</td>
-                        <td>${outstudentArr[1]}명</td>
-                        <td><span class='cursor-pointer fs-4 semester5Show'>📜</span></td>
-                    </tr>
-                    <tr>
-                        <th>9월 학기</th>
-                        <td>${ninesemester}명</td>
-                        <td>${outstudentArr[2]}명</td>
-                        <td><span class='cursor-pointer fs-4 semester9Show'>📜</span></td>
-                    </tr>
-                </table>
-            `;
-            $('#semester-student-table').html(semester_student_table);
+            // }
+            // let outstudentTotal = 0;
+            // outstudentArr.forEach(ele => { 
+            //     outstudentTotal += Number(ele)
+            // });
+            // console.log(outstudentArr)
+            let all_ban = response['all_ban']
+            let total_student_num = all_ban.length
+            let outstudent_num = response['outstudent'].length;
 
-            $('.allSemesterShow').on('click', function() {
-                $('#semester1').hide();
-                $('#semester5').hide();
-                $('#semester9').hide();                
-                $('#semester1').show();
-                $('#semester5').show();
-                $('#semester9').show();
-            });
-            $('.semester1Show').on('click', function() {
-                $('#semester1').hide();
-                $('#semester5').hide();
-                $('#semester9').hide();
-                $('#semester1').show();
-            });            
-            $('.semester5Show').on('click', function() {
-                $('#semester1').hide();
-                $('#semester5').hide();
-                $('#semester9').hide();
-                $('#semester5').show();
-            });            
-            $('.semester9Show').on('click', function() {
-                $('#semester1').hide();
-                $('#semester5').hide();
-                $('#semester9').hide();             
-                $('#semester9').show();
-            });
-            var chart = Chart.getChart('semester-student-chart')
-            if(chart){
-                chart.destroy()
-            }
-            // PURPLE 섹션 차트 그리기
-            let ctx = document.getElementById('semester-student-chart').getContext('2d');
-            let semesterStudentChart = new Chart(ctx, {
-                type : 'scatter',
-                data: {
-                    labels: ['퍼플 총 원생', '1월 학기', '5월 학기', '9월 학기'],
-                    datasets: [{
-                        type: 'bar',
-                        label: '원생 수',
-                        data: [total_student_num, onesemester, fivesemester, ninesemester],
-                        backgroundColor: ['#F66F5B77', '#FFBCE277', '#FE85AB77', '#C24F7777'],
-                        borderColor: ['#F66F5B', '#FFBCE2', '#FE85AB', '#C24F77'],
-                        borderWidth: 2
-                    },{
-                        type: 'line',
-                        label: '퇴소 원생 수',
-                        data: [outstudentTotal, outstudentArr[0], outstudentArr[1], outstudentArr[2]],
-                        fill: false,
-                        borderColor: '#F23966cc',
-                        borderWidth: 2    
-                    }]
-                },
-                options: {
-                    maxBarThickness: 60,
-                    interaction: {
-                        mode: 'index',
-                    },
-                    plugins : {
-                        tooltip: {
-                            padding: 10,
-                            bodySpacing: 5,
-                            bodyFont: {
-                                font: {
-                                    family: "pretendard",
-                                }
-                            },
-                            usePointStyle: true,
-                            filter: (item) => item.parsed.y !== null,
-                            callbacks: {
-                                label: (context) => {
-                                    return ' ' + context.parsed.y + '명';
-                                },
-                            },
-                        },
-                    },
-                    scales: {
-                        y: {
-                            afterDataLimits: (scale) => {
-                                scale.max = scale.max * 1.2;
-                            },
-                            axis : 'y',
-                            display: true,
-                            position: 'top',
-                            title: {
-                                display:true,
-                                align: 'end',
-                                color: '#2b2b2b',
-                                        font: {
-                                            size: 10,
-                                            family: "pretendard",
-                                            weight: 500,
-                                        },
-                                text : '단위 : 명'
-                            }
-                        }
-                    }
-                }
-            });
+            // 학기 별 원생
+            let onesemester = total_student_num != 0 ? all_ban.filter(e=>e.semester == 1) : 0
+            let fivesemester = total_student_num != 0 ? all_ban.filter(e=>e.semester == 2) : 0
+            let ninesemester = total_student_num != 0 ? all_ban.filter(e=>e.semester == 0) : 0
+            console.log(onesemester)
+            // // 퇴소 원생 구하기
+            
+            
+            // let semester_student_table = `
+            //     <table>
+            //         <tr>
+            //             <th class="need"></th>
+            //             <th>초기 등록 원생 수</th>
+            //             <th>현재 원생 수</th>
+            //             <th>퇴소 원생 수</th>
+            //             <th>반 리스트</th>
+            //         </tr>
+            //         <tr>
+            //             <th class="need">전체</th>
+            //             <td>${total_student_num+outstudent_num}명</td>
+            //             <td>${total_student_num}명</td>
+            //             <td>${outstudent_num}명</td>
+            //             <td><span class='cursor-pointer fs-4 allSemesterShow'>📜</span></td>
+            //         </tr>
+            //         <tr>
+            //             <th class="need">1월 학기</th>
+            //             <td>${onesemester}명</td>
+            //             <td>${outstudentArr[0]}명</td>
+            //             <td><span class='cursor-pointer fs-4 semester1Show'>📜</span></td>
+            //         </tr>
+            //         <tr>
+            //             <th class="need">5월 학기</th>
+            //             <td>${fivesemester}명</td>
+            //             <td>${outstudentArr[1]}명</td>
+            //             <td><span class='cursor-pointer fs-4 semester5Show'>📜</span></td>
+            //         </tr>
+            //         <tr>
+            //             <th>9월 학기</th>
+            //             <td>${ninesemester}명</td>
+            //             <td>${outstudentArr[2]}명</td>
+            //             <td><span class='cursor-pointer fs-4 semester9Show'>📜</span></td>
+            //         </tr>
+            //     </table>
+            // `;
+            // $('#semester-student-table').html(semester_student_table);
+
+            // $('.allSemesterShow').on('click', function() {
+            //     $('#semester1').hide();
+            //     $('#semester5').hide();
+            //     $('#semester9').hide();                
+            //     $('#semester1').show();
+            //     $('#semester5').show();
+            //     $('#semester9').show();
+            // });
+            // $('.semester1Show').on('click', function() {
+            //     $('#semester1').hide();
+            //     $('#semester5').hide();
+            //     $('#semester9').hide();
+            //     $('#semester1').show();
+            // });            
+            // $('.semester5Show').on('click', function() {
+            //     $('#semester1').hide();
+            //     $('#semester5').hide();
+            //     $('#semester9').hide();
+            //     $('#semester5').show();
+            // });            
+            // $('.semester9Show').on('click', function() {
+            //     $('#semester1').hide();
+            //     $('#semester5').hide();
+            //     $('#semester9').hide();             
+            //     $('#semester9').show();
+            // });
+            // var chart = Chart.getChart('semester-student-chart')
+            // if(chart){
+            //     chart.destroy()
+            // }
+            // // PURPLE 섹션 차트 그리기
+            // let ctx = document.getElementById('semester-student-chart').getContext('2d');
+            // let semesterStudentChart = new Chart(ctx, {
+            //     type : 'scatter',
+            //     data: {
+            //         labels: ['퍼플 총 원생', '1월 학기', '5월 학기', '9월 학기'],
+            //         datasets: [{
+            //             type: 'bar',
+            //             label: '원생 수',
+            //             data: [total_student_num, onesemester, fivesemester, ninesemester],
+            //             backgroundColor: ['#F66F5B77', '#FFBCE277', '#FE85AB77', '#C24F7777'],
+            //             borderColor: ['#F66F5B', '#FFBCE2', '#FE85AB', '#C24F77'],
+            //             borderWidth: 2
+            //         },{
+            //             type: 'line',
+            //             label: '퇴소 원생 수',
+            //             data: [outstudentTotal, outstudentArr[0], outstudentArr[1], outstudentArr[2]],
+            //             fill: false,
+            //             borderColor: '#F23966cc',
+            //             borderWidth: 2    
+            //         }]
+            //     },
+            //     options: {
+            //         maxBarThickness: 60,
+            //         interaction: {
+            //             mode: 'index',
+            //         },
+            //         plugins : {
+            //             tooltip: {
+            //                 padding: 10,
+            //                 bodySpacing: 5,
+            //                 bodyFont: {
+            //                     font: {
+            //                         family: "pretendard",
+            //                     }
+            //                 },
+            //                 usePointStyle: true,
+            //                 filter: (item) => item.parsed.y !== null,
+            //                 callbacks: {
+            //                     label: (context) => {
+            //                         return ' ' + context.parsed.y + '명';
+            //                     },
+            //                 },
+            //             },
+            //         },
+            //         scales: {
+            //             y: {
+            //                 afterDataLimits: (scale) => {
+            //                     scale.max = scale.max * 1.2;
+            //                 },
+            //                 axis : 'y',
+            //                 display: true,
+            //                 position: 'top',
+            //                 title: {
+            //                     display:true,
+            //                     align: 'end',
+            //                     color: '#2b2b2b',
+            //                             font: {
+            //                                 size: 10,
+            //                                 family: "pretendard",
+            //                                 weight: 500,
+            //                             },
+            //                     text : '단위 : 명'
+            //                 }
+            //             }
+            //         }
+            //     }
+            // });
         },
         error: function (xhr, status, error) {
             alert('xhr.responseText');
