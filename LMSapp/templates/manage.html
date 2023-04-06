@@ -209,16 +209,58 @@
                         style="display: block;" />
                     <div class="d-flex justify-content-center align-items-center flex-column">
                         <div class="row w-100 mt-3">
-                            <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 업무 카테고리 선택</span></div>
+                            <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 업무 카테고리 </span></div>
                             <div class="col-sm-9">
                                 <select class="form-control form-control-sm" name="task_category" id="task_category_list">
                                 </select>
                             </div>
                         </div>
                         <div class="row w-100 mt-3">
-                            <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 업무 내용 입력</span></div>
+                            <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 업무 내용 </span></div>
                             <div class="col-sm-9">
                                 <input class="form-control form-control-sm" type="text" name="task_contents" placeholder="업무 내용을 입력해주세요">
+                            </div>
+                        </div>
+                        <div class="row w-100 mt-3">
+                            <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 업무 주기 </span></div>
+                            <div class="col-sm-9">
+                                <select class="border rounded-0 form-control form-control-sm" name="task_cycle">
+                                    <optgroup>
+                                        <option value="none" selected>업무 주기를 선택해주세요</option>
+                                        <option value=0>업무 주기 없음</option>
+                                        <option value=1>월요일 업무</option>
+                                        <option value=2>화요일 업무</option>
+                                        <option value=3>수요일 업무</option>
+                                        <option value=4>목요일 업무</option>
+                                        <option value=5>금요일 업무</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row w-100 my-3">
+                            <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 업무 시작일</span></div>
+                            <div class="col-sm-9">
+                                <input type="text" name="task_date" id="task_date" placeholder="업무 시작일 선택">
+                            </div>
+                        </div>
+                        <div class="row w-100 my-3">
+                            <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 업무 마감일</span></div>
+                            <div class="col-sm-9">
+                                <input type="text"  name="task_deadline" id="task_deadline" placeholder="업무 마감일 선택">
+                            </div>
+                        </div>
+                        <div class="row w-100 my-3">
+                            <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 업무 우선순위</span></div>
+                            <div class="col-sm-9">
+                                <select class="border rounded-0 form-control form-control-sm" name="task_priority">
+                                    <optgroup>
+                                        <option value="none" selected>업무 우선순위를 선택해주세요</option>
+                                        <option value=1>우선순위 무관</option>
+                                        <option value=2>오후 업무</option>
+                                        <option value=3>오전 업무</option>
+                                        <option value=4>최우선 업무</option>
+                                    </optgroup>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -267,15 +309,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="notice_message make_col">
-                        <p class="mb-2" style="padding: 0 12px;">👇 업무의 시작 / 마감 날짜를 선택해 주세요</p>
-                        <div style="padding: 0 12px;">
-                            <label for="consulting_date">시작일 선택: </label>
-                            <input type="text" name="task_date" id="task_date" placeholder="상담 시작일 선택">
-                            <label for="consulting_deadline">마감일 선택: </label>
-                            <input type="text"  name="task_deadline" id="task_deadline" placeholder="상담 마감일 선택">
-                        </div>
-                    </div>
+                    
                     <!-- <div class="notice_message">
                         <p class="mb-2" style="padding: 0 12px;">👇 업무을 시작해야 하는 날짜를 2022-01-01 형식으로 적어주세요</p>
                         <div style="padding: 0 12px;">
@@ -298,36 +332,7 @@
                     </div> -->
 
                     <div class="d-flex justify-content-center align-items-center flex-column mt-3">
-                        <div class="row w-100 mt-3">
-                            <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 업무 주기</span></div>
-                            <div class="col-sm-9">
-                                <select class="border rounded-0 form-control form-control-sm" name="task_cycle">
-                                    <optgroup>
-                                        <option value="none" selected>업무 주기를 선택해주세요</option>
-                                        <option value=0>업무 주기 없음</option>
-                                        <option value=1>월요일 업무</option>
-                                        <option value=2>화요일 업무</option>
-                                        <option value=3>수요일 업무</option>
-                                        <option value=4>목요일 업무</option>
-                                        <option value=5>금요일 업무</option>
-                                    </optgroup>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row w-100 my-3">
-                            <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 업무 우선순위</span></div>
-                            <div class="col-sm-9">
-                                <select class="border rounded-0 form-control form-control-sm" name="task_priority">
-                                    <optgroup>
-                                        <option value="none" selected>업무 우선순위를 선택해주세요</option>
-                                        <option value=1>우선순위 무관</option>
-                                        <option value=2>오후 업무</option>
-                                        <option value=3>오전 업무</option>
-                                        <option value=4>최우선 업무</option>
-                                    </optgroup>
-                                </select>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
 
