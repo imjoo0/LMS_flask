@@ -12,6 +12,7 @@
 $(document).ready(function () {
     get_data()
 })
+
 function go_back() {
     // 문의 관련 
     $('#questiondetail').hide();
@@ -21,6 +22,7 @@ function go_back() {
     $('#make_plus_consulting').hide();
     $('#banstudentlistModalLabel').html('원생목록')
 }
+
 // 메인화면 데이터 
 function get_data() {
     $.ajax({
@@ -382,6 +384,7 @@ async function get_consulting_student(done_code) {
         }
     })
 }
+
 // 상담일지 작성 
 function get_consulting(student_id, is_done) {
     const data = consultingStudentData.filter((e) => {
@@ -719,8 +722,7 @@ function update_done(target) {
     })
 }
 
-// 본원 문의 관련 함수 
-//  문의 종류가 선택되면 모달창 뷰를 바꿔주는 함수 
+// 본원 문의 기능 
 function change_question_kind(str) {
     if(str == "none"){
         $('#question_topurple').hide()
@@ -770,7 +772,7 @@ function get_ban_student(ban_id){
         });
     }
 }
-// 상담일지 첨부 
+    // 상담일지 첨부 
 function attach_consulting_history(student_id) {
     const data = consultingStudentData.filter((e) => {
         return e.student_id == student_id && e.done_consulting_num.length != 0;
@@ -797,7 +799,6 @@ function attach_consulting_history(student_id) {
     }
     $('#h_select_box').html(temp_h_select)
 }
-
     // 문의 리스트
 function get_question_list() {
     let container = $('#question_pagination')
