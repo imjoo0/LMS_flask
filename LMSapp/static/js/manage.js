@@ -34,13 +34,28 @@ function get_data() {
             let total_student_num = response['all_ban'].length
             outstudent_num = response['outstudent'].length;
             
-            allData = result
+            // allData = result
+
+            const banGrouped = result.reduce((acc, item) => {
+                const v = `${item.ban_id}_${item.student_num}_${semester}`;
+                if (!acc[v]) {
+                    acc[v] = [];
+                }
+                acc[v].push(item);
+                return acc;
+            }, {});
+            // 결과를 객체의 배열로 변환
+            const banGroupedresult = Object.entries(banGrouped).map(([v, items]) => {
+                return { [v]: items };
+            });
+            allData = banGroupedresult.sort((a,b) => Object.keys(b)[0].split('_')[1] - Object.keys(a)[0].split('_')[1])
+
             // 학기 별 원생
-            let onesemester = total_student_num != 0 ? result.filter(e => e.semester == 1) : 0
+            let onesemester = total_student_num != 0 ? allData.filter(e => Object.keys(e)[0].split('_')[2] == 1) : 0
             onesemesterData = onesemester
-            let fivesemester = total_student_num != 0 ? result.filter(e => e.semester == 2) : 0
+            let fivesemester = total_student_num != 0 ? allData.filter(e => Object.keys(e)[0].split('_')[2] == 2) : 0
             fivesemesterData = onesemester
-            let ninesemester = total_student_num != 0 ? result.filter(e => e.semester == 0) : 0
+            let ninesemester = total_student_num != 0 ? allData.filter(e => Object.keys(e)[0].split('_')[2] == 0) : 0
             ninesemesterData = onesemester
 
             // 학기별 원생수 및 퇴소 원생 수 
@@ -63,7 +78,7 @@ function get_data() {
                         <th>초기 등록 원생 수</th>
                         <th>현재 원생 수</th>
                         <th>퇴소 원생 수 (퇴소율)</th>
-                        <th>퇴소 발생 반 리스트</th>
+                        <th>학기별 반 리스트</th>
                     </tr>
                     <tr>
                         <th class="need">전체</th>
@@ -191,21 +206,21 @@ function semesterShow(semester) {
         data = allData
         $('#semester_s').html('전체 반')
     }
-    const banGrouped = data.reduce((acc, item) => {
-        const v = `${item.ban_id}_${item.student_num}`;
-        if (!acc[v]) {
-            acc[v] = [];
-        }
-        acc[v].push(item);
-        return acc;
-    }, {});
+    // const banGrouped = data.reduce((acc, item) => {
+    //     const v = `${item.ban_id}_${item.student_num}`;
+    //     if (!acc[v]) {
+    //         acc[v] = [];
+    //     }
+    //     acc[v].push(item);
+    //     return acc;
+    // }, {});
     // 결과를 객체의 배열로 변환
-    const banGroupedresult = Object.entries(banGrouped).map(([v, items]) => {
-        return { [v]: items };
-    });
-    banGroupedresult.sort((a, b) => Object.keys(b)[0].split('_')[1] - Object.keys(a)[0].split('_')[1])
+    // const banGroupedresult = Object.entries(banGrouped).map(([v, items]) => {
+    //     return { [v]: items };
+    // });
+    // banGroupedresult.sort((a, b) => Object.keys(b)[0].split('_')[1] - Object.keys(a)[0].split('_')[1])
     let temp_semester_banlist = ''
-    banGroupedresult.forEach(ban_data => {
+    data.forEach(ban_data => {
         let key = Object.keys(ban_data)[0];
         let ban_id = ban_data[key][0].ban_id
         let name = ban_data[key][0].name
