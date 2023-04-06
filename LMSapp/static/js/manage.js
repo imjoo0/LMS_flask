@@ -349,39 +349,6 @@ function getBanChart(ban_id,semester) {
                     </tr>
                 </tbody>
             </table>
-            <table class="table text-center" id="teaching" style="margin-right: 4%; width: 25%;">
-                <tbody  style="width:100%;">
-                    <tr class="row" style="background: #DCE6F2;">
-                        <th class="col-12">상담*업무 관리</th>
-                    </tr>
-                    <tr class="row">
-                        <th class="col-6">업무</th>
-                        <th class="col-6">상담</th>
-                    </tr>
-                    <tr class="row">
-                        <td class="col-3">${task.filter(a => a.done == 1 ).length}/${task.length}</td>
-                        <td class="col-3">${answer_rate(task.filter(a => a.done == 1).length, task.length).toFixed(1)}%</td>
-                        <td class="col-3">${consulting.filter(a => a.done == 1).length}/${consulting.length}</td>
-                        <td class="col-3">${answer_rate(consulting.filter(a => a.done == 1).length, consulting.length).toFixed(1)}%</td>
-                    </tr>
-                </tbody>
-            </table>  
-            <table class="table text-center" id="task"style="width: 25%;" >
-                <tbody  style="width:100%;">
-                    <tr class="row" style="background: #DCE6F2;">
-                        <th class="col-12">공지*문의 관리</th>
-                    </tr>
-                    <tr class="row">
-                        <th class="col-6">공지</th>
-                        <th class="col-6">문의</th>
-                    </tr>
-                    <tr class="row">
-                        <td class="col-6">${notice.length}</td>
-                        <td class="col-3">${answer}/${all_alim} </td>
-                        <td class="col-3">${answer_rate(answer, all_alim).toFixed(2)}%</td>
-                    </tr>
-                </tbody>
-            </table>      
         `;
 
         $('#ban_statistics').html(temp_ban_statistics);
