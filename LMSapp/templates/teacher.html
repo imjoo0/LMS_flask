@@ -61,11 +61,12 @@
                     <div id="question_topurple">
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">대상 반</span>
-                            <select class="modal-body-select" name="ban_id" onchange="get_ban_student(this.value)" id="my_ban_list">
+                            <select class="modal-body-select" name="ban_id" onchange="get_ban_student(this.value)"
+                                id="my_ban_list">
                             </select>
                         </div>
                         <div id="question_box">
-    
+
                         </div>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">문의 제목</span>
@@ -448,8 +449,6 @@
                     <button onclick="get_update_done()" id="task_button" class="btn btn-success mt-4">업무 완료 저장</button>
                 </div>
             </div>
-
-
             <div class="info-container mt-5">
                 <div class="info-title">
                     <span>Consulting List</span>
@@ -487,14 +486,13 @@
                     </div>
                 </div>
             </div>
-
         </div>
+    </div>
+</div>
+{% block jspart %}
+<script type="text/javascript" src="../static/js/common.js"></script>
+<script type="text/javascript" src="../static/js/teacher.js"></script>
+{% endblock %}
 
-
-        {% block jspart %}
-        <script type="text/javascript" src="../static/js/common.js"></script>
-        <script type="text/javascript" src="../static/js/teacher.js"></script>
-        {% endblock %}
-
-        {% endautoescape %}
-        {% endblock %}
+{% endautoescape %}
+{% endblock %}
