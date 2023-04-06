@@ -214,7 +214,7 @@ function semesterShow(semester) {
         let op = oneoutstudent
         // let items = categoryGroupedresult[i][category].filter( e => e.done === 0 );
         // 원생 목록 
-        let out_num = ban_data[b_id].filter(s => s.out_created != null || s.switch_ban_id != null).length;
+        let out_num = ban_data[key].filter(s => s.out_created != null || s.switch_ban_id != null).length;
 
         temp_semester_banlist += `
         <td class="col-2">${name}</td>
