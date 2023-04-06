@@ -83,7 +83,7 @@ function get_data() {
                     return b.students.length - a.students.length; // students.length가 큰 순으로 정렬
                 }
             });
-            console.lot(allData)
+            console.log(allData)
             // 학기 별 원생
             onesemester = total_student_num != 0 ? result.filter(e => e.semester == 1) : 0
             fivesemester = total_student_num != 0 ? result.filter(e => e.semester == 2) : 0
