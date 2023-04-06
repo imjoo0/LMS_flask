@@ -293,7 +293,7 @@ function semesterShow(semester) {
 function getBanChart(ban_id) {
     // key값 `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
     result = data.filter(e=>e.ban_id == ban_id)[0]
-    $('#target_ban_info_requestModalLabel').html(result['students'].name + '반 상세 현황')
+    $('#target_ban_info_requestModalLabel').html(result['students'][0].name + '반 상세 현황')
     if(result.length <= 0){
         let no_data_title = `<h1> ${response.text} </h1>`
         $('#s_data').html(no_data_title);
@@ -304,11 +304,11 @@ function getBanChart(ban_id) {
         let switch_student = result['students'].filter(s=>s.switch_ban_id != null).length;
         // 퇴소 학생 
         let out_student = result['students'].filter(s=>s.out_created != null).length;
-        let students_num = result['students']['student_num'];
-        let teacher_name = result['students']['teacher_name']
-        let teacher_e_name = result['students']['teacher_engname']
-        let teacher_mobileno = result['students']['teacher_mobileno']
-        let teacher_email = result['students']['teacher_email']
+        let students_num = result['students'][0]['student_num'];
+        let teacher_name = result['students'][0]['teacher_name']
+        let teacher_e_name = result['students'][0]['teacher_engname']
+        let teacher_mobileno = result['students'][0]['teacher_mobileno']
+        let teacher_email = result['students'][0]['teacher_email']
         
         // 상담
         let all_uc_consulting = consultingData.filter(a => a.category_id < 100).length;
