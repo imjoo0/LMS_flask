@@ -187,19 +187,18 @@ function semesterShow(semester) {
         $('#semester_s').html('전체 반')
     }
     const banGrouped = data.reduce((acc, item) => {
-        const ban_id = item.ban_id;
-        if (!acc[ban_id]) {
-            acc[ban_id] = [];
+        const v = `${item.ban_id}_${item.student_num}`;
+        if (!acc[v]) {
+            acc[v] = [];
         }
-        acc[ban_id].push(item);
+        acc[v].push(item);
         return acc;
     }, {});
-    console.log(banGrouped)
     // 결과를 객체의 배열로 변환
-    const banGroupedresult = Object.entries(banGrouped).map(([ban_id, items]) => {
-        return { [ban_id]: items };
+    const banGroupedresult = Object.entries(banGrouped).map(([v, items]) => {
+        return { [v]: items };
     });
-    console.log(banGroupedresult)
+    banGroupedresult.sort((a, b) => Object.keys(b)[0].split('_')[1] - Object.keys(a)[0].split('_')[1])
     let temp_semester_banlist = ''
     banGroupedresult.forEach(ban_data => {
         let b_id = Object.keys(ban_data)[0];
