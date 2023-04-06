@@ -144,6 +144,9 @@ function get_data(){
             console.log( response['switchstudent'])
 
             let out_student_arr = []
+            let one_out_student_arr = []
+            let five_out_student_arr = []
+            let nine_out_student_arr = []
             let oneoutstudent = 0;
             let fiveoutstudent = 0;
             let nineoutstudent = 0;
@@ -154,33 +157,42 @@ function get_data(){
                     let out_semester = out_student['semester']
                     out_student_arr.push(out_student)
                     if(out_semester == 0){
+                        nine_out_student_arr.push(out_student)
                         nineoutstudent += 1
                     }else if(out_semester == 1){
+                        five_out_student_arr.push(out_student)
                         fiveoutstudent+= 1
                     }else{
+                        one_out_student_arr.push(out_student)
                         oneoutstudent += 1
                     }
                 }
             }
 
-            let switch_student_arr = []
-            let oneswitchstudent = 0;
-            let fiveswitchstudent = 0;
-            let nineswitchstudent = 0;
-            if(switchstudent_num != 0 && total_student_num != 0){
-                for(i=0;i<switchstudent_num;i++){
-                    let switch_student = all_ban.filter(e=>e.student_id == response['switchstudent'][i].student_id)[0]
-                    let switch_semester = switch_student['semester']
-                    switch_student_arr.push(switch_student)
-                    if(switch_semester == 0){
-                        nineswitchstudent += 1
-                    }else if(switch_semester == 1){
-                        fiveswitchstudent+= 1
-                    }else{
-                        oneswitchstudent += 1
-                    }
-                }
-            }
+            const result = all_ban.map(obj1 => {
+                const { out_created } = response['outstudent'].find(obj2 => obj1.student_id === obj2.student_id) || { out_created: null };
+                const { switch_ban_id } = response['outstudent'].find(obj2 => obj1.student_id === obj2.student_id) || { switch_ban_id: null };
+                return {...obj1, out_created_at: switch_ban_id};
+            });
+            console.log(result)
+            // let switch_student_arr = []
+            // let oneswitchstudent = 0;
+            // let fiveswitchstudent = 0;
+            // let nineswitchstudent = 0;
+            // if(switchstudent_num != 0 && total_student_num != 0){
+            //     for(i=0;i<switchstudent_num;i++){
+            //         let switch_student = all_ban.filter(e=>e.student_id == response['switchstudent'][i].student_id)[0]
+            //         let switch_semester = switch_student['semester']
+            //         switch_student_arr.push(switch_student)
+            //         if(switch_semester == 0){
+            //             nineswitchstudent += 1
+            //         }else if(switch_semester == 1){
+            //             fiveswitchstudent+= 1
+            //         }else{
+            //             oneswitchstudent += 1
+            //         }
+            //     }
+            // }
 
             let semester_student_table = `
                 <table>
@@ -189,7 +201,7 @@ function get_data(){
                         <th>초기 등록 원생 수</th>
                         <th>현재 원생 수</th>
                         <th>퇴소 원생 수 (퇴소율)</th>
-                        <th>반 리스트</th>
+                        <th>퇴소 발생 반 리스트</th>
                     </tr>
                     <tr>
                         <th class="need">전체</th>
@@ -200,21 +212,21 @@ function get_data(){
                     </tr>
                     <tr>
                         <th class="need">1월 학기</th>
-                        <td>${onesemester_total+oneoutstudent+oneswitchstudent}명</td>
+                        <td>${onesemester_total+oneoutstudent}명</td>
                         <td>${onesemester_total}명</td>
                         <td>${oneoutstudent}명</td>
                         <td><span class='cursor-pointer fs-4 semester1Show'>📜</span></td>
                     </tr>
                     <tr>
                         <th class="need">5월 학기</th>
-                        <td>${fivesemester_total+fiveoutstudent+fiveswitchstudent}명</td>
+                        <td>${fivesemester_total+fiveoutstudent}명</td>
                         <td>${fivesemester_total}명</td>
                         <td>${fiveoutstudent}명</td>
                         <td><span class='cursor-pointer fs-4 semester5Show'>📜</span></td>
                     </tr>
                     <tr>
                         <th>9월 학기</th>
-                        <td>${ninesemester_total+nineoutstudent+nineswitchstudent}명</td>
+                        <td>${ninesemester_total+nineoutstudent}명</td>
                         <td>${ninesemester_total}명</td>
                         <td>${nineoutstudent}명</td>
                         <td><span class='cursor-pointer fs-4 semester9Show'>📜</span></td>
@@ -269,7 +281,7 @@ function get_data(){
                     },{
                         type: 'line',
                         label: '퇴소 원생 수',
-                        data: [outstudent_num, oneoutstudent+oneswitchstudent, fiveoutstudent+fiveswitchstudent, nineoutstudent+nineswitchstudent],
+                        data: [outstudent_num, oneoutstudent, fiveoutstudent, nineoutstudent],
                         fill: false,
                         borderColor: '#F23966cc',
                         borderWidth: 2    
