@@ -91,25 +91,32 @@
                     </table>
                 </div>
                 <div class="notice_message">
-                    <p class="mb-2" style="padding: 0 12px;">👇 상담을 시작해야 하는 날짜를 선택해 주세요</p>
+                    <p class="mb-2" style="padding: 0 12px;">👇 상담을 시작 / 마감 날짜를 선택해 주세요</p>
                     <div style="padding: 0 12px;">
+                        <label for="consulting_date">시작일 선택: </label>
                         <input type="text" id="consulting_date" placeholder="상담 시작일 선택">
+                        <label for="consulting_deadline">마감일 선택: </label>
+                        <input type="text" id="consulting_deadline" placeholder="상담 마감일 선택">
                     </div>
+                    
+                    
+                
                     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
                     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
                     <script>
                         $( function() {
                             $("#consulting_date").datepicker({ dateFormat: 'yy-mm-dd' });
+                            $("#consulting_deadline").datepicker({ dateFormat: 'yy-mm-dd' });
                         });
                     </script>
                 </div>
 
-                <div class="notice_message mt-4">
+                <!-- <div class="notice_message mt-4">
                     <p class="mb-2" style="padding: 0 12px;">👇 상담을 끝내야 하는 마감 날짜를 2022-01-01 형식으로 적어주세요</p>
                     <div style="padding: 0 12px;">
                         <input class="border rounded-0 form-control form-control-sm" type="text" id="consulting_deadline" placeholder="2023-01-01">
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="modal-footer">
                 <button class="btn btn-success" onclick="post_consulting_request()">저장</button>
