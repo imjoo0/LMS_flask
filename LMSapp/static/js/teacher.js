@@ -786,7 +786,7 @@ function attach_consulting_history(student_id) {
         $.each(consultinglist, function (index, consulting) {
             let category = ''
             if(consulting.category_id < 100 ){
-                category = `${consulting.week_code}간 ${consulting.category}상담`
+                category = `${consulting.week_code}주간 ${consulting.category}상담`
             }else{
                 category = `${consulting.category} ${consulting.contents}`
             }
@@ -888,7 +888,7 @@ async function get_question_detail(q_id) {
         consulting_history = ban_student_data.consulting_list.filter(c=>c.id ==questiondata.consluting)[0]
         let category = ''
         if(consulting_history.category_id < 100 ){
-            category = `${consulting_history.week_code}간 ${consulting_history.category}상담`
+            category = `${consulting_history.week_code}주간 ${consulting_history.category}상담`
         }else{
             category = `${consulting_history.category} ${consulting_history.contents}`
         }
