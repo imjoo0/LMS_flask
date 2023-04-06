@@ -259,7 +259,7 @@ function getBanChart(ban_id,semester) {
         
         // 상담
         let all_uc_consulting = all_consultingData.filter(a => a.category_id < 100).length;
-        let my_consulting = all_consultingData.filter(a => a.ban_id == b_id)
+        let my_consulting = all_consultingData.filter(a => a.ban_id == ban_id)
         let u_consulting_my = my_consulting.filter(a => a.category_id < 100);
 
         let consulting_ixl = u_consulting_my.filter(a => a.category_id == 1).length
@@ -321,8 +321,8 @@ function getBanChart(ban_id,semester) {
         data_list = result
         totalData = result.length
 
-        displayData(totalData, 1, dataPerPage, data_list, b_id);
-        paging(totalData, dataPerPage, pageCount, 1, data_list, b_id);
+        displayData(totalData, 1, dataPerPage, data_list, ban_id);
+        paging(totalData, dataPerPage, pageCount, 1, data_list, ban_id);
         $('#student_data').show()
         $('#pagingul').show();
         let temp_ban_statistics = `
@@ -402,13 +402,13 @@ function getBanChart(ban_id,semester) {
 //         $('#inloading').hide()
 //     } else {
 //         v = btid.split('_')
-//         b_id = Number(v[0])
+//         ban_id = Number(v[0])
 //         $('#target_ban_info_requestModalLabel').html(v[2] + '반 상세 현황')
 //         $('#inloading').show()
 //         $('#target_ban_info_body').hide()
 //         await $.ajax({
 //             type: "GET",
-//             url: "/manage/ban/" + b_id,
+//             url: "/manage/ban/" + ban_id,
 //             data: {},
 //             success: function (response) {
 //                 let target_ban = response['target_ban']
@@ -428,20 +428,20 @@ function getBanChart(ban_id,semester) {
 
 
 //                 // 이반 학생 
-//                 let switch_student = response['switch_student']['data'].filter(a => a.ban_id == b_id).length;
+//                 let switch_student = response['switch_student']['data'].filter(a => a.ban_id == ban_id).length;
 //                 let all_s_student = response['switch_student']['data'].length;
 //                 // 퇴소 학생 
-//                 let out_student = response['out_student']['data'].filter(a => a.ban_id == b_id).length;
+//                 let out_student = response['out_student']['data'].filter(a => a.ban_id == ban_id).length;
 //                 let all_o_student = response['out_student']['data'].length;
 //                 // 공지 
 //                 let notice = response['notice']
 
 //                 // 상담
-//                 let consulting = response['consulting']['data'].filter(a => a.ban_id == b_id)
+//                 let consulting = response['consulting']['data'].filter(a => a.ban_id == ban_id)
 
 //                 let u_consulting = response['consulting']['data'].filter(a => a.category_id < 100);
 //                 let all_uc_consulting = u_consulting.length;
-//                 let u_consulting_my = u_consulting.filter(a => a.ban_id == b_id);
+//                 let u_consulting_my = u_consulting.filter(a => a.ban_id == ban_id);
 
 //                 let consulting_ixl = u_consulting_my.filter(a => a.category_id == 1).length
 //                 let consulting_reading = u_consulting_my.filter(a => a.category_id == 4).length
