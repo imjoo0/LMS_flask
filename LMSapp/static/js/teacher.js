@@ -210,7 +210,7 @@ function get_data() {
                 temp_cate_menu += `
                 <thead  style="background-color:#ffc107;">
                     <tr class="row">
-                    <th class="col-2">< 업무순위</th>
+                    <th class="col-2">< 업무순서</th>
                     <th class="col-8">${category}업무</th>
                     <th class="col-2">마감일 ></th>
                     </tr>
