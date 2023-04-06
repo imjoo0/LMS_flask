@@ -325,6 +325,7 @@ function getBanChart(ban_id,semester) {
         paging(totalData, dataPerPage, pageCount, 1, data_list, ban_id);
         $('#student_data').show()
         $('#pagingul').show();
+        my_task_data = all_taskData.filter(t=>t.ban_id == ban_id && make_date(t.startdate).setHours(0, 0, 0, 0) <= today )
         let temp_ban_statistics = `
         <table class="table text-center" id="unlearned" style="margin-left:1%; margin-right: 4%;width: 40%;">
                 <tbody  style="width:100%;">
@@ -349,6 +350,23 @@ function getBanChart(ban_id,semester) {
                     </tr>
                 </tbody>
             </table>
+            <table class="table text-center" id="teaching" style="margin-right: 4%; width: 25%;">
+                <tbody  style="width:100%;">
+                    <tr class="row" style="background: #DCE6F2;">
+                        <th class="col-12">상담*업무 관리</th>
+                    </tr>
+                    <tr class="row">
+                        <th class="col-6">업무</th>
+                        <th class="col-6">상담</th>
+                    </tr>
+                    <tr class="row">
+                        <td class="col-3">${my_task_data.filter(a => a.done == 1).length}/${my_task_data.length}</td>
+                        <td class="col-3">${answer_rate(task.filter(a => a.done == 1).length, task.length).toFixed(0)}%</td>
+                        <td class="col-3">${my_consulting.filter(a => a.done == 1).length}/${my_consulting.length}</td>
+                        <td class="col-3">${answer_rate(my_consulting.filter(a => a.done == 1).length, consulting.length).toFixed(0)}%</td>
+                    </tr>
+                </tbody>
+            </table>  
         `;
 
         $('#ban_statistics').html(temp_ban_statistics);
