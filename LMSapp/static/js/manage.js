@@ -172,11 +172,12 @@ function get_data() {
                 $('#semester5').show();
                 $('#semester9').show();
             });
-            $('.semester1Show').on('click', function() {
+            $('.semester1Show').on('click', async function () {
                 $('#semester1').hide();
                 $('#semester5').hide();
                 $('#semester9').hide();
                 $('#semester1').show();
+                let container = $('#semester_banlist_pagination1')
                 const banGrouped = onesemester.reduce((acc, item) => {
                     const ban_id = item.ban_id;
                     if (!acc[ban_id]) {
@@ -189,28 +190,36 @@ function get_data() {
                 const banGroupedresult = Object.entries(banGrouped).map(([ban_id, items]) => {
                     return { [ban_id]: items };
                 });
-                let temp_semester_banlist = ''
-                banGroupedresult.forEach(ban_data => {
-                    let b_id = Object.keys(ban_data)[0];
-                    let name = ban_data[b_id][0].name
-                    let semester = make_semester(ban_data[b_id][0].semester)
-                    let student_num = ban_data[b_id][0].student_num
-                    let teacher_id = ban_data[b_id][0].teacher_id
-                    let teacher_name = ban_data[b_id][0].teacher_name
-                    let value = b_id + '_' + teacher_id + '_' + name
-                    let op = oneoutstudent
-                    // let items = categoryGroupedresult[i][category].filter( e => e.done === 0 );
-                    // 원생 목록 
-                    let out_num = ban_data[b_id].filter(s => s.out_created != null || s.switch_ban_id != null).length;
+                console.log(banGroupedresult)
+                await container.pagination({
+                    dataSource: banGroupedresult,
+                    prevText: '이전',
+                    nextText: '다음',
+                    pageSize: 10,
+                    callback:function (banGroupedresult, pagination) {
+                        banGroupedresult.forEach(ban_data => {
+                            let b_id = Object.keys(ban_data)[0];
+                            let name = ban_data[b_id][0].name
+                            let semester = make_semester(ban_data[b_id][0].semester)
+                            let student_num = ban_data[b_id][0].student_num
+                            let teacher_id = ban_data[b_id][0].teacher_id
+                            let teacher_name = ban_data[b_id][0].teacher_name
+                            let value = b_id + '_' + teacher_id + '_' + name
+                            let op = oneoutstudent
+                            // let items = categoryGroupedresult[i][category].filter( e => e.done === 0 );
+                            // 원생 목록 
+                            let out_num = ban_data[b_id].filter(s => s.out_created != null || s.switch_ban_id != null).length;
 
-                    temp_semester_banlist += `
-                    <td class="col-3">${name}</td>
-                    <td class="col-3">${student_num + out_num}</td>
-                    <td class="col-3">${student_num}</td>
-                    <td class="col-2">${out_num}(${answer_rate(out_num, op).toFixed(2)}%)</td>
-                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')"><span class="cursor-pointer">👉</span></td>`;
-                });
-                $('#semester_banlist1').html(temp_semester_banlist)
+                            temp_semester_banlist += `
+                            <td class="col-3">${name}</td>
+                            <td class="col-3">${student_num + out_num}</td>
+                            <td class="col-3">${student_num}</td>
+                            <td class="col-2">${out_num}(${answer_rate(out_num, op).toFixed(2)}%)</td>
+                            <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')"><span class="cursor-pointer">👉</span></td>`;
+                        });
+                        $('#semester_banlist' + semester).html(temp_semester_banlist)
+                    }
+                })
             });
             $('.semester5Show').on('click', function () {
                 $('#semester1').hide();
