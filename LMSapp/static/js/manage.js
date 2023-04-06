@@ -1,5 +1,5 @@
 
-const today = new Date();
+// const today = new Date();
 var selectedBanList = [];
 var selectedStudentList = [];
 
@@ -955,8 +955,8 @@ function delete_selected_student(idx){
 function post_consulting_request(){
     consulting_category = $('#consulting_category_list').val()
     consulting_contents = $('#consulting_contents').val()
-    consulting_date = $('#consulting_date').val().toString()
-    consulting_deadline = $('#consulting_deadline').val().toString()
+    consulting_date = $('#consulting_date').val()
+    consulting_deadline = $('#consulting_deadline').val()
     // 다중 선택 대상 선택일 경우  
     if(selectedStudentList.length != 0){
         let total_student_selections = selectedStudentList.filter(value => value.includes('-1') );

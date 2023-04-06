@@ -501,7 +501,6 @@ def request_all_ban(b_type):
         #  상담을 마무리할 마감일 저장
         received_consulting_deadline = request.form['consulting_deadline']
         # 전체 반 대상 진행 일 경우 처리
-        print(b_type) 
         if b_type == 0:
             targets = callapi.purple_allinfo('get_all_ban_student')
         # plus alpha 처리   
