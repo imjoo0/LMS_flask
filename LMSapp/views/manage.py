@@ -21,57 +21,22 @@ def home():
 @bp.route("/ban/<int:id>", methods=['GET'])
 def get_ban(id):
     if request.method == 'GET':
-        target_ban = callapi.purple_info(id,'get_ban')
-        if target_ban:
-            db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-            switch_student = {}
-            out_student = {}
-            consulting = {}
-            task = {}
-            try:
-                with db.cursor() as cur:
-                    cur.execute(f'select id, ban_id from outstudent')
-                    out_student['status'] = 200
-                    out_student['data'] = cur.fetchall()
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        consulting = []
+        task = []
+        try:
+            with db.cursor() as cur:
+                cur.execute(f"select id, ban_id, category_id, student_id, contents, startdate, deadline, week_code, done, missed from consulting")
+                consulting = cur.fetchall()
 
-                    cur.execute(f'select id, ban_id from switchstudent')
-                    switch_student['status'] = 200
-                    switch_student['data'] = cur.fetchall()
+                cur.execute(f"select task.id, task.category_id, task.contents, task.url, task.attachments, date_format(task.startdate, '%Y-%m-%d') as startdate, date_format(task.deadline, '%Y-%m-%d') as deadline, task.priority, task.cycle, taskcategory.name, taskban.ban_id, taskban.teacher_id, taskban.done from task left join taskcategory on task.category_id = taskcategory.id left join taskban on task.id = taskban.task_id where taskban.ban_id={id};" )
+                task = cur.fetchall()
+        except Exception as e:
+            print(e)
+        finally:
+            db.close()
 
-                    cur.execute(f"select id, ban_id, category_id, student_id, contents, startdate, deadline, week_code, done, missed from consulting")
-                    consulting['status'] = 200
-                    consulting['data'] = cur.fetchall()
-
-                    cur.execute(f"select task.id, task.category_id, task.contents, task.url, task.attachments, date_format(task.startdate, '%Y-%m-%d') as startdate, date_format(task.deadline, '%Y-%m-%d') as deadline, task.priority, task.cycle, taskcategory.name, taskban.ban_id, taskban.teacher_id, taskban.done from task left join taskcategory on task.category_id = taskcategory.id left join taskban on task.id = taskban.task_id where taskban.ban_id={id};" )
-                    task['status'] = 200
-                    task['data'] = cur.fetchall()
-            except Exception as e:
-                print(e)
-                # switch_student['status'] = 401
-                # switch_student['text'] = str(e)
-                consulting['status'] = 401
-                consulting['text'] = str(e)
-                task['status'] = 401
-                task['text'] = str(e)
-            finally:
-                db.close()
-            alimnote = callapi.purple_info(id,'get_alimnote')
-            notice = callapi.purple_info(id,'get_notice')
-            students = callapi.purple_info(target_ban['register_no'],'get_students')
-
-            return jsonify({
-            'target_ban': target_ban,
-            'student_info': students,
-            'all_alim' : alimnote['all'],
-            'answer_alim' : alimnote['answer'],
-            'switch_student': switch_student,
-            'out_student': out_student,
-            'notice': notice,
-            'consulting': consulting,
-            'task': task,
-            })
-        else:
-            return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
+        return jsonify({'consulting': consulting,'task': task})
 
 # 이반 퇴소 
 @bp.route("/so", methods=['GET'])
