@@ -516,28 +516,6 @@ function post_answer(q_id,code){
 
 // chart 
 // 업무 체크리스트 today section
-const all_nav = document.getElementById("all_nav");
-// const counselling_nav = document.getElementById('counselling_nav');
-// const day_nav = document.getElementById('day_nav');
-const complete_nav = document.getElementById("complete_nav");
-
-const all_body = document.getElementById("all_body");
-// const counselling_body = document.getElementById('counselling_body');
-// const day_body = document.getElementById('day_body');
-const complete_body = document.getElementById("complete_body");
-
-function all_nav_click() {
-  // counselling_nav.classList.remove('active');
-  // day_nav.classList.remove('active');
-  complete_nav.classList.remove("active");
-
-  // counselling_body.classList.add('d-none');
-  // day_body.classList.add('d-none');
-  complete_body.classList.add("d-none");
-
-  all_nav.classList.add("active");
-  all_body.classList.remove("d-none");
-}
 
 // function counselling_nav_click() {
 //     all_nav.classList.remove('active');
@@ -565,36 +543,36 @@ function all_nav_click() {
 //     day_body.classList.remove('d-none');
 // }
 
-function complete_nav_click() {
-  all_nav.classList.remove("active");
-  // counselling_nav.classList.remove('active');
-  // day_nav.classList.remove('active');
+// function complete_nav_click() {
+//   all_nav.classList.remove("active");
+//   // counselling_nav.classList.remove('active');
+//   // day_nav.classList.remove('active');
 
-  all_body.classList.add("d-none");
-  // counselling_body.classList.add('d-none');
-  // day_body.classList.add('d-none');
+//   all_body.classList.add("d-none");
+//   // counselling_body.classList.add('d-none');
+//   // day_body.classList.add('d-none');
 
-  complete_nav.classList.add("active");
-  complete_body.classList.remove("d-none");
-}
+//   complete_nav.classList.add("active");
+//   complete_body.classList.remove("d-none");
+// }
 
-// pagination
-function pagint(totalData, currentPage) {
-  const dataPerPage = 10; // 한 페이지에 출력되는 데이터
-  const pageCount = 5; // 한 번에 출력되는 최대 페이지 수
-  const totalPage = Math.ceil(totalData / dataPerPage); // 총 페이지 수
-  const pageGroup = Math.ceil(currentPage / pageCount); // 페이지 그룹
+// // pagination
+// function pagint(totalData, currentPage) {
+//   const dataPerPage = 10; // 한 페이지에 출력되는 데이터
+//   const pageCount = 5; // 한 번에 출력되는 최대 페이지 수
+//   const totalPage = Math.ceil(totalData / dataPerPage); // 총 페이지 수
+//   const pageGroup = Math.ceil(currentPage / pageCount); // 페이지 그룹
 
-  let last = pageGroup * pageCount;
-} 
+//   let last = pageGroup * pageCount;
+// } 
 
-// tooltip
-let tooltipTriggerList = [].slice.call(
-  document.querySelectorAll('[data-bs-toggle="tooltip"]')
-);
-let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-  return new bootstrap.Tooltip(tooltipTriggerEl);
-});
+// // tooltip
+// let tooltipTriggerList = [].slice.call(
+//   document.querySelectorAll('[data-bs-toggle="tooltip"]')
+// );
+// let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+//   return new bootstrap.Tooltip(tooltipTriggerEl);
+// });
 
 // 만약 동적 데이터를 받는다면 아래처럼 표현 가능.
 // data: data?.map(price => price.close) as number[]
@@ -681,6 +659,6 @@ let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 //   },
 // };
 
-var chart = new ApexCharts(document.querySelector("#chart"), options);
-chart.render();
-chart.destroy()
+// var chart = new ApexCharts(document.querySelector("#chart"), options);
+// chart.render();
+// chart.destroy()
