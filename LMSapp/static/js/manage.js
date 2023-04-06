@@ -59,10 +59,10 @@ async function get_data() {
                 if (!acc[v]){
                   acc[v] = {teacher_id:item.teacher_id, ban_id:item.ban_id, semester:item.semester,students: [], total_out_count: 0 , total_out_per:0, total_switch_count: 0 , total_switch_per:0};
                 }
-              
                 if(item.out_created != null){
                   acc[v].total_out_count+=1;
                   acc[v].total_out_per = answer_rate(acc[v].total_out_count,outstudent_num).toFixed(1)
+                }else if(item.switch_ban_id != null){
                   acc[v].total_switch_count+=1;
                   acc[v].total_switch_per = answer_rate(acc[v].total_switch_count,switchstudent_num).toFixed(1)
                 }
@@ -83,7 +83,12 @@ async function get_data() {
                     return b.students.length - a.students.length; // students.length가 큰 순으로 정렬
                 }
             });
-            console.log(allData)
+            
+        result['students'].forEach((elem) => {
+            elem.unlearned = u_consulting_my.filter(a => a.student_id == elem.student_id).length
+            elem.up = answer_rate(elem.unlearned, u_consulting_my.length).toFixed(0)
+        });
+        result['students'].sort((a, b) => b.up - a.up)
             // 학기 별 원생
             onesemester = total_student_num != 0 ? result.filter(e => e.semester == 1) : 0
             fivesemester = total_student_num != 0 ? result.filter(e => e.semester == 2) : 0
@@ -362,12 +367,6 @@ function getBanChart(ban_id) {
         `;
 
         $('#ban_data').html(temp_ban_data);
-        
-        result['students'].forEach((elem) => {
-            elem.unlearned = u_consulting_my.filter(a => a.student_id == elem.student_id).length
-            elem.up = answer_rate(elem.unlearned, u_consulting_my.length).toFixed(0)
-        });
-        result['students'].sort((a, b) => b.up - a.up)
 
         data_list = result['students']
         totalData = data_list.length
