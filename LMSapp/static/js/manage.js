@@ -325,7 +325,7 @@ function getBanChart(ban_id,semester) {
         paging(totalData, dataPerPage, pageCount, 1, data_list, ban_id);
         $('#student_data').show()
         $('#pagingul').show();
-        my_task_data = all_taskData.filter(t=>t.ban_id == ban_id && t.startdate.setHours(0, 0, 0, 0) <= today )
+        my_task_data = all_taskData.filter(t=>t.ban_id == ban_id && t.startdate <= today )
         let temp_ban_statistics = `
         <table class="table text-center" id="unlearned" style="margin-left:1%; margin-right: 4%;width: 40%;">
                 <tbody  style="width:100%;">
