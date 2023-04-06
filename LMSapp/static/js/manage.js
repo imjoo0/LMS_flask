@@ -221,7 +221,7 @@ function semesterShow(semester) {
         <td class="col-2">${out_num}(${answer_rate(out_num, op).toFixed(2)}%)</td>
         <td class="col-2" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')"><span class="cursor-pointer">👉</span></td>`;
     });
-    $('#semester_banlist' + semester).html(temp_semester_banlist)
+    $('#semester_banlist').html(temp_semester_banlist)
 }
 async function semester1Show(){
     $('#semester1').hide();
