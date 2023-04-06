@@ -363,10 +363,8 @@ function getBanChart(ban_id) {
 
         $('#ban_data').html(temp_ban_data);
 
-        result.forEach((elem) => {
-            elem.unlearned = u_consulting_my.filter(a => a.student_id == elem.student_id).length
-            elem.up = answer_rate(elem.unlearned, u_consulting_my.length).toFixed(0)
-        });
+        result['unlearned'] = u_consulting_my.filter(a => a.student_id == elem.student_id).length
+        result['up'] = answer_rate(elem.unlearned, u_consulting_my.length).toFixed(0)
         result.sort((a, b) => b.up - a.up)
         // result.forEach(student_data => {
             
