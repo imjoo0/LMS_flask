@@ -15,7 +15,6 @@
 <link rel="stylesheet" href="../static/style/manage.css">
 <link rel="stylesheet" href="../static/style/paginate.css">
 <link rel="stylesheet" href="../static/style/teacher.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css" />
 {% endblock %}
 {% block content %}
 {% autoescape off %}
@@ -29,10 +28,6 @@
         }
     });
 </script>
-
-<!-- 페이지네이션 -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
 
 <!-- 신규 상담 요청 모달 -->
 <div class="modal fade" id="request_consulting" tabindex="-1" aria-labelledby="RequestConsultingModalLabel" aria-hidden="true">
@@ -885,26 +880,21 @@
     
                             </div>
                         </div>
-                        <div>
-                            <table id="semester" class="table text-center mt-5" style="width:100%;">
-                                <thead>
-                                    <tr class="row">
-                                        <th class="col-2" id="semester_s">학기</th>
-                                        <th class="col-2">담당 선생님</th>
-                                        <th class="col-2">초기 등록 학생 수</th>
-                                        <th class="col-2">관리중인 학생 수</th>
-                                        <th class="col-2">퇴소 수</th>
-                                        <th class="col-2">상세</th>
-                                    </tr>
-                                </thead>
-                                <tr class="row" id="semester_banlist">
-    
+                        <table id="semester" class="table text-center mt-5" style="width:100%;">
+                            <thead>
+                                <tr class="row">
+                                    <th class="col-2" id="semester_s">학기</th>
+                                    <th class="col-2">담당 선생님</th>
+                                    <th class="col-2">초기 등록 학생 수</th>
+                                    <th class="col-2">관리중인 학생 수</th>
+                                    <th class="col-2">퇴소 수</th>
+                                    <th class="col-2">상세</th>
                                 </tr>
-                            </table>
-                        </div>
-                        <div class="d-flex justify-content-center align-items-center w-100">
-                            <div id="semester_banlist_pagination" class="mt-4 mb-5 text-center"></div>
-                        </div>
+                            </thead>
+                            <tr class="row" id="semester_banlist">
+
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>

@@ -200,35 +200,27 @@ function semesterShow(semester) {
         return { [ban_id]: items };
     });
     console.log(banGroupedresult)
-    $('#semester_banlist_pagination').pagination({
-        dataSource: data,
-        prevText: '이전',
-        nextText: '다음',
-        pageSize: 10,
-        callback: async function (banGroupedresult, pagination) {
-            banGroupedresult.forEach(ban_data => {
-                let b_id = Object.keys(ban_data)[0];
-                let name = ban_data[b_id][0].name
-                let student_num = ban_data[b_id][0].student_num
-                let teacher_id = ban_data[b_id][0].teacher_id
-                let teacher_name = ban_data[b_id][0].teacher_name
-                let value = b_id + '_' + teacher_id + '_' + name
-                let op = oneoutstudent
-                // let items = categoryGroupedresult[i][category].filter( e => e.done === 0 );
-                // 원생 목록 
-                let out_num = ban_data[b_id].filter(s => s.out_created != null || s.switch_ban_id != null).length;
+    banGroupedresult.forEach(ban_data => {
+        let b_id = Object.keys(ban_data)[0];
+        let name = ban_data[b_id][0].name
+        let student_num = ban_data[b_id][0].student_num
+        let teacher_id = ban_data[b_id][0].teacher_id
+        let teacher_name = ban_data[b_id][0].teacher_name
+        let value = b_id + '_' + teacher_id + '_' + name
+        let op = oneoutstudent
+        // let items = categoryGroupedresult[i][category].filter( e => e.done === 0 );
+        // 원생 목록 
+        let out_num = ban_data[b_id].filter(s => s.out_created != null || s.switch_ban_id != null).length;
 
-                temp_semester_banlist += `
-                <td class="col-2">${name}</td>
-                <td class="col-2">${teacher_name}</td>
-                <td class="col-2">${student_num + out_num}</td>
-                <td class="col-2">${student_num}</td>
-                <td class="col-2">${out_num}(${answer_rate(out_num, op).toFixed(2)}%)</td>
-                <td class="col-2" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')"><span class="cursor-pointer">👉</span></td>`;
-            });
-            $('#semester_banlist' + semester).html(temp_semester_banlist)
-        }
-    })
+        temp_semester_banlist += `
+        <td class="col-2">${name}</td>
+        <td class="col-2">${teacher_name}</td>
+        <td class="col-2">${student_num + out_num}</td>
+        <td class="col-2">${student_num}</td>
+        <td class="col-2">${out_num}(${answer_rate(out_num, op).toFixed(2)}%)</td>
+        <td class="col-2" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')"><span class="cursor-pointer">👉</span></td>`;
+    });
+    $('#semester_banlist' + semester).html(temp_semester_banlist)
 }
 async function semester1Show(){
     $('#semester1').hide();
