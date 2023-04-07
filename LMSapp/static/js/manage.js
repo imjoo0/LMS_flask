@@ -504,7 +504,7 @@ function so_paginating(done_code) {
             <td class="col-4">${item.title}</td>
             <td class="col-4">${item.contents}</td>
             <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-            data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${item.teacher_id},${item.student_id}${done_code},${category})">✏️</button> 
+            data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${item.teacher_id},${item.student_id}${done_code},'${category}')">✏️</button> 
             <button onclick="delete_question(${item.id})">❌</button></td>`;
         });
         $('#so_tr').html(dataHtml);
