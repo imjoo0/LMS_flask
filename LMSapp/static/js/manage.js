@@ -669,8 +669,7 @@ async function uldata(){
     $('#detailban').hide()
     $('#ulbox').show()
     let container = $('#ul_pagination')
-    console.log(unlarnedstudentData)
-    unlarnedstudentData.sort( (a,b)=> a.up - b.up)
+    console.log(data_list)
     await $.ajax({
         url: '/manage/uldata',
         type: 'GET',
