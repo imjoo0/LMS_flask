@@ -784,8 +784,6 @@ async function request_consulting() {
     $('#select_student').hide()
     $("#consulting_date").datepicker({ dateFormat: 'yy-mm-dd' });
     $("#consulting_deadline").datepicker({ dateFormat: 'yy-mm-dd' });
-    $(consultingData).reduce
-
     // 반으로 묶인 데이터 ban_id / student_num / semester / teacher_id
     const categoryGrouped = consultingData.reduce((acc, item) => {
     
