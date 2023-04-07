@@ -897,8 +897,8 @@ function post_consulting_request() {
                         }
                     }
                 })
-                alert(v[2] + '반에 상담요청 완료');
             })
+            alert('상담요청 완료');
         }
         // 개별 학생 대상 인 경우  
         let indivi_student_selections = selectedStudentList.filter(value => !(value.includes('-1')));
