@@ -6,7 +6,6 @@ var selectedStudentList = [];
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
     get_data();
-
     $('.nav-link').on('click', function () {
         $('.nav-link').removeClass('active');
         $(this).addClass('active');
@@ -28,6 +27,11 @@ async function get_data() {
         dataType: 'json',
         data: {},
         success: function (response) {
+            // QA 데이터
+            questionData = response['question']
+            answerData = response['answer']
+            attachData = response['attach']
+
             // sodata
             outstudentData = response['outstudent']
             switchstudentData = response['switchstudent']
@@ -468,111 +472,79 @@ function sodata(){
     so_paginating(0)
 }
 
-//     await $.ajax({
-//         url: '/manage/sodata',
-//         type: 'GET',
-//         data: {},
-//         success: function (response) {
-//             if (response['status'] == 400 || response['switch_out_bans'].length == 0) {
-//                 let no_data_title = '이반 * 퇴소 발생이 없었어요'
-//                 $('#sotitle').html(no_data_title);
-//                 $('#sotable').hide()
-//                 return
-//             }
-//             $('#sotitle').empty();
-
-//             response['switch_out_bans'].sort((a, b) => (answer_rate(b.out_count, b.outtotal_count).toFixed(0)) - (answer_rate(a.out_count, a.outtotal_count).toFixed(0)))
-//             // top 5만 보여주는 경우 
-//             // total_num = 0
-//             // if(response['switch_out_bans'].length > 5){
-//             //     total_num = 5
-//             // }else{
-//             //     total_num = response['switch_out_bans'].length
-//             // }
-
-//             let temp_html = ``
-//             console.log(response['switch_out_bans'])
-//             for (i = 0; i < response['switch_out_bans'].length; i++) {
-//                 register_no = response['switch_out_bans'][i]['target_ban']['register_no']
-//                 ban_name = response['switch_out_bans'][i]['target_ban']['ban_name']
-//                 semester = response['switch_out_bans'][i]['target_ban']['semester']
-//                 teacher_name = response['switch_out_bans'][i]['target_ban']['teacher_name'] + '( ' + response['switch_out_bans'][i]['target_ban']['teacher_engname'] + ' )'
-//                 switch_count = response['switch_out_bans'][i]['switch_out_count']['switchcount_per_ban']
-//                 out_count = response['switch_out_bans'][i]['switch_out_count']['outcount_per_ban']
-//                 sp = answer_rate(switch_count, response['switch_out_bans'][i]['switch_out_count']['switchtotal_count']).toFixed(0)
-//                 op = answer_rate(out_count, response['switch_out_bans'][i]['switch_out_count']['outtotal_count']).toFixed(0)
-//                 value = register_no + '_' + response['switch_out_bans'][i]['target_ban']['teacher_register_no'] + '_' + ban_name
-//                 temp_html += `
-//                 <td class="col-1">${i + 1}위</td>
-//                 <td class="col-2">${ban_name}</td>
-//                 <td class="col-2">${semester}학기</td>
-//                 <td class="col-2">${teacher_name}</td>
-//                 <td class="col-2">${switch_count}(${sp}%)</td>
-//                 <td class="col-2">${out_count}(${op}%)</td>
-//                 <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart('${value}')">👉</td>
-//                 `;
-//             }
-//             $('#static_data1').html(temp_html)
-//         }
-//     })
-//     so_paginating(0)
-// }
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
-    let container = $('#so_pagination')
-    $.ajax({
-        url: '/manage/get_so_questions',
-        type: 'get',
-        data: {},
-        dataType: 'json',
-        success: function (data) {
-            sdata = data.filter(a => a.category == 2).length
-            odata = data.filter(a => a.category == 1).length
-            sdata_noanswer = data.filter(a => a.category == 2 && a.answer == 0).length
-            odata_noanswer = data.filter(a => a.category == 1 && a.answer == 0).length
-            let temp_newso = `
-            <td class="col-2">${sdata}</td>
-            <td class="col-2">${sdata - sdata_noanswer}</td>
-            <td class="col-2">${sdata_noanswer}</td>
-            <td class="col-2">${odata}</td>
-            <td class="col-2">${odata - odata_noanswer}</td>
-            <td class="col-2">${odata_noanswer}</td>
-            `;
-            $('#newso').html(temp_newso)
-            qdata = data.filter(a => a.answer == done_code)
-            // container.pagination({
-            //     dataSource: qdata,
-            //     prevText: '이전',
-            //     nextText: '다음',
-            //     pageClassName: 'float-end',
-            //     pageSize: 5,
-            //     callback: function (qdata, pagination) {
-                    if (qdata.length == 0) {
-                        $('#so_question').hide()
-                        $('#so_pagination').hide()
-                        $('#no_data_msg').html('문의가 없습니다')
-                        $('#no_data_msg').show()
-                    } else {
-                        $('#no_data_msg').hide()
-                        $('#so_question').show()
-                        $('#so_pagination').show()
-                        var dataHtml = '';
-                        $.each(qdata, function (index, item) {
-                            let category = q_category(item.category)
-                            dataHtml += `
-                            <td class="col-2">${category}</td>
-                            <td class="col-4">${item.title}</td>
-                            <td class="col-4">${item.contents}</td>
-                            <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-                            data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code},${item.category})">✏️</button> 
-                            <button onclick="delete_question(${item.id})">❌</button></td>`;
-                        });
-                    }
-                    $('#so_tr').html(dataHtml);
-            //     }
-            // })
-        }
-    })
+    // let container = $('#so_pagination')
+    soquestionData = questionData.length > 0 ? questionData.filter(q=>q.category != 0) : 0
+
+    // soquestionData.forEach((elem) => {
+    //     elem.answer = answerData.filter(a => a.question_id == elem.id).length
+    //     elem.up = answer_rate(elem.unlearned, u_consulting_my.length).toFixed(0)
+    // });
+    // answerData = response['answer']
+    total_soquestion_num = soquestionData.length
+    sodata_noanswer = soquestionData.filter(a => a.answer == 0).length
+
+    let temp_newso = `
+    <td class="col-4">${sdata}</td>
+    <td class="col-4">${total_soquestion_num - sodata_noanswer}</td>
+    <td class="col-4">${sodata_noanswer}</td>
+    `;
+    $('#newso').html(temp_newso)
+
+    // $.ajax({
+    //     url: '/manage/get_so_questions',
+    //     type: 'get',
+    //     data: {},
+    //     dataType: 'json',
+    //     success: function (data) {
+    //         sdata = data.filter(a => a.category == 2).length
+    //         odata = data.filter(a => a.category == 1).length
+    //         sdata_noanswer = data.filter(a => a.category == 2 && a.answer == 0).length
+    //         odata_noanswer = data.filter(a => a.category == 1 && a.answer == 0).length
+    //         let temp_newso = `
+    //         <td class="col-2">${sdata}</td>
+    //         <td class="col-2">${sdata - sdata_noanswer}</td>
+    //         <td class="col-2">${sdata_noanswer}</td>
+    //         <td class="col-2">${odata}</td>
+    //         <td class="col-2">${odata - odata_noanswer}</td>
+    //         <td class="col-2">${odata_noanswer}</td>
+    //         `;
+    //         $('#newso').html(temp_newso)
+    //         qdata = data.filter(a => a.answer == done_code)
+    //         // container.pagination({
+    //         //     dataSource: qdata,
+    //         //     prevText: '이전',
+    //         //     nextText: '다음',
+    //         //     pageClassName: 'float-end',
+    //         //     pageSize: 5,
+    //         //     callback: function (qdata, pagination) {
+    //                 if (qdata.length == 0) {
+    //                     $('#so_question').hide()
+    //                     $('#so_pagination').hide()
+    //                     $('#no_data_msg').html('문의가 없습니다')
+    //                     $('#no_data_msg').show()
+    //                 } else {
+    //                     $('#no_data_msg').hide()
+    //                     $('#so_question').show()
+    //                     $('#so_pagination').show()
+    //                     var dataHtml = '';
+    //                     $.each(qdata, function (index, item) {
+    //                         let category = q_category(item.category)
+    //                         dataHtml += `
+    //                         <td class="col-2">${category}</td>
+    //                         <td class="col-4">${item.title}</td>
+    //                         <td class="col-4">${item.contents}</td>
+    //                         <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
+    //                         data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code},${item.category})">✏️</button> 
+    //                         <button onclick="delete_question(${item.id})">❌</button></td>`;
+    //                     });
+    //                 }
+    //                 $('#so_tr').html(dataHtml);
+    //         //     }
+    //         // })
+    //     }
+    // })
 }
 
 // 문의 내용 상세보기

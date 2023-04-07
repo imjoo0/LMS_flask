@@ -92,8 +92,8 @@ def sodata():
             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
 
 # 이반 / 퇴소 문의 리스트 
-@bp.route('/get_so_questions', methods=['GET'])
-def get_so_questions():
+@bp.route('/get_so_questions/<int:done_code>', methods=['GET'])
+def get_so_questions(done_code):
     if request.method == 'GET':
         all_questions = []
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
