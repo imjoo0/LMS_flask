@@ -516,7 +516,7 @@ function so_paginating(done_code) {
 }
 
 // 문의 내용 상세보기
-async function get_question_detail(q_id, teacher_id,student_id,done_code, cateogry) {
+async function get_question_detail(q_id,done_code) {
     // $('#questionlist').hide()
     $('#questiondetail').show()
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
