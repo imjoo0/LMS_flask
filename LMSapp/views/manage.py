@@ -17,163 +17,184 @@ def home():
         user = callapi.purple_info(session['user_id'],'get_teacher_info')        
         return render_template('manage.html', user=user,)
 
+# 본원 답변 기능
+@bp.route('/answer/<int:id>', methods=['POST'])
+def answer(id):
+    if request.method == 'POST':
+        target_question = Question.query.get_or_404(id)
+        target_question.answer = 1
+        answer_title = request.form['answer_title']
+        answer_contents = request.form['answer_contents']
+        o_ban_id = int(request.form['o_ban_id'])
+        new_answer = Answer(content=answer_contents,title=answer_title,created_at=Today,reject_code=o_ban_id,question_id = id)
+        db.session.add(new_answer)
+        if target_question.category == 2 and o_ban_id != 0 :    
+            new_switch_student = SwitchStudent(ban_id = target_question.ban_id,switch_ban_id=o_ban_id,teacher_id = target_question.teacher_id,student_id=target_question.student_id,created_at=Today)
+            db.session.add(new_switch_student)
+            # db.session.commit()
+        elif(target_question.category != 2 and o_ban_id != 0 ):
+            new_out_student = OutStudent(ban_id = target_question.ban_id,teacher_id = target_question.teacher_id,student_id=target_question.student_id,created_at=Today)
+            db.session.add(new_out_student)
+            # db.session.commit()
+        db.session.commit()
+        return jsonify({'result': '문의 답변 저장 완료'})
 # 반 차트 관련 
-@bp.route("/ban/<int:id>", methods=['GET'])
-def get_ban(id):
-    if request.method == 'GET':
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        consulting = []
-        task = []
-        try:
-            with db.cursor() as cur:
-                cur.execute(f"select id, ban_id, category_id, student_id, contents, startdate, deadline, week_code, done, missed from consulting")
-                consulting = cur.fetchall()
+# @bp.route("/ban/<int:id>", methods=['GET'])
+# def get_ban(id):
+#     if request.method == 'GET':
+#         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+#         consulting = []
+#         task = []
+#         try:
+#             with db.cursor() as cur:
+#                 cur.execute(f"select id, ban_id, category_id, student_id, contents, startdate, deadline, week_code, done, missed from consulting")
+#                 consulting = cur.fetchall()
 
-                cur.execute(f"select task.id, task.category_id, task.contents, task.url, task.attachments, date_format(task.startdate, '%Y-%m-%d') as startdate, date_format(task.deadline, '%Y-%m-%d') as deadline, task.priority, task.cycle, taskcategory.name, taskban.ban_id, taskban.teacher_id, taskban.done from task left join taskcategory on task.category_id = taskcategory.id left join taskban on task.id = taskban.task_id where taskban.ban_id={id};" )
-                task = cur.fetchall()
-        except Exception as e:
-            print(e)
-        finally:
-            db.close()
+#                 cur.execute(f"select task.id, task.category_id, task.contents, task.url, task.attachments, date_format(task.startdate, '%Y-%m-%d') as startdate, date_format(task.deadline, '%Y-%m-%d') as deadline, task.priority, task.cycle, taskcategory.name, taskban.ban_id, taskban.teacher_id, taskban.done from task left join taskcategory on task.category_id = taskcategory.id left join taskban on task.id = taskban.task_id where taskban.ban_id={id};" )
+#                 task = cur.fetchall()
+#         except Exception as e:
+#             print(e)
+#         finally:
+#             db.close()
 
-        return jsonify({'consulting': consulting,'task': task})
+#         return jsonify({'consulting': consulting,'task': task})
 
-# 이반 퇴소 
-@bp.route("/so", methods=['GET'])
-def get_soban():
-    if request.method == 'GET':
-        target_ban = callapi.purple_allinfo('get_all_ban')
-        if target_ban:
-            db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-            so = {}
-            try:
-                with db.cursor() as cur:
-                    cur.execute(f'SELECT COALESCE(switchstudent.ban_id, outstudent.ban_id) AS ban_id, COALESCE(switch_count, 0) AS switch_count, COALESCE(out_count, 0) AS out_count FROM (SELECT ban_id, COUNT(*) AS switch_count FROM switchstudent GROUP BY ban_id) AS switch_counts LEFT OUTER JOIN (SELECT ban_id, COUNT(*) AS out_count FROM outstudent GROUP BY ban_id) AS out_counts ON switch_counts.ban_id = out_counts.ban_id LEFT OUTER JOIN switchstudent ON switch_counts.ban_id = switchstudent.ban_id LEFT OUTER JOIN outstudent ON out_counts.ban_id = outstudent.ban_id UNION SELECT COALESCE(switch_counts.ban_id, out_counts.ban_id) AS ban_id, COALESCE(switch_count, 0) AS switch_count, COALESCE(out_count, 0) AS out_count FROM (SELECT ban_id, COUNT(*) AS switch_count FROM switchstudent GROUP BY ban_id) AS switch_counts RIGHT OUTER JOIN (SELECT ban_id, COUNT(*) AS out_count FROM outstudent GROUP BY ban_id) AS out_counts ON switch_counts.ban_id = out_counts.ban_id WHERE switch_counts.ban_id IS NULL;')
-                    so['status'] = 200
-                    so['data'] = cur.fetchall()
+# # 이반 퇴소 
+# @bp.route("/so", methods=['GET'])
+# def get_soban():
+#     if request.method == 'GET':
+#         target_ban = callapi.purple_allinfo('get_all_ban')
+#         if target_ban:
+#             db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+#             so = {}
+#             try:
+#                 with db.cursor() as cur:
+#                     cur.execute(f'SELECT COALESCE(switchstudent.ban_id, outstudent.ban_id) AS ban_id, COALESCE(switch_count, 0) AS switch_count, COALESCE(out_count, 0) AS out_count FROM (SELECT ban_id, COUNT(*) AS switch_count FROM switchstudent GROUP BY ban_id) AS switch_counts LEFT OUTER JOIN (SELECT ban_id, COUNT(*) AS out_count FROM outstudent GROUP BY ban_id) AS out_counts ON switch_counts.ban_id = out_counts.ban_id LEFT OUTER JOIN switchstudent ON switch_counts.ban_id = switchstudent.ban_id LEFT OUTER JOIN outstudent ON out_counts.ban_id = outstudent.ban_id UNION SELECT COALESCE(switch_counts.ban_id, out_counts.ban_id) AS ban_id, COALESCE(switch_count, 0) AS switch_count, COALESCE(out_count, 0) AS out_count FROM (SELECT ban_id, COUNT(*) AS switch_count FROM switchstudent GROUP BY ban_id) AS switch_counts RIGHT OUTER JOIN (SELECT ban_id, COUNT(*) AS out_count FROM outstudent GROUP BY ban_id) AS out_counts ON switch_counts.ban_id = out_counts.ban_id WHERE switch_counts.ban_id IS NULL;')
+#                     so['status'] = 200
+#                     so['data'] = cur.fetchall()
 
-            except Exception as e:
-                print(e)
-                so['status'] = 401
-                so['text'] = str(e)
-            finally:
-                db.close()
-            return jsonify({
-            'target_ban': target_ban,
-            'so': so
-            })
-        else:
-            return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
+#             except Exception as e:
+#                 print(e)
+#                 so['status'] = 401
+#                 so['text'] = str(e)
+#             finally:
+#                 db.close()
+#             return jsonify({
+#             'target_ban': target_ban,
+#             'so': so
+#             })
+#         else:
+#             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
 
-@bp.route("/sodata", methods=['GET'])
-def sodata():
-    if request.method == 'GET':
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        switch_out_count = {}
-        switch_out_bans = []
-        try:
-            with db.cursor() as cur:
-                cur.execute(f'SELECT ban_id,SUM(outcount_per_ban) AS outcount_per_ban,MAX(outtotal_count) AS outtotal_count,SUM(switchcount_per_ban) AS switchcount_per_ban,MAX(switchtotal_count) AS switchtotal_count FROM (SELECT ban_id, COUNT(*) AS outcount_per_ban, 0 AS switchcount_per_ban, (SELECT COUNT(*) FROM outstudent) AS outtotal_count, 0 AS switchtotal_count FROM outstudent GROUP BY ban_id UNION ALL SELECT ban_id, 0 AS outcount_per_ban, COUNT(*) AS switchcount_per_ban, 0 AS outtotal_count, (SELECT COUNT(*) FROM switchstudent) AS switchtotal_count FROM switchstudent GROUP BY ban_id) AS temp_table GROUP BY ban_id;')
-                switch_out_count['status'] = 200
-                switch_out_count['data'] = cur.fetchall()
-        except Exception as e:
-            print(e)
-            switch_out_count['status'] = 401
-            switch_out_count['text'] = str(e)
-        finally:
-            db.close()
-        if switch_out_count['status'] != 401 : 
-            for data in switch_out_count['data']:
-                target_ban = callapi.purple_ban(data['ban_id'],'get_ban')
-                if target_ban:
-                    switch_out_bans.append({'target_ban': target_ban,'switch_out_count':data})
-            return ({'switch_out_bans': switch_out_bans})
-        else:
-            return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
+# @bp.route("/sodata", methods=['GET'])
+# def sodata():
+#     if request.method == 'GET':
+#         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+#         switch_out_count = {}
+#         switch_out_bans = []
+#         try:
+#             with db.cursor() as cur:
+#                 cur.execute(f'SELECT ban_id,SUM(outcount_per_ban) AS outcount_per_ban,MAX(outtotal_count) AS outtotal_count,SUM(switchcount_per_ban) AS switchcount_per_ban,MAX(switchtotal_count) AS switchtotal_count FROM (SELECT ban_id, COUNT(*) AS outcount_per_ban, 0 AS switchcount_per_ban, (SELECT COUNT(*) FROM outstudent) AS outtotal_count, 0 AS switchtotal_count FROM outstudent GROUP BY ban_id UNION ALL SELECT ban_id, 0 AS outcount_per_ban, COUNT(*) AS switchcount_per_ban, 0 AS outtotal_count, (SELECT COUNT(*) FROM switchstudent) AS switchtotal_count FROM switchstudent GROUP BY ban_id) AS temp_table GROUP BY ban_id;')
+#                 switch_out_count['status'] = 200
+#                 switch_out_count['data'] = cur.fetchall()
+#         except Exception as e:
+#             print(e)
+#             switch_out_count['status'] = 401
+#             switch_out_count['text'] = str(e)
+#         finally:
+#             db.close()
+#         if switch_out_count['status'] != 401 : 
+#             for data in switch_out_count['data']:
+#                 target_ban = callapi.purple_ban(data['ban_id'],'get_ban')
+#                 if target_ban:
+#                     switch_out_bans.append({'target_ban': target_ban,'switch_out_count':data})
+#             return ({'switch_out_bans': switch_out_bans})
+#         else:
+#             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
 
-# 이반 / 퇴소 문의 리스트 
-@bp.route('/get_so_questions/<int:done_code>', methods=['GET'])
-def get_so_questions(done_code):
-    if request.method == 'GET':
-        all_questions = []
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                cur.execute('select id, category, title, contents, answer from question where category != 0;')
-                all_questions = cur.fetchall()
-        except:
-            print('err')
-        finally:
-            db.close()
+# # 이반 / 퇴소 문의 리스트 
+# @bp.route('/get_so_questions/<int:done_code>', methods=['GET'])
+# def get_so_questions(done_code):
+#     if request.method == 'GET':
+#         all_questions = []
+#         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+#         try:
+#             with db.cursor() as cur:
+#                 cur.execute('select id, category, title, contents, answer from question where category != 0;')
+#                 all_questions = cur.fetchall()
+#         except:
+#             print('err')
+#         finally:
+#             db.close()
         
-        return json.dumps(all_questions)
+#         return json.dumps(all_questions)
 
-# 문의 상세 보기 
-@bp.route('/question_detail/<int:id>/<int:answer>/<int:category>', methods=['GET'])
-def get_question_detail(id,answer,category):
-    if request.method == 'GET':
-        q = Question.query.filter((Question.id == id)).first()
-        b = callapi.purple_ban(q.ban_id,'get_ban')    
-        return_data = {}
-        return_data['title'] = q.title
-        return_data['contents'] = q.contents
-        return_data['create_date'] = q.create_date.strftime('%Y-%m-%d')
-        return_data['ban'] = b['ban_name']
-        return_data['teacher'] = b['teacher_name'] +'('+ b['teacher_engname'] +')'
-        if(answer == 0):
-            return_data['answer_title'] = '미응답'
-            return_data['answer_content'] = '미응답'
-            return_data['answer_reject_code'] = '미응답'
-            return_data['answer_created_at'] = '미응답'
-        else:
-            return_data['answer_title'] = q.qa.title
-            return_data['answer_content'] = q.qa.content
-            return_data['answer_created_at'] = q.qa.created_at.strftime('%Y-%m-%d')
-            return_data['answer_reject_code'] = q.qa.reject_code
+# # 문의 상세 보기 
+# @bp.route('/question_detail/<int:id>/<int:answer>/<int:category>', methods=['GET'])
+# def get_question_detail(id,answer,category):
+#     if request.method == 'GET':
+#         q = Question.query.filter((Question.id == id)).first()
+#         b = callapi.purple_ban(q.ban_id,'get_ban')    
+#         return_data = {}
+#         return_data['title'] = q.title
+#         return_data['contents'] = q.contents
+#         return_data['create_date'] = q.create_date.strftime('%Y-%m-%d')
+#         return_data['ban'] = b['ban_name']
+#         return_data['teacher'] = b['teacher_name'] +'('+ b['teacher_engname'] +')'
+#         if(answer == 0):
+#             return_data['answer_title'] = '미응답'
+#             return_data['answer_content'] = '미응답'
+#             return_data['answer_reject_code'] = '미응답'
+#             return_data['answer_created_at'] = '미응답'
+#         else:
+#             return_data['answer_title'] = q.qa.title
+#             return_data['answer_content'] = q.qa.content
+#             return_data['answer_created_at'] = q.qa.created_at.strftime('%Y-%m-%d')
+#             return_data['answer_reject_code'] = q.qa.reject_code
 
-        if  q.attachments is None:
-            return_data['attach'] = "없음"
-        else:
-            return_data['attach'] = q.attachments.file_name
+#         if  q.attachments is None:
+#             return_data['attach'] = "없음"
+#         else:
+#             return_data['attach'] = q.attachments.file_name
 
-        if category == 0:
-            return_data['answer_reject_code'] = ''
-            return_data['history'] = ''
-            return_data['history_reason'] = ''
-            return_data['history_solution'] = ''
-            return_data['history_result'] = ''
-            return_data['history_created_at'] = ''
-            return_data['student'] = ''
-        else:
-            s = callapi.purple_info(q.student_id,'get_student_info')
-            return_data['student'] = s['name']
-            if(q.qconsulting.done != 0):
-                return_data['history'] = q.qconsulting.id
-                return_data['history_reason'] = q.qconsulting.reason
-                return_data['history_solution'] = q.qconsulting.solution
-                return_data['history_result'] = q.qconsulting.result
-                return_data['history_created_at'] = q.qconsulting.created_at.strftime('%Y-%m-%d')
-            else:
-                return_data['history'] = ''
-                return_data['history_reason'] = ''
-                return_data['history_solution'] = ''
-                return_data['history_result'] = ''
-                return_data['history_created_at'] = ''
+#         if category == 0:
+#             return_data['answer_reject_code'] = ''
+#             return_data['history'] = ''
+#             return_data['history_reason'] = ''
+#             return_data['history_solution'] = ''
+#             return_data['history_result'] = ''
+#             return_data['history_created_at'] = ''
+#             return_data['student'] = ''
+#         else:
+#             s = callapi.purple_info(q.student_id,'get_student_info')
+#             return_data['student'] = s['name']
+#             if(q.qconsulting.done != 0):
+#                 return_data['history'] = q.qconsulting.id
+#                 return_data['history_reason'] = q.qconsulting.reason
+#                 return_data['history_solution'] = q.qconsulting.solution
+#                 return_data['history_result'] = q.qconsulting.result
+#                 return_data['history_created_at'] = q.qconsulting.created_at.strftime('%Y-%m-%d')
+#             else:
+#                 return_data['history'] = ''
+#                 return_data['history_reason'] = ''
+#                 return_data['history_solution'] = ''
+#                 return_data['history_result'] = ''
+#                 return_data['history_created_at'] = ''
 
-        return_data['comment'] = []
-        for comment in q.qcomments :
-            comment_data = {}
-            comment_data['c_id'] = comment.id
-            comment_data['c_contents'] = comment.contents
-            comment_data['c_created_at'] = comment.created_at.strftime('%Y-%m-%d')
-            comment_data['parent_id'] = comment.parent_id
-            if(q.teacher_id == comment.user_id):
-                comment_data['writer'] = return_data['teacher']
-            else:
-                comment_data['writer'] = '퍼플'
-            return_data['comment'].append(comment_data)
+#         return_data['comment'] = []
+#         for comment in q.qcomments :
+#             comment_data = {}
+#             comment_data['c_id'] = comment.id
+#             comment_data['c_contents'] = comment.contents
+#             comment_data['c_created_at'] = comment.created_at.strftime('%Y-%m-%d')
+#             comment_data['parent_id'] = comment.parent_id
+#             if(q.teacher_id == comment.user_id):
+#                 comment_data['writer'] = return_data['teacher']
+#             else:
+#                 comment_data['writer'] = '퍼플'
+#             return_data['comment'].append(comment_data)
 
-        return jsonify(return_data)
+#         return jsonify(return_data)
 
 # 미학습 
 @bp.route("/uldata", methods=['GET'])
@@ -240,21 +261,21 @@ def uldata():
         else:
             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})    
     
-@bp.route('/api/get_all_questions/<int:done_code>', methods=['GET'])
-def get_all_questions(done_code):
-    if request.method == 'GET':
-        all_questions = []
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                cur.execute('select id, category, title, contents, answer from question where answer = %s and category=0;',(done_code,))
-                all_questions = cur.fetchall()
-        except:
-            print('err')
-        finally:
-            db.close()
+# @bp.route('/api/get_all_questions/<int:done_code>', methods=['GET'])
+# def get_all_questions(done_code):
+#     if request.method == 'GET':
+#         all_questions = []
+#         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+#         try:
+#             with db.cursor() as cur:
+#                 cur.execute('select id, category, title, contents, answer from question where answer = %s and category=0;',(done_code,))
+#                 all_questions = cur.fetchall()
+#         except:
+#             print('err')
+#         finally:
+#             db.close()
         
-        return json.dumps(all_questions)
+#         return json.dumps(all_questions)
 
 @bp.route('/api/get_consulting', methods=['GET'])
 def get_consulting():

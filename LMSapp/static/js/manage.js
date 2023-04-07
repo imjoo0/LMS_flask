@@ -598,6 +598,7 @@ async function get_question_detail(q_id,done_code) {
             $('#manage_answer_2').hide()
             $('#manage_answer_3').hide()
          }
+         $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category})">저장</button>`);
     }else{
         $('#manage_answer').hide()
         $('#teacher_answer').show()
@@ -625,6 +626,28 @@ async function get_question_detail(q_id,done_code) {
         $('#teacher_answer').html(temp_answer_list);
     }
     
+}
+// 본원 답변 기능 
+function post_answer(q_id,category){
+    answer_title = $('#answer_title').val()
+    answer_contents = $('#answer_contents').val()
+    o_ban_id = 0
+    if(category != 0){
+        o_ban_id = $('#o_ban_id'+code).val()
+    }
+    $.ajax({
+        type: "POST",
+        url: "/manage/answer/"+q_id,
+        data: {
+            answer_title:answer_title,
+            answer_contents:answer_contents,
+            o_ban_id:o_ban_id
+        },
+        success: function (response) {{
+            alert(response["result"])
+            window.location.replace('/')
+        }}
+    });
 }
 
 // 미학습 (학습관리)

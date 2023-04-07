@@ -483,25 +483,4 @@ async function delete_question(q_id){
 //    $('#questiondetail').show()
 // }
 
-// 본원 답변 기능 
-function post_answer(q_id,code){
-    answer_title = $('#answer_title').val()
-    answer_contents = $('#answer_contents').val()
-    o_ban_id = 0
-    if(code != 1){
-        o_ban_id = $('#o_ban_id'+code).val()
-    }
-    $.ajax({
-        type: "POST",
-        url: "/common/question/"+q_id,
-        data: {
-            answer_title:answer_title,
-            answer_contents:answer_contents,
-            o_ban_id:o_ban_id
-        },
-        success: function (response) {{
-            alert(response["result"])
-            window.location.replace('/')
-        }}
-    });
-}
+
