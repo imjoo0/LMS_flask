@@ -291,7 +291,7 @@ function semesterShow(semester) {
     $('#semester_banlist').html(temp_semester_banlist)
 }
 
-// 반 별 차트 정보 보내주는 함수 
+// 반 상세 정보 보내주는 함수 
 function getBanChart(ban_id) {
     // key값 `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
     result = data.filter(e=>e.ban_id == ban_id)[0]
@@ -471,7 +471,7 @@ function sodata(){
 
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
-    // let container = $('#so_pagination')
+    let container = $('#so_pagination')
     soquestionData = questionData.length > 0 ? questionData.filter(q=>q.category != 0) : 0
     total_soquestion_num = soquestionData.length
     sodata_noanswer = soquestionData.filter(a => a.answer == 0).length
@@ -482,23 +482,33 @@ function so_paginating(done_code) {
     <td class="col-4">${sodata_noanswer}  건</td>
     `;
     $('#newso').html(temp_newso)
+
     if(total_soquestion_num!=0){
         $('#no_data_msg').hide()
         $('#so_question').show()
         $('#so_pagination').show()
         qdata = soquestionData.filter(a => a.answer == done_code)
         var dataHtml = '';
-        $.each(qdata, function (index, item) {
-            let category = q_category(item.category)
-            dataHtml += `
-            <td class="col-2">${category}</td>
-            <td class="col-4">${item.title}</td>
-            <td class="col-4">${item.contents}</td>
-            <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-            data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</button> 
-            <button onclick="delete_question(${item.id})">❌</button></td>`;
-        });
-        $('#so_tr').html(dataHtml);
+        container.pagination({
+            dataSource: qdata,
+            prevText: '이전',
+            nextText: '다음',
+            pageClassName: 'float-end',
+            pageSize: 5,
+            callback: function (qdata, pagination) {
+                $.each(qdata, function (index, item) {
+                    let category = q_category(item.category)
+                    dataHtml += `
+                    <td class="col-2">${category}</td>
+                    <td class="col-4">${item.title}</td>
+                    <td class="col-4">${item.contents}</td>
+                    <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
+                    data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</button> 
+                    <button onclick="delete_question(${item.id})">❌</button></td>`;
+                });
+                $('#so_tr').html(dataHtml);
+            }
+        })
     }else{
         $('#so_question').hide()
         $('#so_pagination').hide()
