@@ -792,7 +792,6 @@ async function request_consulting() {
         if (!acc[item.category_id]){
         acc[item.category_id] = {category:item.category};
         }
-        acc[item.category_id].push(item);
     
         return acc;
     }, {});
