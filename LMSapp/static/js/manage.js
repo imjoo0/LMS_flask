@@ -729,7 +729,7 @@ async function uldata(){
 function get_consulting_history(student_id) {
     student_info = all_student.filter(s=>s.student_id == student_id)[0]
     console.log(student_info)
-    consultings = consultingData.filter(c=> c.student_id == student_id )
+    consultings = consultingData.filter(c=> c.student_id == student_id && c.startdate <= today)
     done_consultings = consultings.filter(c=> c.done == 1)
     notdone_consultings = consultings.filter(c=> c.done == 0)
     consultinglist_len = consultings.length
@@ -772,7 +772,6 @@ function get_consulting_history(student_id) {
             let consulting_missed = missed_date(target['missed'])
             let startdate = make_date(target['startdate'])
             let deadline = make_date(target['deadline'])
-            let history_created = target['created_at']
             if(target['category_id'] < 100){
                 category = target['week_code']+'주간  ' + category
             }
@@ -781,7 +780,7 @@ function get_consulting_history(student_id) {
             <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br><strong>
             ➖상담 시작일:${startdate}까지~
             ➖상담 마감일:~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br>
-                <strong style="color:red;">➖ 이미 원생이 ${make_date(history_created)}일 날 학습을 완료했습니다. (  ✏️ 추천: 원생목록에서 추가 상담 진행)</strong></br>
+                <strong>➖ 진행 해야 하는 상담 </strong></br>
                 ${contents}</br> 
             </p>
             `;
@@ -807,7 +806,7 @@ function get_consulting_history(student_id) {
             <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br><strong>
             ➖상담 시작일:${startdate}까지~
             ➖상담 마감일:~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br>
-                <strong style="color:red;">➖ 이미 원생이 ${make_date(history_created)}일 날 학습을 완료했습니다. (  ✏️ 추천: 원생목록에서 추가 상담 진행)</strong></br>
+                <strong>상담 일시 : ${make_date(history_created)}</strong></br>
                 ${contents}</br> 
             </p>
             <div class="modal-body-select-container">
