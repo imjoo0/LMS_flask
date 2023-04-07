@@ -676,7 +676,13 @@ async function uldata(){
         elem.unlearned = all_uc_consulting.filter(a => a.student_id == elem.student_id).length
         elem.up = answer_rate(elem.unlearned, all_uc_consulting.length).toFixed(0)
     });
-    all_student.sort((a, b) => b.up - a.up)
+    all_student.sort((a, b) => {
+        if(b.up !== a.up){
+            return b.up - a.up; // total_out_per가 큰 순으로 정렬
+        } else {
+            return b.unlearned - a.unlearned; // students.length가 큰 순으로 정렬
+        }
+    });
 
     if(all_student.length == 0){
         let no_data_title = `<h1> ${response.text} </h1>`
