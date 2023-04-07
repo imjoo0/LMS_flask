@@ -732,10 +732,11 @@ function get_consulting_history(student_id) {
     consultings = consultingData.filter(c=> c.student_id == student_id && c.startdate <= today)
     done_consultings = consultings.filter(c=> c.done == 1)
     notdone_consultings = consultings.filter(c=> c.done == 0)
+    consultinglist_len = consultings.length
 
     $('#consultinghistoryModalLabelt').html(`${student_info.name}반 ${student_info.student_name} 원생 총 ${consultings.length}건 상담  ( 📞 ${student_info.mobileno}  )`)
     let cant_consulting_list = notdone_consultings.length  > 0 ? notdone_consultings.filter( c=>c.created_at != null) : 0;
-    consultings = consultings.length  > 0 ? consultings.filter(c=>c.created_at == null) : 0
+    consultings = consultinglist_len  > 0 ? consultings.filter(c=>c.created_at == null) : 0
     
     if (cant_consulting_list.length > 0){
         $('#consulting_cant_write_box').empty();
