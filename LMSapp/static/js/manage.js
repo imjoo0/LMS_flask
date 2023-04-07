@@ -802,11 +802,17 @@ async function request_consulting() {
     })
 }
 async function ban_change(btid) {
+    // 
+    console.log(btid)
+    // 
     if (btid.includes('_')) {
         // 다중 반 처리
         $('#select_student').show()
         $('#consulting_msg').html('👇 개별 반 대상 진행합니다 (대상 학생을 확인해 주세요)')
         value = btid.split('_')
+        // ban_id _ teacher_id _ name 
+        studentData = allData.filter(a=>a.ban_id == value[0])[0]
+        console.log(studentData)
         await $.ajax({
             type: "GET",
             url: "/manage/ban_student/" + value[0],
