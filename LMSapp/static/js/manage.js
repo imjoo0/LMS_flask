@@ -75,11 +75,6 @@ async function get_data() {
               
                 return acc;
             }, {});
-              
-            // 결과를 객체의 배열로 변환 -> 반 별 배열 
-            // const banGroupedresult = Object.entries(banGrouped).map(([v, items]) => {
-            //     return { [v]: items };
-            // });
             allData = Object.values(banGrouped).sort((a, b) => {
                 if(b.total_out_per !== a.total_out_per){
                     return b.total_out_per - a.total_out_per; // total_out_per가 큰 순으로 정렬
@@ -235,6 +230,7 @@ function allsemesterShow() {
     //  const v = `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
     let temp_semester_banlist = ''
     let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
+    let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
     // let temp_banlist = '<option value=0 selected>반을 선택해주세요</option>';
     data.forEach(ban_data => {
         let ban_id = ban_data['students'][0].ban_id
@@ -248,9 +244,9 @@ function allsemesterShow() {
         // let out_num = ban_data[key].filter(s => s.out_created != null || s.switch_ban_id != null).length;
         let total_out_count = ban_data['total_out_count']  + ban_data['total_switch_count']
         let total_out_per = ban_data['total_out_per']
-        temp_ban_option += `
-        <option value="${value}">${name} (${make_semester(semester)}월 학기)</option>
-        `;
+        let selectmsg = `<option value="${value}">${name} (${make_semester(semester)}월 학기)</option>`;
+        temp_ban_option += selectmsg
+        temp_o_ban_id += selectmsg
         temp_semester_banlist += `
         <td class="col-2">${name}</td>
         <td class="col-2">${teacher_name}</td>
@@ -263,6 +259,7 @@ function allsemesterShow() {
     // $('#ban_list').html(temp_ban_option)
     $('#consulting_target_ban').html(temp_ban_option)
     $('#task_target_ban').html(temp_ban_option)
+    $('#o_ban_id2').html(temp_o_ban_id)
 }
 
 function semesterShow(semester) {
@@ -614,10 +611,6 @@ async function get_question_detail(q_id,done_code) {
                 <select class="modal-body-select" id="o_ban_id2">
                     <option value="none" selected>이반 처리 결과를 선택해주세요</option>
                     <option value=0>반려</option>
-                    {% for ban in all_ban %}
-                    {% set ban_registerno = ban['register_no'] %}
-                    <option value={{ban_registerno}}>{{ ban['name'] }}</option>
-                    {% endfor %}
                 </select>
             </div>
         </div>
@@ -632,6 +625,7 @@ async function get_question_detail(q_id,done_code) {
             </div>
         </div>`;
         $('#teacher_answer').html(temp_answer_list);
+        $('#manage_answer_1').show()
         if(question_detail_data.category == 1){
             $('#manage_answer_2').hide()
             $('#manage_answer_3').show()
