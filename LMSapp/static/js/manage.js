@@ -56,6 +56,7 @@ async function get_data() {
                 const switch_ban_id = switch_student ? switch_student.switch_ban_id : null;
                 return { ...obj1, out_created, switch_ban_id };
             });
+            // unlarnedstudentData = result
 
             // 반으로 묶인 데이터 ban_id / student_num / semester / teacher_id
             const banGrouped = result.reduce((acc, item) => {
@@ -313,8 +314,8 @@ function getBanChart(ban_id) {
         let teacher_email = result['students'][0]['teacher_email']
         
         // 상담
-        let all_uc_consulting = consultingData.filter(a => a.category_id < 100).length;
-        let my_consulting = consultingData.filter(a => a.ban_id == ban_id && a.startdate <= today)
+        all_uc_consulting = consultingData.filter(a => a.category_id < 100).length;
+        my_consulting = consultingData.filter(a => a.ban_id == ban_id && a.startdate <= today)
         let u_consulting_my = my_consulting.filter(a => a.category_id < 100);
 
         let consulting_ixl = u_consulting_my.filter(a => a.category_id == 1).length
@@ -662,12 +663,14 @@ function post_answer(q_id,category){
 }
 
 // 미학습 (학습관리)
-async function uldata() {
+async function uldata(){
     $('#qubox').hide()
     $('#sobox').hide()
     $('#detailban').hide()
     $('#ulbox').show()
     let container = $('#ul_pagination')
+    console.log(unlarnedstudentData)
+    unlarnedstudentData.sort( (a,b)=> a.up - b.up)
     await $.ajax({
         url: '/manage/uldata',
         type: 'GET',
