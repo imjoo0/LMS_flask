@@ -440,7 +440,6 @@ function sodata(){
             return
     }
     switch_out_bans = allData.filter(e=>e.total_out_count != 0 || e.total_switch_count != 0)
-    console.log(switch_out_bans)
     $('#sotitle').empty();
 
     let temp_html = ``
@@ -521,7 +520,7 @@ async function get_question_detail(q_id, teacher_id,student_id,done_code, cateog
     // $('#questionlist').hide()
     $('#questiondetail').show()
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
-    student_data = allData.filter(a=>a.teacher_id == teacher_id)['students'].filter(s=>s.student_id == student_id)[0]
+    student_data = allData.filter(a=>a.teacher_id == teacher_id)[0]['students'].filter(s=>s.student_id == student_id)[0]
     attach = attachData.filter(a=>a.question_id == q_id).file_name
     // 
     console.log(question_detail_data)
