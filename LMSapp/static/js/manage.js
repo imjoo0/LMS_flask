@@ -56,7 +56,7 @@ async function get_data() {
                 const switch_ban_id = switch_student ? switch_student.switch_ban_id : null;
                 return { ...obj1, out_created, switch_ban_id };
             });
-            // unlarnedstudentData = result
+            unlarnedstudentData = result
 
             // 반으로 묶인 데이터 ban_id / student_num / semester / teacher_id
             const banGrouped = result.reduce((acc, item) => {
