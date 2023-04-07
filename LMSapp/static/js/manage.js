@@ -784,22 +784,51 @@ async function request_consulting() {
     $('#select_student').hide()
     $("#consulting_date").datepicker({ dateFormat: 'yy-mm-dd' });
     $("#consulting_deadline").datepicker({ dateFormat: 'yy-mm-dd' });
-    await $.ajax({
-        url: '/manage/request_consulting',
-        type: 'GET',
-        data: {},
-        success: function (response) {
-            let temp_consulting_category_list = '<option value=0 selected>상담카테고리를 선택해주세요</option>';
-            for (i = 0; i < response['all_consulting_category'].length; i++) {
-                let id = response['all_consulting_category'][i]['id']
-                let name = response['all_consulting_category'][i]['name']
-                temp_consulting_category_list += `
-                <option value=${id}>${name}</option>
-                `;
-                $('#consulting_category_list').html(temp_consulting_category_list)
-            }
+    $(consultingData).reduce
+
+    // 반으로 묶인 데이터 ban_id / student_num / semester / teacher_id
+    const categoryGrouped = consultingData.reduce((acc, item) => {
+    
+        if (!acc[item.category_id]){
+        acc[item.category_id] = {category:item.category};
         }
-    })
+        acc[item.category_id].students.push(item);
+    
+        return acc;
+    }, {});
+    let temp_consulting_category_list = '<option value=0 selected>상담카테고리를 선택해주세요</option>';
+    for (i = 0; i < categoryGrouped.length; i++) {
+        let id = categoryGrouped[i]
+        console.log(id)
+        let name = categoryGrouped[i]['category']
+        temp_consulting_category_list += `
+        <option value=${id}>${name}</option>
+        `;
+        $('#consulting_category_list').html(temp_consulting_category_list)
+    }
+    // categoryData = Object.values(categoryGrouped).sort((a, b) => {
+    //     if(b.total_out_per !== a.total_out_per){
+    //         return b.total_out_per - a.total_out_per; // total_out_per가 큰 순으로 정렬
+    //     } else {
+    //         return b.students.length - a.students.length; // students.length가 큰 순으로 정렬
+    //     }
+    // });
+    // await $.ajax({
+    //     url: '/manage/request_consulting',
+    //     type: 'GET',
+    //     data: {},
+    //     success: function (response) {
+    //         let temp_consulting_category_list = '<option value=0 selected>상담카테고리를 선택해주세요</option>';
+    //         for (i = 0; i < response['all_consulting_category'].length; i++) {
+    //             let id = response['all_consulting_category'][i]['id']
+    //             let name = response['all_consulting_category'][i]['name']
+    //             temp_consulting_category_list += `
+    //             <option value=${id}>${name}</option>
+    //             `;
+    //             $('#consulting_category_list').html(temp_consulting_category_list)
+    //         }
+    //     }
+    // })
 }
 async function ban_change(btid) {
     if (btid.includes('_')) {
