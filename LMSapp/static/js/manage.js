@@ -503,7 +503,7 @@ function so_paginating(done_code) {
             <td class="col-4">${item.title}</td>
             <td class="col-4">${item.contents}</td>
             <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-            data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${item.teacher_id},${item.student_id}${done_code},'${category}')">✏️</button> 
+            data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</button> 
             <button onclick="delete_question(${item.id})">❌</button></td>`;
         });
         $('#so_tr').html(dataHtml);
@@ -520,7 +520,7 @@ async function get_question_detail(q_id, teacher_id,student_id,done_code, cateog
     // $('#questionlist').hide()
     $('#questiondetail').show()
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
-    student_data = allData.filter(a=>a.teacher_id == teacher_id)[0]['students'].filter(s=>s.student_id == student_id)[0]
+    student_data = allData.filter(a=>a.teacher_id == question_detail_data.teacher_id)[0]['students'].filter(s=>s.student_id == student_id)[0]
     attach = attachData.filter(a=>a.question_id == q_id).file_name
     // 
     console.log(question_detail_data)
@@ -530,7 +530,7 @@ async function get_question_detail(q_id, teacher_id,student_id,done_code, cateog
     let temp_question_list = `
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">문의 종류</span>
-        <p>${cateogry}</p>
+        <p>${q_category(cateogry)}</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">제목</span>
