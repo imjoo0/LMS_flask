@@ -633,7 +633,7 @@ function post_answer(q_id,category){
     answer_contents = $('#answer_contents').val()
     o_ban_id = 0
     if(category != 0){
-        o_ban_id = $('#o_ban_id'+code).val()
+        o_ban_id = $('#o_ban_id'+category).val()
     }
     $.ajax({
         type: "POST",
@@ -981,7 +981,7 @@ function paginating(done_code) {
                 callback: function (data, pagination) {
                     var dataHtml = '';
                     $.each(data, function (index, item) {
-                        if (item.category == 0) { item.category = '일반문의' }
+                        if (item.d == 0) { item.category = '일반문의' }
                         else if (item.category == 1) { item.category = '퇴소 요청' }
                         else if (item.category == 2) { item.category = '이반 요청' }
                         else { item.category = '취소/환불 요청' }
