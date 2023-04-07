@@ -749,6 +749,7 @@ function show_ban_selection() {
     }
 }
 function task_ban_change(btid) {
+    console.log(btid)
     if (btid.includes('_')) {
         // 다중 반 처리
         $('#target_task_bans').show()
@@ -831,7 +832,6 @@ async function ban_change(btid) {
         }
     }
 }
-
 $('#consulting_target_students').change(function () {
     var selectedValues = $(this).val()[0];
     if (selectedStudentList.indexOf(selectedValues) === -1) {
@@ -929,13 +929,8 @@ function post_consulting_request() {
                 })
             })
         }
-        alert('상담 요청 완료')
-        window.location.reload()
-        // 전체 반 대상 선택 일 경우 
     }else{
-        console.log('여기서 오류가 납니다.')
         b_type = $('#consulting_target_aban').val()[0]
-        console.log(b_type)
         if(b_type == 0){
             all_student.forEach(value => {
                 ban_id = value.ban_id
@@ -995,7 +990,7 @@ function post_consulting_request() {
                     student_id = value.student_id
                     $.ajax({
                         type: "POST",
-                        url: '/manage/consulting/request_indivi_student/' + ban_id + '/' + teacher_id + '/' + student_id,
+                        url: '/manage/consulting/' + ban_id + '/' + teacher_id + '/' + student_id,
                         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
                         data: {
                             consulting_category: consulting_category,
@@ -1012,9 +1007,9 @@ function post_consulting_request() {
                 })
             })
         }
-        alert('상담 요청 완료')
-        window.location.reload()
     }
+    alert('상담 요청 완료')
+    window.location.reload()
 }
 
 // CS 관리 
