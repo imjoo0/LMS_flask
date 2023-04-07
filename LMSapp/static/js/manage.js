@@ -440,7 +440,7 @@ function sodata(){
     $('#sotitle').empty();
 
     let temp_html = ``
-    for (i = 0; i < 10; i++) {
+    for (i = 0; i < switch_out_bans.length; i++) {
         let ban_id = switch_out_bans[i].students[0].ban_id
         let name = switch_out_bans[i].students[0].name
         let student_num = switch_out_bans[i].students[0].student_num
