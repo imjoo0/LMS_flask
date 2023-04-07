@@ -486,9 +486,9 @@ function so_paginating(done_code) {
     sodata_noanswer = soquestionData.filter(a => a.answer == 0).length
 
     let temp_newso = `
-    <td class="col-4">${sdata}</td>
-    <td class="col-4">${total_soquestion_num - sodata_noanswer}</td>
-    <td class="col-4">${sodata_noanswer}</td>
+    <td class="col-4">${total_soquestion_num}  건</td>
+    <td class="col-4">${total_soquestion_num - sodata_noanswer}  건</td>
+    <td class="col-4">${sodata_noanswer}  건</td>
     `;
     $('#newso').html(temp_newso)
 
