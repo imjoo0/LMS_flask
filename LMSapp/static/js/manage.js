@@ -802,35 +802,19 @@ async function request_consulting() {
     })
 }
 async function ban_change(btid) {
-    // 
-    console.log(btid)
-    // 
+    // 다중 반 처리
     if (btid.includes('_')) {
-        // 다중 반 처리
         $('#select_student').show()
         $('#consulting_msg').html('👇 개별 반 대상 진행합니다 (대상 학생을 확인해 주세요)')
         value = btid.split('_')
         // ban_id _ teacher_id _ name 
-        studentData = allData.filter(a=>a.ban_id == value[0])[0]
-        console.log(studentData)
-        await $.ajax({
-            type: "GET",
-            url: "/manage/ban_student/" + value[0],
-            data: {},
-            success: function (response) {
-                // 전체 학생 대상 진행 append 
-                let temp_target_student = `<option value="${btid}_-1_전체 학생 대상 진행">✔️${value[2]}반 전체 학생 대상 진행</option>`;
-                for (var i = 0; i < response['students'].length; i++) {
-                    let sname = response['students'][i]['name'];
-                    temp_target_student += `<option value="${btid}_${response['students'][i]['register_no']}_${sname}"> ${sname}</option>`;
-                }
-                $('#consulting_target_students').html(temp_target_student)
-            },
-            error: function (xhr, status, error) {
-                alert('xhr.responseText');
-            }
-
-        })
+        studentData = allData.filter(a=>a.ban_id == value[0])[0].students
+        let temp_target_student = `<option value="${btid}_-1_전체 학생 대상 진행">✔️${value[2]}반 전체 학생 대상 진행</option>`;
+        for (var i = 0; i < studentData.length; i++) {
+            let sname = studentData[i]['student_name'];
+            temp_target_student += `<option value="${btid}_${studentData[i]['student_id']}_${sname}"> ${sname}</option>`;
+        }
+        $('#consulting_target_students').html(temp_target_student)
     } else {
         $('#select_student').hide()
         $('#result_tbox').empty()
@@ -846,6 +830,7 @@ async function ban_change(btid) {
         }
     }
 }
+
 $('#consulting_target_students').change(function () {
     var selectedValues = $(this).val()[0];
     if (selectedStudentList.indexOf(selectedValues) === -1) {
