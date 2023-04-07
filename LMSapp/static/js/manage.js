@@ -446,11 +446,11 @@ function sodata(){
         let student_num = switch_out_bans[i].students[0].student_num
         let teacher_name = switch_out_bans[i].students[0].teacher_name
         
-        let total_out_count = switch_out_bans['total_out_count'] == null ? 0 : switch_out_bans['total_out_count']
-        let total_out_per = switch_out_bans['total_out_per']
+        let total_out_count = switch_out_bans[i]['total_out_count']
+        let total_out_per = switch_out_bans[i]['total_out_per']
 
-        let total_switch_count = switch_out_bans['total_switch_count'] == null ? 0 : switch_out_bans['total_switch_count']
-        let total_switch_per = switch_out_bans['total_switch_per']
+        let total_switch_count = switch_out_bans[i]['total_switch_count']
+        let total_switch_per = switch_out_bans[i]['total_switch_per']
 
         temp_html += `
         <td class="col-1">${i+1}위</td>
