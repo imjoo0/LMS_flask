@@ -707,10 +707,10 @@ async function uldata(){
                 <td class="col-1">${index + 1}</td>
                 <td class="col-1">${name}</td>
                 <td class="col-1">${student.unlearned} (${student.up}%) </td>
-                <td class="col-1">${reco_book_code}</td>
+                <td class="col-1">${make_recobook(reco_book_code)}</td>
                 <td class="col-1">${mobileno}</td>
                 <td class="col-2">${student.pname}( ${student.pmobileno} )</td>
-                <td class="col-2">${ban_name}( ${make_semester(student.semester)} )</td>
+                <td class="col-2">${ban_name}( ${make_semester(student.semester)}월 학기 )</td>
                 <td class="col-2">${student.teacher_name}( ${student.teacher_engname} )</td>
                 <td class="col-1"> <button class="modal-tbody-btn" onclick="get_student_detail(${student_id})">📝</button> `;
             });
