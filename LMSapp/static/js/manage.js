@@ -522,7 +522,7 @@ async function get_question_detail(q_id,done_code) {
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
     student_data = allData.filter(a=>a.teacher_id == question_detail_data.teacher_id && a.ban_id == question_detail_data.ban_id)[0]['students'].filter(s=>s.student_id
        == question_detail_data.student_id)
-    attach = attachData
+    attach = attachData.filter(a=>a.question_id == q_id)
     // 
     console.log(question_detail_data)
     console.log(student_data)
@@ -531,7 +531,7 @@ async function get_question_detail(q_id,done_code) {
     let temp_question_list = `
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">문의 종류</span>
-        <p>${q_category(cateogry)}</p>
+        <p>${q_category(question_detail_data.cateogry)}</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">제목</span>
