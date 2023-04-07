@@ -729,7 +729,7 @@ async function uldata(){
 function get_consulting_history(student_id) {
     student_info = all_student.filter(s=>s.student_id == student_id)[0]
     console.log(student_info)
-    consultings = consultingData.filter(c=> c.student_id == student_id && c.startdate <= today)
+    consultings = consultingData.filter(c=> c.student_id == student_id )
     done_consultings = consultings.filter(c=> c.done == 1)
     notdone_consultings = consultings.filter(c=> c.done == 0)
     consultinglist_len = consultings.length
