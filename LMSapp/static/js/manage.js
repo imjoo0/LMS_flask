@@ -47,6 +47,7 @@ async function get_data() {
             // 업무 데이터 
             taskData = response['task']
 
+            all_student = response['all_ban']
             // 전체 데이터 
             const result = response['all_ban'].map(obj1 => {
                 const out_student = outstudentData.find(obj2 => obj1.student_id === obj2.student_id);
@@ -61,7 +62,7 @@ async function get_data() {
                 const v = item.ban_id;
               
                 if (!acc[v]){
-                  acc[v] = {teacher_id:item.teacher_id, ban_id:item.ban_id, semester:item.semester,students: [], total_out_count: 0 , total_out_per:0, total_switch_count: 0 , total_switch_per:0};
+                  acc[v] = {teacher_id:item.teacher_id,ban_name:item.name, ban_id:item.ban_id, semester:item.semester,students: [], total_out_count: 0 , total_out_per:0, total_switch_count: 0 , total_switch_per:0};
                 }
                 if(item.out_created != null){
                   acc[v].total_out_count+=1;
@@ -877,33 +878,37 @@ function post_consulting_request() {
     // 다중 선택 대상 선택일 경우  
     if (selectedStudentList.length != 0) {
         let total_student_selections = selectedStudentList.filter(value => value.includes('-1'));
-        console.log("전체 학생 대상")
-        console.log(total_student_selections)
         // 전체 학생 대상 인 경우
         if(total_student_selections.length != 0){
             total_student_selections.forEach(value => {
                 v = String(value).split('_')
-                $.ajax({
-                    type: "POST",
-                    url: '/manage/consulting/request_all_student/' + v[0] + '/' + v[1],
-                    // data: JSON.stringify(jsonData), // String -> json 형태로 변환
-                    data: {
-                        consulting_category: consulting_category,
-                        consulting_contents: consulting_contents,
-                        consulting_date: consulting_date,
-                        consulting_deadline: consulting_deadline
-                    },
-                    success: function (response) {
-                        if (response != 'success') {
-                            alert('상담 요청 실패')
+                totalstudent_ban_id = Number(v[0])
+                totalstudent_teacher_id = Number(v[1])
+                target_student_selections = allData.filter(a=>a.ban_id == totalstudent_ban_id)[0]['students']
+                console.log(target_student_selections)
+                target_student_selections.forEach(value =>{
+                    $.ajax({
+                        type: "POST",
+                        url: '/manage/consulting/request_indivi_student/' + totalstudent_ban_id + '/' + totalstudent_teacher_id + '/' + value['student_id'],
+                        // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+                        data: {
+                            consulting_category: consulting_category,
+                            consulting_contents: consulting_contents,
+                            consulting_date: consulting_date,
+                            consulting_deadline: consulting_deadline
+                        },
+                        success: function (response) {
+                            if (response != 'success') {
+                                alert('상담 요청 실패')
+                            }
                         }
-                    }
+                    })
                 })
             })
         }
         // 개별 학생 대상 인 경우  
         let indivi_student_selections = selectedStudentList.filter(value => !(value.includes('-1')));
-        if (indivi_student_selections.length != 0) {
+        if(indivi_student_selections.length != 0) {
             indivi_student_selections.forEach(value => {
                 v = String(value).split('_')
                 $.ajax({
@@ -924,32 +929,91 @@ function post_consulting_request() {
                 })
             })
         }
-        alert('상담요청 완료');
+        alert('상담 요청 완료')
         window.location.reload()
         // 전체 반 대상 선택 일 경우 
-    } else {
+    }else{
         console.log('여기서 오류가 납니다.')
         b_type = $('#consulting_target_aban').val()[0]
         console.log(b_type)
-        $.ajax({
-            type: "POST",
-            url: '/manage/consulting/all_ban/' + b_type,
-            // data: JSON.stringify(jsonData), // String -> json 형태로 변환
-            data: {
-                consulting_category: consulting_category,
-                consulting_contents: consulting_contents,
-                consulting_date: consulting_date,
-                consulting_deadline: consulting_deadline
-            },
-            success: function (response) {
-                if (response['result'] != 'success') {
-                    alert('상담 요청 실패')
-                } else {
-                    alert('해당 반 전체에 상담요청 완료')
-                    window.location.reload()
-                }
-            }
-        })
+        if(b_type == 0){
+            all_student.forEach(value => {
+                ban_id = value.ban_id
+                teacher_id = value.teacher_id
+                student_id = value.student_id
+                $.ajax({
+                    type: "POST",
+                    url: '/manage/consulting/request_indivi_student/' + ban_id + '/' + teacher_id + '/' + student_id,
+                    // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+                    data: {
+                        consulting_category: consulting_category,
+                        consulting_contents: consulting_contents,
+                        consulting_date: consulting_date,
+                        consulting_deadline: consulting_deadline
+                    },
+                    success: function (response) {
+                        if (response != 'success') {
+                            alert('상담 요청 실패')
+                        }
+                    }
+                })
+            })
+        }else if(b_type == 1){
+            // PLUS/ALPHA반
+            bandata = allData.filter(a => a.ban_name.toLowerCase().includes('alpha') || a.ban_name.toLowerCase().includes('plus'))
+            bandata.forEach(value => {
+                ban_id = value.ban_id
+                teacher_id = value.teacher_id
+                students = value.students
+                students.forEach(value => {
+                    student_id = value.student_id
+                    $.ajax({
+                        type: "POST",
+                        url: '/manage/consulting/request_indivi_student/' + ban_id + '/' + teacher_id + '/' + student_id,
+                        // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+                        data: {
+                            consulting_category: consulting_category,
+                            consulting_contents: consulting_contents,
+                            consulting_date: consulting_date,
+                            consulting_deadline: consulting_deadline
+                        },
+                        success: function (response) {
+                            if (response != 'success') {
+                                alert('상담 요청 실패')
+                            }
+                        }
+                    })
+                })
+            })
+        }else{
+            bandata = allData.filter(a => a.ban_name.toLowerCase().includes('nf') || a.ban_name.toLowerCase().includes('novel'))
+            bandata.forEach(value => {
+                ban_id = value.ban_id
+                teacher_id = value.teacher_id
+                students = value.students
+                students.forEach(value => {
+                    student_id = value.student_id
+                    $.ajax({
+                        type: "POST",
+                        url: '/manage/consulting/request_indivi_student/' + ban_id + '/' + teacher_id + '/' + student_id,
+                        // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+                        data: {
+                            consulting_category: consulting_category,
+                            consulting_contents: consulting_contents,
+                            consulting_date: consulting_date,
+                            consulting_deadline: consulting_deadline
+                        },
+                        success: function (response) {
+                            if (response != 'success') {
+                                alert('상담 요청 실패')
+                            }
+                        }
+                    })
+                })
+            })
+        }
+        alert('상담 요청 완료')
+        window.location.reload()
     }
 }
 
