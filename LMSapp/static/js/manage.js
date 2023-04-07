@@ -921,8 +921,8 @@ function post_consulting_request() {
                         }
                     }
                 })
-                alert(v[2] + '반 ' + v[4] + '원생 상담요청 완료');
             })
+            alert('상담요청 완료');
         }
         window.location.reload()
         // 전체 반 대상 선택 일 경우 
