@@ -472,12 +472,6 @@ function sodata(){
 function so_paginating(done_code) {
     // let container = $('#so_pagination')
     soquestionData = questionData.length > 0 ? questionData.filter(q=>q.category != 0) : 0
-
-    // soquestionData.forEach((elem) => {
-    //     elem.answer = answerData.filter(a => a.question_id == elem.id).length
-    //     elem.up = answer_rate(elem.unlearned, u_consulting_my.length).toFixed(0)
-    // });
-    // answerData = response['answer']
     total_soquestion_num = soquestionData.length
     sodata_noanswer = soquestionData.filter(a => a.answer == 0).length
 
@@ -515,6 +509,9 @@ function so_paginating(done_code) {
 // 문의 내용 상세보기
 async function get_question_detail(q_id,done_code) {
     // $('#questionlist').hide()
+    $('#consulting_history_attach').hide()
+    $('#manage_answer_2').hide()
+    $('#manage_answer_3').hide()
     $('#questiondetail').show()
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
     student_data = allData.filter(a=>a.teacher_id == question_detail_data.teacher_id && a.ban_id == question_detail_data.ban_id)[0]['students'].filter(s=>s.student_id
@@ -551,8 +548,6 @@ async function get_question_detail(q_id,done_code) {
         <a href="/common/downloadfile/question/${q_id}" download="${attach}">${attach}</a>
     </div>`;
     $('#teacher_question').html(temp_question_list);
-
-
 
     // 상담 일지 처리 
     if(question_detail_data.category == 0){
@@ -609,8 +604,6 @@ async function get_question_detail(q_id,done_code) {
             <div class="modal-body-select-container">
                 <span class="modal-body-select-label">이반 요청 결과</span>
                 <select class="modal-body-select" id="o_ban_id2">
-                    <option value="none" selected>이반 처리 결과를 선택해주세요</option>
-                    <option value=0>반려</option>
                 </select>
             </div>
         </div>
