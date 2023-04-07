@@ -750,7 +750,7 @@ function get_consulting_history(student_id) {
             let history_created = target['created_at']
             let temp_consulting_contents_box = `
             <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br><strong>
-            ➖상담 시작일:${startdate}까지~
+            ➖상담 시작일:${startdate} ~
             ➖상담 마감일:~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br>
                 <strong style="color:red;">➖ 이미 원생이 ${make_date(history_created)}일 날 학습을 완료했습니다. (  ✏️ 추천: 원생목록에서 추가 상담 진행)</strong></br>
                 ${contents}</br> 
@@ -778,7 +778,7 @@ function get_consulting_history(student_id) {
             let temp_consulting_contents_box = `
             <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
             <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br><strong>
-            ➖상담 시작일:${startdate}까지~
+            ➖상담 시작일:${startdate} ~
             ➖상담 마감일:~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br>
                 <strong>➖ 진행 해야 하는 상담 </strong></br>
                 ${contents}</br> 
