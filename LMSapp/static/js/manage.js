@@ -597,20 +597,62 @@ async function get_question_detail(q_id,done_code) {
     // 응답 처리 
     if(done_code == 0){
         temp_answer_list = `
-        <div class="modal-body-select-container">
-        <span class="modal-body-select-label">응답</span>
-        <p>미응답</p>
+        <div id="manage_answer_1">
+            <div class="modal-body-select-container">
+                <span class="modal-body-select-label">답변 제목</span>
+                <input class="modal-body-select" type="text" size="50" id="answer_title" style="width: 75%;">
+            </div>
+            <div class="modal-body-select-container">
+                <span class="modal-body-select-label">답변 내용</span>
+                <textarea id="answer_contents" class="modal-body-select" type="text" rows="5" cols="25"
+                    name="answer_contents1" style="width: 75%;"></textarea>
+            </div>
+        </div>
+        <div id="manage_answer_2">
+            <div class="modal-body-select-container">
+                <span class="modal-body-select-label">이반 요청 결과</span>
+                <select class="modal-body-select" id="o_ban_id2">
+                    <option value="none" selected>이반 처리 결과를 선택해주세요</option>
+                    <option value=0>반려</option>
+                    {% for ban in all_ban %}
+                    {% set ban_registerno = ban['register_no'] %}
+                    <option value={{ban_registerno}}>{{ ban['name'] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div id="manage_answer_3">
+            <div class="modal-body-select-container">
+                <span class="modal-body-select-label">요청 처리 결과</span>
+                <select class="modal-body-select" id="o_ban_id3">
+                    <option value="none" selected>처리 결과를 선택해주세요</option>
+                    <option value=0>반려</option>
+                    <option value=1>승인</option>
+                </select>
+            </div>
         </div>`;
+        $('#teacher_answer').html(temp_answer_list);
+        if(question_detail_data.category == 1){
+            $('#manage_answer_2').hide()
+            $('#manage_answer_3').show()
+         }else if(question_detail_data.category == 2){
+            $('#manage_answer_2').show()
+            $('#manage_answer_3').hide()
+         }else{
+            $('#manage_answer_2').hide()
+            $('#manage_answer_3').hide()
+         }
     }else{
         answer_data = answerData.filter(a=>question_id == q_id)[0]
         temp_answer_list = `
         <div class="modal-body-select-container">
-        <span class="modal-body-select-label">응답제목</span>
-        <p>${answer_data.title}</p>
+            <span class="modal-body-select-label">답변 제목</span>
+            <input class="modal-body-select" type="text" size="50" id="answer_title" style="width: 75%;">
         </div>
         <div class="modal-body-select-container">
-        <span class="modal-body-select-label">응답</span>
-        <p>${answer_data.content}</p>
+            <span class="modal-body-select-label">답변 내용</span>
+            <textarea id="answer_contents" class="modal-body-select" type="text" rows="5" cols="25"
+                name="answer_contents1" style="width: 75%;"></textarea>
         </div>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">응답일</span>
@@ -622,8 +664,9 @@ async function get_question_detail(q_id,done_code) {
            <p>${make_reject_code(answer_data.reject_code)}</p>
            </div>`
         }
+        $('#teacher_answer').html(temp_answer_list);
     }
-    $('#teacher_answer').html(temp_answer_list);
+    
 }
 
 // 미학습 (학습관리)
