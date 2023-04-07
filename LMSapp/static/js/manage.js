@@ -483,68 +483,36 @@ function so_paginating(done_code) {
     // });
     // answerData = response['answer']
     total_soquestion_num = soquestionData.length
-    sodata_noanswer = soquestionData.filter(a => a.answer == 0).length
-
+    let sodata_noanswer = qdata.length;
     let temp_newso = `
     <td class="col-4">${total_soquestion_num}  건</td>
     <td class="col-4">${total_soquestion_num - sodata_noanswer}  건</td>
     <td class="col-4">${sodata_noanswer}  건</td>
     `;
     $('#newso').html(temp_newso)
-
-    // $.ajax({
-    //     url: '/manage/get_so_questions',
-    //     type: 'get',
-    //     data: {},
-    //     dataType: 'json',
-    //     success: function (data) {
-    //         sdata = data.filter(a => a.category == 2).length
-    //         odata = data.filter(a => a.category == 1).length
-    //         sdata_noanswer = data.filter(a => a.category == 2 && a.answer == 0).length
-    //         odata_noanswer = data.filter(a => a.category == 1 && a.answer == 0).length
-    //         let temp_newso = `
-    //         <td class="col-2">${sdata}</td>
-    //         <td class="col-2">${sdata - sdata_noanswer}</td>
-    //         <td class="col-2">${sdata_noanswer}</td>
-    //         <td class="col-2">${odata}</td>
-    //         <td class="col-2">${odata - odata_noanswer}</td>
-    //         <td class="col-2">${odata_noanswer}</td>
-    //         `;
-    //         $('#newso').html(temp_newso)
-    //         qdata = data.filter(a => a.answer == done_code)
-    //         // container.pagination({
-    //         //     dataSource: qdata,
-    //         //     prevText: '이전',
-    //         //     nextText: '다음',
-    //         //     pageClassName: 'float-end',
-    //         //     pageSize: 5,
-    //         //     callback: function (qdata, pagination) {
-    //                 if (qdata.length == 0) {
-    //                     $('#so_question').hide()
-    //                     $('#so_pagination').hide()
-    //                     $('#no_data_msg').html('문의가 없습니다')
-    //                     $('#no_data_msg').show()
-    //                 } else {
-    //                     $('#no_data_msg').hide()
-    //                     $('#so_question').show()
-    //                     $('#so_pagination').show()
-    //                     var dataHtml = '';
-    //                     $.each(qdata, function (index, item) {
-    //                         let category = q_category(item.category)
-    //                         dataHtml += `
-    //                         <td class="col-2">${category}</td>
-    //                         <td class="col-4">${item.title}</td>
-    //                         <td class="col-4">${item.contents}</td>
-    //                         <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-    //                         data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code},${item.category})">✏️</button> 
-    //                         <button onclick="delete_question(${item.id})">❌</button></td>`;
-    //                     });
-    //                 }
-    //                 $('#so_tr').html(dataHtml);
-    //         //     }
-    //         // })
-    //     }
-    // })
+    if(total_soquestion_num!=0){
+        $('#no_data_msg').hide()
+        $('#so_question').show()
+        $('#so_pagination').show()
+        qdata = soquestionData.filter(a => a.answer == done_code)
+        var dataHtml = '';
+        $.each(qdata, function (index, item) {
+            let category = q_category(item.category)
+            dataHtml += `
+            <td class="col-2">${category}</td>
+            <td class="col-4">${item.title}</td>
+            <td class="col-4">${item.contents}</td>
+            <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
+            data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</button> 
+            <button onclick="delete_question(${item.id})">❌</button></td>`;
+        });
+        $('#so_tr').html(dataHtml);
+    }else{
+        $('#so_question').hide()
+        $('#so_pagination').hide()
+        $('#no_data_msg').html('문의가 없습니다')
+        $('#no_data_msg').show()
+    }
 }
 
 // 문의 내용 상세보기
