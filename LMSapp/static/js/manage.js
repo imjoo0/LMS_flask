@@ -727,12 +727,12 @@ async function uldata(){
 // 상담 기록 조회 
 // 상담일지 작성 
 function get_consulting_history(student_id) {
-    all_student.filter(s=>s.student_id == student_id)[0]
-    console.log(all_student)
-    consultingData.filter(c=> c.student_id == student_id)[0]
-    console.log(consultingData)
+    student_info = all_student.filter(s=>s.student_id == student_id)[0]
+    console.log(student_info)
+    consultings = consultingData.filter(c=> c.student_id == student_id)[0]
+    console.log(consultings)
 
-    
+
     const data = consultingStudentData.filter((e) => {
         return e.student_id == student_id && e.consulting_list.length != 0;
     })[0]
