@@ -436,6 +436,7 @@ function sodata(){
             return
     }
     switch_out_bans = allData.filter(e=>e.total_out_count != 0 || e.total_switch_count != 0)
+    console.log(switch_out_bans)
     $('#sotitle').empty();
 
     let temp_html = ``
