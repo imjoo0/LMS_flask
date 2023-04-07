@@ -736,7 +736,7 @@ function get_consulting_history(student_id) {
 
     $('#consultinghistoryModalLabelt').html(`${student_info.name}반 ${student_info.student_name} 원생 총 ${consultings.length}건 상담  ( 📞 ${student_info.mobileno}  )`)
     let cant_consulting_list = notdone_consultings.length  > 0 ? notdone_consultings.filter( c=>c.created_at != null) : 0;
-    consultings = consultinglist_len  > 0 ? consultings.filter(c=>c.created_at == null) : 0
+    consultings = consultinglist_len  > 0 ? notdone_consultings.filter(c=>c.created_at == null) : 0
     
     if (cant_consulting_list.length > 0){
         $('#consulting_cant_write_box').empty();
