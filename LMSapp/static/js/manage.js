@@ -877,8 +877,10 @@ function post_consulting_request() {
     // 다중 선택 대상 선택일 경우  
     if (selectedStudentList.length != 0) {
         let total_student_selections = selectedStudentList.filter(value => value.includes('-1'));
+        console.log("전체 학생 대상")
+        console.log(total_student_selections)
         // 전체 학생 대상 인 경우
-        if (total_student_selections.length != 0) {
+        if(total_student_selections.length != 0){
             total_student_selections.forEach(value => {
                 v = String(value).split('_')
                 $.ajax({
@@ -898,7 +900,6 @@ function post_consulting_request() {
                     }
                 })
             })
-            alert('상담요청 완료');
         }
         // 개별 학생 대상 인 경우  
         let indivi_student_selections = selectedStudentList.filter(value => !(value.includes('-1')));
@@ -922,11 +923,12 @@ function post_consulting_request() {
                     }
                 })
             })
-            alert('상담요청 완료');
         }
+        alert('상담요청 완료');
         window.location.reload()
         // 전체 반 대상 선택 일 경우 
     } else {
+        console.log('여기서 오류가 납니다.')
         b_type = $('#consulting_target_aban').val()[0]
         console.log(b_type)
         $.ajax({
