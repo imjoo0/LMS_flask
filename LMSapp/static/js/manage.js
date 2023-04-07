@@ -616,7 +616,7 @@ async function get_question_detail(q_id,done_code) {
             <span class="modal-body-select-label">응답일</span>
             <p>${answer_data.created_at}</p>
         </div>`;
-        if(questiondata.category != '일반문의'){
+        if(question_detail_data.category != 0){
            temp_answer_list += `<div class="modal-body-select-container">
            <span class="modal-body-select-label">처리</span>
            <p>${make_reject_code(answer_data.reject_code)}</p>
