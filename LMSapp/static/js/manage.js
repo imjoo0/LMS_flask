@@ -441,10 +441,10 @@ function sodata(){
 
     let temp_html = ``
     for (i = 0; i < 10; i++) {
-        let ban_id = switch_out_bans[i]['students'][0].ban_id
-        let name = switch_out_bans[i]['students'][0].name
-        let student_num = switch_out_bans[i]['students'][0].student_num
-        let teacher_name = switch_out_bans[i]['students'][0].teacher_name
+        let ban_id = switch_out_bans[i].students[0].ban_id
+        let name = switch_out_bans[i].students[0].name
+        let student_num = switch_out_bans[i].students[0].student_num
+        let teacher_name = switch_out_bans[i].students[0].teacher_name
         
         let total_out_count = switch_out_bans['total_out_count']
         let total_out_per = switch_out_bans['total_out_per']
