@@ -745,11 +745,13 @@ function get_consulting_history(student_id) {
             let category = target['week_code']+'주간  '+ target['category']
             let contents = target['contents']
             let consulting_missed = missed_date(target['missed'])
+            let startdate = make_date(target['startdate'])
             let deadline = make_date(target['deadline'])
             let history_created = target['created_at']
             let temp_consulting_contents_box = `
-            <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br><strong>➖상담 마감일:
-                ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br>
+            <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br><strong>
+            ➖상담 시작일:${startdate}까지~
+            ➖상담 마감일:~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br>
                 <strong style="color:red;">➖ 이미 원생이 ${make_date(history_created)}일 날 학습을 완료했습니다. (  ✏️ 추천: 원생목록에서 추가 상담 진행)</strong></br>
                 ${contents}</br> 
             </p>
@@ -768,6 +770,7 @@ function get_consulting_history(student_id) {
             let consulting_id = target['id']
             let contents = target['contents']
             let consulting_missed = missed_date(target['missed'])
+            let startdate = make_date(target['startdate'])
             let deadline = make_date(target['deadline'])
             let history_created = target['created_at']
             if(target['category_id'] < 100){
@@ -778,8 +781,12 @@ function get_consulting_history(student_id) {
             let history_result = target['result'] == null ? '입력해주세요' : target['result']
             let temp_consulting_contents_box = `
             <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
-            <p mt-lg-4 mt-5>✅<strong>${category}</strong></br><strong>➖상담 마감일:
-                ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br></br>${contents}</br></p>
+            <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br><strong>
+            ➖상담 시작일:${startdate}까지~
+            ➖상담 마감일:~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br>
+                <strong style="color:red;">➖ 이미 원생이 ${make_date(history_created)}일 날 학습을 완료했습니다. (  ✏️ 추천: 원생목록에서 추가 상담 진행)</strong></br>
+                ${contents}</br> 
+            </p>
             <div class="modal-body-select-container">
                 <span class="modal-body-select-label">상담 사유</span>
                 <input class="modal-body-select" type="text" size="50"
