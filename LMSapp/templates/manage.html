@@ -570,8 +570,6 @@
 
 
 
-
-<!-- 이반/퇴소 문의 조회 모달 -->
 <div class="modal fade" id="soanswer" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
@@ -611,6 +609,36 @@
                                     <div id="teacher_question"></div>
                                 </td>
                                 <td class="col-6">
+                                    <div id="manage_answer">
+                                        <div id="manage_answer_1">
+                                            <div class="modal-body-select-container">
+                                                <span class="modal-body-select-label">답변 제목</span>
+                                                <input class="modal-body-select" type="text" size="50" id="answer_title" style="width: 75%;">
+                                            </div>
+                                            <div class="modal-body-select-container">
+                                                <span class="modal-body-select-label">답변 내용</span>
+                                                <textarea id="answer_contents" class="modal-body-select" type="text" rows="5" cols="25"
+                                                    name="answer_contents1" style="width: 75%;"></textarea>
+                                            </div>
+                                        </div>
+                                        <div id="manage_answer_2">
+                                            <div class="modal-body-select-container">
+                                                <span class="modal-body-select-label">이반 요청 결과</span>
+                                                <select class="modal-body-select" id="o_ban_id2">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div id="manage_answer_3">
+                                            <div class="modal-body-select-container">
+                                                <span class="modal-body-select-label">요청 처리 결과</span>
+                                                <select class="modal-body-select" id="o_ban_id3">
+                                                    <option value="none" selected>처리 결과를 선택해주세요</option>
+                                                    <option value=0>반려</option>
+                                                    <option value=1>승인</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div id="teacher_answer">
                                         
                                     </div>
@@ -627,7 +655,7 @@
     </div>
 </div>
 
-<!-- 문의 조회 모달 창 -->
+<!-- 문의 조회 모달 창
 <div class="modal fade" id="answer" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
@@ -722,7 +750,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 
 <div class="container_box">

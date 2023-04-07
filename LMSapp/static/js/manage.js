@@ -510,9 +510,7 @@ function so_paginating(done_code) {
 async function get_question_detail(q_id,done_code) {
     // $('#questionlist').hide()
     $('#consulting_history_attach').hide()
-    $('#manage_answer_2').hide()
-    $('#manage_answer_3').hide()
-    $('#questiondetail').show()
+    $('#manage_answer').hide()
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
     student_data = allData.filter(a=>a.teacher_id == question_detail_data.teacher_id && a.ban_id == question_detail_data.ban_id)[0]['students'].filter(s=>s.student_id
        == question_detail_data.student_id)[0]
@@ -585,39 +583,10 @@ async function get_question_detail(q_id,done_code) {
         `;
         $('#cha').html(temp_his);
     }
-    let temp_answer_list = ''
     // 응답 처리 
     if(done_code == 0){
-        temp_answer_list = `
-        <div id="manage_answer_1">
-            <div class="modal-body-select-container">
-                <span class="modal-body-select-label">답변 제목</span>
-                <input class="modal-body-select" type="text" size="50" id="answer_title" style="width: 75%;">
-            </div>
-            <div class="modal-body-select-container">
-                <span class="modal-body-select-label">답변 내용</span>
-                <textarea id="answer_contents" class="modal-body-select" type="text" rows="5" cols="25"
-                    name="answer_contents1" style="width: 75%;"></textarea>
-            </div>
-        </div>
-        <div id="manage_answer_2">
-            <div class="modal-body-select-container">
-                <span class="modal-body-select-label">이반 요청 결과</span>
-                <select class="modal-body-select" id="o_ban_id2">
-                </select>
-            </div>
-        </div>
-        <div id="manage_answer_3">
-            <div class="modal-body-select-container">
-                <span class="modal-body-select-label">요청 처리 결과</span>
-                <select class="modal-body-select" id="o_ban_id3">
-                    <option value="none" selected>처리 결과를 선택해주세요</option>
-                    <option value=0>반려</option>
-                    <option value=1>승인</option>
-                </select>
-            </div>
-        </div>`;
-        $('#teacher_answer').html(temp_answer_list);
+        $('#teacher_answer').hide()
+        $('#manage_answer').show()
         $('#manage_answer_1').show()
         if(question_detail_data.category == 1){
             $('#manage_answer_2').hide()
@@ -630,8 +599,10 @@ async function get_question_detail(q_id,done_code) {
             $('#manage_answer_3').hide()
          }
     }else{
+        $('#manage_answer').hide()
+        $('#teacher_answer').show()
         answer_data = answerData.filter(a=>question_id == q_id)[0]
-        temp_answer_list = `
+        let temp_answer_list = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">답변 제목</span>
             <input class="modal-body-select" type="text" size="50" id="answer_title" style="width: 75%;">
