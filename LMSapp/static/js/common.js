@@ -176,7 +176,7 @@ function displayData(totalData, currentPage, dataPerPage,data_list,b_id) {
         <td class="col-3">${parent_name_mobileno}</td>
         <td class="col-2">${make_recobook(target['reco_book_code'])} </td>
         <td class="col-2">${unlearned}(${up}%)</td><br>
-        <td class="col-1" onclick="plusconsulting(${register_no},${b_id})">📝</td><br>
+        <td class="col-1"> <button class="modal-tbody-btn" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${register_no})">📝</button><br>
         `;
     } 
     $("#s_data").html(chartHtml);
