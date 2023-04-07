@@ -520,7 +520,7 @@ async function get_question_detail(q_id,done_code) {
     // $('#questionlist').hide()
     $('#questiondetail').show()
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
-    student_data = allData.filter(a=>a.teacher_id == question_detail_data.teacher_id)['students']
+    student_data = allData.filter(a=>a.teacher_id == question_detail_data.teacher_id)
     attach = attachData
     // 
     console.log(question_detail_data)
