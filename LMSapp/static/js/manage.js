@@ -44,6 +44,7 @@ async function get_data() {
 
             // 학습 데이터
             consultingData = response['consulting']
+
             // 업무 데이터 
             taskData = response['task']
 
@@ -56,7 +57,6 @@ async function get_data() {
                 const switch_ban_id = switch_student ? switch_student.switch_ban_id : null;
                 return { ...obj1, out_created, switch_ban_id };
             });
-            unlarnedstudentData = result
 
             // 반으로 묶인 데이터 ban_id / student_num / semester / teacher_id
             const banGrouped = result.reduce((acc, item) => {
@@ -314,8 +314,8 @@ function getBanChart(ban_id) {
         let teacher_email = result['students'][0]['teacher_email']
         
         // 상담
-        all_uc_consulting = consultingData.filter(a => a.category_id < 100).length;
-        my_consulting = consultingData.filter(a => a.ban_id == ban_id && a.startdate <= today)
+        let all_uc_consulting = consultingData.filter(a => a.category_id < 100).length;
+        let my_consulting = consultingData.filter(a => a.ban_id == ban_id && a.startdate <= today)
         let u_consulting_my = my_consulting.filter(a => a.category_id < 100);
 
         let consulting_ixl = u_consulting_my.filter(a => a.category_id == 1).length
@@ -669,7 +669,53 @@ async function uldata(){
     $('#detailban').hide()
     $('#ulbox').show()
     let container = $('#ul_pagination')
-    console.log(data_list)
+    
+    all_uc_consulting = consultingData.filter(a => a.category_id < 100)
+
+    all_student.forEach((elem) => {
+        elem.unlearned = all_uc_consulting.filter(a => a.student_id == elem.student_id).length
+        elem.up = answer_rate(elem.unlearned, all_uc_consulting.length).toFixed(0)
+    });
+    all_student.sort((a, b) => b.up - a.up)
+
+    if(all_student.length == 0){
+        let no_data_title = `<h1> ${response.text} </h1>`
+        $('#ultitle').html(no_data_title);
+        $('#ul_data_box').hide()
+        $('#ul_pagination').hide()
+        return
+    }
+    $('#ultitle').empty();
+    $('#ul_data_box').show()
+    $('#ul_pagination').show()
+    console.log(all_student)
+    container.pagination({
+        dataSource: all_student,
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 10,
+        callback: function (all_student, pagination) {
+            var dataHtml = '';
+            $.each(all_student, function (index, student) {
+                let student_id = student['student_id']
+                let name = student['name']
+                let mobileno = student['mobileno']
+                let reco_book_code = student['reco_book_code']
+                let ban_name = student['ban_name']
+                // let total_index = (pagination.currentPage - 1) * pagination.pageSize + index + 1; // 전체 데이터의 인덱스 계산
+                dataHtml += `
+                <td class="col-1">${index + 1}</td>
+                <td class="col-2">${name}</td>
+                <td class="col-2">${student.unlearned}</td>
+                <td class="col-2">${ban_name}</td>
+                <td class="col-2">${mobileno}</td>
+                <td class="col-2">${reco_book_code}</td>
+                <td class="col-1"> <button class="modal-tbody-btn" onclick="get_student_detail(${student_id})">📝</button> `;
+            });
+            $('#static_data2').html(dataHtml);
+        }
+    })
+
     await $.ajax({
         url: '/manage/uldata',
         type: 'GET',
@@ -685,41 +731,13 @@ async function uldata(){
                 $('#ul_pagination').hide()
                 return
             }
-            $('#ultitle').empty();
-            $('#ul_data_box').show()
-            $('#ul_pagination').show()
+            
 
             // 미학습 높은 순 정렬 
             unlearned_count.sort((a, b) => {
                 return b.unlearned - a.unlearned
             });
-            container.pagination({
-                dataSource: unlearned_count,
-                prevText: '이전',
-                nextText: '다음',
-                pageSize: 10,
-                callback: function (unlearned_count, pagination) {
-                    var dataHtml = '';
-                    $.each(unlearned_count, function (index, consulting) {
-                        let student_data = target_students.filter(a => a.student_id == consulting.student_id)[0]
-                        let student_id = student_data['student_id']
-                        let name = student_data['name']
-                        let mobileno = student_data['mobileno']
-                        let reco_book_code = student_data['reco_book_code']
-                        let ban_name = student_data['ban_name']
-                        // let total_index = (pagination.currentPage - 1) * pagination.pageSize + index + 1; // 전체 데이터의 인덱스 계산
-                        dataHtml += `
-                        <td class="col-1">${index + 1}</td>
-                        <td class="col-2">${name}</td>
-                        <td class="col-2">${consulting.unlearned}</td>
-                        <td class="col-2">${ban_name}</td>
-                        <td class="col-2">${mobileno}</td>
-                        <td class="col-2">${reco_book_code}</td>
-                        <td class="col-1"> <button class="modal-tbody-btn" onclick="get_student_detail(${student_id})">📝</button> `;
-                    });
-                    $('#static_data2').html(dataHtml);
-                }
-            })
+            
         },
         error: function (xhr, status, error) {
             alert(xhr.responseText);
