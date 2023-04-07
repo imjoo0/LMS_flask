@@ -698,52 +698,25 @@ async function uldata(){
             var dataHtml = '';
             $.each(all_student, function (index, student) {
                 let student_id = student['student_id']
-                let name = student['name']
+                let name = student['student_name']
                 let mobileno = student['mobileno']
                 let reco_book_code = student['reco_book_code']
-                let ban_name = student['ban_name']
+                let ban_name = student['name']
                 // let total_index = (pagination.currentPage - 1) * pagination.pageSize + index + 1; // 전체 데이터의 인덱스 계산
                 dataHtml += `
                 <td class="col-1">${index + 1}</td>
-                <td class="col-2">${name}</td>
-                <td class="col-2">${student.unlearned}</td>
-                <td class="col-2">${ban_name}</td>
-                <td class="col-2">${mobileno}</td>
-                <td class="col-2">${reco_book_code}</td>
+                <td class="col-1">${name}</td>
+                <td class="col-1">${student.unlearned} (${student.up}%) </td>
+                <td class="col-1">${reco_book_code}</td>
+                <td class="col-1">${mobileno}</td>
+                <td class="col-2">${student.pname}( ${student.pmobileno} )</td>
+                <td class="col-2">${ban_name}( ${make_semester(student.semester)} )</td>
+                <td class="col-2">${student.teacher_name}( ${student.teacher_engname} )</td>
                 <td class="col-1"> <button class="modal-tbody-btn" onclick="get_student_detail(${student_id})">📝</button> `;
             });
             $('#static_data2').html(dataHtml);
         }
     })
-
-    await $.ajax({
-        url: '/manage/uldata',
-        type: 'GET',
-        data: {},
-        success: function (response) {
-            target_students = response['target_students']
-            unlearned_count = response['unlearned_count']['data']
-
-            if (response['status'] == 400 || unlearned_count.length == 0) {
-                let no_data_title = `<h1> ${response.text} </h1>`
-                $('#ultitle').html(no_data_title);
-                $('#ul_data_box').hide()
-                $('#ul_pagination').hide()
-                return
-            }
-            
-
-            // 미학습 높은 순 정렬 
-            unlearned_count.sort((a, b) => {
-                return b.unlearned - a.unlearned
-            });
-            
-        },
-        error: function (xhr, status, error) {
-            alert(xhr.responseText);
-        }
-    })
-
 }
 
 // 업무 요청 관련 함수 
