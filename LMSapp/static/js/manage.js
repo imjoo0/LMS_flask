@@ -764,8 +764,31 @@ function get_consulting_history(student_id) {
     }else{
         consultings.sort((a, b) => {return make_date(a.deadline) - make_date(b.deadline)});
         $('#consulting_write_box').empty();
-        for (i = 0; i < consultinglist_len; i++){
+        for(i = 0; i < consultinglist_len; i++){
             let target = consultings[i]
+            let category = target['category']
+            let consulting_id = target['id']
+            let contents = target['contents']
+            let consulting_missed = missed_date(target['missed'])
+            let startdate = make_date(target['startdate'])
+            let deadline = make_date(target['deadline'])
+            let history_created = target['created_at']
+            if(target['category_id'] < 100){
+                category = target['week_code']+'주간  ' + category
+            }
+            let temp_consulting_contents_box = `
+            <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
+            <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br><strong>
+            ➖상담 시작일:${startdate}까지~
+            ➖상담 마감일:~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br>
+                <strong style="color:red;">➖ 이미 원생이 ${make_date(history_created)}일 날 학습을 완료했습니다. (  ✏️ 추천: 원생목록에서 추가 상담 진행)</strong></br>
+                ${contents}</br> 
+            </p>
+            `;
+            $('#consulting_write_box').append(temp_consulting_contents_box);
+        }
+        for (i = 0; i < done_consultings.length; i++){
+            let target = done_consultings[i]
             let category = target['category']
             let consulting_id = target['id']
             let contents = target['contents']
