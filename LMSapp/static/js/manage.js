@@ -435,23 +435,21 @@ function sodata(){
             $('#sotable').hide()
             return
     }
-    switch_out_bans = allData.filter(e=>Object.keys(e)[0].total_out_count != 0 || Object.keys(e)[0].total_switch_count != 0)
+    switch_out_bans = allData.filter(e=>e.total_out_count != 0 || e.total_switch_count != 0)
     $('#sotitle').empty();
 
     let temp_html = ``
     for (i = 0; i < 10; i++) {
-        let key = Object.keys(ban_data)[i];
-        console.log(key)
-        let ban_id = ban_data[key][i].ban_id
-        let name = ban_data[key][i].name
-        let student_num = ban_data[key][i].student_num
-        let teacher_name = ban_data[key][i].teacher_name
+        let ban_id = switch_out_bans[i]['students'][0].ban_id
+        let name = switch_out_bans[i]['students'][0].name
+        let student_num = switch_out_bans[i]['students'][0].student_num
+        let teacher_name = switch_out_bans[i]['students'][0].teacher_name
         
-        let total_out_count = ban_data['total_out_count']
-        let total_out_per = ban_data['total_out_per']
+        let total_out_count = switch_out_bans['total_out_count']
+        let total_out_per = switch_out_bans['total_out_per']
 
-        let total_switch_count = ban_data['total_switch_count']
-        let total_switch_per = ban_data['total_switch_per']
+        let total_switch_count = switch_out_bans['total_switch_count']
+        let total_switch_per = switch_out_bans['total_switch_per']
 
         temp_html += `
         <td class="col-1">${i}위</td>
