@@ -39,8 +39,8 @@ async function get_data() {
             total_student_num = response['all_ban'].length
             outstudent_num = outstudentData.length;
             switchstudent_num = switchstudentData.length
-            
-            first_total = total_student_num+outstudent_num
+
+            first_total = total_student_num + outstudent_num
 
             // 학습 데이터
             consultingData = response['consulting']
@@ -61,24 +61,24 @@ async function get_data() {
             // 반으로 묶인 데이터 ban_id / student_num / semester / teacher_id
             const banGrouped = result.reduce((acc, item) => {
                 const v = item.ban_id;
-              
-                if (!acc[v]){
-                  acc[v] = {teacher_id:item.teacher_id,ban_name:item.name, ban_id:item.ban_id, semester:item.semester,students: [], total_out_count: 0 , total_out_per:0, total_switch_count: 0 , total_switch_per:0};
+
+                if (!acc[v]) {
+                    acc[v] = { teacher_id: item.teacher_id, ban_name: item.name, ban_id: item.ban_id, semester: item.semester, students: [], total_out_count: 0, total_out_per: 0, total_switch_count: 0, total_switch_per: 0 };
                 }
-                if(item.out_created != null){
-                  acc[v].total_out_count+=1;
-                  acc[v].total_out_per = answer_rate(acc[v].total_out_count,outstudent_num).toFixed(1)
-                }else if(item.switch_ban_id != null){
-                  acc[v].total_switch_count+=1;
-                  acc[v].total_switch_per = answer_rate(acc[v].total_switch_count,switchstudent_num).toFixed(1)
+                if (item.out_created != null) {
+                    acc[v].total_out_count += 1;
+                    acc[v].total_out_per = answer_rate(acc[v].total_out_count, outstudent_num).toFixed(1)
+                } else if (item.switch_ban_id != null) {
+                    acc[v].total_switch_count += 1;
+                    acc[v].total_switch_per = answer_rate(acc[v].total_switch_count, switchstudent_num).toFixed(1)
                 }
-              
+
                 acc[v].students.push(item);
-              
+
                 return acc;
             }, {});
             allData = Object.values(banGrouped).sort((a, b) => {
-                if(b.total_out_per !== a.total_out_per){
+                if (b.total_out_per !== a.total_out_per) {
                     return b.total_out_per - a.total_out_per; // total_out_per가 큰 순으로 정렬
                 } else {
                     return b.students.length - a.students.length; // students.length가 큰 순으로 정렬
@@ -92,15 +92,15 @@ async function get_data() {
             // 학기별 원생수 및 퇴소 원생 수 
             onesemester_total = onesemester != 0 ? onesemester.length : 0
             oneoutstudent = onesemester != 0 ? onesemester.filter(e => e.out_created != null).length : 0
-            first_onesemester = onesemester_total+oneoutstudent
+            first_onesemester = onesemester_total + oneoutstudent
 
             fivesemester_total = fivesemester != 0 ? fivesemester.length : 0
             fiveoutstudent = fivesemester != 0 ? fivesemester.filter(e => e.out_created != null).length : 0
-            first_fivesemester = fivesemester_total+fiveoutstudent
+            first_fivesemester = fivesemester_total + fiveoutstudent
 
             ninesemester_total = ninesemester != 0 ? ninesemester.length : 0
             nineoutstudent = ninesemester != 0 ? ninesemester.filter(e => e.out_created != null).length : 0
-            first_ninesemester = ninesemester_total+nineoutstudent
+            first_ninesemester = ninesemester_total + nineoutstudent
 
             let semester_student_table = `
                 <table>
@@ -115,28 +115,28 @@ async function get_data() {
                         <th class="need">전체</th>
                         <td>${first_total}명</td>
                         <td>${total_student_num}명</td>
-                        <td>${outstudent_num}명(${answer_rate(outstudent_num,first_total).toFixed(1)}%)</td>
+                        <td>${outstudent_num}명(${answer_rate(outstudent_num, first_total).toFixed(1)}%)</td>
                         <td><span class='cursor-pointer fs-4' onclick="allsemesterShow()">📜</span></td>
                     </tr>
                     <tr>
                         <th class="need">1월 학기</th>
                         <td>${first_onesemester}명</td>
                         <td>${onesemester_total}명</td>
-                        <td>${oneoutstudent}명(${answer_rate(oneoutstudent,first_onesemester).toFixed(1)}%)</td>
+                        <td>${oneoutstudent}명(${answer_rate(oneoutstudent, first_onesemester).toFixed(1)}%)</td>
                         <td><span class='cursor-pointer fs-4' onclick="semesterShow(${1})">📜</span></td>
                     </tr>
                     <tr>
                         <th class="need">5월 학기</th>
                         <td>${first_fivesemester}명</td>
                         <td>${fivesemester_total}명</td>
-                        <td>${fiveoutstudent}명(${answer_rate(fiveoutstudent,first_fivesemester).toFixed(1)}%)</td>
+                        <td>${fiveoutstudent}명(${answer_rate(fiveoutstudent, first_fivesemester).toFixed(1)}%)</td>
                         <td><span class='cursor-pointer fs-4' onclick="semesterShow(${2})">📜</span></td>
                     </tr>
                     <tr>
                         <th>9월 학기</th>
                         <td>${first_ninesemester}명</td>
                         <td>${ninesemester_total}명</td>
-                        <td>${nineoutstudent}명(${answer_rate(nineoutstudent,first_ninesemester).toFixed(1)}%)</td>
+                        <td>${nineoutstudent}명(${answer_rate(nineoutstudent, first_ninesemester).toFixed(1)}%)</td>
                         <td><span class='cursor-pointer fs-4' onclick="semesterShow(${0})">📜</span></td>
                     </tr>
                 </table>
@@ -240,11 +240,11 @@ function allsemesterShow() {
         let semester = ban_data['students'][0].semester
         let student_num = ban_data['students'][0].student_num
         let teacher_name = ban_data['students'][0].teacher_name
-        
+
         let value = `${ban_id}_${ban_data['students'][0].teacher_id}_${name}`;
         // 원생 목록 
         // let out_num = ban_data[key].filter(s => s.out_created != null || s.switch_ban_id != null).length;
-        let total_out_count = ban_data['total_out_count']  + ban_data['total_switch_count']
+        let total_out_count = ban_data['total_out_count'] + ban_data['total_switch_count']
         let total_out_per = ban_data['total_out_per']
         let selectmsg = `<option value="${value}">${name} (${make_semester(semester)}월 학기)</option>`;
         temp_ban_option += selectmsg
@@ -267,7 +267,7 @@ function allsemesterShow() {
 function semesterShow(semester) {
     $('#semester').show();
     data = allData.filter(e => e.semester == semester)
-    $('#semester_s').html(make_semester(semester)+'월 학기');
+    $('#semester_s').html(make_semester(semester) + '월 학기');
     // key값 `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
     let temp_semester_banlist = ''
     data.forEach(ban_data => {
@@ -275,7 +275,7 @@ function semesterShow(semester) {
         let name = ban_data['students'][0].name
         let student_num = ban_data['students'][0].student_num
         let teacher_name = ban_data['students'][0].teacher_name
-        
+
         // 원생 목록 
         // let out_num = ban_data[key].filter(s => s.out_created != null || s.switch_ban_id != null).length;
         let total_out_count = ban_data['total_out_count'] + ban_data['total_switch_count']
@@ -295,24 +295,24 @@ function semesterShow(semester) {
 // 반 상세 정보 보내주는 함수 
 function getBanChart(ban_id) {
     // key값 `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
-    result = data.filter(e=>e.ban_id == ban_id)[0]
+    result = data.filter(e => e.ban_id == ban_id)[0]
     $('#target_ban_info_requestModalLabel').html(result['students'][0].name + '반 상세 현황')
-    if(result.length <= 0){
+    if (result.length <= 0) {
         let no_data_title = `<h1> ${response.text} </h1>`
         $('#s_data').html(no_data_title);
         $('#pagingul').hide();
         return
-    }else{
+    } else {
         // 이반 학생 
-        let switch_student = result['students'].filter(s=>s.switch_ban_id != null).length;
+        let switch_student = result['students'].filter(s => s.switch_ban_id != null).length;
         // 퇴소 학생 
-        let out_student = result['students'].filter(s=>s.out_created != null).length;
+        let out_student = result['students'].filter(s => s.out_created != null).length;
         let students_num = result['students'][0]['student_num'];
         let teacher_name = result['students'][0]['teacher_name']
         let teacher_e_name = result['students'][0]['teacher_engname']
         let teacher_mobileno = result['students'][0]['teacher_mobileno']
         let teacher_email = result['students'][0]['teacher_email']
-        
+
         // 상담
         let all_uc_consulting = consultingData.filter(a => a.category_id < 100).length;
         let my_consulting = consultingData.filter(a => a.ban_id == ban_id && a.startdate <= today)
@@ -377,7 +377,7 @@ function getBanChart(ban_id) {
         paging(totalData, dataPerPage, pageCount, 1, data_list, ban_id);
         $('#student_data').show()
         $('#pagingul').show();
-        my_task_data = taskData.filter(t=>t.ban_id == ban_id && t.startdate <= today )
+        my_task_data = taskData.filter(t => t.ban_id == ban_id && t.startdate <= today)
         done_task = my_task_data.filter(a => a.done == 1).length
         done_consulting = my_consulting.filter(a => a.done == 1).length
         let temp_ban_statistics = `
@@ -427,18 +427,18 @@ function getBanChart(ban_id) {
 }
 // 이반 * 퇴소 
 // 조회
-function sodata(){
+function sodata() {
     $('#qubox').hide()
     $('#ulbox').hide()
     $('#detailban').hide()
     $('#sobox').show()
-    if (outstudent_num == 0 && switchstudent_num == 0 ) {
-            let no_data_title = '이반 * 퇴소 발생이 없었어요'
-            $('#sotitle').html(no_data_title);
-            $('#sotable').hide()
-            return
+    if (outstudent_num == 0 && switchstudent_num == 0) {
+        let no_data_title = '이반 * 퇴소 발생이 없었어요'
+        $('#sotitle').html(no_data_title);
+        $('#sotable').hide()
+        return
     }
-    switch_out_bans = allData.filter(e=>e.total_out_count != 0 || e.total_switch_count != 0)
+    switch_out_bans = allData.filter(e => e.total_out_count != 0 || e.total_switch_count != 0)
     $('#sotitle').empty();
 
     let temp_html = ``
@@ -447,7 +447,7 @@ function sodata(){
         let name = switch_out_bans[i].students[0].name
         let student_num = switch_out_bans[i].students[0].student_num
         let teacher_name = switch_out_bans[i].students[0].teacher_name
-        
+
         let total_out_count = switch_out_bans[i]['total_out_count']
         let total_out_per = switch_out_bans[i]['total_out_per']
 
@@ -455,10 +455,10 @@ function sodata(){
         let total_switch_per = switch_out_bans[i]['total_switch_per']
 
         temp_html += `
-        <td class="col-1">${i+1}위</td>
+        <td class="col-1">${i + 1}위</td>
         <td class="col-2">${name}</td>
         <td class="col-1">${make_semester(switch_out_bans[i]['students'][0].semester)}월 학기</td>
-        <td class="col-1">${student_num+total_switch_count+total_out_count}</td>
+        <td class="col-1">${student_num + total_switch_count + total_out_count}</td>
         <td class="col-1">${student_num}</td>
         <td class="col-1">${teacher_name}</td>
         <td class="col-2">${total_switch_count}(${total_switch_per}%)</td>
@@ -473,7 +473,7 @@ function sodata(){
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
     let container = $('#so_pagination')
-    soquestionData = questionData.length > 0 ? questionData.filter(q=>q.category != 0) : 0
+    soquestionData = questionData.length > 0 ? questionData.filter(q => q.category != 0) : 0
     total_soquestion_num = soquestionData.length
     sodata_noanswer = soquestionData.filter(a => a.answer == 0).length
 
@@ -484,7 +484,7 @@ function so_paginating(done_code) {
     `;
     $('#newso').html(temp_newso)
 
-    if(total_soquestion_num!=0){
+    if (total_soquestion_num != 0) {
         $('#no_data_msg').hide()
         $('#so_question').show()
         $('#so_pagination').show()
@@ -510,7 +510,7 @@ function so_paginating(done_code) {
                 $('#so_tr').html(dataHtml);
             }
         })
-    }else{
+    } else {
         $('#so_question').hide()
         $('#so_pagination').hide()
         $('#no_data_msg').html('문의가 없습니다')
@@ -520,14 +520,14 @@ function so_paginating(done_code) {
 
 // 문의 내용 상세보기
 // 문의 내용 상세보기
-async function get_question_detail(q_id,done_code) {
+async function get_question_detail(q_id, done_code) {
     // $('#questionlist').hide()
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
-    student_data = allData.filter(a=>a.teacher_id == question_detail_data.teacher_id && a.ban_id == question_detail_data.ban_id)[0]['students'].filter(s=>s.student_id
-       == question_detail_data.student_id)[0]
-    attach = attachData.filter(a=>a.question_id == q_id)[0]['file_name']
+    student_data = allData.filter(a => a.teacher_id == question_detail_data.teacher_id && a.ban_id == question_detail_data.ban_id)[0]['students'].filter(s => s.student_id
+        == question_detail_data.student_id)[0]
+    attach = attachData.filter(a => a.question_id == q_id)[0]['file_name']
     // 문의 상세 내용 
     let temp_question_list = `
     <div class="modal-body-select-container">
@@ -557,15 +557,15 @@ async function get_question_detail(q_id,done_code) {
     $('#teacher_question').html(temp_question_list);
 
     // 상담 일지 처리 
-    if(question_detail_data.category == 0){
+    if (question_detail_data.category == 0) {
         $('#consulting_history_attach').hide()
-    }else{
+    } else {
         $('#consulting_history_attach').show()
-        consulting_history = consultingData.filter(c=>c.id == question_detail_data.consulting_history)[0]
+        consulting_history = consultingData.filter(c => c.id == question_detail_data.consulting_history)[0]
         let category = ''
-        if(consulting_history.category_id < 100 ){
+        if (consulting_history.category_id < 100) {
             category = `${consulting_history.week_code}주간 ${consulting_history.category}상담`
-        }else{
+        } else {
             category = `${consulting_history.category} ${consulting_history.contents}`
         }
         let temp_his = `
@@ -593,25 +593,25 @@ async function get_question_detail(q_id,done_code) {
         $('#cha').html(temp_his);
     }
     // 응답 처리 
-    if(done_code == 0){
+    if (done_code == 0) {
         $('#teacher_answer').hide()
         $('#manage_answer').show()
         $('#manage_answer_1').show()
-        if(question_detail_data.category == 1){
+        if (question_detail_data.category == 1) {
             $('#manage_answer_2').hide()
             $('#manage_answer_3').show()
-         }else if(question_detail_data.category == 2){
+        } else if (question_detail_data.category == 2) {
             $('#manage_answer_2').show()
             $('#manage_answer_3').hide()
-         }else{
+        } else {
             $('#manage_answer_2').hide()
             $('#manage_answer_3').hide()
-         }
-         $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category})">저장</button>`);
-    }else{
+        }
+        $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category})">저장</button>`);
+    } else {
         $('#manage_answer').hide()
         console.log(answerData)
-        answer_data = answerData.filter(a=>a.question_id == q_id)[0]
+        answer_data = answerData.filter(a => a.question_id == q_id)[0]
         let temp_answer_list = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">답변 제목</span>
@@ -625,8 +625,8 @@ async function get_question_detail(q_id,done_code) {
             <span class="modal-body-select-label">응답일</span>
             <p>${make_date(answer_data.created_at)}</p>
         </div>`;
-        if(question_detail_data.category != 0){
-           temp_answer_list += `<div class="modal-body-select-container">
+        if (question_detail_data.category != 0) {
+            temp_answer_list += `<div class="modal-body-select-container">
            <span class="modal-body-select-label">처리</span>
            <p>${make_reject_code(answer_data.reject_code)}</p>
            </div>`
@@ -634,39 +634,41 @@ async function get_question_detail(q_id,done_code) {
         $('#teacher_answer').html(temp_answer_list);
         $('#teacher_answer').show()
     }
-    
+
 }
 // 본원 답변 기능 
-function post_answer(q_id,category){
+function post_answer(q_id, category) {
     answer_title = $('#answer_title').val()
     answer_contents = $('#answer_contents').val()
     o_ban_id = 0
-    if(category != 0){
-        o_ban_id = $('#o_ban_id'+category).val()
+    if (category != 0) {
+        o_ban_id = $('#o_ban_id' + category).val()
     }
     $.ajax({
         type: "POST",
-        url: "/manage/answer/"+q_id,
+        url: "/manage/answer/" + q_id,
         data: {
-            answer_title:answer_title,
-            answer_contents:answer_contents,
-            o_ban_id:o_ban_id
+            answer_title: answer_title,
+            answer_contents: answer_contents,
+            o_ban_id: o_ban_id
         },
-        success: function (response) {{
-            alert(response["result"])
-            window.location.replace('/')
-        }}
+        success: function (response) {
+            {
+                alert(response["result"])
+                window.location.replace('/')
+            }
+        }
     });
 }
 
 // 미학습 (학습관리)
-async function uldata(){
+async function uldata() {
     $('#qubox').hide()
     $('#sobox').hide()
     $('#detailban').hide()
     $('#ulbox').show()
     let container = $('#ul_pagination')
-    
+
     all_uc_consulting = consultingData.filter(a => a.category_id < 100)
 
     all_student.forEach((elem) => {
@@ -674,14 +676,14 @@ async function uldata(){
         elem.up = answer_rate(elem.unlearned, all_uc_consulting.length).toFixed(0)
     });
     all_student.sort((a, b) => {
-        if(b.up !== a.up){
+        if (b.up !== a.up) {
             return b.up - a.up; // total_out_per가 큰 순으로 정렬
         } else {
             return b.unlearned - a.unlearned; // students.length가 큰 순으로 정렬
         }
     });
 
-    if(all_student.length == 0){
+    if (all_student.length == 0) {
         let no_data_title = `<h1> ${response.text} </h1>`
         $('#ultitle').html(no_data_title);
         $('#ul_data_box').hide()
@@ -724,21 +726,21 @@ async function uldata(){
 // 상담 기록 조회 
 // 상담일지 작성 
 function get_consulting_history(student_id) {
-    student_info = all_student.filter(s=>s.student_id == student_id)[0]
-    consultings = consultingData.filter(c=> c.student_id == student_id)
-    done_consultings = consultings.filter(c=> c.done == 1)
-    notdone_consultings = consultings.filter(c=> c.done == 0)
+    student_info = all_student.filter(s => s.student_id == student_id)[0]
+    consultings = consultingData.filter(c => c.student_id == student_id)
+    done_consultings = consultings.filter(c => c.done == 1)
+    notdone_consultings = consultings.filter(c => c.done == 0)
     consultinglist_len = consultings.length
 
     $('#consultinghistoryModalLabelt').html(`${student_info.name}반 ${student_info.student_name} 원생 총 ${consultings.length}건 상담  ( 📞 ${student_info.mobileno}  )`)
-    let cant_consulting_list = notdone_consultings.length  > 0 ? notdone_consultings.filter( c=>c.created_at != null) : 0;
-    consultings = consultinglist_len  > 0 ? notdone_consultings.filter(c=>c.created_at == null) : 0
-    
-    if (cant_consulting_list.length > 0){
+    let cant_consulting_list = notdone_consultings.length > 0 ? notdone_consultings.filter(c => c.created_at != null) : 0;
+    consultings = consultinglist_len > 0 ? notdone_consultings.filter(c => c.created_at == null) : 0
+
+    if (cant_consulting_list.length > 0) {
         $('#consulting_cant_write_box').empty();
         for (i = 0; i < cant_consulting_list.length; i++) {
             let target = cant_consulting_list[i]
-            let category = target['week_code']+'주간  '+ target['category']
+            let category = target['week_code'] + '주간  ' + target['category']
             let contents = target['contents']
             let consulting_missed = missed_date(target['missed'])
             let startdate = make_date(target['startdate'])
@@ -757,10 +759,10 @@ function get_consulting_history(student_id) {
     }
     if (consultinglist_len == 0) {
         $('#consultinghistoryModalLabelt').html('진행 할 수 있는 상담이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 *')
-    }else{
-        consultings.sort((a, b) => {return make_date(a.deadline) - make_date(b.deadline)});
+    } else {
+        consultings.sort((a, b) => { return make_date(a.deadline) - make_date(b.deadline) });
         $('#consulting_write_box').empty();
-        for(i = 0; i < consultinglist_len; i++){
+        for (i = 0; i < consultinglist_len; i++) {
             let target = consultings[i]
             let category = target['category']
             let consulting_id = target['id']
@@ -768,8 +770,8 @@ function get_consulting_history(student_id) {
             let consulting_missed = missed_date(target['missed'])
             let startdate = make_date(target['startdate'])
             let deadline = make_date(target['deadline'])
-            if(target['category_id'] < 100){
-                category = target['week_code']+'주간  ' + category
+            if (target['category_id'] < 100) {
+                category = target['week_code'] + '주간  ' + category
             }
             let temp_consulting_contents_box = `
             <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
@@ -782,7 +784,7 @@ function get_consulting_history(student_id) {
             `;
             $('#consulting_write_box').append(temp_consulting_contents_box);
         }
-        for (i = 0; i < done_consultings.length; i++){
+        for (i = 0; i < done_consultings.length; i++) {
             let target = done_consultings[i]
             let category = target['category']
             let consulting_id = target['id']
@@ -791,8 +793,8 @@ function get_consulting_history(student_id) {
             let startdate = make_date(target['startdate'])
             let deadline = make_date(target['deadline'])
             let history_created = target['created_at']
-            if(target['category_id'] < 100){
-                category = target['week_code']+'주간  ' + category
+            if (target['category_id'] < 100) {
+                category = target['week_code'] + '주간  ' + category
             }
             let history_reason = target['reason'] == null ? '입력해주세요' : target['reason']
             let history_solution = target['solution'] == null ? '입력해주세요' : target['solution']
@@ -919,7 +921,7 @@ async function ban_change(btid) {
         $('#consulting_msg').html('👇 개별 반 대상 진행합니다 (대상 학생을 확인해 주세요)')
         value = btid.split('_')
         // ban_id _ teacher_id _ name 
-        studentData = allData.filter(a=>a.ban_id == value[0])[0].students
+        studentData = allData.filter(a => a.ban_id == value[0])[0].students
         let temp_target_student = `<option value="${btid}_-1_전체 학생 대상 진행">✔️${value[2]}반 전체 학생 대상 진행</option>`;
         for (var i = 0; i < studentData.length; i++) {
             let sname = studentData[i]['student_name'];
@@ -986,73 +988,87 @@ function post_consulting_request() {
     consulting_deadline = $('#consulting_deadline').val()
     // 다중 선택 대상 선택일 경우  )
     if (selectedStudentList.length != 0) {
-        console.log(selectedStudentList)
         let total_student_selections = selectedStudentList.filter(value => value.includes('-1'));
-        console.log(total_student_selections)
         // 전체 학생 대상 인 경우
-        if(total_student_selections.length != 0){
+        if (total_student_selections.length != 0) {
+            const totalPromises = [];
             total_student_selections.forEach(value => {
-                v = value.split('_')
-                totalstudent_ban_id = Number(v[0])
-                totalstudent_teacher_id = Number(v[1])
-                target_student_selections = allData.filter(a=>a.ban_id == totalstudent_ban_id)[0]['students']
-                target_student_selections.forEach(value =>{
-                    $.ajax({
-                        type: "POST",
-                        url: '/manage/consulting/' + totalstudent_ban_id + '/' + totalstudent_teacher_id + '/' + value['student_id'],
-                        // data: JSON.stringify(jsonData), // String -> json 형태로 변환
-                        data: {
-                            consulting_category: consulting_category,
-                            consulting_contents: consulting_contents,
-                            consulting_date: consulting_date,
-                            consulting_deadline: consulting_deadline
-                        },
-                        success: function (response) {
-                            if (response['result'] != 'success'){
-                                alert('상담 요청 실패')
-                            }
-                        }
-                    })
+              v = value.split('_')
+              totalstudent_ban_id = Number(v[0])
+              totalstudent_teacher_id = Number(v[1])
+              target_student_selections = allData.filter(a => a.ban_id == totalstudent_ban_id)[0]['students']
+              target_student_selections.forEach(value => {
+                const promise = $.ajax({
+                  type: "POST",
+                  url: '/manage/consulting/' + totalstudent_ban_id + '/' + totalstudent_teacher_id + '/' + value['student_id'],
+                  // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+                  data: {
+                    consulting_category: consulting_category,
+                    consulting_contents: consulting_contents,
+                    consulting_date: consulting_date,
+                    consulting_deadline: consulting_deadline
+                  }
                 })
+                totalPromises.push(promise);
+              })
             })
-        }
-        // 개별 학생 대상 인 경우  
-        let indivi_student_selections = selectedStudentList.filter(value => !(value.includes('-1')));
-        if(indivi_student_selections.length != 0) {
+            Promise.all(totalPromises).then((responses) => {
+              let isSuccess = true;
+              responses.forEach(response => {
+                if (response['result'] !== 'success') {
+                  isSuccess = false;
+                }
+              })
+              if (isSuccess) {
+                alert('상담 요청 완료');
+                window.location.reload();
+              } else {
+                alert('상담 요청 실패');
+              }
+            })
+          }
+          // 개별 학생 대상 인 경우  
+          let indivi_student_selections = selectedStudentList.filter(value => !(value.includes('-1')));
+          if (indivi_student_selections.length != 0) {
+            const indiviPromises = [];
             indivi_student_selections.forEach(value => {
-                v = String(value).split('_')
-                $.ajax({
-                    type: "POST",
-                    url: '/manage/consulting/' + v[0] + '/' + v[1] + '/' + v[3],
-                    // data: JSON.stringify(jsonData), // String -> json 형태로 변환
-                    data: {
-                        consulting_category: consulting_category,
-                        consulting_contents: consulting_contents,
-                        consulting_date: consulting_date,
-                        consulting_deadline: consulting_deadline
-                    },
-                    success: function (response) {
-                        if (response['result'] != 'success'){
-                            alert('상담 요청 실패')
-                        }
-                    }
-                })
+              v = String(value).split('_')
+              const promise = $.ajax({
+                type: "POST",
+                url: '/manage/consulting/' + v[0] + '/' + v[1] + '/' + v[3],
+                // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+                data: {
+                  consulting_category: consulting_category,
+                  consulting_contents: consulting_contents,
+                  consulting_date: consulting_date,
+                  consulting_deadline: consulting_deadline
+                }
+              })
+              indiviPromises.push(promise);
             })
-        }
-    }else{
+            Promise.all(indiviPromises).then((responses) => {
+              let isSuccess = true;
+              responses.forEach(response => {
+                if (response['result'] !== 'success') {
+                  isSuccess = false;
+                }
+              })
+              if (isSuccess) {
+                alert('상담 요청 완료');
+                window.location.reload();
+              } else {
+                alert('상담 요청 실패');
+              }
+            })
+          }
+    } else {
         b_type = $('#consulting_target_aban').val()[0]
-        console.log(b_type)
-        if(b_type == 0){
-            console.log(all_student)
-            all_student.forEach(value => {
-                console.log(value)
-                ban_id = value.ban_id
-                teacher_id = value.teacher_id
-                student_id = value.student_id
-                $.ajax({
+        // b_type에 따라 전체 학생, 플러스/알파반, NF/NOVEL반으로 구분하여 API 호출
+        if (b_type == 0) {
+            Promise.all(all_student.map(value => {
+                return $.ajax({
                     type: "POST",
-                    url: '/manage/consulting/' + ban_id + '/' + teacher_id + '/' + student_id,
-                    // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+                    url: '/manage/consulting/' + value.ban_id + '/' + value.teacher_id + '/' + value.student_id,
                     data: {
                         consulting_category: consulting_category,
                         consulting_contents: consulting_contents,
@@ -1060,51 +1076,22 @@ function post_consulting_request() {
                         consulting_deadline: consulting_deadline
                     },
                     success: function (response) {
-                        if (response['result'] != 'success'){
+                        if (response['result'] != 'success') {
                             alert('상담 요청 실패')
                         }
                     }
-                })
-            })
-        }else if(b_type == 1){
-            // PLUS/ALPHA반
+                });
+            })).then(function () {
+                alert('상담 요청 완료');
+                window.location.reload();
+            });
+        } else if (b_type == 1) {
             bandata = allData.filter(a => a.ban_name.toLowerCase().includes('alpha') || a.ban_name.toLowerCase().includes('plus'))
-            bandata.forEach(value => {
-                ban_id = value.ban_id
-                teacher_id = value.teacher_id
-                students = value.students
-                students.forEach(value => {
-                    student_id = value.student_id
-                    $.ajax({
+            Promise.all(bandata.map(value => {
+                return Promise.all(value.students.map(student => {
+                    return $.ajax({
                         type: "POST",
-                        url: '/manage/consulting/' + ban_id + '/' + teacher_id + '/' + student_id,
-                        // data: JSON.stringify(jsonData), // String -> json 형태로 변환
-                        data: {
-                            consulting_category: consulting_category,
-                            consulting_contents: consulting_contents,
-                            consulting_date: consulting_date,
-                            consulting_deadline: consulting_deadline
-                        },
-                        success: function (response) {
-                            if (response['result'] != 'success'){
-                                alert('상담 요청 실패')
-                            }
-                        }
-                    })
-                })
-            })
-        }else{
-            bandata = allData.filter(a => a.ban_name.toLowerCase().includes('nf') || a.ban_name.toLowerCase().includes('novel'))
-            bandata.forEach(value => {
-                ban_id = value.ban_id
-                teacher_id = value.teacher_id
-                students = value.students
-                students.forEach(value => {
-                    student_id = value.student_id
-                    $.ajax({
-                        type: "POST",
-                        url: '/manage/consulting/' + ban_id + '/' + teacher_id + '/' + student_id,
-                        // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+                        url: '/manage/consulting/' + value.ban_id + '/' + value.teacher_id + '/' + student.student_id,
                         data: {
                             consulting_category: consulting_category,
                             consulting_contents: consulting_contents,
@@ -1116,13 +1103,40 @@ function post_consulting_request() {
                                 alert('상담 요청 실패')
                             }
                         }
-                    })
-                })
-            })
+                    });
+                }));
+            })).then(function () {
+                alert('상담 요청 완료');
+                window.location.reload();
+            });
+        } else {
+            bandata = allData.filter(a => a.ban_name.toLowerCase().includes('nf') || a.ban_name.toLowerCase().includes('novel'))
+            Promise.all(bandata.map(value => {
+                return Promise.all(value.students.map(student => {
+                    return $.ajax({
+                        type: "POST",
+                        url: '/manage/consulting/' + value.ban_id + '/' + value.teacher_id + '/' + student.student_id,
+                        data: {
+                            consulting_category: consulting_category,
+                            consulting_contents: consulting_contents,
+                            consulting_date: consulting_date,
+                            consulting_deadline: consulting_deadline
+                        },
+                        success: function (response) {
+                            if (response['result'] != 'success') {
+                                alert('상담 요청 실패')
+                            }
+                        }
+                    });
+                }));
+            })).then(function () {
+                alert('상담 요청 완료');
+                window.location.reload();
+            });
         }
+        alert('상담 요청 완료')
+        window.location.reload()
     }
-    alert('상담 요청 완료')
-    window.location.reload()
 }
 
 // CS 관리 
@@ -1133,7 +1147,7 @@ function paginating(done_code) {
     $('#ulbox').hide()
     $('#qubox').show()
     let container = $('#pagination')
-    questionData = questionData.length > 0 ? questionData.filter(q=>q.category == 0) : 0
+    questionData = questionData.length > 0 ? questionData.filter(q => q.category == 0) : 0
     total_question_num = questionData.length
     csdata_noanswer = questionData.filter(a => a.answer == 0).length
 
@@ -1144,7 +1158,7 @@ function paginating(done_code) {
     `;
     $('#newcs').html(temp_newcs)
 
-    if(total_question_num!=0){
+    if (total_question_num != 0) {
         $('#csno_data_msg').hide()
         $('#teacher_question').show()
         $('#pagination').show()
@@ -1170,7 +1184,7 @@ function paginating(done_code) {
                 $('#alim_tr').html(dataHtml);
             }
         })
-    }else{
+    } else {
         $('#teacher_question').hide()
         $('#pagination').hide()
         $('#csno_data_msg').html('문의가 없습니다')
