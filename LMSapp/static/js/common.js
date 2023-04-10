@@ -66,6 +66,7 @@ function q_category(category) {
     if (category == 0) {
         category = '일반문의'
     } else if (category == 1) {
+        console.log(category)
         category = '퇴소문의'
     } else{
         category = '이반문의'
