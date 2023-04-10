@@ -1040,6 +1040,7 @@ function post_consulting_request() {
         }
     }else{
         b_type = $('#consulting_target_aban').val()[0]
+        console.log(b_type)
         if(b_type == 0){
             all_student.forEach(value => {
                 ban_id = value.ban_id
