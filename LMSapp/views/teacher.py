@@ -141,8 +141,8 @@ def question():
 
         url = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
         token = 'MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv'
-        room_id = 'iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg'
-        message = '상담업무관리 페이지에 새 문의가 등록되었습니다'
+        room_id = 'PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q'
+        message = '상담업무관리 페이지에 새 문의가 등록되었습니다(test)'
         payload = {
             'text': message,
             'room_id': room_id
@@ -152,16 +152,15 @@ def question():
         }
 
         params = {
-            'token': token,
-            'payload': payload
+            'token': token
         }
-        response = requests.get(url, headers=headers, params=params)
+
+        response = requests.post(url, headers=headers, params=params, data=json.dumps(payload))
         if response.status_code == 200:
             print('메시지가 성공적으로 전송되었습니다.')
         else:
             print('메시지 전송이 실패하였습니다.')
         return redirect('/')
-
 # 오늘 해야 할 업무 완료 저장 
 @bp.route("/task/<int:tb_id>", methods=['POST'])
 def task(tb_id):
