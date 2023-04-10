@@ -301,8 +301,10 @@ function allsemesterShow() {
         let semester = ban_data['students'][0].semester
         let student_num = ban_data['students'][0].student_num
         let teacher_name = ban_data['students'][0].teacher_name
+        let teacher_id = ban_data['students'][0].teacher_id
 
-        let value = `${ban_id}_${ban_data['students'][0].teacher_id}_${name}`;
+
+        let value = `${ban_id}_${teacher_id}_${name}`;
         // 원생 목록 
         // let out_num = ban_data[key].filter(s => s.out_created != null || s.switch_ban_id != null).length;
         let total_out_count = ban_data['total_out_count'] + ban_data['total_switch_count']
@@ -316,7 +318,8 @@ function allsemesterShow() {
         <td class="col-2">${student_num + total_out_count}</td>
         <td class="col-2">${student_num}</td>
         <td class="col-2">${total_out_count}명  (${total_out_per}%)</td>
-        <td class="col-2" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart(${ban_id})"><span class="cursor-pointer">👉</span></td>`;
+        <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${teacher_id})"><span class="cursor-pointer">👉</span></td>;
+        <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart(${ban_id})"><span class="cursor-pointer">👉</span></td>`;
     });
     $('#semester_banlist').html(temp_semester_banlist)
     // $('#ban_list').html(temp_ban_option)
@@ -336,7 +339,7 @@ function semesterShow(semester) {
         let name = ban_data['students'][0].name
         let student_num = ban_data['students'][0].student_num
         let teacher_name = ban_data['students'][0].teacher_name
-
+        let teacher_id = ban_data['students'][0].teacher_id
         // 원생 목록 
         // let out_num = ban_data[key].filter(s => s.out_created != null || s.switch_ban_id != null).length;
         let total_out_count = ban_data['total_out_count'] + ban_data['total_switch_count']
@@ -348,11 +351,88 @@ function semesterShow(semester) {
         <td class="col-2">${student_num + total_out_count}</td>
         <td class="col-2">${student_num}</td>
         <td class="col-2">${total_out_count}명  (${total_out_per}%)</td>
-        <td class="col-2" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart(${ban_id})"><span class="cursor-pointer">👉</span></td>`;
+        <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${teacher_id})"><span class="cursor-pointer">👉</span></td>;
+        <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart(${ban_id})"><span class="cursor-pointer">👉</span></td>`;
     });
     $('#semester_banlist').html(temp_semester_banlist)
 }
+function getTeacherInfo(t_id){
+    $.ajax({
+        type: "GET",
+        url: "/admin/"+t_id,
+        data: {},
+        success: function (response) {
+            if (response['status'] == 400){
+                let no_data_title = `<h1> ${response.text} </h1>`
+                $('#teacherModalLabel').html(no_data_title);
+                return
+            }
+            let chart = response['chart_data']
+            let name = response['teacher_info']['name'] + '(' + response['teacher_info']['engname'] + ')';
+            let mobileno = response['teacher_info']['mobileno'];
+            let email = response['teacher_info']['email']
+            let tt = response['teacher_info']['total_student_num']
+            $('#teachertitle').html(name + '선생님 현황 ( '+ mobileno +' | '+ email + ' )');
+            let os = chart['outstudent_num']
+            let ss = chart['switchstudent_num']
+            let ttp = tt+os+ss
+            
+            $('#total_s_num').html(`관리중: ${tt}</br>이반 학생 수: ${ss}</br>퇴소 학생 수: ${os}`)
+            
+            $('.pie-chart1').css("background",`conic-gradient(#B9CDE5, #B9CDE5 ${tt/ttp*100}%, #D99694 ${tt/ttp*100}%, #D99694 ${tt/ttp*100+ss/ttp*100}%, #2B2B2B ${tt/ttp*100+ss/ttp*100}%, #2B2B2B)`)
 
+            // 업무
+            let total_todo = chart['total_todo']
+            let total_done = chart['total_done']
+            let task_p = chart['ttp']
+            $('#task_chart').html(`${total_done}/${total_todo}`)
+            $('#task_p').html(`${task_p}%`)
+
+            // 상담
+            let ttc = chart['ttc']
+            let ttd = chart['ttd']
+            let cp = chart['cp']
+            $('#consulting_chart').html(`${ttd}/${ttc}`)
+            $('#cp').html(`${cp}%`)
+
+            // 미학습 상담
+            let unlearned_ttc = chart['unlearned_ttc']
+            let unlearned_ttd = chart['unlearned_ttd']
+            let unlearned_cp = chart['unlearned_cp']
+            $('#unlearned_chart').html(`${unlearned_ttc}/${unlearned_ttd}`)
+            $('#unlearned_cp').html(`${unlearned_cp}%`)
+
+            // 내 반
+            let my_bans = response['my_bans'] 
+            $('#mybaninfo').empty();
+            for(i=0;i<my_bans.length;i++){
+                let name = my_bans[i]['name'];
+                let semester = my_bans[i]['semester'];
+                let total_student_num = my_bans[i]['total_student_num'];
+                let out_s = my_bans[i]['out_s'];
+                let switch_s = my_bans[i]['switch_s'];
+                let unlearned = my_bans[i]['unlearned'];
+
+                let temp_baninfo = `
+                    <td class="col-2">${name}</td>
+                    <td class="col-1">${semester}학기</td>
+                    <td class="col-1">${total_student_num}명</td>
+                    <td class="col-2"> ${out_s}건</td>
+                    <td class="col-2"> ${switch_s}건</td>
+                    <td class="col-2"> ${unlearned}건</td>
+                    <td class="col-2"> 임시3 (5%) </td>
+                `;
+                $('#mybaninfo').append(temp_baninfo);
+
+            }
+                                
+
+        },
+        error:function(xhr, status, error){
+                alert(xhr.responseText);
+            }
+    })
+}
 // 반 상세 정보 보내주는 함수 
 function getBanChart(ban_id) {
     // key값 `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
