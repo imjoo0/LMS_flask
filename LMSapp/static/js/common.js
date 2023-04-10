@@ -367,6 +367,7 @@ function getTeacherInfo(t_id){
                 $('#teacherModalLabel').html(no_data_title);
                 return
             }
+            
             let chart = response['chart_data']
             let name = response['teacher_info']['name'] + '(' + response['teacher_info']['engname'] + ')';
             let mobileno = response['teacher_info']['mobileno'];
