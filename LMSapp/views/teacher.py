@@ -116,6 +116,7 @@ def question():
         return data
 
     elif request.method == 'POST':
+        URI = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
         question_category = request.form['question_category']
         title = request.form['question_title']
         contents = request.form['question_contents']
@@ -126,19 +127,24 @@ def question():
         # 첨부 파일 처리
         file = request.files['file-upload']
         if question_category == '일반':
+            # 영교부에서 재택T 문의 관리 하는 시놀로지 채팅 방 token 값 받아야 함. 
+            Synologytoken = 'PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q'
             cateory = 0
+            payloadText  = "새 문의가 등록되었습니다"+'('+title+')'
             new_question = Question(category=cateory, title=title, contents=contents,teacher_id=teacher, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         else:
+            Synologytoken = 'PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q'
             history_id = request.form['consulting_history']
             if question_category == '퇴소':
                 cateory = 1
+                payloadText  = "새 퇴소요청이 등록되었습니다"+'('+title+')'
             else:
                 cateory = 2
+                payloadText  = "새 이반요청이 등록되었습니다"+'('+title+')'
             new_question = Question(consulting_history=history_id, category=cateory, title=title, contents=contents,teacher_id=teacher, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         db.session.add(new_question)
         db.session.commit()
         common.save_attachment(file, new_question.id)
-       
         # const groupToken = {
         #         행정파트: '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"',
         #         내근티처: '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"',
@@ -146,10 +152,6 @@ def question():
         #       };
         # URI = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
         # Synologytoken = 'PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q'
-
-        URI = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
-        Synologytoken = 'PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q'
-        payloadText  = "새 문의가 등록되었습니다(test)"
 
         payload = {
             "text": payloadText
