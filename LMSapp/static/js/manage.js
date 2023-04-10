@@ -1276,16 +1276,15 @@ async function get_question_detail(q_id,done_code) {
         let temp_answer_list = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">답변 제목</span>
-            <input class="modal-body-select" type="text" size="50" id="answer_title" style="width: 75%;">
+            <p>${answer_data.title}</p>
         </div>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">답변 내용</span>
-            <textarea id="answer_contents" class="modal-body-select" type="text" rows="5" cols="25"
-                name="answer_contents1" style="width: 75%;"></textarea>
+            <p>${answer_data.content}</p>
         </div>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">응답일</span>
-            <p>${answer_data.created_at}</p>
+            <p>${make_date(answer_data.created_at)}</p>
         </div>`;
         if(question_detail_data.category != 0){
            temp_answer_list += `<div class="modal-body-select-container">
