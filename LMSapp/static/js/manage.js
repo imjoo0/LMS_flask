@@ -1148,9 +1148,9 @@ function paginating(done_code) {
     $('#newcs').html(temp_newcs)
 
     if(total_question_num!=0){
-        $('#no_data_msg').hide()
-        $('#so_question').show()
-        $('#so_pagination').show()
+        $('#csno_data_msg').hide()
+        $('#teacher_question').show()
+        $('#pagination').show()
         qdata = questionData.filter(a => a.answer == done_code)
         var dataHtml = '';
         container.pagination({
@@ -1174,44 +1174,11 @@ function paginating(done_code) {
             }
         })
     }else{
-        $('#so_question').hide()
-        $('#so_pagination').hide()
-        $('#no_data_msg').html('문의가 없습니다')
-        $('#no_data_msg').show()
+        $('#teacher_question').hide()
+        $('#pagination').hide()
+        $('#csno_data_msg').html('문의가 없습니다')
+        $('#csno_data_msg').show()
     }
-
-    
-    $.ajax({
-        url: '/manage/api/get_all_questions/' + done_code,
-        type: 'get',
-        data: {},
-        success: function (data) {
-            container.pagination({
-                dataSource: JSON.parse(data),
-                prevText: '이전',
-                nextText: '다음',
-                pageClassName: 'float-end',
-                pageSize: 5,
-                callback: function (data, pagination) {
-                    var dataHtml = '';
-                    $.each(data, function (index, item) {
-                        if (item.d == 0) { item.category = '일반문의' }
-                        else if (item.category == 1) { item.category = '퇴소 요청' }
-                        else if (item.category == 2) { item.category = '이반 요청' }
-                        else { item.category = '취소/환불 요청' }
-                        dataHtml += `
-                    <td class="col-2">${item.category}</td>
-                    <td class="col-4">${item.title}</td>
-                    <td class="col-4">${item.contents}</td>
-                    <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-                    data-bs-target="#answer" onclick="get_question(${item.id},${done_code})">✏️</button> 
-                    <button onclick="delete_question(${item.id})">❌</button></td>`;
-                    });
-                    $('#alim-tr').html(dataHtml);
-                }
-            })
-        }
-    })
 }
 // 문의 내용 상세보기
 async function get_question_detail(q_id,done_code) {
