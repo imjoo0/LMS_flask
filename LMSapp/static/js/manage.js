@@ -1012,20 +1012,6 @@ function post_consulting_request() {
                 totalPromises.push(promise);
               })
             })
-            Promise.all(totalPromises).then((responses) => {
-              let isSuccess = true;
-              responses.forEach(response => {
-                if (response['result'] !== 'success') {
-                  isSuccess = false;
-                }
-              })
-              if (isSuccess) {
-                alert('상담 요청 완료');
-                window.location.reload();
-              } else {
-                alert('상담 요청 실패');
-              }
-            })
           }
           // 개별 학생 대상 인 경우  
           let indivi_student_selections = selectedStudentList.filter(value => !(value.includes('-1')));
@@ -1044,9 +1030,9 @@ function post_consulting_request() {
                   consulting_deadline: consulting_deadline
                 }
               })
-              indiviPromises.push(promise);
+              totalPromises.push(promise);
             })
-            Promise.all(indiviPromises).then((responses) => {
+            Promise.all(totalPromises).then((responses) => {
               let isSuccess = true;
               responses.forEach(response => {
                 if (response['result'] !== 'success') {
