@@ -143,11 +143,11 @@ def question():
         #         내근티처: '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"',
         #         개발관리: '"iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg"',
         #       };
-        URI = "https://192.168.0.239:5001/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2"
-        Synologytoken = "rQsVD8F8S0jYaKYdiNF2kuPafYAxl67tpZGf9cFY3dJF8zMXrExBb793n8eszjPp"
-        payloadText = "전송할 메시지 내용"
+        URI = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
+        Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
+        payloadText = "새 문의 등록"
 
-        requestURI = f"{URI}&token={Synologytoken}&payload=%7B%22text%22%3A%20%22{payloadText}%22%7D"
+        requestURI = f"{URI}&token={Synologytoken}&payload=%7B%22text%22"
 
         try:
             response = requests.get(requestURI)
