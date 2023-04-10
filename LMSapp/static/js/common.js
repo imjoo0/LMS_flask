@@ -356,31 +356,7 @@ function semesterShow(semester) {
     $('#semester_banlist').html(temp_semester_banlist)
 }
 function getTeacherInfo(t_id){
-    const teacherGrouped = result.reduce((acc, item) => {
-        const v = item.teacher_id + '_' + item.ban_id;
-
-        if (!acc[v]) {
-            acc[v] = { teacher_id: item.teacher_id, ban_name: item.name, ban_id: item.ban_id, semester: item.semester, students: [], total_out_count: 0, total_out_per: 0, total_switch_count: 0, total_switch_per: 0 };
-        }
-        if (item.out_created != null) {
-            acc[v].total_out_count += 1;
-            acc[v].total_out_per = answer_rate(acc[v].total_out_count, outstudent_num).toFixed(1)
-        } else if (item.switch_ban_id != null) {
-            acc[v].total_switch_count += 1;
-            acc[v].total_switch_per = answer_rate(acc[v].total_switch_count, switchstudent_num).toFixed(1)
-        }
-
-        acc[v].students.push(item);
-        return acc;
-    }, []);
-    // allData = Object.values(teacherGrouped).sort((a, b) => {
-    //     if (b.total_out_per !== a.total_out_per) {
-    //         return b.total_out_per - a.total_out_per; // total_out_per가 큰 순으로 정렬
-    //     } else {
-    //         return b.students.length - a.students.length; // students.length가 큰 순으로 정렬
-    //     }
-    // });
-    let info = teacherGrouped.filter(t=>t.teacher_id == t_id)
+    let info = allData.filter(t=>t.teacher_id == t_id)
     console.log(info)
     $.ajax({
         type: "GET",
