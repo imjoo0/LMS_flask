@@ -1023,7 +1023,7 @@ function post_consulting_request() {
                 v = String(value).split('_')
                 $.ajax({
                     type: "POST",
-                    url: '/manage/consulting/request_indivi_student/' + v[0] + '/' + v[1] + '/' + v[3],
+                    url: '/manage/consulting/' + v[0] + '/' + v[1] + '/' + v[3],
                     // data: JSON.stringify(jsonData), // String -> json 형태로 변환
                     data: {
                         consulting_category: consulting_category,
@@ -1049,7 +1049,7 @@ function post_consulting_request() {
                 student_id = value.student_id
                 $.ajax({
                     type: "POST",
-                    url: '/manage/consulting/request_indivi_student/' + ban_id + '/' + teacher_id + '/' + student_id,
+                    url: '/manage/consulting/' + ban_id + '/' + teacher_id + '/' + student_id,
                     // data: JSON.stringify(jsonData), // String -> json 형태로 변환
                     data: {
                         consulting_category: consulting_category,
@@ -1075,7 +1075,7 @@ function post_consulting_request() {
                     student_id = value.student_id
                     $.ajax({
                         type: "POST",
-                        url: '/manage/consulting/request_indivi_student/' + ban_id + '/' + teacher_id + '/' + student_id,
+                        url: '/manage/consulting/' + ban_id + '/' + teacher_id + '/' + student_id,
                         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
                         data: {
                             consulting_category: consulting_category,
