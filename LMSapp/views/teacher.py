@@ -147,7 +147,7 @@ def question():
         # URI = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
         # Synologytoken = 'PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q'
 
-        URI = 'https://192.168.0.239:5001/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
+        URI = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
         Synologytoken = 'rQsVD8F8S0jYaKYdiNF2kuPafYAxl67tpZGf9cFY3dJF8zMXrExBb793n8eszjPp'
         payloadText  = "새 문의가 등록되었습니다"
 
