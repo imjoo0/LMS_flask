@@ -294,7 +294,7 @@ function allsemesterShow() {
     let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
     let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
     // let temp_banlist = '<option value=0 selected>반을 선택해주세요</option>';
-    data.forEach(ban_data => {
+    allData.forEach(ban_data => {
         let ban_id = ban_data['students'][0].ban_id
         let name = ban_data['students'][0].name
         let semester = ban_data['students'][0].semester
