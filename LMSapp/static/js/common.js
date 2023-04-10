@@ -72,7 +72,322 @@ function q_category(category) {
     }
     return category
 }
+// 메인화면 데이터 
+function get_data() {
+    $.ajax({
+        type: "GET",
+        url: "/teacher/get_data",
+        dataType: 'json',
+        data: {},
+        success: function (response) {
+            if(response['ban_data']=='없음'){
+                // 예외 처리 
+            }
+            // 반 차트 데이터 
+            // 본원 문의 ban선택 옵션 같이 붙이기 
+            // let switchstudent_t =  response['switchstudent'].length ( 선생님 기준 이반 율에 사용 )
+            // let outstudent_t = response['outstudent'].length ( 선생님 기준 퇴소 율에 사용 )
+            $('#ban_chart_list').empty()
+            $('#history_ban').empty()
+            let unlearned_t =response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.category_id < 100).length : 0;
+            let temp_ban_option = '<option value="none" selected>반을 선택해주세요</option>';
+            for (i=0;i< response['ban_data'].length;i++) {
+                let register_no =  response['ban_data'][i]['register_no']
+                let name =  response['ban_data'][i]['name']
+                let semester = make_semester(response['ban_data'][i]['semester'])
+                let total_student_num =  response['ban_data'][i]['total_student_num']
+                let unlearned_arr = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.category_id < 100 && consulting.ban_id === register_no): 0;
+                let unlearned = 0
+                let unlearned_ixl = 0
+                let unlearned_reading = 0
+                let unlearned_speacial = 0
+                let unlearned_writing = 0
+                let unlearned_homepage = 0
+                let unlearned_intoreading = 0
+                if(unlearned_arr != 0){
+                    unlearned = unlearned_arr.length;
+                    unlearned_ixl = unlearned_arr.filter(a => a.category_id == 1).length
+                    unlearned_reading = unlearned_arr.filter(a => a.category_id == 4).length
+                    unlearned_speacial = unlearned_arr.filter(a => a.category_id == 3).length
+                    unlearned_writing = unlearned_arr.filter(a => a.category_id == 6).length
+                    unlearned_homepage = unlearned_arr.filter(a => a.category_id == 2).length
+                    unlearned_intoreading = unlearned_arr.filter(a => a.category_id == 5 || a.category_id == 7).length
+                }
+                let switchstudent =response['switchstudent'].length > 0 ? response['switchstudent'].filter(a=> a.ban_id === register_no).length : 0;
+                let outstudent = response['outstudent'].length > 0 ? response['outstudent'].filter(a=> a.ban_id === register_no).length : 0;
+                temp_ban_option += `
+                <option value=${register_no}>${name} (${semester}월 학기)</option>
+                `;
+                let temp_ban_chart = `
+                <div class="d-flex justify-content-start align-items-start flex-column w-100 my-2">
+                    <h5 class="mb-3">📌  ${name} (${semester}월 학기)</h5>
+                    <div class="row w-100">
+                        <div class="chart-wrapper col-sm-5">
+                            <canvas id="total-chart-element${i}" class="total-chart-element p-sm-3 p-2"></canvas>
+                            <div class ="chart-data-summary">
+                                <span>관리중:${ total_student_num }</span><br>
+                                <span>* 이반:${ switchstudent }</span><br>
+                                <span>* 퇴소:${ outstudent }</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-7 d-flex justify-content-center align-items-center">
+                            <table class="table text-center" id="class_list">
+                                <tbody style="width:100%;">
+                                    <tr class="row">
+                                        <th class="col-12" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${register_no})">${name}반  원생 목록  ✔️</th>
+                                    </tr>
+                                    <tr class="row">
+                                        <th class="col-12">총 미학습 ${unlearned}건  (${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</th>
+                                    </tr>
+                                    <tr class="row">
+                                    <th class="col-2">IXL</th>
+                                    <th class="col-2">리딩</th>
+                                    <th class="col-2">리특</th>
+                                    <th class="col-2">인투리딩</th>
+                                    <th class="col-2">라이팅</th>
+                                    <th class="col-2">미접속</th>
+                                    </tr>
+                                    <tr class="row">
+                                    <td class="col-2">${unlearned_ixl}건(${answer_rate(unlearned_ixl, unlearned).toFixed(0)}%)</td>
+                                    <td class="col-2">${unlearned_reading}건(${answer_rate(unlearned_reading, unlearned).toFixed(0)}%)</td>
+                                    <td class="col-2">${unlearned_speacial}건(${answer_rate(unlearned_speacial, unlearned).toFixed(0)}%)</td>
+                                    <td class="col-2">${unlearned_intoreading}건(${answer_rate(unlearned_intoreading, unlearned).toFixed(0)}%)</td>
+                                    <td class="col-2">${unlearned_writing}건(${answer_rate(unlearned_writing, unlearned).toFixed(0)}%)</td>
+                                    <td class="col-2">${unlearned_homepage}건(${answer_rate(unlearned_homepage, unlearned).toFixed(0)}%)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                `;
+                $('#ban_chart_list').append(temp_ban_chart);
 
+                new Chart($((`#total-chart-element${i}`)), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['관리중', '이반', '퇴소'],
+                        datasets: [
+                            {
+                                data: [total_student_num, switchstudent, outstudent],
+                                backgroundColor: ['#B39CD0', '#ffd400', '#F23966'],
+                                hoverOffset: 4,
+                            },
+                        ],
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                display: false,
+                            },
+                        },
+                    },
+                });
+            }
+            // 본원 문의 ban선택 옵션 같이 붙이기 
+            $('#my_ban_list').html(temp_ban_option)
+            // 상담일지 조회 ban 선택 옵션 같이 붙이기 
+            $('#history_ban').append(temp_ban_option)
+            
+            // let consulting_deadlinemissed = consulting_notdone.length > 0 ? consulting_notdone.filter(c => new Date(c.deadline).setHours(0, 0, 0, 0) < today).length : 0;
+            let consulting_t = response['all_consulting'].length;
+            let consulting_done = consulting_t != 0 ? response['all_consulting'].filter(consulting => consulting.done === 1).length : 0  
+            // let consulting_notdone = consulting_t - consulting_done
+            let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done != 0  && new Date(task.created_at).setHours(0, 0, 0, 0) == today).length : 0;
+            let total_task = response['all_task'].length
+            let task_notdone = total_task-task_done;
+            let temp_report = `
+            <td class="col-3"> ${task_done}/${total_task} </td>
+            <td class="col-3"> ( ${answer_rate(task_done,total_task).toFixed(0)}% ) </td>
+            <td class="col-3"> ${consulting_done}/${consulting_t} </td>
+            <td class="col-3"> ( ${answer_rate(consulting_done, consulting_t).toFixed(0)}% ) </td>
+            `;
+            $('#classreport').html(temp_report)
+
+            // 오늘의 업무 뿌려주기 
+            if(task_notdone == 0){
+                $('#task_title').html('오늘의 업무 끝 😆');
+                $('#task_button').hide();
+            }else{
+                $('#task_title').html('오늘의 업무 '+task_notdone+'건');
+                $('#task_button').show();
+            }
+                // 오늘의 업무 중복 카테고리로 묶기 
+            const categoryGrouped = response['all_task'].reduce((result, item) => {
+                const category = item.category;
+                if (!result[category]) {
+                    result[category] = [];
+                }
+                result[category].push(item);
+                return result;
+            }, {});
+
+                // 결과를 객체의 배열로 변환
+            const categoryGroupedresult = Object.entries(categoryGrouped).map(([category, items]) => {
+                return { [category]: items };
+            });
+
+            let temp_cate_menu = ''
+            for(i=0; i < categoryGroupedresult.length; i++){
+                const category = Object.keys(categoryGroupedresult[i])[0];
+                // const items = categoryGroupedresult[i][category].filter( e => e.done === 0 );
+                const items = categoryGroupedresult[i][category];
+                
+                items.sort((a, b) => b.priority - a.priority);
+                const contentsGrouped = items.reduce((result, item) => {
+                    const contents = item.contents;
+                    const priority = item.priority;
+                    const deadline = item.deadline;
+                    const doc = {
+                        'id':item.id,
+                        'ban_id':item.ban_id,
+                        'done':item.done,
+                        'created_at':new Date(item.created_at).setHours(0, 0, 0, 0)
+                    }
+                    const key =  priority + '_' + contents + '_' + deadline;
+                    if (!result[key]) {
+                        result[key] = [];
+                    }
+                    result[key].push(doc);
+                    return result;
+                }, {});
+
+                // 결과를 객체의 배열로 변환
+                const contentsGroupedresult = Object.entries(contentsGrouped).map(([key, items]) => {
+                    return { [key]: items };
+                });
+                temp_cate_menu += `
+                <thead  style="background-color:#ffc107;">
+                    <tr class="row">
+                    <th class="col-2">< 업무순서</th>
+                    <th class="col-8">${category}업무</th>
+                    <th class="col-2">마감일 ></th>
+                    </tr>
+                </thead>
+                <tbody style="width:100%;">  
+                `;
+
+                if (contentsGroupedresult && contentsGroupedresult.length > 0) {
+                    for(j=0; j < contentsGroupedresult.length; j++){
+                        const contents = Object.keys(contentsGroupedresult[j])[0];
+                        task_items = contentsGroupedresult[j][contents];
+                        const v = contents.split('_')
+                        temp_cate_menu += `
+                            <tr class="row">
+                                <td class="col-2">${make_priority(v[0])}</td>
+                                <td class="col-8">${v[1]}</td>
+                                <td class="col-2">${make_date(v[2])}</td>
+                            </tr>
+                            <td class="col-12">`;
+                            for(k=0; k < task_items.length; k++){
+                                const ban_name = response['ban_data'].filter(a => a.register_no === task_items[k].ban_id)[0]['name']
+                                if(task_items[k].done == 0){
+                                    temp_cate_menu += `
+                                    <label><input type="checkbox" name="taskid" value="${task_items[k].id}"/>${ban_name}</label>`;
+                                }else if(task_items[k].done == 1 && task_items[k].created_at == today){
+                                    temp_cate_menu += `
+                                    <label class="done">✅ ${ban_name}</label>`;
+                                }
+                            }
+                            temp_cate_menu += `</td></tbody>`;
+                    }
+                } else {
+                    temp_cate_menu += `
+                        <tr class="row">
+                            <td class="col-12">해당 카테고리의 업무가 없습니다.</td>
+                        </tr>
+                    `;
+                }
+
+                temp_cate_menu += `</tbody>`;
+            }
+            $('#cate_menu').html(temp_cate_menu);
+            
+            // 상담 목록 
+            let result = response['my_students'].reduce((acc, student) => {
+                const consultingList = response['all_consulting'].filter(c => c.student_id === student.register_no);
+                if (consultingList.length > 0) {
+                    const todoconsulting = consultingList.filter(c => c.done === 0)
+                    if(todoconsulting.length > 0 ){
+                        const deadline = todoconsulting.reduce((prev, current) => {
+                            let prevDueDate = make_date(prev.deadline);
+                            let currentDueDate = make_date(current.deadline);
+                            return currentDueDate < prevDueDate ? current : prev;
+                        }, todoconsulting[0]);
+                        const missed = todoconsulting.reduce((prev, current) => {
+                            let prevDueDate = make_date(prev.missed);
+                            let currentDueDate = make_date(current.missed);
+                            return currentDueDate < prevDueDate ? prev : current;
+                        }, todoconsulting[0]);
+    
+                        acc.push({
+                            'teacher_id':student.id,
+                            'student_id': student.register_no,
+                            'student_name': student.name +'('+student.nick_name+')',
+                            'student_mobileno': student.mobileno,
+                            'student_reco_book_code': make_recobook(student.reco_book_code),
+                            'ban_id': student.ban_id,
+                            'ban_name': student.classname,
+                            'consulting_num': todoconsulting.length,
+                            'done_consulting_num': consultingList.length - todoconsulting.length,
+                            'deadline': make_date(deadline.deadline),
+                            'missed' : missed_date(missed.missed),
+                            'consulting_list': consultingList
+                        });
+                    }else{
+                        acc.push({
+                            'teacher_id':student.id,
+                            'student_id': student.register_no,
+                            'student_name': student.name +'('+student.nick_name+')',
+                            'student_mobileno': student.mobileno,
+                            'student_reco_book_code': make_recobook(student.reco_book_code),
+                            'ban_id': student.ban_id,
+                            'ban_name': student.classname,
+                            'consulting_num': 0,
+                            'done_consulting_num': consultingList.length,
+                            'deadline': make_date('3000-01-01'),
+                            'missed' : missed_date('1111-01-01'),
+                            'consulting_list': consultingList
+                        });
+                    }
+                }else{
+                    acc.push({
+                        'teacher_id':student.id,
+                        'student_id': student.register_no,
+                        'student_name': student.name +'('+student.nick_name+')',
+                        'student_mobileno': student.mobileno,
+                        'student_reco_book_code': make_recobook(student.reco_book_code),
+                        'ban_id': student.ban_id,
+                        'ban_name': student.classname,
+                        'consulting_num': 0,
+                        'done_consulting_num': 0,
+                        'deadline': make_date('3000-01-01'),
+                        'missed' : missed_date('1111-01-01'),
+                        'consulting_list': []
+                    });
+                }
+                return acc;
+            }, []);
+            if (result.length > 0) {
+                result = result.sort((a, b) => {
+                    return b.consulting_num - a.consulting_num;
+                });
+                result = result.sort((a, b) => {
+                    return a.deadline - b.deadline
+                });
+                consultingStudentData = result
+                get_consulting_student(0)
+            } else {
+                $('#today_consulting_title').html($('#today_consulting_title').html()+'   0건');
+                $('#consulting_student_list').hide();
+                $('#consultingstudent_pagination').hide();
+            }
+        },
+        error:function(xhr, status, error){
+                alert('xhr.responseText');
+        }
+    });
+}
 function displayData(totalData, currentPage, dataPerPage,data_list,b_id) {
     let chartHtml = "";
 
