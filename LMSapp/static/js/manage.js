@@ -989,9 +989,9 @@ function post_consulting_request() {
     // 다중 선택 대상 선택일 경우  )
     if (selectedStudentList.length != 0) {
         let total_student_selections = selectedStudentList.filter(value => value.includes('-1'));
+        const totalPromises = [];
         // 전체 학생 대상 인 경우
         if (total_student_selections.length != 0) {
-            const totalPromises = [];
             total_student_selections.forEach(value => {
               v = value.split('_')
               totalstudent_ban_id = Number(v[0])
@@ -1012,41 +1012,40 @@ function post_consulting_request() {
                 totalPromises.push(promise);
               })
             })
-          }
-          // 개별 학생 대상 인 경우  
-          let indivi_student_selections = selectedStudentList.filter(value => !(value.includes('-1')));
-          if (indivi_student_selections.length != 0) {
-            const indiviPromises = [];
+        }
+        // 개별 학생 대상 인 경우  
+        let indivi_student_selections = selectedStudentList.filter(value => !(value.includes('-1')));
+        if (indivi_student_selections.length != 0) {
             indivi_student_selections.forEach(value => {
-              v = String(value).split('_')
-              const promise = $.ajax({
+                v = String(value).split('_')
+                const promise = $.ajax({
                 type: "POST",
                 url: '/manage/consulting/' + v[0] + '/' + v[1] + '/' + v[3],
                 // data: JSON.stringify(jsonData), // String -> json 형태로 변환
                 data: {
-                  consulting_category: consulting_category,
-                  consulting_contents: consulting_contents,
-                  consulting_date: consulting_date,
-                  consulting_deadline: consulting_deadline
+                    consulting_category: consulting_category,
+                    consulting_contents: consulting_contents,
+                    consulting_date: consulting_date,
+                    consulting_deadline: consulting_deadline
                 }
-              })
-              totalPromises.push(promise);
+                })
+                totalPromises.push(promise);
             })
-            Promise.all(totalPromises).then((responses) => {
-              let isSuccess = true;
-              responses.forEach(response => {
-                if (response['result'] !== 'success') {
-                  isSuccess = false;
-                }
-              })
-              if (isSuccess) {
-                alert('상담 요청 완료');
-                window.location.reload();
-              } else {
-                alert('상담 요청 실패');
-              }
+        }
+        Promise.all(totalPromises).then((responses) => {
+            let isSuccess = true;
+            responses.forEach(response => {
+            if (response['result'] !== 'success') {
+                isSuccess = false;
+            }
             })
-          }
+            if (isSuccess) {
+            alert('상담 요청 완료');
+            window.location.reload();
+            } else {
+            alert('상담 요청 실패');
+            }
+        })
     } else {
         b_type = $('#consulting_target_aban').val()[0]
         // b_type에 따라 전체 학생, 플러스/알파반, NF/NOVEL반으로 구분하여 API 호출
