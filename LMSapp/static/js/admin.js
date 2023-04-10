@@ -1,8 +1,6 @@
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
-    get_teacher_data()
-    sodata()
-    uldata()
+    get_total_data()
 })
 
 function displayData(totalData, currentPage, dataPerPage,data_list,data_num) {
