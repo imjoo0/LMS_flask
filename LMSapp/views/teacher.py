@@ -138,6 +138,7 @@ def question():
         db.session.add(new_question)
         db.session.commit()
         common.save_attachment(file, new_question.id)
+       
         # const groupToken = {
         #         행정파트: '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"',
         #         내근티처: '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"',
@@ -145,9 +146,17 @@ def question():
         #       };
         # URI = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
         # Synologytoken = 'PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q'
-        # payloadText = "새 문의 등록"
-        requestURI = "https://192.168.0.239:5001/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2&token=%22rQsVD8F8S0jYaKYdiNF2kuPafYAxl67tpZGf9cFY3dJF8zMXrExBb793n8eszjPp%22"
-        # requestURI = f"{URI}&token={Synologytoken}&payload=%7B%22text%22"
+        
+        URI = "https://192.168.0.239:5001/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2"
+        Synologytoken = "rQsVD8F8S0jYaKYdiNF2kuPafYAxl67tpZGf9cFY3dJF8zMXrExBb793n8eszjPp"
+        payloadText  = "새 문의가 등록되었습니다"
+
+        payload = {
+            "text": payloadText
+        }
+        payload_json = json.dumps(payload)
+
+        requestURI = f"{URI}&token={Synologytoken}&payload={payload_json}"
 
         try:
             response = requests.get(requestURI)
