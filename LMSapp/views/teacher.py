@@ -139,27 +139,19 @@ def question():
         db.session.commit()
         common.save_attachment(file, new_question.id)
 
-        url = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
-        token = 'MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv'
-        room_id = 'PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q'
-        message = '상담업무관리 페이지에 새 문의가 등록되었습니다(test)'
-        payload = {
-            'text': message,
-            'room_id': room_id
-        }
-        headers = {
-            'Content-Type': 'application/json'
-        }
+        URI = "http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2"
+        Synologytoken = "MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"
+        payloadText = ""
 
-        params = {
-            'token': token
-        }
+        requestURI = f"{URI}&token={Synologytoken}&payload=%7B%22text%22%3A%20%22{payloadText}%22%7D"
 
-        response = requests.post(url, headers=headers, params=params, data=json.dumps(payload))
-        if response.status_code == 200:
-            print('메시지가 성공적으로 전송되었습니다.')
-        else:
-            print('메시지 전송이 실패하였습니다.')
+        try:
+            response = requests.get(requestURI)
+            print("시놀로지 전송 성공")
+        except requests.exceptions.RequestException as e:
+            print("시놀로지 전송 실패")
+            print(e)
+
         return redirect('/')
 # 오늘 해야 할 업무 완료 저장 
 @bp.route("/task/<int:tb_id>", methods=['POST'])
