@@ -8,7 +8,7 @@ from flask import Blueprint, render_template, jsonify, request, redirect, url_fo
 from datetime import datetime, timedelta, date
 # file-upload 로 자동 바꿈 방지 모듈
 from LMSapp.views import common
-
+import requests 
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 
 
@@ -138,6 +138,28 @@ def question():
         db.session.add(new_question)
         db.session.commit()
         common.save_attachment(file, new_question.id)
+
+        url = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
+        token = 'MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv'
+        room_id = 'iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg'
+        message = '상담업무관리 페이지에 새 문의가 등록되었습니다'
+        payload = {
+            'text': message,
+            'room_id': room_id
+        }
+        headers = {
+            'Content-Type': 'application/json'
+        }
+
+        params = {
+            'token': token,
+            'payload': payload
+        }
+        response = requests.get(url, headers=headers, params=params)
+        if response.status_code == 200:
+            print('메시지가 성공적으로 전송되었습니다.')
+        else:
+            print('메시지 전송이 실패하였습니다.')
         return redirect('/')
 
 # 오늘 해야 할 업무 완료 저장 
