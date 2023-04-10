@@ -249,7 +249,6 @@ async function get_total_data() {
                     }
                 }
             });
-            allsemesterShow();
         },
         error: function (xhr, status, error) {
             alert('xhr.responseText');
