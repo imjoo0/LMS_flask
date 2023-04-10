@@ -984,10 +984,11 @@ function post_consulting_request() {
     consulting_contents = $('#consulting_contents').val()
     consulting_date = $('#consulting_date').val()
     consulting_deadline = $('#consulting_deadline').val()
-    // 다중 선택 대상 선택일 경우  
-    console.log(selectedStudentList)
+    // 다중 선택 대상 선택일 경우  )
     if (selectedStudentList.length != 0) {
+        console.log(selectedStudentList)
         let total_student_selections = selectedStudentList.filter(value => value.includes('-1'));
+        console.log(total_student_selections)
         // 전체 학생 대상 인 경우
         if(total_student_selections.length != 0){
             total_student_selections.forEach(value => {
