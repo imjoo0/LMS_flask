@@ -357,7 +357,7 @@ function semesterShow(semester) {
 }
 function getTeacherInfo(t_id){
     const teacherGrouped = result.reduce((acc, item) => {
-        const v = item.teacher_id;
+        const v = item.teacher_id + '_' + item.ban_id;
 
         if (!acc[v]) {
             acc[v] = { teacher_id: item.teacher_id, ban_name: item.name, ban_id: item.ban_id, semester: item.semester, students: [], total_out_count: 0, total_out_per: 0, total_switch_count: 0, total_switch_per: 0 };
