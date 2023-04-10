@@ -17,7 +17,7 @@ let make_recobook = function(c){
     }
 }
 let make_reject_code = function(rc){
-    if( c == 0){
+    if( rc == 0){
         return '❌(반려)';
     }else{
         return '⭕(승인)';
