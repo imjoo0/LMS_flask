@@ -372,7 +372,7 @@ function getTeacherInfo(t_id){
 
         acc[v].students.push(item);
         return acc;
-    }, {});
+    }, []);
     // allData = Object.values(teacherGrouped).sort((a, b) => {
     //     if (b.total_out_per !== a.total_out_per) {
     //         return b.total_out_per - a.total_out_per; // total_out_per가 큰 순으로 정렬
