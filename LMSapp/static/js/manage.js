@@ -1117,8 +1117,8 @@ function post_consulting_request() {
             })
         }
     }
-    alert('상담 요청 완료')
-    window.location.reload()
+    // alert('상담 요청 완료')
+    // window.location.reload()
 }
 
 // CS 관리 
