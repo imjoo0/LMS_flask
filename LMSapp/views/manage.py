@@ -491,8 +491,8 @@ def request_indivi_student(b_id,t_id,s_id):
         db.session.commit()
 
         return jsonify({'result':'success'})
-    
-# 전체 반에 요청 상담 저장
+   
+# 전체 반에 상담 요청 저장
 @bp.route("/consulting/all_ban/<int:b_type>", methods=['POST'])
 def request_all_ban(b_type):
     if request.method == 'POST':
@@ -505,7 +505,6 @@ def request_all_ban(b_type):
         #  상담을 마무리할 마감일 저장
         received_consulting_deadline = request.form['consulting_deadline']
         # 전체 반 대상 진행 일 경우 처리
-        print(b_type) 
         if b_type == 0:
             targets = callapi.purple_allinfo('get_all_ban_student')
         # plus alpha 처리   
@@ -546,12 +545,3 @@ def insert_question():
 
         return result
 
-# 선생님 문의 저장
-# @bp.route('/question', methods=['POST'])
-# def question():
-#     question = request.form['question_contents']
-#     print(question)
-#     if result == 'fail':
-#         return jsonify({'result': '업로드 실패'})
-
-#     return jsonify({'result': '업로드 완료!'})
