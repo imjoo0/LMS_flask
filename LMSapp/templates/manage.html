@@ -29,6 +29,108 @@
     });
 </script>
 
+<!-- 선생님 정보 조회 모달 -->
+<div class="modal fade" id="teacherinfo" tabindex="-1" aria-labelledby="teacherModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header make_row">
+                <h5 class="modal-title" id="teachertitle"></h5>
+                <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="info-container">
+                    <div class="info-title">
+                        <span>Total Chart</span>
+                    </div>
+                    <div class="info" style="overflow: scroll;">
+                        <div class="total_chart">
+                            <div class="chartWrap">
+                                <div class="chart">
+                                    <div class="pie-chart1">
+                                        <span class="chart-total-num" id="total_s_num"><br></span>
+                                        <span class="chart-total-text1"></span>
+                                        <span class="chart-total-text2"></span>
+                                    </div>   
+                                </div>
+                                          
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-container mt-5">
+                    <div class="info-title">
+                        <span>Total Report</span>
+                    </div>
+                    <div class="info">
+                        <div class="total_table" style="width:90%">
+                            <table class="table text-center">
+                                <tbody style="width:100%;">
+                                    <tr class="row">
+                                        <th class="col-6">미학습 발생건</th>
+                                        <th class="col-6">미학습 발생율</th>
+                                    </tr>
+                                    <tr id="totalreport-row" class="row">
+                                        <td class="col-6" id="unlearned_chart"></td>
+                                        <td class="col-6" id="unlearned_cp"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table text-center">
+                                <tbody style="width:100%;">
+                                    <tr class="row">
+                                        <th class="col-6">업무 | 완수율</th>
+                                        <th class="col-6">상담 | 완수율</th>
+                                    </tr>
+                                    <tr id="classreport-row" class="row">
+                                        <td class="col-3" id="task_chart"></td>
+                                        <td class="col-3" id="task_p"></td>
+                                        <td class="col-3" id="consulting_chart"></td>
+                                        <td class="col-3"id="cp"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table text-center">
+                                <tbody style="width:100%;">
+                                    <tr class="row">
+                                        <th class="col-6">공지 등록건</th>
+                                        <th class="col-6">문의 | 응답율</th>
+                                    </tr>
+                                    <tr class="row">
+                                        <td class="col-6">임시0</td>
+                                        <td class="col-3"> 임시3/10 </td>
+                                        <td class="col-3"> 5% </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-container mt-5">
+                    <div class="info-title">
+                        <span>Class Report</span>
+                    </div>
+                    <div class="info">
+                        <table class="table text-center" id="class_list" style="width:100%;">
+                            <tbody style="width:100%;">
+                                <tr class="row">
+                                    <th class="col-2">반이름</th>
+                                    <th class="col-1">학기</th>
+                                    <th class="col-1">원생 수</th>
+                                    <th class="col-2">퇴소</th>
+                                    <th class="col-2">이반</th>
+                                    <th class="col-2">미학습</th>
+                                    <th class="col-2">문의 미응답</th>
+                                </tr>
+                                <tr class="row" id="mybaninfo">
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- 신규 상담 요청 모달 -->
 <div class="modal fade" id="request_consulting" tabindex="-1" aria-labelledby="RequestConsultingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
@@ -787,7 +889,8 @@
                                         <th class="col-2">초기 등록 학생 수</th>
                                         <th class="col-2">관리중인 학생 수</th>
                                         <th class="col-2">퇴소 및 이반 수  (퇴소율)</th>
-                                        <th class="col-2">상세</th>
+                                        <th class="col-1">선생님 정보</th>
+                                        <th class="col-1">반 정보</th>
                                     </tr>
                                 </thead>
                                 <tr class="row" id="semester_banlist">

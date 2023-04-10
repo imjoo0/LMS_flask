@@ -318,7 +318,7 @@ function allsemesterShow() {
         <td class="col-2">${student_num + total_out_count}</td>
         <td class="col-2">${student_num}</td>
         <td class="col-2">${total_out_count}명  (${total_out_per}%)</td>
-        <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${teacher_id})" id="teacherInfo"><span class="cursor-pointer">✅</span></td>;
+        <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${teacher_id})"><span class="cursor-pointer">✅</span></td>;
         <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart(${ban_id})"><span class="cursor-pointer">✅</span></td>`;
     });
     $('#semester_banlist').html(temp_semester_banlist)
@@ -351,7 +351,7 @@ function semesterShow(semester) {
         <td class="col-2">${student_num + total_out_count}</td>
         <td class="col-2">${student_num}</td>
         <td class="col-2">${total_out_count}명  (${total_out_per}%)</td>
-        <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${teacher_id})" id="teacherInfo"><span class="cursor-pointer">✅</span></td>;
+        <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${teacher_id})"><span class="cursor-pointer">✅</span></td>;
         <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart(${ban_id})"><span class="cursor-pointer">✅</span></td>`;
     });
     $('#semester_banlist').html(temp_semester_banlist)
