@@ -380,7 +380,7 @@ function getTeacherInfo(t_id){
     //         return b.students.length - a.students.length; // students.length가 큰 순으로 정렬
     //     }
     // });
-    let info = teacherGrouped.filter(t=>t.teacher_id == t_id)[0]
+    let info = teacherGrouped.filter(t=>t.teacher_id == t_id)
     console.log(info)
     $.ajax({
         type: "GET",
