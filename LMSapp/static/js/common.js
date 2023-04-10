@@ -376,7 +376,12 @@ function getTeacherInfo(t_id){
             let os = chart['outstudent_num']
             let ss = chart['switchstudent_num']
             let ttp = tt+os+ss
-            
+            let temp_teacher_info_student_num = `
+                <span>관리중:${ tt }</span><br>
+                <span>* 이반:${ ss }</span><br>
+                <span>* 퇴소:${ os }</span>
+            `
+            $('#teacher_info_student_num').html(temp_teacher_info_student_num)
             new Chart($(('#total-chart-element')), {
                 type: 'doughnut',
                 data: {
