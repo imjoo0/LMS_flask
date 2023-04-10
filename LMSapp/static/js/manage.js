@@ -1170,7 +1170,7 @@ function paginating(done_code) {
                     data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</button> 
                     <button onclick="delete_question(${item.id})">❌</button></td>`;
                 });
-                $('#so_tr').html(dataHtml);
+                $('#alim_tr').html(dataHtml);
             }
         })
     }else{
