@@ -1043,7 +1043,9 @@ function post_consulting_request() {
         b_type = $('#consulting_target_aban').val()[0]
         console.log(b_type)
         if(b_type == 0){
+            console.log(all_student)
             all_student.forEach(value => {
+                console.log(value)
                 ban_id = value.ban_id
                 teacher_id = value.teacher_id
                 student_id = value.student_id
