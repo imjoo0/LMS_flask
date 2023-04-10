@@ -140,14 +140,17 @@ def question():
         common.save_attachment(file, new_question.id)
 
         URI = "http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2"
-        Synologytoken = "MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"
+        Synologytoken = "PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"
         payloadText = ""
 
         requestURI = f"{URI}&token={Synologytoken}&payload=%7B%22text%22%3A%20%22{payloadText}%22%7D"
 
         try:
             response = requests.get(requestURI)
-            print("시놀로지 전송 성공")
+            if response.status_code == 200:
+                print("시놀로지 전송 성공")
+            else:
+                print("시놀로지 전송 실패")
         except requests.exceptions.RequestException as e:
             print("시놀로지 전송 실패")
             print(e)
