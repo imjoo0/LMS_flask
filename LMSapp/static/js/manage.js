@@ -1129,12 +1129,58 @@ function post_consulting_request() {
 }
 
 // CS 관리 
+// 이반 퇴소 문의 관리
 function paginating(done_code) {
     $('#detailban').hide()
     $('#sobox').hide()
     $('#ulbox').hide()
     $('#qubox').show()
     let container = $('#pagination')
+    questionData = questionData.length > 0 ? questionData.filter(q=>q.category == 0) : 0
+    total_question_num = questionData.length
+    csdata_noanswer = questionData.filter(a => a.answer == 0).length
+
+    let temp_newcs = `
+    <td class="col-4">${total_question_num}  건</td>
+    <td class="col-4">${total_question_num - csdata_noanswer}  건</td>
+    <td class="col-4">${csdata_noanswer}  건</td>
+    `;
+    $('#newcs').html(temp_newcs)
+
+    if(total_question_num!=0){
+        $('#no_data_msg').hide()
+        $('#so_question').show()
+        $('#so_pagination').show()
+        qdata = questionData.filter(a => a.answer == done_code)
+        var dataHtml = '';
+        container.pagination({
+            dataSource: qdata,
+            prevText: '이전',
+            nextText: '다음',
+            pageClassName: 'float-end',
+            pageSize: 5,
+            callback: function (qdata, pagination) {
+                $.each(qdata, function (index, item) {
+                    let category = q_category(item.category)
+                    dataHtml += `
+                    <td class="col-2">${category}</td>
+                    <td class="col-4">${item.title}</td>
+                    <td class="col-4">${item.contents}</td>
+                    <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
+                    data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</button> 
+                    <button onclick="delete_question(${item.id})">❌</button></td>`;
+                });
+                $('#so_tr').html(dataHtml);
+            }
+        })
+    }else{
+        $('#so_question').hide()
+        $('#so_pagination').hide()
+        $('#no_data_msg').html('문의가 없습니다')
+        $('#no_data_msg').show()
+    }
+
+    
     $.ajax({
         url: '/manage/api/get_all_questions/' + done_code,
         type: 'get',
@@ -1166,6 +1212,151 @@ function paginating(done_code) {
             })
         }
     })
+}
+// 문의 내용 상세보기
+async function get_question_detail(q_id,done_code) {
+    // $('#questionlist').hide()
+    $('#consulting_history_attach').hide()
+    $('#manage_answer').hide()
+    question_detail_data = questionData.filter(q => q.id == q_id)[0]
+    student_data = allData.filter(a=>a.teacher_id == question_detail_data.teacher_id && a.ban_id == question_detail_data.ban_id)[0]['students'].filter(s=>s.student_id
+       == question_detail_data.student_id)[0]
+    attach = attachData.filter(a=>a.question_id == q_id)[0]['file_name']
+    // 
+    console.log(question_detail_data)
+    console.log(student_data)
+    console.log(attach)
+    // 문의 상세 내용 
+    let temp_question_list = `
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">문의 종류</span>
+        <p>${q_category(question_detail_data.cateogry)}</p>
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">제목</span>
+        <p>${question_detail_data.title}</p>
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">내용</span>
+        <p>${question_detail_data.contents}</p>
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">작성일</span>
+        <p>${make_date(question_detail_data.create_date)}</p>
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">대상 반 | 학생</span>
+        <p>${student_data.name} ➖ ${student_data.student_name}</p>
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">첨부파일</span>
+        <a href="/common/downloadfile/question/${q_id}" download="${attach}">${attach}</a>
+    </div>`;
+    $('#teacher_question').html(temp_question_list);
+
+    // 상담 일지 처리 
+    if(question_detail_data.category == 0){
+        $('#consulting_history_attach').hide()
+    }else{
+        $('#consulting_history_attach').show()
+        consulting_history = consultingData.filter(c=>c.id == question_detail_data.consulting_history)[0]
+        let category = ''
+        if(consulting_history.category_id < 100 ){
+            category = `${consulting_history.week_code}주간 ${consulting_history.category}상담`
+        }else{
+            category = `${consulting_history.category} ${consulting_history.contents}`
+        }
+        let temp_his = `
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">상담 종류</span>
+            <p>${category}</p>
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">상담 사유</span>
+            <p>${consulting_history.reason}</p>
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">제공한 가이드</span>
+            <p>${consulting_history.solution}</p>
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">상담 결과</span>
+            <p>${consulting_history.result}</p>
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">상담 일시</span>
+            <p>${make_date(consulting_history.created_at)}</p>
+        </div>
+        `;
+        $('#cha').html(temp_his);
+    }
+    // 응답 처리 
+    if(done_code == 0){
+        $('#teacher_answer').hide()
+        $('#manage_answer').show()
+        $('#manage_answer_1').show()
+        if(question_detail_data.category == 1){
+            $('#manage_answer_2').hide()
+            $('#manage_answer_3').show()
+         }else if(question_detail_data.category == 2){
+            $('#manage_answer_2').show()
+            $('#manage_answer_3').hide()
+         }else{
+            $('#manage_answer_2').hide()
+            $('#manage_answer_3').hide()
+         }
+         $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category})">저장</button>`);
+    }else{
+        $('#manage_answer').hide()
+        $('#teacher_answer').show()
+        answer_data = answerData.filter(a=>question_id == q_id)[0]
+        let temp_answer_list = `
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">답변 제목</span>
+            <input class="modal-body-select" type="text" size="50" id="answer_title" style="width: 75%;">
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">답변 내용</span>
+            <textarea id="answer_contents" class="modal-body-select" type="text" rows="5" cols="25"
+                name="answer_contents1" style="width: 75%;"></textarea>
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">응답일</span>
+            <p>${answer_data.created_at}</p>
+        </div>`;
+        if(question_detail_data.category != 0){
+           temp_answer_list += `<div class="modal-body-select-container">
+           <span class="modal-body-select-label">처리</span>
+           <p>${make_reject_code(answer_data.reject_code)}</p>
+           </div>`
+        }
+        $('#teacher_answer').html(temp_answer_list);
+    }
+    
+}
+// 본원 답변 기능 
+function post_answer(q_id,category){
+    console.log(category)
+    answer_title = $('#answer_title').val()
+    answer_contents = $('#answer_contents').val()
+    o_ban_id = 0
+    if(category != 0){
+        o_ban_id = $('#o_ban_id'+category).val()
+    }
+    console.log(o_ban_id)
+    $.ajax({
+        type: "POST",
+        url: "/manage/answer/"+q_id,
+        data: {
+            answer_title:answer_title,
+            answer_contents:answer_contents,
+            o_ban_id:o_ban_id
+        },
+        success: function (response) {{
+            alert(response["result"])
+            window.location.replace('/')
+        }}
+    });
 }
 
 // 과거 코드
