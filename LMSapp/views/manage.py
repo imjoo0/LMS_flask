@@ -492,6 +492,35 @@ def request_indivi_student(b_id,t_id,s_id):
 
         return jsonify({'result':'success'})
     
+# 전체 반에 요청 상담 저장
+@bp.route("/consulting/all_ban/<int:b_type>", methods=['POST'])
+def request_all_ban(b_type):
+    if request.method == 'POST':
+        #  상담 카테고리 저장
+        received_consulting_category = request.form['consulting_category']
+        #  상담 내용 저장
+        received_consulting_contents = request.form['consulting_contents']
+        #  상담을 진행할 시작일 저장
+        received_consulting_startdate = request.form['consulting_date']
+        #  상담을 마무리할 마감일 저장
+        received_consulting_deadline = request.form['consulting_deadline']
+        # 전체 반 대상 진행 일 경우 처리
+        print(b_type) 
+        if b_type == 0:
+            targets = callapi.purple_allinfo('get_all_ban_student')
+        # plus alpha 처리   
+        elif b_type == 1:
+            targets = callapi.purple_allinfo('get_plusalpha_ban')
+        # nf 노블 처리 
+        else :
+            targets = callapi.purple_allinfo('get_nfnovel_ban')
+        for target in targets:
+            new_consulting = Consulting(ban_id=target['ban_id'],teacher_id=target['teacher_id'], category_id=received_consulting_category, student_id=target['student_id'],contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
+            db.session.add(new_consulting)
+            db.session.commit()
+        
+        return jsonify({'result':'success'})    
+    
 @bp.route("/ban_student/<int:b_id>", methods=['GET'])
 def get_select_student(b_id):
     if request.method == 'GET':

@@ -1049,76 +1049,26 @@ function post_consulting_request() {
     } else {
         b_type = $('#consulting_target_aban').val()[0]
         // b_type에 따라 전체 학생, 플러스/알파반, NF/NOVEL반으로 구분하여 API 호출
-        if (b_type == 0) {
-            Promise.all(all_student.map(value => {
-                return $.ajax({
-                    type: "POST",
-                    url: '/manage/consulting/' + value.ban_id + '/' + value.teacher_id + '/' + value.student_id,
-                    data: {
-                        consulting_category: consulting_category,
-                        consulting_contents: consulting_contents,
-                        consulting_date: consulting_date,
-                        consulting_deadline: consulting_deadline
-                    },
-                    success: function (response) {
-                        if (response['result'] != 'success') {
-                            alert('상담 요청 실패')
-                        }
-                    }
-                });
-            })).then(function () {
-                alert('상담 요청 완료');
-                window.location.reload();
-            });
-        } else if (b_type == 1) {
-            bandata = allData.filter(a => a.ban_name.toLowerCase().includes('alpha') || a.ban_name.toLowerCase().includes('plus'))
-            Promise.all(bandata.map(value => {
-                return Promise.all(value.students.map(student => {
-                    return $.ajax({
-                        type: "POST",
-                        url: '/manage/consulting/' + value.ban_id + '/' + value.teacher_id + '/' + student.student_id,
-                        data: {
-                            consulting_category: consulting_category,
-                            consulting_contents: consulting_contents,
-                            consulting_date: consulting_date,
-                            consulting_deadline: consulting_deadline
-                        },
-                        success: function (response) {
-                            if (response['result'] != 'success') {
-                                alert('상담 요청 실패')
-                            }
-                        }
-                    });
-                }));
-            })).then(function () {
-                alert('상담 요청 완료');
-                window.location.reload();
-            });
-        } else {
-            bandata = allData.filter(a => a.ban_name.toLowerCase().includes('nf') || a.ban_name.toLowerCase().includes('novel'))
-            Promise.all(bandata.map(value => {
-                return Promise.all(value.students.map(student => {
-                    return $.ajax({
-                        type: "POST",
-                        url: '/manage/consulting/' + value.ban_id + '/' + value.teacher_id + '/' + student.student_id,
-                        data: {
-                            consulting_category: consulting_category,
-                            consulting_contents: consulting_contents,
-                            consulting_date: consulting_date,
-                            consulting_deadline: consulting_deadline
-                        },
-                        success: function (response) {
-                            if (response['result'] != 'success') {
-                                alert('상담 요청 실패')
-                            }
-                        }
-                    });
-                }));
-            })).then(function () {
-                alert('상담 요청 완료');
-                window.location.reload();
-            });
-        }
+        b_type = $('#consulting_target_aban').val()[0]
+        $.ajax({
+            type: "POST",
+            url:'/manage/consulting/all_ban/'+b_type,
+            // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+            data: {
+                consulting_category:consulting_category,
+                consulting_contents:consulting_contents,
+                consulting_date:consulting_date,
+                consulting_deadline:consulting_deadline
+            },
+            success: function (response) {
+                if(response['result'] != 'success'){
+                    alert('상담 요청 실패')
+                }else{
+                    alert('해당 반 전체에 상담요청 완료')
+                    window.location.reload()
+                }
+            }
+        })
     }
 }
 
