@@ -425,14 +425,12 @@ def make_task():
         received_task_startdate = request.form['task_date']
         #  업무을 마무리할 마감일 저장
         received_task_deadline = request.form['task_deadline']
-        # 업무 참고 url
-        received_task_url = request.form['task_url']
         # 업무 우선순위
         received_task_priority = request.form['task_priority']
         # 업무 주기
         received_task_cycle = request.form['task_cycle']
         
-        task = Task(category_id=received_category,contents=received_task,startdate=received_task_startdate,deadline=received_task_deadline,url=received_task_url,priority=received_task_priority,cycle=received_task_cycle)
+        task = Task(category_id=received_category,contents=received_task,startdate=received_task_startdate,deadline=received_task_deadline,priority=received_task_priority,cycle=received_task_cycle)
         db.session.add(task)
         db.session.commit()
 
