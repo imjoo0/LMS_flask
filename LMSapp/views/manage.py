@@ -25,7 +25,7 @@ def answer(id):
         target_question.answer = 1
         answer_title = request.form['answer_title']
         answer_contents = request.form['answer_contents']
-        if(target_question.category != 0):
+        if(target_question.category == 0):
             o_ban_id = 0
         else:
             o_ban_id = request.form['o_ban_id'].split('_')[0]

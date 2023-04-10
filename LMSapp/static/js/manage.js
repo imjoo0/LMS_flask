@@ -547,11 +547,11 @@ async function get_question_detail(q_id,done_code) {
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">작성일</span>
-        <p>${question_detail_data.create_date}</p>
+        <p>${make_date(question_detail_data.create_date)}</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">대상 반 | 학생</span>
-        <p>${student_data.ban_name} ➖ ${student_data.student_name}</p>
+        <p>${student_data.name} ➖ ${student_data.student_name}</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">첨부파일</span>
