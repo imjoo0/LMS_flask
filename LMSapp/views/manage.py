@@ -490,7 +490,7 @@ def request_indivi_student(b_id,t_id,s_id):
         db.session.add(new_consulting)
         db.session.commit()
 
-        return jsonify({'success'})
+        return jsonify({'result':'success'})
     
 @bp.route("/ban_student/<int:b_id>", methods=['GET'])
 def get_select_student(b_id):

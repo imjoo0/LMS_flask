@@ -1008,7 +1008,7 @@ function post_consulting_request() {
                             consulting_deadline: consulting_deadline
                         },
                         success: function (response) {
-                            if (response != 'success') {
+                            if (response['result'] != 'success'){
                                 alert('상담 요청 실패')
                             }
                         }
@@ -1032,7 +1032,7 @@ function post_consulting_request() {
                         consulting_deadline: consulting_deadline
                     },
                     success: function (response) {
-                        if (response != 'success') {
+                        if (response['result'] != 'success'){
                             alert('상담 요청 실패')
                         }
                     }
@@ -1058,7 +1058,7 @@ function post_consulting_request() {
                         consulting_deadline: consulting_deadline
                     },
                     success: function (response) {
-                        if (response != 'success') {
+                        if (response['result'] != 'success'){
                             alert('상담 요청 실패')
                         }
                     }
@@ -1084,7 +1084,7 @@ function post_consulting_request() {
                             consulting_deadline: consulting_deadline
                         },
                         success: function (response) {
-                            if (response != 'success') {
+                            if (response['result'] != 'success'){
                                 alert('상담 요청 실패')
                             }
                         }
@@ -1110,7 +1110,7 @@ function post_consulting_request() {
                             consulting_deadline: consulting_deadline
                         },
                         success: function (response) {
-                            if (response != 'success') {
+                            if (response['result'] != 'success') {
                                 alert('상담 요청 실패')
                             }
                         }
