@@ -146,9 +146,9 @@ def question():
         #       };
         # URI = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
         # Synologytoken = 'PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q'
-        
-        URI = "https://192.168.0.239:5001/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2"
-        Synologytoken = "rQsVD8F8S0jYaKYdiNF2kuPafYAxl67tpZGf9cFY3dJF8zMXrExBb793n8eszjPp"
+
+        URI = 'https://192.168.0.239:5001/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
+        Synologytoken = 'rQsVD8F8S0jYaKYdiNF2kuPafYAxl67tpZGf9cFY3dJF8zMXrExBb793n8eszjPp'
         payloadText  = "새 문의가 등록되었습니다"
 
         payload = {
@@ -156,10 +156,13 @@ def question():
         }
         payload_json = json.dumps(payload)
 
-        requestURI = f"{URI}&token={Synologytoken}&payload={payload_json}"
+        headers = {
+            'Content-Type': 'application/json'
+        }
 
+        requestURI = f"{URI}&token={Synologytoken}"
         try:
-            response = requests.get(requestURI)
+            response = requests.post(requestURI, headers=headers, data=payload_json)
             if response.status_code == 200:
                 print("시놀로지 전송 성공")
             else:
@@ -167,6 +170,7 @@ def question():
         except requests.exceptions.RequestException as e:
             print("시놀로지 전송 실패")
             print(e)
+
 
         return redirect('/')
 # 오늘 해야 할 업무 완료 저장 
