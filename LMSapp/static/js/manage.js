@@ -1189,10 +1189,6 @@ async function get_question_detail(q_id,done_code) {
     student_data = allData.filter(a=>a.teacher_id == question_detail_data.teacher_id && a.ban_id == question_detail_data.ban_id)[0]['students'].filter(s=>s.student_id
        == question_detail_data.student_id)[0]
     attach = attachData.filter(a=>a.question_id == q_id)[0]['file_name']
-    // 
-    console.log(question_detail_data)
-    console.log(student_data)
-    console.log(attach)
     // 문의 상세 내용 
     let temp_question_list = `
     <div class="modal-body-select-container">
@@ -1275,7 +1271,7 @@ async function get_question_detail(q_id,done_code) {
          $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category})">저장</button>`);
     }else{
         $('#manage_answer').hide()
-        console.log(answer_data)
+        console.log(answerData)
         answer_data = answerData.filter(a=>question_id == q_id)[0]
         let temp_answer_list = `
         <div class="modal-body-select-container">
