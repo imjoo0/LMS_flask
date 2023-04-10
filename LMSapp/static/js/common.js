@@ -367,7 +367,6 @@ function getTeacherInfo(t_id){
                 $('#teacherModalLabel').html(no_data_title);
                 return
             }
-            
             let chart = response['chart_data']
             let name = response['teacher_info']['name'] + '(' + response['teacher_info']['engname'] + ')';
             let mobileno = response['teacher_info']['mobileno'];
@@ -378,10 +377,26 @@ function getTeacherInfo(t_id){
             let ss = chart['switchstudent_num']
             let ttp = tt+os+ss
             
-            $('#total_s_num').html(`관리중: ${tt}</br>이반 학생 수: ${ss}</br>퇴소 학생 수: ${os}`)
-            
-            $('.pie-chart1').css("background",`conic-gradient(#B9CDE5, #B9CDE5 ${tt/ttp*100}%, #D99694 ${tt/ttp*100}%, #D99694 ${tt/ttp*100+ss/ttp*100}%, #2B2B2B ${tt/ttp*100+ss/ttp*100}%, #2B2B2B)`)
-
+            new Chart($(('#total-chart-element')), {
+                type: 'doughnut',
+                data: {
+                    labels: ['관리중', '이반', '퇴소'],
+                    datasets: [
+                        {
+                            data: [tt, ss, os],
+                            backgroundColor: ['#B39CD0', '#ffd400', '#F23966'],
+                            hoverOffset: 4,
+                        },
+                    ],
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                    },
+                },
+            });
             // 업무
             let total_todo = chart['total_todo']
             let total_done = chart['total_done']
