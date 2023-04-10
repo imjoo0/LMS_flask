@@ -1275,7 +1275,7 @@ async function get_question_detail(q_id,done_code) {
          $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category})">저장</button>`);
     }else{
         $('#manage_answer').hide()
-        $('#teacher_answer').show()
+        console.log(answer_data)
         answer_data = answerData.filter(a=>question_id == q_id)[0]
         let temp_answer_list = `
         <div class="modal-body-select-container">
@@ -1298,6 +1298,7 @@ async function get_question_detail(q_id,done_code) {
            </div>`
         }
         $('#teacher_answer').html(temp_answer_list);
+        $('#teacher_answer').show()
     }
     
 }
