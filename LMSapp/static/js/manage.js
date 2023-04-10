@@ -992,14 +992,14 @@ function post_consulting_request() {
         // 전체 학생 대상 인 경우
         if(total_student_selections.length != 0){
             total_student_selections.forEach(value => {
-                v = String(value).split('_')
+                v = value.split('_')
                 totalstudent_ban_id = Number(v[0])
                 totalstudent_teacher_id = Number(v[1])
                 target_student_selections = allData.filter(a=>a.ban_id == totalstudent_ban_id)[0]['students']
                 target_student_selections.forEach(value =>{
                     $.ajax({
                         type: "POST",
-                        url: '/manage/consulting/request_indivi_student/' + totalstudent_ban_id + '/' + totalstudent_teacher_id + '/' + value['student_id'],
+                        url: '/manage/consulting/' + totalstudent_ban_id + '/' + totalstudent_teacher_id + '/' + value['student_id'],
                         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
                         data: {
                             consulting_category: consulting_category,
