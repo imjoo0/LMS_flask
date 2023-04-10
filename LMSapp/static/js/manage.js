@@ -648,6 +648,7 @@ function post_answer(q_id,category){
     if(category != 0){
         o_ban_id = $('#o_ban_id'+category).val()
     }
+    console.log(o_ban_id)
     $.ajax({
         type: "POST",
         url: "/manage/answer/"+q_id,
