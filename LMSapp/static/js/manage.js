@@ -140,7 +140,7 @@ async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name){
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
     question_detail_data = soqData.filter(q => q.id == q_id)[0]
-    student_data = studentsData[question_detail_data.ban_id].filter(s=>s.student_id == question_detail_data.student_id)
+    student_data = studentsData[question_detail_data.ban_id].filter(s=>s.student_id == question_detail_data.student_id)[0]
     attach = attachData.filter(a => a.question_id == q_id)[0]['file_name']
     // 문의 상세 내용 
     let temp_question_list = `
@@ -162,7 +162,7 @@ async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name){
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">대상 반 | 학생</span>
-        <p>${ban_name} ( 담당T:${teacher_name} ) ➖ ${student_data.student_name}</p>
+        <p>${ban_name} ( 담당 T : ${teacher_name} ) ➖ ${student_data.student_name}</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">첨부파일</span>
