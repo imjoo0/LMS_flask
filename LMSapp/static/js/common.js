@@ -254,7 +254,7 @@ async function get_total_data() {
                 }
             });
             semesterShow(3);
-            studentsData = response['students']
+            get_all_students();
         },
         error: function (xhr, status, error) {
             alert('xhr.responseText');
@@ -316,6 +316,22 @@ function semesterShow(semester) {
     })
 }
 
+function get_all_students(){
+    $.ajax({
+        url: '/common/all_students',
+        type: 'GET',
+        data: {},
+        success: function(response){
+            studentsData = response['students'].reduce((result, item) =>{
+                if (!result[item.ban_id]) {
+                    result[item.ban_id] = [];
+                }
+                result[item.ban_id].push(item);
+                return result;
+            }, {});
+        }
+    })
+}
 function getTeacherInfo(t_id){
     let info = allData.filter(t=>t.teacher_id == t_id)
     if (info.length == 0){
