@@ -72,13 +72,6 @@ async function sodata() {
             soqData = response['question']
             answerData = response['answer']
             attachData = response['attach']
-            studentsData.reduce((result, item) => {
-                if (!result[item.ban_id]) {
-                    result[item.ban_id] = [];
-                }
-                result[item.ban_id].push(item);
-                return result;
-            }, {});
         }
     })
     $('.cs_inloading').hide()
