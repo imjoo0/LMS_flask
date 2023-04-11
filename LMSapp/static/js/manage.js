@@ -71,7 +71,7 @@ function so_paginating(done_code) {
     `;
     $('#newso').html(temp_newso)
 
-    if (total_soquestion_num != 0) {
+    if(total_soquestion_num != 0) {
         qdata = soquestionData.filter(a => a.answer == done_code)
         if(qdata.length != 0){
             $('#no_data_msg').hide()
@@ -106,6 +106,10 @@ function so_paginating(done_code) {
             $('#no_data_msg').show()
         }
     }
+    $('#so_question').hide()
+    $('#so_pagination').hide()
+    $('#no_data_msg').html('이반 / 퇴소 요청이 없었습니다')
+    $('#no_data_msg').show()
 }
 
 // 문의 내용 상세보기
