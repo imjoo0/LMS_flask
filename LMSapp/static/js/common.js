@@ -494,7 +494,7 @@ function getTeacherInfo(t_id){
 // 반 상세 정보 보내주는 함수 
 function getBanChart(ban_id) {
     // key값 `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
-    result = data.filter(e => e.ban_id == ban_id)[0]
+    result = allData.filter(e => e.ban_id == ban_id)[0]
     $('#target_ban_info_requestModalLabel').html(result['students'][0].name + '반 상세 현황')
     if (result.length <= 0) {
         let no_data_title = `<h1> ${response.text} </h1>`
