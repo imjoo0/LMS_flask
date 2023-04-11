@@ -329,7 +329,7 @@ async function get_question_detail(q_id, done_code) {
     question_detail_data = csqData.filter(q => q.id == q_id)[0]
     student_data = allData.filter(a => a.teacher_id == question_detail_data.teacher_id && a.ban_id == question_detail_data.ban_id)[0]['students'].filter(s => s.student_id
         == question_detail_data.student_id)[0]
-    attach = attachData.filter(a => a.question_id == q_id)[0]['file_name']
+    attach = csattachData.filter(a => a.question_id == q_id)[0]['file_name']
     // 문의 상세 내용 
     let temp_question_list = `
     <div class="modal-body-select-container">
