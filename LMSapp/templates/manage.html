@@ -28,7 +28,13 @@
         }
     });
 </script>
-
+<!-- 반 정보 상세 조회 모달 창 -->
+<div class="modal fade" id="target_ban_info" tabindex="-1" aria-labelledby="target_ban_info_requestModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
+        
+    </div>
+</div>
 <!-- 선생님 정보 조회 모달 -->
 <div class="modal fade" id="teacherinfo" tabindex="-1" aria-labelledby="teacherModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -118,6 +124,57 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="target_ban_info_requestModalLabel">
+                    반 상세 현황
+                </h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+            <!-- <div id="inloading" class="loader loader--style2 text-center" title="1">
+                <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                    <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                        <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
+                    </path>
+                </svg>
+            </div> -->
+            <!-- <h1 id="inloading" style="display: none;">로딩중..</h1> -->
+                <!-- <div class="my-4 d-flex flex-wrap justify-content-end align-items-center">
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 상세조회 할 반 선택</span></div>
+                    <div class="col-md-4 col-sm-6 col-12">
+                        <select id="category-select" onchange="getBanChart(this.value)" class="form-select form-select-sm"
+                            aria-label="Default select example">
+                            <optgroup id="ban_list">
+                            </optgroup>
+                        </select>
+                    </div>
+                </div> -->
+                <div class="d-flex justify-content-start align-items-start flex-column" style="overflow: auto;">
+                    <table class="table text-center" id="profile_data" >
+                    </table>
+                    <table class="table text-center" id="ban_data" >
+                    </table>
+
+                    <table class="table text-center" id="student_data">
+                        <tr class="row" style="background: #DCE6F2;">
+                            <th class="col-12" id="displayCount"></th>
+                        </tr>
+                        <tr class="row" style="background:#DCE6F2;">
+                            <th class="col-2">원생 정보</th>
+                            <th class="col-2">연락처</th>
+                            <th class="col-3">부모님 정보</th>
+                            <th class="col-2">추천도서</th>
+                            <th class="col-2">미학습</th>
+                            <th class="col-1">상세</th>
+                        </tr>
+                        <tr id="s_data" class="row"></tr>
+                    </table>
+                    <ul id="pagingul"></ul>
+                    <div id="ban_statistics" class="make_row w-100"></div>
                 </div>
             </div>
         </div>
@@ -607,66 +664,7 @@
     </div>
 </div>
 
-<!-- PURPLE 섹션 -->
-<!-- 반 정보 상세 조회 모달 창 -->
-<div class="modal fade" id="target_ban_info" tabindex="-1" aria-labelledby="target_ban_info_requestModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="target_ban_info_requestModalLabel">
-                    반 상세 현황
-                </h5>
-                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-            <!-- <div id="inloading" class="loader loader--style2 text-center" title="1">
-                <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
-                    <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
-                        <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
-                    </path>
-                </svg>
-            </div> -->
-            <!-- <h1 id="inloading" style="display: none;">로딩중..</h1> -->
-                <!-- <div class="my-4 d-flex flex-wrap justify-content-end align-items-center">
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 상세조회 할 반 선택</span></div>
-                    <div class="col-md-4 col-sm-6 col-12">
-                        <select id="category-select" onchange="getBanChart(this.value)" class="form-select form-select-sm"
-                            aria-label="Default select example">
-                            <optgroup id="ban_list">
-                            </optgroup>
-                        </select>
-                    </div>
-                </div> -->
-                <div class="d-flex justify-content-start align-items-start flex-column" style="overflow: auto;">
-                    <table class="table text-center" id="profile_data" >
-                    </table>
-                    <table class="table text-center" id="ban_data" >
-                    </table>
-
-                    <table class="table text-center" id="student_data">
-                        <tr class="row" style="background: #DCE6F2;">
-                            <th class="col-12" id="displayCount"></th>
-                        </tr>
-                        <tr class="row" style="background:#DCE6F2;">
-                            <th class="col-2">원생 정보</th>
-                            <th class="col-2">연락처</th>
-                            <th class="col-3">부모님 정보</th>
-                            <th class="col-2">추천도서</th>
-                            <th class="col-2">미학습</th>
-                            <th class="col-1">상세</th>
-                        </tr>
-                        <tr id="s_data" class="row"></tr>
-                    </table>
-                    <ul id="pagingul"></ul>
-                    <div id="ban_statistics" class="make_row w-100"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- cs 문의 -->
+<!-- 문의 상세보기 모달 창 -->
 <div class="modal fade" id="soanswer" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
@@ -753,6 +751,7 @@
     </div>
 </div>
 
+<!-- PURPLE 섹션 -->
 <div class="container_box">
     <div id="user-info" class="border-bottom">
         <div class="d-flex justify-content-center flex-xl-row row-cols-xl-2 flex-column-reverse">
