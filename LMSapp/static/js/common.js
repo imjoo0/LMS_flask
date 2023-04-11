@@ -5,6 +5,7 @@ var globalCurrentPage = 1; //현재 페이지
 var data_list;
 var consultingData = [];
 var taskData = [];
+var studentsData = [];
 const today = new Date().setHours(0, 0, 0, 0);
 let make_recobook = function(c){
     if( c == null){
