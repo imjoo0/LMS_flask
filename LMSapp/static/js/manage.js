@@ -157,6 +157,7 @@ async function get_question_detail(q_id, done_code) {
         $('#consulting_history_attach').show()
         consulting_history = consultingData.filter(c => c.id == question_detail_data.consulting_history)[0]
         let category = ''
+        console.log(consulting_history)
         if (consulting_history.category_id < 100) {
             category = `${consulting_history.week_code}주간 ${consulting_history.category}상담`
         } else {
