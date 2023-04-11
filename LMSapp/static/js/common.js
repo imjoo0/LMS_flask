@@ -91,7 +91,7 @@ async function get_total_data() {
             // sodata
             outstudentData = response['outstudent']
             switchstudentData = response['switchstudent']
-
+            console.log(response['all_ban'])
             total_student_num = response['all_ban'].length
             outstudent_num = outstudentData.length;
             switchstudent_num = switchstudentData.length
