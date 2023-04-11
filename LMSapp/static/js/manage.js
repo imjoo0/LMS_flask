@@ -90,7 +90,6 @@ function so_paginating(done_code) {
 
     if(total_soquestion_num != 0) {
         qdata =  soqData.length > 0 ? soqData.filter(a => a.answer == done_code) : 0
-        ban_data = []
         if(qdata.length != 0){
             $('#no_data_msg').hide()
             $('#so_question').show()
@@ -105,16 +104,17 @@ function so_paginating(done_code) {
                     var dataHtml = '';
                     $.each(qdata, function (index, item) {
                         ban = result.filter(b=>b.ban_id == item.ban_id)[0]
-                        ban_data.push(ban)
+                        let ban_name = ban.name
+                        let teacher_name = ban.teacher_engname+'( '+ban.teacher_name+' )'
                         let category = q_category(item.category)
                         dataHtml += `
                         <td class="col-1">${category}</td>
-                        <td class="col-1">${ban.name}</td>
-                        <td class="col-2">${ban.teacher_engname} ( ${ban.teacher_name} )</td>
+                        <td class="col-1">${ban_name}</td>
+                        <td class="col-2">${teacher_name}</td>
                         <td class="col-2">${item.title}</td>
                         <td class="col-4">${item.contents}</td>
                         <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-                        data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code},${ban})">✏️</td>
+                        data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code},${ban_name},${teacher_name})">✏️</td>
                         <td class="col-1" onclick="delete_question(${item.id})">❌</td>
                         `;
                     });
@@ -136,9 +136,8 @@ function so_paginating(done_code) {
     }
 }
 // 이반 퇴소 요청 내용 상세보기
-async function get_soquestion_detail(q_id, done_code,ban) {
+async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name) {
     // $('#questionlist').hide()
-    console.log(ban)
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
     question_detail_data = soqData.filter(q => q.id == q_id)[0]
@@ -164,7 +163,7 @@ async function get_soquestion_detail(q_id, done_code,ban) {
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">대상 반 | 학생</span>
-        <p>${student_data.name} ➖ ${student_data.student_name}</p>
+        <p>${ban_name} ( 담당T:${teacher_name} ) ➖ ${student_data.student_name}</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">첨부파일</span>
