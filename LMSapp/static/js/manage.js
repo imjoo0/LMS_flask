@@ -90,6 +90,7 @@ function so_paginating(done_code) {
 
     if(total_soquestion_num != 0) {
         qdata =  soqData.length > 0 ? soqData.filter(a => a.answer == done_code) : 0
+        ban_data = []
         if(qdata.length != 0){
             $('#no_data_msg').hide()
             $('#so_question').show()
@@ -103,6 +104,9 @@ function so_paginating(done_code) {
                 callback: function (qdata, pagination) {
                     var dataHtml = '';
                     $.each(qdata, function (index, item) {
+                        ban = result.filter(b=>b.ban_id == item.ban_id)[0]
+                        ban_data.push(ban)
+                        console.log(ban)
                         let category = q_category(item.category)
                         dataHtml += `
                         <td class="col-2">${category}</td>
@@ -132,11 +136,11 @@ function so_paginating(done_code) {
 // 이반 퇴소 요청 내용 상세보기
 async function get_soquestion_detail(q_id, done_code) {
     // $('#questionlist').hide()
+    console.log(ban_data)
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
     question_detail_data = soqData.filter(q => q.id == q_id)[0]
-    student_data = studentsData[question_detail_data.ban_id]
-    console.log(student_data)
+    student_data = studentsData[question_detail_data.ban_id].filter(s=>s.student_id == question_detail_data.student_id)
     attach = attachData.filter(a => a.question_id == q_id)[0]['file_name']
     // 문의 상세 내용 
     let temp_question_list = `
