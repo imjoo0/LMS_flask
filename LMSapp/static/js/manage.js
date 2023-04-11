@@ -65,8 +65,9 @@ async function sodata() {
         type: 'GET',
         data: {},
         success: function(response){
-            soQdata = response['question']
+            soqData = response['question']
             answerData = response['answer']
+            attachData = response['attach']
         }
     }) 
     so_paginating(0)
@@ -75,8 +76,8 @@ async function sodata() {
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
     let container = $('#so_pagination')
-    total_soquestion_num = soQdata.length
-    sodata_noanswer = soQdata.filter(a => a.answer == 0).length
+    total_soquestion_num = soqData.length
+    sodata_noanswer = soqData.filter(a => a.answer == 0).length
 
     let temp_newso = `
     <td class="col-4">${total_soquestion_num}  건</td>
@@ -86,7 +87,7 @@ function so_paginating(done_code) {
     $('#newso').html(temp_newso)
 
     if(total_soquestion_num != 0) {
-        qdata =  soQdata.length > 0 ? soQdata.filter(a => a.answer == done_code) : 0
+        qdata =  soqData.length > 0 ? soqData.filter(a => a.answer == done_code) : 0
         if(qdata.length != 0){
             $('#no_data_msg').hide()
             $('#so_question').show()
@@ -106,7 +107,7 @@ function so_paginating(done_code) {
                         <td class="col-4">${item.title}</td>
                         <td class="col-4">${item.contents}</td>
                         <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-                        data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</button> 
+                        data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code})">✏️</button> 
                         <button onclick="delete_question(${item.id})">❌</button></td>`;
                     });
                     $('#so_tr').html(dataHtml);
@@ -127,16 +128,135 @@ function so_paginating(done_code) {
     }
 }
 
-// 문의 내용 상세보기
+// 이반 퇴소 요청 내용 상세보기
+async function get_soquestion_detail(q_id, done_code) {
+    // $('#questionlist').hide()
+    $('#consulting_history_attach').hide()
+    $('#manage_answer').hide()
+    question_detail_data = soQdata.filter(q => q.id == q_id)[0]
+    student_data = allData.filter(a => a.teacher_id == question_detail_data.teacher_id && a.ban_id == question_detail_data.ban_id)[0]['students'].filter(s => s.student_id
+        == question_detail_data.student_id)[0]
+    attach = attachData.filter(a => a.question_id == q_id)[0]['file_name']
+    // 문의 상세 내용 
+    let temp_question_list = `
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">문의 종류</span>
+        <p>${q_category(question_detail_data.cateogry)}</p>
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">제목</span>
+        <p>${question_detail_data.title}</p>
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">내용</span>
+        <p>${question_detail_data.contents}</p>
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">작성일</span>
+        <p>${make_date(question_detail_data.create_date)}</p>
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">대상 반 | 학생</span>
+        <p>${student_data.name} ➖ ${student_data.student_name}</p>
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">첨부파일</span>
+        <a href="/common/downloadfile/question/${q_id}" download="${attach}">${attach}</a>
+    </div>`;
+    $('#teacher_question').html(temp_question_list);
+
+    // 상담 일지 처리 
+    let consulting_history = consultingData.filter(c => c.id == question_detail_data.consulting_history)
+    let temp_his = ''
+    if(consulting_history.length != 0){
+        let category = ''
+        if (consulting_history[0].category_id < 100) {
+            category = `${consulting_history[0].week_code}주간 ${consulting_history[0].category}상담`
+        } else {
+            category = `${consulting_history[0].category} ${consulting_history[0].contents}`
+        }
+        temp_his = `
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">상담 종류</span>
+            <p>${category}</p>
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">상담 사유</span>
+            <p>${consulting_history[0].reason}</p>
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">제공한 가이드</span>
+            <p>${consulting_history[0].solution}</p>
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">상담 결과</span>
+            <p>${consulting_history[0].result}</p>
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">상담 일시</span>
+            <p>${make_date(consulting_history[0].created_at)}</p>
+        </div>
+        `;
+    }else{
+        temp_his = `
+        <p> 상담내역이 없습니다 </p>
+        `;
+    }
+    $('#cha').html(temp_his);
+    $('#consulting_history_attach').show()
+    
+    // 응답 처리 
+    if (done_code == 0) {
+        $('#teacher_answer').hide()
+        $('#manage_answer').show()
+        $('#manage_answer_1').show()
+        let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
+        allData.forEach(ban_data => {
+            let name = ban_data['students'][0].name
+            let value = `${ban_data['students'][0].ban_id}_${ban_data['students'][0].teacher_id}_${name}`;
+            let selectmsg = `<option value="${value}">${name} (${make_semester(ban_data['students'][0].semester)}월 학기)</option>`;
+            temp_o_ban_id += selectmsg
+        });
+        $('#o_ban_id2').html(temp_o_ban_id)
+        if (question_detail_data.category == 1) {
+            $('#manage_answer_2').hide()
+            $('#manage_answer_3').show()
+        } else if (question_detail_data.category == 2) {
+            $('#manage_answer_2').show()
+            $('#manage_answer_3').hide()
+        } else {
+            $('#manage_answer_2').hide()
+            $('#manage_answer_3').hide()
+        }
+        $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category})">저장</button>`);
+    }else {
+        $('#manage_answer').hide()
+        answer_data = answerData.filter(a => a.question_id == q_id)[0]
+        let temp_answer_list = `
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">답변 제목</span>
+            <p>${answer_data.title}</p>
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">답변 내용</span>
+            <p>${answer_data.content}</p>
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">응답일</span>
+            <p>${make_date(answer_data.created_at)}</p>
+        </div>
+        <div class="modal-body-select-container">
+           <span class="modal-body-select-label">처리</span>
+           <p>${make_reject_code(answer_data.reject_code)}</p>
+        </div>
+        `;
+        $('#teacher_answer').html(temp_answer_list);
+        $('#teacher_answer').show()
+    }
+
+}
+// 일반 문의
 async function get_question_detail(q_id, done_code) {
-    let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
-    allData.forEach(ban_data => {
-        let name = ban_data['students'][0].name
-        let value = `${ban_data['students'][0].ban_id}_${ban_data['students'][0].teacher_id}_${name}`;
-        let selectmsg = `<option value="${value}">${name} (${make_semester(ban_data['students'][0].semester)}월 학기)</option>`;
-        temp_o_ban_id += selectmsg
-    });
-    $('#o_ban_id2').html(temp_o_ban_id)
     // $('#questionlist').hide()
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
