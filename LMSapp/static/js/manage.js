@@ -72,37 +72,44 @@ function so_paginating(done_code) {
     $('#newso').html(temp_newso)
 
     if (total_soquestion_num != 0) {
-        $('#no_data_msg').hide()
-        $('#so_question').show()
-        $('#so_pagination').show()
         qdata = soquestionData.filter(a => a.answer == done_code)
-        var dataHtml = '';
-        container.pagination({
-            dataSource: qdata,
-            prevText: '이전',
-            nextText: '다음',
-            pageClassName: 'float-end',
-            pageSize: 5,
-            callback: function (qdata, pagination) {
-                $.each(qdata, function (index, item) {
-                    let category = q_category(item.category)
-                    dataHtml += `
-                    <td class="col-2">${category}</td>
-                    <td class="col-4">${item.title}</td>
-                    <td class="col-4">${item.contents}</td>
-                    <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-                    data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</button> 
-                    <button onclick="delete_question(${item.id})">❌</button></td>`;
-                });
-                $('#so_tr').html(dataHtml);
-            }
-        })
-    } else {
+        if(qdata.length != 0){
+            $('#no_data_msg').hide()
+            $('#so_question').show()
+            $('#so_pagination').show()
+            var dataHtml = '';
+            container.pagination({
+                dataSource: qdata,
+                prevText: '이전',
+                nextText: '다음',
+                pageClassName: 'float-end',
+                pageSize: 5,
+                callback: function (qdata, pagination) {
+                    $.each(qdata, function (index, item) {
+                        let category = q_category(item.category)
+                        dataHtml += `
+                        <td class="col-2">${category}</td>
+                        <td class="col-4">${item.title}</td>
+                        <td class="col-4">${item.contents}</td>
+                        <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
+                        data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</button> 
+                        <button onclick="delete_question(${item.id})">❌</button></td>`;
+                    });
+                    $('#so_tr').html(dataHtml);
+                }
+            })
+        }else {
+            $('#so_question').hide()
+            $('#so_pagination').hide()
+            $('#no_data_msg').html('문의가 없습니다')
+            $('#no_data_msg').show()
+        }
+    }else{
         $('#so_question').hide()
         $('#so_pagination').hide()
         $('#no_data_msg').html('문의가 없습니다')
         $('#no_data_msg').show()
-    }
+    } 
 }
 
 // 문의 내용 상세보기
