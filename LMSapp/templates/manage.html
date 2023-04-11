@@ -973,7 +973,6 @@
                 </div>
             </div>
         </div>
-    
     </div>
     <!-- 학습 관리 -->
     <div class="info-container" id="ulbox" style="display: none;">
@@ -1009,50 +1008,6 @@
             </div>
         </div>
     </div>
-    <!-- 문의 관리 -->
-    <div class="info-container" id="qubox" style="display: none;">
-        <div class="info-title">
-            <span class="make_row">
-                선생님 문의 관리
-                <select id="question_view" class="form-select text-center w-25" name="question_view"
-                onchange="paginating(this.value)">
-                <option value=0 selected>미응답 문의</option>
-                <option value=1>응답한 문의</option>
-            </select>
-            </span>
-        </div>
-        <div class="info">
-            <div class="d-flex justify-content-center align-items-center flex-column w-100">
-                <table class="table text-center" style="width:100%;" id="newcsbox">
-                    <tr class="row" style="background: #DCE6F2;">
-                        <th class="col-12">새로운 퇴소 및 이반 승인 요청</th>
-                    </tr>
-                    <tr class="row" style="background:#DCE6F2;">
-                        <th class="col-4">총 요청</th>
-                        <th class="col-4">응답한 요청</th>
-                        <th class="col-4">응답하지 않은 요청</th>
-                    </tr>
-                    <tr id="newcs" class="row"></tr>
-                </table>
-                <h3 id="csno_data_msg"></h3>
-                <table class="table text-center" id="teacher_question" style="width:100%;">
-                    <thead>
-                        <tr class="row">
-                            <th class="col-2">종류</th>
-                            <th class="col-4">제목</th>
-                            <th class="col-4">내용</th>
-                            <th class="col-2">응답</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr id="alim_tr" class="row"></tr>
-                    </tbody>
-                </table>
-                <div id="pagination" class="py-2 text-center"></div>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 {% block jspart %}
