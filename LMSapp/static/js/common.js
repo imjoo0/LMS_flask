@@ -107,13 +107,22 @@ async function get_total_data() {
             // all_student = response['all_ban']
 
             // 전체 데이터 
-            result = response['all_ban'].map(obj1 => {
-                let out_student = outstudentData.find(obj2 => obj1.ban_id === obj2.ban_id);
-                let switch_student = switchstudentData.find(obj2 => obj1.ban_id === obj2.ban_id);
-                let out_created = out_student ? out_student.out_created : null;
-                const switch_ban_id = switch_student ? switch_student.switch_ban_id : null;
-                return { ...obj1, out_created, switch_ban_id };
+            
+            result = response['all_ban'].forEach((elem) => {
+                elem.out_num = outstudentData.filter(a => a.ban_id == elem.ban_id).length
+                elem.out_num_per = answer_rate(elem.out_num, outstudent_num).toFixed(2)
+                elem.switch_minus_num = switchstudentData.filter(a => a.ban_id == elem.ban_id).length
+                elem.switch_plus_num = switchstudentData.filter(a => a.switch_ban_id == elem.ban_id).length
             });
+            result.sort((a, b) => b.out_num_per - a.out_num_per)
+
+            // result = response['all_ban'].map(obj1 => {
+            //     let out_student = outstudentData.find(obj2 => obj1.ban_id === obj2.ban_id);
+            //     let switch_student = switchstudentData.find(obj2 => obj1.ban_id === obj2.ban_id);
+            //     let out_created = out_student ? out_student.out_created : null;
+            //     const switch_ban_id = switch_student ? switch_student.switch_ban_id : null;
+            //     return { ...obj1, out_created, switch_ban_id };
+            // });
 
             console.log(result)
 
@@ -123,15 +132,15 @@ async function get_total_data() {
             ninesemester = total_student_num != 0 ? result.filter(e => e.semester == 0) : 0
 
             // 학기별 원생수 및 퇴소 원생 수 
-            onesemester_total = onesemester != 0 ? onesemester.length : 0
+            onesemester_total = onesemester[0].semester_student_num
             oneoutstudent = onesemester != 0 ? onesemester.filter(e => e.out_created != null).length : 0
             first_onesemester = onesemester_total + oneoutstudent
 
-            fivesemester_total = fivesemester != 0 ? fivesemester.length : 0
+            fivesemester_total = fivesemester[0].semester_student_num
             fiveoutstudent = fivesemester != 0 ? fivesemester.filter(e => e.out_created != null).length : 0
             first_fivesemester = fivesemester_total + fiveoutstudent
 
-            ninesemester_total = ninesemester != 0 ? ninesemester.length : 0
+            ninesemester_total = ninesemester[0].semester_student_num
             nineoutstudent = ninesemester != 0 ? ninesemester.filter(e => e.out_created != null).length : 0
             first_ninesemester = ninesemester_total + nineoutstudent
 
