@@ -320,10 +320,10 @@ function allsemesterShow() {
                 temp_semester_banlist += `
                 <td class="col-2">${name}</td>
                 <td class="col-2">${teacher_name}</td>
+                <td class="col-1">${student_num}</td>
                 <td class="col-1">${student_num + total_out_count - item.switch_plus_num}</td>
                 <td class="col-2">${total_out_count}명(${item.out_num_per}%)</td>
                 <td class="col-2">${item.switch_plus_num}</td>
-                <td class="col-1">${student_num}</td>
                 <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${teacher_id})"><span class="cursor-pointer">✅</span></td>;
                 <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart(${ban_id})"><span class="cursor-pointer">✅</span></td>`;
             });
