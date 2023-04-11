@@ -106,15 +106,17 @@ function so_paginating(done_code) {
                     $.each(qdata, function (index, item) {
                         ban = result.filter(b=>b.ban_id == item.ban_id)[0]
                         ban_data.push(ban)
-                        console.log(ban)
                         let category = q_category(item.category)
                         dataHtml += `
-                        <td class="col-2">${category}</td>
-                        <td class="col-4">${item.title}</td>
+                        <td class="col-1">${category}</td>
+                        <td class="col-1">${ban.name}</td>
+                        <td class="col-2">${ban.teacher_engname} ( ${ban.teacher_name} )</td>
+                        <td class="col-2">${item.title}</td>
                         <td class="col-4">${item.contents}</td>
-                        <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-                        data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code})">✏️</button> 
-                        <button onclick="delete_question(${item.id})">❌</button></td>`;
+                        <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
+                        data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code},${ban})">✏️</td>
+                        <td class="col-1" onclick="delete_question(${item.id})">❌</td>
+                        `;
                     });
                     $('#so_tr').html(dataHtml);
                 }
@@ -134,9 +136,9 @@ function so_paginating(done_code) {
     }
 }
 // 이반 퇴소 요청 내용 상세보기
-async function get_soquestion_detail(q_id, done_code) {
+async function get_soquestion_detail(q_id, done_code,ban) {
     // $('#questionlist').hide()
-    console.log(ban_data)
+    console.log(ban)
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
     question_detail_data = soqData.filter(q => q.id == q_id)[0]
