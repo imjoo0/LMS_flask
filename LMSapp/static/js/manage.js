@@ -19,7 +19,6 @@ function main_view(){
     $('#detailban').show()
 }
 // 이반 * 퇴소 
-// 조회
 async function sodata() {
     $('#qubox').hide()
     $('#ulbox').hide()
@@ -72,12 +71,11 @@ async function sodata() {
     }) 
     so_paginating(0)
 }
-
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
     let container = $('#so_pagination')
     total_soquestion_num = soqData.length
-    sodata_noanswer = soqData.filter(a => a.answer == 0).length
+    sodata_noanswer = total_soquestion_num !=0 ? soqData.filter(a => a.answer == 0).length : 0
 
     let temp_newso = `
     <td class="col-4">${total_soquestion_num}  건</td>
@@ -127,7 +125,6 @@ function so_paginating(done_code) {
         $('#no_data_msg').show()
     }
 }
-
 // 이반 퇴소 요청 내용 상세보기
 async function get_soquestion_detail(q_id, done_code) {
     // $('#questionlist').hide()
@@ -206,30 +203,27 @@ async function get_soquestion_detail(q_id, done_code) {
     $('#consulting_history_attach').show()
     
     // 응답 처리 
-    if (done_code == 0) {
+    if (done_code == 0){
         $('#teacher_answer').hide()
         $('#manage_answer').show()
         $('#manage_answer_1').show()
-        let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
-        allData.forEach(ban_data => {
-            let name = ban_data['students'][0].name
-            let value = `${ban_data['students'][0].ban_id}_${ban_data['students'][0].teacher_id}_${name}`;
-            let selectmsg = `<option value="${value}">${name} (${make_semester(ban_data['students'][0].semester)}월 학기)</option>`;
-            temp_o_ban_id += selectmsg
-        });
-        $('#o_ban_id2').html(temp_o_ban_id)
-        if (question_detail_data.category == 1) {
+        if(question_detail_data.category == 1) {
             $('#manage_answer_2').hide()
             $('#manage_answer_3').show()
-        } else if (question_detail_data.category == 2) {
+        }else{
+            let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
+            allData.forEach(ban_data => {
+                let name = ban_data['students'][0].name
+                let value = `${ban_data['students'][0].ban_id}_${ban_data['students'][0].teacher_id}_${name}`;
+                let selectmsg = `<option value="${value}">${name} (${make_semester(ban_data['students'][0].semester)}월 학기)</option>`;
+                temp_o_ban_id += selectmsg
+            });
+            $('#o_ban_id2').html(temp_o_ban_id)
             $('#manage_answer_2').show()
-            $('#manage_answer_3').hide()
-        } else {
-            $('#manage_answer_2').hide()
             $('#manage_answer_3').hide()
         }
         $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category})">저장</button>`);
-    }else {
+    }else{
         $('#manage_answer').hide()
         answer_data = answerData.filter(a => a.question_id == q_id)[0]
         let temp_answer_list = `
@@ -255,12 +249,84 @@ async function get_soquestion_detail(q_id, done_code) {
     }
 
 }
-// 일반 문의
+
+// 일반 문의 
+async function csdata() {
+    $('#detailban').hide()
+    $('#sobox').hide()
+    $('#ulbox').hide()
+    $('#qubox').show()
+    await $.ajax({
+        url: '/manage/cs',
+        type: 'GET',
+        data: {},
+        success: function(response){
+            csqData = response['question']
+            csanswerData = response['answer']
+            csattachData = response['attach']
+        }
+    }) 
+    paginating(0)
+}
+function paginating(done_code) {
+    let container = $('#pagination')
+    total_question_num = csqData.length
+    csdata_noanswer = total_question_num !=0 ? csqData.filter(a => a.answer == 0).length : 0
+
+    let temp_newcs = `
+    <td class="col-4">${total_question_num}  건</td>
+    <td class="col-4">${total_question_num - csdata_noanswer}  건</td>
+    <td class="col-4">${csdata_noanswer}  건</td>
+    `;
+    $('#newcs').html(temp_newcs)
+
+    if (total_question_num != 0) {
+        $('#csno_data_msg').hide()
+        $('#cs_teacher_question').show()
+        $('#pagination').show()
+        qdata = csqData.filter(a => a.answer == done_code)
+        if(qdata.length != 0){
+            container.pagination({
+                dataSource: qdata,
+                prevText: '이전',
+                nextText: '다음',
+                pageClassName: 'float-end',
+                pageSize: 5,
+                callback: function (qdata, pagination) {
+                    var dataHtml = '';
+                    $.each(qdata, function (index, item) {
+                        dataHtml += `
+                        <td class="col-2">일반문의</td>
+                        <td class="col-4">${item.title}</td>
+                        <td class="col-4">${item.contents}</td>
+                        <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
+                        data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</button> 
+                        <button onclick="delete_question(${item.id})">❌</button></td>`;
+                    });
+                    $('#alim_tr').html(dataHtml);
+                }
+            })
+        }else{
+            $('#cs_teacher_question').hide()
+            $('#pagination').hide()
+            let temp_nodatamasg = $(`#cs_question_view option[value="${done_code}"]`).text()+'가 없습니다';
+            $('#csno_data_msg').html(temp_nodatamasg)
+            $('#csno_data_msg').show()
+        }
+        
+    }else{
+        $('#cs_teacher_question').hide()
+        $('#pagination').hide()
+        $('#csno_data_msg').html('문의가 없습니다')
+        $('#csno_data_msg').show()
+    }
+}
+// 일반 문의 상세보기
 async function get_question_detail(q_id, done_code) {
     // $('#questionlist').hide()
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
-    question_detail_data = questionData.filter(q => q.id == q_id)[0]
+    question_detail_data = csqData.filter(q => q.id == q_id)[0]
     student_data = allData.filter(a => a.teacher_id == question_detail_data.teacher_id && a.ban_id == question_detail_data.ban_id)[0]['students'].filter(s => s.student_id
         == question_detail_data.student_id)[0]
     attach = attachData.filter(a => a.question_id == q_id)[0]['file_name']
@@ -268,7 +334,7 @@ async function get_question_detail(q_id, done_code) {
     let temp_question_list = `
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">문의 종류</span>
-        <p>${q_category(question_detail_data.cateogry)}</p>
+        <p>일반문의</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">제목</span>
@@ -292,68 +358,16 @@ async function get_question_detail(q_id, done_code) {
     </div>`;
     $('#teacher_question').html(temp_question_list);
 
-    // 상담 일지 처리 
-    if (question_detail_data.category == 0) {
-        $('#consulting_history_attach').hide()
-    }else{
-        let consulting_history = consultingData.filter(c => c.id == question_detail_data.consulting_history)
-        let temp_his = ''
-        if(consulting_history.length != 0){
-            let category = ''
-            if (consulting_history[0].category_id < 100) {
-                category = `${consulting_history[0].week_code}주간 ${consulting_history[0].category}상담`
-            } else {
-                category = `${consulting_history[0].category} ${consulting_history[0].contents}`
-            }
-            temp_his = `
-            <div class="modal-body-select-container">
-                <span class="modal-body-select-label">상담 종류</span>
-                <p>${category}</p>
-            </div>
-            <div class="modal-body-select-container">
-                <span class="modal-body-select-label">상담 사유</span>
-                <p>${consulting_history[0].reason}</p>
-            </div>
-            <div class="modal-body-select-container">
-                <span class="modal-body-select-label">제공한 가이드</span>
-                <p>${consulting_history[0].solution}</p>
-            </div>
-            <div class="modal-body-select-container">
-                <span class="modal-body-select-label">상담 결과</span>
-                <p>${consulting_history[0].result}</p>
-            </div>
-            <div class="modal-body-select-container">
-                <span class="modal-body-select-label">상담 일시</span>
-                <p>${make_date(consulting_history[0].created_at)}</p>
-            </div>
-            `;
-        }else{
-            temp_his = `
-            <p> 상담내역이 없습니다 </p>
-            `;
-        }
-        $('#cha').html(temp_his);
-        $('#consulting_history_attach').show()
-    }
     // 응답 처리 
     if (done_code == 0) {
         $('#teacher_answer').hide()
         $('#manage_answer').show()
         $('#manage_answer_1').show()
-        if (question_detail_data.category == 1) {
-            $('#manage_answer_2').hide()
-            $('#manage_answer_3').show()
-        } else if (question_detail_data.category == 2) {
-            $('#manage_answer_2').show()
-            $('#manage_answer_3').hide()
-        } else {
-            $('#manage_answer_2').hide()
-            $('#manage_answer_3').hide()
-        }
+        $('#manage_answer_2').hide()
+        $('#manage_answer_3').hide()
         $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category})">저장</button>`);
-    } else {
+    }else{
         $('#manage_answer').hide()
-        console.log(answerData)
         answer_data = answerData.filter(a => a.question_id == q_id)[0]
         let temp_answer_list = `
         <div class="modal-body-select-container">
@@ -368,12 +382,6 @@ async function get_question_detail(q_id, done_code) {
             <span class="modal-body-select-label">응답일</span>
             <p>${make_date(answer_data.created_at)}</p>
         </div>`;
-        if (question_detail_data.category != 0) {
-            temp_answer_list += `<div class="modal-body-select-container">
-           <span class="modal-body-select-label">처리</span>
-           <p>${make_reject_code(answer_data.reject_code)}</p>
-           </div>`
-        }
         $('#teacher_answer').html(temp_answer_list);
         $('#teacher_answer').show()
     }
@@ -828,68 +836,6 @@ function post_consulting_request() {
                 }
             }
         })
-    }
-}
-
-// CS 관리 
-// 이반 퇴소 문의 관리
-function paginating(done_code) {
-    $('#detailban').hide()
-    $('#sobox').hide()
-    $('#ulbox').hide()
-    $('#qubox').show()
-    let container = $('#pagination')
-    questionData = questionData.length > 0 ? questionData.filter(q => q.category == 0) : 0
-    total_question_num = questionData.length
-    csdata_noanswer = questionData.filter(a => a.answer == 0).length
-
-    let temp_newcs = `
-    <td class="col-4">${total_question_num}  건</td>
-    <td class="col-4">${total_question_num - csdata_noanswer}  건</td>
-    <td class="col-4">${csdata_noanswer}  건</td>
-    `;
-    $('#newcs').html(temp_newcs)
-
-    if (total_question_num != 0) {
-        $('#csno_data_msg').hide()
-        $('#cs_teacher_question').show()
-        $('#pagination').show()
-        qdata = questionData.filter(a => a.answer == done_code)
-        if(qdata.length != 0){
-            container.pagination({
-                dataSource: qdata,
-                prevText: '이전',
-                nextText: '다음',
-                pageClassName: 'float-end',
-                pageSize: 5,
-                callback: function (qdata, pagination) {
-                    var dataHtml = '';
-                    $.each(qdata, function (index, item) {
-                        let category = q_category(item.category)
-                        dataHtml += `
-                        <td class="col-2">${category}</td>
-                        <td class="col-4">${item.title}</td>
-                        <td class="col-4">${item.contents}</td>
-                        <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-                        data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</button> 
-                        <button onclick="delete_question(${item.id})">❌</button></td>`;
-                    });
-                    $('#alim_tr').html(dataHtml);
-                }
-            })
-        }else{
-            $('#cs_teacher_question').hide()
-            $('#pagination').hide()
-            let temp_nodatamasg = $(`#cs_question_view option[value="${done_code}"]`).text()+'가 없습니다';
-            $('#csno_data_msg').html(temp_nodatamasg)
-            $('#csno_data_msg').show()
-        }
-        
-    }else{
-        $('#cs_teacher_question').hide()
-        $('#pagination').hide()
-        $('#csno_data_msg').html('문의가 없습니다')
-        $('#csno_data_msg').show()
     }
 }
 

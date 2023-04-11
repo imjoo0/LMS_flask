@@ -63,9 +63,9 @@ let make_semester=function(semester){
     }
 }
 function q_category(category) {
-    if (category == 0) {
+    if (category == 0 || category == '0' ) {
         c ='일반문의'
-    }else if(category == 1) {
+    }else if(category == 1 || category == '1' ) {
         c ='퇴소문의'
     }else{
         c ='이반문의'
