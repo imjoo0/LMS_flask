@@ -928,22 +928,31 @@
                 </span>
             </div>
             <div class="info">
-                <h3 id="no_data_msg" style="width: 100%;"></h3>
-                <div class="d-flex justify-content-center align-items-center flex-column w-100">
-                    <table class="table text-center" id="so_question" style="width:100%;">
-                        <thead>
-                            <tr class="row">
-                                <th class="col-2">종류</th>
-                                <th class="col-4">제목</th>
-                                <th class="col-4">내용</th>
-                                <th class="col-2">응답</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr id="so_tr" class="row"></tr>
-                        </tbody>
-                    </table>
-                    <div id="so_pagination" class="py-2 text-center"></div>
+                <div class="cs_inloading" class="loader loader--style2 text-center" title="1">
+                    <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                        <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                            <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
+                        </path>
+                    </svg>
+                </div>
+                <div class="not_inloading">
+                    <h3 id="no_data_msg" style="width: 100%;"></h3>
+                    <div class="d-flex justify-content-center align-items-center flex-column w-100">
+                        <table class="table text-center" id="so_question" style="width:100%;">
+                            <thead>
+                                <tr class="row">
+                                    <th class="col-2">종류</th>
+                                    <th class="col-4">제목</th>
+                                    <th class="col-4">내용</th>
+                                    <th class="col-2">응답</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr id="so_tr" class="row"></tr>
+                            </tbody>
+                        </table>
+                        <div id="so_pagination" class="py-2 text-center"></div>
+                    </div>
                 </div>
             </div>
         </div>
