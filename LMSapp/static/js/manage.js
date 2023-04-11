@@ -187,7 +187,7 @@ async function get_question_detail(q_id, done_code) {
             `;
         }else{
             temp_his = `
-            <p> 상담을 진행하지 않았습니다 </p>
+            <p> 상담내역이 없습니다 </p>
             `;
         }
         $('#cha').html(temp_his);
