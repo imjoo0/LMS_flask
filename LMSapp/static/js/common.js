@@ -124,7 +124,7 @@ async function get_total_data() {
             //     return { ...obj1, out_created, switch_ban_id };
             // });
 
-            console.log(result)
+            console.log(response['all_ban'])
 
             // 학기 별 원생
             onesemester = total_student_num != 0 ? result.filter(e => e.semester == 1) : 0
