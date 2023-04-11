@@ -157,7 +157,7 @@ async function get_total_data() {
                         <th class="need">전체</th>
                         <td>${first_total}명</td>
                         <td>${total_student_num}명</td>
-                        <td>${outstudent_num}명(${answer_rate(outstudent_num, first_total).toFixed(1)}%)</td>
+                        <td>${outstudent_num}명(${answer_rate(outstudent_num, first_total).toFixed(2)}%)</td>
                         <td><span class='cursor-pointer fs-4' onclick="allsemesterShow()">📜</span></td>
                     </tr>
                     <tr>
