@@ -158,7 +158,7 @@ async function get_total_data() {
                         <td>${first_total}명</td>
                         <td>${total_student_num}명</td>
                         <td>${outstudent_num}명(${answer_rate(outstudent_num, first_total).toFixed(2)}%)</td>
-                        <td><span class='cursor-pointer fs-4' onclick="allsemesterShow()">📜</span></td>
+                        <td><span class='cursor-pointer fs-4' onclick="semesterShow(${3}">📜</span></td>
                     </tr>
                     <tr>
                         <th class="need">1월 학기</th>
@@ -257,7 +257,7 @@ async function get_total_data() {
                     }
                 }
             });
-            allsemesterShow();
+            semesterShow(3);
         },
         error: function (xhr, status, error) {
             alert('xhr.responseText');
@@ -270,9 +270,7 @@ async function get_total_data() {
 }
 
 function allsemesterShow() {
-    SemesterContainer = $('#semester_pagination')
     $('#semester').show();
-    $('#semester_s').html('전체 반')
     // 반으로 묶인 데이터 ban_id / student_num / semester / teacher_id
     // const banGrouped = result.reduce((acc, item) => {
     //     const v = item.semester;
@@ -300,15 +298,37 @@ function allsemesterShow() {
     //     }
     // });
     //  const v = `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
+    
+}
+
+function semesterShow(semester) {
+    SemesterContainer = $('#semester_pagination')
+    $('#semester').show();
+    if(semester == 0){
+        $('#semester_s').html('9월 학기');
+        data = ninesemester;
+
+    }else if(semester == 1){
+        $('#semester_s').html('1월 학기');
+        data = onesemester;
+
+    }else if(semester == 2){
+        $('#semester_s').html('5월 학기');
+        data = fivesemester;
+
+    }else{
+        $('#semester_s').html('전체 반')
+        data = result;
+    }
     SemesterContainer.pagination({
-        dataSource: result,
+        dataSource: data,
         prevText: '이전',
         nextText: '다음',
         pageClassName: 'float-end',
         pageSize: 10,
-        callback: function (result, pagination) {
+        callback: function (data, pagination) {
             let temp_semester_banlist = ''
-            $.each(result, function (index, item) {
+            $.each(data, function (index, item) {
                 let ban_id = item.ban_id
                 let name = item.name
                 let student_num = item.student_num
@@ -332,43 +352,6 @@ function allsemesterShow() {
     })
 }
 
-function semesterShow(semester) {
-    $('#semester').show();
-    data = allData.filter(e => e.semester == semester)
-    $('#semester_s').html(make_semester(semester) + '월 학기');
-    // key값 `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
-    SemesterContainer.pagination({
-        dataSource: data,
-        prevText: '이전',
-        nextText: '다음',
-        pageClassName: 'float-end',
-        pageSize: 10,
-        callback: function (data, pagination) {
-            let temp_semester_banlist = ''
-            $.each(data, function (index, item) {
-                let ban_id = item['students'][0].ban_id
-                let name = item['students'][0].name
-                let student_num = item['students'][0].student_num
-                let teacher_name = item['students'][0].teacher_name
-                let teacher_id = item['students'][0].teacher_id
-                // 원생 목록 
-                // let out_num = item[key].filter(s => s.out_created != null || s.switch_ban_id != null).length;
-                let total_out_count = item['total_out_count'] + item['total_switch_count']
-                let total_out_per = item['total_out_per']
-
-                temp_semester_banlist += `
-                <td class="col-2">${name}</td>
-                <td class="col-2">${teacher_name}</td>
-                <td class="col-2">${student_num + total_out_count}</td>
-                <td class="col-2">${student_num}</td>
-                <td class="col-2">${total_out_count}명  (${total_out_per}%)</td>
-                <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${teacher_id})"><span class="cursor-pointer">✅</span></td>;
-                <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart(${ban_id})"><span class="cursor-pointer">✅</span></td>`;
-            });
-            $('#semester_banlist').html(temp_semester_banlist)
-        }
-    })
-}
 function getTeacherInfo(t_id){
     let info = allData.filter(t=>t.teacher_id == t_id)
     if (info.length == 0){
