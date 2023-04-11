@@ -88,9 +88,7 @@ function so_paginating(done_code) {
     total_soquestion_num = soqData.length
     sodata_noanswer = total_soquestion_num !=0 ? soqData.filter(a => a.answer == 0).length : 0
 
-    let temp_newso = `총 요청 : ${total_soquestion_num}건`
-    let temp_newdoneso = `총 요청 : ${total_soquestion_num - sodata_noanswer}건`
-    let temp_newnotdoneso = `총 요청 : ${sodata_noanswer}건`
+    let temp_newso = `<strong> 총 요청 : ${total_soquestion_num}건 </strong> ( 응답한 요청 : ${total_soquestion_num - sodata_noanswer}건 / 미응답 요청 : ${sodata_noanswer}건 )`
     $('#newso').html(temp_newso)
     $('#newdoneso').html(temp_newdoneso)
     $('#newnotdoneso').html(temp_newnotdoneso)
