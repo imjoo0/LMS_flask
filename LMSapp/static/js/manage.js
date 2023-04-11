@@ -66,7 +66,7 @@ async function sodata() {
         data: {},
         success: function(response){
             soQdata = response['question']
-            console.log(soQdata)
+            answerData = response['answer']
         }
     }) 
     so_paginating(0)
@@ -74,11 +74,9 @@ async function sodata() {
 
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
-
     let container = $('#so_pagination')
-    soquestionData = questionData.length > 0 ? questionData.filter(q => q.category != 0) : 0
-    total_soquestion_num = soquestionData.length
-    sodata_noanswer = soquestionData.filter(a => a.answer == 0).length
+    total_soquestion_num = soQdata.length
+    sodata_noanswer = soQdata.filter(a => a.answer == 0).length
 
     let temp_newso = `
     <td class="col-4">${total_soquestion_num}  건</td>
@@ -88,7 +86,7 @@ function so_paginating(done_code) {
     $('#newso').html(temp_newso)
 
     if(total_soquestion_num != 0) {
-        qdata = soquestionData.filter(a => a.answer == done_code)
+        qdata =  soQdata.length > 0 ? soQdata.filter(a => a.answer == done_code) : 0
         if(qdata.length != 0){
             $('#no_data_msg').hide()
             $('#so_question').show()

@@ -54,7 +54,7 @@ def get_sodata():
                 cur.execute('select * from question where category !=0;;')
                 question = cur.fetchall()
 
-                cur.execute('select * from answer;')
+                cur.execute('SELECT * FROM LMS.answer left join question on answer.question_id =question.id where question.category !=0;')
                 answer = cur.fetchall()
 
         except Exception as e:
