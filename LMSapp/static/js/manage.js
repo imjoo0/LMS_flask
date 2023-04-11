@@ -77,7 +77,6 @@ function so_paginating(done_code) {
             $('#no_data_msg').hide()
             $('#so_question').show()
             $('#so_pagination').show()
-            var dataHtml = '';
             container.pagination({
                 dataSource: qdata,
                 prevText: '이전',
@@ -85,6 +84,7 @@ function so_paginating(done_code) {
                 pageClassName: 'float-end',
                 pageSize: 5,
                 callback: function (qdata, pagination) {
+                    var dataHtml = '';
                     $.each(qdata, function (index, item) {
                         let category = q_category(item.category)
                         dataHtml += `
@@ -717,7 +717,6 @@ function paginating(done_code) {
         $('#pagination').show()
         qdata = questionData.filter(a => a.answer == done_code)
         if(qdata.length != 0){
-            var dataHtml = '';
             container.pagination({
                 dataSource: qdata,
                 prevText: '이전',
@@ -725,6 +724,7 @@ function paginating(done_code) {
                 pageClassName: 'float-end',
                 pageSize: 5,
                 callback: function (qdata, pagination) {
+                    var dataHtml = '';
                     $.each(qdata, function (index, item) {
                         let category = q_category(item.category)
                         dataHtml += `
