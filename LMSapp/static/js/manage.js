@@ -369,6 +369,7 @@ async function get_question_detail(q_id, done_code) {
     }else{
         $('#manage_answer').hide()
         answer_data = answerData.filter(a => a.question_id == q_id)[0]
+        console.log(answer_data)
         let temp_answer_list = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">답변 제목</span>
