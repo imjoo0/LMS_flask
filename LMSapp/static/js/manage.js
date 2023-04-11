@@ -55,7 +55,7 @@ async function sodata() {
         <td class="col-1">${student_num}</td>
         <td class="col-1">${first_num}</td>
         <td class="col-1">${switch_plus_num}</td>
-        <td class="col-2"> 총: ${switch_minus_num+out_num}명(퇴소:${out_num}/이반:${switch_minus_num})</td>
+        <td class="col-3"> 총: ${switch_minus_num+out_num}명 ( 퇴소 : ${out_num}명 / 이반 : ${switch_minus_num}명 )</td>
         <td class="col-1"><strong>${switch_out_bans[i]['out_num_per']} %</strong></td>
         <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart(${ban_id})">👉</td>
         `;
