@@ -153,9 +153,8 @@ async function get_question_detail(q_id, done_code) {
     // 상담 일지 처리 
     if (question_detail_data.category == 0) {
         $('#consulting_history_attach').hide()
-    } else {
-        $('#consulting_history_attach').show()
-        consulting_history = consultingData.filter(c => c.id == question_detail_data.consulting_history)[0]
+    }else{
+        let consulting_history = consultingData.filter(c => c.id == question_detail_data.consulting_history)
         let category = ''
         console.log(consulting_history)
         if (consulting_history.category_id < 100) {
@@ -186,6 +185,7 @@ async function get_question_detail(q_id, done_code) {
         </div>
         `;
         $('#cha').html(temp_his);
+        $('#consulting_history_attach').show()
     }
     // 응답 처리 
     if (done_code == 0) {
