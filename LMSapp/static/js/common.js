@@ -89,9 +89,9 @@ async function get_total_data() {
         data: {},
         success: function (response) {
             // QA 데이터
-            questionData = response['question']
-            answerData = response['answer']
-            attachData = response['attach']
+            // questionData = response['question']
+            // answerData = response['answer']
+            // attachData = response['attach']
 
             // sodata
             outstudentData = response['outstudent']

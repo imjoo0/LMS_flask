@@ -64,12 +64,6 @@ def get_ban():
                 cur.execute(f"select task.id, task.category_id, task.contents, task.url, task.attachments, date_format(task.startdate, '%Y-%m-%d') as startdate, date_format(task.deadline, '%Y-%m-%d') as deadline, task.priority, task.cycle, taskcategory.name, taskban.ban_id, taskban.teacher_id, taskban.done from task left join taskcategory on task.category_id = taskcategory.id left join taskban on task.id = taskban.task_id;" )
                 task = cur.fetchall()
 
-                cur.execute('select * from question;')
-                question = cur.fetchall()
-
-                cur.execute('select * from answer;')
-                answer = cur.fetchall()
-
                 cur.execute('select question_id,file_name from attachment;')
                 attach = cur.fetchall()
         except:

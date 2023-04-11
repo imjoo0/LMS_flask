@@ -20,7 +20,7 @@ function main_view(){
 }
 // 이반 * 퇴소 
 // 조회
-function sodata() {
+async function sodata() {
     $('#qubox').hide()
     $('#ulbox').hide()
     $('#detailban').hide()
@@ -60,11 +60,21 @@ function sodata() {
         `;
     }
     $('#static_data1').html(temp_html)
+    await $.ajax({
+        url: '/manage/so',
+        type: 'GET',
+        data: {},
+        success: function(response){
+            soQdata = response['question']
+            console.log(soQdata)
+        }
+    }) 
     so_paginating(0)
 }
 
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
+
     let container = $('#so_pagination')
     soquestionData = questionData.length > 0 ? questionData.filter(q => q.category != 0) : 0
     total_soquestion_num = soquestionData.length

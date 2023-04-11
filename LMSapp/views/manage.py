@@ -41,6 +41,28 @@ def answer(id):
             # db.session.commit()
         db.session.commit()
         return jsonify({'result': '문의 답변 저장 완료'})
+    
+# 이반 퇴소 
+@bp.route("/so", methods=['GET'])
+def get_sodata():
+    if request.method == 'GET':
+        question = []
+        answer = []
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute('select * from question where category !=0;;')
+                question = cur.fetchall()
+
+                cur.execute('select * from answer;')
+                answer = cur.fetchall()
+
+        except Exception as e:
+            print(e)
+        finally:
+            db.close()
+        return jsonify({'question':question,'answer':answer})
+    
 # 반 차트 관련 
 # @bp.route("/ban/<int:id>", methods=['GET'])
 # def get_ban(id):
@@ -62,32 +84,7 @@ def answer(id):
 
 #         return jsonify({'consulting': consulting,'task': task})
 
-# # 이반 퇴소 
-# @bp.route("/so", methods=['GET'])
-# def get_soban():
-#     if request.method == 'GET':
-#         target_ban = callapi.purple_allinfo('get_all_ban')
-#         if target_ban:
-#             db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-#             so = {}
-#             try:
-#                 with db.cursor() as cur:
-#                     cur.execute(f'SELECT COALESCE(switchstudent.ban_id, outstudent.ban_id) AS ban_id, COALESCE(switch_count, 0) AS switch_count, COALESCE(out_count, 0) AS out_count FROM (SELECT ban_id, COUNT(*) AS switch_count FROM switchstudent GROUP BY ban_id) AS switch_counts LEFT OUTER JOIN (SELECT ban_id, COUNT(*) AS out_count FROM outstudent GROUP BY ban_id) AS out_counts ON switch_counts.ban_id = out_counts.ban_id LEFT OUTER JOIN switchstudent ON switch_counts.ban_id = switchstudent.ban_id LEFT OUTER JOIN outstudent ON out_counts.ban_id = outstudent.ban_id UNION SELECT COALESCE(switch_counts.ban_id, out_counts.ban_id) AS ban_id, COALESCE(switch_count, 0) AS switch_count, COALESCE(out_count, 0) AS out_count FROM (SELECT ban_id, COUNT(*) AS switch_count FROM switchstudent GROUP BY ban_id) AS switch_counts RIGHT OUTER JOIN (SELECT ban_id, COUNT(*) AS out_count FROM outstudent GROUP BY ban_id) AS out_counts ON switch_counts.ban_id = out_counts.ban_id WHERE switch_counts.ban_id IS NULL;')
-#                     so['status'] = 200
-#                     so['data'] = cur.fetchall()
 
-#             except Exception as e:
-#                 print(e)
-#                 so['status'] = 401
-#                 so['text'] = str(e)
-#             finally:
-#                 db.close()
-#             return jsonify({
-#             'target_ban': target_ban,
-#             'so': so
-#             })
-#         else:
-#             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
 
 # @bp.route("/sodata", methods=['GET'])
 # def sodata():
