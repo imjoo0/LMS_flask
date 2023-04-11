@@ -92,27 +92,30 @@ async function get_total_data() {
             outstudentData = response['outstudent']
             switchstudentData = response['switchstudent']
             console.log(response['all_ban'])
-            total_student_num = response['all_ban'].length
+            total_student_num = response['all_ban'][0].total_student_num
             outstudent_num = outstudentData.length;
             switchstudent_num = switchstudentData.length
 
             first_total = total_student_num + outstudent_num
 
-            // 학습 데이터
-            consultingData = response['consulting']
+            // // 학습 데이터
+            // consultingData = response['consulting']
 
-            // 업무 데이터 
-            taskData = response['task']
+            // // 업무 데이터 
+            // taskData = response['task']
 
-            all_student = response['all_ban']
+            // all_student = response['all_ban']
+
             // 전체 데이터 
             result = response['all_ban'].map(obj1 => {
-                const out_student = outstudentData.find(obj2 => obj1.student_id === obj2.student_id);
-                const switch_student = switchstudentData.find(obj2 => obj1.student_id === obj2.student_id);
-                const out_created = out_student ? out_student.out_created : null;
+                let out_student = outstudentData.find(obj2 => obj1.ban_id === obj2.ban_id);
+                let switch_student = switchstudentData.find(obj2 => obj1.ban_id === obj2.ban_id);
+                let out_created = out_student ? out_student.out_created : null;
                 const switch_ban_id = switch_student ? switch_student.switch_ban_id : null;
                 return { ...obj1, out_created, switch_ban_id };
             });
+
+            console.log(result)
 
             // 학기 별 원생
             onesemester = total_student_num != 0 ? result.filter(e => e.semester == 1) : 0
