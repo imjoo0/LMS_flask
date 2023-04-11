@@ -125,7 +125,7 @@ function so_paginating(done_code) {
         }else{
             $('#so_question').hide()
             $('#so_pagination').hide()
-            let temp_nodatamasg = $(`#question_view option[value="${done_code}"]`).text()+'가 없습니다';
+            let temp_nodatamasg = $(`#question_view option[value="${done_code}"]`).text()+'이 없습니다';
             $('#no_data_msg').html(temp_nodatamasg)
             $('#no_data_msg').show()
         }
