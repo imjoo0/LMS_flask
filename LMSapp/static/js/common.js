@@ -291,14 +291,14 @@ function allsemesterShow() {
         }
     });
     //  const v = `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
-    let temp_semester_banlist = ''
     SemesterContainer.pagination({
         dataSource: allData,
         prevText: '이전',
         nextText: '다음',
         pageClassName: 'float-end',
-        pageSize: 5,
+        pageSize: 10,
         callback: function (allData, pagination) {
+            let temp_semester_banlist = ''
             $.each(allData, function (index, item) {
                 let ban_id = item['students'][0].ban_id
                 let name = item['students'][0].name
@@ -333,7 +333,7 @@ function semesterShow(semester) {
         prevText: '이전',
         nextText: '다음',
         pageClassName: 'float-end',
-        pageSize: 5,
+        pageSize: 10,
         callback: function (data, pagination) {
             let temp_semester_banlist = ''
             $.each(data, function (index, item) {
