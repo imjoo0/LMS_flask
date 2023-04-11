@@ -72,9 +72,6 @@ function so_paginating(done_code) {
     $('#newso').html(temp_newso)
 
     if (total_soquestion_num != 0) {
-        $('#no_data_msg').hide()
-        $('#so_question').show()
-        $('#so_pagination').show()
         qdata = soquestionData.filter(a => a.answer == done_code)
         if(qdata.length != 0){
             $('#no_data_msg').hide()
@@ -104,7 +101,7 @@ function so_paginating(done_code) {
         }else{
             $('#so_question').hide()
             $('#so_pagination').hide()
-            const temp_nodatamasg = $(`#question_view option[value="${done_code}"]`)+' 가 없습니다';
+            const temp_nodatamasg = $(`#question_view option[value="${done_code}"]`).html+' 가 없습니다';
             $('#no_data_msg').html(temp_nodatamasg)
             $('#no_data_msg').show()
         }
