@@ -101,7 +101,8 @@ function so_paginating(done_code) {
         }else {
             $('#so_question').hide()
             $('#so_pagination').hide()
-            $('#no_data_msg').html('문의가 없습니다')
+            let temp_nodatamasg = $('#question_view').html+' 0건'
+            $('#no_data_msg').html(temp_nodatamasg)
             $('#no_data_msg').show()
         }
     }else{
