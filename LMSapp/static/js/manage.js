@@ -111,11 +111,12 @@ function so_paginating(done_code) {
             $('#no_data_msg').html(temp_nodatamasg)
             $('#no_data_msg').show()
         }
+    }else{
+        $('#so_question').hide()
+        $('#so_pagination').hide()
+        $('#no_data_msg').html('이반 / 퇴소 요청이 없었습니다')
+        $('#no_data_msg').show()
     }
-    $('#so_question').hide()
-    $('#so_pagination').hide()
-    $('#no_data_msg').html('이반 / 퇴소 요청이 없었습니다')
-    $('#no_data_msg').show()
 }
 
 // 문의 내용 상세보기
