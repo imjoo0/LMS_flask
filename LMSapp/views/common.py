@@ -40,7 +40,7 @@ def save_attachment(file, q_id):
 @bp.route("/all_ban", methods=['GET'])
 def get_ban():
     if request.method == 'GET':
-        all_ban = callapi.purple_allinfo('get_all_info')
+        all_ban = callapi.purple_allinfo('get_all_ban')
         switchstudent = []
         outstudent = []
         consulting = []
