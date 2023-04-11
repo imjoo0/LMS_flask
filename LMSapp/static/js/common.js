@@ -164,21 +164,21 @@ async function get_total_data() {
                         <th class="need">1월 학기</th>
                         <td>${first_onesemester}명</td>
                         <td>${onesemester_total}명</td>
-                        <td>${oneoutnum}명(${answer_rate(oneoutnum, first_onesemester).toFixed(1)}%)</td>
+                        <td>${oneoutnum}명(${answer_rate(oneoutnum, outstudent_num).toFixed(1)}%)</td>
                         <td><span class='cursor-pointer fs-4' onclick="semesterShow(${1})">📜</span></td>
                     </tr>
                     <tr>
                         <th class="need">5월 학기</th>
                         <td>${first_fivesemester}명</td>
                         <td>${fivesemester_total}명</td>
-                        <td>${fiveoutnum}명(${answer_rate(fiveoutnum, first_fivesemester).toFixed(1)}%)</td>
+                        <td>${fiveoutnum}명(${answer_rate(fiveoutnum, outstudent_num).toFixed(1)}%)</td>
                         <td><span class='cursor-pointer fs-4' onclick="semesterShow(${2})">📜</span></td>
                     </tr>
                     <tr>
                         <th>9월 학기</th>
                         <td>${first_ninesemester}명</td>
                         <td>${ninesemester_total}명</td>
-                        <td>${nineoutnum}명(${answer_rate(nineoutnum, first_ninesemester).toFixed(1)}%)</td>
+                        <td>${nineoutnum}명(${answer_rate(nineoutnum, outstudent_num).toFixed(1)}%)</td>
                         <td><span class='cursor-pointer fs-4' onclick="semesterShow(${0})">📜</span></td>
                     </tr>
                 </table>
