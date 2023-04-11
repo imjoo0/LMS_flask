@@ -35,9 +35,10 @@ async function sodata() {
 
     let temp_html = ``
     for (i = 0; i < switch_out_bans.length; i++) {
+        console.log(switch_out_bans[i])
         let ban_id = switch_out_bans[i].ban_id
         let name = switch_out_bans[i].name
-        let student_num = switch_out_bans[i].student_num
+        let student_num = Number(switch_out_bans[i].student_num)
         let teacher_name = switch_out_bans[i].teacher_engname + '( ' + switch_out_bans[i].teacher_name +' )'
 
         let total_out_count = switch_out_bans[i]['total_out_count']
