@@ -76,13 +76,13 @@ def get_csdata():
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute('select * from question where category ==0;')
+                cur.execute('select * from question where category = 0;')
                 question = cur.fetchall()
 
-                cur.execute('SELECT answer.title,answer.content,answer.created_at,answer.reject_code,answer.question_id FROM LMS.answer left join question on answer.question_id =question.id where question.category ==0;')
+                cur.execute('SELECT answer.title,answer.content,answer.created_at,answer.reject_code,answer.question_id FROM LMS.answer left join question on answer.question_id =question.id where question.category = 0;')
                 answer = cur.fetchall()
 
-                cur.execute('select question_id,file_name from attachment left join question on attachment.question_id =question.id where question.category ==0;')
+                cur.execute('select question_id,file_name from attachment left join question on attachment.question_id =question.id where question.category = 0;')
                 attach = cur.fetchall()
 
         except Exception as e:
