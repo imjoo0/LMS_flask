@@ -85,7 +85,7 @@ function so_paginating(done_code) {
     total_soquestion_num = soqData.length
     sodata_noanswer = total_soquestion_num !=0 ? soqData.filter(a => a.answer == 0).length : 0
 
-    let temp_newso = `총 요청 : ${total_soquestion_num}건  ( 응답한 요청 : ${total_soquestion_num - sodata_noanswer}건 / 미응답 요청 : ${sodata_noanswer}건 )`
+    let temp_newso = `이반 / 퇴소 총 요청 : ${total_soquestion_num}건  ( 응답한 요청 : ${total_soquestion_num - sodata_noanswer}건 / 미응답 요청 : ${sodata_noanswer}건 )`
     $('#newso').html(temp_newso)
 
     if(total_soquestion_num != 0) {
@@ -135,8 +135,8 @@ async function get_soquestion_detail(q_id, done_code) {
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
     question_detail_data = soqData.filter(q => q.id == q_id)[0]
-    student_data = allData.filter(a => a.teacher_id == question_detail_data.teacher_id && a.ban_id == question_detail_data.ban_id)[0]['students'].filter(s => s.student_id
-        == question_detail_data.student_id)[0]
+    student_data = studentsData[question_detail_data.ban_id]
+    console.log(student_data)
     attach = attachData.filter(a => a.question_id == q_id)[0]['file_name']
     // 문의 상세 내용 
     let temp_question_list = `
