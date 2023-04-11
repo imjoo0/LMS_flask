@@ -108,13 +108,13 @@ async function get_total_data() {
 
             // 전체 데이터 
             
-            result = response['all_ban'].forEach((elem) => {
+            response['all_ban'].forEach((elem) => {
                 elem.out_num = outstudentData.filter(a => a.ban_id == elem.ban_id).length
                 elem.out_num_per = answer_rate(elem.out_num, outstudent_num).toFixed(2)
                 elem.switch_minus_num = switchstudentData.filter(a => a.ban_id == elem.ban_id).length
                 elem.switch_plus_num = switchstudentData.filter(a => a.switch_ban_id == elem.ban_id).length
             });
-            result.sort((a, b) => b.out_num_per - a.out_num_per)
+            response['all_ban'].sort((a, b) => b.out_num_per - a.out_num_per)
 
             // result = response['all_ban'].map(obj1 => {
             //     let out_student = outstudentData.find(obj2 => obj1.ban_id === obj2.ban_id);
