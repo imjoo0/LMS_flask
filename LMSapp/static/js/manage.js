@@ -49,7 +49,7 @@ async function sodata() {
         temp_html += `
         <td class="col-1">${i + 1}위</td>
         <td class="col-2">${name}</td>
-        <td class="col-1">${make_semester(switch_out_bans[i]['students'][0].semester)}월 학기</td>
+        <td class="col-1">${make_semester(switch_out_bans[i].semester)}월 학기</td>
         <td class="col-1">${student_num + total_switch_count + total_out_count}</td>
         <td class="col-1">${student_num}</td>
         <td class="col-1">${teacher_name}</td>
