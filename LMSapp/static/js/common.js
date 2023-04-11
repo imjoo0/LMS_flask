@@ -81,6 +81,7 @@ async function get_total_data() {
     $('#ulbox').hide()
     $('#target_ban_info_body').hide()
     $('#inloading').show()
+    $('#semester_pagination').hide()
     await $.ajax({
         type: "GET",
         url: "/common/all_ban",
@@ -256,6 +257,7 @@ async function get_total_data() {
         }
     })
     $('#inloading').hide()
+    $('#semester_pagination').show()
     $('#target_ban_info_body').show()
 
 }
