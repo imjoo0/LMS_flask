@@ -72,6 +72,9 @@ function so_paginating(done_code) {
     $('#newso').html(temp_newso)
 
     if (total_soquestion_num != 0) {
+        $('#no_data_msg').hide()
+        $('#so_question').show()
+        $('#so_pagination').show()
         qdata = soquestionData.filter(a => a.answer == done_code)
         if(qdata.length != 0){
             $('#no_data_msg').hide()
@@ -105,12 +108,7 @@ function so_paginating(done_code) {
             $('#no_data_msg').html(temp_nodatamasg)
             $('#no_data_msg').show()
         }
-    }else{
-        $('#so_question').hide()
-        $('#so_pagination').hide()
-        $('#no_data_msg').html('문의가 없습니다')
-        $('#no_data_msg').show()
-    } 
+    }
 }
 
 // 문의 내용 상세보기
