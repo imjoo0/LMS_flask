@@ -91,7 +91,6 @@ async function get_total_data() {
             // sodata
             outstudentData = response['outstudent']
             switchstudentData = response['switchstudent']
-            console.log(response['all_ban'])
             total_student_num = response['all_ban'][0].total_student_num
             outstudent_num = outstudentData.length;
             switchstudent_num = switchstudentData.length
@@ -114,17 +113,14 @@ async function get_total_data() {
                 elem.switch_minus_num = switchstudentData.filter(a => a.ban_id == elem.ban_id).length
                 elem.switch_plus_num = switchstudentData.filter(a => a.switch_ban_id == elem.ban_id).length
             });
-            result = response['all_ban'].sort((a, b) => b.out_num_per - a.out_num_per)
-
-            // result = response['all_ban'].map(obj1 => {
-            //     let out_student = outstudentData.find(obj2 => obj1.ban_id === obj2.ban_id);
-            //     let switch_student = switchstudentData.find(obj2 => obj1.ban_id === obj2.ban_id);
-            //     let out_created = out_student ? out_student.out_created : null;
-            //     const switch_ban_id = switch_student ? switch_student.switch_ban_id : null;
-            //     return { ...obj1, out_created, switch_ban_id };
-            // });
-
-            console.log(response['all_ban'])
+            result = response['all_ban'].sort((a, b) =>{
+                 if (b.out_num_per !== a.out_num_per) {
+                    return b.out_num_per - a.out_num_per; // out_num_per 큰 순으로 정렬
+                }else{
+                    return b.student_num - a.student_num; // students.length가 큰 순으로 정렬
+                }
+            })
+            
 
             // 학기 별 원생
             onesemester = total_student_num != 0 ? result.filter(e => e.semester == 1) : 0
