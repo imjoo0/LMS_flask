@@ -293,7 +293,6 @@ function semesterShow(semester) {
         callback: function (data, pagination) {
             let temp_semester_banlist = ''
             $.each(data, function (index, item) {
-                let ban_id = item.ban_id
                 let name = item.name
                 let student_num = item.student_num
                 let teacher_name = item.teacher_engname + '( ' + item.teacher_name +' )'
@@ -309,7 +308,7 @@ function semesterShow(semester) {
                 <td class="col-2">${item.switch_plus_num}</td>
                 <td class="col-2"> 총: ${total_out_count}명 ( 퇴소 : ${item.out_num} / 이반 : ${item.switch_minus_num} )</td>
                 <td class="col-1"><strong> ${item.out_num_per} %</strong></td>
-                <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${teacher_id})"><span class="cursor-pointer">✅</span></td>;`;
+                <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${teacher_id})"><span class="cursor-pointer">👉</span></td>;`;
             });
             $('#semester_banlist').html(temp_semester_banlist)
         }

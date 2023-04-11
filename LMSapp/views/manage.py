@@ -45,6 +45,7 @@ def answer(id):
 # 이반 퇴소 
 @bp.route("/so", methods=['GET'])
 def get_sodata():
+    students = callapi.purple_allinfo('get_all_ban_student')
     if request.method == 'GET':
         question = []
         answer = []
@@ -65,7 +66,7 @@ def get_sodata():
             print(e)
         finally:
             db.close()
-        return jsonify({'question':question,'answer':answer,'attach':attach})
+        return jsonify({'question':question,'answer':answer,'attach':attach,'students':students})
 
 @bp.route("/cs", methods=['GET'])
 def get_csdata():

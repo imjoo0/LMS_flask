@@ -24,43 +24,44 @@ async function sodata() {
     $('#ulbox').hide()
     $('#detailban').hide()
     $('#sobox').show()
+    let container = $('#sob_pagination')
     if (outstudent_num == 0 && switchstudent_num == 0) {
         let no_data_title = '이반 * 퇴소 발생이 없었어요'
         $('#sotitle').html(no_data_title);
         $('#sotable').hide()
         return
+    }else{
+        $('#sotitle').empty();    
+        switch_out_bans = result.filter(e => e.out_num != 0 || e.switch_minus_num != 0)
+        container.pagination({
+            dataSource: switch_out_bans,
+            prevText: '이전',
+            nextText: '다음',
+            pageClassName: 'float-end',
+            pageSize: 5,
+            callback: function (switch_out_bans, pagination) {
+                var temp_html = '';
+                $.each(switch_out_bans, function (index, item) {
+                    let student_num = Number(item.student_num)
+                    let teacher_name = item.teacher_engname + '( ' + item.teacher_name +' )'
+            
+                    temp_html += `
+                    <td class="col-1">${index + 1}위</td>
+                    <td class="col-1">${item.name}</td>
+                    <td class="col-1">${make_semester(item.semester)}월 학기</td>
+                    <td class="col-1">${teacher_name}</td>
+                    <td class="col-1">${student_num}</td>
+                    <td class="col-1">${student_num - item.switch_plus_num + item.switch_minus_num + item.out_num}</td>
+                    <td class="col-1">${item.switch_plus_num}</td>
+                    <td class="col-3"> 총: ${item.switch_minus_num+ item.out_num}명 ( 퇴소 : ${item.out_num}명 / 이반 : ${item.switch_minus_num}명 )</td>
+                    <td class="col-1"><strong>${item.out_num_per} %</strong></td>
+                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${item.teacher_id})"><span class="cursor-pointer">👉</td>
+                    `;
+                });
+                $('#static_data1').html(temp_html);
+            }
+        })
     }
-    switch_out_bans = result.filter(e => e.out_num != 0 || e.switch_minus_num != 0)
-    $('#sotitle').empty();
-
-    let temp_html = ``
-    for (i = 0; i < switch_out_bans.length; i++) {
-        console.log(switch_out_bans[i])
-        let teacher_id = switch_out_bans[i].teacher_id
-        let name = switch_out_bans[i].name
-        let student_num = Number(switch_out_bans[i].student_num)
-        let teacher_name = switch_out_bans[i].teacher_engname + '( ' + switch_out_bans[i].teacher_name +' )'
-
-        let out_num = switch_out_bans[i]['out_num']
-        let switch_minus_num = switch_out_bans[i]['switch_minus_num']
-        let switch_plus_num = switch_out_bans[i]['switch_plus_num']
-        
-        let first_num = student_num - switch_plus_num + switch_minus_num + out_num
-
-        temp_html += `
-        <td class="col-1">${i + 1}위</td>
-        <td class="col-1">${name}</td>
-        <td class="col-1">${make_semester(switch_out_bans[i].semester)}월 학기</td>
-        <td class="col-1">${teacher_name}</td>
-        <td class="col-1">${student_num}</td>
-        <td class="col-1">${first_num}</td>
-        <td class="col-1">${switch_plus_num}</td>
-        <td class="col-3"> 총: ${switch_minus_num+out_num}명 ( 퇴소 : ${out_num}명 / 이반 : ${switch_minus_num}명 )</td>
-        <td class="col-1"><strong>${switch_out_bans[i]['out_num_per']} %</strong></td>
-        <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${teacher_id})"><span class="cursor-pointer">👉</td>
-        `;
-    }
-    $('#static_data1').html(temp_html)
     await $.ajax({
         url: '/manage/so',
         type: 'GET',
@@ -69,12 +70,20 @@ async function sodata() {
             soqData = response['question']
             answerData = response['answer']
             attachData = response['attach']
+            studentsData = response['students'].reduce((result, item) => {
+                if (!result[item.ban_id]) {
+                    result[item.ban_id] = [];
+                }
+                result[item.ban_id].push(item);
+                return result;
+            }, {});
         }
     }) 
     so_paginating(0)
 }
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
+    console.log(studentsData)
     let container = $('#so_pagination')
     total_soquestion_num = soqData.length
     sodata_noanswer = total_soquestion_num !=0 ? soqData.filter(a => a.answer == 0).length : 0
