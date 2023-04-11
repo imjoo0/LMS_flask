@@ -12,6 +12,12 @@ $(document).ready(function () {
     })
 
 })
+function main_view(){
+    $('#qubox').hide()
+    $('#qubox').hide()
+    $('#ulbox').hide()
+    $('#detailban').show()
+}
 // 이반 * 퇴소 
 // 조회
 function sodata() {
