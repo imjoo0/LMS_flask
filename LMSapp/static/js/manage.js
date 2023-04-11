@@ -155,35 +155,41 @@ async function get_question_detail(q_id, done_code) {
         $('#consulting_history_attach').hide()
     }else{
         let consulting_history = consultingData.filter(c => c.id == question_detail_data.consulting_history)
-        let category = ''
-        console.log(consulting_history)
-        if (consulting_history.category_id < 100) {
-            category = `${consulting_history.week_code}주간 ${consulting_history.category}상담`
-        } else {
-            category = `${consulting_history.category} ${consulting_history.contents}`
+        let temp_his = ''
+        if(consulting_history.length != 0){
+            let category = ''
+            if (consulting_history[0].category_id < 100) {
+                category = `${consulting_history[0].week_code}주간 ${consulting_history[0].category}상담`
+            } else {
+                category = `${consulting_history[0].category} ${consulting_history[0].contents}`
+            }
+            temp_his = `
+            <div class="modal-body-select-container">
+                <span class="modal-body-select-label">상담 종류</span>
+                <p>${category}</p>
+            </div>
+            <div class="modal-body-select-container">
+                <span class="modal-body-select-label">상담 사유</span>
+                <p>${consulting_history[0].reason}</p>
+            </div>
+            <div class="modal-body-select-container">
+                <span class="modal-body-select-label">제공한 가이드</span>
+                <p>${consulting_history[0].solution}</p>
+            </div>
+            <div class="modal-body-select-container">
+                <span class="modal-body-select-label">상담 결과</span>
+                <p>${consulting_history[0].result}</p>
+            </div>
+            <div class="modal-body-select-container">
+                <span class="modal-body-select-label">상담 일시</span>
+                <p>${make_date(consulting_history[0].created_at)}</p>
+            </div>
+            `;
+        }else{
+            temp_his = `
+            <p> 상담을 진행하지 않았습니다 </p>
+            `;
         }
-        let temp_his = `
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">상담 종류</span>
-            <p>${category}</p>
-        </div>
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">상담 사유</span>
-            <p>${consulting_history.reason}</p>
-        </div>
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">제공한 가이드</span>
-            <p>${consulting_history.solution}</p>
-        </div>
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">상담 결과</span>
-            <p>${consulting_history.result}</p>
-        </div>
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">상담 일시</span>
-            <p>${make_date(consulting_history.created_at)}</p>
-        </div>
-        `;
         $('#cha').html(temp_his);
         $('#consulting_history_attach').show()
     }
