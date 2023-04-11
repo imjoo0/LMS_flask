@@ -215,7 +215,7 @@
                     </div>
                 </div>
                 <div class="notice_message mt-4" id="select_student">
-                    <p class="mb-2" style="padding: 0 12px;">👇 상담을 진행할 학생을 선택해주세요</p>
+                    <p class="mb-2" style="padding: 0 12px;">👇 상담을 진행할 원생을 선택해주세요</p>
                     <div class="plus_under_contents" style="padding: 0 12px;">
                         <select class="border rounded-0 form-control form-control-sm" id="consulting_target_students" multiple>
 
@@ -859,12 +859,12 @@
                                 <thead>
                                     <tr class="row">
                                         <th class="col-2" id="semester_s">학기</th>
-                                        <th class="col-2">담당 선생님</th>
-                                        <th class="col-1">관리중인 학생 수</th>
-                                        <th class="col-1">초기 배정 학생 수</th>
+                                        <th class="col-2">담임 T</th>
+                                        <th class="col-1">현재 원생 수</th>
+                                        <th class="col-1">초기 배정 수</th>
+                                        <th class="col-2">➕ 추가 등록 한 원생 수</th>
                                         <th class="col-2">➖ 퇴소 및 이반 수</th>
-                                        <th class="col-2">➕ 추가 등록 한 학생 수</th>
-                                        <th class="col-1">퇴소율</th>
+                                        <th class="col-1"><strong>퇴소율</strong></th>
                                         <th class="col-1">상세보기</th>
                                     </tr>
                                 </thead>
@@ -899,14 +899,15 @@
                                 </tr>
                                 <tr class="row" style="background:#DCE6F2;">
                                     <th class="col-1">순위</th>
-                                    <th class="col-2">반 이름</th>
-                                    <th class="col-1">학기</th>
-                                    <th class="col-1">초기 원생 수</th>
-                                    <th class="col-1">현재 원생 수</th>
+                                    <th class="col-1">반</th>
+                                    <th class="col-1" id="semester_s">학기</th>
                                     <th class="col-1">담임 T</th>
-                                    <th class="col-2">이반 발생</th>
-                                    <th class="col-2">퇴소 발생</th>
-                                    <th class="col-1">상세</th>
+                                    <th class="col-1">현재 원생 수</th>
+                                    <th class="col-1">초기 배정 수</th>
+                                    <th class="col-1">➕ 추가 등록 원생</th>
+                                    <th class="col-2">➖ 퇴소 및 이반 수</th>
+                                    <th class="col-1"><strong>퇴소율</strong></th>
+                                    <th class="col-1">상세보기</th>
                                 </tr>
                                 <tr id="static_data1" class="row"></tr>
                             </table>
@@ -975,7 +976,7 @@
                             </tr>
                             <tr class="row" style="background:#DCE6F2;">
                                 <th class="col-1">순위</th>
-                                <th class="col-1">학생</th>
+                                <th class="col-1">원생</th>
                                 <th class="col-1">미학습 (%)</th>
                                 <th class="col-1">추천도서코드</th>
                                 <th class="col-1">연락처</th>

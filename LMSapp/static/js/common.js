@@ -306,9 +306,9 @@ function semesterShow(semester) {
                 <td class="col-2">${teacher_name}</td>
                 <td class="col-1">${student_num}</td>
                 <td class="col-1">${student_num + total_out_count - item.switch_plus_num}</td>
-                <td class="col-2"> 총: ${total_out_count}명(퇴소:${item.out_num}/이반:${item.switch_minus_num})</td>
                 <td class="col-2">${item.switch_plus_num}</td>
-                <td class="col-1"> ${item.out_num_per} %</td>
+                <td class="col-2"> 총: ${total_out_count}명(퇴소:${item.out_num}/이반:${item.switch_minus_num})</td>
+                <td class="col-1"><strong> ${item.out_num_per} %</strong></td>
                 <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${teacher_id})"><span class="cursor-pointer">✅</span></td>;`;
             });
             $('#semester_banlist').html(temp_semester_banlist)

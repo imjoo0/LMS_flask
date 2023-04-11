@@ -41,21 +41,22 @@ async function sodata() {
         let student_num = Number(switch_out_bans[i].student_num)
         let teacher_name = switch_out_bans[i].teacher_engname + '( ' + switch_out_bans[i].teacher_name +' )'
 
-        let total_out_count = switch_out_bans[i]['total_out_count']
-        let total_out_per = switch_out_bans[i]['total_out_per']
-
-        let total_switch_count = switch_out_bans[i]['out_num']
-        let total_switch_per = switch_out_bans[i]['switch_minus_num']
+        let out_num = switch_out_bans[i]['out_num']
+        let switch_minus_num = switch_out_bans[i]['switch_minus_num']
+        let switch_plus_num = switch_out_bans[i]['switch_plus_num']
+        
+        let first_num = student_num - switch_plus_num + switch_minus_num + out_num
 
         temp_html += `
         <td class="col-1">${i + 1}위</td>
-        <td class="col-2">${name}</td>
+        <td class="col-1">${name}</td>
         <td class="col-1">${make_semester(switch_out_bans[i].semester)}월 학기</td>
-        <td class="col-1">${student_num + total_switch_count + total_out_count}</td>
-        <td class="col-1">${student_num}</td>
         <td class="col-1">${teacher_name}</td>
-        <td class="col-2">${total_switch_count}(${total_switch_per}%)</td>
-        <td class="col-2">${total_out_count}(${total_out_per}%)</td>
+        <td class="col-1">${student_num}</td>
+        <td class="col-1">${first_num}</td>
+        <td class="col-1">${switch_plus_num}</td>
+        <td class="col-2"> 총: ${switch_minus_num+out_num}명(퇴소:${out_num}/이반:${switch_minus_num})</td>
+        <td class="col-1"><strong>${switch_out_bans[i]['out_num_per']} %</strong></td>
         <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart(${ban_id})">👉</td>
         `;
     }
