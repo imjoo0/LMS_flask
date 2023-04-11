@@ -30,21 +30,21 @@ async function sodata() {
         $('#sotable').hide()
         return
     }
-    switch_out_bans = allData.filter(e => e.total_out_count != 0 || e.total_switch_count != 0)
+    switch_out_bans = result.filter(e => e.out_num != 0 || e.switch_minus_num != 0)
     $('#sotitle').empty();
 
     let temp_html = ``
     for (i = 0; i < switch_out_bans.length; i++) {
-        let ban_id = switch_out_bans[i].students[0].ban_id
-        let name = switch_out_bans[i].students[0].name
-        let student_num = switch_out_bans[i].students[0].student_num
-        let teacher_name = switch_out_bans[i].students[0].teacher_name
+        let ban_id = switch_out_bans[i].ban_id
+        let name = switch_out_bans[i].name
+        let student_num = switch_out_bans[i].student_num
+        let teacher_name = switch_out_bans[i].teacher_engname + '( ' + switch_out_bans[i].teacher_name +' )'
 
         let total_out_count = switch_out_bans[i]['total_out_count']
         let total_out_per = switch_out_bans[i]['total_out_per']
 
-        let total_switch_count = switch_out_bans[i]['total_switch_count']
-        let total_switch_per = switch_out_bans[i]['total_switch_per']
+        let total_switch_count = switch_out_bans[i]['out_num']
+        let total_switch_per = switch_out_bans[i]['switch_minus_num']
 
         temp_html += `
         <td class="col-1">${i + 1}위</td>
