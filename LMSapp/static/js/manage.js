@@ -113,8 +113,7 @@ function so_paginating(done_code) {
                         <td class="col-2">${teacher_name}</td>
                         <td class="col-2">${item.title}</td>
                         <td class="col-4">${item.contents}</td>
-                        <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-                        data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code},${ban_name},${teacher_name})">✏️</td>
+                        <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code},'${ban_name}','${teacher_name}')">✏️</td>
                         <td class="col-1" onclick="delete_question(${item.id})">❌</td>
                         `;
                     });
@@ -136,7 +135,7 @@ function so_paginating(done_code) {
     }
 }
 // 이반 퇴소 요청 내용 상세보기
-async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name) {
+async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name){
     // $('#questionlist').hide()
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
