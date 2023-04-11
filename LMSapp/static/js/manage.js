@@ -36,7 +36,7 @@ async function sodata() {
     let temp_html = ``
     for (i = 0; i < switch_out_bans.length; i++) {
         console.log(switch_out_bans[i])
-        let ban_id = switch_out_bans[i].ban_id
+        let teacher_id = switch_out_bans[i].teacher_id
         let name = switch_out_bans[i].name
         let student_num = Number(switch_out_bans[i].student_num)
         let teacher_name = switch_out_bans[i].teacher_engname + '( ' + switch_out_bans[i].teacher_name +' )'
@@ -57,7 +57,7 @@ async function sodata() {
         <td class="col-1">${switch_plus_num}</td>
         <td class="col-3"> 총: ${switch_minus_num+out_num}명 ( 퇴소 : ${out_num}명 / 이반 : ${switch_minus_num}명 )</td>
         <td class="col-1"><strong>${switch_out_bans[i]['out_num_per']} %</strong></td>
-        <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart(${ban_id})">👉</td>
+        <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${teacher_id})"><span class="cursor-pointer">👉</td>
         `;
     }
     $('#static_data1').html(temp_html)
