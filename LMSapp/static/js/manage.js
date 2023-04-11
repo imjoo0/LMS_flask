@@ -106,8 +106,15 @@ function so_paginating(done_code) {
 }
 
 // 문의 내용 상세보기
-// 문의 내용 상세보기
 async function get_question_detail(q_id, done_code) {
+    let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
+    allData.forEach(ban_data => {
+        let name = ban_data['students'][0].name
+        let value = `${ban_data['students'][0].ban_id}_${ban_data['students'][0].teacher_id}_${name}`;
+        let selectmsg = `<option value="${value}">${name} (${make_semester(ban_data['students'][0].semester)}월 학기)</option>`;
+        temp_o_ban_id += selectmsg
+    });
+    $('#o_ban_id2').html(temp_o_ban_id)
     // $('#questionlist').hide()
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
@@ -419,6 +426,14 @@ function get_consulting_history(student_id) {
 async function request_task() {
     $("#task_date").datepicker({ dateFormat: 'yy-mm-dd' });
     $("#task_deadline").datepicker({ dateFormat: 'yy-mm-dd' });
+    let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
+    allData.forEach(ban_data => {
+        let name = ban_data['students'][0].name
+        let value = `${ban_data['students'][0].ban_id}_${ban_data['students'][0].teacher_id}_${name}`;
+        let selectmsg = `<option value="${value}">${name} (${make_semester(ban_data['students'][0].semester)}월 학기)</option>`;
+        temp_ban_option += selectmsg
+    });
+    $('#task_target_ban').html(temp_ban_option)
     await $.ajax({
         url: '/manage/request_task',
         type: 'GET',
@@ -484,6 +499,14 @@ async function request_consulting() {
     $('#select_student').hide()
     $("#consulting_date").datepicker({ dateFormat: 'yy-mm-dd' });
     $("#consulting_deadline").datepicker({ dateFormat: 'yy-mm-dd' });
+    let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
+    allData.forEach(ban_data => {
+        let name = ban_data['students'][0].name
+        let value = `${ban_data['students'][0].ban_id}_${ban_data['students'][0].teacher_id}_${name}`;
+        let selectmsg = `<option value="${value}">${name} (${make_semester(ban_data['students'][0].semester)}월 학기)</option>`;
+        temp_ban_option += selectmsg
+    });
+    $('#consulting_target_ban').html(temp_ban_option)
     await $.ajax({
         url: '/manage/request_consulting',
         type: 'GET',
@@ -712,7 +735,6 @@ function paginating(done_code) {
     }
 }
 
-
 // 과거 코드
 function go_back() {
     $('#for_taskban_list').hide();
@@ -796,7 +818,6 @@ async function sort_consulting(value) {
         }
     })
 }
-
 async function update_consulting(idx) {
     await $.ajax({
         url: '/manage/api/update_consulting',

@@ -126,12 +126,11 @@
                             <tbody style="width:100%;">
                                 <tr class="row">
                                     <th class="col-2">반이름</th>
-                                    <th class="col-1">학기</th>
-                                    <th class="col-1">원생 수</th>
+                                    <th class="col-2">학기</th>
+                                    <th class="col-2">원생 수</th>
                                     <th class="col-2">퇴소</th>
                                     <th class="col-2">이반</th>
                                     <th class="col-2">미학습</th>
-                                    <th class="col-2">문의 미응답</th>
                                 </tr>
                                 <tr class="row" id="mybaninfo">
                                 </tr>
@@ -179,7 +178,7 @@
                 </div>
             </div>
         </div>
-        <!-- 선생님 관리 현황 -->
+        <!-- 학기별 원생 수 정보 -->
         <div class="info-container" style="margin-top: 10px;">
             <div class="info-title" style="border-bottom: 2px groove #F66F5B">
                 <span id="banchart_title">PURPLE</span>
@@ -225,6 +224,9 @@
                     
                                                     </tr>
                                                 </table>
+                                            </div>
+                                            <div class="d-flex justify-content-center align-items-center w-100">
+                                                <div id="semester_pagination" class="mt-4 mb-5 text-center"></div>
                                             </div>
                                         </div>
                                     </div>
