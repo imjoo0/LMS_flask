@@ -64,13 +64,13 @@ let make_semester=function(semester){
 }
 function q_category(category) {
     if (category == 0) {
-        category = '일반문의'
-    } else if (category == 1) {
-        category = '퇴소문의'
-    } else{
-        category = '이반문의'
+        c ='일반문의'
+    }else if(category == 1) {
+        c ='퇴소문의'
+    }else{
+        c ='이반문의'
     }
-    return category
+    return c
 }
 // 전체 반 정보(차트) 가져오는 함수 
 async function get_total_data() {
