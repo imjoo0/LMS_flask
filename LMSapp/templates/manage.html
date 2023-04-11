@@ -911,19 +911,8 @@
                                 </tr>
                                 <tr id="static_data1" class="row"></tr>
                             </table>
-                            <table class="table text-center" style="width:100%;">
-                                <tr class="row" style="background: #DCE6F2;">
-                                    <th class="col-12">새로운 퇴소 및 이반 승인 요청</th>
-                                </tr>
-                                <tr class="row" style="background:#DCE6F2;">
-                                    <th class="col-4">총 요청</th>
-                                    <th class="col-4">응답한 요청</th>
-                                    <th class="col-4">응답하지 않은 요청</th>
-                                </tr>
-                                <tr id="newso" class="row"></tr>
-                            </table>
+                            <div id="sob_pagination" class="py-2 text-center"></div>
                         </div>
-                        <div id="sob_pagination" class="py-2 text-center"></div>
                     </div>
                 </div>
             </div>
@@ -931,7 +920,7 @@
         <div class="info-container mt-5">
             <div class="info-title">
                 <span class="make_row">
-                    이반 / 퇴소 요청 응답
+                    <p id="newso">총 요청 : 0000 </p><p id="newdoneso">응답한 요청 : 0000 </p><p id="newnotdoneso">응답하지 않은 요청 : 0000 </p>
                     <select id="question_view" class="form-select text-center w-25" name="question_view" onchange="so_paginating(this.value)">
                         <option value=0 selected>미응답 문의</option>
                         <option value=1>응답한 문의</option>
