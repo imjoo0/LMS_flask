@@ -254,6 +254,7 @@ async function get_total_data() {
                 }
             });
             semesterShow(3);
+            studentsData = response['students']
         },
         error: function (xhr, status, error) {
             alert('xhr.responseText');

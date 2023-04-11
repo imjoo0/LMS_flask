@@ -40,6 +40,7 @@ def save_attachment(file, q_id):
 @bp.route("/all_ban", methods=['GET'])
 def get_ban():
     if request.method == 'GET':
+        students = callapi.purple_allinfo('get_all_ban_student')
         all_ban = callapi.purple_allinfo('get_all_ban')
         switchstudent = []
         outstudent = []
@@ -65,7 +66,7 @@ def get_ban():
                 print('err')
         finally:
                 db.close()        
-        return jsonify({'all_ban': all_ban,'switchstudent': switchstudent,'outstudent': outstudent,'consulting':consulting,'task':task})
+        return jsonify({'all_ban': all_ban,'switchstudent': switchstudent,'outstudent': outstudent,'consulting':consulting,'task':task,'students':students})
         
 @bp.route('/downloadfile/question/<int:q_id>')
 def download_file(q_id):

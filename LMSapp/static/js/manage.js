@@ -14,7 +14,7 @@ $(document).ready(function () {
 })
 function main_view(){
     $('#qubox').hide()
-    $('#qubox').hide()
+    $('#sobox').hide()
     $('#ulbox').hide()
     $('#detailban').show()
 }
@@ -72,7 +72,7 @@ async function sodata() {
             soqData = response['question']
             answerData = response['answer']
             attachData = response['attach']
-            studentsData = response['students'].reduce((result, item) => {
+            studentsData.reduce((result, item) => {
                 if (!result[item.ban_id]) {
                     result[item.ban_id] = [];
                 }
