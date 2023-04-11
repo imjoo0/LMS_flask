@@ -114,7 +114,7 @@ async function get_total_data() {
                 elem.switch_minus_num = switchstudentData.filter(a => a.ban_id == elem.ban_id).length
                 elem.switch_plus_num = switchstudentData.filter(a => a.switch_ban_id == elem.ban_id).length
             });
-            response['all_ban'].sort((a, b) => b.out_num_per - a.out_num_per)
+            result = response['all_ban'].sort((a, b) => b.out_num_per - a.out_num_per)
 
             // result = response['all_ban'].map(obj1 => {
             //     let out_student = outstudentData.find(obj2 => obj1.ban_id === obj2.ban_id);
