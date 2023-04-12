@@ -547,12 +547,12 @@ async function uldata() {
                 <td class="col-1">${student.origin}</td>
                 <td class="col-1">${student.student_name}</br>( ${student.student_engname} )</td>
                 <td class="col-1">${student.pname}</br>( ${student.pmobileno} )</td>
-                <td class="col-1">${unlearned_ixl}건</td>
-                <td class="col-1">${unlearned_reading}건</td>
-                <td class="col-1">${unlearned_speacial}건</td>
-                <td class="col-1">${unlearned_intoreading}건</td>
-                <td class="col-1">${unlearned_writing}건</td>
-                <td class="col-1">${unlearned_homepage}건</td>
+                <td class="col-1">${unlearned_ixl}</td>
+                <td class="col-1">${unlearned_reading}</td>
+                <td class="col-1">${unlearned_speacial}</td>
+                <td class="col-1">${unlearned_intoreading}</td>
+                <td class="col-1">${unlearned_writing}</td>
+                <td class="col-1">${unlearned_homepage}</td>
                 <td class="col-1">${student.unlearned}건 (${student.up}%) </td>
                 <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${student.student_id})">📝</td>`;
             });

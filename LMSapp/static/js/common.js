@@ -78,7 +78,7 @@ function make_nodata(d){
     if(d==0){
         return '❌'
     }else{
-        return d
+        return d+'건'
     }
 }
 async function get_all_ban() {
