@@ -247,7 +247,7 @@ async function get_total_data() {
                 alert('xhr.responseText');
             }
         })
-        await get_all_consulting_task()
+        // await get_all_consulting_task()
         await get_all_students();
         $('#inloading').hide();
         $('#semester_pagination').show();
