@@ -1,5 +1,5 @@
 // 전역변수로 api에서 불러온 정보를 저장 
-let banData,outstudentData,switchstudentData,studentsData, consultingData, taskData; 
+let studentsData, consultingData, taskData; 
 
 var totalData = 0; //총 데이터 수
 var dataPerPage = 6;
