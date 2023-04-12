@@ -579,14 +579,14 @@ async function uldata() {
             //     });
             //     $('#static_data2').html(dataHtml);
             // });
-            $('#search-input').on('keyup', function() {
-                var searchInput = $(this).val().toLowerCase();
-                container.pagination('filter', function(data) {
-                    return data.student_name.toLowerCase().indexOf(searchInput) !== -1 || data.origin.toLowerCase().indexOf(searchInput) !== -1;
-                });
-            });
         }
     })
+    $('#search-input').on('keyup', function() {
+        var searchInput = $(this).val().toLowerCase();
+        container.pagination('filter', function(data) {
+            return data.student_name.toLowerCase().indexOf(searchInput) !== -1 || data.origin.toLowerCase().indexOf(searchInput) !== -1;
+        });
+    });
 }
 
 // 상담 기록 조회 
