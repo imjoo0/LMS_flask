@@ -786,6 +786,7 @@ function attach_consulting_history(student_id) {
     }else{
         temp_h_select = '<option value="none" selected>상담을 선택해주세요</option>'
         $.each(consultinglist, function (index, consulting) {
+            console.log(consulting)
             let category = ''
             if(consulting.category_id < 100 ){
                 category = `${consulting.week_code}주간 ${consulting.category}상담`
