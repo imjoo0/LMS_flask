@@ -86,12 +86,6 @@ async function get_total_data() {
             url: "/common/all_ban",
             dataType: 'json',
             data: {},
-            success: function (response) {
-                // sodata
-            },
-            error: function (xhr, status, error) {
-                alert('xhr.responseText');
-            }
         });
         outstudentData = response['outstudent']
         switchstudentData = response['switchstudent']
