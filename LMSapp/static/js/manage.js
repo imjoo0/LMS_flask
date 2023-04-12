@@ -80,12 +80,14 @@ async function sodata() {
 }
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
-    console.log(studentsData)
     let container = $('#so_pagination')
     total_soquestion_num = soqData.length
     sodata_noanswer = total_soquestion_num !=0 ? soqData.filter(a => a.answer == 0).length : 0
 
-    let temp_newso = `이반 / 퇴소 총 요청 : ${total_soquestion_num}건  ( 응답한 요청 : ${total_soquestion_num - sodata_noanswer}건 / 미응답 요청 : ${sodata_noanswer}건 )`
+    let temp_newso = `
+    <td class="col-4">${total_soquestion_num}  건</td>
+    <td class="col-4">${total_soquestion_num - sodata_noanswer}  건</td>
+    <td class="col-4">${sodata_noanswer}  건</td>`;
     $('#newso').html(temp_newso)
 
     if(total_soquestion_num != 0) {
@@ -161,8 +163,12 @@ async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name){
         <p>${make_date(question_detail_data.create_date)}</p>
     </div>
     <div class="modal-body-select-container">
-        <span class="modal-body-select-label">대상 반 ➖ 학생</span>
-        <p>${ban_name} * 담임 T : ${teacher_name}  ➖ ${student_data.student_name}</p>
+        <span class="modal-body-select-label">대상 반</span>
+        <p>${ban_name} ➖ 담임 T : ${teacher_name} </p>
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">학생</span>
+        <p>${student_data.student_name}</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">첨부파일</span>
@@ -264,6 +270,8 @@ async function csdata() {
     $('#sobox').hide()
     $('#ulbox').hide()
     $('#qubox').show()
+    $('.cs_inloading').show()
+    $('.not_inloading').hide()
     await $.ajax({
         url: '/manage/cs',
         type: 'GET',
@@ -274,6 +282,8 @@ async function csdata() {
             csattachData = response['attach']
         }
     }) 
+    $('.cs_inloading').hide()
+    $('.not_inloading').show() 
     paginating(0)
 }
 function paginating(done_code) {

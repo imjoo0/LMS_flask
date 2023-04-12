@@ -935,8 +935,19 @@
                         </path>
                     </svg>
                 </div>
-                <h3 id="no_data_msg" style="width: 100%;" class="not_inloading"></h3>
                 <div class="d-flex justify-content-center align-items-center flex-column w-100 not_inloading">
+                    <table class="table text-center" style="width:100%;">
+                        <tr class="row" style="background: #DCE6F2;">
+                            <th class="col-12">Teacher 퇴소/이반 요청사항</th>
+                        </tr>
+                        <tr class="row" style="background:#DCE6F2;">
+                            <th class="col-4">총 문의</th>
+                            <th class="col-4">응답한 문의</th>
+                            <th class="col-4">응답하지 않은 문의</th>
+                        </tr>
+                        <tr id="newso" class="row"></tr>
+                    </table>
+                    <h3 id="no_data_msg" style="width: 100%;"></h3>
                     <table class="table text-center" id="so_question" style="width:100%;">
                         <thead>
                             <tr class="row">
@@ -955,6 +966,26 @@
                     </table>
                     <div id="so_pagination" class="py-2 text-center"></div>
                 </div>
+                <!-- <h3 id="no_data_msg" style="width: 100%;" class="not_inloading"></h3>
+                <div class="d-flex justify-content-center align-items-center flex-column w-100 not_inloading">
+                    <table class="table text-center" id="so_question" style="width:100%;">
+                        <thead>
+                            <tr class="row">
+                                <th class="col-1">종류</th>
+                                <th class="col-1">반</th>
+                                <th class="col-2">담임T</th>
+                                <th class="col-2">제목</th>
+                                <th class="col-4">내용</th>
+                                <th class="col-1">응답</th>
+                                <th class="col-1">삭제</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="so_tr" class="row"></tr>
+                        </tbody>
+                    </table>
+                    <div id="so_pagination" class="py-2 text-center"></div>
+                </div> -->
             </div>
         </div>
     
@@ -1005,7 +1036,14 @@
             </span>
         </div>
         <div class="info">
-            <div class="d-flex justify-content-center align-items-center flex-column w-100">
+            <div class="cs_inloading" class="loader loader--style2 text-center" title="1">
+                <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                    <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                        <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
+                    </path>
+                </svg>
+            </div>
+            <div class="d-flex justify-content-center align-items-center flex-column w-100 not_inloading">
                 <table class="table text-center" style="width:100%;" id="newcsbox">
                     <tr class="row" style="background: #DCE6F2;">
                         <th class="col-12">Teacher 문의 사항</th>
