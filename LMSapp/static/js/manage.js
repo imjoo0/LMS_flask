@@ -534,7 +534,6 @@ async function uldata() {
         callback: function (studentsData, pagination) {
             var dataHtml = '';
             $.each(studentsData, function (index, student) {
-                console.log(student)
                 dataHtml += `
                 <td class="col-1">${index + 1}</td>
                 <td class="col-2">${student.ban_name}</td>
@@ -543,7 +542,6 @@ async function uldata() {
                 <td class="col-2">${student.pname}( ${student.pmobileno} )</td>
                 <td class="col-2">${student.unlearned} (${student.up}%) </td>
                 <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${student.id})">📝</td>`;
-            
             });
             $('#static_data2').html(dataHtml);
         }
@@ -553,9 +551,10 @@ async function uldata() {
 // 상담 기록 조회 
 // 상담일지 작성 
 function get_consulting_history(s_id) {
-    console.log(studentsData)
+    console.log(consultingData)
     student_info = studentsData.filter(s => s.student_id == s_id)
     consultings = consultingData.filter(c => c.student_id == s_id)
+    console.log(consultings)
     done_consultings = consultings.filter(c => c.done == 1)
     notdone_consultings = consultings.filter(c => c.done == 0)
     consultinglist_len = consultings.length
