@@ -146,6 +146,8 @@ async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name){
             $('.not_inloading').show()
         });
     }
+    $('.cs_inloading').hide()
+    $('.not_inloading').show()
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
     question_detail_data = soqData.filter(q => q.id == q_id)[0]
@@ -268,8 +270,6 @@ async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name){
         $('#teacher_answer').html(temp_answer_list);
         $('#teacher_answer').show()
     }
-    $('.cs_inloading').hide()
-    $('.not_inloading').show()
 }
 
 // 일반 문의 
