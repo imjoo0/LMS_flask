@@ -154,6 +154,7 @@ async function get_total_data() {
         $('#inloading').show()
         $('#semester_pagination').hide()
         await get_all_ban().then(()=>{
+            console.log(result)
             outstudent_num = outstudentData.length;
             switchstudent_num = switchstudentData.length
             first_total = total_student_num + outstudent_num
@@ -294,7 +295,6 @@ async function get_total_data() {
             $('#semester_pagination').show();
             $('#target_ban_info_body').show();
         })
-        
     }catch(error){
         alert('Error occurred while retrieving data.');
     }
@@ -305,15 +305,12 @@ function semesterShow(semester) {
     if(semester == 0){
         $('#semester_s').html('9월 학기');
         data = ninesemester;
-
     }else if(semester == 1){
         $('#semester_s').html('1월 학기');
         data = onesemester;
-
     }else if(semester == 2){
         $('#semester_s').html('5월 학기');
         data = fivesemester;
-
     }else{
         $('#semester_s').html('전체 반')
         data = result;
