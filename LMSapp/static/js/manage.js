@@ -540,7 +540,7 @@ async function uldata() {
                 });
             }
             var dataHtml = '';
-            $.each(studentsData, function (index, student) {
+            $.each(searchData, function (index, student) {
                 consultings = consultingData.filter(c => c.category_id < 100 && c.student_id == student.student_id)
                 unlearned_ixl = make_nodata(consultings.filter(a => a.category_id == 1).length)
                 unlearned_reading = make_nodata(consultings.filter(a => a.category_id == 4).length)
