@@ -534,10 +534,10 @@ async function uldata() {
         callback: function (studentsData, pagination) {
             var dataHtml = '';
             $.each(studentsData, function (index, student) {
-                // let total_index = (pagination.currentPage - 1) * pagination.pageSize + index + 1; // 전체 데이터의 인덱스 계산
+                console.log(student)
                 dataHtml += `
                 <td class="col-1">${index + 1}</td>
-                <td class="col-2">${student.ban_name}( ${make_semester(student.semester)}월 학기 )</td>
+                <td class="col-2">${student.ban_name}</td>
                 <td class="col-2">${student.origin}</td>
                 <td class="col-2">${student.name}( ${student.student_engname} )</td>
                 <td class="col-2">${student.pname}( ${student.pmobileno} )</td>
