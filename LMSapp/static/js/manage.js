@@ -469,7 +469,7 @@ function post_answer(q_id, category) {
         success: function (response) {
             {
                 alert(response["result"])
-                main_view()
+                window.location.reload()
             }
         }
     });
@@ -482,14 +482,34 @@ async function uldata() {
     $('#detailban').hide()
     $('#ulbox').show()
     let container = $('#ul_pagination')
-
+    $('.cs_inloading').show()
+    $('.not_inloading').hide()
+    if (!studentsData || !consultingData){
+        await get_all_students()
+        await get_all_consulting().then( ()=>{
+            $('.cs_inloading').hide()
+            $('.not_inloading').show()
+        });
+    }else if(!studentsData && consultingData){
+        await get_all_students().then( ()=>{
+            $('.cs_inloading').hide()
+            $('.not_inloading').show()
+        });
+    }else if(studentsData && !consultingData){
+        await get_all_consulting().then( ()=>{
+            $('.cs_inloading').hide()
+            $('.not_inloading').show()
+        });
+    }
+    $('.cs_inloading').hide()
+    $('.not_inloading').show() 
+    console.log(consultingData)
     all_uc_consulting = consultingData[0].total_unlearned_consulting
-
     studentsData.forEach((elem) => {
         elem.unlearned = consultingData.filter(a => a.student_id == elem.student_id && a.category_id < 100 && a.startdate <= today).length
         elem.up = answer_rate(elem.unlearned, all_uc_consulting).toFixed(0)
     });
-    all_student.sort((a, b) => {
+    studentsData.sort((a, b) => {
         if (b.up !== a.up) {
             return b.up - a.up;
         }else{
@@ -508,13 +528,13 @@ async function uldata() {
     $('#ul_data_box').show()
     $('#ul_pagination').show()
     container.pagination({
-        dataSource: all_student,
+        dataSource: studentsData,
         prevText: '이전',
         nextText: '다음',
         pageSize: 10,
-        callback: function (all_student, pagination) {
+        callback: function (studentsData, pagination) {
             var dataHtml = '';
-            $.each(all_student, function (index, student) {
+            $.each(studentsData, function (index, student) {
                 let student_id = student['student_id']
                 let name = student['student_name']
                 let mobileno = student['mobileno']
@@ -525,7 +545,6 @@ async function uldata() {
                 <td class="col-1">${index + 1}</td>
                 <td class="col-1">${name}</td>
                 <td class="col-1">${student.unlearned} (${student.up}%) </td>
-                <td class="col-1">${make_recobook(reco_book_code)}</td>
                 <td class="col-1">${mobileno}</td>
                 <td class="col-2">${student.pname}( ${student.pmobileno} )</td>
                 <td class="col-2">${ban_name}( ${make_semester(student.semester)}월 학기 )</td>
