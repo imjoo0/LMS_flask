@@ -506,7 +506,7 @@ async function uldata() {
     all_uc_consulting = consultingData[0].total_unlearned_consulting
     studentsData.forEach((elem) => {
         elem.unlearned = consultingData.filter(a => a.student_id == elem.student_id && a.category_id < 100).length
-        elem.up = answer_rate(elem.unlearned, all_uc_consulting).toFixed(0)
+        elem.up = answer_rate(elem.unlearned, all_uc_consulting).toFixed(2)
     });
     studentsData.sort((a, b) => {
         if (b.up !== a.up) {
@@ -540,7 +540,7 @@ async function uldata() {
                 <td class="col-2">${student.origin}</td>
                 <td class="col-2">${student.student_name}( ${student.student_engname} )</td>
                 <td class="col-2">${student.pname}( ${student.pmobileno} )</td>
-                <td class="col-2">${student.unlearned} (${student.up}%) </td>
+                <td class="col-2">${student.unlearned}건 (${student.up}%) </td>
                 <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${student.student_id})">📝</td>`;
             });
             $('#static_data2').html(dataHtml);
@@ -551,15 +551,12 @@ async function uldata() {
 // 상담 기록 조회 
 // 상담일지 작성 
 function get_consulting_history(s_id) {
-    console.log(studentsData)
-    student_info = studentsData.filter(s => s.student_id == s_id)
-    console.log(s_id)
+    student_info = studentsData.filter(s => s.student_id == s_id)[0]
     consultings = consultingData.filter(c => c.student_id == s_id)
-    console.log(consultings)
     done_consultings = consultings.filter(c => c.done == 1)
     notdone_consultings = consultings.filter(c => c.done == 0)
     consultinglist_len = consultings.length
-    $('#consultinghistoryModalLabelt').html(`${student_info.ban_name}반 ${student_info.student_name} ( ${student_info.student_engname} )원생 총 ${consultings.length}건 상담  ( 📞 ${student_info.mobileno}  )`)
+    $('#consultinghistoryModalLabelt').html(`${student_info.ban_name}반 ${student_info.student_name} ( ${student_info.student_engname} *${student_info.origin} )원생 총 ${consultings.length}건 상담`)
     let cant_consulting_list = notdone_consultings.length > 0 ? notdone_consultings.filter(c => c.created_at != null) : 0;
     consultings = consultinglist_len > 0 ? notdone_consultings.filter(c => c.created_at == null) : 0
 
