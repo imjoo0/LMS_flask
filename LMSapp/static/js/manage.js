@@ -1,8 +1,7 @@
-
 // const today = new Date();
 var selectedBanList = [];
 var selectedStudentList = [];
-// let questionData,answerData, attachData; 
+let questionData,answerData, attachData; 
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
     get_total_data();
@@ -88,7 +87,7 @@ async function sodata() {
     $('.cs_inloading').show()
     $('.not_inloading').hide()
     if (!questionData){
-        get_all_question().then( ()=>{
+        await get_all_question().then( ()=>{
             $('.cs_inloading').hide()
             $('.not_inloading').show()
         });
