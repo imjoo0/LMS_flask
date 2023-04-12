@@ -168,7 +168,7 @@ async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name){
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">학생</span>
-        <p>${student_data.student_name} ( *${student.eng_name} 원번: ${student_data.origin} )</p>
+        <p>${student_data.student_name} ( *${student_data.eng_name} 원번: ${student_data.origin} )</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">첨부파일</span>
@@ -377,7 +377,7 @@ async function get_question_detail(q_id, done_code,ban_name,teacher_name){
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">학생</span>
-        <p>${student_data.student_name} ( *${student.eng_name} 원번: ${student_data.origin} )</p>
+        <p>${student_data.student_name} ( *${student_data.eng_name} 원번: ${student_data.origin} )</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">첨부파일</span>
