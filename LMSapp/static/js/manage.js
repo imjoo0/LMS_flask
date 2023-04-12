@@ -469,7 +469,6 @@ function post_answer(q_id, category) {
         success: function (response) {
             {
                 alert(response["result"])
-                window.location.replace('/')
             }
         }
     });
