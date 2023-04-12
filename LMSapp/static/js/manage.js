@@ -505,7 +505,7 @@ async function uldata() {
     $('.not_inloading').show() 
     all_uc_consulting = consultingData[0].total_unlearned_consulting
     studentsData.forEach((elem) => {
-        elem.unlearned = consultingData.filter(a => a.student_id == elem.student_id && a.category_id < 100 && a.startdate <= today).length
+        elem.unlearned = consultingData.filter(a => a.student_id == elem.student_id && a.category_id < 100).length
         elem.up = answer_rate(elem.unlearned, all_uc_consulting).toFixed(0)
     });
     studentsData.sort((a, b) => {
