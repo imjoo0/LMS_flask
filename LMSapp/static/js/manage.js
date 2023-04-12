@@ -138,11 +138,12 @@ function so_paginating(done_code) {
 }
 // 이반 퇴소 요청 내용 상세보기
 async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name){
+    $('.cs_inloading').show()
+    $('.not_inloading').hide()
     if (!studentsData){
         await get_all_students().then( ()=>{
-            $('#inloading').hide();
-            $('#semester_pagination').show();
-            $('#target_ban_info_body').show();
+            $('.cs_inloading').hide()
+            $('.not_inloading').show()
         });
     }
     $('#consulting_history_attach').hide()
@@ -267,7 +268,8 @@ async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name){
         $('#teacher_answer').html(temp_answer_list);
         $('#teacher_answer').show()
     }
-
+    $('.cs_inloading').hide()
+    $('.not_inloading').show()
 }
 
 // 일반 문의 
