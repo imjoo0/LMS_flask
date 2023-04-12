@@ -778,7 +778,6 @@ function attach_consulting_history(student_id) {
         return e.student_id == student_id && e.done_consulting_num.length != 0;
     })[0]['consulting_list']
     const consultinglist = data.length>0?data.filter( c => c.done == 1 ):0
-    console.log(consultinglist)
     let temp_h_select = ''
     if(consultinglist.length <= 0){
         alert('상담을 우선 진행해주세요  원생목록 👉 해당 원생 상담추가');
@@ -786,7 +785,6 @@ function attach_consulting_history(student_id) {
     }else{
         temp_h_select = '<option value="none" selected>상담을 선택해주세요</option>'
         $.each(consultinglist, function (index, consulting) {
-            console.log(consulting)
             let category = ''
             if(consulting.category_id < 100 ){
                 category = `${consulting.week_code}주간 ${consulting.category}상담`

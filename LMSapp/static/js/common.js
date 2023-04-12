@@ -273,13 +273,7 @@ function get_all_students(){
         type: 'GET',
         data: {},
         success: function(response){
-            studentsData = response['students'].reduce((result, item) =>{
-                if (!result[item.ban_id]) {
-                    result[item.ban_id] = [];
-                }
-                result[item.ban_id].push(item);
-                return result;
-            }, {});
+            studentsData = response['students']
         }
     })
 }

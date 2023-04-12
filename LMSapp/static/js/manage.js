@@ -142,7 +142,7 @@ async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name){
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
     question_detail_data = soqData.filter(q => q.id == q_id)[0]
-    student_data = studentsData[question_detail_data.ban_id].filter(s=>s.student_id == question_detail_data.student_id)[0]
+    student_data = studentsData.filter(s=>s.student_id == question_detail_data.student_id)[0]
     attach = attachData.filter(a => a.question_id == q_id)[0]['file_name']
     // 문의 상세 내용 
     let temp_question_list = `
@@ -351,7 +351,7 @@ async function get_question_detail(q_id, done_code,ban_name,teacher_name){
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
     question_detail_data = csqData.filter(q => q.id == q_id)[0]
-    student_data = studentsData[question_detail_data.ban_id].filter(s=>s.student_id == question_detail_data.student_id)[0]
+    student_data = studentsData.filter(s=>s.student_id == question_detail_data.student_id)[0]
     attach = csattachData.filter(a => a.question_id == q_id)[0]['file_name']
     // 문의 상세 내용 
     let temp_question_list = `
@@ -441,6 +441,7 @@ function post_answer(q_id, category) {
 
 // 미학습 (학습관리)
 async function uldata() {
+    console.log(studentData)
     $('#qubox').hide()
     $('#sobox').hide()
     $('#detailban').hide()
