@@ -536,11 +536,11 @@ async function uldata() {
             $.each(studentsData, function (index, student) {
                 dataHtml += `
                 <td class="col-1">${index + 1}</td>
-                <td class="col-2">${student.ban_name}</td>
-                <td class="col-2">${student.origin}</td>
-                <td class="col-2">${student.student_name}( ${student.student_engname} )</td>
-                <td class="col-2">${student.pname}( ${student.pmobileno} )</td>
-                <td class="col-2">${student.unlearned}건 (${student.up}%) </td>
+                <td class="col-1">${student.ban_name}</td>
+                <td class="col-1">${student.origin}</td>
+                <td class="col-1">${student.student_name}( ${student.student_engname} )</td>
+                <td class="col-1">${student.pname}( ${student.pmobileno} )</td>
+                <td class="col-6">${student.unlearned}건 (${student.up}%) </td>
                 <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${student.student_id})">📝</td>`;
             });
             $('#static_data2').html(dataHtml);
