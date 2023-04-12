@@ -56,7 +56,7 @@ def get_ban():
                 print('err')
         finally:
                 db.close()        
-        return jsonify({'all_ban': all_ban,'switchstudent': switchstudent,'outstudent': outstudent})
+        return jsonify({'all_ban':all_ban,'switchstudent': switchstudent,'outstudent': outstudent})
 
 @bp.route("/all_students", methods=['GET'])
 def get_all_students():
