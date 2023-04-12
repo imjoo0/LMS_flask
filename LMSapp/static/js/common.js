@@ -256,6 +256,7 @@ async function get_total_data() {
             });
             semesterShow(3);
             get_all_students();
+            get_all_consulting_task();
         },
         error: function (xhr, status, error) {
             alert('xhr.responseText');
@@ -266,7 +267,33 @@ async function get_total_data() {
     $('#target_ban_info_body').show()
 
 }
-
+function get_all_students(){
+    $.ajax({
+        url: '/common/all_students',
+        type: 'GET',
+        data: {},
+        success: function(response){
+            studentsData = response['students'].reduce((result, item) =>{
+                if (!result[item.ban_id]) {
+                    result[item.ban_id] = [];
+                }
+                result[item.ban_id].push(item);
+                return result;
+            }, {});
+        }
+    })
+}
+function get_all_consulting_task(){
+    $.ajax({
+        url: '/common/consulting_task',
+        type: 'GET',
+        data: {},
+        success: function(response){
+            consultingData = response['consulting']
+            taskData = response['task']
+        }
+    })
+}
 function semesterShow(semester) {
     SemesterContainer = $('#semester_pagination')
     $('#semester').show();
@@ -317,22 +344,6 @@ function semesterShow(semester) {
     })
 }
 
-function get_all_students(){
-    $.ajax({
-        url: '/common/all_students',
-        type: 'GET',
-        data: {},
-        success: function(response){
-            studentsData = response['students'].reduce((result, item) =>{
-                if (!result[item.ban_id]) {
-                    result[item.ban_id] = [];
-                }
-                result[item.ban_id].push(item);
-                return result;
-            }, {});
-        }
-    })
-}
 function getTeacherInfo(t_id){
     let info = allData.filter(t=>t.teacher_id == t_id)
     if (info.length == 0){
