@@ -1,7 +1,6 @@
 // const today = new Date();
 var selectedBanList = [];
 var selectedStudentList = [];
-let questionData,answerData, attachData; 
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
     get_total_data();
