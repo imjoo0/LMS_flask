@@ -441,7 +441,7 @@ function post_answer(q_id, category) {
 
 // 미학습 (학습관리)
 async function uldata() {
-    console.log(studentData)
+    console.log(studentsData)
     $('#qubox').hide()
     $('#sobox').hide()
     $('#detailban').hide()
