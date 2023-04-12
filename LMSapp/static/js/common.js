@@ -248,11 +248,10 @@ async function get_total_data() {
             }
         })
         await get_all_consulting_task()
-        await get_all_students().then(() => {
-            $('#inloading').hide()
-            $('#semester_pagination').show()
-            $('#target_ban_info_body').show()
-        });
+        await get_all_students();
+        $('#inloading').hide();
+        $('#semester_pagination').show();
+        $('#target_ban_info_body').show();
     }catch(error){
         alert('Error occurred while retrieving data.');
     }
