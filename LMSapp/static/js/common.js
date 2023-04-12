@@ -256,26 +256,37 @@ async function get_total_data() {
         alert('Error occurred while retrieving data.');
     }
 }
-
 function get_all_students(){
-    $.ajax({
-        url: '/common/all_students',
-        type: 'GET',
-        data: {},
-        success: function(response){
-            studentsData = response['students']
-        }
+    return new Promise((resolve, reject) => {
+            $.ajax({
+            url: '/common/all_students',
+            type: 'GET',
+            data: {},
+            success: function(response){
+                studentsData = response['students'];
+                resolve();
+            },
+            error:function(error){
+                reject(error)
+            }
+        })
     })
 }
 function get_all_consulting_task(){
-    $.ajax({
-        url: '/common/consulting_task',
-        type: 'GET',
-        data: {},
-        success: function(response){
-            consultingData = response['consulting']
-            taskData = response['task']
-        }
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: '/common/consulting_task',
+            type: 'GET',
+            data: {},
+            success: function(response){
+                consultingData = response['consulting']
+                taskData = response['task']
+                resolve();
+            },
+            error:function(error){
+                reject(error)
+            }
+        })
     })
 }
 function semesterShow(semester) {
