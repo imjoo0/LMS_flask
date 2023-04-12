@@ -431,7 +431,7 @@ async function get_question_detail(q_id, done_code,ban_name,teacher_name){
         $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category})">저장</button>`);
     }else{
         $('#manage_answer').hide()
-        answer_data = csanswerData.filter(a => a.question_id == q_id)[0]
+        answer_data = answerData.filter(a => a.question_id == q_id)[0]
         let temp_answer_list = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">답변 제목</span>
