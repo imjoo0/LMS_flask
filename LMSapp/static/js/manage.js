@@ -28,6 +28,14 @@ async function get_all_question(){
     }
 }
 function main_view(){
+    if(!banData || !switchstudentData || !outstudentData){
+        get_total_data().then(()=>{
+            $('#qubox').hide()
+            $('#sobox').hide()
+            $('#ulbox').hide()
+            $('#detailban').show()
+        })
+    }
     $('#qubox').hide()
     $('#sobox').hide()
     $('#ulbox').hide()
