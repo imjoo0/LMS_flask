@@ -1,3 +1,6 @@
+// 전역변수로 api에서 불러온 정보를 저장 
+let result,outstudentData, switchstudentData, total_student_num, outstudent_num, switchstudent_num, studentsData, consultingData, taskData; 
+
 var totalData = 0; //총 데이터 수
 var dataPerPage = 6;
 var pageCount = 10; //페이징에 나타낼 페이지 수
@@ -71,9 +74,6 @@ function q_category(category) {
     }
     return c
 }
-// 전역변수로 api에서 불러온 정보를 저장 
-let result,outstudentData, switchstudentData, total_student_num, outstudent_num, switchstudent_num, studentsData, consultingData, taskData; 
-
 // 전체 반 정보(차트) 가져오는 함수 
 async function get_total_data() {
     $('#semester').hide();
