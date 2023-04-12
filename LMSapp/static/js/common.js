@@ -4,6 +4,9 @@ var pageCount = 10; //페이징에 나타낼 페이지 수
 var globalCurrentPage = 1; //현재 페이지
 var data_list;
 const today = new Date().setHours(0, 0, 0, 0);
+// 전역변수로 api에서 불러온 정보를 저장 
+let result,outstudentData, switchstudentData, total_student_num, outstudent_num, switchstudent_num, studentsData, consultingData, taskData; 
+
 let make_recobook = function(c){
     if( c == null){
         return '❌'
@@ -80,35 +83,42 @@ async function get_total_data() {
     $('#target_ban_info_body').hide()
     $('#inloading').show()
     $('#semester_pagination').hide()
-    const response = await $.ajax({
-        type: "GET",
-        url: "/common/all_ban",
-        dataType: 'json',
-        data: {},
-    });
     try{
-        outstudentData = response['outstudent']
-        switchstudentData = response['switchstudent']
-        total_student_num = response['all_ban'][0].total_student_num
+        if (!outstudentData || !switchstudentData || !total_student_num || !result){
+            const response = await $.ajax({
+                type: "GET",
+                url: "/common/all_ban",
+                dataType: 'json',
+                data: {},
+            });
+            outstudentData = response['outstudent']
+            switchstudentData = response['switchstudent']
+            total_student_num = response['all_ban'][0].total_student_num
+            response['all_ban'].forEach((elem) => {
+                elem.out_num = outstudentData.filter(a => a.ban_id == elem.ban_id).length
+                elem.out_num_per = answer_rate(elem.out_num, outstudent_num).toFixed(2)
+                elem.switch_minus_num = switchstudentData.filter(a => a.ban_id == elem.ban_id).length
+                elem.switch_plus_num = switchstudentData.filter(a => a.switch_ban_id == elem.ban_id).length
+            });
+            result = response['all_ban'].sort((a, b) =>{
+                    if (b.out_num_per !== a.out_num_per) {
+                    return b.out_num_per - a.out_num_per; // out_num_per 큰 순으로 정렬
+                }else{
+                    return b.student_num - a.student_num; // students.length가 큰 순으로 정렬
+                }
+            })
+        }
+        if (!studentsData) {
+            await get_all_students();
+        }
+        if (!consultingData || !taskData) {
+            await get_all_consulting_task()
+        }
+        
         outstudent_num = outstudentData.length;
         switchstudent_num = switchstudentData.length
-
         first_total = total_student_num + outstudent_num
         
-        response['all_ban'].forEach((elem) => {
-            elem.out_num = outstudentData.filter(a => a.ban_id == elem.ban_id).length
-            elem.out_num_per = answer_rate(elem.out_num, outstudent_num).toFixed(2)
-            elem.switch_minus_num = switchstudentData.filter(a => a.ban_id == elem.ban_id).length
-            elem.switch_plus_num = switchstudentData.filter(a => a.switch_ban_id == elem.ban_id).length
-        });
-        result = response['all_ban'].sort((a, b) =>{
-                if (b.out_num_per !== a.out_num_per) {
-                return b.out_num_per - a.out_num_per; // out_num_per 큰 순으로 정렬
-            }else{
-                return b.student_num - a.student_num; // students.length가 큰 순으로 정렬
-            }
-        })
-
         // 학기 별 원생
         onesemester = total_student_num != 0 ? result.filter(e => e.semester == 1) : 0
         fivesemester = total_student_num != 0 ? result.filter(e => e.semester == 2) : 0
@@ -240,7 +250,7 @@ async function get_total_data() {
                 }
             }
         });
-        get_data();
+
         semesterShow(3);
         $('#inloading').hide();
         $('#semester_pagination').show();
@@ -249,27 +259,31 @@ async function get_total_data() {
         alert('Error occurred while retrieving data.');
     }
 }
-async function get_data() {
-    await get_all_students();
-    await get_all_consulting_task()
-}
 async function get_all_students() {
-    const response = await $.ajax({
-      url: '/common/all_students',
-      type: 'GET',
-      data: {},
-    });
-    studentsData = response['students']
+    try{
+        const response = await $.ajax({
+            url: '/common/all_students',
+            type: 'GET',
+            data: {},
+        });
+        studentsData = response['students']
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
 }
   
 async function get_all_consulting_task() {
-    const response = await $.ajax({
-      url: '/common/consulting_task',
-      type: 'GET',
-      data: {},
-    });
-    consultingData = response['consulting']
-    taskData = response['task']
+    try {
+        const response = await $.ajax({
+            url: '/common/consulting_task',
+            type: 'GET',
+            data: {},
+        });
+        consultingData = response['consulting']
+        taskData = response['task']
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
 }
 function semesterShow(semester) {
     SemesterContainer = $('#semester_pagination')
