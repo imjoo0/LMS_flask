@@ -535,7 +535,6 @@ async function uldata() {
             var dataHtml = '';
             $.each(studentsData, function (index, student) {
                 dataHtml += `
-                <td class="col-1">${index + 1}</td>
                 <td class="col-1">${student.ban_name}</td>
                 <td class="col-1">${student.origin}</td>
                 <td class="col-1">${student.student_name}</br>( ${student.student_engname} )</td>
