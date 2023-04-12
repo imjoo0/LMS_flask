@@ -552,12 +552,12 @@ async function uldata() {
 // 상담 기록 조회 
 // 상담일지 작성 
 function get_consulting_history(student_id) {
+    console.log(studentsData)
     student_info = studentsData.filter(s => s.student_id == student_id)
     consultings = consultingData.filter(c => c.student_id == student_id)
     done_consultings = consultings.filter(c => c.done == 1)
     notdone_consultings = consultings.filter(c => c.done == 0)
     consultinglist_len = consultings.length
-    console.log(student_info)
     $('#consultinghistoryModalLabelt').html(`${student_info.ban_name}반 ${student_info.student_name} ( ${student_info.student_engname} )원생 총 ${consultings.length}건 상담  ( 📞 ${student_info.mobileno}  )`)
     let cant_consulting_list = notdone_consultings.length > 0 ? notdone_consultings.filter(c => c.created_at != null) : 0;
     consultings = consultinglist_len > 0 ? notdone_consultings.filter(c => c.created_at == null) : 0
