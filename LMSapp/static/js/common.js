@@ -241,7 +241,7 @@ async function get_total_data() {
             }
         });
         semesterShow(3);
-        await get_all_consulting_task()
+        // await get_all_consulting_task()
         await get_all_students();
         $('#inloading').hide();
         $('#semester_pagination').show();
