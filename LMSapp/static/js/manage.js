@@ -552,7 +552,7 @@ async function uldata() {
 // 상담 기록 조회 
 // 상담일지 작성 
 function get_consulting_history(student_id) {
-    student_info = studentsData.filter(s => s.student_id == student_id)[0]
+    student_info = studentsData.filter(s => s.student_id == student_id)
     consultings = consultingData.filter(c => c.student_id == student_id)
     done_consultings = consultings.filter(c => c.done == 1)
     notdone_consultings = consultings.filter(c => c.done == 0)
