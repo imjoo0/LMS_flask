@@ -495,3 +495,8 @@ details > summary {
 }
 
 /* 막대 바 관련 끝 */
+
+/* 서치박스 */
+.search_box{
+    width: 100%;
+}
