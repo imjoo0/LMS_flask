@@ -85,7 +85,7 @@ async function get_total_data() {
     $('#inloading').show()
     $('#semester_pagination').hide()
     try{
-        console.log(!outstudentData)
+        console.log(!result)
         if (!outstudentData || !switchstudentData || !total_student_num || !result){
             const response = await $.ajax({
                 type: "GET",
