@@ -541,7 +541,7 @@ async function uldata() {
                 <td class="col-2">${student.student_name}( ${student.student_engname} )</td>
                 <td class="col-2">${student.pname}( ${student.pmobileno} )</td>
                 <td class="col-2">${student.unlearned} (${student.up}%) </td>
-                <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${student.id})">📝</td>`;
+                <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${student.student_id})">📝</td>`;
             });
             $('#static_data2').html(dataHtml);
         }
