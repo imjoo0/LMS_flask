@@ -503,7 +503,6 @@ async function uldata() {
     }
     $('.cs_inloading').hide()
     $('.not_inloading').show() 
-    console.log(consultingData)
     all_uc_consulting = consultingData[0].total_unlearned_consulting
     studentsData.forEach((elem) => {
         elem.unlearned = consultingData.filter(a => a.student_id == elem.student_id && a.category_id < 100 && a.startdate <= today).length
@@ -535,21 +534,16 @@ async function uldata() {
         callback: function (studentsData, pagination) {
             var dataHtml = '';
             $.each(studentsData, function (index, student) {
-                let student_id = student['student_id']
-                let name = student['student_name']
-                let mobileno = student['mobileno']
-                let reco_book_code = student['reco_book_code']
-                let ban_name = student['name']
                 // let total_index = (pagination.currentPage - 1) * pagination.pageSize + index + 1; // 전체 데이터의 인덱스 계산
                 dataHtml += `
                 <td class="col-1">${index + 1}</td>
-                <td class="col-1">${name}</td>
-                <td class="col-1">${student.unlearned} (${student.up}%) </td>
-                <td class="col-1">${mobileno}</td>
+                <td class="col-2">${student.ban_name}( ${make_semester(student.semester)}월 학기 )</td>
+                <td class="col-2">${student.origin}</td>
+                <td class="col-2">${student.name}( ${student_info.student_engname} )</td>
                 <td class="col-2">${student.pname}( ${student.pmobileno} )</td>
-                <td class="col-2">${ban_name}( ${make_semester(student.semester)}월 학기 )</td>
-                <td class="col-2">${student.teacher_name}( ${student.teacher_engname} )</td>
-                <td class="col-1"> <button class="modal-tbody-btn" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${student_id})">📝</button> `;
+                <td class="col-1">${student.unlearned} (${student.up}%) </td>
+                <td class="col-1">${student.teacher_name}( ${student.teacher_engname} )</td>
+                <td class="col-1"> <button class="modal-tbody-btn" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${student.id})">📝</button> `;
             });
             $('#static_data2').html(dataHtml);
         }
@@ -559,13 +553,13 @@ async function uldata() {
 // 상담 기록 조회 
 // 상담일지 작성 
 function get_consulting_history(student_id) {
-    student_info = all_student.filter(s => s.student_id == student_id)[0]
+    student_info = studentsData.filter(s => s.student_id == student_id)[0]
     consultings = consultingData.filter(c => c.student_id == student_id)
     done_consultings = consultings.filter(c => c.done == 1)
     notdone_consultings = consultings.filter(c => c.done == 0)
     consultinglist_len = consultings.length
 
-    $('#consultinghistoryModalLabelt').html(`${student_info.name}반 ${student_info.student_name} 원생 총 ${consultings.length}건 상담  ( 📞 ${student_info.mobileno}  )`)
+    $('#consultinghistoryModalLabelt').html(`${student_info.ban_name}반 ${student_info.student_name} ( ${student_info.student_engname} )원생 총 ${consultings.length}건 상담  ( 📞 ${student_info.mobileno}  )`)
     let cant_consulting_list = notdone_consultings.length > 0 ? notdone_consultings.filter(c => c.created_at != null) : 0;
     consultings = consultinglist_len > 0 ? notdone_consultings.filter(c => c.created_at == null) : 0
 
