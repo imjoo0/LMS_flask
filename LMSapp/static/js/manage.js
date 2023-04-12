@@ -533,12 +533,12 @@ async function uldata() {
         pageSize: 10,
         callback: function (studentsData, pagination) {
             var searchData = studentsData;
-            var searchInput = $('#search-input').val();
-            if(searchInput) {
-                searchData = studentsData.filter(function (student) {
-                    return student.student_name.indexOf(searchInput) !== -1 || student.origin.indexOf(searchInput) !== -1;
-                });
-            }
+            // var searchInput = $('#search-input').val();
+            // if(searchInput) {
+            //     searchData = studentsData.filter(function (student) {
+            //         return student.student_name.indexOf(searchInput) !== -1 || student.origin.indexOf(searchInput) !== -1;
+            //     });
+            // }
             var dataHtml = '';
             $.each(searchData, function (index, student) {
                 consultings = consultingData.filter(c => c.category_id < 100 && c.student_id == student.student_id)
@@ -565,19 +565,25 @@ async function uldata() {
             });
             $('#static_data2').html(dataHtml);
 
-            $('#search-input').on('input', function() {
-                searchData = studentsData;
-                searchInput = $(this).val();
-                if(searchInput) {
-                    searchData = studentsData.filter(function (student) {
-                        return student.student_name.indexOf(searchInput) !== -1 || student.origin.indexOf(searchInput) !== -1;
-                    });
-                }
-                dataHtml = '';
-                $.each(searchData, function (index, student) {
-                    // 이하 코드 생략...
+            // $('#search-input').on('input', function() {
+            //     searchData = studentsData;
+            //     searchInput = $(this).val();
+            //     if(searchInput) {
+            //         searchData = studentsData.filter(function (student) {
+            //             return student.student_name.indexOf(searchInput) !== -1 || student.origin.indexOf(searchInput) !== -1;
+            //         });
+            //     }
+            //     dataHtml = '';
+            //     $.each(searchData, function (index, student) {
+            //         // 이하 코드 생략...
+            //     });
+            //     $('#static_data2').html(dataHtml);
+            // });
+            $('#search-input').on('keyup', function() {
+                var searchInput = $(this).val().toLowerCase();
+                container.pagination('filter', function(data) {
+                    return data.student_name.toLowerCase().indexOf(searchInput) !== -1 || data.origin.toLowerCase().indexOf(searchInput) !== -1;
                 });
-                $('#static_data2').html(dataHtml);
             });
         }
     })
