@@ -3,9 +3,6 @@ var dataPerPage = 6;
 var pageCount = 10; //페이징에 나타낼 페이지 수
 var globalCurrentPage = 1; //현재 페이지
 var data_list;
-var consultingData = [];
-var taskData = [];
-var studentsData = [];
 const today = new Date().setHours(0, 0, 0, 0);
 let make_recobook = function(c){
     if( c == null){
