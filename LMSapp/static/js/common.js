@@ -240,6 +240,7 @@ async function get_total_data() {
                 }
             }
         });
+        get_data();
         semesterShow(3);
         $('#inloading').hide();
         $('#semester_pagination').show();
@@ -247,6 +248,10 @@ async function get_total_data() {
     }catch(error){
         alert('Error occurred while retrieving data.');
     }
+}
+async function get_data() {
+    await get_all_students();
+    await get_all_consulting_task()
 }
 async function get_all_students() {
     const response = await $.ajax({
