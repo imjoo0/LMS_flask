@@ -1,5 +1,5 @@
 // 전역변수로 api에서 불러온 정보를 저장 
-let result,outstudentData,switchstudentData,total_student_num,studentsData, consultingData, taskData; 
+let banData,outstudentData,switchstudentData,total_student_num,studentsData, consultingData, taskData; 
 
 var totalData = 0; //총 데이터 수
 var dataPerPage = 6;
@@ -91,7 +91,7 @@ async function get_all_ban() {
             elem.switch_minus_num = switchstudentData.filter(a => a.ban_id == elem.ban_id).length
             elem.switch_plus_num = switchstudentData.filter(a => a.switch_ban_id == elem.ban_id).length
         });
-        result = response['all_ban'].sort((a, b) =>{
+        banData = response['all_ban'].sort((a, b) =>{
                 if (b.out_num_per !== a.out_num_per) {
                 return b.out_num_per - a.out_num_per; // out_num_per 큰 순으로 정렬
             }else{
@@ -296,9 +296,9 @@ async function get_total_data() {
     first_total = total_student_num + outstudent_num
     
     // 학기 별 원생
-    onesemester = total_student_num != 0 ? result.filter(e => e.semester == 1) : 0
-    fivesemester = total_student_num != 0 ? result.filter(e => e.semester == 2) : 0
-    ninesemester = total_student_num != 0 ? result.filter(e => e.semester == 0) : 0
+    onesemester = total_student_num != 0 ? banData.filter(e => e.semester == 1) : 0
+    fivesemester = total_student_num != 0 ? banData.filter(e => e.semester == 2) : 0
+    ninesemester = total_student_num != 0 ? banData.filter(e => e.semester == 0) : 0
 
     // 학기별 원생수 및 퇴소 원생 수 
     onesemester_total = onesemester[0].semester_student_num
@@ -448,7 +448,7 @@ function semesterShow(semester) {
 
     }else{
         $('#semester_s').html('전체 반')
-        data = result;
+        data = banData;
     }
     SemesterContainer.pagination({
         dataSource: data,
