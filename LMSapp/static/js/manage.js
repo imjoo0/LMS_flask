@@ -539,7 +539,7 @@ async function uldata() {
                 <td class="col-1">${index + 1}</td>
                 <td class="col-2">${student.ban_name}( ${make_semester(student.semester)}월 학기 )</td>
                 <td class="col-2">${student.origin}</td>
-                <td class="col-2">${student.name}( ${student_info.student_engname} )</td>
+                <td class="col-2">${student.name}( ${student.student_engname} )</td>
                 <td class="col-2">${student.pname}( ${student.pmobileno} )</td>
                 <td class="col-1">${student.unlearned} (${student.up}%) </td>
                 <td class="col-1">${student.teacher_name}( ${student.teacher_engname} )</td>
