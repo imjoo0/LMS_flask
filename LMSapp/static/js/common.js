@@ -85,7 +85,6 @@ async function get_total_data() {
     $('#inloading').show()
     $('#semester_pagination').hide()
     try{
-        console.log(!result)
         if (!outstudentData || !switchstudentData || !total_student_num || !result){
             const response = await $.ajax({
                 type: "GET",
@@ -110,7 +109,6 @@ async function get_total_data() {
                 }
             })
         }
-        
         outstudent_num = outstudentData.length;
         switchstudent_num = switchstudentData.length
         first_total = total_student_num + outstudent_num
@@ -248,13 +246,23 @@ async function get_total_data() {
         });
 
         semesterShow(3);
-        $('#inloading').hide();
-        $('#semester_pagination').show();
-        $('#target_ban_info_body').show();
+        if (!studentsData) {
+            await get_all_students().then( ()=>{
+                $('#inloading').hide();
+                $('#semester_pagination').show();
+                $('#target_ban_info_body').show();
+            });
+        }
+
+        // if (!consultingData || !taskData) {
+        //     await get_all_consulting_task()
+        // }
+        
     }catch(error){
         alert('Error occurred while retrieving data.');
     }
 }
+
 async function get_all_students() {
     try{
         const response = await $.ajax({
