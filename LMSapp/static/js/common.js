@@ -1,5 +1,5 @@
 // 전역변수로 api에서 불러온 정보를 저장 
-let result,outstudentData, switchstudentData, total_student_num, outstudent_num, switchstudent_num, studentsData, consultingData, taskData; 
+let studentsData, consultingData, taskData; 
 
 var totalData = 0; //총 데이터 수
 var dataPerPage = 6;
@@ -85,6 +85,9 @@ async function get_all_ban() {
         outstudentData = response['outstudent']
         switchstudentData = response['switchstudent']
         total_student_num = response['all_ban'][0].total_student_num
+        outstudent_num = outstudentData.length;
+        switchstudent_num = switchstudentData.length
+
         response['all_ban'].forEach((elem) => {
             elem.out_num = outstudentData.filter(a => a.ban_id == elem.ban_id).length
             elem.out_num_per = answer_rate(elem.out_num, outstudent_num).toFixed(2)
@@ -155,10 +158,7 @@ async function get_total_data() {
         $('#semester_pagination').hide()
         await get_all_ban().then(()=>{
             console.log(result)
-            outstudent_num = outstudentData.length;
-            switchstudent_num = switchstudentData.length
             first_total = total_student_num + outstudent_num
-            
             // 학기 별 원생
             onesemester = total_student_num != 0 ? result.filter(e => e.semester == 1) : 0
             fivesemester = total_student_num != 0 ? result.filter(e => e.semester == 2) : 0
