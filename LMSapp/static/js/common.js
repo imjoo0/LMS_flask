@@ -90,7 +90,7 @@ async function get_all_ban() {
 
         response['all_ban'].forEach((elem) => {
             elem.out_num = outstudentData.filter(a => a.ban_id == elem.ban_id).length
-            elem.out_num_per = answer_rate(elem.out_num, elem.student_num+elem.out_num+elem.switch_minus_num-elem.switch_plus_num).toFixed(2)
+            elem.out_num_per = answer_rate(elem.out_num, elem.student_num+elem.out_num).toFixed(2)
             elem.switch_minus_num = switchstudentData.filter(a => a.ban_id == elem.ban_id).length
             elem.switch_plus_num = switchstudentData.filter(a => a.switch_ban_id == elem.ban_id).length
         });
