@@ -168,7 +168,7 @@ async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name){
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">학생</span>
-        <p>${student_data.student_name} ( *${student_data.eng_name} 원번: ${student_data.origin} )</p>
+        <p>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin} )</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">첨부파일</span>
@@ -177,9 +177,7 @@ async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name){
     $('#teacher_question').html(temp_question_list);
 
     // 상담 일지 처리 
-    console.log(question_detail_data)
     let consulting_history = consultingData.filter(c => c.id == question_detail_data.consulting_history)
-    console.log(consulting_history)
     let temp_his = ''
     if(consulting_history.length != 0){
         let category = ''
@@ -377,7 +375,7 @@ async function get_question_detail(q_id, done_code,ban_name,teacher_name){
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">학생</span>
-        <p>${student_data.student_name} ( *${student_data.eng_name} 원번: ${student_data.origin} )</p>
+        <p>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin} )</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">첨부파일</span>
@@ -441,28 +439,27 @@ function post_answer(q_id, category) {
 
 // 미학습 (학습관리)
 async function uldata() {
-    console.log(studentsData)
     $('#qubox').hide()
     $('#sobox').hide()
     $('#detailban').hide()
     $('#ulbox').show()
     let container = $('#ul_pagination')
 
-    all_uc_consulting = consultingData.filter(a => a.category_id < 100)
+    all_uc_consulting = consultingData[0].total_unlearned_consulting
 
-    all_student.forEach((elem) => {
-        elem.unlearned = all_uc_consulting.filter(a => a.student_id == elem.student_id).length
-        elem.up = answer_rate(elem.unlearned, all_uc_consulting.length).toFixed(0)
+    studentsData.forEach((elem) => {
+        elem.unlearned = consultingData.filter(a => a.student_id == elem.student_id && a.category_id < 100 && a.startdate <= today).length
+        elem.up = answer_rate(elem.unlearned, all_uc_consulting).toFixed(0)
     });
     all_student.sort((a, b) => {
         if (b.up !== a.up) {
-            return b.up - a.up; // total_out_per가 큰 순으로 정렬
-        } else {
+            return b.up - a.up;
+        }else{
             return b.unlearned - a.unlearned; // students.length가 큰 순으로 정렬
         }
     });
 
-    if (all_student.length == 0) {
+    if (studentsData.length == 0) {
         let no_data_title = `<h1> ${response.text} </h1>`
         $('#ultitle').html(no_data_title);
         $('#ul_data_box').hide()

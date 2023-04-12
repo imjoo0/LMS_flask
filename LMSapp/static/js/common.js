@@ -259,6 +259,7 @@ async function get_total_data() {
             alert('xhr.responseText');
         }
     })
+    
     $('#inloading').hide()
     $('#semester_pagination').show()
     $('#target_ban_info_body').show()
