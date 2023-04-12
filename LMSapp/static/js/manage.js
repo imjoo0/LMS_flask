@@ -539,7 +539,7 @@ async function uldata() {
                 <td class="col-1">${student.origin}</td>
                 <td class="col-1">${student.student_name}</br>( ${student.student_engname} )</td>
                 <td class="col-1">${student.pname}</br>( ${student.pmobileno} )</td>
-                <td class="col-6">${student.unlearned}건 (${student.up}%) </td>
+                <td class="col-7">${student.unlearned}건 (${student.up}%) </td>
                 <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${student.student_id})">📝</td>`;
             });
             $('#static_data2').html(dataHtml);
