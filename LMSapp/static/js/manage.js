@@ -294,31 +294,28 @@ async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name){
         $('#teacher_answer').show()
     }
 }
-
 // 일반 문의 
-async function csdata() {
+async function csdata(){
     $('#detailban').hide()
     $('#sobox').hide()
     $('#ulbox').hide()
     $('#qubox').show()
+
     $('.cs_inloading').show()
     $('.not_inloading').hide()
-    await $.ajax({
-        url: '/manage/cs',
-        type: 'GET',
-        data: {},
-        success: function(response){
-            csqData = response['question']
-            csanswerData = response['answer']
-            csattachData = response['attach']
-        }
-    }) 
+    if (!questionData){
+        await get_all_question().then( ()=>{
+            $('.cs_inloading').hide()
+            $('.not_inloading').show()
+        });
+    }
     $('.cs_inloading').hide()
     $('.not_inloading').show() 
     paginating(0)
 }
 function paginating(done_code) {
     let container = $('#pagination')
+    csqData = questionData.filter(q=>q.category == 0)
     total_question_num = csqData.length
     csdata_noanswer = total_question_num !=0 ? csqData.filter(a => a.answer == 0).length : 0
 
@@ -386,11 +383,12 @@ async function get_question_detail(q_id, done_code,ban_name,teacher_name){
     }
     $('.cs_inloading').hide()
     $('.not_inloading').show()
+
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
-    question_detail_data = csqData.filter(q => q.id == q_id)[0]
+    question_detail_data = questionData.filter(q => q.id == q_id)[0]
     student_data = studentsData.filter(s=>s.student_id == question_detail_data.student_id)[0]
-    attach = csattachData.filter(a => a.question_id == q_id)[0]['file_name']
+    attach = attachData.filter(a => a.question_id == q_id)[0]['file_name']
     // 문의 상세 내용 
     let temp_question_list = `
     <div class="modal-body-select-container">
