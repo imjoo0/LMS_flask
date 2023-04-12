@@ -353,7 +353,16 @@ function paginating(done_code) {
 }
 // 일반 문의 상세보기
 async function get_question_detail(q_id, done_code,ban_name,teacher_name){
-    // $('#questionlist').hide()
+    $('.cs_inloading').show()
+    $('.not_inloading').hide()
+    if (!studentsData){
+        await get_all_students().then( ()=>{
+            $('.cs_inloading').hide()
+            $('.not_inloading').show()
+        });
+    }
+    $('.cs_inloading').hide()
+    $('.not_inloading').show()
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
     question_detail_data = csqData.filter(q => q.id == q_id)[0]
