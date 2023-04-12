@@ -583,8 +583,8 @@ async function uldata() {
     })
     $('#search-input').on('keyup', function() {
         var searchInput = $(this).val().toLowerCase();
-        container.pagination('filter', function(data) {
-            return data.student_name.toLowerCase().indexOf(searchInput) !== -1 || data.origin.toLowerCase().indexOf(searchInput) !== -1;
+        container.pagination('filter', function(studentsData) {
+            return studentsData.student_name.toLowerCase().indexOf(searchInput) !== -1 || studentsData.origin.toLowerCase().indexOf(searchInput) !== -1;
         });
     });
 }
