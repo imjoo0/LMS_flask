@@ -148,13 +148,12 @@ async function get_total_data() {
     $('#sobox').hide()
     $('#ulbox').hide()
     $('#target_ban_info_body').hide()
-
     try{
         $('#inloading').show()
         $('#semester_pagination').hide()
         await get_all_ban().then(()=>{
             console.log(banData)
-            total_student_num = response['all_ban'][0].total_student_num
+            total_student_num = banData[0].total_student_num
             outstudent_num = outstudentData.length;
             switchstudent_num = switchstudentData.length
             first_total = total_student_num + outstudent_num
