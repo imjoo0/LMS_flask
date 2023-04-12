@@ -152,9 +152,9 @@ async function get_total_data() {
 
     $('#inloading').show()
     $('#semester_pagination').hide()
-    if(!outstudentData || !switchstudentData || !total_student_num || !banData){
-        await get_all_ban();
-    }
+
+    await get_all_ban();
+    
     outstudent_num = outstudentData.length;
     switchstudent_num = switchstudentData.length
     first_total = total_student_num + outstudent_num
