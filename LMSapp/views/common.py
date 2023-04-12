@@ -64,11 +64,10 @@ def get_all_students():
         students = callapi.purple_allinfo('get_all_ban_student')
         return jsonify({'students':students})
 
-@bp.route("/consulting_task", methods=['GET'])
-def get_all_consulting_task():
+@bp.route("/consulting", methods=['GET'])
+def get_all_consulting():
     if request.method == 'GET':
         consulting = []
-        task = []
         
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
@@ -76,6 +75,20 @@ def get_all_consulting_task():
                 cur.execute(f"SELECT consulting.id, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id AS category_id, consulting.week_code, consultingcategory.name AS category, consulting.contents, DATE_FORMAT(consulting.startdate, '%Y-%m-%d') AS startdate, DATE_FORMAT(consulting.deadline, '%Y-%m-%d') AS deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result, (SELECT COUNT(*) FROM consulting WHERE (category_id < 100 && consulting.startdate <= curdate())) AS total_unlearned_consulting FROM consulting LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id;")
                 consulting = cur.fetchall()
 
+        except:
+                print('err')
+        finally:
+                db.close()        
+        return jsonify({'consulting':consulting})
+    
+@bp.route("/task", methods=['GET'])
+def get_all_task():
+    if request.method == 'GET':
+        task = []
+        
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
                 cur.execute(f"select task.id, task.category_id, task.contents, task.url, task.attachments, date_format(task.startdate, '%Y-%m-%d') as startdate, date_format(task.deadline, '%Y-%m-%d') as deadline, task.priority, task.cycle, taskcategory.name, taskban.ban_id, taskban.teacher_id, taskban.done from task left join taskcategory on task.category_id = taskcategory.id left join taskban on task.id = taskban.task_id;" )
                 task = cur.fetchall()
 
@@ -83,7 +96,7 @@ def get_all_consulting_task():
                 print('err')
         finally:
                 db.close()        
-        return jsonify({'consulting':consulting,'task':task})
+        return jsonify({'task':task})
 
 @bp.route('/downloadfile/question/<int:q_id>')
 def download_file(q_id):

@@ -2,7 +2,6 @@
 // const today = new Date();
 var selectedBanList = [];
 var selectedStudentList = [];
-
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(function () {
     get_total_data();
@@ -19,6 +18,7 @@ function main_view(){
     $('#detailban').show()
 }
 // 이반 * 퇴소 
+let questionData,answerData, attachData; 
 async function sodata() {
     $('#qubox').hide()
     $('#ulbox').hide()
@@ -64,16 +64,21 @@ async function sodata() {
     }
     $('.cs_inloading').show()
     $('.not_inloading').hide()
-    await $.ajax({
-        url: '/manage/so',
-        type: 'GET',
-        data: {},
-        success: function(response){
-            soqData = response['question']
-            answerData = response['answer']
-            attachData = response['attach']
-        }
-    })
+    if (!questionData){
+        await $.ajax({
+            url: '/manage/qa',
+            type: 'GET',
+            data: {},
+            success: function(response){
+                questionData = response['question']
+                answerData = response['answer']
+                attachData = response['attach']
+            }
+        }).then( ()=>{
+            $('.cs_inloading').hide()
+            $('.not_inloading').show()
+        });
+    }
     $('.cs_inloading').hide()
     $('.not_inloading').show() 
     so_paginating(0)
@@ -81,6 +86,7 @@ async function sodata() {
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
     let container = $('#so_pagination')
+    soqData = questionData.filter(q=>q.category_id!=0)
     total_soquestion_num = soqData.length
     sodata_noanswer = total_soquestion_num !=0 ? soqData.filter(a => a.answer == 0).length : 0
 
@@ -140,8 +146,19 @@ function so_paginating(done_code) {
 async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name){
     $('.cs_inloading').show()
     $('.not_inloading').hide()
-    if (!studentsData){
+    if (!studentsData && !consultingData){
+        await get_all_students()
+        await get_all_consulting().then( ()=>{
+            $('.cs_inloading').hide()
+            $('.not_inloading').show()
+        });
+    }else if(!studentsData && consultingData){
         await get_all_students().then( ()=>{
+            $('.cs_inloading').hide()
+            $('.not_inloading').show()
+        });
+    }else if(studentsData && !consultingData){
+        await get_all_consulting().then( ()=>{
             $('.cs_inloading').hide()
             $('.not_inloading').show()
         });
@@ -150,7 +167,7 @@ async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name){
     $('.not_inloading').show()
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
-    question_detail_data = soqData.filter(q => q.id == q_id)[0]
+    question_detail_data = questionData.filter(q => q.id == q_id)[0]
     student_data = studentsData.filter(s=>s.student_id == question_detail_data.student_id)[0]
     attach = attachData.filter(a => a.question_id == q_id)[0]['file_name']
     // 문의 상세 내용 
@@ -184,7 +201,6 @@ async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name){
         <a href="/common/downloadfile/question/${q_id}" download="${attach}">${attach}</a>
     </div>`;
     $('#teacher_question').html(temp_question_list);
-
     // 상담 일지 처리 
     let consulting_history = consultingData.filter(c => c.id == question_detail_data.consulting_history)
     let temp_his = ''

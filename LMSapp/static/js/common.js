@@ -72,7 +72,7 @@ function q_category(category) {
     return c
 }
 // 전역변수로 api에서 불러온 정보를 저장 
-let result,outstudentData, switchstudentData, total_student_num, outstudent_num, switchstudent_num, studentsData, consultingData, taskData; 
+let result,studentsData, consultingData, taskData; 
 
 // 전체 반 정보(차트) 가져오는 함수 
 async function get_total_data() {
@@ -85,7 +85,8 @@ async function get_total_data() {
     $('#inloading').show()
     $('#semester_pagination').hide()
     try{
-        if (!outstudentData || !switchstudentData || !total_student_num || !result){
+        // api 두번 불리는 거 방지 
+        if(!result){
             const response = await $.ajax({
                 type: "GET",
                 url: "/common/all_ban",
@@ -279,19 +280,32 @@ async function get_all_students() {
     }
 }
   
-async function get_all_consulting_task() {
+async function get_all_consulting() {
     try {
         const response = await $.ajax({
-            url: '/common/consulting_task',
+            url: '/common/consulting',
             type: 'GET',
             data: {},
         });
         consultingData = response['consulting']
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
+}
+
+async function get_all_task() {
+    try {
+        const response = await $.ajax({
+            url: '/common/task',
+            type: 'GET',
+            data: {},
+        });
         taskData = response['task']
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
 }
+
 function semesterShow(semester) {
     SemesterContainer = $('#semester_pagination')
     $('#semester').show();
