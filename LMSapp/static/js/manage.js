@@ -564,6 +564,21 @@ async function uldata() {
                 <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${student.student_id})">📝</td>`;
             });
             $('#static_data2').html(dataHtml);
+
+            $('#search-input').on('input', function() {
+                searchData = studentsData;
+                searchInput = $(this).val();
+                if(searchInput) {
+                    searchData = studentsData.filter(function (student) {
+                        return student.student_name.indexOf(searchInput) !== -1 || student.origin.indexOf(searchInput) !== -1;
+                    });
+                }
+                dataHtml = '';
+                $.each(searchData, function (index, student) {
+                    // 이하 코드 생략...
+                });
+                $('#static_data2').html(dataHtml);
+            });
         }
     })
 }
