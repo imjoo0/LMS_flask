@@ -298,12 +298,12 @@ function paginating(done_code) {
     `;
     $('#newcs').html(temp_newcs)
 
-    if (total_question_num != 0) {
-        $('#csno_data_msg').hide()
-        $('#cs_teacher_question').show()
-        $('#pagination').show()
+    if(total_question_num != 0) {
         qdata = csqData.filter(a => a.answer == done_code)
         if(qdata.length != 0){
+            $('#csno_data_msg').hide()
+            $('#cs_teacher_question').show()
+            $('#pagination').show()
             container.pagination({
                 dataSource: qdata,
                 prevText: '이전',
@@ -313,13 +313,18 @@ function paginating(done_code) {
                 callback: function (qdata, pagination) {
                     var dataHtml = '';
                     $.each(qdata, function (index, item) {
+                        ban = result.filter(b=>b.ban_id == item.ban_id)[0]
+                        let ban_name = ban.name
+                        let teacher_name = ban.teacher_engname+'( '+ban.teacher_name+' )'
                         dataHtml += `
-                        <td class="col-2">일반문의</td>
-                        <td class="col-4">${item.title}</td>
+                        <td class="col-1">일반문의</td>
+                        <td class="col-1">${ban_name}</td>
+                        <td class="col-2">${teacher_name}</td>
+                        <td class="col-2">${item.title}</td>
                         <td class="col-4">${item.contents}</td>
-                        <td class="col-2"> <button class="custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal"
-                        data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</button> 
-                        <button onclick="delete_question(${item.id})">❌</button></td>`;
+                        <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code},'${ban_name}','${teacher_name}')">✏️</td>
+                        <td class="col-1" onclick="delete_question(${item.id})">❌</td>
+                        `;
                     });
                     $('#alim_tr').html(dataHtml);
                 }
@@ -331,7 +336,6 @@ function paginating(done_code) {
             $('#csno_data_msg').html(temp_nodatamasg)
             $('#csno_data_msg').show()
         }
-        
     }else{
         $('#cs_teacher_question').hide()
         $('#pagination').hide()
@@ -340,7 +344,7 @@ function paginating(done_code) {
     }
 }
 // 일반 문의 상세보기
-async function get_question_detail(q_id, done_code) {
+async function get_question_detail(q_id, done_code,ban_name,teacher_name){
     // $('#questionlist').hide()
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
@@ -367,8 +371,12 @@ async function get_question_detail(q_id, done_code) {
         <p>${make_date(question_detail_data.create_date)}</p>
     </div>
     <div class="modal-body-select-container">
-        <span class="modal-body-select-label">대상 반 | 학생</span>
-        <p>${student_data.name} ➖ ${student_data.student_name}</p>
+        <span class="modal-body-select-label">대상 반</span>
+        <p>${ban_name} ➖ 담임 T : ${teacher_name} </p>
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">학생</span>
+        <p>${student_data.student_name}</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">첨부파일</span>
@@ -377,7 +385,7 @@ async function get_question_detail(q_id, done_code) {
     $('#teacher_question').html(temp_question_list);
 
     // 응답 처리 
-    if (done_code == 0) {
+    if(done_code == 0) {
         $('#teacher_answer').hide()
         $('#manage_answer').show()
         $('#manage_answer_1').show()

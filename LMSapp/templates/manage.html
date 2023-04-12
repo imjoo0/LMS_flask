@@ -885,7 +885,7 @@
     <div id="sobox" style="display: none;">
         <div class="info-container">
             <div class="info-title">
-                <span>이반 / 퇴소 발생 반 조회</span>
+                <span>퇴소 / 이반 발생 반 조회</span>
             </div>
             <div class="info">
                 <div class="d-flex justify-content-center align-items-center flex-column w-100">
@@ -920,7 +920,7 @@
         <div class="info-container mt-5">
             <div class="info-title">
                 <span class="make_row">
-                    Teacher 퇴소/이반 요청사항
+                    퇴소 / 이반 요청= 관리
                     <select id="question_view" class="form-select text-center w-25" name="question_view" onchange="so_paginating(this.value)">
                         <option value=0 selected>미응답 요청</option>
                         <option value=1>응답한 요청</option>
@@ -938,7 +938,7 @@
                 <div class="d-flex justify-content-center align-items-center flex-column w-100 not_inloading">
                     <table class="table text-center" style="width:100%;">
                         <tr class="row" style="background: #DCE6F2;">
-                            <th class="col-12">Teacher 퇴소/이반 요청사항</th>
+                            <th class="col-12">Teacher 퇴소/이반 요청 사항</th>
                         </tr>
                         <tr class="row" style="background:#DCE6F2;">
                             <th class="col-4">총 문의</th>
@@ -966,26 +966,6 @@
                     </table>
                     <div id="so_pagination" class="py-2 text-center"></div>
                 </div>
-                <!-- <h3 id="no_data_msg" style="width: 100%;" class="not_inloading"></h3>
-                <div class="d-flex justify-content-center align-items-center flex-column w-100 not_inloading">
-                    <table class="table text-center" id="so_question" style="width:100%;">
-                        <thead>
-                            <tr class="row">
-                                <th class="col-1">종류</th>
-                                <th class="col-1">반</th>
-                                <th class="col-2">담임T</th>
-                                <th class="col-2">제목</th>
-                                <th class="col-4">내용</th>
-                                <th class="col-1">응답</th>
-                                <th class="col-1">삭제</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr id="so_tr" class="row"></tr>
-                        </tbody>
-                    </table>
-                    <div id="so_pagination" class="py-2 text-center"></div>
-                </div> -->
             </div>
         </div>
     
@@ -1059,10 +1039,13 @@
                 <table class="table text-center" id="cs_teacher_question" style="width:100%;">
                     <thead>
                         <tr class="row">
-                            <th class="col-2">종류</th>
-                            <th class="col-4">제목</th>
+                            <th class="col-1">종류</th>
+                            <th class="col-1">반</th>
+                            <th class="col-2">담임T</th>
+                            <th class="col-2">제목</th>
                             <th class="col-4">내용</th>
-                            <th class="col-2">응답</th>
+                            <th class="col-1">응답</th>
+                            <th class="col-1">삭제</th>
                         </tr>
                     </thead>
                     <tbody>
