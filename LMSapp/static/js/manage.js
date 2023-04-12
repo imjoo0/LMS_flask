@@ -56,7 +56,7 @@ async function sodata() {
         return
     }else{
         $('#sotitle').empty();    
-        switch_out_bans = result.filter(e => e.out_num != 0 || e.switch_minus_num != 0)
+        switch_out_bans = banData.filter(e => e.out_num != 0 || e.switch_minus_num != 0)
         container.pagination({
             dataSource: switch_out_bans,
             prevText: '이전',
@@ -126,7 +126,7 @@ function so_paginating(done_code) {
                 callback: function (qdata, pagination) {
                     var dataHtml = '';
                     $.each(qdata, function (index, item) {
-                        ban = result.filter(b=>b.ban_id == item.ban_id)[0]
+                        ban = banData.filter(b=>b.ban_id == item.ban_id)[0]
                         let ban_name = ban.name
                         let teacher_name = ban.teacher_engname+'( '+ban.teacher_name+' )'
                         let category = q_category(item.category)
@@ -352,7 +352,7 @@ function paginating(done_code) {
                 callback: function (qdata, pagination) {
                     var dataHtml = '';
                     $.each(qdata, function (index, item) {
-                        ban = result.filter(b=>b.ban_id == item.ban_id)[0]
+                        ban = banData.filter(b=>b.ban_id == item.ban_id)[0]
                         let ban_name = ban.name
                         let teacher_name = ban.teacher_engname+'( '+ban.teacher_name+' )'
                         dataHtml += `
