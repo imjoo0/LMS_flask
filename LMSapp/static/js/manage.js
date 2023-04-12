@@ -532,6 +532,13 @@ async function uldata() {
         nextText: '다음',
         pageSize: 10,
         callback: function (studentsData, pagination) {
+            var searchData = studentsData;
+            var searchInput = $('#search-input').val();
+            if(searchInput) {
+                searchData = studentsData.filter(function (student) {
+                    return student.student_name.indexOf(searchInput) !== -1 || student.origin.indexOf(searchInput) !== -1;
+                });
+            }
             var dataHtml = '';
             $.each(studentsData, function (index, student) {
                 consultings = consultingData.filter(c => c.category_id < 100 && c.student_id == student.student_id)
