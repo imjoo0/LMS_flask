@@ -247,7 +247,7 @@ async function get_total_data() {
             }
         });
         semesterShow(3);
-        // await get_all_consulting_task()
+        await get_all_consulting_task()
         await get_all_students();
         $('#inloading').hide();
         $('#semester_pagination').show();
@@ -263,9 +263,9 @@ async function get_all_students() {
       data: {},
     });
     studentsData = response['students']
-  }
+}
   
-  async function get_all_consulting_task() {
+async function get_all_consulting_task() {
     const response = await $.ajax({
       url: '/common/consulting_task',
       type: 'GET',
@@ -273,7 +273,7 @@ async function get_all_students() {
     });
     consultingData = response['consulting']
     taskData = response['task']
-  }
+}
 function semesterShow(semester) {
     SemesterContainer = $('#semester_pagination')
     $('#semester').show();
