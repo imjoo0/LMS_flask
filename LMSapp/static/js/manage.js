@@ -11,12 +11,27 @@ $(document).ready(function () {
     })
 
 })
+async function get_all_question(){
+    try{
+        const response = await $.ajax({
+            url: '/manage/qa',
+            type: 'GET',
+            data: {},
+        })
+        questionData = response['question']
+        answerData = response['answer']
+        attachData = response['attach']   
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
+}
 function main_view(){
     $('#qubox').hide()
     $('#sobox').hide()
     $('#ulbox').hide()
     $('#detailban').show()
 }
+
 // 이반 * 퇴소 
 let questionData,answerData, attachData; 
 async function sodata() {
@@ -65,16 +80,7 @@ async function sodata() {
     $('.cs_inloading').show()
     $('.not_inloading').hide()
     if (!questionData){
-        await $.ajax({
-            url: '/manage/qa',
-            type: 'GET',
-            data: {},
-            success: function(response){
-                questionData = response['question']
-                answerData = response['answer']
-                attachData = response['attach']
-            }
-        }).then( ()=>{
+        get_all_question().then( ()=>{
             $('.cs_inloading').hide()
             $('.not_inloading').show()
         });
