@@ -25,9 +25,9 @@ async function get_all_question(){
     }
 }
 function main_view(){
-    // if(!banData){
-    //     get_total_data()
-    // }
+    if(!banData){
+        get_total_data()
+    }
     $('#qubox').hide()
     $('#sobox').hide()
     $('#ulbox').hide()
