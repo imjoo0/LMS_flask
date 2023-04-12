@@ -74,6 +74,13 @@ function q_category(category) {
     }
     return c
 }
+function make_nodata(d){
+    if(d==0){
+        return '❌'
+    }else{
+        return d
+    }
+}
 async function get_all_ban() {
     try{
         const response = await $.ajax({

@@ -535,12 +535,13 @@ async function uldata() {
             var dataHtml = '';
             $.each(studentsData, function (index, student) {
                 consultings = consultingData.filter(c => c.category_id < 100 && c.student_id == student.student_id)
-                unlearned_ixl = consultings.filter(a => a.category_id == 1).length
-                unlearned_reading = consultings.filter(a => a.category_id == 4).length
-                unlearned_speacial = consultings.filter(a => a.category_id == 3).length
-                unlearned_writing = consultings.filter(a => a.category_id == 6).length
-                unlearned_homepage = consultings.filter(a => a.category_id == 2).length
-                unlearned_intoreading = consultings.filter(a => a.category_id == 5 || a.category_id == 7).length
+                unlearned_ixl = make_nodata(consultings.filter(a => a.category_id == 1).length)
+                unlearned_reading = make_nodata(consultings.filter(a => a.category_id == 4).length)
+                unlearned_speacial = make_nodata(consultings.filter(a => a.category_id == 3).length)
+                unlearned_writing = make_nodata(consultings.filter(a => a.category_id == 6).length)
+                unlearned_homepage = make_nodata(consultings.filter(a => a.category_id == 2).length)
+                unlearned_intoreading = make_nodata(consultings.filter(a => a.category_id == 5 || a.category_id == 7).length)
+                
                 dataHtml += `
                 <td class="col-1">${student.ban_name}</td>
                 <td class="col-1">${student.origin}</td>
