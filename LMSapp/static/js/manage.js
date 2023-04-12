@@ -553,6 +553,7 @@ async function uldata() {
 function get_consulting_history(s_id) {
     console.log(consultingData)
     student_info = studentsData.filter(s => s.student_id == s_id)
+    console.log(s_id)
     consultings = consultingData.filter(c => c.student_id == s_id)
     console.log(consultings)
     done_consultings = consultings.filter(c => c.done == 1)
