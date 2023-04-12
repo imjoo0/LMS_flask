@@ -93,8 +93,7 @@ async function sodata() {
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
     let container = $('#so_pagination')
-    soqData = questionData.filter(q=>q.category_id!=0)
-    console.log(soqData)
+    soqData = questionData.filter(q=>q.category != 0)
     total_soquestion_num = soqData.length
     sodata_noanswer = total_soquestion_num !=0 ? soqData.filter(a => a.answer == 0).length : 0
 
