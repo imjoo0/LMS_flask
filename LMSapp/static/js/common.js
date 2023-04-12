@@ -152,16 +152,16 @@ async function get_total_data() {
 
     $('#inloading').show()
     $('#semester_pagination').hide()
-    if(!outstudentData || !switchstudentData || !total_student_num || !result){
+    if(!outstudentData || !switchstudentData || !total_student_num || !banData){
         await get_all_ban().then( ()=>{
             outstudent_num = outstudentData.length;
             switchstudent_num = switchstudentData.length
             first_total = total_student_num + outstudent_num
             
             // 학기 별 원생
-            onesemester = total_student_num != 0 ? result.filter(e => e.semester == 1) : 0
-            fivesemester = total_student_num != 0 ? result.filter(e => e.semester == 2) : 0
-            ninesemester = total_student_num != 0 ? result.filter(e => e.semester == 0) : 0
+            onesemester = total_student_num != 0 ? banData.filter(e => e.semester == 1) : 0
+            fivesemester = total_student_num != 0 ? banData.filter(e => e.semester == 2) : 0
+            ninesemester = total_student_num != 0 ? banData.filter(e => e.semester == 0) : 0
 
             // 학기별 원생수 및 퇴소 원생 수 
             onesemester_total = onesemester[0].semester_student_num
