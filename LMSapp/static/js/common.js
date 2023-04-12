@@ -72,7 +72,7 @@ function q_category(category) {
     return c
 }
 // 전역변수로 api에서 불러온 정보를 저장 
-let result,studentsData, consultingData, taskData; 
+let result,outstudentData, switchstudentData, total_student_num, outstudent_num, switchstudent_num, studentsData, consultingData, taskData; 
 
 // 전체 반 정보(차트) 가져오는 함수 
 async function get_total_data() {
@@ -85,8 +85,7 @@ async function get_total_data() {
     $('#inloading').show()
     $('#semester_pagination').hide()
     try{
-        // api 두번 불리는 거 방지 
-        if(!result){
+        if (!outstudentData || !switchstudentData || !total_student_num || !result){
             const response = await $.ajax({
                 type: "GET",
                 url: "/common/all_ban",
