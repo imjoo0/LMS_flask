@@ -541,8 +541,7 @@ async function uldata() {
                 <td class="col-2">${student.origin}</td>
                 <td class="col-2">${student.student_name}( ${student.student_engname} )</td>
                 <td class="col-2">${student.pname}( ${student.pmobileno} )</td>
-                <td class="col-1">${student.unlearned} (${student.up}%) </td>
-                <td class="col-1">${student.teacher_name}( ${student.teacher_engname} )</td>
+                <td class="col-2">${student.unlearned} (${student.up}%) </td>
                 <td class="col-1 modal-tbody-btn data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${student.id})">📝</td>`;
             });
             $('#static_data2').html(dataHtml);
