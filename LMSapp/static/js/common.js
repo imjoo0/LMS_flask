@@ -253,17 +253,16 @@ async function get_total_data() {
             });
             semesterShow(3);
             get_all_students();
-            get_all_consulting_task();
+            get_all_consulting_task().then(() => {
+                $('#inloading').hide()
+                $('#semester_pagination').show()
+                $('#target_ban_info_body').show()
+            })
         },
         error: function (xhr, status, error) {
             alert('xhr.responseText');
         }
     })
-    
-    $('#inloading').hide()
-    $('#semester_pagination').show()
-    $('#target_ban_info_body').show()
-
 }
 function get_all_students(){
     $.ajax({
