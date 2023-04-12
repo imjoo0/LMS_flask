@@ -177,8 +177,8 @@ async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name){
     $('#teacher_question').html(temp_question_list);
 
     // 상담 일지 처리 
-    console.log(consultingData)
-    let consulting_history = consultingData.filter(c => c.id == 28653)
+    console.log(question_detail_data)
+    let consulting_history = consultingData.filter(c => c.id == question_detail_data.consulting_history)
     console.log(consulting_history)
     let temp_his = ''
     if(consulting_history.length != 0){
