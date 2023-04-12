@@ -246,13 +246,16 @@ async function get_total_data() {
         });
 
         semesterShow(3);
-        if (!studentsData) {
-            await get_all_students().then( ()=>{
-                $('#inloading').hide();
-                $('#semester_pagination').show();
-                $('#target_ban_info_body').show();
-            });
-        }
+        $('#inloading').hide();
+        $('#semester_pagination').show();
+        $('#target_ban_info_body').show();
+        // if (!studentsData){
+        //     await get_all_students().then( ()=>{
+        //         $('#inloading').hide();
+        //         $('#semester_pagination').show();
+        //         $('#target_ban_info_body').show();
+        //     });
+        // }
 
         // if (!consultingData || !taskData) {
         //     await get_all_consulting_task()

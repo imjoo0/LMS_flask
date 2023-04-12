@@ -138,7 +138,13 @@ function so_paginating(done_code) {
 }
 // 이반 퇴소 요청 내용 상세보기
 async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name){
-    // $('#questionlist').hide()
+    if (!studentsData){
+        await get_all_students().then( ()=>{
+            $('#inloading').hide();
+            $('#semester_pagination').show();
+            $('#target_ban_info_body').show();
+        });
+    }
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
     question_detail_data = soqData.filter(q => q.id == q_id)[0]
