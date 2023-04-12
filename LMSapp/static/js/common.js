@@ -80,13 +80,13 @@ async function get_total_data() {
     $('#target_ban_info_body').hide()
     $('#inloading').show()
     $('#semester_pagination').hide()
+    const response = await $.ajax({
+        type: "GET",
+        url: "/common/all_ban",
+        dataType: 'json',
+        data: {},
+    });
     try{
-        const response = await $.ajax({
-            type: "GET",
-            url: "/common/all_ban",
-            dataType: 'json',
-            data: {},
-        });
         outstudentData = response['outstudent']
         switchstudentData = response['switchstudent']
         total_student_num = response['all_ban'][0].total_student_num
