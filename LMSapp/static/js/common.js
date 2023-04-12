@@ -4,8 +4,6 @@ var pageCount = 10; //페이징에 나타낼 페이지 수
 var globalCurrentPage = 1; //현재 페이지
 var data_list;
 const today = new Date().setHours(0, 0, 0, 0);
-// 전역변수로 api에서 불러온 정보를 저장 
-let result,outstudentData, switchstudentData, total_student_num, outstudent_num, switchstudent_num, studentsData, consultingData, taskData; 
 
 let make_recobook = function(c){
     if( c == null){
@@ -73,6 +71,9 @@ function q_category(category) {
     }
     return c
 }
+// 전역변수로 api에서 불러온 정보를 저장 
+let result,outstudentData, switchstudentData, total_student_num, outstudent_num, switchstudent_num, studentsData, consultingData, taskData; 
+
 // 전체 반 정보(차트) 가져오는 함수 
 async function get_total_data() {
     $('#semester').hide();
@@ -84,6 +85,7 @@ async function get_total_data() {
     $('#inloading').show()
     $('#semester_pagination').hide()
     try{
+        console.log(!outstudentData)
         if (!outstudentData || !switchstudentData || !total_student_num || !result){
             const response = await $.ajax({
                 type: "GET",
@@ -107,12 +109,6 @@ async function get_total_data() {
                     return b.student_num - a.student_num; // students.length가 큰 순으로 정렬
                 }
             })
-        }
-        if (!studentsData) {
-            await get_all_students();
-        }
-        if (!consultingData || !taskData) {
-            await get_all_consulting_task()
         }
         
         outstudent_num = outstudentData.length;
