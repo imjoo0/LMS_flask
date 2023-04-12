@@ -551,7 +551,7 @@ async function uldata() {
 // 상담 기록 조회 
 // 상담일지 작성 
 function get_consulting_history(s_id) {
-    console.log(consultingData)
+    console.log(studentsData)
     student_info = studentsData.filter(s => s.student_id == s_id)
     console.log(s_id)
     consultings = consultingData.filter(c => c.student_id == s_id)
