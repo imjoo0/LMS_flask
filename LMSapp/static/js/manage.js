@@ -161,8 +161,8 @@ async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name){
         <p>${make_date(question_detail_data.create_date)}</p>
     </div>
     <div class="modal-body-select-container">
-        <span class="modal-body-select-label">대상 반 | 학생</span>
-        <p>${ban_name} ( 담당 T : ${teacher_name} ) ➖ ${student_data.student_name}</p>
+        <span class="modal-body-select-label">대상 반 ➖ 학생</span>
+        <p>${ban_name} * 담임 T : ${teacher_name}  ➖ ${student_data.student_name}</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">첨부파일</span>
