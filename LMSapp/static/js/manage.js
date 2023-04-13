@@ -369,6 +369,7 @@ function paginating(done_code) {
               };
               
               var container = $('#pagination');
+              container.pagination('destroy');
               
               container.pagination(Object.assign(paginationOptions, {'dataSource': qdata}));
               
