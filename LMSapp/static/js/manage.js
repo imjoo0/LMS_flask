@@ -1117,7 +1117,6 @@ async function get_request_consulting(){
         $('#request_consulting_listbox').show()
         $('#request_consultingban_listbox').hide()
     }
-    console.log(consultingGroupedresult)
     let container = $('#consulting-pagination')
 
     var category_list = []
@@ -1202,32 +1201,33 @@ function go_back() {
     $('#request_consulting_listbox').show();
 }  
 async function sort_consulting(value) {
-    var dataHtml = '';
     let container = $('#consulting-pagination')
-    const data = await requeConsultings.filter((e) => {
-        if (value == 'none') {
-            return e.category
-        } else {
-            return e.category == value;
-        }
-    })
-    await container.pagination({
-        dataSource: requeConsultings,
+    console.log(Object.keys(consultingGroupedresult))
+
+    container.pagination({
+        dataSource: consultingGroupedresult,
         prevText: '이전',
         nextText: '다음',
         pageSize: 10,
-        callback: function (requeConsultings, pagination) {
-            console.log(requeConsultings)
+        callback: function (consultingGroupedresult, pagination) {
             var dataHtml = '';
-            $.each(requeConsultings, function (index, consulting) {
+            $.each(consultingGroupedresult, function (index, consulting) {
+                let key = Object.keys(consulting)
+                let consulting_info = key.split('_')
+                category_list.push(consulting_info[0])
                 dataHtml += `
-                    <td class="col-3">${consulting.startdate} ~ ${consulting.deadline}</td>
-                    <td class="col-2">${consulting.category}</td>
-                    <td class="col-1">${make_duedate(consulting.startdate,consulting.deadline)}</td>
-                    <td class="col-4"> ${consulting.contents}</td>
-                    <td class="col-2"> <button onclick="update_consulting(${consulting.id})">✏️</button> 
-                    <button onclick="delete_consulting(${consulting.id})">❌</button></td>`;
+                    <td class="col-1"> ${make_duedate(consulting_info[2],consulting_info[3])}</td>
+                    <td class="col-3">${consulting_info[2]} ~ ${consulting_info[3]}</td>
+                    <td class="col-2">${consulting_info[0]}</td>
+                    <td class="col-5"> ${consulting_info[1]}</td>
+                    <td class="col-1" onclick ="get_consultingban('${key}')"> ✏️ </td>`;
             });
+            category_set = new Set(category_list)
+            category_list = [...category_set]
+            $.each(category_list, function (idx, val) {
+                idxHtml += `<option value="${val}">${val}</option>`
+            })
+            $('#consulting-option').html(idxHtml);
             $('#tr-row').html(dataHtml);
         }
     })
