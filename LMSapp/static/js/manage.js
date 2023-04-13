@@ -342,6 +342,7 @@ function paginating(done_code) {
                     var dataHtml = '';
                     $.each(qdata, function (index, item) {
                         ban = banData.filter(b=>b.ban_id == item.ban_id)[0]
+                        item.ban_name = ban.name
                         let ban_name = ban.name
                         let teacher_name = ban.teacher_engname+'( '+ban.teacher_name+' )'
                         dataHtml += `
@@ -357,6 +358,36 @@ function paginating(done_code) {
                     $('#alim_tr').html(dataHtml);
                 }
             })
+
+            $('#cs_search_input').on('keyup', function() {
+                var searchInput = $(this).val().toLowerCase();
+                var filteredData = qdata.filter(function(data) {
+                    return data.ban_name.toLowerCase().indexOf(searchInput) !== -1;
+                });
+                container.pagination('destroy');
+                container.pagination({
+                    dataSource: filteredData,
+                    prevText: '이전',
+                    nextText: '다음',
+                    pageSize: 10,
+                    callback: function (filteredData, pagination) {
+                        var dataHtml = '';
+                        $.each(filteredData, function (index, item) {
+                            let teacher_name = ban.teacher_engname+'( '+ban.teacher_name+' )'
+                            dataHtml += `
+                            <td class="col-1">일반문의</td>
+                            <td class="col-1">${item.ban_name}</td>
+                            <td class="col-2">${teacher_name}</td>
+                            <td class="col-2">${item.title}</td>
+                            <td class="col-4">${item.contents}</td>
+                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code},'${item.ban_name}','${teacher_name}')">✏️</td>
+                            <td class="col-1" onclick="delete_question(${item.id})">❌</td>
+                            `;
+                        });
+                        $('#alim_tr').html(dataHtml);
+                    }
+                })
+            });
         }else{
             $('#cs_teacher_question').hide()
             $('#pagination').hide()
