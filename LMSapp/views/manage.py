@@ -313,7 +313,7 @@ def get_all_consulting_category():
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute(f"SELECT * FROM consultingcategory WHERE id > 100;")
+                cur.execute(f"SELECT * FROM consultingcategory WHERE id > 100 && id != 110;")
                 consulting_category = cur.fetchall()
 
         except:
