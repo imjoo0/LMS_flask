@@ -114,9 +114,9 @@ function so_paginating(done_code) {
                 nextText: '다음',
                 pageSize: 5,
                 pageClassName: 'float-end',
-                callback: function (qdata, pagination) {
+                callback: function (data, pagination) {
                     var dataHtml = '';
-                    $.each(qdata, function (index, item) {
+                    $.each(data, function (index, item) {
                         ban = banData.filter(b => b.ban_id == item.ban_id)[0]
                         item.ban_name = ban.name
                         item.teacher_name = ban.teacher_engname + '( ' + ban.teacher_name + ' )'
@@ -138,37 +138,16 @@ function so_paginating(done_code) {
             var container = $('#so_pagination');
 
             container.pagination(paginationOptions);
+            container.pagination(Object.assign(paginationOptions, { dataSource: qdata }))
 
-            $('#search-btn').on('click', function() {
-                var keyword = $('#search-input').val();
-                var filteredData = qdata.filter(function(data) {
-                    return data.title.toLowerCase().indexOf(keyword) !== -1;
+            $('#so_search_input').on('keyup', function () {
+                var searchInput = $(this).val().toLowerCase();
+                var filteredData = qdata.filter(function (data) {
+                    return data.ban_name.toLowerCase().indexOf(searchInput) !== -1;
                 });
                 container.pagination('destroy');
-                container.pagination({
-                    dataSource: filteredData,
-                    prevText: '이전',
-                    nextText: '다음',
-                    pageSize: 10,
-                    callback: function (filteredData, pagination) {
-                        var dataHtml = '';
-                        $.each(filteredData, function (index, item) {
-                            let category = q_category(item.category)
-                            dataHtml += `
-                            <td class="col-1">${category}</td>
-                            <td class="col-1">${item.ban_name}</td>
-                            <td class="col-2">${item.teacher_name}</td>
-                            <td class="col-2">${item.title}</td>
-                            <td class="col-4">${item.contents}</td>
-                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</td>
-                            <td class="col-1" onclick="delete_question(${item.id})">❌</td>
-                            `;
-                        });
-                        $('#so_tr').html(dataHtml);
-                    }
-                });
+                container.pagination(Object.assign(paginationOptions, { dataSource: filteredData }));
             });
-            
         } else {
             $('#so_question').hide()
             $('#so_pagination').hide()
