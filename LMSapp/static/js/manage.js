@@ -1155,7 +1155,7 @@ function get_consultingban(key){
     $('consultingreqban_search_input').off('keyup');
     target_bans = consultingGroupedresult.filter(c=>c[key])[0][key].bans
     cinfo =  key.split('_')
-    $('#my_consulting_requestModalLabel').html(cinfo[0]+'|'+cinfo[1]+'상담을 진행중인 반 목록');
+    $('#my_consulting_requestModalLabel').html(cinfo[0]+' | '+cinfo[1]+' 상담을 진행중인 반 목록');
     $('#request_consulting_listbox').hide()
     $('#request_consultingban_listbox').show()
 
