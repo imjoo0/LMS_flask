@@ -1130,8 +1130,8 @@ async function get_request_consulting(){
             var idxHtml = `<option value="none">전체</option>`;
             var dataHtml = '';
             $.each(consultingGroupedresult, function (index, consulting) {
-                let key = Object.keys(consulting)
-                let consulting_info = key[0].split('_')
+                let key = Object.keys(consulting)[0]
+                let consulting_info = key.split('_')
                 category_list.push(consulting_info[0])
                 dataHtml += `
                     <td class="col-1"> ${make_duedate(consulting_info[2],consulting_info[3])}</td>
