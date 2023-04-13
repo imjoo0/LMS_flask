@@ -371,13 +371,16 @@ function paginating(done_code) {
             container.pagination(Object.assign(paginationOptions, {'dataSource': qdata}));
             
             $('#cs_search_input').on('keyup', function() {
-                var searchInput = $(this).val().toLowerCase();
+                var $searchInput = $(this);
+                if (!$searchInput.length) return; // 요소가 없으면 중지
+                var searchInputValue = $searchInput.val().toLowerCase(); // 검색어를 가져옴
                 var filteredData = qdata.filter(function(data) {
-                    return data.ban_name.toLowerCase().indexOf(searchInput) !== -1;
+                    return data.ban_name.toLowerCase().indexOf(searchInputValue) !== -1;
                 });
                 container.pagination('destroy');
                 container.pagination(Object.assign(paginationOptions, {'dataSource': filteredData}));
             });
+            
               
         } else {
             $('#cs_teacher_question').hide()
