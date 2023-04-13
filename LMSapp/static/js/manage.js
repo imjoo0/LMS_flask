@@ -1213,7 +1213,6 @@ async function sort_consulting(value) {
                 let key = Object.keys(consulting)[0]
                 if(key.includes(value)){
                     let consulting_info = key.split('_')
-                    category_list.push(consulting_info[0])
                     dataHtml += `
                     <td class="col-1"> ${make_duedate(consulting_info[2],consulting_info[3])}</td>
                     <td class="col-3">${consulting_info[2]} ~ ${consulting_info[3]}</td>
