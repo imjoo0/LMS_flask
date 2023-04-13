@@ -1078,17 +1078,18 @@ async function get_request_consulting(){
             $('.not_inloading').show()
         });
     }
+    requeConsultings = consultingData.filter(c=>c.category_id > 100)
+    console.log(requeConsultings)
     $('.mo_inloading').hide()
     $('.not_inloading').show()
 
     let container = $('#consulting-pagination')
 
     var category_list = []
-    $.each([...JSON.parse(consultingData)], function (idx, val) {
+    $.each(...consultingData), function (idx, val) {
         category_list.push(val.category)
-    });
+    };
 
-    requeConsultings = consultingData.filter(c=>c.category_id > 100)
     container.pagination({
         dataSource: requeConsultings,
         prevText: '이전',
