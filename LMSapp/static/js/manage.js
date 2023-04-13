@@ -532,9 +532,8 @@ async function uldata() {
         nextText: '다음',
         pageSize: 10,
         callback: function (studentsData, pagination) {
-            var searchData = studentsData;
             var dataHtml = '';
-            $.each(searchData, function (index, student) {
+            $.each(studentsData, function (index, student) {
                 consultings = consultingData.filter(c => c.category_id < 100 && c.student_id == student.student_id)
                 unlearned_ixl = make_nodata(consultings.filter(a => a.category_id == 1).length)
                 unlearned_reading = make_nodata(consultings.filter(a => a.category_id == 4).length)
@@ -562,11 +561,43 @@ async function uldata() {
     })
     $('#search-input').on('keyup', function() {
         var searchInput = $(this).val().toLowerCase();
-        container.pagination('filter', function(studentsData) {
-          return studentsData.filter(function(student) {
+        var filteredData = studentsData.filter(function(student) {
             return student.student_name.toLowerCase().indexOf(searchInput) !== -1 || student.origin.toLowerCase().indexOf(searchInput) !== -1;
-          });
         });
+        container.pagination('destroy');
+        container.pagination({
+            dataSource: filteredData,
+            prevText: '이전',
+            nextText: '다음',
+            pageSize: 10,
+            callback: function (filteredData, pagination) {
+                var dataHtml = '';
+                $.each(filteredData, function (index, student) {
+                    consultings = consultingData.filter(c => c.category_id < 100 && c.student_id == student.student_id)
+                    unlearned_ixl = make_nodata(consultings.filter(a => a.category_id == 1).length)
+                    unlearned_reading = make_nodata(consultings.filter(a => a.category_id == 4).length)
+                    unlearned_speacial = make_nodata(consultings.filter(a => a.category_id == 3).length)
+                    unlearned_writing = make_nodata(consultings.filter(a => a.category_id == 6).length)
+                    unlearned_homepage = make_nodata(consultings.filter(a => a.category_id == 2).length)
+                    unlearned_intoreading = make_nodata(consultings.filter(a => a.category_id == 5 || a.category_id == 7).length)
+                    
+                    dataHtml += `
+                    <td class="col-1">${student.ban_name}</td>
+                    <td class="col-1">${student.origin}</td>
+                    <td class="col-1">${student.student_name}</br>( ${student.student_engname} )</td>
+                    <td class="col-1">${student.pname}</br>( ${student.pmobileno} )</td>
+                    <td class="col-1">${unlearned_ixl}</td>
+                    <td class="col-1">${unlearned_reading}</td>
+                    <td class="col-1">${unlearned_speacial}</td>
+                    <td class="col-1">${unlearned_intoreading}</td>
+                    <td class="col-1">${unlearned_writing}</td>
+                    <td class="col-1">${unlearned_homepage}</td>
+                    <td class="col-1">${student.unlearned}건 (${student.up}%) </td>
+                    <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${student.student_id})">📝</td>`;
+                });
+                $('#static_data2').html(dataHtml);
+            }
+        })
     });
       
 }
