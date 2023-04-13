@@ -1171,7 +1171,7 @@ function get_consultingban(key){
                     <td class="col-5">${baninfo.name}</td>
                     <td class="col-5">${baninfo.teacher_name}( ${baninfo.teacher_engname} )</td>
                     <td class="col-1">${make_reject_code(ban.done)}</td>
-                    <td class="col-1"><button class="modal-tbody-btn" onclick="delete_consulting(${consulting.id})">❌</button></td>`;
+                    <td class="col-1"><button class="modal-tbody-btn" onclick="delete_consulting(${ban.id})">❌</button></td>`;
             });
             $('#consultingbandone').html(dataHtml);
         }
