@@ -120,6 +120,7 @@ async function get_all_students() {
         alert('Error occurred while retrieving data.');
     }
 }
+  
 async function get_all_consulting() {
     try {
         const response = await $.ajax({
@@ -132,6 +133,7 @@ async function get_all_consulting() {
         alert('Error occurred while retrieving data.');
     }
 }
+
 async function get_all_task() {
     try {
         const response = await $.ajax({
@@ -434,9 +436,7 @@ async function get_total_data() {
                     }
                 }
             });
-            console.log('1')
             semesterShow(3);
-            console.log('2')
             $('#inloading').hide();
             $('#semester_pagination').show();
             $('#target_ban_info_body').show();
@@ -446,7 +446,7 @@ async function get_total_data() {
     }
 }
 function semesterShow(semester) {
-    $('#ban_search_input').off('keyup');
+    SemesterContainer = $('#semester_pagination')
     $('#semester').show();
     if(semester == 0){
         $('#semester_s').html('9월 학기');
@@ -461,42 +461,35 @@ function semesterShow(semester) {
         $('#semester_s').html('전체 반')
         data = banData;
     }
-    var paginationOptions = {
+    SemesterContainer.pagination({
+        dataSource: data,
         prevText: '이전',
         nextText: '다음',
-        pageSize: 5,
         pageClassName: 'float-end',
+        pageSize: 10,
         callback: function (data, pagination) {
-            var dataHtml = '';
+            let temp_semester_banlist = ''
             $.each(data, function (index, item) {
+                let name = item.name
+                let student_num = item.student_num
                 let teacher_name = item.teacher_engname + '( ' + item.teacher_name +' )'
+                let teacher_id = item.teacher_id
+                // 원생 목록 
+                // let out_num = item[key].filter(s => s.out_created != null || s.switch_ban_id != null).length;
                 let total_out_count = item.out_num + item.switch_minus_num
                 temp_semester_banlist += `
-                <td class="col-2">${item.name}</td>
+                <td class="col-2">${name}</td>
                 <td class="col-2">${teacher_name}</td>
-                <td class="col-1">${item.student_num}</td>
-                <td class="col-1">${item.student_num + total_out_count - item.switch_plus_num}</td>
+                <td class="col-1">${student_num}</td>
+                <td class="col-1">${student_num + total_out_count - item.switch_plus_num}</td>
                 <td class="col-2">${item.switch_plus_num}</td>
                 <td class="col-2"> 총: ${total_out_count}명 ( 퇴소 : ${item.out_num} / 이반 : ${item.switch_minus_num} )</td>
                 <td class="col-1"><strong> ${item.out_num_per} %</strong></td>
-                <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${item.teacher_id})"><span class="cursor-pointer">👉</span></td>;`;
+                <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${teacher_id})"><span class="cursor-pointer">👉</span></td>;`;
             });
             $('#semester_banlist').html(temp_semester_banlist)
         }
-    };
-    
-    var SemesterContainer = $('#semester_pagination')
-    SemesterContainer.pagination(Object.assign(paginationOptions, { 'dataSource': data }))
-
-    $('#ban_search_input').on('keyup', function () {
-        var searchInput = $(this).val().toLowerCase();
-        var filteredData = data.filter(function (d) {
-            return d.hasOwnProperty('name') && d.name.toLowerCase().indexOf(searchInput) !== -1;
-        });
-        SemesterContainer.pagination('destroy');
-        SemesterContainer.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
-    });
-
+    })
 }
 
 function getTeacherInfo(t_id){
@@ -530,6 +523,8 @@ function getTeacherInfo(t_id){
 
     }
     let total_student_num = 0
+    let total_switch_count = 0
+    let total_out_count = 0
     let my_consulting = consultingData.filter(a => a.teacher_id == t_id && a.startdate <= today)
     let u_consulting_my = my_consulting.filter(a => a.category_id < 100);
     info.forEach(ban_data => {
