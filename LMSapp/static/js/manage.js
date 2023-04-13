@@ -1074,43 +1074,53 @@ async function get_request_consulting(){
     $('.not_inloading').hide()
     if (!consultingData){
         await get_all_consulting().then(() => {
+            requeConsultings = consultingData.filter(c=>c.category_id > 100)
+            const consultingGrouped = requeConsultings.reduce((acc, item) => {
+                const v = `${item.category_id}_${item.contents}_${item.startdate}_${item.deadline}`;
+            
+                if (!acc[v]){
+                acc[v] = { bans: []};
+                }
+            
+                acc[v].bans.push(item);
+            
+                return acc;
+            }, {});
+            // 결과를 객체의 배열로 변환 -> 상담 별 배열 
+            consultingGroupedresult = Object.entries(consultingGrouped).map(([v, items]) => {
+                return { [v]: items };
+            });
             $('.mo_inloading').hide()
             $('.not_inloading').show()
         });
+    }else{
+        requeConsultings = consultingData.filter(c=>c.category_id > 100)
+        const consultingGrouped = requeConsultings.reduce((acc, item) => {
+            const v = `${item.category_id}_${item.contents}_${item.startdate}_${item.deadline}`;
+          
+            if (!acc[v]){
+              acc[v] = { bans: []};
+            }
+          
+            acc[v].bans.push(item);
+          
+            return acc;
+        }, {});
+        // 결과를 객체의 배열로 변환 -> 상담 별 배열 
+        consultingGroupedresult = Object.entries(consultingGrouped).map(([v, items]) => {
+            return { [v]: items };
+        });
+        $('.mo_inloading').hide()
+        $('.not_inloading').show()
     }
-    requeConsultings = consultingData.filter(c=>c.category_id > 100)
-    const consultingGrouped = requeConsultings.reduce((acc, item) => {
-        const v = `${item.category_id}_${item.contents}_${item.startdate}_${item.deadline}`;
-      
-        if (!acc[v]){
-          acc[v] = { bans: []};
-        }
-      
-        acc[v].bans.push(item);
-      
-        return acc;
-    }, {});
-    console.log(consultingGrouped)
-    // 결과를 객체의 배열로 변환 -> 상담 별 배열 
-    const consultingGroupedresult = Object.entries(consultingGrouped).map(([v, items]) => {
-        return { [v]: items };
-    });
-
-    // allData = Object.values(consultingGrouped).sort((a, b) => {
-    //     if(b.total_out_per !== a.total_out_per){
-    //         return b.total_out_per - a.total_out_per; // total_out_per가 큰 순으로 정렬
-    //     } else {
-    //         return b.students.length - a.students.length; // students.length가 큰 순으로 정렬
-    //     }
-    // });
-
-    // 
     console.log(consultingGroupedresult)
-    $('.mo_inloading').hide()
-    $('.not_inloading').show()
-
     let container = $('#consulting-pagination')
 
+    console.log(Object.keys(consultingGroupedresult))
+    consultingGroupedresult.forEach(consulting_data => {
+        let consultings = Object.keys(consulting_data)
+        console.log(consultings)
+    });
     var category_list = []
     $.each(...consultingData), function (idx, val) {
         category_list.push(val.category)
