@@ -109,7 +109,6 @@ function so_paginating(done_code) {
             $('#no_data_msg').hide()
             $('#so_question').show()
             $('#so_pagination').show()
-            container.pagination('destroy');
             container.pagination({
                 dataSource: qdata,
                 prevText: '이전',
@@ -362,7 +361,6 @@ function paginating(done_code) {
             $('#csno_data_msg').hide()
             $('#cs_teacher_question').show()
             $('#pagination').show()
-            container.pagination('destroy');
             container.pagination({
                 dataSource: qdata,
                 prevText: '이전',
@@ -586,7 +584,6 @@ async function uldata() {
     $('#ultitle').empty();
     $('#ul_data_box').show()
     $('#ul_pagination').show()
-    container.pagination('destroy');
     container.pagination({
         dataSource: studentsData,
         prevText: '이전',
