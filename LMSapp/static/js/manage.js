@@ -92,6 +92,7 @@ async function sodata() {
 }
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
+    $('#so_search_input').off('keyup');
     soqData = questionData.filter(q => q.category != 0)
     total_soquestion_num = soqData.length
     sodata_noanswer = total_soquestion_num != 0 ? soqData.filter(a => a.answer == 0).length : 0
@@ -326,6 +327,7 @@ async function csdata() {
     paginating(0)
 }
 function paginating(done_code) {
+    $('#cs_search_input').off('keyup');
     csqData = questionData.filter(q => q.category == 0)
     total_question_num = csqData.length
     csdata_noanswer = total_question_num != 0 ? csqData.filter(a => a.answer == 0).length : 0
@@ -371,16 +373,13 @@ function paginating(done_code) {
             container.pagination(Object.assign(paginationOptions, {'dataSource': qdata}));
             
             $('#cs_search_input').on('keyup', function() {
-                var $searchInput = $(this);
-                if (!$searchInput.length) return; // 요소가 없으면 중지
-                var searchInputValue = $searchInput.val().toLowerCase(); // 검색어를 가져옴
+                var searchInput = $(this).val().toLowerCase();
                 var filteredData = qdata.filter(function(data) {
-                    return data.ban_name.toLowerCase().indexOf(searchInputValue) !== -1;
+                    return data.ban_name.toLowerCase().indexOf(searchInput) !== -1;
                 });
                 container.pagination('destroy');
                 container.pagination(Object.assign(paginationOptions, {'dataSource': filteredData}));
             });
-            
               
         } else {
             $('#cs_teacher_question').hide()
