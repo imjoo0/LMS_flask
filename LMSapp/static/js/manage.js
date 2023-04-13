@@ -119,7 +119,7 @@ function so_paginating(done_code) {
                     var dataHtml = '';
                     $.each(qdata, function (index, item) {
                         ban = banData.filter(b=>b.ban_id == item.ban_id)[0]
-                        let ban_name = ban.name
+                        item.ban_name = ban.name
                         let teacher_name = ban.teacher_engname+'( '+ban.teacher_name+' )'
                         let category = q_category(item.category)
                         dataHtml += `
@@ -128,13 +128,42 @@ function so_paginating(done_code) {
                         <td class="col-2">${teacher_name}</td>
                         <td class="col-2">${item.title}</td>
                         <td class="col-4">${item.contents}</td>
-                        <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code},'${ban_name}','${teacher_name}')">✏️</td>
+                        <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code},'${item.ban_name}','${teacher_name}')">✏️</td>
                         <td class="col-1" onclick="delete_question(${item.id})">❌</td>
                         `;
                     });
                     $('#so_tr').html(dataHtml);
                 }
             })
+            $('#so_search_input').on('keyup', function() {
+                var searchInput = $(this).val().toLowerCase();
+                var filteredData = qdata.filter(function(data) {
+                    return data.ban_name.toLowerCase().indexOf(searchInput) !== -1 || q_category(data.category).toLowerCase().indexOf(searchInput) !== -1;
+                });
+                container.pagination('destroy');
+                container.pagination({
+                    dataSource: filteredData,
+                    prevText: '이전',
+                    nextText: '다음',
+                    pageSize: 10,
+                    callback: function (filteredData, pagination) {
+                        var dataHtml = '';
+                        $.each(filteredData, function (index, item) {
+                            let teacher_name = ban.teacher_engname+'( '+ban.teacher_name+' )'
+                            dataHtml += `
+                            <td class="col-1">${category}</td>
+                            <td class="col-1">${item.ban_name}</td>
+                            <td class="col-2">${teacher_name}</td>
+                            <td class="col-2">${item.title}</td>
+                            <td class="col-4">${item.contents}</td>
+                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code},'${item.ban_name}','${teacher_name}')">✏️</td>
+                            <td class="col-1" onclick="delete_question(${item.id})">❌</td>
+                            `;
+                        });
+                        $('#alim_tr').html(dataHtml);
+                    }
+                })
+            });
         }else{
             $('#so_question').hide()
             $('#so_pagination').hide()
@@ -343,7 +372,6 @@ function paginating(done_code) {
                     $.each(qdata, function (index, item) {
                         ban = banData.filter(b=>b.ban_id == item.ban_id)[0]
                         item.ban_name = ban.name
-                        let ban_name = ban.name
                         let teacher_name = ban.teacher_engname+'( '+ban.teacher_name+' )'
                         dataHtml += `
                         <td class="col-1">일반문의</td>
@@ -351,7 +379,7 @@ function paginating(done_code) {
                         <td class="col-2">${teacher_name}</td>
                         <td class="col-2">${item.title}</td>
                         <td class="col-4">${item.contents}</td>
-                        <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code},'${ban_name}','${teacher_name}')">✏️</td>
+                        <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code},'${item.ban_name}','${teacher_name}')">✏️</td>
                         <td class="col-1" onclick="delete_question(${item.id})">❌</td>
                         `;
                     });
@@ -515,7 +543,7 @@ async function uldata() {
     let container = $('#ul_pagination')
     $('.cs_inloading').show()
     $('.not_inloading').hide()
-    if (!studentsData || !consultingData){
+    if (!studentsData && !consultingData){
         await get_all_students()
         await get_all_consulting().then( ()=>{
             $('.cs_inloading').hide()
