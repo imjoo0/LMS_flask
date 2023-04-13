@@ -1154,8 +1154,8 @@ async function get_request_consulting(){
 function get_consultingban(key){
     $('#request_consulting_listbox').hide()
     $('#request_consultingban_listbox').show()
-    console.log(consultingGroupedresult[key])
-
+    he = consultingGroupedresult.filter(c=>c[key])
+    console.log(he)
 }
 
 function go_back() {
