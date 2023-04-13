@@ -305,21 +305,23 @@ def uldata():
         
 #         return json.dumps(all_questions)
 
-@bp.route('/api/get_consulting', methods=['GET'])
-def get_consulting():
+@bp.route("/consulting_category", methods=['GET'])
+def get_all_consulting_category():
     if request.method == 'GET':
-        all_consulting = []
+        consulting_category = []
+        
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute("select consulting.id, consulting.ban_id, consulting.category_id, consulting.student_id, consulting.contents, consulting.week_code, consulting.done, consulting.category_id, date_format(consulting.startdate, '%Y-%m-%d') as startdate, date_format(consulting.deadline, '%Y-%m-%d') as deadline, consultingcategory.name from consulting left join consultingcategory on consultingcategory.id = consulting.category_id;")
-                all_consulting = cur.fetchall()
-        except Exception as e:
-            print(e)
-        finally:
-            db.close()
+                cur.execute(f"SELECT * FROM consultingcategory;")
+                consulting_category = cur.fetchall()
 
-        return json.dumps(all_consulting)
+        except:
+                print('err')
+        finally:
+                db.close()        
+        return jsonify({'consulting_category':consulting_category})
+ 
 
 @bp.route('/get_consulting_history/<int:student_id>', methods=['GET'])
 def get_consulting_history(student_id):

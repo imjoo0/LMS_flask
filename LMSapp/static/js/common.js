@@ -1,5 +1,5 @@
 // 전역변수로 api에서 불러온 정보를 저장 
-let switchstudentData,outstudentData,banData,studentsData, consultingData, taskData,questionData,answerData,attachData; ; 
+let switchstudentData,outstudentData,banData,studentsData, consultingData,consultingcateData, taskData,questionData,answerData,attachData; ; 
 
 var totalData = 0; //총 데이터 수
 var dataPerPage = 6;
@@ -132,6 +132,7 @@ async function get_all_consulting() {
         alert('Error occurred while retrieving data.');
     }
 }
+
 async function get_all_task() {
     try {
         const response = await $.ajax({

@@ -24,6 +24,18 @@ async function get_all_question() {
         alert('Error occurred while retrieving data.');
     }
 }
+async function get_all_consultingcate() {
+    try {
+        const response = await $.ajax({
+            url: '/manage/consulting_category',
+            type: 'GET',
+            data: {},
+        });
+        consultingcateData = response['consulting_category']
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
+}
 function main_view() {
     if (!banData) {
         get_total_data()
@@ -271,10 +283,9 @@ async function get_soquestion_detail(q_id, done_code) {
             $('#manage_answer_3').show()
         } else {
             let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
-            allData.forEach(ban_data => {
-                let name = ban_data['students'][0].name
-                let value = `${ban_data['students'][0].ban_id}_${ban_data['students'][0].teacher_id}_${name}`;
-                let selectmsg = `<option value="${value}">${name} (${make_semester(ban_data['students'][0].semester)}월 학기)</option>`;
+            banData.forEach(ban_data => {
+                let value = `${ban_data.id}_${ban_data.teacher_id}_${ban_data.name}`;
+                let selectmsg = `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
                 temp_o_ban_id += selectmsg
             });
             $('#o_ban_id2').html(temp_o_ban_id)
@@ -627,7 +638,6 @@ async function uldata() {
 }
 
 // 상담 기록 조회 
-// 상담일지 작성 
 function get_consulting_history(s_id) {
     student_info = studentsData.filter(s => s.student_id == s_id)[0]
     consultings = consultingData.filter(c => c.student_id == s_id)
@@ -802,35 +812,37 @@ function delete_selected_ban(idx) {
 }
 
 // 상담 요청 관련 함수 
-async function request_consulting() {
+async function request_consulting(){
+    $('.mo_inloading').show()
+    $('.monot_inloading').hide()
+    if (!consultingcateData) {
+        await get_all_consultingcate().then(() => {
+            $('.mo_inloading').hide()
+            $('.monot_inloading').show()
+        });
+    }
+    $('.mo_inloading').hide()
+    $('.monot_inloading').show()
+
     $('#result_tbox').empty()
     $('#select_student').hide()
     $("#consulting_date").datepicker({ dateFormat: 'yy-mm-dd' });
     $("#consulting_deadline").datepicker({ dateFormat: 'yy-mm-dd' });
+    
+    let temp_consulting_category_list = '<option value=0 selected>상담카테고리를 선택해주세요</option>';
+    consultingcateData.forEach(cate_data => {
+        temp_consulting_category_list += `<option value="${cate_data.id}">${cate_data.name}</option>`;
+    });
+    $('#consulting_category_list').html(temp_consulting_category_list)
+
     let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
-    allData.forEach(ban_data => {
-        let name = ban_data['students'][0].name
-        let value = `${ban_data['students'][0].ban_id}_${ban_data['students'][0].teacher_id}_${name}`;
-        let selectmsg = `<option value="${value}">${name} (${make_semester(ban_data['students'][0].semester)}월 학기)</option>`;
+    banData.forEach(ban_data => {
+        let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}`;
+        let selectmsg = `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
         temp_ban_option += selectmsg
     });
     $('#consulting_target_ban').html(temp_ban_option)
-    await $.ajax({
-        url: '/manage/request_consulting',
-        type: 'GET',
-        data: {},
-        success: function (response) {
-            let temp_consulting_category_list = '<option value=0 selected>상담카테고리를 선택해주세요</option>';
-            for (i = 0; i < response['all_consulting_category'].length; i++) {
-                let id = response['all_consulting_category'][i]['id']
-                let name = response['all_consulting_category'][i]['name']
-                temp_consulting_category_list += `
-                <option value=${id}>${name}</option>
-                `;
-                $('#consulting_category_list').html(temp_consulting_category_list)
-            }
-        }
-    })
+    
 }
 async function ban_change(btid) {
     // 다중 반 처리

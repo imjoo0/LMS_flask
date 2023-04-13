@@ -80,7 +80,7 @@ def get_all_consulting():
         finally:
                 db.close()        
         return jsonify({'consulting':consulting})
-    
+       
 @bp.route("/task", methods=['GET'])
 def get_all_task():
     if request.method == 'GET':
