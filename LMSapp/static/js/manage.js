@@ -141,7 +141,7 @@ function so_paginating(done_code) {
                     return data.ban_name.toLowerCase().indexOf(searchInput) !== -1;
                 });
                 container.pagination('destroy');
-                container.pagination({
+                $('#so_pagination').pagination({
                     dataSource: filteredData,
                     prevText: '이전',
                     nextText: '다음',
@@ -393,7 +393,7 @@ function paginating(done_code) {
                     return data.ban_name.toLowerCase().indexOf(searchInput) !== -1;
                 });
                 container.pagination('destroy');
-                container.pagination({
+                $('#pagination').pagination({
                     dataSource: filteredData,
                     prevText: '이전',
                     nextText: '다음',
