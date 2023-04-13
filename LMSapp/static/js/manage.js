@@ -1154,7 +1154,14 @@ async function get_request_consulting(){
 function get_consultingban(key){
     $('#request_consulting_listbox').hide()
     $('#request_consultingban_listbox').show()
-}   
+    console.log(consultingGroupedresult[key])
+
+}
+
+function go_back() {
+    $('#request_consultingban_listbox').hide();
+    $('#request_consulting_listbox').show();
+}  
 async function sort_consulting(value) {
     var dataHtml = '';
     let container = $('#consulting-pagination')
@@ -1188,11 +1195,6 @@ async function sort_consulting(value) {
 }
 
 // 과거 코드
-function go_back() {
-    $('#for_taskban_list').hide();
-    $('#for_task_list').show();
-}
-
 async function update_consulting(idx) {
     await $.ajax({
         url: '/manage/api/update_consulting',

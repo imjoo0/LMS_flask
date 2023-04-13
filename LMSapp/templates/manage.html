@@ -275,7 +275,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-start align-items-start flex-column" style="overflow: auto;">
+                    <div class="d-flex justify-content-start align-items-start flex-column">
                         <div class="mo_inloading" class="loader loader--style2 text-center" title="1">
                             <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
                                 <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
@@ -307,7 +307,25 @@
                     </div>
                 </div>
                 <div id="request_consultingban_listbox">
-                    
+                    <button type="button" class="btn btn-back" onclick="go_back()">요청 상담 목록으로 돌아가기🔙 </button>
+                    <table class="table text-center not_inloading" id="consulting_ban_list">
+                        <thead>
+                            <tr class="row">
+                                <th class="col-1">반 이름</th>
+                                <th class="col-3">담임 T</th>
+                                <th class="col-2">진행</th>
+                                <th class="col-5">수정</th>
+                                <th class="col-1">삭제</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="row" id="consultingbandone">
+                                <td>
+                                    
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
