@@ -1096,7 +1096,7 @@ async function get_request_consulting(){
     }else{
         requeConsultings = consultingData.filter(c=>c.category_id > 100)
         const consultingGrouped = requeConsultings.reduce((acc, item) => {
-            const v = `${item.category_id}_${item.contents}_${item.startdate}_${item.deadline}`;
+            const v = `${item.category}_${item.contents}_${item.startdate}_${item.deadline}_${item.id}`;
           
             if (!acc[v]){
               acc[v] = { bans: []};
@@ -1116,34 +1116,27 @@ async function get_request_consulting(){
     console.log(consultingGroupedresult)
     let container = $('#consulting-pagination')
 
-    console.log(Object.keys(consultingGroupedresult))
-    consultingGroupedresult.forEach(consulting_data => {
-        let consultings = Object.keys(consulting_data)
-        console.log(consultings)
-    });
     var category_list = []
-    $.each(...consultingData), function (idx, val) {
-        category_list.push(val.category)
-    };
-
-    container.pagination({
-        dataSource: requeConsultings,
+        container.pagination({
+        dataSource: consultingGroupedresult,
         prevText: '이전',
         nextText: '다음',
         pageSize: 10,
-        callback: function (requeConsultings, pagination) {
+        callback: function (consultingGroupedresult, pagination) {
             var idxHtml = `<option value="none">전체</option>`;
             var dataHtml = '';
-            $.each(requeConsultings, function (index, consulting) {
-            dataHtml += `
-                <td class="col-3">${consulting.startdate} ~ ${consulting.deadline}</td>
-                <td class="col-2">${consulting.category}</td>
-                <td class="col-1"> ${make_duedate(consulting.startdate,consulting.deadline)}</td>
-                <td class="col-4"> ${consulting.contents}</td>
-                <td class="col-2">
-                    <button class="modal-tbody-btn" onclick="update_consulting(${consulting.id})">✏️</button> 
-                    <button class="modal-tbody-btn" onclick="delete_consulting(${consulting.id})">❌</button>
-                </td>`;
+            $.each(consultingGroupedresult, function (index, consulting) {
+                let consulting = Object.keys(consulting_data)[0].split('_')
+                category_list.push(consulting[0])
+                dataHtml += `
+                    <td class="col-3">${consulting[2]} ~ ${consulting[3]}</td>
+                    <td class="col-2">${consulting[0]}</td>
+                    <td class="col-1"> ${make_duedate(consulting[2],consulting[3])}</td>
+                    <td class="col-4"> ${consulting[1]}</td>
+                    <td class="col-2">
+                        <button class="modal-tbody-btn" onclick="update_consulting(${Number(consulting[4])})">✏️</button> 
+                        <button class="modal-tbody-btn" onclick="delete_consulting(${Number(consulting[4])})">❌</button>
+                    </td>`;
             });
             category_set = new Set(category_list)
             category_list = [...category_set]
