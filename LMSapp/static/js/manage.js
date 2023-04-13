@@ -1211,7 +1211,7 @@ async function sort_consulting(value) {
             var dataHtml = '';
             $.each(consultingGroupedresult, function (index, consulting) {
                 let key = Object.keys(consulting)[0]
-                if(key.includes(value)){
+                if(key.includes(value) || value =="none"){
                     let consulting_info = key.split('_')
                     dataHtml += `
                     <td class="col-1"> ${make_duedate(consulting_info[2],consulting_info[3])}</td>
