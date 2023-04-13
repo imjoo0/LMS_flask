@@ -193,3 +193,9 @@
     word-break : break-all;
     text-align: center;
 }
+
+@media (min-width: 820px) {
+  #ul_data_box {
+    min-width: 1362px;
+  }
+}
