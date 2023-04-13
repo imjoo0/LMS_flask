@@ -82,14 +82,16 @@ function make_nodata(d){
     }
 }
 function make_duedate(s,d){
-    if(today < s){
+    sdate=new date(s).setHours(0, 0, 0, 0)
+    ddate=new date(d).setHours(0, 0, 0, 0)
+    if(today < sdate){
         return '진행 예정'
-    }else if(s <= today && today <= d){
+    }else if(sdate <= today && today <= ddate){
         return '진행 중'
-    }else if(d < today){
+    }else if(ddate < today){
         return '마감'
     }else {
-        return d
+        return '오류'
     }
 }
 

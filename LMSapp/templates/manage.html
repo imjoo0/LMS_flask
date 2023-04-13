@@ -265,44 +265,49 @@
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <div class="my-4 d-flex flex-wrap justify-content-end align-items-center">
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 상담 카테고리 선택</span></div>
-                    <div class="col-md-4 col-sm-6 col-12">
-                        <select id="category-select" onchange="sort_consulting(this.value)" class="form-select form-select-sm w-100" aria-label="Default select example">
-                            <optgroup id="consulting-option">
-                            </optgroup>
-                        </select>
+                <div id="request_consulting_listbox">
+                    <div class="my-4 d-flex flex-wrap justify-content-end align-items-center">
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 상담 카테고리 선택</span></div>
+                        <div class="col-md-4 col-sm-6 col-12">
+                            <select id="category-select" onchange="sort_consulting(this.value)" class="form-select form-select-sm w-100" aria-label="Default select example">
+                                <optgroup id="consulting-option">
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-start align-items-start flex-column" style="overflow: auto;">
+                        <div class="mo_inloading" class="loader loader--style2 text-center" title="1">
+                            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                                <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                                    <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
+                                </path>
+                            </svg>
+                        </div>
+                        <table class="table text-center not_inloading" id="consulting_task_list">
+                            <thead>
+                                <tr class="row">
+                                    <th class="col-1">진행</th>
+                                    <th class="col-3">시작일-마감일</th>
+                                    <th class="col-2">종류</th>
+                                    <th class="col-5">내용</th>
+                                    <th class="col-1">상세보기</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="row" id="tr-row">
+                                    <td>
+                                        
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center w-100">
+                        <div id="consulting-pagination" class="mt-4 mb-5 text-center"></div>
                     </div>
                 </div>
-                <div class="d-flex justify-content-start align-items-start flex-column" style="overflow: auto;">
-                    <div class="mo_inloading" class="loader loader--style2 text-center" title="1">
-                        <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
-                            <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
-                                <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
-                            </path>
-                        </svg>
-                    </div>
-                    <table class="table text-center not_inloading" id="consulting_task_list">
-                        <thead>
-                            <tr class="row">
-                                <th class="col-3">날짜</th>
-                                <th class="col-2">종류</th>
-                                <th class="col-1">진행</th>
-                                <th class="col-4">내용</th>
-                                <th class="col-2">수정/삭제</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="row" id="tr-row">
-                                <td>
-                                    
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="d-flex justify-content-center align-items-center w-100">
-                    <div id="consulting-pagination" class="mt-4 mb-5 text-center"></div>
+                <div id="request_consultingban_listbox">
+                    
                 </div>
             </div>
         </div>

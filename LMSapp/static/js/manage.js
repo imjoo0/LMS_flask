@@ -1092,11 +1092,13 @@ async function get_request_consulting(){
             });
             $('.mo_inloading').hide()
             $('.not_inloading').show()
+            $('#request_consulting_listbox').show()
+            $('#request_consultingban_listbox').hide()
         });
     }else{
         requeConsultings = consultingData.filter(c=>c.category_id > 100)
         const consultingGrouped = requeConsultings.reduce((acc, item) => {
-            const v = `${item.category}_${item.contents}_${item.startdate}_${item.deadline}_${item.id}`;
+            const v = `${item.category}_${item.contents}_${item.startdate}_${item.deadline}`;
           
             if (!acc[v]){
               acc[v] = { bans: []};
@@ -1112,6 +1114,8 @@ async function get_request_consulting(){
         });
         $('.mo_inloading').hide()
         $('.not_inloading').show()
+        $('#request_consulting_listbox').show()
+        $('#request_consultingban_listbox').hide()
     }
     console.log(consultingGroupedresult)
     let container = $('#consulting-pagination')
@@ -1126,17 +1130,15 @@ async function get_request_consulting(){
             var idxHtml = `<option value="none">전체</option>`;
             var dataHtml = '';
             $.each(consultingGroupedresult, function (index, consulting) {
-                let consulting_info = Object.keys(consulting)[0].split('_')
+                let key = Object.keys(consulting)
+                let consulting_info = key[0].split('_')
                 category_list.push(consulting_info[0])
                 dataHtml += `
+                    <td class="col-1"> ${make_duedate(consulting_info[2],consulting_info[3])}</td>
                     <td class="col-3">${consulting_info[2]} ~ ${consulting_info[3]}</td>
                     <td class="col-2">${consulting_info[0]}</td>
-                    <td class="col-1"> ${make_duedate(consulting_info[2],consulting_info[3])}</td>
-                    <td class="col-4"> ${consulting_info[1]}</td>
-                    <td class="col-2">
-                        <button class="modal-tbody-btn" onclick="update_consulting(${Number(consulting_info[4])})">✏️</button> 
-                        <button class="modal-tbody-btn" onclick="delete_consulting(${Number(consulting_info[4])})">❌</button>
-                    </td>`;
+                    <td class="col-5"> ${consulting_info[1]}</td>
+                    <td class="col-1" onclick ="get_consultingban(${key})"> 📝 </td>`;
             });
             category_set = new Set(category_list)
             category_list = [...category_set]
@@ -1149,6 +1151,10 @@ async function get_request_consulting(){
     })
 }
 
+function get_consultingban(key){
+    $('#request_consulting_listbox').hide()
+    $('#request_consultingban_listbox').show()
+}   
 async function sort_consulting(value) {
     var dataHtml = '';
     let container = $('#consulting-pagination')
