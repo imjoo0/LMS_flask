@@ -1202,8 +1202,6 @@ function go_back() {
 }  
 async function sort_consulting(value) {
     let container = $('#consulting-pagination')
-    console.log(Object.keys(consultingGroupedresult))
-
     container.pagination({
         dataSource: consultingGroupedresult,
         prevText: '이전',
@@ -1212,22 +1210,18 @@ async function sort_consulting(value) {
         callback: function (consultingGroupedresult, pagination) {
             var dataHtml = '';
             $.each(consultingGroupedresult, function (index, consulting) {
-                let key = Object.keys(consulting)
-                let consulting_info = key.split('_')
-                category_list.push(consulting_info[0])
-                dataHtml += `
+                let key = Object.keys(consulting)[0]
+                if(key.includes(value)){
+                    let consulting_info = key.split('_')
+                    category_list.push(consulting_info[0])
+                    dataHtml += `
                     <td class="col-1"> ${make_duedate(consulting_info[2],consulting_info[3])}</td>
                     <td class="col-3">${consulting_info[2]} ~ ${consulting_info[3]}</td>
                     <td class="col-2">${consulting_info[0]}</td>
                     <td class="col-5"> ${consulting_info[1]}</td>
                     <td class="col-1" onclick ="get_consultingban('${key}')"> ✏️ </td>`;
+                }
             });
-            category_set = new Set(category_list)
-            category_list = [...category_set]
-            $.each(category_list, function (idx, val) {
-                idxHtml += `<option value="${val}">${val}</option>`
-            })
-            $('#consulting-option').html(idxHtml);
             $('#tr-row').html(dataHtml);
         }
     })
