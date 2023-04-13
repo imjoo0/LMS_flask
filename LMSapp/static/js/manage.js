@@ -1126,16 +1126,16 @@ async function get_request_consulting(){
             var idxHtml = `<option value="none">전체</option>`;
             var dataHtml = '';
             $.each(consultingGroupedresult, function (index, consulting) {
-                let consulting = Object.keys(consulting_data)[0].split('_')
-                category_list.push(consulting[0])
+                let consulting_info = Object.keys(consulting)[0].split('_')
+                category_list.push(consulting_info[0])
                 dataHtml += `
-                    <td class="col-3">${consulting[2]} ~ ${consulting[3]}</td>
-                    <td class="col-2">${consulting[0]}</td>
-                    <td class="col-1"> ${make_duedate(consulting[2],consulting[3])}</td>
-                    <td class="col-4"> ${consulting[1]}</td>
+                    <td class="col-3">${consulting_info[2]} ~ ${consulting_info[3]}</td>
+                    <td class="col-2">${consulting_info[0]}</td>
+                    <td class="col-1"> ${make_duedate(consulting_info[2],consulting_info[3])}</td>
+                    <td class="col-4"> ${consulting_info[1]}</td>
                     <td class="col-2">
-                        <button class="modal-tbody-btn" onclick="update_consulting(${Number(consulting[4])})">✏️</button> 
-                        <button class="modal-tbody-btn" onclick="delete_consulting(${Number(consulting[4])})">❌</button>
+                        <button class="modal-tbody-btn" onclick="update_consulting(${Number(consulting_info[4])})">✏️</button> 
+                        <button class="modal-tbody-btn" onclick="delete_consulting(${Number(consulting_info[4])})">❌</button>
                     </td>`;
             });
             category_set = new Set(category_list)
