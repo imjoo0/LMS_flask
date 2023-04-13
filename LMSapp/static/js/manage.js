@@ -143,7 +143,7 @@ function so_paginating(done_code) {
             $('#so_search_input').on('keyup', function () {
                 var searchInput = $(this).val().toLowerCase();
                 var filteredData = qdata.filter(function (data) {
-                    return data.ban_name.toLowerCase().indexOf(searchInput) !== -1;
+                    return data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1;
                 });
                 container.pagination('destroy');
                 container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
