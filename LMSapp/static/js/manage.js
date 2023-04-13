@@ -124,7 +124,7 @@ function so_paginating(done_code) {
                         let category = q_category(item.category)
                         dataHtml += `
                         <td class="col-1">${category}</td>
-                        <td class="col-1">${ban_name}</td>
+                        <td class="col-1">${item.ban_name}</td>
                         <td class="col-2">${teacher_name}</td>
                         <td class="col-2">${item.title}</td>
                         <td class="col-4">${item.contents}</td>
@@ -375,7 +375,7 @@ function paginating(done_code) {
                         let teacher_name = ban.teacher_engname+'( '+ban.teacher_name+' )'
                         dataHtml += `
                         <td class="col-1">일반문의</td>
-                        <td class="col-1">${ban_name}</td>
+                        <td class="col-1">${item.ban_name}</td>
                         <td class="col-2">${teacher_name}</td>
                         <td class="col-2">${item.title}</td>
                         <td class="col-4">${item.contents}</td>
