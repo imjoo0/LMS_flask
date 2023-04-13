@@ -563,15 +563,12 @@ async function uldata() {
     $('#search-input').on('keyup', function() {
         var searchInput = $(this).val().toLowerCase();
         container.pagination('filter', function(studentsData) {
-            var searchData = studentsData;
-            if (searchInput) {
-                searchData = studentsData.filter(function(student) {
-                    return student.student_name.toLowerCase().indexOf(searchInput) !== -1 || student.origin.toLowerCase().indexOf(searchInput) !== -1;
-                });
-            }
-            return searchData;
+          return studentsData.filter(function(student) {
+            return student.student_name.toLowerCase().indexOf(searchInput) !== -1 || student.origin.toLowerCase().indexOf(searchInput) !== -1;
+          });
         });
     });
+      
 }
 
 // 상담 기록 조회 
