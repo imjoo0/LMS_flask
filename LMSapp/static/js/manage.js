@@ -1091,11 +1091,12 @@ async function get_request_consulting(){
         return acc;
     }, {});
     console.log(consultingGrouped)
-    // 결과를 객체의 배열로 변환 -> 반 별 배열 
-    // const consultingGroupedresult = Object.entries(banGrouped).map(([v, items]) => {
-    //     return { [v]: items };
-    // });
-    // allData = Object.values(banGrouped).sort((a, b) => {
+    // 결과를 객체의 배열로 변환 -> 상담 별 배열 
+    const consultingGroupedresult = Object.entries(consultingGrouped).map(([v, items]) => {
+        return { [v]: items };
+    });
+
+    // allData = Object.values(consultingGrouped).sort((a, b) => {
     //     if(b.total_out_per !== a.total_out_per){
     //         return b.total_out_per - a.total_out_per; // total_out_per가 큰 순으로 정렬
     //     } else {
@@ -1104,7 +1105,7 @@ async function get_request_consulting(){
     // });
 
     // 
-    console.log(requeConsultings)
+    console.log(consultingGroupedresult)
     $('.mo_inloading').hide()
     $('.not_inloading').show()
 
