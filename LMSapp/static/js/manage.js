@@ -581,14 +581,14 @@ async function uldata() {
             // });
         }
     })
-    
-}
-$('#search-input').on('keyup', function() {
-    var searchInput = $(this).val().toLowerCase();
-    $('#ul_pagination').pagination('filter', function(studentsData) {
-        return studentsData.student_name.toLowerCase().indexOf(searchInput) !== -1 || studentsData.origin.toLowerCase().indexOf(searchInput) !== -1;
+    $('#search-input').on('keyup', function() {
+        var searchInput = $(this).val().toLowerCase();
+        container.pagination('filter', function(studentsData) {
+            return studentsData.student_name.toLowerCase().indexOf(searchInput) !== -1 || studentsData.origin.toLowerCase().indexOf(searchInput) !== -1;
+        });
     });
-});
+}
+
 // 상담 기록 조회 
 // 상담일지 작성 
 function get_consulting_history(s_id) {
