@@ -1152,32 +1152,49 @@ async function get_request_consulting(){
 }
 
 function get_consultingban(key){
+    $('consultingreqban_search_input').off('keyup');
+    target_bans = consultingGroupedresult.filter(c=>c[key])[0][key].bans
     $('#request_consulting_listbox').hide()
     $('#request_consultingban_listbox').show()
-    let container = $('#consultingban_pagination')
-    target_bans = consultingGroupedresult.filter(c=>c[key])[0][key].bans
-    console.log(target_bans)
-    container.pagination({
-        dataSource: target_bans,
+
+    var paginationOptions = {
         prevText: '이전',
         nextText: '다음',
-        pageSize: 10,
-        callback: function (target_bans, pagination) {
+        pageSize: 5,
+        pageClassName: 'float-end',
+        callback: function (data, pagination) {
             var dataHtml = '';
-            $.each(target_bans, function (index, ban) {
+            $.each(data, function (index, ban) {
                 baninfo = banData.filter(b=>b.ban_id == ban.ban_id)[0]
-                console.log(baninfo)
+                ban.ban_name = baninfo.name
+                ban.teacher_name = baninfo.teacher_name
+                ban.teacher_engname = baninfo.teacher_engname
+                ban.teacher_mobileno = baninfo.teacher_mobileno
+                ban.teacher_email = baninfo.teacher_email
+                
                 dataHtml += `
-                    <td class="col-3">${baninfo.name}</td>
-                    <td class="col-3">${baninfo.teacher_name}( ${baninfo.teacher_engname} )</td>
-                    <td class="col-2">${baninfo.teacher_mobileno}</td>
-                    <td class="col-2">${baninfo.teacher_email}</td>
+                    <td class="col-3">${ban.ban_name}</td>
+                    <td class="col-3">${ban.teacher_name}( ${ban.teacher_engname} )</td>
+                    <td class="col-2">${ban.teacher_mobileno}</td>
+                    <td class="col-2">${ban.teacher_email}</td>
                     <td class="col-1">${make_reject_code(ban.done)}</td>
                     <td class="col-1"><button class="modal-tbody-btn" onclick="delete_consulting(${ban.id})">🗑️</button></td>`;
             });
             $('#consultingbandone').html(dataHtml);
         }
-    })
+    };
+
+    var container = $('#consultingban_pagination');
+    container.pagination(Object.assign(paginationOptions, {'dataSource': target_bans }))
+
+    $('consultingreqban_search_input').on('keyup', function () {
+        var searchInput = $(this).val().toLowerCase();
+        var filteredData = target_bans.filter(function (data) {
+            return data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1 || data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1 || data.hasOwnProperty('teacher_engname') && data.teacher_engname.toLowerCase().indexOf(searchInput) !== -1;
+        });
+        container.pagination('destroy');
+        container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
+    });
 }
 
 function go_back() {
