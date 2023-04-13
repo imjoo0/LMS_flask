@@ -1165,7 +1165,7 @@ function get_consultingban(key){
         callback: function (target_bans, pagination) {
             var dataHtml = '';
             $.each(target_bans, function (index, ban) {
-                baninfo = banData.filter(b=>b.ban_id = ban.ban_id)
+                baninfo = banData.filter(b=>b.ban_id == ban.ban_id)[0]
                 console.log(baninfo)
                 dataHtml += `
                     <td class="col-5">${baninfo.name}</td>
