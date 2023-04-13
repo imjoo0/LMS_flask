@@ -813,6 +813,7 @@ function delete_selected_ban(idx) {
 
 // 상담 요청 관련 함수 
 async function request_consulting(){
+    $('#consultingban_search_input').off('keyup');
     $('.mo_inloading').show()
     $('.monot_inloading').hide()
     if (!consultingcateData) {
@@ -836,12 +837,27 @@ async function request_consulting(){
     $('#consulting_category_list').html(temp_consulting_category_list)
 
     let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
+    
     banData.forEach(ban_data => {
         let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}`;
         let selectmsg = `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
         temp_ban_option += selectmsg
     });
     $('#consulting_target_ban').html(temp_ban_option)
+
+    $('#consultingban_search_input').on('keyup', function () {
+        let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
+        var searchInput = $(this).val().toLowerCase();
+        var filteredData = banData.filter(function (data) {
+            return (data.hasOwnProperty('name') && data.name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('teacher_engname') && data.teacher_engname.toLowerCase().indexOf(searchInput) !== -1);
+        });
+        filteredData.forEach(ban_data => {
+            let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}`;
+            let selectmsg = `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
+            temp_ban_option += selectmsg
+        });
+        $('#consulting_target_ban').html(temp_ban_option)
+    });
     
 }
 async function ban_change(btid) {
