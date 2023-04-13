@@ -880,10 +880,10 @@ async function ban_change(btid) {
         value = btid.split('_')
         // ban_id _ teacher_id _ name 
         
-        studentsData = studentsData.filter(a => a.ban_id == value[0])
+        selectedbanSData = studentsData.filter(a => a.ban_id == value[0])
         console.log(studentsData)
         let temp_target_student = `<option value="${btid}_-1_전체 학생 대상 진행">✔️${value[2]}반 전체 학생 대상 진행</option>`;
-        studentsData.forEach(student_data => {
+        selectedbanSData.forEach(student_data => {
             temp_target_student += `<option value="${btid}_${student_data.student_id}_${student_data.student_name}"> ${student_data.student_name} ( ${student_data.student_engname} )</option>`;
         });
         $('#consulting_target_students').html(temp_target_student)
@@ -891,7 +891,7 @@ async function ban_change(btid) {
         $('#consultingstudent_search_input').on('keyup', function () {
             let temp_target_student = `<option value="${btid}_-1_전체 학생 대상 진행">✔️${value[2]}반 전체 학생 대상 진행</option>`;
             var searchInput = $(this).val().toLowerCase();
-            var filteredData = studentsData.filter(function (data) {
+            var filteredData = selectedbanSData.filter(function (data) {
                 return (data.hasOwnProperty('student_name') && data.student_name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('origin') && data.origin.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('student_engname') && data.student_engname.toLowerCase().indexOf(searchInput) !== -1);
             });
             filteredData.forEach(student_data => {
