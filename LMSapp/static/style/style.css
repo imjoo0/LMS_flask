@@ -497,7 +497,7 @@ details > summary {
 /* 막대 바 관련 끝 */
 
 /* 서치박스 */
-.search_box{
+.search_input_box{
     width:40%;
     height: 40px;
     margin: 2% 2% 2% 60%;
