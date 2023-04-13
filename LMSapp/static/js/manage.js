@@ -881,6 +881,7 @@ async function ban_change(btid) {
         // ban_id _ teacher_id _ name 
         
         studentsData = studentsData.filter(a => a.ban_id == value[0])
+        console.log(studentsData)
         let temp_target_student = `<option value="${btid}_-1_전체 학생 대상 진행">✔️${value[2]}반 전체 학생 대상 진행</option>`;
         studentsData.forEach(student_data => {
             temp_target_student += `<option value="${btid}_${student_data.student_id}_${student_data.student_name}"> ${student_data.student_name} ( ${student_data.student_engname} )</option>`;
