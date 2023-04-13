@@ -1138,7 +1138,7 @@ async function get_request_consulting(){
                     <td class="col-3">${consulting_info[2]} ~ ${consulting_info[3]}</td>
                     <td class="col-2">${consulting_info[0]}</td>
                     <td class="col-5"> ${consulting_info[1]}</td>
-                    <td class="col-1" onclick ="get_consultingban('${key}')"> 📝 </td>`;
+                    <td class="col-1" onclick ="get_consultingban('${key}')"> ✏️ </td>`;
             });
             category_set = new Set(category_list)
             category_list = [...category_set]
@@ -1168,10 +1168,12 @@ function get_consultingban(key){
                 baninfo = banData.filter(b=>b.ban_id == ban.ban_id)[0]
                 console.log(baninfo)
                 dataHtml += `
-                    <td class="col-5">${baninfo.name}</td>
-                    <td class="col-5">${baninfo.teacher_name}( ${baninfo.teacher_engname} )</td>
+                    <td class="col-3">${baninfo.name}</td>
+                    <td class="col-3">${baninfo.teacher_name}( ${baninfo.teacher_engname} )</td>
+                    <td class="col-2">${baninfo.teacher_mobileno}</td>
+                    <td class="col-2">${baninfo.teacher_email}</td>
                     <td class="col-1">${make_reject_code(ban.done)}</td>
-                    <td class="col-1"><button class="modal-tbody-btn" onclick="delete_consulting(${ban.id})">❌</button></td>`;
+                    <td class="col-1"><button class="modal-tbody-btn" onclick="delete_consulting(${ban.id})">🗑️</button></td>`;
             });
             $('#consultingbandone').html(dataHtml);
         }
