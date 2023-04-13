@@ -586,7 +586,7 @@ async function uldata() {
     $('#search-input').on('keyup', function () {
         var searchInput = $(this).val().toLowerCase();
         var filteredData = studentsData.filter(function (student) {
-            return student.student_name.toLowerCase().indexOf(searchInput) !== -1 || student.origin.toLowerCase().indexOf(searchInput) !== -1;
+            return student.student_name.toLowerCase().indexOf(searchInput) !== -1 || student.origin.toLowerCase().indexOf(searchInput) !== -1 || student.ban_name.toLowerCase().indexOf(searchInput) !== -1;
         });
         container.pagination('destroy');
         container.pagination({
