@@ -81,6 +81,19 @@ function make_nodata(d){
         return d+'건'
     }
 }
+function make_duedate(s,d){
+    if(today < s){
+        return '진행 예정'
+    }else if(s <= today && today <= d){
+        return '진행 중'
+    }else if(d < today){
+        return '마감'
+    }else {
+        return d
+    }
+}
+
+
 async function get_all_ban() {
     try{
         const response = await $.ajax({

@@ -1068,81 +1068,80 @@ function post_consulting_request() {
     }
 }
 
-// 과거 코드
-function go_back() {
-    $('#for_taskban_list').hide();
-    $('#for_task_list').show();
-}
-async function get_consulting() {
+// 요청 상담 관리 기능 
+async function get_request_consulting(){
+    $('.mo_inloading').show()
+    $('.not_inloading').hide()
+    if (!consultingData){
+        await get_all_consulting().then(() => {
+            $('.mo_inloading').hide()
+            $('.not_inloading').show()
+        });
+    }
+    $('.mo_inloading').hide()
+    $('.not_inloading').show()
+
     let container = $('#consulting-pagination')
+
     var category_list = []
-    await $.ajax({
-        url: '/manage/api/get_consulting',
-        type: 'get',
-        data: {},
-        success: function (data) {
-            console.log(data)
-            $.each([...JSON.parse(data)], function (idx, val) {
-                category_list.push(val.name)
-            });
-            consultingData = data;
-            container.pagination({
-                dataSource: JSON.parse(data),
-                prevText: '이전',
-                nextText: '다음',
-                pageSize: 10,
-                callback: function (data, pagination) {
-                    var dataHtml = '';
-                    var idxHtml = `<option value="none">전체</option>`;
-                    $.each(data, function (index, consulting) {
-                        dataHtml += `
-                    <td class="col-3">${consulting.startdate} ~ ${consulting.deadline}</td>
-                    <td class="col-2">${consulting.name}</td>
-                    <td class="col-1"> 미진행 </td>
-                    <td class="col-4"> ${consulting.contents}</td>
-                    <td class="col-2">
-                        <button class="modal-tbody-btn" onclick="update_consulting(${consulting.id})">✏️</button> 
-                        <button class="modal-tbody-btn" onclick="delete_consulting(${consulting.id})">❌</button>
-                    </td>`;
-                    });
-                    category_set = new Set(category_list)
-                    category_list = [...category_set]
-                    $.each(category_list, function (idx, val) {
-                        idxHtml += `<option value="${val}">${val}</option>`
-                    })
-                    $('#consulting-option').html(idxHtml);
-                    $('#tr-row').html(dataHtml);
-                }
-            })
-        },
-        error: function (xhr, status, error) {
-            alert(xhr.responseText);
-        }
-    })
-}
-async function sort_consulting(value) {
-    var dataHtml = '';
-    let container = $('#consulting-pagination')
-    const data = await JSON.parse(consultingData).filter((e) => {
-        if (value == 'none') {
-            return e.name
-        } else {
-            return e.name == value;
-        }
-    })
-    await container.pagination({
-        dataSource: data,
+    $.each([...JSON.parse(consultingData)], function (idx, val) {
+        category_list.push(val.category)
+    });
+
+    requeConsultings = consultingData.filter(c=>c.category_id > 100)
+    container.pagination({
+        dataSource: requeConsultings,
         prevText: '이전',
         nextText: '다음',
         pageSize: 10,
-        callback: function (data, pagination) {
-            console.log(data)
+        callback: function (requeConsultings, pagination) {
+            var idxHtml = `<option value="none">전체</option>`;
             var dataHtml = '';
-            $.each(data, function (index, consulting) {
+            $.each(requeConsultings, function (index, consulting) {
+            dataHtml += `
+                <td class="col-3">${consulting.startdate} ~ ${consulting.deadline}</td>
+                <td class="col-2">${consulting.category}</td>
+                <td class="col-1"> ${make_duedate(consulting.startdate,consulting.deadline)}</td>
+                <td class="col-4"> ${consulting.contents}</td>
+                <td class="col-2">
+                    <button class="modal-tbody-btn" onclick="update_consulting(${consulting.id})">✏️</button> 
+                    <button class="modal-tbody-btn" onclick="delete_consulting(${consulting.id})">❌</button>
+                </td>`;
+            });
+            category_set = new Set(category_list)
+            category_list = [...category_set]
+            $.each(category_list, function (idx, val) {
+                idxHtml += `<option value="${val}">${val}</option>`
+            })
+            $('#consulting-option').html(idxHtml);
+            $('#tr-row').html(dataHtml);
+        }
+    })
+}
+
+async function sort_consulting(value) {
+    var dataHtml = '';
+    let container = $('#consulting-pagination')
+    const data = await requeConsultings.filter((e) => {
+        if (value == 'none') {
+            return e.category
+        } else {
+            return e.category == value;
+        }
+    })
+    await container.pagination({
+        dataSource: requeConsultings,
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 10,
+        callback: function (requeConsultings, pagination) {
+            console.log(requeConsultings)
+            var dataHtml = '';
+            $.each(requeConsultings, function (index, consulting) {
                 dataHtml += `
                     <td class="col-3">${consulting.startdate} ~ ${consulting.deadline}</td>
-                    <td class="col-2">${consulting.name}</td>
-                    <td class="col-1"> 미진행 </td>
+                    <td class="col-2">${consulting.category}</td>
+                    <td class="col-1">${make_duedate(consulting.startdate,consulting.deadline)}</td>
                     <td class="col-4"> ${consulting.contents}</td>
                     <td class="col-2"> <button onclick="update_consulting(${consulting.id})">✏️</button> 
                     <button onclick="delete_consulting(${consulting.id})">❌</button></td>`;
@@ -1151,6 +1150,13 @@ async function sort_consulting(value) {
         }
     })
 }
+
+// 과거 코드
+function go_back() {
+    $('#for_taskban_list').hide();
+    $('#for_task_list').show();
+}
+
 async function update_consulting(idx) {
     await $.ajax({
         url: '/manage/api/update_consulting',
