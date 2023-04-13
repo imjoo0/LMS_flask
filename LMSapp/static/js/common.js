@@ -153,7 +153,7 @@ async function get_total_data() {
     $('#sobox').hide()
     $('#ulbox').hide()
     $('#target_ban_info_body').hide()
-    try{
+    // try{
         $('#inloading').show()
         $('#semester_pagination').hide()
         await get_all_ban().then(()=>{
@@ -292,14 +292,14 @@ async function get_total_data() {
                     }
                 }
             });
-            // semesterShow(3);
+            semesterShow(3);
             $('#inloading').hide();
             $('#semester_pagination').show();
             $('#target_ban_info_body').show();
         })
-    }catch(error){
-        alert('Error occurred while retrieving data.');
-    }
+    // }catch(error){
+    //     alert('Error occurred while retrieving data.');
+    // }
 }
 function semesterShow(semester) {
     $('#ban_search_input').off('keyup');
