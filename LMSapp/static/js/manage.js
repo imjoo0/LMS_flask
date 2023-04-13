@@ -533,12 +533,6 @@ async function uldata() {
         pageSize: 10,
         callback: function (studentsData, pagination) {
             var searchData = studentsData;
-            // var searchInput = $('#search-input').val();
-            // if(searchInput) {
-            //     searchData = studentsData.filter(function (student) {
-            //         return student.student_name.indexOf(searchInput) !== -1 || student.origin.indexOf(searchInput) !== -1;
-            //     });
-            // }
             var dataHtml = '';
             $.each(searchData, function (index, student) {
                 consultings = consultingData.filter(c => c.category_id < 100 && c.student_id == student.student_id)
@@ -564,27 +558,18 @@ async function uldata() {
                 <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${student.student_id})">📝</td>`;
             });
             $('#static_data2').html(dataHtml);
-
-            // $('#search-input').on('input', function() {
-            //     searchData = studentsData;
-            //     searchInput = $(this).val();
-            //     if(searchInput) {
-            //         searchData = studentsData.filter(function (student) {
-            //             return student.student_name.indexOf(searchInput) !== -1 || student.origin.indexOf(searchInput) !== -1;
-            //         });
-            //     }
-            //     dataHtml = '';
-            //     $.each(searchData, function (index, student) {
-            //         // 이하 코드 생략...
-            //     });
-            //     $('#static_data2').html(dataHtml);
-            // });
         }
     })
     $('#search-input').on('keyup', function() {
         var searchInput = $(this).val().toLowerCase();
         container.pagination('filter', function(studentsData) {
-            return studentsData.student_name.toLowerCase().indexOf(searchInput) !== -1 || studentsData.origin.toLowerCase().indexOf(searchInput) !== -1;
+            var searchData = studentsData;
+            if (searchInput) {
+                searchData = studentsData.filter(function(student) {
+                    return student.student_name.toLowerCase().indexOf(searchInput) !== -1 || student.origin.toLowerCase().indexOf(searchInput) !== -1;
+                });
+            }
+            return searchData;
         });
     });
 }
