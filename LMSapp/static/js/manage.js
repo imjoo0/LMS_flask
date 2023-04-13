@@ -120,7 +120,7 @@ function so_paginating(done_code) {
                     $.each(qdata, function (index, item) {
                         ban = banData.filter(b=>b.ban_id == item.ban_id)[0]
                         item.ban_name = ban.name
-                        let teacher_name = ban.teacher_engname+'( '+ban.teacher_name+' )'
+                        item.teacher_name = ban.teacher_engname+'( '+ban.teacher_name+' )'
                         let category = q_category(item.category)
                         dataHtml += `
                         <td class="col-1">${category}</td>
@@ -128,7 +128,7 @@ function so_paginating(done_code) {
                         <td class="col-2">${teacher_name}</td>
                         <td class="col-2">${item.title}</td>
                         <td class="col-4">${item.contents}</td>
-                        <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code},'${item.ban_name}','${teacher_name}')">✏️</td>
+                        <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code})">✏️</td>
                         <td class="col-1" onclick="delete_question(${item.id})">❌</td>
                         `;
                     });
@@ -149,16 +149,14 @@ function so_paginating(done_code) {
                     callback: function (filteredData, pagination) {
                         var dataHtml = '';
                         $.each(filteredData, function (index, item) {
-                            ban = banData.filter(b=>b.ban_id == item.ban_id)[0]
-                            let teacher_name = ban.teacher_engname+'( '+ban.teacher_name+' )'
                             let category = q_category(item.category)
                             dataHtml += `
                             <td class="col-1">${category}</td>
                             <td class="col-1">${item.ban_name}</td>
-                            <td class="col-2">${teacher_name}</td>
+                            <td class="col-2">${item.teacher_name}</td>
                             <td class="col-2">${item.title}</td>
                             <td class="col-4">${item.contents}</td>
-                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code},'${item.ban_name}','${teacher_name}')">✏️</td>
+                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</td>
                             <td class="col-1" onclick="delete_question(${item.id})">❌</td>
                             `;
                         });
@@ -181,7 +179,7 @@ function so_paginating(done_code) {
     }
 }
 // 이반 퇴소 요청 내용 상세보기
-async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name){
+async function get_soquestion_detail(q_id, done_code){
     $('.cs_inloading').show()
     $('.not_inloading').hide()
     if (!studentsData && !consultingData){
@@ -228,7 +226,7 @@ async function get_soquestion_detail(q_id, done_code,ban_name,teacher_name){
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">대상 반</span>
-        <p>${ban_name} ➖ 담임 T : ${teacher_name} </p>
+        <p>${uestion_detail_data.ban_name} ➖ 담임 T : ${uestion_detail_data.teacher_name} </p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">학생</span>
@@ -374,14 +372,14 @@ function paginating(done_code) {
                     $.each(qdata, function (index, item) {
                         ban = banData.filter(b=>b.ban_id == item.ban_id)[0]
                         item.ban_name = ban.name
-                        let teacher_name = ban.teacher_engname+'( '+ban.teacher_name+' )'
+                        item.teacher_name = ban.teacher_engname+'( '+ban.teacher_name+' )'
                         dataHtml += `
                         <td class="col-1">일반문의</td>
                         <td class="col-1">${item.ban_name}</td>
-                        <td class="col-2">${teacher_name}</td>
+                        <td class="col-2">${item.teacher_name}</td>
                         <td class="col-2">${item.title}</td>
                         <td class="col-4">${item.contents}</td>
-                        <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code},'${item.ban_name}','${teacher_name}')">✏️</td>
+                        <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</td>
                         <td class="col-1" onclick="delete_question(${item.id})">❌</td>
                         `;
                     });
@@ -410,7 +408,7 @@ function paginating(done_code) {
                             <td class="col-2">${teacher_name}</td>
                             <td class="col-2">${item.title}</td>
                             <td class="col-4">${item.contents}</td>
-                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code},'${item.ban_name}','${teacher_name}')">✏️</td>
+                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</td>
                             <td class="col-1" onclick="delete_question(${item.id})">❌</td>
                             `;
                         });
@@ -433,7 +431,7 @@ function paginating(done_code) {
     }
 }
 // 일반 문의 상세보기
-async function get_question_detail(q_id, done_code,ban_name,teacher_name){
+async function get_question_detail(q_id, done_code){
     $('.cs_inloading').show()
     $('.not_inloading').hide()
     if (!studentsData){
@@ -470,7 +468,7 @@ async function get_question_detail(q_id, done_code,ban_name,teacher_name){
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">대상 반</span>
-        <p>${ban_name} ➖ 담임 T : ${teacher_name} </p>
+        <p>${question_detail_data.ban_name} ➖ 담임 T : ${question_detail_data.teacher_name} </p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">학생</span>
