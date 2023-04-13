@@ -779,7 +779,7 @@ async function request_task() {
 
     let temp_task_category_list = '<option value=0 selected>업무 카테고리를 선택해주세요</option>';
     taskcateData.forEach(task_data => {
-        temp_task_category_list += `<option value="${task_data.id}">${task_data.name} (${make_semester(task_data.semester)}월 학기)</option>`;
+        temp_task_category_list += `<option value="${task_data.id}">${task_data.name}</option>`;
     });
     $('#task_category_list').html(temp_task_category_list)
     
