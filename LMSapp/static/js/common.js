@@ -323,7 +323,7 @@ function semesterShow(semester) {
         pageSize: 5,
         pageClassName: 'float-end',
         callback: function (data, pagination) {
-            var dataHtml = '';
+            var temp_semester_banlist = '';
             $.each(data, function (index, item) {
                 let teacher_name = item.teacher_engname + '( ' + item.teacher_name +' )'
                 let total_out_count = item.out_num + item.switch_minus_num
