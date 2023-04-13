@@ -498,6 +498,6 @@ details > summary {
 
 /* 서치박스 */
 .search_box{
-    width: 100%;
+    width:70%;
     overflow-x: auto;
 }

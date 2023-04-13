@@ -990,7 +990,7 @@
                 </svg>
             </div>
             <div class="d-flex justify-content-center align-items-center flex-column w-100 not_inloading">
-                <input class="not_inloading" type="text" id="search-input" placeholder="이름이나 원번을 입력하세요" style="width:70%;">
+                <input class="not_inloading search_box" type="text" id="search-input" placeholder="이름이나 원번을 입력하세요">
                 <div class="d-flex justify-content-start align-items-start w-100 not_inloading search_box" style="overflow: scroll;">
                     <div class="d-flex justify-content-center align-items-center flex-column not_inloading" style="width: 1362px important;">
                         <h3 id="ultitle"></h3>
@@ -1057,22 +1057,25 @@
                     <tr id="newcs" class="row"></tr>
                 </table>
                 <h3 id="csno_data_msg" style="width: 100%;"></h3>
-                <table class="table text-center" id="cs_teacher_question" style="width:100%;">
-                    <thead>
-                        <tr class="row">
-                            <th class="col-1">종류</th>
-                            <th class="col-1">반</th>
-                            <th class="col-2">담임T</th>
-                            <th class="col-2">제목</th>
-                            <th class="col-4">내용</th>
-                            <th class="col-1">응답</th>
-                            <th class="col-1">삭제</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr id="alim_tr" class="row"></tr>
-                    </tbody>
-                </table>
+                <div id="cs_teacher_question">
+                    <input class="not_inloading search_box" type="text" id="cs_search_input" placeholder="이름이나 원번을 입력하세요">
+                    <table class="table text-center" style="width:100%;">
+                        <thead>
+                            <tr class="row">
+                                <th class="col-1">종류</th>
+                                <th class="col-1">반</th>
+                                <th class="col-2">담임T</th>
+                                <th class="col-2">제목</th>
+                                <th class="col-4">내용</th>
+                                <th class="col-1">응답</th>
+                                <th class="col-1">삭제</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="alim_tr" class="row"></tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div id="pagination" class="py-2 text-center"></div>
             </div>
         </div>
