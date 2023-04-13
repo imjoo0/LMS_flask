@@ -137,8 +137,7 @@ function so_paginating(done_code) {
 
             var container = $('#so_pagination');
 
-            container.pagination(paginationOptions);
-            container.pagination(Object.assign(paginationOptions, { dataSource: qdata }))
+            container.pagination(Object.assign(paginationOptions, { 'dataSource': qdata }))
 
             $('#so_search_input').on('keyup', function () {
                 var searchInput = $(this).val().toLowerCase();
@@ -146,7 +145,7 @@ function so_paginating(done_code) {
                     return data.ban_name.toLowerCase().indexOf(searchInput) !== -1;
                 });
                 container.pagination('destroy');
-                container.pagination(Object.assign(paginationOptions, { dataSource: filteredData }));
+                container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
             });
         } else {
             $('#so_question').hide()
