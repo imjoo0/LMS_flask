@@ -343,6 +343,9 @@ function paginating(done_code) {
             $('#csno_data_msg').hide()
             $('#cs_teacher_question').show()
             $('#pagination').show()
+            if(container){
+              container.pagination('destroy');
+            }
             var paginationOptions = {
                 prevText: '이전',
                 nextText: '다음',
@@ -369,7 +372,6 @@ function paginating(done_code) {
               };
               
               var container = $('#pagination');
-              container.pagination('destroy');
               
               container.pagination(Object.assign(paginationOptions, {'dataSource': qdata}));
               
