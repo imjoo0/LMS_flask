@@ -1076,7 +1076,7 @@ async function get_request_consulting(){
         await get_all_consulting().then(() => {
             requeConsultings = consultingData.filter(c=>c.category_id > 100)
             const consultingGrouped = requeConsultings.reduce((acc, item) => {
-                const v = `${item.category_id}_${item.contents}_${item.startdate}_${item.deadline}`;
+                const v = `${item.category}_${item.contents}_${item.startdate}_${item.deadline}`;
             
                 if (!acc[v]){
                 acc[v] = { bans: []};
