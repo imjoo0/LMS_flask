@@ -1079,6 +1079,31 @@ async function get_request_consulting(){
         });
     }
     requeConsultings = consultingData.filter(c=>c.category_id > 100)
+    const consultingGrouped = requeConsultings.reduce((acc, item) => {
+        const v = `${item.category_id}_${item.contents}_${item.startdate}_${item.deadline}`;
+      
+        if (!acc[v]){
+          acc[v] = { bans: []};
+        }
+      
+        acc[v].bans.push(item);
+      
+        return acc;
+    }, {});
+    console.log(consultingGrouped)
+    // 결과를 객체의 배열로 변환 -> 반 별 배열 
+    // const consultingGroupedresult = Object.entries(banGrouped).map(([v, items]) => {
+    //     return { [v]: items };
+    // });
+    // allData = Object.values(banGrouped).sort((a, b) => {
+    //     if(b.total_out_per !== a.total_out_per){
+    //         return b.total_out_per - a.total_out_per; // total_out_per가 큰 순으로 정렬
+    //     } else {
+    //         return b.students.length - a.students.length; // students.length가 큰 순으로 정렬
+    //     }
+    // });
+
+    // 
     console.log(requeConsultings)
     $('.mo_inloading').hide()
     $('.not_inloading').show()
