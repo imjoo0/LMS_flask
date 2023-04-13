@@ -104,12 +104,12 @@ function so_paginating(done_code) {
     $('#newso').html(temp_newso)
 
     if (total_soquestion_num != 0) {
-        qdata = soqData.length > 0 ? soqData.filter(a => a.answer == done_code) : 0
+        qdata = soqData.length > 0 ? soqData.filter(a => a.answer == done_code) : [];
         if (qdata.length != 0) {
             $('#no_data_msg').hide()
             $('#so_question').show()
             $('#so_pagination').show()
-            
+
             var paginationOptions = {
                 prevText: '이전',
                 nextText: '다음',
@@ -340,7 +340,7 @@ function paginating(done_code) {
     $('#newcs').html(temp_newcs)
 
     if (total_question_num != 0) {
-        qdata = csqData.filter(a => a.answer == done_code)
+        qdata = csqData.length > 0 ? csqData.filter(a => a.answer == done_code) : [];
         if (qdata.length != 0) {
             $('#csno_data_msg').hide()
             $('#cs_teacher_question').show()
