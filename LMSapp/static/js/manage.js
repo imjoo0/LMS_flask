@@ -226,7 +226,7 @@ async function get_soquestion_detail(q_id, done_code){
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">대상 반</span>
-        <p>${uestion_detail_data.ban_name} ➖ 담임 T : ${uestion_detail_data.teacher_name} </p>
+        <p>${question_detail_data.ban_name} ➖ 담임 T : ${question_detail_data.teacher_name} </p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">학생</span>
