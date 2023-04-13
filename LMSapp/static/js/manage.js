@@ -343,9 +343,6 @@ function paginating(done_code) {
             $('#csno_data_msg').hide()
             $('#cs_teacher_question').show()
             $('#pagination').show()
-            if(container){
-              container.pagination('destroy');
-            }
             var paginationOptions = {
                 prevText: '이전',
                 nextText: '다음',
@@ -369,20 +366,18 @@ function paginating(done_code) {
                   });
                   $('#alim_tr').html(dataHtml);
                 }
-              };
-              
-              var container = $('#pagination');
-              
-              container.pagination(Object.assign(paginationOptions, {'dataSource': qdata}));
-              
-              $('#cs_search_input').on('keyup', function() {
+            };
+            var container = $('#pagination');
+            container.pagination(Object.assign(paginationOptions, {'dataSource': qdata}));
+            
+            $('#cs_search_input').on('keyup', function() {
                 var searchInput = $(this).val().toLowerCase();
                 var filteredData = qdata.filter(function(data) {
-                  return data.ban_name.toLowerCase().indexOf(searchInput) !== -1;
+                    return data.ban_name.toLowerCase().indexOf(searchInput) !== -1;
                 });
                 container.pagination('destroy');
                 container.pagination(Object.assign(paginationOptions, {'dataSource': filteredData}));
-              });
+            });
               
         } else {
             $('#cs_teacher_question').hide()
