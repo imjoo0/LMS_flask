@@ -140,8 +140,8 @@ function so_paginating(done_code) {
                 var filteredData = qdata.filter(function(data) {
                     return data.ban_name.toLowerCase().indexOf(searchInput) !== -1;
                 });
-                $('#so_pagination').pagination('destroy');
-                $('#so_pagination').pagination({
+                container.pagination('destroy');
+                container.pagination({
                     dataSource: filteredData,
                     prevText: '이전',
                     nextText: '다음',
@@ -149,6 +149,7 @@ function so_paginating(done_code) {
                     callback: function (filteredData, pagination) {
                         var dataHtml = '';
                         $.each(filteredData, function (index, item) {
+                            ban = banData.filter(b=>b.ban_id == item.ban_id)[0]
                             let teacher_name = ban.teacher_engname+'( '+ban.teacher_name+' )'
                             let category = q_category(item.category)
                             dataHtml += `
