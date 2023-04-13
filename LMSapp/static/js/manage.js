@@ -125,7 +125,7 @@ function so_paginating(done_code) {
                         dataHtml += `
                         <td class="col-1">${category}</td>
                         <td class="col-1">${item.ban_name}</td>
-                        <td class="col-2">${teacher_name}</td>
+                        <td class="col-2">${item.teacher_name}</td>
                         <td class="col-2">${item.title}</td>
                         <td class="col-4">${item.contents}</td>
                         <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code})">✏️</td>
