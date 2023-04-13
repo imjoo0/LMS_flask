@@ -349,7 +349,14 @@
                 <div class="modal-body">
                     <input id="csrf_token" type="hidden" name="csrf_token" value="{{ csrf_token() }}"
                         style="display: block;" />
-                    <div class="d-flex justify-content-center align-items-center flex-column">
+                    <div class="mo_inloading" class="loader loader--style2 text-center" title="1">
+                        <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                            <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                                <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
+                            </path>
+                        </svg>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center flex-column monot_inloading">
                         <div class="row w-100 mt-3">
                             <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 업무 카테고리 </span></div>
                             <div class="col-sm-9">
@@ -405,7 +412,8 @@
                         </div>
                     </div>
                     <div class="notice_message mt-4">
-                        <p class="mb-2" style="padding: 0 12px">👇 업무를 진행할 반을 선택해주세요</p>
+                        <p class="mb-2" style="padding: 0 12px">👇 업무를 진행할 반을 선택해주세요
+                        <input class="not_inloading" type="text" id="taskban_search_input" placeholder="반 혹은 선생님으로 검색"></p>
                         <div class="plus_under_contents" style="padding: 0 12px;">
                             <select class="border rounded-0 form-control form-control-sm" onchange="task_ban_change(this.value)" multiple name="task_target_ban[]">
                                 <optgroup label="전체 반 선택">

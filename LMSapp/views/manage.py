@@ -322,6 +322,22 @@ def get_all_consulting_category():
                 db.close()        
         return jsonify({'consulting_category':consulting_category})
  
+@bp.route("/task_category", methods=['GET'])
+def get_all_task_category():
+    if request.method == 'GET':
+        task_category = []
+        
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute(f"SELECT * FROM taskcategory;")
+                task_category = cur.fetchall()
+
+        except:
+                print('err')
+        finally:
+                db.close()        
+        return jsonify({'task_category':task_category})
 
 @bp.route('/get_consulting_history/<int:student_id>', methods=['GET'])
 def get_consulting_history(student_id):

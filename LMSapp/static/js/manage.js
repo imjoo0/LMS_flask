@@ -36,6 +36,18 @@ async function get_all_consultingcate() {
         alert('Error occurred while retrieving data.');
     }
 }
+async function get_all_taskcate() {
+    try {
+        const response = await $.ajax({
+            url: '/manage/task_category',
+            type: 'GET',
+            data: {},
+        });
+        taskcateData = response['task_category']
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
+}
 function main_view() {
     if (!banData) {
         get_total_data()
@@ -102,7 +114,7 @@ async function sodata() {
     $('.not_inloading').show()
     so_paginating(0)
 }
-// 이반 퇴소 문의 관리
+    // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
     $('#so_search_input').off('keyup');
     soqData = questionData.filter(q => q.category != 0)
@@ -174,7 +186,7 @@ function so_paginating(done_code) {
         $('#no_data_msg').show()
     }
 }
-// 이반 퇴소 요청 내용 상세보기
+    // 이반 퇴소 요청 내용 상세보기
 async function get_soquestion_detail(q_id, done_code) {
     $('.cs_inloading').show()
     $('.not_inloading').hide()
@@ -406,7 +418,7 @@ function paginating(done_code) {
         $('#csno_data_msg').show()
     }
 }
-// 일반 문의 상세보기
+    // 일반 문의 상세보기
 async function get_question_detail(q_id, done_code) {
     $('.cs_inloading').show()
     $('.not_inloading').hide()
@@ -485,7 +497,7 @@ async function get_question_detail(q_id, done_code) {
     }
 
 }
-// 본원 답변 기능 
+    // 본원 답변 기능 
 function post_answer(q_id, category) {
     answer_title = $('#answer_title').val()
     answer_contents = $('#answer_contents').val()
@@ -742,32 +754,47 @@ function get_consulting_history(s_id) {
 }
 // 업무 요청 관련 함수 
 async function request_task() {
+    $('#taskban_search_input').off('keyup');
+    $('.mo_inloading').show()
+    $('.monot_inloading').hide()
+    if (!taskcateData) {
+        // await get_all_students()
+        await get_all_taskcate().then(() => {
+            $('.mo_inloading').hide()
+            $('.monot_inloading').show()
+        });
+    }
+    $('.mo_inloading').hide()
+    $('.monot_inloading').show()
+
     $("#task_date").datepicker({ dateFormat: 'yy-mm-dd' });
     $("#task_deadline").datepicker({ dateFormat: 'yy-mm-dd' });
+
     let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
-    allData.forEach(ban_data => {
-        let name = ban_data['students'][0].name
-        let value = `${ban_data['students'][0].ban_id}_${ban_data['students'][0].teacher_id}_${name}`;
-        let selectmsg = `<option value="${value}">${name} (${make_semester(ban_data['students'][0].semester)}월 학기)</option>`;
-        temp_ban_option += selectmsg
+    banData.forEach(ban_data => {
+        let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}`;
+        temp_ban_option += `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
     });
     $('#task_target_ban').html(temp_ban_option)
-    await $.ajax({
-        url: '/manage/request_task',
-        type: 'GET',
-        data: {},
-        success: function (response) {
-            let temp_task_category_list = '<option value=0 selected>업무 카테고리를 선택해주세요</option>';
-            for (i = 0; i < response['all_task_category'].length; i++) {
-                let id = response['all_task_category'][i]['id']
-                let name = response['all_task_category'][i]['name']
-                temp_task_category_list += `
-                <option value=${id}>${name}</option>
-                `;
-                $('#task_category_list').html(temp_task_category_list)
-            }
-        }
-    })
+
+    let temp_task_category_list = '<option value=0 selected>업무 카테고리를 선택해주세요</option>';
+    taskcateData.forEach(task_data => {
+        temp_task_category_list += `<option value="${task_data.id}">${task_data.name} (${make_semester(task_data.semester)}월 학기)</option>`;
+    });
+    $('#task_category_list').html(temp_task_category_list)
+    
+    $('#taskban_search_input').on('keyup', function () {
+        let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
+        var searchInput = $(this).val().toLowerCase();
+        var filteredData = banData.filter(function (data) {
+            return (data.hasOwnProperty('name') && data.name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('teacher_engname') && data.teacher_engname.toLowerCase().indexOf(searchInput) !== -1);
+        });
+        filteredData.forEach(ban_data => {
+            let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}`;
+            temp_ban_option +=  `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
+        });
+        $('#task_target_ban').html(temp_ban_option)
+    });
 }
 function show_ban_selection() {
     var selectedOptions = ''
@@ -849,11 +876,9 @@ async function request_consulting(){
     $('#consulting_category_list').html(temp_consulting_category_list)
 
     let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
-    
     banData.forEach(ban_data => {
         let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}`;
-        let selectmsg = `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
-        temp_ban_option += selectmsg
+        temp_ban_option += `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
     });
     $('#consulting_target_ban').html(temp_ban_option)
 
@@ -865,8 +890,7 @@ async function request_consulting(){
         });
         filteredData.forEach(ban_data => {
             let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}`;
-            let selectmsg = `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
-            temp_ban_option += selectmsg
+            temp_ban_option += `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
         });
         $('#consulting_target_ban').html(temp_ban_option)
     });
