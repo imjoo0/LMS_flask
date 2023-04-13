@@ -434,7 +434,9 @@ async function get_total_data() {
                     }
                 }
             });
+            console.log('1')
             semesterShow(3);
+            console.log('2')
             $('#inloading').hide();
             $('#semester_pagination').show();
             $('#target_ban_info_body').show();
