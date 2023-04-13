@@ -82,8 +82,8 @@ function make_nodata(d){
     }
 }
 function make_duedate(s,d){
-    sdate=new date(s).setHours(0, 0, 0, 0)
-    ddate=new date(d).setHours(0, 0, 0, 0)
+    sdate=new Date(s).setHours(0, 0, 0, 0)
+    ddate=new Date(d).setHours(0, 0, 0, 0)
     if(today < sdate){
         return '진행 예정'
     }else if(sdate <= today && today <= ddate){
