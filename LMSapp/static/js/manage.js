@@ -140,8 +140,8 @@ function so_paginating(done_code) {
                 var filteredData = qdata.filter(function(data) {
                     return data.ban_name.toLowerCase().indexOf(searchInput) !== -1;
                 });
-                container.pagination('destroy');
-                container.pagination({
+                $('#so_pagination').pagination('destroy');
+                $('#so_pagination').pagination({
                     dataSource: filteredData,
                     prevText: '이전',
                     nextText: '다음',
