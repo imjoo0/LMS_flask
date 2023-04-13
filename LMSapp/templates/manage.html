@@ -947,29 +947,32 @@
                             <th class="col-12">Teacher 퇴소/이반 요청 사항</th>
                         </tr>
                         <tr class="row" style="background:#DCE6F2;">
-                            <th class="col-4">총 문의</th>
-                            <th class="col-4">응답한 문의</th>
-                            <th class="col-4">응답하지 않은 문의</th>
+                            <th class="col-4">총 요청</th>
+                            <th class="col-4">응답한 요청</th>
+                            <th class="col-4">응답하지 않은 요청</th>
                         </tr>
                         <tr id="newso" class="row"></tr>
                     </table>
                     <h3 id="no_data_msg" style="width: 100%;"></h3>
-                    <table class="table text-center" id="so_question" style="width:100%;">
-                        <thead>
-                            <tr class="row">
-                                <th class="col-1">종류</th>
-                                <th class="col-1">반</th>
-                                <th class="col-2">담임T</th>
-                                <th class="col-2">제목</th>
-                                <th class="col-4">내용</th>
-                                <th class="col-1">응답</th>
-                                <th class="col-1">삭제</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr id="so_tr" class="row"></tr>
-                        </tbody>
-                    </table>
+                    <div id="so_question">
+                        <input class="not_inloading search_input_box" type="text" id="so_search_input" placeholder="선생님 이름이나 반이름을 입력하세요">
+                        <table class="table text-center" style="width:100%;">
+                            <thead>
+                                <tr class="row">
+                                    <th class="col-1">종류</th>
+                                    <th class="col-1">반</th>
+                                    <th class="col-2">담임T</th>
+                                    <th class="col-2">제목</th>
+                                    <th class="col-4">내용</th>
+                                    <th class="col-1">응답</th>
+                                    <th class="col-1">삭제</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr id="so_tr" class="row"></tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <div id="so_pagination" class="py-2 text-center"></div>
                 </div>
             </div>
