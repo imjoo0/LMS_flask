@@ -142,7 +142,7 @@ function so_paginating(done_code) {
             $('#so_search_input').on('keyup', function () {
                 var searchInput = $(this).val().toLowerCase();
                 var filteredData = qdata.filter(function (data) {
-                    return data.ban_name.toLowerCase().indexOf(searchInput) !== -1 || q_category(data.cateogry).toLowerCase().indexOf(searchInput) !== -1 ;
+                    return data.ban_name.toLowerCase().indexOf(searchInput) !== -1;
                 });
                 container.pagination('destroy');
                 container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
@@ -326,7 +326,6 @@ async function csdata() {
     paginating(0)
 }
 function paginating(done_code) {
-    let container = $('#pagination')
     csqData = questionData.filter(q => q.category == 0)
     total_question_num = csqData.length
     csdata_noanswer = total_question_num != 0 ? csqData.filter(a => a.answer == 0).length : 0
@@ -344,60 +343,44 @@ function paginating(done_code) {
             $('#csno_data_msg').hide()
             $('#cs_teacher_question').show()
             $('#pagination').show()
-            container.pagination({
-                dataSource: qdata,
+            var paginationOptions = {
                 prevText: '이전',
                 nextText: '다음',
-                pageClassName: 'float-end',
                 pageSize: 5,
-                callback: function (qdata, pagination) {
-                    var dataHtml = '';
-                    $.each(qdata, function (index, item) {
-                        ban = banData.filter(b => b.ban_id == item.ban_id)[0]
-                        item.ban_name = ban.name
-                        item.teacher_name = ban.teacher_engname + '( ' + ban.teacher_name + ' )'
-                        dataHtml += `
-                        <td class="col-1">일반문의</td>
-                        <td class="col-1">${item.ban_name}</td>
-                        <td class="col-2">${item.teacher_name}</td>
-                        <td class="col-2">${item.title}</td>
-                        <td class="col-4">${item.contents}</td>
-                        <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</td>
-                        <td class="col-1" onclick="delete_question(${item.id})">❌</td>
-                        `;
-                    });
-                    $('#alim_tr').html(dataHtml);
+                pageClassName: 'float-end',
+                callback: function (data, pagination) {
+                  var dataHtml = '';
+                  $.each(data, function (index, item) {
+                    ban = banData.filter(b=>b.ban_id == item.ban_id)[0]
+                    item.ban_name = ban.name
+                    item.teacher_name = ban.teacher_engname+'( '+ban.teacher_name+' )'
+                    dataHtml += `
+                    <td class="col-1">일반문의</td>
+                    <td class="col-1">${item.ban_name}</td>
+                    <td class="col-2">${item.teacher_name}</td>
+                    <td class="col-2">${item.title}</td>
+                    <td class="col-4">${item.contents}</td>
+                    <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</td>
+                    <td class="col-1" onclick="delete_question(${item.id})">❌</td>
+                    `;
+                  });
+                  $('#alim_tr').html(dataHtml);
                 }
-            })
-
-            $('#cs_search_input').on('keyup', function () {
+              };
+              
+              var container = $('#pagination');
+              
+              container.pagination(Object.assign(paginationOptions, {'dataSource': qdata}));
+              
+              $('#cs_search_input').on('keyup', function() {
                 var searchInput = $(this).val().toLowerCase();
-                var filteredData = qdata.filter(function (data) {
-                    return data.ban_name.toLowerCase().indexOf(searchInput) !== -1;
+                var filteredData = qdata.filter(function(data) {
+                  return data.ban_name.toLowerCase().indexOf(searchInput) !== -1;
                 });
                 container.pagination('destroy');
-                container.pagination({
-                    dataSource: filteredData,
-                    prevText: '이전',
-                    nextText: '다음',
-                    pageSize: 10,
-                    callback: function (filteredData, pagination) {
-                        var dataHtml = '';
-                        $.each(filteredData, function (index, item) {
-                            dataHtml += `
-                            <td class="col-1">일반문의</td>
-                            <td class="col-1">${item.ban_name}</td>
-                            <td class="col-2">${item.teacher_name}</td>
-                            <td class="col-2">${item.title}</td>
-                            <td class="col-4">${item.contents}</td>
-                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</td>
-                            <td class="col-1" onclick="delete_question(${item.id})">❌</td>
-                            `;
-                        });
-                        $('#alim_tr').html(dataHtml);
-                    }
-                })
-            });
+                container.pagination(Object.assign(paginationOptions, {'dataSource': filteredData}));
+              });
+              
         } else {
             $('#cs_teacher_question').hide()
             $('#pagination').hide()
