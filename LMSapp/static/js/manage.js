@@ -816,7 +816,19 @@ async function request_consulting(){
     $('#consultingban_search_input').off('keyup');
     $('.mo_inloading').show()
     $('.monot_inloading').hide()
-    if (!consultingcateData) {
+    if (!consultingcateData && studentsData) {
+        // await get_all_students()
+        await get_all_consultingcate().then(() => {
+            $('.mo_inloading').hide()
+            $('.monot_inloading').show()
+        });
+    }else if(consultingcateData && !studentsData){
+        await get_all_students().then(() => {
+            $('.mo_inloading').hide()
+            $('.monot_inloading').show()
+        });
+    }else if(!consultingcateData && !studentsData){
+        await get_all_students()
         await get_all_consultingcate().then(() => {
             $('.mo_inloading').hide()
             $('.monot_inloading').show()
@@ -867,13 +879,26 @@ async function ban_change(btid) {
         $('#consulting_msg').html('👇 개별 반 대상 진행합니다 (대상 학생을 확인해 주세요)')
         value = btid.split('_')
         // ban_id _ teacher_id _ name 
-        studentData = allData.filter(a => a.ban_id == value[0])[0].students
+        
+        studentsData = studentsData.filter(a => a.ban_id == value[0])
         let temp_target_student = `<option value="${btid}_-1_전체 학생 대상 진행">✔️${value[2]}반 전체 학생 대상 진행</option>`;
-        for (var i = 0; i < studentData.length; i++) {
-            let sname = studentData[i]['student_name'];
-            temp_target_student += `<option value="${btid}_${studentData[i]['student_id']}_${sname}"> ${sname}</option>`;
-        }
+        studentsData.forEach(student_data => {
+            temp_target_student += `<option value="${btid}_${student_data.student_id}_${student_data.student_name}"> ${student_data.student_name} ( ${student_data.student_engname} )</option>`;
+        });
         $('#consulting_target_students').html(temp_target_student)
+
+        $('#consultingstudent_search_input').on('keyup', function () {
+            let temp_target_student = `<option value="${btid}_-1_전체 학생 대상 진행">✔️${value[2]}반 전체 학생 대상 진행</option>`;
+            var searchInput = $(this).val().toLowerCase();
+            var filteredData = studentsData.filter(function (data) {
+                return (data.hasOwnProperty('student_name') && data.student_name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('origin') && data.origin.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('student_engname') && data.student_engname.toLowerCase().indexOf(searchInput) !== -1);
+            });
+            filteredData.forEach(student_data => {
+                temp_target_student += `<option value="${btid}_${student_data.student_id}_${student_data.student_name}"> ${student_data.student_name} ( ${student_data.student_engname} )</option>`;
+            });
+            $('#consulting_target_students').html(temp_target_student)
+        });
+
     } else {
         $('#select_student').hide()
         $('#result_tbox').empty()
