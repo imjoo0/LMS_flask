@@ -1121,7 +1121,7 @@ async function get_request_consulting(){
     let container = $('#consulting-pagination')
 
     var category_list = []
-        container.pagination({
+    container.pagination({
         dataSource: consultingGroupedresult,
         prevText: '이전',
         nextText: '다음',
@@ -1154,8 +1154,28 @@ async function get_request_consulting(){
 function get_consultingban(key){
     $('#request_consulting_listbox').hide()
     $('#request_consultingban_listbox').show()
-    he = consultingGroupedresult.filter(c=>c[key])
-    console.log(he)
+    let container = $('#consultingban_pagination')
+    target_bans = consultingGroupedresult.filter(c=>c[key])[0][key].bans
+    console.log(target_bans)
+    container.pagination({
+        dataSource: target_bans,
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 10,
+        callback: function (target_bans, pagination) {
+            var dataHtml = '';
+            $.each(target_bans, function (index, ban) {
+                baninfo = banData.filter(b=>b.ban_id = ban.ban_id)
+                console.log(baninfo)
+                dataHtml += `
+                    <td class="col-5">${baninfo.name}</td>
+                    <td class="col-5">${baninfo.teacher_name}( ${baninfo.teacher_engname} )</td>
+                    <td class="col-1">${make_reject_code(ban.done)}</td>
+                    <td class="col-1"><button class="modal-tbody-btn" onclick="delete_consulting(${consulting.id})">❌</button></td>`;
+            });
+            $('#consultingbandone').html(dataHtml);
+        }
+    })
 }
 
 function go_back() {
