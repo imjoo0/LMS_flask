@@ -1085,13 +1085,13 @@ async function get_request_consulting(){
                 }
             
                 acc[v].bans.push(
-                    item.reduce((acc, ban) => {
-                        if (!acc[ban.ban_id]){
+                    requeConsultings.reduce((acc, item) => {
+                        if (!acc[item.ban_id]){
                             acc[v] = { done: []};
                         }
                     
                         acc[v].done.push(
-                            ban.done
+                            item.done
                         );
                     
                         return acc;
