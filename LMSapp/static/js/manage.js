@@ -1155,18 +1155,17 @@ async function get_request_consulting(){
 
 function get_consultingban(key){
     $('consultingreqban_search_input').off('keyup');
-    let tt = consultingGroupedresult.filter(c=>c[key]);
-    console.log(consultingGroupedresult)
-    result = tt[key].bans.reduce((acc, item) => {
+    result = consultingGroupedresult.filter(c=>c[key])[0].bans.reduce((acc, item) => {
         if (!acc[item.ban_id]){
           acc[item.ban_id] = { students: []};
         }
         acc[item.ban_id].students.push(item);
         return acc;
     }, {});
-    target_bans = Object.entries(result).map(([v, items]) => {
-        return { [v]: items };
-    });
+    // target_bans = Object.entries(result).map(([v, items]) => {
+    //     return { [v]: items };
+    // });
+    console.log(result)
     cinfo =  key.split('_')
     $('#my_consulting_requestModalLabel').html(cinfo[0]+' | "'+cinfo[1]+'" 상담을 진행중인 반 목록');
     $('#request_consulting_listbox').hide()
