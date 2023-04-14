@@ -574,7 +574,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="taskModalLabel">
-                    요청 중인 업무 목록
+                    요청한 업무 목록
                 </h5>
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
@@ -590,26 +590,26 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-start align-items-start flex-column" style="overflow: auto;">
-                        <table class="table text-center" id="consulting_task_list">
+                        <div class="mo_inloading" class="loader loader--style2 text-center" title="1">
+                            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                                <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                                    <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
+                                </path>
+                            </svg>
+                        </div>
+                        <table class="table text-center not_inloading" id="requ_task_list">
                             <thead>
                                 <tr class="row">
-                                    <th class="col-3">날짜</th>
-                                    <th class="col-3">종류</th>
-                                    <th class="col-4">내용</th>
-                                    <th class="col-2">상세/삭제</th>
+                                    <th class="col-1">진행</th>
+                                    <th class="col-3">시작일 ~ 마감일</th>
+                                    <th class="col-2">종류</th>
+                                    <th class="col-5">내용</th>
+                                    <th class="col-1">진행 상황 보기</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr class="row" id="task-tr">
-                                    <td>
-                                        <div class="loader loader--style2" title="1">
-                                            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
-                                                <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
-                                                    <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
-                                                </path>
-                                            </svg>
-                                        </div>
-                                    </td>
+                                    
                                 </tr>
                             </tbody>
                         </table>
@@ -620,70 +620,31 @@
                 </div>
 
                 <div id="for_taskban_list">
-                    <button type="button" class="btn btn-back" onclick="go_back()">업무 목록보기🔙 </button>
-                    <table class="table text-center" style="width:100%;">
+                    <button type="button" class="btn btn-back not_inloading" onclick="go_taskback()">업무 목록보기🔙 </button>
+                    <input type="text" id="taskreqban_search_input" placeholder="반 혹은 선생님으로 검색" class="not_inloading" style="margin-left:80%"></p>
+                    <table class="table text-center not_inloading" style="width:100%;">
                         <tbody style="width:100%;">
                             <thead>
                                 <tr class="row">
-                                    <th class="col-4">반</th>
-                                    <th class="col-4">진행</th>
-                                    <th class="col-4">삭제</th>
+                                    <th class="col-2">반 이름</th>
+                                    <th class="col-2">담임 T</th>
+                                    <th class="col-2">📞</th>
+                                    <th class="col-2">✉️</th>
+                                    <th class="col-3">진행율</th>
+                                    <th class="col-1">삭제</th>
                                 </tr>
                             </thead>
-                            <tr class="row" id="taskban_list">
-                                <td class="col-4">ddd</td>
-                                <td class="col-4">ddd</td>
-                                <td class="col-4">✖️</td>
-                            </tr>
+                            <tbody>
+                                <tr class="row" id="taskban_list">
+                                </tr>
+                            </tbody>
                         </tbody>
                     </table>
+                    <div class="d-flex justify-content-center align-items-center w-100">
+                        <div id="taskbanpagination" class="mt-4 mb-5 text-center"></div>
+                    </div>
                 </div>            
             </div>
-    
-            <!-- <div id="for_task_list">
-                <div class="modal-header">
-                    <select id="task-category-select" onchange="sort_task(this.value)" class="form-select"
-                        aria-label="Default select example">
-                        <optgroup id="task-option">
-                        </optgroup>
-                    </select>
-                </div>
-                <div>
-                    <table class="table text-center" id="task_list" style="width:100%;">
-                        <tbody style="width:100%;">
-                            <thead>
-                                <tr class="row">
-                                    <th class="col-3">날짜</th>
-                                    <th class="col-3">종류</th>
-                                    <th class="col-4">내용</th>
-                                    <th class="col-2">상세|삭제</th>
-                                </tr>
-                            </thead>
-                            <tr id="task-tr" class="row"></tr>
-                        </tbody>
-                    </table>
-                    <div id="task-pagination" class="py-5"></div>
-                </div>
-            </div>
-            <div id="for_taskban_list">
-                <button type="button" class="btn btn-back" onclick="go_back()">업무 목록보기🔙 </button>
-                <table class="table text-center" style="width:100%;">
-                    <tbody style="width:100%;">
-                        <thead>
-                            <tr class="row">
-                                <th class="col-4">반</th>
-                                <th class="col-4">진행</th>
-                                <th class="col-4">삭제</th>
-                            </tr>
-                        </thead>
-                        <tr class="row" id="taskban_list">
-                            <td class="col-4">ddd</td>
-                            <td class="col-4">ddd</td>
-                            <td class="col-4">✖️</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div> -->
         </div>
     </div>
 </div>
