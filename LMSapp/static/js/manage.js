@@ -1387,7 +1387,7 @@ function get_taskban(task_id) {
 }
 async function delete_consulting(contents,ban_id) {
     targets = consultingData.filter(c=>c.contents == contents && c.ban_id == ban_id)
-    targets.each(targets, function (index, item) {
+    $.each(targets, function (index, item) {
         var con_val = confirm('정말 삭제하시겠습니까?')
         if (con_val == true) {
             delete_ban_consulting(item.id)
