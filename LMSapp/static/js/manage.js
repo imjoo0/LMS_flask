@@ -1297,6 +1297,7 @@ async function get_task(){
         $('#for_taskban_list').hide()
         $('#taskModalLabel').html('요청한 업무 목록');
     }
+
     let container = $('#task-pagination')
     var category_list = []
     container.pagination({
@@ -1365,10 +1366,13 @@ function get_taskban(key){
             $('#taskban_list').html(dataHtml);
         }
     };
+      // 이전 Pagination 삭제
+    if (currentPagination !== null) {
+        currentPagination.pagination('destroy');
+    }
     var container = $('#taskbanpagination');
-    container.pagination(Object.assign(paginationOptions, {'dataSource': taskGroupedresult.filter(t=>t[key])[0][key]}))
+    currentPagination = container.pagination(Object.assign(paginationOptions, {'dataSource': taskGroupedresult.filter(t=>t[key])[0][key]}))
 
-    console.log(taskGroupedresult.filter(t=>t[key])[0][key])
     $('#taskreqban_search_input').on('keyup', function () {
         var searchInput = $(this).val().toLowerCase();
         var filteredData = taskGroupedresult.filter(t=>t[key])[0][key].filter(function (data) {
@@ -1377,8 +1381,6 @@ function get_taskban(key){
         container.pagination('destroy');
         container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
     });
-    
-    $('#taskreqban_search_input').off('keyup');
 }  
 
 function go_taskback() {
