@@ -1110,6 +1110,7 @@ async function get_request_consulting(){
           
             return acc;
         }, {});
+
         // 결과를 객체의 배열로 변환 -> 상담 별 배열 
         consultingGroupedresult = Object.entries(consultingGrouped).map(([v, items]) => {
             return { [v]: items };
@@ -1154,7 +1155,9 @@ async function get_request_consulting(){
 
 function get_consultingban(key){
     $('consultingreqban_search_input').off('keyup');
-    result = consultingGroupedresult.filter(c=>c[key])[0][key].bans.reduce((acc, item) => {
+    let tt = consultingGroupedresult.filter(c=>c[key]);
+    console.log(tt)
+    result = tt[key].bans.reduce((acc, item) => {
         if (!acc[item.ban_id]){
           acc[item.ban_id] = { students: []};
         }
@@ -1179,7 +1182,6 @@ function get_consultingban(key){
             $.each(data, function (index, item) {
                 let key = Object.keys(item)[0]
                 baninfo = banData.filter(b=>b.ban_id == key)[0]
-                console.log(baninfo)
                 item[key].ban_name = baninfo.name
                 item[key].teacher_name = baninfo.teacher_name
                 item[key].teacher_engname = baninfo.teacher_engname
@@ -1201,7 +1203,7 @@ function get_consultingban(key){
 
     var container = $('#consultingban_pagination');
     container.pagination(Object.assign(paginationOptions, {'dataSource': target_bans }))
-    
+
     console.log(target_bans)
     var filteredData = target_bans.filter(function (data) {
         console.log(data)
