@@ -25,6 +25,21 @@ let make_reject_code = function(rc){
         return '⭕(승인)';
     }
 }
+let make_cycle = function(c){
+    if( c == 1){
+        return '월요일 마다';
+    }else if( c == 2){
+        return '화요일 마다';
+    }else if( c == 3){
+        return '수요일 마다';
+    }else if( c == 4){
+        return '목요일 마다';
+    }else if( c == 5){
+        return '금요일 마다';
+    }else{
+        return '주기 없음';
+    }
+}
 let make_date = function(d){
     if(d==null){
         return '❌'

@@ -1304,9 +1304,11 @@ async function get_task(){
                 category_list.push(task[key].name)
                 dataHtml += `
                     <td class="col-1"> ${make_duedate(task[key].startdate,task[key].deadline)}</td>
-                    <td class="col-3">"${task[key].startdate}" ~ "${task[key].deadline}"</td>
+                    <td class="col-2">"${task[key].startdate}" ~ "${task[key].deadline}"</td>
+                    <td class="col-2">${make_priority(task[key].priority)}</td>
                     <td class="col-2">${task[key].name} 업무</td>
-                    <td class="col-5"> ${task[key].contents}</td>
+                    <td class="col-3">${task[key].contents}</td>
+                    <td class="col-1">${task[key].cycle} 마다</td>
                     <td class="col-1" onclick ="get_taskban('${key}')"> 🔍 </td>`;
             });
             category_set = new Set(category_list)
@@ -1324,11 +1326,8 @@ function get_taskban(task_id){
     $('#taskreqban_search_input').off('keyup');
     $('#for_task_list').hide()
     $('#for_taskban_list').show()
-    const target_bans = [];
-    // 각 ban_id마다 반복
-    const ban_ids = [...new Set(consultingGroupedresult.filter(c=>c[key])[0][key].map(item => item.ban_id))]; // 중복 제거
-    ban_ids.forEach(ban_id => {
-        const baninfo = banData.filter(b=>b.ban_id == ban_id)[0]
+    taskGroupedresult[key].forEach(item => {
+        const baninfo = banData.filter(b=>b.ban_id == item.ban_id)[0]
         const ban_name =  baninfo.name
         const teacher_name =  baninfo.teacher_name
         const teacher_engname =  baninfo.teacher_engname
