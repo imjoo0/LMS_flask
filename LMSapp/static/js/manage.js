@@ -1367,11 +1367,11 @@ function get_taskban(key){
         }
     };
       // 이전 Pagination 삭제
-    if (currentPagination !== null) {
-        currentPagination.pagination('destroy');
+    if (container !== null) {
+        container.pagination('destroy');
     }
     var container = $('#taskbanpagination');
-    currentPagination = container.pagination(Object.assign(paginationOptions, {'dataSource': taskGroupedresult.filter(t=>t[key])[0][key]}))
+    container.pagination(Object.assign(paginationOptions, {'dataSource': taskGroupedresult.filter(t=>t[key])[0][key]}))
 
     $('#taskreqban_search_input').on('keyup', function () {
         var searchInput = $(this).val().toLowerCase();
