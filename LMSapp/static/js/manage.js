@@ -1167,7 +1167,7 @@ function get_consultingban(key){
     // target_bans = Object.entries(result).map(([v, items]) => {
     //     return { [v]: items };
     // });
-    console.log(consultingGroupedresult.filter(c=>c[key])[0])
+    console.log(consultingGroupedresult)
     cinfo =  key.split('_')
     $('#my_consulting_requestModalLabel').html(cinfo[0]+' | "'+cinfo[1]+'" 상담을 진행중인 반 목록');
     $('#request_consulting_listbox').hide()
