@@ -1191,7 +1191,7 @@ function get_consultingban(key){
                     <td class="col-2">${item[key].teacher_name}( ${item[key].teacher_engname} )</td>
                     <td class="col-2">${item[key].teacher_mobileno}</td>
                     <td class="col-2">${item[key].teacher_email}</td>
-                    <td class="col-3">${done_c}/${total_c} <strong>( ${answer_rate(done_c,total_c).toFixed(0)} % )</strong></td>
+                    <td class="col-3">${done_c}/${total_c} <strong>( ${answer_rate(done_c,total_c).toFixed(0)}% )</strong></td>
                     <td class="col-1"><button class="modal-tbody-btn" onclick="delete_consulting(${item[key].id})">🗑️</button></td>`;
             });
             $('#consultingbandone').html(dataHtml);
