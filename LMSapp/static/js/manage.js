@@ -1193,7 +1193,7 @@ function get_consultingban(key){
                     <td class="col-2">${item.teacher_mobileno}</td>
                     <td class="col-2">${item.teacher_email}</td>
                     <td class="col-3">${item.done_num}/${item.total_num} <strong> (${answer_rate(item.done_num,item.total_num).toFixed(0)}%)</strong></td>
-                    <td class="col-1"><button class="modal-tbody-btn" onclick="delete_consulting(${item.ban_id})">🗑️</button></td>`;
+                    <td class="col-1"><button class="modal-tbody-btn" onclick="delete_consulting(${cinfo[1]},${item.ban_id})">🗑️</button></td>`;
             });
             $('#consultingbandone').html(dataHtml);
         }
@@ -1386,8 +1386,9 @@ function get_taskban(task_id) {
     });
 }
 
-async function delete_consulting(idx) {
+async function delete_consulting(contents,ban_id) {
     const csrf = $('#csrf_token').val();
+    const idx = consultingData.filter(c=>c.contents == contents && c.ban_id == ban_id)[0].id
     var con_val = confirm('정말 삭제하시겠습니까?')
     if (con_val == true) {
         await $.ajax({
