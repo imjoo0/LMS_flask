@@ -1157,22 +1157,25 @@ async function get_request_consulting(){
 
 function get_consultingban(key){
     $('consultingreqban_search_input').off('keyup');
-    // result = consultingGroupedresult.filter(c=>c[key])[0].bans.reduce((acc, item) => {
-    //     if (!acc[item.ban_id]){
-    //       acc[item.ban_id] = { done: []};
-    //     }
-    //     acc[item.ban_id].students.push(item.done);
-    //     return acc;
-    // }, {});
-    // target_bans = Object.entries(result).map(([v, items]) => {
-    //     return { [v]: items };
-    // });
-    console.log(consultingGroupedresult)
     cinfo =  key.split('_')
     $('#my_consulting_requestModalLabel').html(cinfo[0]+' | "'+cinfo[1]+'" 상담을 진행중인 반 목록');
     $('#request_consulting_listbox').hide()
     $('#request_consultingban_listbox').show()
 
+    target_bans = consultingGroupedresult.filter(c=>c[key])[0].reduce((acc,cur)=>{
+        const { ban_id, done } = cur;
+        const idObj = acc[ban_id] || { done_num: 0, not_done_num: 0, total_num: 0 };
+        if (done === 0) {
+          idObj.not_done_num++;
+        } else if (done === 1) {
+          idObj.done_num++;
+        }
+        idObj.total_num++;
+        acc[ban_id] = idObj;
+        return acc;
+    }, {});
+
+    console.log(target_bans)
     var paginationOptions = {
         prevText: '이전',
         nextText: '다음',
@@ -1181,15 +1184,14 @@ function get_consultingban(key){
         callback: function (data, pagination) {
             var dataHtml = '';
             $.each(data, function (index, item) {
-                let key = Number(Object.keys(item)[0])
-                baninfo = banData.filter(b=>b.ban_id == key)[0]
-                item[key].ban_name = baninfo.name
-                item[key].teacher_name = baninfo.teacher_name
-                item[key].teacher_engname = baninfo.teacher_engname
-                item[key].teacher_mobileno = baninfo.teacher_mobileno
-                item[key].teacher_email = baninfo.teacher_email
-                total_c =  item[key].students.length
-                done_c = item[key].students.filter(s=>s.done == 1).length
+                baninfo = banData.filter(b=>b.ban_id == item.ban_id)[0]
+                item.ban_name = baninfo.name
+                item.teacher_name = baninfo.teacher_name
+                item.teacher_engname = baninfo.teacher_engname
+                item.teacher_mobileno = baninfo.teacher_mobileno
+                item.teacher_email = baninfo.teacher_email
+                total_c =  item.students.length
+                done_c = item.students.filter(s=>s.done == 1).length
                 dataHtml += `
                     <td class="col-2">${item[key].ban_name}</td>
                     <td class="col-2">${item[key].teacher_name}( ${item[key].teacher_engname} )</td>
@@ -1202,8 +1204,9 @@ function get_consultingban(key){
         }
     };
 
+    console.log(consultingGroupedresult)
     var container = $('#consultingban_pagination');
-    container.pagination(Object.assign(paginationOptions, {'dataSource': target_bans }))
+    container.pagination(Object.assign(paginationOptions, {'dataSource': target_bans}))
 
     console.log(target_bans)
     var filteredData = target_bans.filter(function (data) {
