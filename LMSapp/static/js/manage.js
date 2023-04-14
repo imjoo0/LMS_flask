@@ -1387,12 +1387,13 @@ function get_taskban(task_id) {
 }
 async function delete_consulting(contents,ban_id) {
     targets = consultingData.filter(c=>c.contents == contents && c.ban_id == ban_id)
+    var con_val = confirm('정말 삭제하시겠습니까?')
     $.each(targets, function (index, item) {
-        var con_val = confirm('정말 삭제하시겠습니까?')
         if (con_val == true) {
             delete_ban_consulting(item.id)
         }
     });
+    alert(`삭제되었습니다.`)
     get_request_consulting()
 }
 async function delete_ban_consulting(idx) {
@@ -1403,9 +1404,7 @@ async function delete_ban_consulting(idx) {
         headers: { 'content-type': 'application/json' },
         data: {},
         success: function (data) {
-            if (data.status == 200) {
-                alert(`삭제되었습니다.`)
-            } else {
+            if (data.status != 200) {
                 alert(`실패 ${data.status} ${data.text}`)
             }
         },
