@@ -1162,10 +1162,9 @@ function get_consultingban(key){
         acc[item.ban_id].students.push(item);
         return acc;
     }, {});
-    // target_bans = Object.entries(result).map(([v, items]) => {
-    //     return { [v]: items };
-    // });
-    console.log(result)
+    target_bans = Object.entries(result).map(([v, items]) => {
+        return { [v]: items };
+    });
     cinfo =  key.split('_')
     $('#my_consulting_requestModalLabel').html(cinfo[0]+' | "'+cinfo[1]+'" 상담을 진행중인 반 목록');
     $('#request_consulting_listbox').hide()
@@ -1179,7 +1178,7 @@ function get_consultingban(key){
         callback: function (data, pagination) {
             var dataHtml = '';
             $.each(data, function (index, item) {
-                let key = Object.keys(item)[0]
+                let key = Number(Object.keys(item)[0])
                 baninfo = banData.filter(b=>b.ban_id == key)[0]
                 item[key].ban_name = baninfo.name
                 item[key].teacher_name = baninfo.teacher_name
