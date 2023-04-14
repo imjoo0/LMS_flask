@@ -1202,8 +1202,9 @@ function get_consultingban(key){
     container.pagination(Object.assign(paginationOptions, {'dataSource': target_bans }))
     
     var filteredData = target_bans.filter(function (data) {
+        console.log(data)
         let key = Object.keys(data)[0]
-        
+        console.log(data[key])
         console.log(data[key].ban_name)
     });
     console.log(filteredData)
