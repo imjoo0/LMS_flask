@@ -1156,7 +1156,7 @@ async function get_request_consulting(){
 function get_consultingban(key){
     $('consultingreqban_search_input').off('keyup');
     let tt = consultingGroupedresult.filter(c=>c[key]);
-    console.log(tt)
+    console.log(consultingGroupedresult)
     result = tt[key].bans.reduce((acc, item) => {
         if (!acc[item.ban_id]){
           acc[item.ban_id] = { students: []};
