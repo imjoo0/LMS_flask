@@ -1084,15 +1084,26 @@ async function get_request_consulting(){
                 acc[v] = { bans: []};
                 }
             
-                acc[v].bans.push(item.ban_id);
-            
+                acc[v].bans.push(
+                    item.reduce((acc, ban) => {
+                        if (!acc[ban.ban_id]){
+                            acc[v] = { done: []};
+                        }
+                    
+                        acc[v].done.push(
+                            ban.done
+                        );
+                    
+                        return acc;
+                    }, {})
+                );
                 return acc;
             }, {});
-            console.log(consultingGrouped)
             // 결과를 객체의 배열로 변환 -> 상담 별 배열 
             consultingGroupedresult = Object.entries(consultingGrouped).map(([v, items]) => {
                 return { [v]: items };
             });
+            console.log(consultingGroupedresult)
             $('.mo_inloading').hide()
             $('.not_inloading').show()
             $('#request_consulting_listbox').show()
