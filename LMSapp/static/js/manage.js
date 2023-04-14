@@ -1235,7 +1235,7 @@ async function sort_consulting(value) {
                     <td class="col-3">${consulting_info[2]} ~ ${consulting_info[3]}</td>
                     <td class="col-2">${consulting_info[0]}</td>
                     <td class="col-5"> ${consulting_info[1]}</td>
-                    <td class="col-1" onclick ="get_consultingban('${key}')"> ✏️ </td>`;
+                    <td class="col-1" onclick ="get_consultingban('${key}')"> 🔍 </td>`;
                 }
             });
             $('#tr-row').html(dataHtml);
@@ -1386,40 +1386,27 @@ function go_taskback() {
 async function sort_task(value) {
     var dataHtml = '';
     let container = $('#task-pagination')
-    const data = taskData.filter((e) => {
-        if (value == 'none') {
-            return e.name
-        } else {
-            return e.name == value;
-        }
-    })
-    await container.pagination({
-        dataSource: data,
+    container.pagination({
+        dataSource: taskGroupedresult,
         prevText: '이전',
         nextText: '다음',
         pageSize: 10,
-        callback: function (data, pagination) {
+        callback: function (taskGroupedresult, pagination) {
             var dataHtml = '';
-            var idxHtml = `<option value="none" selected>카테고리를 선택해주세요</option>`;
-            $.each(data, function (index, task) {
-                let progress = '';
-                let startdate = new Date(task.startdate)
-                let deadline = new Date(task.deadline)
-                if (today < startdate) {
-                    progress = '예정'
-                } else if ((startdate <= today) && (today <= deadline)) {
-                    progress = '진행 중'
-                } else {
-                    progress = '마감'
+            $.each(taskGroupedresult, function (index, task) {
+                let key = Object.keys(task)[0]
+                if(key.includes(value) || value =="none"){
+                    let task_info = key.split('_')
+                    dataHtml += `
+                    <td class="col-1"> ${make_duedate(task_info[2],task_info[3])}</td>
+                    <td class="col-3">"${task_info[2]}" ~ </br>"${task_info[3]}"</td>
+                    <td class="col-1">${make_priority(task_info[5])}</td>
+                    <td class="col-1">${make_cycle(task_info[4])}</td>
+                    <td class="col-2">${task_info[0]} 업무</td>
+                    <td class="col-3">${task_info[1]}</td>
+                    <td class="col-1" onclick ="get_taskban('${key}')"> 🔍 </td>`;
                 }
-                dataHtml += `
-                    <td class="col-3">${task.startdate} ~ ${task.deadline} (${progress})</td>              
-                    <td class="col-3">${task.name}업무</td>    
-                    <td class="col-4"> ${task.contents}</td>
-                    <td class="col-2"> <button onclick="get_taskban(${task.id})">✏️</button>
-                    <button onclick="delete_task(${task.id})">❌</button></td>`;
             });
-
             $('#task-tr').html(dataHtml);
         }
     })
