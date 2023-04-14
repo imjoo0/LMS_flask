@@ -123,7 +123,6 @@ def uldata():
                 #     unlearned_bans.append(target_ban)
                 for data in unlearned_count['data']:
                     target_student = callapi.purple_info(data['student_id'],'get_student_info')
-                    print(target_student)
                     if target_student:
                         unlearned_students.append({'target_student': target_student,'unlearned_count':data})
                 return({'unlearned_students': unlearned_students})
@@ -326,7 +325,6 @@ def make_task():
                 targets = callapi.purple_allinfo('get_nfnovel_ban_teacher')
             
             for target in targets:
-                print(target)
                 new_task = TaskBan(ban_id=target['ban_id'],teacher_id=target['teacher_id'], task_id=task.id ,done=0)
                 db.session.add(new_task)
                 db.session.commit()

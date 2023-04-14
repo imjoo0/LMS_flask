@@ -1297,8 +1297,6 @@ async function get_task(){
         $('#for_taskban_list').hide()
         $('#my_consulting_requestModalLabel').html('요청한 업무 목록');
     }
-
-    console.log(taskGroupedresult)
     let container = $('#task-pagination')
     var category_list = []
     container.pagination({
@@ -1347,11 +1345,7 @@ function get_taskban(key){
         callback: function (data, pagination) {
             var dataHtml = '';
             $.each(data, function (index, item) {
-                console.log(item)
-                console.log(item.ban_id)
-                console.log(banData)
                 baninfo = banData.filter(b=>b.ban_id == item.ban_id)[0]
-                console.log(baninfo)
                 item.ban_name =  baninfo.name
                 item.teacher_name =  baninfo.teacher_name
                 item.teacher_engname =  baninfo.teacher_engname
