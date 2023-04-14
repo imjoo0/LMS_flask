@@ -1297,11 +1297,7 @@ async function get_task(){
         $('#for_taskban_list').hide()
         $('#taskModalLabel').html('요청한 업무 목록');
     }
-
     let container = $('#task-pagination')
-    if(container !== null) {
-        container.pagination('destroy');
-    }
     var category_list = []
     container.pagination({
         dataSource: taskGroupedresult,
@@ -1336,10 +1332,6 @@ async function get_task(){
 }
 function get_taskban(key){
     $('#taskreqban_search_input').off('keyup');
-    // 이전 Pagination 삭제
-    if(container !== null) {
-        container.pagination('destroy');
-    }
     tinfo =  key.split('_')
     $('#taskModalLabel').html(tinfo[0]+' | "'+tinfo[1]+'" 업무를 진행중인 반 목록');
     $('#for_task_list').hide()
