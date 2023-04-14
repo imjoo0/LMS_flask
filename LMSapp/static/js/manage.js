@@ -1082,9 +1082,9 @@ async function get_request_consulting(){
                 const consultingGrouped = requeConsultings.reduce((acc, item) => {
                     const v = `${item.category}_${item.contents}_${item.startdate}_${item.deadline}`;
                     if (!acc[v]){
-                    acc[v] = { bans: []};
+                       acc[v] = [];
                     }
-                    acc[v].bans.push(
+                    acc[v].push(
                         {'ban_id':item.ban_id,'done':item.done}
                     );
                     return acc;
