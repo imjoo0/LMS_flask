@@ -1252,8 +1252,8 @@ async function get_task(){
         await get_all_task().then(() => {
             // 컨설팅 정보로 x
             if (taskData.length > 0) {
-                const v = `${item.name}_${item.contents}_${item.startdate}_${item.deadline}_${item.cycle}_${item.priority}`;
                 taskGrouped = taskData.reduce((acc, item) => {
+                    const v = `${item.name}_${item.contents}_${item.startdate}_${item.deadline}_${item.cycle}_${item.priority}`;
                     if (!acc[v]) {
                         acc[v] = [];
                     }
@@ -1274,8 +1274,8 @@ async function get_task(){
         });
     }else{
         if (taskData.length > 0) {
-            const v = `${item.name}_${item.contents}_${item.startdate}_${item.deadline}_${item.cycle}_${item.priority}`;
             taskGrouped = taskData.reduce((acc, item) => {
+                const v = `${item.name}_${item.contents}_${item.startdate}_${item.deadline}_${item.cycle}_${item.priority}`;
                 if (!acc[v]) {
                     acc[v] = [];
                 }
