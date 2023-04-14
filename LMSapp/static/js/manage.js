@@ -1349,6 +1349,7 @@ function get_taskban(key){
             var dataHtml = '';
             $.each(data, function (index, item) {
                 const baninfo = banData.filter(b=>b.ban_id == item.ban_id)[0]
+                console.log(baninfo)
                 item.ban_name =  baninfo.name
                 item.teacher_name =  baninfo.teacher_name
                 item.teacher_engname =  baninfo.teacher_engname
