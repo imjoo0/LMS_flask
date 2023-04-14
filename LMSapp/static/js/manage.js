@@ -1136,7 +1136,7 @@ async function get_request_consulting(){
                 category_list.push(consulting_info[0])
                 dataHtml += `
                     <td class="col-1"> ${make_duedate(consulting_info[2],consulting_info[3])}</td>
-                    <td class="col-3">${consulting_info[2]} ~ ${consulting_info[3]}</td>
+                    <td class="col-3">"${consulting_info[2]}" ~ "${consulting_info[3]}"</td>
                     <td class="col-2">${consulting_info[0]}</td>
                     <td class="col-5"> ${consulting_info[1]}</td>
                     <td class="col-1" onclick ="get_consultingban('${key}')"> ✏️ </td>`;
@@ -1187,11 +1187,11 @@ function get_consultingban(key){
                 total_c =  item[key].students.length
                 done_c = item[key].students.filter(s=>s.done == 1).length
                 dataHtml += `
-                    <td class="col-3">${item[key].ban_name}</td>
+                    <td class="col-2">${item[key].ban_name}</td>
                     <td class="col-2">${item[key].teacher_name}( ${item[key].teacher_engname} )</td>
                     <td class="col-2">${item[key].teacher_mobileno}</td>
                     <td class="col-2">${item[key].teacher_email}</td>
-                    <td class="col-2">${done_c}/${total_c} ( ${answer_rate(done_c,total_c).toFixed(2)} % )</td>
+                    <td class="col-3">${done_c}/${total_c} <strong>( ${answer_rate(done_c,total_c).toFixed(0)} % )</strong></td>
                     <td class="col-1"><button class="modal-tbody-btn" onclick="delete_consulting(${item[key].id})">🗑️</button></td>`;
             });
             $('#consultingbandone').html(dataHtml);
