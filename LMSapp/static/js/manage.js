@@ -1142,7 +1142,7 @@ async function get_request_consulting(){
                     <td class="col-3">"${consulting_info[2]}" ~ "${consulting_info[3]}"</td>
                     <td class="col-2">${consulting_info[0]}</td>
                     <td class="col-5"> ${consulting_info[1]}</td>
-                    <td class="col-1" onclick ="get_consultingban('${key}')"> ✏️ </td>`;
+                    <td class="col-1" onclick ="get_consultingban('${key}')"> 🔍 </td>`;
             });
             category_set = new Set(category_list)
             category_list = [...category_set]
