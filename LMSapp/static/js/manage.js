@@ -1357,7 +1357,7 @@ function get_taskban(key){
                     <td class="col-2">${item.teacher_mobileno}</td>
                     <td class="col-2">${item.teacher_email}</td>
                     <td class="col-3">${make_reject_code(item.done)}</td>
-                    <td class="col-1"><button class="modal-tbody-btn" onclick="delete_task('${cinfo[1]}',${item.ban_id})">🗑️</button></td>`;
+                    <td class="col-1"><button class="modal-tbody-btn" onclick="delete_task('${tinfo[1]}',${item.ban_id})">🗑️</button></td>`;
             });
             $('#taskban_list').html(dataHtml);
         }
