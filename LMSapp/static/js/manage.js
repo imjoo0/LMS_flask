@@ -1348,7 +1348,9 @@ function get_taskban(key){
         callback: function (data, pagination) {
             var dataHtml = '';
             $.each(data, function (index, item) {
-                const baninfo = banData.filter(b=>b.ban_id == item.ban_id)[0]
+                console.log(banData)
+                console.log(item)
+                baninfo = banData.filter(b=>b.ban_id == item.ban_id)
                 console.log(baninfo)
                 item.ban_name =  baninfo.name
                 item.teacher_name =  baninfo.teacher_name
