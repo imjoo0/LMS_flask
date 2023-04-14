@@ -1178,7 +1178,7 @@ function get_consultingban(key){
             var dataHtml = '';
             $.each(data, function (index, item) {
                 let key = Object.keys(item)[0]
-                baninfo = banData.filter(b=>b.ban_id == key)
+                baninfo = banData.filter(b=>b.ban_id == key)[0]
                 console.log(baninfo)
                 item[key].ban_name = baninfo.name
                 item[key].teacher_name = baninfo.teacher_name
@@ -1202,6 +1202,7 @@ function get_consultingban(key){
     var container = $('#consultingban_pagination');
     container.pagination(Object.assign(paginationOptions, {'dataSource': target_bans }))
     
+    console.log(target_bans)
     var filteredData = target_bans.filter(function (data) {
         console.log(data)
         let key = Object.keys(data)[0]
