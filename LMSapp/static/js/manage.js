@@ -1204,7 +1204,8 @@ function get_consultingban(key){
     $('consultingreqban_search_input').on('keyup', function () {
         var searchInput = $(this).val().toLowerCase();
         var filteredData = target_bans.filter(function (data) {
-            return data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1 || data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1 || data.hasOwnProperty('teacher_engname') && data.teacher_engname.toLowerCase().indexOf(searchInput) !== -1;
+            let key = Object.keys(data)[0]
+            return data[key].hasOwnProperty('ban_name') && data[key].ban_name.toLowerCase().indexOf(searchInput) !== -1 || data[key].hasOwnProperty('teacher_name') && data[key].teacher_name.toLowerCase().indexOf(searchInput) !== -1 || data[key].hasOwnProperty('teacher_engname') && data[key].teacher_engname.toLowerCase().indexOf(searchInput) !== -1;
         });
         container.pagination('destroy');
         container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
