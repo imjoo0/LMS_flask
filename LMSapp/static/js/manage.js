@@ -1373,6 +1373,8 @@ function get_taskban(key){
         container.pagination('destroy');
         container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
     });
+    
+    $('#taskreqban_search_input').off('keyup');
 }  
 
 function go_taskback() {
