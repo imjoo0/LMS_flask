@@ -1245,7 +1245,9 @@ async function sort_consulting(value) {
 
 // 요청 업무관리 기능 
 async function get_task(){
-    $('#taskModalLabel').html('요청한 업무 목록')
+    $('#for_task_list').show()
+    $('#for_taskban_list').hide()
+    $('#my_consulting_requestModalLabel').html('요청한 업무 목록');
     $('.mo_inloading').show()
     $('.not_inloading').hide()
     if (!taskData) {
@@ -1292,7 +1294,9 @@ async function get_task(){
         $('.mo_inloading').hide()
         $('.not_inloading').show()
         $('#requ_task_list').show()
+        $('#for_task_list').show()
         $('#for_taskban_list').hide()
+        $('#my_consulting_requestModalLabel').html('요청한 업무 목록');
     }
 
     console.log(taskGroupedresult)
@@ -1330,29 +1334,56 @@ async function get_task(){
     })
 }
 function get_taskban(key){
-    console.log(taskGroupedresult)
     $('#taskreqban_search_input').off('keyup');
     tinfo =  key.split('_')
-    $('#taskModalLabel').html(tinfo[0]+' | "'+tinfo[1]+'" 상담을 진행중인 반 목록');
+    $('#taskModalLabel').html(tinfo[0]+' | "'+tinfo[1]+'" 업무를 진행중인 반 목록');
     $('#for_task_list').hide()
     $('#for_taskban_list').show()
-    // taskGroupedresult[key].forEach(item => {
-    //     const baninfo = banData.filter(b=>b.ban_id == item.ban_id)[0]
-    //     const ban_name =  baninfo.name
-    //     const teacher_name =  baninfo.teacher_name
-    //     const teacher_engname =  baninfo.teacher_engname
-    //     const teacher_mobileno =  baninfo.teacher_mobileno
-    //     const teacher_email =  baninfo.teacher_email
-    //     // done_num, not_done_num, total_num 계산
-    //     const done_num = consultingGroupedresult.filter(c=>c[key])[0][key].filter(item => item.ban_id === ban_id && item.done === 1).length;
-    //     const total_num = consultingGroupedresult.filter(c=>c[key])[0][key].filter(item => item.ban_id === ban_id && item.done === 0).length + done_num;
-  
-    //     // 결과 객체를 배열에 추가
-    //     target_bans.push({ban_id,ban_name,teacher_name,teacher_engname,teacher_mobileno,total_num,teacher_email,done_num,});
-    // });
+    
+    var paginationOptions = {
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 5,
+        pageClassName: 'float-end',
+        callback: function (data, pagination) {
+            var dataHtml = '';
+            $.each(data, function (index, item) {
+                const baninfo = banData.filter(b=>b.ban_id == item.ban_id)[0]
+                item.ban_name =  baninfo.name
+                item.teacher_name =  baninfo.teacher_name
+                item.teacher_engname =  baninfo.teacher_engname
+                item.teacher_mobileno =  baninfo.teacher_mobileno
+                item.teacher_email =  baninfo.teacher_email
+                dataHtml += `
+                    <td class="col-2">${item.ban_name}</td>
+                    <td class="col-2">${item.teacher_name}( ${item.teacher_engname} )</td>
+                    <td class="col-2">${item.teacher_mobileno}</td>
+                    <td class="col-2">${item.teacher_email}</td>
+                    <td class="col-3">${make_reject_code(item.done)}</td>
+                    <td class="col-1"><button class="modal-tbody-btn" onclick="delete_task('${cinfo[1]}',${item.ban_id})">🗑️</button></td>`;
+            });
+            $('#taskban_list').html(dataHtml);
+        }
+    };
+    var container = $('#taskbanpagination');
+    container.pagination(Object.assign(paginationOptions, {'dataSource': taskGroupedresult.filter(t=>t[key])[0][key]}))
 
+    $('#taskreqban_search_input').on('keyup', function () {
+        var searchInput = $(this).val().toLowerCase();
+        var filteredData = taskGroupedresult.filter(t=>t[key])[0][key].filter(function (data) {
+            return data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1 || data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1 || data.hasOwnProperty('teacher_engname') && data.teacher_engname.toLowerCase().indexOf(searchInput) !== -1;
+        });
+        container.pagination('destroy');
+        container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
+    });
+}  
 
-}    
+function go_taskback() {
+    $('#for_task_list').show()
+    $('#for_taskban_list').hide()
+    $('#my_consulting_requestModalLabel').html('요청한 업무 목록');
+  }  
+
 async function sort_task(value) {
     var dataHtml = '';
     let container = $('#task-pagination')
