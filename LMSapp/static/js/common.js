@@ -20,9 +20,9 @@ let make_recobook = function(c){
 }
 let make_reject_code = function(rc){
     if( rc == 0){
-        return '❌';
+        return '❌(반려)';
     }else{
-        return '⭕';
+        return '⭕(승인)';
     }
 }
 let make_date = function(d){
