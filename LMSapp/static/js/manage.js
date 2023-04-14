@@ -1366,11 +1366,11 @@ function get_taskban(key){
             $('#taskban_list').html(dataHtml);
         }
     };
-      // 이전 Pagination 삭제
+    var container = $('#taskbanpagination');
+    // 이전 Pagination 삭제
     if (container !== null) {
         container.pagination('destroy');
     }
-    var container = $('#taskbanpagination');
     container.pagination(Object.assign(paginationOptions, {'dataSource': taskGroupedresult.filter(t=>t[key])[0][key]}))
 
     $('#taskreqban_search_input').on('keyup', function () {
