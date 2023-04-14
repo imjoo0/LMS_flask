@@ -1266,7 +1266,7 @@ async function get_task(){
                     return { [v]: items };
                 });
             }
-            $('#my_consulting_requestModalLabel').html('요청한 업무 목록');
+            $('#taskModalLabel').html('요청한 업무 목록');
             $('#for_task_list').show()
             $('#for_taskban_list').hide()
             $('.mo_inloading').hide()
@@ -1295,7 +1295,7 @@ async function get_task(){
         $('#requ_task_list').show()
         $('#for_task_list').show()
         $('#for_taskban_list').hide()
-        $('#my_consulting_requestModalLabel').html('요청한 업무 목록');
+        $('#taskModalLabel').html('요청한 업무 목록');
     }
     let container = $('#task-pagination')
     var category_list = []
@@ -1378,8 +1378,8 @@ function get_taskban(key){
 function go_taskback() {
     $('#for_task_list').show()
     $('#for_taskban_list').hide()
-    $('#my_consulting_requestModalLabel').html('요청한 업무 목록');
-  }  
+    $('#taskModalLabel').html('요청한 업무 목록');
+}  
 
 async function sort_task(value) {
     var dataHtml = '';
