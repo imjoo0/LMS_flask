@@ -1162,7 +1162,7 @@ function get_consultingban(key){
     $('#request_consulting_listbox').hide()
     $('#request_consultingban_listbox').show()
     console.log(consultingGroupedresult.filter(c=>c[key])[0])
-    target_bans = consultingGroupedresult.filter(c=>c[key])[0].reduce((acc,cur)=>{
+    target_bans = consultingGroupedresult.filter(c=>c[key])[0].key.reduce((acc,cur)=>{
         const { ban_id, done } = cur;
         const idObj = acc[ban_id] || { done_num: 0, not_done_num: 0, total_num: 0 };
         if (done === 0) {
