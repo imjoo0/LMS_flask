@@ -1349,7 +1349,7 @@ function get_taskban(key){
                 console.log(item)
                 baninfo = banData.filter(b=>b.ban_id == item.ban_id)[0]
                 console.log(baninfo)
-                item.ban_name =  baninfo.ban_name
+                item.ban_name =  baninfo.name
                 item.teacher_name =  baninfo.teacher_name
                 item.teacher_engname =  baninfo.teacher_engname
                 item.teacher_mobileno =  baninfo.teacher_mobileno
