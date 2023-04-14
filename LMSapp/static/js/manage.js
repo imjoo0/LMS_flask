@@ -1154,17 +1154,16 @@ async function get_request_consulting(){
 
 function get_consultingban(key){
     $('consultingreqban_search_input').off('keyup');
-    target_bans = consultingGroupedresult.filter(c=>c[key])[0][key].bans
-    result = target_bans.reduce((acc, item) => {
+    result = consultingGroupedresult.filter(c=>c[key])[0][key].bans.reduce((acc, item) => {
         if (!acc[item.ban_id]){
           acc[item.ban_id] = { students: []};
         }
-      
         acc[item.ban_id].students.push(item);
-      
         return acc;
     }, {});
-    console.log(result)
+    target_bans = Object.entries(result).map(([v, items]) => {
+        return { [v]: items };
+    });
     cinfo =  key.split('_')
     $('#my_consulting_requestModalLabel').html(cinfo[0]+' | "'+cinfo[1]+'" 상담을 진행중인 반 목록');
     $('#request_consulting_listbox').hide()
@@ -1177,21 +1176,23 @@ function get_consultingban(key){
         pageClassName: 'float-end',
         callback: function (data, pagination) {
             var dataHtml = '';
-            $.each(data, function (index, ban) {
-                baninfo = banData.filter(b=>b.ban_id == ban.ban_id)[0]
-                ban.ban_name = baninfo.name
-                ban.teacher_name = baninfo.teacher_name
-                ban.teacher_engname = baninfo.teacher_engname
-                ban.teacher_mobileno = baninfo.teacher_mobileno
-                ban.teacher_email = baninfo.teacher_email
-                
+            $.each(data, function (index, item) {
+                let key = Object.keys(item)[0]
+                baninfo = banData.filter(b=>b.ban_id == key)[0]
+                item[key].ban_name = baninfo.name
+                item[key].teacher_name = baninfo.teacher_name
+                item[key].teacher_engname = baninfo.teacher_engname
+                item[key].teacher_mobileno = baninfo.teacher_mobileno
+                item[key].teacher_email = baninfo.teacher_email
+                total_c =  item[key].students.length
+                done_c = item[key].students.filter(s=>s.done == 1).length
                 dataHtml += `
-                    <td class="col-3">${ban.ban_name}</td>
-                    <td class="col-3">${ban.teacher_name}( ${ban.teacher_engname} )</td>
-                    <td class="col-2">${ban.teacher_mobileno}</td>
-                    <td class="col-2">${ban.teacher_email}</td>
-                    <td class="col-1">${make_reject_code(ban.done)}</td>
-                    <td class="col-1"><button class="modal-tbody-btn" onclick="delete_consulting(${ban.id})">🗑️</button></td>`;
+                    <td class="col-3">${item[key].ban_name}</td>
+                    <td class="col-2">${item[key].teacher_name}( ${item[key].teacher_engname} )</td>
+                    <td class="col-2">${item[key].teacher_mobileno}</td>
+                    <td class="col-2">${item[key].teacher_email}</td>
+                    <td class="col-2">${done_c}/${total_c} ( ${answer_rate(done_c,total_c).toFixed(2)} % )</td>
+                    <td class="col-1"><button class="modal-tbody-btn" onclick="delete_consulting(${item[key].id})">🗑️</button></td>`;
             });
             $('#consultingbandone').html(dataHtml);
         }
