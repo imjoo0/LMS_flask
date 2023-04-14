@@ -1193,7 +1193,7 @@ function get_consultingban(key){
                     <td class="col-2">${item.teacher_mobileno}</td>
                     <td class="col-2">${item.teacher_email}</td>
                     <td class="col-3">${item.done_num}/${item.total_num} <strong> (${answer_rate(item.done_num,item.total_num).toFixed(0)}%)</strong></td>
-                    <td class="col-1"><button class="modal-tbody-btn" onclick="delete_consulting(${cinfo[1]},${item.ban_id})">🗑️</button></td>`;
+                    <td class="col-1"><button class="modal-tbody-btn" onclick="delete_consulting('${cinfo[1]}',${item.ban_id})">🗑️</button></td>`;
             });
             $('#consultingbandone').html(dataHtml);
         }
