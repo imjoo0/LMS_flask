@@ -1388,7 +1388,8 @@ function get_taskban(task_id) {
 
 async function delete_consulting(contents,ban_id) {
     const csrf = $('#csrf_token').val();
-    const idx = consultingData.filter(c=>c.contents == contents && c.ban_id == ban_id)[0].id
+    targets = consultingData.filter(c=>c.contents == contents && c.ban_id == ban_id)
+    console.log(targets)
     var con_val = confirm('정말 삭제하시겠습니까?')
     if (con_val == true) {
         await $.ajax({
@@ -1407,7 +1408,7 @@ async function delete_consulting(contents,ban_id) {
                 alert(xhr.responseText);
             }
         })
-        get_consulting()
+        get_request_consulting()
     }
 }
 
