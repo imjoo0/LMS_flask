@@ -1073,64 +1073,54 @@ async function get_request_consulting(){
     $('#my_consulting_requestModalLabel').html('요청한 상담 목록');
     $('.mo_inloading').show()
     $('.not_inloading').hide()
+    let requeConsultings = []
     if (!consultingData){
         await get_all_consulting().then(() => {
             // 컨설팅 정보로 
             requeConsultings = consultingData.filter(c=>c.category_id > 100)
-            const consultingGrouped = requeConsultings.reduce((acc, item) => {
-                const v = `${item.category}_${item.contents}_${item.startdate}_${item.deadline}`;
-            
-                if (!acc[v]){
-                acc[v] = { bans: []};
-                }
-            
-                acc[v].bans.push(
-                    requeConsultings.reduce((acc, item) => {
-                        if (!acc[item.ban_id]){
-                            acc[v] = { done: []};
-                        }
-                    
-                        acc[v].done.push(
-                            item.done
-                        );
-                    
-                        return acc;
-                    }, {})
-                );
-                return acc;
-            }, {});
-            // 결과를 객체의 배열로 변환 -> 상담 별 배열 
-            consultingGroupedresult = Object.entries(consultingGrouped).map(([v, items]) => {
-                return { [v]: items };
-            });
-            console.log(consultingGroupedresult)
+            if(requeConsultings.length > 0){
+                const consultingGrouped = requeConsultings.reduce((acc, item) => {
+                    const v = `${item.category}_${item.contents}_${item.startdate}_${item.deadline}`;
+                    if (!acc[v]){
+                    acc[v] = { bans: []};
+                    }
+                    acc[v].bans.push(
+                        {'ban_id':item.ban_id,'done':item.done}
+                    );
+                    return acc;
+                }, {});
+                // 결과를 객체의 배열로 변환 -> 상담 별 배열 
+                consultingGroupedresult = Object.entries(consultingGrouped).map(([v, items]) => {
+                    return { [v]: items };
+                });
+            }
             $('.mo_inloading').hide()
             $('.not_inloading').show()
             $('#request_consulting_listbox').show()
             $('#request_consultingban_listbox').hide()
         });
     }else{
-        requeConsultings = consultingData.filter(c=>c.category_id > 100)
-        const consultingGrouped = requeConsultings.reduce((acc, item) => {
-            const v = `${item.category}_${item.contents}_${item.startdate}_${item.deadline}`;
+        // requeConsultings = consultingData.filter(c=>c.category_id > 100)
+        // const consultingGrouped = requeConsultings.reduce((acc, item) => {
+        //     const v = `${item.category}_${item.contents}_${item.startdate}_${item.deadline}`;
           
-            if (!acc[v]){
-              acc[v] = { bans: []};
-            }
+        //     if (!acc[v]){
+        //       acc[v] = { bans: []};
+        //     }
           
-            acc[v].bans.push(item);
+        //     acc[v].bans.push(item);
           
-            return acc;
-        }, {});
+        //     return acc;
+        // }, {});
 
-        // 결과를 객체의 배열로 변환 -> 상담 별 배열 
-        consultingGroupedresult = Object.entries(consultingGrouped).map(([v, items]) => {
-            return { [v]: items };
-        });
-        $('.mo_inloading').hide()
-        $('.not_inloading').show()
-        $('#request_consulting_listbox').show()
-        $('#request_consultingban_listbox').hide()
+        // // 결과를 객체의 배열로 변환 -> 상담 별 배열 
+        // consultingGroupedresult = Object.entries(consultingGrouped).map(([v, items]) => {
+        //     return { [v]: items };
+        // });
+        // $('.mo_inloading').hide()
+        // $('.not_inloading').show()
+        // $('#request_consulting_listbox').show()
+        // $('#request_consultingban_listbox').hide()
     }
     let container = $('#consulting-pagination')
 
@@ -1169,14 +1159,15 @@ function get_consultingban(key){
     $('consultingreqban_search_input').off('keyup');
     result = consultingGroupedresult.filter(c=>c[key])[0].bans.reduce((acc, item) => {
         if (!acc[item.ban_id]){
-          acc[item.ban_id] = { students: []};
+          acc[item.ban_id] = { done: []};
         }
-        acc[item.ban_id].students.push(item);
+        acc[item.ban_id].students.push(item.done);
         return acc;
     }, {});
     target_bans = Object.entries(result).map(([v, items]) => {
         return { [v]: items };
     });
+    console.log(target_bans)
     cinfo =  key.split('_')
     $('#my_consulting_requestModalLabel').html(cinfo[0]+' | "'+cinfo[1]+'" 상담을 진행중인 반 목록');
     $('#request_consulting_listbox').hide()
