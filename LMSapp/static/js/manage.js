@@ -1308,7 +1308,7 @@ async function get_task(){
                     <td class="col-2">${make_priority(task[key].priority)}</td>
                     <td class="col-2">${task[key].name} 업무</td>
                     <td class="col-3">${task[key].contents}</td>
-                    <td class="col-1">${task[key].cycle} 마다</td>
+                    <td class="col-1">${make_cycle(task[key].cycle)}</td>
                     <td class="col-1" onclick ="get_taskban('${key}')"> 🔍 </td>`;
             });
             category_set = new Set(category_list)
