@@ -1190,13 +1190,6 @@ function get_consultingban(key){
         callback: function (data, pagination) {
             var dataHtml = '';
             $.each(data, function (index, item) {
-                item.ban_name = baninfo.name
-                item.teacher_name = baninfo.teacher_name
-                item.teacher_engname = baninfo.teacher_engname
-                item.teacher_mobileno = baninfo.teacher_mobileno
-                item.teacher_email = baninfo.teacher_email
-                total_c =  item.students.length
-                done_c = item.students.filter(s=>s.done == 1).length
                 dataHtml += `
                     <td class="col-2">${item.ban_name}</td>
                     <td class="col-2">${item.teacher_name}( ${item.teacher_engname} )</td>
