@@ -1394,7 +1394,7 @@ async function delete_consulting(contents,ban_id) {
         }
     });
     alert(`삭제되었습니다.`)
-    get_request_consulting()
+    window.location.reload()
 }
 async function delete_ban_consulting(idx) {
     const csrf = $('#csrf_token').val();
