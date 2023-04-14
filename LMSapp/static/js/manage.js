@@ -1075,6 +1075,23 @@ async function get_request_consulting(){
     $('.not_inloading').hide()
     if (!consultingData){
         await get_all_consulting().then(() => {
+            // 반 별로 묶기 
+            console.log(banData)
+            console.log(consultingData)
+            let result = banData.reduce((acc, ban) => {
+                const consultingList = consultingData.filter(c => c.ban_id === ban.id);
+                if (consultingList.length > 0) {
+                    acc.push({
+                        'teacher_id':ban.ban_id,
+                        'student_id': ban.student_id,
+                        'consulting_list': []
+                    });
+                }
+                return acc;
+            }, []);
+            console.log(result)
+
+            // 컨설팅 정보로 
             requeConsultings = consultingData.filter(c=>c.category_id > 100)
             const consultingGrouped = requeConsultings.reduce((acc, item) => {
                 const v = `${item.category}_${item.contents}_${item.startdate}_${item.deadline}`;
