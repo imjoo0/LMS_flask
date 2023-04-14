@@ -327,6 +327,7 @@ def make_task():
                 targets = callapi.purple_allinfo('get_nfnovel_ban_teacher')
             
             for target in targets:
+                print(target)
                 new_task = TaskBan(ban_id=target['ban_id'],teacher_id=target['teacher_id'], task_id=task.id ,done=0)
                 db.session.add(new_task)
                 db.session.commit()
