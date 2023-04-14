@@ -1345,8 +1345,11 @@ function get_taskban(key){
         callback: function (data, pagination) {
             var dataHtml = '';
             $.each(data, function (index, item) {
+                console.log(banData)
+                console.log(item)
                 baninfo = banData.filter(b=>b.ban_id == item.ban_id)[0]
-                item.ban_name =  baninfo.name
+                console.log(baninfo)
+                item.ban_name =  baninfo.ban_name
                 item.teacher_name =  baninfo.teacher_name
                 item.teacher_engname =  baninfo.teacher_engname
                 item.teacher_mobileno =  baninfo.teacher_mobileno
@@ -1365,6 +1368,7 @@ function get_taskban(key){
     var container = $('#taskbanpagination');
     container.pagination(Object.assign(paginationOptions, {'dataSource': taskGroupedresult.filter(t=>t[key])[0][key]}))
 
+    console.log(taskGroupedresult.filter(t=>t[key])[0][key])
     $('#taskreqban_search_input').on('keyup', function () {
         var searchInput = $(this).val().toLowerCase();
         var filteredData = taskGroupedresult.filter(t=>t[key])[0][key].filter(function (data) {
