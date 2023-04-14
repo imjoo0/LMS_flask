@@ -1157,17 +1157,17 @@ async function get_request_consulting(){
 
 function get_consultingban(key){
     $('consultingreqban_search_input').off('keyup');
-    result = consultingGroupedresult.filter(c=>c[key])[0].bans.reduce((acc, item) => {
-        if (!acc[item.ban_id]){
-          acc[item.ban_id] = { done: []};
-        }
-        acc[item.ban_id].students.push(item.done);
-        return acc;
-    }, {});
-    target_bans = Object.entries(result).map(([v, items]) => {
-        return { [v]: items };
-    });
-    console.log(target_bans)
+    // result = consultingGroupedresult.filter(c=>c[key])[0].bans.reduce((acc, item) => {
+    //     if (!acc[item.ban_id]){
+    //       acc[item.ban_id] = { done: []};
+    //     }
+    //     acc[item.ban_id].students.push(item.done);
+    //     return acc;
+    // }, {});
+    // target_bans = Object.entries(result).map(([v, items]) => {
+    //     return { [v]: items };
+    // });
+    console.log(consultingGroupedresult.filter(c=>c[key])[0])
     cinfo =  key.split('_')
     $('#my_consulting_requestModalLabel').html(cinfo[0]+' | "'+cinfo[1]+'" 상담을 진행중인 반 목록');
     $('#request_consulting_listbox').hide()
