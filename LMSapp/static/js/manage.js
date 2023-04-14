@@ -1307,7 +1307,7 @@ async function get_task(){
             var idxHtml = `<option value="none">전체</option>`;
             var dataHtml = '';
             $.each(taskGroupedresult, function (index, task) {
-                let key = Object.keys(consulting)[0]
+                let key = Object.keys(task)[0]
                 let task_info = key.split('_')
                 category_list.push(task_info[0])
                 dataHtml += `
