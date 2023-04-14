@@ -1289,6 +1289,7 @@ async function get_task(){
         $('#for_taskban_list').hide()
     }
 
+    console.log(taskGroupedresult)
     let container = $('#task-pagination')
     var category_list = []
     container.pagination({
