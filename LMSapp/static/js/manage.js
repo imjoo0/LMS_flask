@@ -1156,15 +1156,12 @@ async function get_request_consulting(){
 }
 
 function get_consultingban(key){
-    $('consultingreqban_search_input').off('keyup');
+    $('#consultingreqban_search_input').off('keyup');
     cinfo =  key.split('_')
     $('#my_consulting_requestModalLabel').html(cinfo[0]+' | "'+cinfo[1]+'" 상담을 진행중인 반 목록');
     $('#request_consulting_listbox').hide()
     $('#request_consultingban_listbox').show()
     const target_bans = [];
-
-    result = consultingGroupedresult.filter(c=>c[key])[0][key]
-    console.log(result)
     // 각 ban_id마다 반복
     const ban_ids = [...new Set(consultingGroupedresult.filter(c=>c[key])[0][key].map(item => item.ban_id))]; // 중복 제거
     ban_ids.forEach(ban_id => {
@@ -1204,8 +1201,7 @@ function get_consultingban(key){
     var container = $('#consultingban_pagination');
     container.pagination(Object.assign(paginationOptions, {'dataSource': target_bans}))
 
-    console.log(target_bans)
-    $('consultingreqban_search_input').on('keyup', function () {
+    $('#consultingreqban_search_input').on('keyup', function () {
         var searchInput = $(this).val().toLowerCase();
         var filteredData = target_bans.filter(function (data) {
             return data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1 || data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1 || data.hasOwnProperty('teacher_engname') && data.teacher_engname.toLowerCase().indexOf(searchInput) !== -1;
