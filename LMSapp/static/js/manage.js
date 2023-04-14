@@ -1319,7 +1319,7 @@ async function get_task(){
         }
     })
 }
-function get_consultingban(task_id){
+function get_taskban(task_id){
     console.log(taskGroupedresult)
     $('#taskreqban_search_input').off('keyup');
     $('#for_task_list').hide()
@@ -1399,36 +1399,36 @@ async function update_consulting(idx) {
 }
 
 
-function get_taskban(task_id) {
-    $('#taskModalLabel').html('반 별 진행 내역');
-    $('#for_task_list').hide();
-    $('#for_taskban_list').show();
-    $.ajax({
-        type: "GET",
-        url: "/manage/taskban/" + task_id,
-        data: {},
-        success: function (response) {
-            let temp_task_ban_box = '';
-            for (i = 0; i < response['target_taskban'].length; i++) {
-                let target = response['target_taskban'][i]
-                let id = target["id"]
-                let ban = target["ban"]
-                let done = target["done"]
-                if (done == 0) {
-                    done = '미진행'
-                } else {
-                    done = '진행완료'
-                }
-                temp_task_ban_box += `
-                <td class="col-4">${ban}</td>
-                <td class="col-4">${done}</td>
-                <td class="col-4">✖️</td>
-                `;
-                $('#taskban_list').html(temp_task_ban_box);
-            }
-        }
-    });
-}
+// function get_taskban(task_id) {
+//     $('#taskModalLabel').html('반 별 진행 내역');
+//     $('#for_task_list').hide();
+//     $('#for_taskban_list').show();
+//     $.ajax({
+//         type: "GET",
+//         url: "/manage/taskban/" + task_id,
+//         data: {},
+//         success: function (response) {
+//             let temp_task_ban_box = '';
+//             for (i = 0; i < response['target_taskban'].length; i++) {
+//                 let target = response['target_taskban'][i]
+//                 let id = target["id"]
+//                 let ban = target["ban"]
+//                 let done = target["done"]
+//                 if (done == 0) {
+//                     done = '미진행'
+//                 } else {
+//                     done = '진행완료'
+//                 }
+//                 temp_task_ban_box += `
+//                 <td class="col-4">${ban}</td>
+//                 <td class="col-4">${done}</td>
+//                 <td class="col-4">✖️</td>
+//                 `;
+//                 $('#taskban_list').html(temp_task_ban_box);
+//             }
+//         }
+//     });
+// }
 
 async function delete_consulting(contents, ban_id) {
     targets = consultingData.filter(c => c.contents == contents && c.ban_id == ban_id)
