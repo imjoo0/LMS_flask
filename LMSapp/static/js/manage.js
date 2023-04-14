@@ -1350,6 +1350,7 @@ function get_taskban(key){
             $.each(data, function (index, item) {
                 console.log(item)
                 console.log(item.ban_id)
+                console.log(banData)
                 baninfo = banData.filter(b=>b.id == item.ban_id)[0]
                 console.log(baninfo)
                 item.ban_name =  baninfo.name
