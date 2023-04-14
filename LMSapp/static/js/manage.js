@@ -1175,8 +1175,8 @@ function get_consultingban(key){
         const teacher_mobileno =  baninfo.teacher_mobileno
         const teacher_email =  baninfo.teacher_email
         // done_num, not_done_num, total_num 계산
-        const total_num = consultingGroupedresult.filter(c=>c[key])[0][key].length;
         const done_num = consultingGroupedresult.filter(c=>c[key])[0][key].filter(item => item.ban_id === ban_id && item.done === 1).length;
+        const total_num = consultingGroupedresult.filter(c=>c[key])[0][key].filter(item => item.ban_id === ban_id && item.done === 0).length + done_num;
 
         // 결과 객체를 배열에 추가
         target_bans.push({ban_id,ban_name,teacher_name,teacher_engname,teacher_mobileno,total_num,teacher_email,done_num,});
