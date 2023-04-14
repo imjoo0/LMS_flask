@@ -1155,7 +1155,7 @@ async function get_request_consulting(){
 function get_consultingban(key){
     $('consultingreqban_search_input').off('keyup');
     target_bans = consultingGroupedresult.filter(c=>c[key])[0][key].bans
-    traget_bans.reduce((acc, item) => {
+    result = traget_bans.reduce((acc, item) => {
         if (!acc[item.ban_id]){
           acc[item.ban_id] = { students: []};
         }
@@ -1164,7 +1164,7 @@ function get_consultingban(key){
       
         return acc;
     }, {});
-    console.log(target_bans)
+    console.log(result)
     cinfo =  key.split('_')
     $('#my_consulting_requestModalLabel').html(cinfo[0]+' | "'+cinfo[1]+'" 상담을 진행중인 반 목록');
     $('#request_consulting_listbox').hide()
