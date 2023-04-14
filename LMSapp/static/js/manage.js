@@ -1312,11 +1312,11 @@ async function get_task(){
                 category_list.push(task_info[0])
                 dataHtml += `
                     <td class="col-1"> ${make_duedate(task_info[2],task_info[3])}</td>
-                    <td class="col-2">"${task_info[2]}" ~ "${task_info[3]}"</td>
-                    <td class="col-2">${make_priority(task_info[5])}</td>
+                    <td class="col-3">"${task_info[2]}" ~ </br>"${task_info[3]}"</td>
+                    <td class="col-1">${make_priority(task_info[5])}</td>
+                    <td class="col-1">${make_cycle(task_info[4])}</td>
                     <td class="col-2">${task_info[0]} 업무</td>
                     <td class="col-3">${task_info[1]}</td>
-                    <td class="col-1">${make_cycle(task_info[4])}</td>
                     <td class="col-1" onclick ="get_taskban('${key}')"> 🔍 </td>`;
             });
             category_set = new Set(category_list)
