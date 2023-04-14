@@ -1203,7 +1203,8 @@ function get_consultingban(key){
     
     var filteredData = target_bans.filter(function (data) {
         let key = Object.keys(data)[0]
-        console.log(key)
+        
+        console.log(data[key].ban_name)
     });
     console.log(filteredData)
 
