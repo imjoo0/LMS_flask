@@ -1252,11 +1252,14 @@ async function get_task(){
         await get_all_task().then(() => {
             // 컨설팅 정보로 x
             if (taskData.length > 0) {
+                const v = `${item.name}_${item.contents}_${item.startdate}_${item.deadline}_${item.cycle}_${item.priority}`;
                 taskGrouped = taskData.reduce((acc, item) => {
-                    if (!acc[item.id]) {
-                        acc[item.id] = [];
+                    if (!acc[v]) {
+                        acc[v] = [];
                     }
-                    acc[item.id].push(item);
+                    acc[v].push(
+                        {'ban_id':item.ban_id,'done':item.done}
+                    );
                     return acc;
                 }, {});
                 // 결과를 객체의 배열로 변환 -> 상담 별 배열 
@@ -1271,11 +1274,14 @@ async function get_task(){
         });
     }else{
         if (taskData.length > 0) {
+            const v = `${item.name}_${item.contents}_${item.startdate}_${item.deadline}_${item.cycle}_${item.priority}`;
             taskGrouped = taskData.reduce((acc, item) => {
-                if (!acc[item.id]) {
-                    acc[item.id] = [];
+                if (!acc[v]) {
+                    acc[v] = [];
                 }
-                acc[item.id].push(item);
+                acc[v].push(
+                    {'ban_id':item.ban_id,'done':item.done}
+                );
                 return acc;
             }, {});
             // 결과를 객체의 배열로 변환 -> 상담 별 배열 
@@ -1301,15 +1307,16 @@ async function get_task(){
             var idxHtml = `<option value="none">전체</option>`;
             var dataHtml = '';
             $.each(taskGroupedresult, function (index, task) {
-                let key = Object.keys(task)[0]
-                category_list.push(task[key].name)
+                let key = Object.keys(consulting)[0]
+                let task_info = key.split('_')
+                category_list.push(task_info[0])
                 dataHtml += `
-                    <td class="col-1"> ${make_duedate(task[key].startdate,task[key].deadline)}</td>
-                    <td class="col-2">"${task[key].startdate}" ~ "${task[key].deadline}"</td>
-                    <td class="col-2">${make_priority(task[key].priority)}</td>
-                    <td class="col-2">${task[key].name} 업무</td>
-                    <td class="col-3">${task[key].contents}</td>
-                    <td class="col-1">${make_cycle(task[key].cycle)}</td>
+                    <td class="col-1"> ${make_duedate(task_info[2],task_info[3])}</td>
+                    <td class="col-2">"${task_info[2]}" ~ "${task_info[3]}"</td>
+                    <td class="col-2">${make_priority(task_info[5])}</td>
+                    <td class="col-2">${task_info[0]} 업무</td>
+                    <td class="col-3">${task_info[1]}</td>
+                    <td class="col-1">${make_cycle(task_info[4])}</td>
                     <td class="col-1" onclick ="get_taskban('${key}')"> 🔍 </td>`;
             });
             category_set = new Set(category_list)
@@ -1322,25 +1329,27 @@ async function get_task(){
         }
     })
 }
-function get_taskban(task_id){
+function get_taskban(key){
     console.log(taskGroupedresult)
     $('#taskreqban_search_input').off('keyup');
+    tinfo =  key.split('_')
+    $('#taskModalLabel').html(tinfo[0]+' | "'+tinfo[1]+'" 상담을 진행중인 반 목록');
     $('#for_task_list').hide()
     $('#for_taskban_list').show()
-    taskGroupedresult[key].forEach(item => {
-        const baninfo = banData.filter(b=>b.ban_id == item.ban_id)[0]
-        const ban_name =  baninfo.name
-        const teacher_name =  baninfo.teacher_name
-        const teacher_engname =  baninfo.teacher_engname
-        const teacher_mobileno =  baninfo.teacher_mobileno
-        const teacher_email =  baninfo.teacher_email
-        // done_num, not_done_num, total_num 계산
-        const done_num = consultingGroupedresult.filter(c=>c[key])[0][key].filter(item => item.ban_id === ban_id && item.done === 1).length;
-        const total_num = consultingGroupedresult.filter(c=>c[key])[0][key].filter(item => item.ban_id === ban_id && item.done === 0).length + done_num;
+    // taskGroupedresult[key].forEach(item => {
+    //     const baninfo = banData.filter(b=>b.ban_id == item.ban_id)[0]
+    //     const ban_name =  baninfo.name
+    //     const teacher_name =  baninfo.teacher_name
+    //     const teacher_engname =  baninfo.teacher_engname
+    //     const teacher_mobileno =  baninfo.teacher_mobileno
+    //     const teacher_email =  baninfo.teacher_email
+    //     // done_num, not_done_num, total_num 계산
+    //     const done_num = consultingGroupedresult.filter(c=>c[key])[0][key].filter(item => item.ban_id === ban_id && item.done === 1).length;
+    //     const total_num = consultingGroupedresult.filter(c=>c[key])[0][key].filter(item => item.ban_id === ban_id && item.done === 0).length + done_num;
   
-        // 결과 객체를 배열에 추가
-        target_bans.push({ban_id,ban_name,teacher_name,teacher_engname,teacher_mobileno,total_num,teacher_email,done_num,});
-    });
+    //     // 결과 객체를 배열에 추가
+    //     target_bans.push({ban_id,ban_name,teacher_name,teacher_engname,teacher_mobileno,total_num,teacher_email,done_num,});
+    // });
 
 
 }    
