@@ -312,7 +312,6 @@ def make_task():
         if '_' in received_target_ban[0]:
             for target in received_target_ban:
                 task_data = target.split('_')
-                print(task_data)
                 new_task = TaskBan(ban_id=int(task_data[0]),teacher_id=int(task_data[1]), task_id=task.id ,done=0)
                 db.session.add(new_task)
                 db.session.commit()
