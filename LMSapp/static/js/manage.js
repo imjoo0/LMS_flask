@@ -1245,9 +1245,6 @@ async function sort_consulting(value) {
 
 // 요청 업무관리 기능 
 async function get_task(){
-    $('#for_task_list').show()
-    $('#for_taskban_list').hide()
-    $('#my_consulting_requestModalLabel').html('요청한 업무 목록');
     $('.mo_inloading').show()
     $('.not_inloading').hide()
     if (!taskData) {
@@ -1269,10 +1266,12 @@ async function get_task(){
                     return { [v]: items };
                 });
             }
+            $('#my_consulting_requestModalLabel').html('요청한 업무 목록');
+            $('#for_task_list').show()
+            $('#for_taskban_list').hide()
             $('.mo_inloading').hide()
             $('.not_inloading').show()
             $('#requ_task_list').show()
-            $('#for_taskban_list').hide()
         });
     }else{
         if (taskData.length > 0) {
@@ -1351,7 +1350,7 @@ function get_taskban(key){
                 console.log(item)
                 console.log(item.ban_id)
                 console.log(banData)
-                baninfo = banData.filter(b=>b.id == item.ban_id)[0]
+                baninfo = banData.filter(b=>b.ban_id == item.ban_id)[0]
                 console.log(baninfo)
                 item.ban_name =  baninfo.name
                 item.teacher_name =  baninfo.teacher_name
