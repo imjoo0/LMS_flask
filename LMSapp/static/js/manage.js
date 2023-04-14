@@ -1084,10 +1084,11 @@ async function get_request_consulting(){
                 acc[v] = { bans: []};
                 }
             
-                acc[v].bans.push(item);
+                acc[v].bans.push(item.ban_id);
             
                 return acc;
             }, {});
+            console.log(consultingGrouped)
             // 결과를 객체의 배열로 변환 -> 상담 별 배열 
             consultingGroupedresult = Object.entries(consultingGrouped).map(([v, items]) => {
                 return { [v]: items };
