@@ -1178,7 +1178,7 @@ function get_consultingban(key){
             var dataHtml = '';
             $.each(data, function (index, item) {
                 let key = Object.keys(item)[0]
-                baninfo = banData.filter(b=>b.ban_id == key)[0]
+                baninfo = banData.filter(b=>b.ban_id == key)
                 item[key].ban_name = baninfo.name
                 item[key].teacher_name = baninfo.teacher_name
                 item[key].teacher_engname = baninfo.teacher_engname
