@@ -1299,6 +1299,9 @@ async function get_task(){
     }
 
     let container = $('#task-pagination')
+    if(container !== null) {
+        container.pagination('destroy');
+    }
     var category_list = []
     container.pagination({
         dataSource: taskGroupedresult,
@@ -1333,6 +1336,10 @@ async function get_task(){
 }
 function get_taskban(key){
     $('#taskreqban_search_input').off('keyup');
+    // 이전 Pagination 삭제
+    if(container !== null) {
+        container.pagination('destroy');
+    }
     tinfo =  key.split('_')
     $('#taskModalLabel').html(tinfo[0]+' | "'+tinfo[1]+'" 업무를 진행중인 반 목록');
     $('#for_task_list').hide()
@@ -1367,10 +1374,6 @@ function get_taskban(key){
         }
     };
     var container = $('#taskbanpagination');
-    // 이전 Pagination 삭제
-    if (container !== null) {
-        container.pagination('destroy');
-    }
     container.pagination(Object.assign(paginationOptions, {'dataSource': taskGroupedresult.filter(t=>t[key])[0][key]}))
 
     $('#taskreqban_search_input').on('keyup', function () {
