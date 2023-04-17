@@ -644,13 +644,13 @@ async function getTeacherInfo(t_id){
         let unlearned_ttc = TunlearnedData.length
         let unlearned_ttd = TunlearnedData.filter(u=>u.done == 1).length
         let temp_html = `
-        <td class="col-1">${TunlearnedData.filter(u=>u.category_id == 1).length}건</td>
-        <td class="col-1">${TunlearnedData.filter(u=>u.category_id == 4).length}건</td>
-        <td class="col-1">${TunlearnedData.filter(u=>u.category_id == 3).length}건</td>
-        <td class="col-2">${TunlearnedData.filter(u=>u.category_id == 5).length}건</td>
-        <td class="col-2">${TunlearnedData.filter(u=>u.category_id == 6).length}건</td>
-        <td class="col-1">${TunlearnedData.filter(u=>u.category_id == 2).length}건</td>
-        <td class="col-2"> 완수: ${unlearned_ttd} / ${unlearned_ttc}건</td>
+        <td class="col-1">${make_nodata(TunlearnedData.filter(u=>u.category_id == 1).length)}</td>
+        <td class="col-1">${make_nodata(TunlearnedData.filter(u=>u.category_id == 4).length)}</td>
+        <td class="col-1">${make_nodata(TunlearnedData.filter(u=>u.category_id == 3).length)}</td>
+        <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 5).length)}</td>
+        <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 6).length)}</td>
+        <td class="col-1">${make_nodata(TunlearnedData.filter(u=>u.category_id == 2).length)}</td>
+        <td class="col-2"><strong> 완수: ${unlearned_ttd} / ${unlearned_ttc}건</strong></td>
         <td class="col-2"><strong>${answer_rate(unlearned_ttd,unlearned_ttc).toFixed(2)}%</strong></td>
         `;
         $('#totalreport-row').html(temp_html)
