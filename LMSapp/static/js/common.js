@@ -564,6 +564,7 @@ async function getTeacherInfo(t_id){
         $('#teachertitle').html(info[0].teacher_name + '( '+ info[0].teacher_engname + ' )'+'선생님 현황 📞 '+ info[0].teacher_mobileno +' ✉️ '+ info[0].teacher_email
         + ' )');
         // 선생님의 미학습 데이터 
+        console.log(consultingData)
         let TconsultingData =  consultingData.filter(c=>c.teacher_id == t_id && c.startdate <= today)
         console.log(TconsultingData)
         let TunlearnedData = TconsultingData.filter(c=>c.category_id < 100)
