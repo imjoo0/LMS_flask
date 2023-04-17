@@ -597,10 +597,12 @@ async function getTeacherInfo(t_id){
             <span>* 퇴소:${ os }</span>
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
+        
         var chart = Chart.getChart('total-chart-element')
-        if (chart) {
+        if (chart !== null) {
             chart.destroy()
         }
+
         new Chart($(('#total-chart-element')), {
             type: 'doughnut',
             data: {
@@ -641,54 +643,20 @@ async function getTeacherInfo(t_id){
         // 미학습 상담
         let unlearned_ttc = TunlearnedData.length
         let unlearned_ttd = TunlearnedData.filter(u=>u.done == 1).length
-        $('#unlearned_chart').html(`${unlearned_ttd}/${unlearned_ttc}`)
-        $('#unlearned_cp').html(`${answer_rate(unlearned_ttd,unlearned_ttc).toFixed(2)}%`)
+        let temp_html = `
+        <td class="col-1">${TunlearnedData.filter(u=>u.category_id == 1).length}건</td>
+        <td class="col-1">${TunlearnedData.filter(u=>u.category_id == 4).length}건</td>
+        <td class="col-1">${TunlearnedData.filter(u=>u.category_id == 3).length}건</td>
+        <td class="col-2">${TunlearnedData.filter(u=>u.category_id == 5).length}건</td>
+        <td class="col-1">${TunlearnedData.filter(u=>u.category_id == 6).length}건</td>
+        <td class="col-1">${TunlearnedData.filter(u=>u.category_id == 2).length}건</td>
+        <td class="col-2"> 완수: ${unlearned_ttd} / ${unlearned_ttc}건</td>
+        <td class="col-3">${answer_rate(unlearned_ttd,unlearned_ttc).toFixed(2)}%</td>
+        `;
+        $('#totalreport-row').html(temp_html)
 
     }
 
-    // $.ajax({
-    //     type: "GET",
-    //     url: "/admin/"+t_id,
-    //     data: {},
-    //     success: function (response) {
-    //         if (response['status'] == 400){
-    //             let no_data_title = `<h1> ${response.text} </h1>`
-    //             $('#teacherModalLabel').html(no_data_title);
-    //             return
-    //         }
-    //         let chart = response['chart_data']
-    //         let name = response['teacher_info']['name'] + '(' + response['teacher_info']['engname'] + ')';
-    //         let mobileno = response['teacher_info']['mobileno'];
-    //         let email = response['teacher_info']['email']
-            
-    //         // 업무
-    //         let total_todo = chart['total_todo']
-    //         let total_done = chart['total_done']
-    //         let task_p = chart['ttp']
-    //         $('#task_chart').html(`${total_done}/${total_todo}`)
-    //         $('#task_p').html(`${task_p}%`)
-
-    //         // 상담
-    //         let ttc = chart['ttc']
-    //         let ttd = chart['ttd']
-    //         let cp = chart['cp']
-    //         $('#consulting_chart').html(`${ttd}/${ttc}`)
-    //         $('#cp').html(`${cp}%`)
-
-    //         // 미학습 상담
-    //         let unlearned_ttc = chart['unlearned_ttc']
-    //         let unlearned_ttd = chart['unlearned_ttd']
-    //         let unlearned_cp = chart['unlearned_cp']
-    //         $('#unlearned_chart').html(`${unlearned_ttc}/${unlearned_ttd}`)
-    //         $('#unlearned_cp').html(`${unlearned_cp}%`)
-
-                                
-
-    //     },
-    //     error:function(xhr, status, error){
-    //             alert(xhr.responseText);
-    //         }
-    // })
 }
 // 반 상세 정보 보내주는 함수 
 function getBanChart(ban_id) {
