@@ -529,7 +529,10 @@ function semesterShow(semester) {
 
 async function getTeacherInfo(t_id){
     let info = banData.filter(t=>t.teacher_id == t_id)
-    console.log(info)
+    var chart = Chart.getChart('total-chart-element')
+    if (chart) {
+        chart.destroy()
+    }
     if (info.length == 0){
         let no_data_title = `<h1> ${response.text} </h1>`
         $('#teacherModalLabel').html(no_data_title);
@@ -644,10 +647,6 @@ async function getTeacherInfo(t_id){
         $('#unlearned_chart').html(`${unlearned_ttd}/${unlearned_ttc}`)
         $('#unlearned_cp').html(`${answer_rate(unlearned_ttd,unlearned_ttc).toFixed(2)}%`)
 
-    }
-    var chart = Chart.getChart('total-chart-element')
-    if (chart) {
-        chart.destroy()
     }
 
     // $.ajax({
