@@ -527,16 +527,42 @@ function semesterShow(semester) {
 
 }
 
-function getTeacherInfo(t_id){
-    let info = allData.filter(t=>t.teacher_id == t_id)
+async function getTeacherInfo(t_id){
+    let info = banData.filter(t=>t.teacher_id == t_id)
+    console.log(info)
     if (info.length == 0){
         let no_data_title = `<h1> ${response.text} </h1>`
         $('#teacherModalLabel').html(no_data_title);
         return
+    }else{
+        // $('#consultingban_search_input').off('keyup');
+        $('.mo_inloading').show()
+        $('.monot_inloading').hide()
+        if (!consultingData && studentsData) {
+            // await get_all_students()
+            await get_all_consulting().then(() => {
+                $('.mo_inloading').hide()
+                $('.monot_inloading').show()
+            });
+        }else if (consultingData && !studentsData) {
+            await get_all_students().then(() => {
+                $('.mo_inloading').hide()
+                $('.monot_inloading').show()
+            });
+        }else if (!consultingData && !studentsData) {
+            await get_all_students()
+            await get_all_consulting().then(() => {
+                $('.mo_inloading').hide()
+                $('.monot_inloading').show()
+            });
+        }
+        $('.mo_inloading').hide()
+        $('.monot_inloading').show()
+        $('#teachertitle').html(info.teacher_name + '( '+ info.teacher_engname + ' )'+'선생님 현황 ( '+ info.teacher_mobileno +' | '+ info.teacher_email
+        + ' )');
+
     }
-    teacher_data = info[0].students[0]
-    $('#teachertitle').html(teacher_data.teacher_name + '( '+ teacher_data.teacher_engname + ' )'+'선생님 현황 ( '+ teacher_data.teacher_mobileno +' | '+ teacher_data.teacher_email
-    + ' )');
+    
     $('#mybaninfo').empty();
     for(i=0;i<my_bans.length;i++){
         let name = my_bans[i]['name'];

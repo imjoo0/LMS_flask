@@ -10,6 +10,7 @@ $(document).ready(function () {
     })
 
 })
+// API 호출 
 async function get_all_question() {
     try {
         const response = await $.ajax({
