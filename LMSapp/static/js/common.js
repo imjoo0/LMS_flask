@@ -593,15 +593,19 @@ async function getTeacherInfo(t_id){
         + ' )');
         let temp_baninfo = ''
         let total_student_num = 0
+        let os = 0
+        let ss = 0
         info.forEach(ban_data => {
             total_student_num += ban_data.student_num
+
             temp_baninfo += `
-            <td class="col-2">${ban_data.name}</td>
+            <td class="col-3">${ban_data.name}</td>
             <td class="col-1">${make_semester(ban_data.semester)}학기</td>
             <td class="col-1">${ban_data.student_num}명</td>
             <td class="col-2"> ${ban_data.out_num}건</td>
             <td class="col-2"> ${ban_data.switch_minus_num}건</td>
             <td class="col-2"> ${TulearnedData.filter(c=>c.ban_id == ban_data.ban_id).length}건</td>
+            <td class="col-1" onclick="getBanChart(${ban_data.ban_id})"> ✅ </td>
             `;
         });
         $('#mybaninfo').html(temp_baninfo);
