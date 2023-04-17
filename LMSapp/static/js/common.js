@@ -618,7 +618,10 @@ async function getTeacherInfo(t_id){
             <span>* 퇴소:${ os }</span>
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
-        
+        var chart = Chart.getChart('total-chart-element')
+        if (chart) {
+            chart.destroy()
+        }
         new Chart($(('#total-chart-element')), {
             type: 'doughnut',
             data: {
