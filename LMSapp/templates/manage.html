@@ -50,7 +50,7 @@
                     </path>
                 </svg>
             </div>
-            <div class="modal-body monot_inloading">
+            <div class="modal-body monot_inloading" id="teacher_infobox">
                 <div class="info-container">
                     <div class="info-title">
                         <span>Total Chart</span>
@@ -61,6 +61,94 @@
                             
                         </div>
                     </div>
+                </div>
+                <div class="info-container mt-5">
+                    <div class="info-title">
+                        <span>Total Report</span>
+                    </div>
+                    <div class="info">
+                        <div class="total_table" style="width:90%">
+                            <table class="table text-center">
+                                <tbody style="width:100%;">
+                                    <tr class="row tagtagtitle">
+                                        <th class="col-12">미학습 현황</th>
+                                    </tr>
+                                    <tr class="row">
+                                        <th class="col-6">미학습 상담</th>
+                                        <th class="col-6">미학습 상담 완수율</th>
+                                    </tr>
+                                    <tr class="row" id="ucomcom">
+                                        <th class="col-6">미학습 상담</th>
+                                        <th class="col-6">미학습 발생율</th>
+                                    </tr>
+                                    <tr id="totalreport-row" class="row">
+                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table text-center">
+                                <tbody style="width:100%;">
+                                    <tr class="row tagtagtitle">
+                                        <th class="col-12">업무 현황</th>
+                                    </tr>
+                                    <tr class="row">
+                                        <th class="col-4">오늘의 업무</th>
+                                        <th class="col-4">완수 현황</th>
+                                        <th class="col-4"><strong>지난 업무 완수율</strong></th>
+                                    </tr>
+                                    <tr class="row" id="task_chart">
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table text-center">
+                                <tbody style="width:100%;">
+                                    <tr class="row tagtagtitle">
+                                        <th class="col-12">상담 현황</th>
+                                    </tr>
+                                    <tr class="row">
+                                        <th class="col-4">총 상담</th>
+                                        <th class="col-4">완수 현황</th>
+                                        <th class="col-4" style="color:red"><strong>상담 기한 지난 건</strong></th>
+                                    </tr>
+                                    <tr class="row" id="consulting_chart">
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-container mt-5">
+                    <div class="info-title">
+                        <span>Class Report</span>
+                    </div>
+                    <div class="info">
+                        <table class="table text-center" id="class_list" style="width:100%;">
+                            <tbody style="width:100%;">
+                                <tr class="row">
+                                    <th class="col-3">반이름</th>
+                                    <th class="col-1">학기</th>
+                                    <th class="col-1">원생 수</th>
+                                    <th class="col-2">퇴소 ( 퇴소율 )</th>
+                                    <th class="col-2">이반</th>
+                                    <th class="col-2">미학습</th>
+                                    <th class="col-1">상세 보기</th>
+                                </tr>
+                                <tr class="row" id="mybaninfo">
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body monot_inloading" id="ban_infobox">
+                <div class="info-container">
+                    <div class="info-title">
+                        <span>Total Chart</span>
+                    </div>
+                    <table class="table text-center" id="profile_data" >
+                    </table>
+                    <table class="table text-center" id="ban_data" >
+                    </table>
                 </div>
                 <div class="info-container mt-5">
                     <div class="info-title">
