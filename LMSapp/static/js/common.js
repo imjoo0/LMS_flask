@@ -561,10 +561,10 @@ async function getTeacherInfo(t_id){
         $('.monot_inloading').show()
         let temp_profile_data = `
             <tbody  style="width:100%;">
-                <tr class="row" style="background: #DCE6F2;">
+                <tr class="row tagtagtitle">
                     <th class="col-12">담임 선생님 정보</th>
                 </tr>
-                <tr class="row" style="background:#DCE6F2;">
+                <tr class="row tagtagtitle">
                     <td class="col-4">${info.teacher_name}(${info.teacher_engname})</th>
                     <td class="col-4"> 📞 ${info.teacher_mobileno} </th>
                     <td class="col-4"> ✉️ ${info.teacher_email}</th>
