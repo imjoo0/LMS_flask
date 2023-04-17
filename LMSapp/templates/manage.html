@@ -71,8 +71,7 @@
                             <table class="table text-center">
                                 <tbody style="width:100%;">
                                     <tr class="row">
-                                        <th class="col-10">미학습 현황 상세 보기</th>
-                                        <th class="col-2">📝</th>
+                                        <th class="col-12">미학습 현황 상세 보기 📝</th>
                                     </tr>
                                     <tr class="row">
                                         <th class="col-1">IXL</th>
@@ -92,14 +91,30 @@
                             <table class="table text-center">
                                 <tbody style="width:100%;">
                                     <tr class="row">
-                                        <th class="col-6">업무 | 완수율</th>
-                                        <th class="col-6">상담 | 완수율</th>
+                                        <th class="col-12">업무 현황</th>
+                                    </tr>
+                                    <tr class="row">
+                                        <th class="col-6">오늘의 업무 (%)</th>
+                                        <th class="col-6"><strong>완수율</strong></th>
                                     </tr>
                                     <tr id="classreport-row" class="row">
-                                        <td class="col-3" id="task_chart"></td>
-                                        <td class="col-3" id="task_p"></td>
-                                        <td class="col-3" id="consulting_chart"></td>
-                                        <td class="col-3"id="cp"></td>
+                                        <td class="col-6" id="task_chart"></td>
+                                        <td class="col-6" id="task_p"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table text-center">
+                                <tbody style="width:100%;">
+                                    <tr class="row">
+                                        <th class="col-12">상담 현황</th>
+                                    </tr>
+                                    <tr class="row">
+                                        <th class="col-6">총 상담 (%)</th>
+                                        <th class="col-6" style="color:red"><strong>상담 기한 지난 건</strong></th>
+                                    </tr>
+                                    <tr id="classreport-row" class="row">
+                                        <td class="col-6" id="consulting_chart"></td>
+                                        <td class="col-6" id="cp" style="color:red"><strong></strong></td>
                                     </tr>
                                 </tbody>
                             </table>

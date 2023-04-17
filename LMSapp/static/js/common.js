@@ -566,6 +566,7 @@ async function getTeacherInfo(t_id){
         // 선생님의 미학습 데이터 
         let TconsultingData =  consultingData.filter(c=>c.teacher_id == t_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
         let TunlearnedData = TconsultingData.filter(c=>c.category_id < 100)
+        let TTaskData =  taskData.filter(t=>t.teacher_id ==t_id)
         // let my_consulting = consultingData.filter(a => a.teacher_id == t_id && a.startdate <= today)
         // let u_consulting_my = my_consulting.filter(a => a.category_id < 100);
         // let TstudentsData =studentsData.filter(t=>t.teacher_id == t_id)
@@ -629,17 +630,6 @@ async function getTeacherInfo(t_id){
             },
         });
 
-        let TtaskData = taskData.filter(t=>t.teacher_id ==t_id && new Date(t.startdate).setHours(0, 0, 0, 0) <= today)
-        let total_done = TtaskData.filter(t=>t.done == 1).length
-        $('#task_chart').html(`${total_done}/${TtaskData.length}`)
-        $('#task_p').html(`${answer_rate(total_done,TtaskData.length).toFixed(0)}%`)
-
-        // 상담
-        let ttc = TconsultingData
-        let ttd = TconsultingData.filter(c=>c.done == 1).length
-        $('#consulting_chart').html(`${ttd}/${ttc.length}`)
-        $('#cp').html(`${answer_rate(ttd,ttc.length).toFixed(0)}%`)
-
         // 미학습 상담
         let unlearned_ttc = TunlearnedData.length
         let unlearned_ttd = TunlearnedData.filter(u=>u.done == 1).length
@@ -654,6 +644,22 @@ async function getTeacherInfo(t_id){
         <td class="col-2"><strong>${answer_rate(unlearned_ttd,unlearned_ttc).toFixed(2)}%</strong></td>
         `;
         $('#totalreport-row').html(temp_html)
+
+
+        let TtasktodayData = TTaskData.filter(t => new Date(t.startdate).setHours(0, 0, 0, 0) <= today)
+        let Ttaskhisory = TTaskData.filter(t=> today < new Date(t.deadline).setHours(0, 0, 0, 0))
+        let history_done = Ttaskhisory.filter(t=>t.done == 1).length
+        let total_done = TtasktodayData.filter(t=>t.done == 1).length
+        $('#task_chart').html(`${total_done}/${TtasktodayData.length}건 | 완수: ${answer_rate(total_done,TtasktodayData.length).toFixed(0)}%`)
+        $('#task_p').html(`${answer_rate(history_done,Ttaskhisory.length).toFixed(0)}%`)
+
+        // 상담
+        let ttd = TconsultingData.filter(c=>c.done == 1).length
+        let missed = TconsultingData.filter(c=>c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today)
+        $('#consulting_chart').html(`${ttd}/${TconsultingData.length}건 | 완수: ${answer_rate(ttd,TconsultingData.length).toFixed(0)}%`)
+        $('#cp').html(`${make_nodata(missed)}`)
+
+        
 
     }
 
