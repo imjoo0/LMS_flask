@@ -538,44 +538,20 @@ async function getTeacherInfo(t_id){
         // $('#consultingban_search_input').off('keyup');
         $('.mo_inloading').show()
         $('.monot_inloading').hide()
-        if (!consultingData && studentsData && taskData) {
+        if (!consultingData && taskData) {
             // await get_all_students()
             await get_all_consulting().then(() => {
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
-        }else if (consultingData && !studentsData && taskData) {
-            await get_all_students().then(() => {
-                $('.mo_inloading').hide()
-                $('.monot_inloading').show()
-            });
-        }else if (consultingData && studentsData && !taskData) {
+        }else if (consultingData && !taskData) {
             await get_all_task().then(() => {
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
-        }else if (!consultingData && !studentsData && taskData) {
-            await get_all_students()
-            await get_all_consulting().then(() => {
-                $('.mo_inloading').hide()
-                $('.monot_inloading').show()
-            });
-        }else if (!consultingData && studentsData && !taskData) {
+        }else if (!consultingData && !taskData) {
             await get_all_task()
             await get_all_consulting().then(() => {
-                $('.mo_inloading').hide()
-                $('.monot_inloading').show()
-            });
-        }else if (consultingData && !studentsData && !taskData) {
-            await get_all_students()
-            await get_all_task().then(() => {
-                $('.mo_inloading').hide()
-                $('.monot_inloading').show()
-            });
-        }else if (!consultingData && !studentsData && !taskData) {
-            await get_all_students()
-            await get_all_consulting()
-            await get_all_task().then(() => {
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
