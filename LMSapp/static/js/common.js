@@ -570,7 +570,7 @@ async function getTeacherInfo(t_id){
         let total_student_num = 0
         let os = 0
         let ss = 0
-        let TunlearnedData = TconsultingData.filter(c.category_id < 100)
+        let TunlearnedData = TconsultingData.filter(c=>c.category_id < 100)
         info.forEach(ban_data => {
             total_student_num += ban_data.student_num
             os += ban_data.out_num
