@@ -565,9 +565,7 @@ async function getTeacherInfo(t_id){
         + ' )');
         // 선생님의 미학습 데이터 
         let TconsultingData =  consultingData.filter(c=>c.teacher_id == t_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
-        console.log(TconsultingData)
         let TunlearnedData = TconsultingData.filter(c=>c.category_id < 100)
-        console.log(TunlearnedData)
         // let my_consulting = consultingData.filter(a => a.teacher_id == t_id && a.startdate <= today)
         // let u_consulting_my = my_consulting.filter(a => a.category_id < 100);
         // let TstudentsData =studentsData.filter(t=>t.teacher_id == t_id)
@@ -629,7 +627,7 @@ async function getTeacherInfo(t_id){
             },
         });
 
-        let TtaskData = taskData.filter(t=>t.teacher_id ==t_id && t.startdate <= today)
+        let TtaskData = taskData.filter(t=>t.teacher_id ==t_id && new Date(t.startdate).setHours(0, 0, 0, 0) <= today)
         let total_done = TtaskData.filter(t=>t.done == 1).length
         $('#task_chart').html(`${total_done}/${TtaskData.length}`)
         $('#task_p').html(`${answer_rate(total_done,TtaskData.length).toFixed(0)}%`)
@@ -641,8 +639,7 @@ async function getTeacherInfo(t_id){
         $('#cp').html(`${answer_rate(ttd,ttc.length).toFixed(0)}%`)
 
         // 미학습 상담
-        console.log(TunlearnedData)
-        let unlearned_ttc = 10
+        let unlearned_ttc = TunlearnedData.length
         let unlearned_ttd = TunlearnedData.filter(u=>u.done == 1).length
         $('#unlearned_chart').html(`${unlearned_ttd}/${unlearned_ttc}`)
         $('#unlearned_cp').html(`${answer_rate(unlearned_ttd,unlearned_ttc).toFixed(2)}%`)
