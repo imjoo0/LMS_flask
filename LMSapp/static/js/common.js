@@ -529,10 +529,6 @@ function semesterShow(semester) {
 
 async function getTeacherInfo(t_id){
     let info = banData.filter(t=>t.teacher_id == t_id)
-    var chart = Chart.getChart('total-chart-element')
-    if (chart) {
-        chart.destroy()
-    }
     if (info.length == 0){
         let no_data_title = `<h1> ${response.text} </h1>`
         $('#teacherModalLabel').html(no_data_title);
@@ -681,14 +677,59 @@ async function getTeacherInfo(t_id){
 
         // 상담
         let ttd = TconsultingData.filter(c=>c.done == 1).length
-        $('#consulting_chart').html(`<td class="col-4">${ttd}/${TconsultingData.length}건</td><td class="col-4">${answer_rate(ttd,TconsultingData.length).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(TconsultingData.filter(c=>c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
+        $('#consulting_chart').html(`<td class="col-4">${ttd} / ${TconsultingData.length}건</td><td class="col-4">${answer_rate(ttd,TconsultingData.length).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(TconsultingData.filter(c=>c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
     }
 
 }
 // 반 상세 정보 보내주는 함수 
-function getBanChart(ban_id) {
+async function getBanChart(ban_id) {
+    let info = banData.filter(b=>b.ban_id == ban_id)[0]
+    $('#teachertitle').html(`${info.name}반 현황`);
     $('#teacher_infobox').hide()
     $('#ban_infobox').show()
+    $('.mo_inloading').show()
+    $('.monot_inloading').hide()
+    if(!studentsData){
+        await get_all_students().then(() => {
+            $('.mo_inloading').hide()
+            $('.monot_inloading').show()
+        });
+    }
+    $('.mo_inloading').hide()
+    $('.monot_inloading').show()
+    let temp_profile_data = `
+    <tbody  style="width:100%;">
+        <tr class="row" style="background: #DCE6F2;">
+            <th class="col-12">담임 선생님 정보</th>
+        </tr>
+        <tr class="row" style="background:#DCE6F2;">
+            <td class="col-4">${info.teacher_name}(${info.teacher_engname})</th>
+            <td class="col-4"> 📞 ${info.teacher_mobileno} </th>
+            <td class="col-4"> ✉️ ${info.teacher_email}</th>
+        </tr>
+    </tbody>
+    `;
+    $('#profile_data').html(temp_profile_data);
+
+    let ban_unlearned = TunlearnedData.filter(u=>u.ban_id == ban_id).length
+    let temp_ban_data = `
+    <tbody  style="width:100%;">
+        <tr class="row">
+            <th class="col-3">현 원생 수</th>
+            <th class="col-3">이반</th>
+            <th class="col-3">퇴소</th>
+            <th class="col-3">미학습</th>
+        </tr>
+        <tr class="row">
+            <td class="col-3">${students_num}</td>
+            <td class="col-3">${switch_student}</td>
+            <td class="col-3">${out_student}(${answer_rate(out_student, outstudent_num).toFixed(2)}%)</td>
+            <td class="col-3">${ban_unlearned}(${answer_rate(ban_unlearned, unlearned_ttc).toFixed(2)}%) </td>
+        </tr>
+    </tbody>
+    `;
+
+    $('#ban_data').html(temp_ban_data);
     // key값 `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
     // banData = allData.filter(e => e.ban_id == ban_id)[0]
     // $('#target_ban_info_requestModalLabel').html(result['students'][0].name + '반 상세 현황')
