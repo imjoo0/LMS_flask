@@ -1249,7 +1249,6 @@ async function get_task(){
     $('.not_inloading').hide()
     if (!taskData) {
         await get_all_task().then(() => {
-            // 컨설팅 정보로 x
             if (taskData.length > 0) {
                 taskGrouped = taskData.reduce((acc, item) => {
                     const v = `${item.name}_${item.contents}_${item.startdate}_${item.deadline}_${item.cycle}_${item.priority}`;
@@ -1257,7 +1256,7 @@ async function get_task(){
                         acc[v] = [];
                     }
                     acc[v].push(
-                        {'ban_id':item.ban_id,'done':item.done}
+                        {'ban_id':item.ban_id,'done':item.done,'taskban_id':item.taskban_id}
                     );
                     return acc;
                 }, {});
@@ -1281,7 +1280,7 @@ async function get_task(){
                     acc[v] = [];
                 }
                 acc[v].push(
-                    {'ban_id':item.ban_id,'done':item.done}
+                    {'ban_id':item.ban_id,'done':item.done,'taskban_id':item.taskban_id}
                 );
                 return acc;
             }, {});
@@ -1495,7 +1494,6 @@ async function delete_task(idx) {
                 if (data.status == 200) {
                     alert(`삭제되었습니다.`)
                     window.location.reload()
-                    get_task()
                 } else {
                     alert(`실패 ${data.status} ${data.text}`)
                 }
