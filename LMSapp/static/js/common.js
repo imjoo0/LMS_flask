@@ -642,7 +642,10 @@ async function getTeacherInfo(t_id){
         $('#unlearned_chart').html(`${unlearned_ttd}/${unlearned_ttc}`)
         $('#unlearned_cp').html(`${answer_rate(unlearned_ttd,unlearned_ttc).toFixed(2)}%`)
 
-    
+    }
+    var chart = Chart.getChart('total-chart-element')
+    if (chart) {
+        chart.destroy()
     }
 
     // $.ajax({
