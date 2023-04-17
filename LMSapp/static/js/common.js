@@ -605,7 +605,7 @@ async function getTeacherInfo(t_id){
             <td class="col-1"> 유입+ : ${ban_data.switch_plus_num}건</td>
             <td class="col-1"> 이반- : ${ban_data.switch_minus_num}건</td>
             <td class="col-2"> ${unlearned}건</td>
-            <td class="col-1" onclick="getBanChart(${ban_data.ban_id})"> ✅ </td>
+            <td class="col-1" data-bs-toggle="modal" data-bs-target="#target_ban_info" onclick="getBanChart(${ban_data.ban_id})"> ✅ </td>
             `;
         });
         $('#mybaninfo').html(temp_baninfo);
