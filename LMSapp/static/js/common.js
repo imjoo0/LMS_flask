@@ -655,9 +655,8 @@ async function getTeacherInfo(t_id){
 
         // 상담
         let ttd = TconsultingData.filter(c=>c.done == 1).length
-        let missed = TconsultingData.filter(c=>c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today)
         $('#consulting_chart').html(`${ttd}/${TconsultingData.length}건 | 완수: ${answer_rate(ttd,TconsultingData.length).toFixed(0)}%`)
-        $('#cp').html(`${make_nodata(missed)}`)
+        $('#cp').html(`${make_nodata(TconsultingData.filter(c=>c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}`)
 
         
 
