@@ -1455,33 +1455,32 @@ async function update_consulting(idx) {
 // }
 
 async function delete_consulting(contents, ban_id) {
-    targets = consultingData.filter(c => c.contents == contents && c.ban_id == ban_id)
+    const csrf = $('#csrf_token').val();
     var con_val = confirm('정말 삭제하시겠습니까?')
-    $.each(targets, function (index, item) {
-        if (con_val == true) {
-            delete_ban_consulting(item.id)
-        }
-    });
-    alert(`삭제되었습니다.`)
-    window.location.reload()
+    if (con_val == true) {
+        await $.ajax({
+            url: '/manage/api/delete_consulting/' + contents+'/'+ban_id,
+            type: 'get',
+            headers: { 'content-type': 'application/json' },
+            data: {},
+            success: function (data) {
+                if (data.status == 200) {
+                    alert(`삭제되었습니다.`)
+                    window.location.reload()
+                }else{
+                    alert(`실패 ${data.status} ${data.text}`)
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        })
+    }
 }
 
 async function delete_ban_consulting(idx) {
     const csrf = $('#csrf_token').val();
-    await $.ajax({
-        url: '/manage/api/delete_consulting/' + idx,
-        type: 'get',
-        headers: { 'content-type': 'application/json' },
-        data: {},
-        success: function (data) {
-            if (data.status != 200) {
-                alert(`실패 ${data.status} ${data.text}`)
-            }
-        },
-        error: function (xhr, status, error) {
-            alert(xhr.responseText);
-        }
-    })
+    
 }
 async function delete_task(idx) {
     const csrf = $('#csrf_token').val();
@@ -1495,6 +1494,8 @@ async function delete_task(idx) {
             success: function (data) {
                 if (data.status == 200) {
                     alert(`삭제되었습니다.`)
+                    window.location.reload()
+                    get_task()
                 } else {
                     alert(`실패 ${data.status} ${data.text}`)
                 }
@@ -1503,9 +1504,6 @@ async function delete_task(idx) {
                 alert(xhr.responseText);
             }
         })
-        alert(`삭제되었습니다.`)
-        window.location.reload()
-        get_task()
     }
 }
 

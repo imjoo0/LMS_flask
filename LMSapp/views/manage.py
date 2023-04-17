@@ -183,14 +183,14 @@ def get_consulting_history(student_id):
 
         return json.dumps(all_consulting)
 
-@bp.route('/api/delete_consulting/<int:id>', methods=['GET'])
-def delete_consulting(id):
+@bp.route('/api/delete_consulting/<string:contents>/<int:ban_id>', methods=['GET'])
+def delete_consulting(contents,ban_id):
     result = {}
     if request.method == 'GET':
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute(f'delete from consulting where id={id}')
+                cur.execute(f'delete from consulting where contents={contents} and ban_id={ban_id};')
                 db.commit()
                 result['status'] = 200
                 result['text'] = id
