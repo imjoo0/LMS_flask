@@ -637,7 +637,7 @@ async function getTeacherInfo(t_id){
 
         // 미학습 상담
         console.log(TunlearnedData)
-        let unlearned_ttc = TunlearnedData[0].total_unlearned_consulting
+        let unlearned_ttc = 10
         let unlearned_ttd = TunlearnedData.filter(u=>u.done == 1).length
         $('#unlearned_chart').html(`${unlearned_ttd}/${unlearned_ttc}`)
         $('#unlearned_cp').html(`${answer_rate(unlearned_ttd,unlearned_ttc).toFixed(2)}%`)
