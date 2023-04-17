@@ -613,7 +613,7 @@ async function getTeacherInfo(t_id){
             },
             options: {
                 maintainAspectRatio: false,
-                aspectRatio: 2,
+                aspectRatio: 1,
                 plugins: {
                     legend: {
                         display: false,
@@ -637,6 +637,7 @@ async function getTeacherInfo(t_id){
         $('#cp').html(`${answer_rate(ttd,ttc.length).toFixed(0)}%`)
 
         // 미학습 상담
+        console.log(TunlearnedData)
         let unlearned_ttc = TunlearnedData[0].total_unlearned_consulting
         let unlearned_ttd = TunlearnedData.filter(u=>u.done == 1).length
         $('#unlearned_chart').html(`${unlearned_ttd}/${unlearned_ttc}`)
