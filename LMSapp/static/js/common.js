@@ -710,6 +710,7 @@ async function getBanChart(ban_id) {
     $('.mo_inloading').hide()
     $('.monot_inloading').show()
     let banStudentData = studentsData.filter(s=>s.ban_id == ban_id)
+    $('#students_tabletitle').html(`${banStudentData[0].ban_name}반 원생 정보`)
     console.log(info)
     console.log(banStudentData)
     // let ban_unlearned = TunlearnedData.filter(u=>u.ban_id == ban_id).length
