@@ -580,6 +580,9 @@ async function getTeacherInfo(t_id){
                 $('.monot_inloading').show()
             });
         }
+        console.log(consultingData)
+        console.log(studentsData)
+        console.log(taskData)
         // 선생님의 미학습 데이터 
         let TulearnedData =  consultingData.filter(c=>c.teacher_id == t_id && c.category_id <100 && c.startdate <= today)
         // let my_consulting = consultingData.filter(a => a.teacher_id == t_id && a.startdate <= today)
@@ -647,52 +650,54 @@ async function getTeacherInfo(t_id){
                 height: 500,
             },
         });
+
+
     
     }
 
-    $.ajax({
-        type: "GET",
-        url: "/admin/"+t_id,
-        data: {},
-        success: function (response) {
-            if (response['status'] == 400){
-                let no_data_title = `<h1> ${response.text} </h1>`
-                $('#teacherModalLabel').html(no_data_title);
-                return
-            }
-            let chart = response['chart_data']
-            let name = response['teacher_info']['name'] + '(' + response['teacher_info']['engname'] + ')';
-            let mobileno = response['teacher_info']['mobileno'];
-            let email = response['teacher_info']['email']
+    // $.ajax({
+    //     type: "GET",
+    //     url: "/admin/"+t_id,
+    //     data: {},
+    //     success: function (response) {
+    //         if (response['status'] == 400){
+    //             let no_data_title = `<h1> ${response.text} </h1>`
+    //             $('#teacherModalLabel').html(no_data_title);
+    //             return
+    //         }
+    //         let chart = response['chart_data']
+    //         let name = response['teacher_info']['name'] + '(' + response['teacher_info']['engname'] + ')';
+    //         let mobileno = response['teacher_info']['mobileno'];
+    //         let email = response['teacher_info']['email']
             
-            // 업무
-            let total_todo = chart['total_todo']
-            let total_done = chart['total_done']
-            let task_p = chart['ttp']
-            $('#task_chart').html(`${total_done}/${total_todo}`)
-            $('#task_p').html(`${task_p}%`)
+    //         // 업무
+    //         let total_todo = chart['total_todo']
+    //         let total_done = chart['total_done']
+    //         let task_p = chart['ttp']
+    //         $('#task_chart').html(`${total_done}/${total_todo}`)
+    //         $('#task_p').html(`${task_p}%`)
 
-            // 상담
-            let ttc = chart['ttc']
-            let ttd = chart['ttd']
-            let cp = chart['cp']
-            $('#consulting_chart').html(`${ttd}/${ttc}`)
-            $('#cp').html(`${cp}%`)
+    //         // 상담
+    //         let ttc = chart['ttc']
+    //         let ttd = chart['ttd']
+    //         let cp = chart['cp']
+    //         $('#consulting_chart').html(`${ttd}/${ttc}`)
+    //         $('#cp').html(`${cp}%`)
 
-            // 미학습 상담
-            let unlearned_ttc = chart['unlearned_ttc']
-            let unlearned_ttd = chart['unlearned_ttd']
-            let unlearned_cp = chart['unlearned_cp']
-            $('#unlearned_chart').html(`${unlearned_ttc}/${unlearned_ttd}`)
-            $('#unlearned_cp').html(`${unlearned_cp}%`)
+    //         // 미학습 상담
+    //         let unlearned_ttc = chart['unlearned_ttc']
+    //         let unlearned_ttd = chart['unlearned_ttd']
+    //         let unlearned_cp = chart['unlearned_cp']
+    //         $('#unlearned_chart').html(`${unlearned_ttc}/${unlearned_ttd}`)
+    //         $('#unlearned_cp').html(`${unlearned_cp}%`)
 
                                 
 
-        },
-        error:function(xhr, status, error){
-                alert(xhr.responseText);
-            }
-    })
+    //     },
+    //     error:function(xhr, status, error){
+    //             alert(xhr.responseText);
+    //         }
+    // })
 }
 // 반 상세 정보 보내주는 함수 
 function getBanChart(ban_id) {
