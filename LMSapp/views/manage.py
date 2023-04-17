@@ -190,7 +190,7 @@ def delete_consulting(contents,ban_id):
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute(f'delete from consulting where contents={contents} and ban_id={ban_id};')
+                cur.execute('delete from consulting where contents=%s and ban_id=%s;',contents,ban_id)
                 db.commit()
                 result['status'] = 200
                 result['text'] = id
