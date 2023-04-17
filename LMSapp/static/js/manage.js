@@ -992,7 +992,8 @@ function post_consulting_request() {
                 v = value.split('_')
                 totalstudent_ban_id = Number(v[0])
                 totalstudent_teacher_id = Number(v[1])
-                target_student_selections = allData.filter(a => a.ban_id == totalstudent_ban_id)[0]['students']
+                target_student_selections = studentsData.filter(a => a.ban_id == totalstudent_ban_id)
+                console.log(target_student_selections)
                 target_student_selections.forEach(value => {
                     const promise = $.ajax({
                         type: "POST",
@@ -1043,7 +1044,6 @@ function post_consulting_request() {
             }
         })
     } else {
-        b_type = $('#consulting_target_aban').val()[0]
         // b_type에 따라 전체 학생, 플러스/알파반, NF/NOVEL반으로 구분하여 API 호출
         b_type = $('#consulting_target_aban').val()[0]
         $.ajax({
