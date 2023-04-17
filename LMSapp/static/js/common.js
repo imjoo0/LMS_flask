@@ -635,11 +635,16 @@ async function getTeacherInfo(t_id){
                 ],
             },
             options: {
+                maintainAspectRatio: false,
+                aspectRatio: 1,
                 plugins: {
                     legend: {
                         display: false,
                     },
                 },
+                responsive: true,
+                width: 500,
+                height: 500,
             },
         });
     
