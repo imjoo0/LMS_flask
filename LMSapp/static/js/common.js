@@ -556,21 +556,20 @@ async function getTeacherInfo(t_id){
                 $('.monot_inloading').show()
             });
         }
-        // console.log(consultingData)
-        // console.log(studentsData)
-        // console.log(taskData)
+        $('#teachertitle').html(info[0].teacher_name + '( '+ info[0].teacher_engname + ' )'+'선생님 현황 📞 '+ info[0].teacher_mobileno +' ✉️ '+ info[0].teacher_email
+        + ' )');
         // 선생님의 미학습 데이터 
         let TconsultingData =  consultingData.filter(c=>c.teacher_id == t_id && c.startdate <= today)
+        console.log(TconsultingData)
+        let TunlearnedData = TconsultingData.filter(c=>c.category_id < 100)
+        console.log(TunlearnedData)
         // let my_consulting = consultingData.filter(a => a.teacher_id == t_id && a.startdate <= today)
         // let u_consulting_my = my_consulting.filter(a => a.category_id < 100);
         // let TstudentsData =studentsData.filter(t=>t.teacher_id == t_id)
-        $('#teachertitle').html(info[0].teacher_name + '( '+ info[0].teacher_engname + ' )'+'선생님 현황 📞 '+ info[0].teacher_mobileno +' ✉️ '+ info[0].teacher_email
-        + ' )');
         let temp_baninfo = ''
         let total_student_num = 0
         let os = 0
         let ss = 0
-        let TunlearnedData = TconsultingData.filter(c=>c.category_id < 100)
         info.forEach(ban_data => {
             total_student_num += ban_data.student_num
             os += ban_data.out_num
