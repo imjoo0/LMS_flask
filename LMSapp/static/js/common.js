@@ -162,7 +162,6 @@ async function get_all_consulting() {
         alert('Error occurred while retrieving data.');
     }
 }
-
 async function get_all_task() {
     try {
         const response = await $.ajax({
