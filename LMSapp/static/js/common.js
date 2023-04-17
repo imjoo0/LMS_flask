@@ -580,57 +580,34 @@ async function getTeacherInfo(t_id){
                 $('.monot_inloading').show()
             });
         }
+        // 선생님의 미학습 데이터 
+        let TulearnedData =  consultingData.filter(c=>c.teacher_id == t_id && c.category_id <100 && c.startdate <= today)
+        // let my_consulting = consultingData.filter(a => a.teacher_id == t_id && a.startdate <= today)
+        // let u_consulting_my = my_consulting.filter(a => a.category_id < 100);
+        let TstudentsData =studentsData.filter(t=>t.teacher_id == t_id)
+        console.log(TulearnedData)
+        console.log(TstudentsData)
         $('.mo_inloading').hide()
         $('.monot_inloading').show()
-        $('#teachertitle').html(info.teacher_name + '( '+ info.teacher_engname + ' )'+'선생님 현황 ( '+ info.teacher_mobileno +' | '+ info.teacher_email
+        $('#teachertitle').html(info[0].teacher_name + '( '+ info[0].teacher_engname + ' )'+'선생님 현황 📞 '+ info[0].teacher_mobileno +' ✉️ '+ info[0].teacher_email
         + ' )');
+        let temp_baninfo = ''
+        let total_student_num = 0
+        info.forEach(ban_data => {
+            total_student_num += ban_data.student_num
+            temp_baninfo += `
+            <td class="col-2">${ban_data.name}</td>
+            <td class="col-2">${make_semester(ban_data.semester)}학기</td>
+            <td class="col-2">${ban_data.student_num}명</td>
+            <td class="col-2"> ${ban_data.out_num}건</td>
+            <td class="col-2"> ${ban_data.switch_minus_num}건</td>
+            <td class="col-2"> ${TulearnedData.filter(c=>c.ban_id == ban_data.ban_id).length}건</td>
+            `;
+        });
+        $('#mybaninfo').hmtl(temp_baninfo);
     }
-    console.log(consultingData)
-    console.log(studentsData)
-    $('#mybaninfo').empty();
-    for(i=0;i<my_bans.length;i++){
-        let name = my_bans[i]['name'];
-        let semester = my_bans[i]['semester'];
-        let total_student_num = my_bans[i]['total_student_num'];
-        let out_s = my_bans[i]['out_s'];
-        let switch_s = my_bans[i]['switch_s'];
-        let unlearned = my_bans[i]['unlearned'];
+    
 
-        let temp_baninfo = `
-            <td class="col-2">${name}</td>
-            <td class="col-1">${semester}학기</td>
-            <td class="col-1">${total_student_num}명</td>
-            <td class="col-2"> ${out_s}건</td>
-            <td class="col-2"> ${switch_s}건</td>
-            <td class="col-2"> ${unlearned}건</td>
-            <td class="col-2"> 임시3 (5%) </td>
-        `;
-
-    }
-    let total_student_num = 0
-    let my_consulting = consultingData.filter(a => a.teacher_id == t_id && a.startdate <= today)
-    let u_consulting_my = my_consulting.filter(a => a.category_id < 100);
-    info.forEach(ban_data => {
-        let ban_id = ban_data['students'][0].ban_id
-        let name = ban_data['students'][0].name
-        let semester = ban_data['students'][0].semester
-        let student_num = ban_data['students'][0].student_num
-        let switch_count = ban_data.total_switch_count
-        let out_count = ban_data.total_out_count
-        let unlearned = u_consulting_my.filter(a.ban_id == ban_id).length;
-
-        total_student_num += ban_data['students'][0].student_num
-        
-        let temp_baninfo = `
-        <td class="col-2">${name}</td>
-        <td class="col-2">${semester}학기</td>
-        <td class="col-2">${student_num}명</td>
-        <td class="col-2"> ${out_count}건</td>
-        <td class="col-2"> ${switch_count}건</td>
-        <td class="col-2"> ${unlearned}건</td>
-        `;
-        $('#mybaninfo').append(temp_baninfo);
-    });
             
     let os = teacher_data['total_out_count']
     let ss = teacher_data['total_switch_count']
