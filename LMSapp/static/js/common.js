@@ -538,20 +538,44 @@ async function getTeacherInfo(t_id){
         // $('#consultingban_search_input').off('keyup');
         $('.mo_inloading').show()
         $('.monot_inloading').hide()
-        if (!consultingData && studentsData) {
+        if (!consultingData && studentsData && taskData) {
             // await get_all_students()
             await get_all_consulting().then(() => {
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
-        }else if (consultingData && !studentsData) {
+        }else if (consultingData && !studentsData && taskData) {
             await get_all_students().then(() => {
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
-        }else if (!consultingData && !studentsData) {
+        }else if (consultingData && studentsData && !taskData) {
+            await get_all_task().then(() => {
+                $('.mo_inloading').hide()
+                $('.monot_inloading').show()
+            });
+        }else if (!consultingData && !studentsData && taskData) {
             await get_all_students()
             await get_all_consulting().then(() => {
+                $('.mo_inloading').hide()
+                $('.monot_inloading').show()
+            });
+        }else if (!consultingData && studentsData && !taskData) {
+            await get_all_task()
+            await get_all_consulting().then(() => {
+                $('.mo_inloading').hide()
+                $('.monot_inloading').show()
+            });
+        }else if (consultingData && !studentsData && !taskData) {
+            await get_all_students()
+            await get_all_task().then(() => {
+                $('.mo_inloading').hide()
+                $('.monot_inloading').show()
+            });
+        }else if (!consultingData && !studentsData && !taskData) {
+            await get_all_students()
+            await get_all_consulting()
+            await get_all_task().then(() => {
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
@@ -560,9 +584,9 @@ async function getTeacherInfo(t_id){
         $('.monot_inloading').show()
         $('#teachertitle').html(info.teacher_name + '( '+ info.teacher_engname + ' )'+'선생님 현황 ( '+ info.teacher_mobileno +' | '+ info.teacher_email
         + ' )');
-
     }
-    
+    console.log(consultingData)
+    console.log(studentsData)
     $('#mybaninfo').empty();
     for(i=0;i<my_bans.length;i++){
         let name = my_bans[i]['name'];
