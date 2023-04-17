@@ -577,7 +577,7 @@ async function getTeacherInfo(t_id){
         let ss = 0
         info.forEach(ban_data => {
             if(ban_data.name.toLowerCase().includes('meteor' || 'nebula')){
-                IsG3 = true
+                IsG3 *= true
             }
             total_student_num += ban_data.student_num
             os += ban_data.out_num
@@ -644,13 +644,13 @@ async function getTeacherInfo(t_id){
             <th class="col-2">IXL</th>
             <th class="col-2">리딩</th>
             <th class="col-3">인투리딩 미응시</th>
-            <th class="col-2">라이팅 과제</th>
-            <th class="col-1">미접속</th>
+            <th class="col-3">라이팅 과제</th>
+            <th class="col-2">미접속</th>
             <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 1).length)}</td>
             <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 4).length)}</td>
             <td class="col-3">${make_nodata(TunlearnedData.filter(u=>u.category_id == 5).length)}</td>
-            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 6).length)}</td>
-            <td class="col-1">${make_nodata(TunlearnedData.filter(u=>u.category_id == 2).length)}</td>
+            <td class="col-3">${make_nodata(TunlearnedData.filter(u=>u.category_id == 6).length)}</td>
+            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 2).length)}</td>
             `;
         }else{
             temp_html = `
