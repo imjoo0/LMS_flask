@@ -625,7 +625,7 @@ async function getTeacherInfo(t_id){
                 labels: ['관리중', '이반', '퇴소'],
                 datasets: [
                     {
-                        data: [tt, ss, os],
+                        data: [total_student_num, ss, os],
                         backgroundColor: ['#B39CD0', '#ffd400', '#F23966'],
                         hoverOffset: 4,
                     },
