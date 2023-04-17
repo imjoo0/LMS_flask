@@ -715,6 +715,7 @@ async function getBanChart(ban_id) {
     $('.mo_inloading').hide()
     $('.monot_inloading').show()
 
+    console.log(info)
     let ban_unlearned = TunlearnedData.filter(u=>u.ban_id == ban_id).length
     let temp_ban_data = `
     <tbody  style="width:100%;">
@@ -725,9 +726,9 @@ async function getBanChart(ban_id) {
             <th class="col-3">미학습</th>
         </tr>
         <tr class="row">
-            <td class="col-3">${students_num}</td>
-            <td class="col-3">${switch_student}</td>
-            <td class="col-3">${out_student}(${answer_rate(out_student, outstudent_num).toFixed(2)}%)</td>
+            <td class="col-3">${info.students_num}</td>
+            <td class="col-3">${info.switch_minus_numtudent}</td>
+            <td class="col-3">${info.outstudent_num}(${answer_rate(info.outstudent_num, outstudent_num).toFixed(2)}%)</td>
             <td class="col-3">${ban_unlearned}(${answer_rate(ban_unlearned, unlearned_ttc).toFixed(2)}%) </td>
         </tr>
     </tbody>
