@@ -650,16 +650,13 @@ async function getTeacherInfo(t_id){
         let Ttaskhisory = TTaskData.filter(t=> today < new Date(t.deadline).setHours(0, 0, 0, 0))
         let history_done = Ttaskhisory.filter(t=>t.done == 1).length
         let total_done = TtasktodayData.filter(t=>t.done == 1).length
-        $('#task_chart').html(`${total_done}/${TtasktodayData.length}건 | 완수: ${answer_rate(total_done,TtasktodayData.length).toFixed(0)}%`)
+        $('#task_chart').html(`<td class="col-3">${total_done}/${TtasktodayData.length}건</td><td class="col-3">${answer_rate(total_done,TtasktodayData.length).toFixed(0)}%</td>`)
         $('#task_p').html(`${answer_rate(history_done,Ttaskhisory.length).toFixed(0)}%`)
 
         // 상담
         let ttd = TconsultingData.filter(c=>c.done == 1).length
-        $('#consulting_chart').html(`${ttd}/${TconsultingData.length}건 | 완수: ${answer_rate(ttd,TconsultingData.length).toFixed(0)}%`)
+        $('#consulting_chart').html(`<td class="col-3">${ttd}/${TconsultingData.length}건</td><td class="col-3">${answer_rate(ttd,TconsultingData.length).toFixed(0)}%</td>`)
         $('#cp').html(`${make_nodata(TconsultingData.filter(c=>c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}`)
-
-        
-
     }
 
 }
