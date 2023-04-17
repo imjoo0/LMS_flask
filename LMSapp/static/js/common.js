@@ -580,28 +580,26 @@ async function getTeacherInfo(t_id){
                 $('.monot_inloading').show()
             });
         }
-        console.log(consultingData)
-        console.log(studentsData)
-        console.log(taskData)
+        // console.log(consultingData)
+        // console.log(studentsData)
+        // console.log(taskData)
         // 선생님의 미학습 데이터 
-        let TulearnedData =  consultingData.filter(c=>c.teacher_id == t_id && c.category_id <100 && c.startdate <= today)
+        let TconsultingData =  consultingData.filter(c=>c.teacher_id == t_id && c.startdate <= today)
         // let my_consulting = consultingData.filter(a => a.teacher_id == t_id && a.startdate <= today)
         // let u_consulting_my = my_consulting.filter(a => a.category_id < 100);
-        let TstudentsData =studentsData.filter(t=>t.teacher_id == t_id)
-        console.log(TulearnedData)
-        console.log(TstudentsData)
-        $('.mo_inloading').hide()
-        $('.monot_inloading').show()
+        // let TstudentsData =studentsData.filter(t=>t.teacher_id == t_id)
         $('#teachertitle').html(info[0].teacher_name + '( '+ info[0].teacher_engname + ' )'+'선생님 현황 📞 '+ info[0].teacher_mobileno +' ✉️ '+ info[0].teacher_email
         + ' )');
         let temp_baninfo = ''
         let total_student_num = 0
         let os = 0
         let ss = 0
+        let TunlearnedData = TconsultingData.filter(c.category_id < 100)
         info.forEach(ban_data => {
             total_student_num += ban_data.student_num
             os += ban_data.out_num
             ss += ban_data.switch_minus_num
+            unlearned = TunlearnedData.filter(c=>c.ban_id == ban_data.ban_id).length
             temp_baninfo += `
             <td class="col-3">${ban_data.name}</td>
             <td class="col-1">${make_semester(ban_data.semester)}학기</td>
@@ -609,7 +607,7 @@ async function getTeacherInfo(t_id){
             <td class="col-2"> ${ban_data.out_num}건 ( ${ban_data.out_num_per}% )</td>
             <td class="col-1"> 유입+ : ${ban_data.switch_plus_num}건</td>
             <td class="col-1"> 이반- : ${ban_data.switch_minus_num}건</td>
-            <td class="col-2"> ${TulearnedData.filter(c=>c.ban_id == ban_data.ban_id).length}건</td>
+            <td class="col-2"> ${unlearned}건</td>
             <td class="col-1" onclick="getBanChart(${ban_data.ban_id})"> ✅ </td>
             `;
         });
@@ -639,7 +637,7 @@ async function getTeacherInfo(t_id){
             },
             options: {
                 maintainAspectRatio: false,
-                aspectRatio: 1,
+                aspectRatio: 2,
                 plugins: {
                     legend: {
                         display: false,
@@ -651,6 +649,22 @@ async function getTeacherInfo(t_id){
             },
         });
 
+        let TtaskData = taskData.filter(t=>t.teacher_id ==t_id && t.startdate <= today)
+        let total_done = TtaskData.filter(t=>t.done == 1).length
+        $('#task_chart').html(`${total_done}/${TtaskData.length}`)
+        $('#task_p').html(`${answer_rate(total_done,TtaskData.length).toFixed(0)}%`)
+
+        // 상담
+        let ttc = TconsultingData.length
+        let ttd = TconsultingData.filter(c=>c.done == 1).length
+        $('#consulting_chart').html(`${ttd}/${ttc.length}`)
+        $('#cp').html(`${answer_rate(ttd,ttc.length).toFixed(0)}%`)
+
+        // 미학습 상담
+        let unlearned_ttc = TunlearnedData[0].total_unlearned_consulting
+        let unlearned_ttd = TunlearnedData.filter(u=>u.done == 1).length
+        $('#unlearned_chart').html(`${unlearned_ttd}/${unlearned_ttc}`)
+        $('#unlearned_cp').html(`${answer_rate(unlearned_ttd,unlearned_ttc).toFixed(2)}%`)
 
     
     }
