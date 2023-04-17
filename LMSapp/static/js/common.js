@@ -567,6 +567,7 @@ async function getTeacherInfo(t_id){
         let TconsultingData =  consultingData.filter(c=>c.teacher_id == t_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
         let TunlearnedData = TconsultingData.filter(c=>c.category_id < 100)
         let TTaskData =  taskData.filter(t=>t.teacher_id ==t_id)
+        let IsG3 = false
         // let my_consulting = consultingData.filter(a => a.teacher_id == t_id && a.startdate <= today)
         // let u_consulting_my = my_consulting.filter(a => a.category_id < 100);
         // let TstudentsData =studentsData.filter(t=>t.teacher_id == t_id)
@@ -575,6 +576,9 @@ async function getTeacherInfo(t_id){
         let os = 0
         let ss = 0
         info.forEach(ban_data => {
+            if(ban_data.name.toLowerCase().includes('meteor' || 'nebula')){
+                IsG3 = true
+            }
             total_student_num += ban_data.student_num
             os += ban_data.out_num
             ss += ban_data.switch_minus_num
@@ -634,14 +638,36 @@ async function getTeacherInfo(t_id){
         let unlearned_ttc = TunlearnedData.length
         let unlearned_ttd = TunlearnedData.filter(u=>u.done == 1).length
         $('#ucomcom').html(`<strong> 완수: ${unlearned_ttd} / ${unlearned_ttc}건 ( ${answer_rate(unlearned_ttd,unlearned_ttc).toFixed(2)}% )</strong>`);
-        let temp_html = `
-        <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 1).length)}</td>
-        <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 4).length)}</td>
-        <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 3).length)}</td>
-        <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 5).length)}</td>
-        <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 6).length)}</td>
-        <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 2).length)}</td>
-        `;
+        let temp_html = ''
+        if(IsG3){
+            temp_html = `
+            <th class="col-2">IXL</th>
+            <th class="col-2">리딩</th>
+            <th class="col-2">인투리딩 미응시</th>
+            <th class="col-2">라이팅 과제</th>
+            <th class="col-2">미접속</th>
+            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 1).length)}</td>
+            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 4).length)}</td>
+            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 5).length)}</td>
+            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 6).length)}</td>
+            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 2).length)}</td>
+            `;
+        }else{
+            temp_html = `
+            <th class="col-2">IXL</th>
+            <th class="col-2">리딩</th>
+            <th class="col-2">리특</th>
+            <th class="col-2">인투리딩 미응시</th>
+            <th class="col-2">라이팅 과제</th>
+            <th class="col-2">미접속</th>
+            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 1).length)}</td>
+            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 4).length)}</td>
+            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 3).length)}</td>
+            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 5).length)}</td>
+            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 6).length)}</td>
+            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 2).length)}</td>
+            `;
+        }
         $('#totalreport-row').html(temp_html)
 
 
