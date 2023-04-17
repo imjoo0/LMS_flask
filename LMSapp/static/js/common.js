@@ -556,6 +556,8 @@ async function getTeacherInfo(t_id){
                 $('.monot_inloading').show()
             });
         }
+        $('.mo_inloading').hide()
+        $('.monot_inloading').show()
         $('#teachertitle').html(info[0].teacher_name + '( '+ info[0].teacher_engname + ' )'+'선생님 현황 📞 '+ info[0].teacher_mobileno +' ✉️ '+ info[0].teacher_email
         + ' )');
         // 선생님의 미학습 데이터 
