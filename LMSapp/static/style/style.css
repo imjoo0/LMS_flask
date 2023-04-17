@@ -503,3 +503,8 @@ details > summary {
     margin: 2% 2% 2% 60%;
     overflow-x: auto;
 }
+
+.tagtagtitle{
+    background-color:#20c997;
+    font-size:1.2rem
+}
