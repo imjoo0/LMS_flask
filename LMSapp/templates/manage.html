@@ -140,104 +140,34 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-body monot_inloading" id="ban_infobox">
-                <div id="buttonbox"></div>
-                <div class="info-container">
-                    <div class="info-title">
-                        <span>반 정보</span>
-                    </div>
-                    <div class="info">
-                        <div class="total_table" style="width:90%">
-                            <table class="table text-center" id="ban_data">
-                                
-                            </table>
+                        <!-- 원생 정보 -->
+                        <div class="mo_inloading" class="loader loader--style2 text-center" title="1">
+                            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                                <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                                    <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
+                                </path>
+                            </svg>
                         </div>
-                    </div>
-                </div>
-                <div class="info-container mt-5">
-                    <div class="info-title">
-                        <span>원생 정보</span>
-                    </div>
-                    <div class="info">
-                        <div class="total_table" style="width:90%">
-                            <table class="table text-center" id="student_data">
-                                <tr class="row" style="background: #DCE6F2;">
-                                    <th class="col-12" id="displayCount"></th>
-                                </tr>
-                                <tr class="row" style="background:#DCE6F2;">
-                                    <th class="col-2">원생 정보</th>
-                                    <th class="col-2">연락처</th>
-                                    <th class="col-3">부모님 정보</th>
-                                    <th class="col-2">추천도서</th>
-                                    <th class="col-2">미학습</th>
-                                    <th class="col-1">상세</th>
-                                </tr>
-                                <tr id="s_data" class="row"></tr>
-                            </table>
-                            <ul id="pagingul"></ul>
-                            <div id="ban_statistics" class="make_row w-100"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="info-container mt-5">
-                    <div class="info-title">
-                        <span>상담*업무 현황</span>
-                    </div>
-                    <div class="info">
-                        <table class="table text-center" id="teaching" style="margin-right: 4%; width: 50%;">
-                            <tbody  style="width:100%;">
-                                <tr class="row" style="background: #DCE6F2;">
-                                    <th class="col-12">상담*업무 관리</th>
-                                </tr>
-                                <tr class="row">
-                                    <th class="col-6">업무</th>
-                                    <th class="col-6">상담</th>
-                                </tr>
-                                <tr class="row">
-                                </tr>
-                            </tbody>
-                        </table>  
+                        <table class="table text-center monot_inloading" id="student_data" style="display:none">
+                            <tr class="row" style="background: #DCE6F2;">
+                                <th class="col-12" id="displayCount"></th>
+                            </tr>
+                            <tr class="row" style="background:#DCE6F2;">
+                                <th class="col-2">원생 정보</th>
+                                <th class="col-2">연락처</th>
+                                <th class="col-3">부모님 정보</th>
+                                <th class="col-2">추천도서</th>
+                                <th class="col-2">미학습</th>
+                                <th class="col-1">상세</th>
+                            </tr>
+                            <tr id="s_data" class="row"></tr>
+                        </table>
+                        <ul id="pagingul" class="monot_inloading"></ul>
+                        <div id="ban_statistics" class="make_row w-100 monot_inloading"></div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- 반 정보 -->
-        <!-- <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="target_ban_info_requestModalLabel">
-                    반 상세 현황
-                </h5>
-                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div class="d-flex justify-content-start align-items-start flex-column" style="overflow: auto;">
-                    <table class="table text-center" id="profile_data" >
-                    </table>
-                    <table class="table text-center" id="ban_data" >
-                    </table>
-
-                    <table class="table text-center" id="student_data">
-                        <tr class="row" style="background: #DCE6F2;">
-                            <th class="col-12" id="displayCount"></th>
-                        </tr>
-                        <tr class="row" style="background:#DCE6F2;">
-                            <th class="col-2">원생 정보</th>
-                            <th class="col-2">연락처</th>
-                            <th class="col-3">부모님 정보</th>
-                            <th class="col-2">추천도서</th>
-                            <th class="col-2">미학습</th>
-                            <th class="col-1">상세</th>
-                        </tr>
-                        <tr id="s_data" class="row"></tr>
-                    </table>
-                    <ul id="pagingul"></ul>
-                    <div id="ban_statistics" class="make_row w-100"></div>
-                </div>
-            </div>
-        </div> -->
     </div>
 </div>
 <!-- 신규 상담 요청 모달 -->

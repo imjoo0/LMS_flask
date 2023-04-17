@@ -529,7 +529,7 @@ function semesterShow(semester) {
 
 async function getTeacherInfo(t_id){
     $('#teacher_infobox').show()
-    $('#ban_infobox').hide()
+    $('#student_data').hide()
     let info = banData.filter(t=>t.teacher_id == t_id)
     if (info.length == 0){
         let no_data_title = `<h1> ${response.text} </h1>`
@@ -698,12 +698,7 @@ async function getTeacherInfo(t_id){
 }
 // 반 상세 정보 보내주는 함수 
 async function getBanChart(ban_id) {
-    $('#teacher_infobox').hide()
-    $('#ban_infobox').show()
-    let info = banData.filter(b=>b.ban_id == ban_id)[0]
-    $('#teachertitle').html(`${info.name}반 현황`);
-    $('#buttonbox').html(`<button type="button" class="btn btn-back not_inloading" onclick="getTeacherInfo(${info.teacher_id})">선생님 차트로 돌아가기🔙 </button>
-    `)
+    $('#student_data').show()
     $('.mo_inloading').show()
     $('.monot_inloading').hide()
     if(!studentsData){
@@ -714,31 +709,34 @@ async function getBanChart(ban_id) {
     }
     $('.mo_inloading').hide()
     $('.monot_inloading').show()
-
+    let banStudentData = studentsData.filter(s=>s.ban_id == ban_id)
     console.log(info)
-    let ban_unlearned = TunlearnedData.filter(u=>u.ban_id == ban_id).length
-    let temp_ban_data = `
-    <tbody  style="width:100%;">
-        <tr class="row">
-            <th class="col-3">현 원생 수</th>
-            <th class="col-3">이반</th>
-            <th class="col-3">퇴소</th>
-            <th class="col-3">미학습</th>
-        </tr>
-        <tr class="row">
-            <td class="col-3">${info.students_num}</td>
-            <td class="col-3">${info.switch_minus_numtudent}</td>
-            <td class="col-3">${info.outstudent_num}(${answer_rate(info.outstudent_num, outstudent_num).toFixed(2)}%)</td>
-            <td class="col-3">${ban_unlearned}(${answer_rate(ban_unlearned, unlearned_ttc).toFixed(2)}%) </td>
-        </tr>
-    </tbody>
-    `;
-    $('#ban_data').html(temp_ban_data);
+    console.log(banStudentData)
+    // let ban_unlearned = TunlearnedData.filter(u=>u.ban_id == ban_id).length
+    // let temp_ban_data = `
+    // <tbody  style="width:100%;">
+    //     <tr class="row">
+    //         <th class="col-3">현 원생 수</th>
+    //         <th class="col-3">이반</th>
+    //         <th class="col-3">퇴소</th>
+    //         <th class="col-3">미학습</th>
+    //     </tr>
+    //     <tr class="row">
+    //         <td class="col-3">${info.students_num}</td>
+    //         <td class="col-3">${info.switch_minus_numtudent}</td>
+    //         <td class="col-3">${info.outstudent_num}(${answer_rate(info.outstudent_num, outstudent_num).toFixed(2)}%)</td>
+    //         <td class="col-3">${ban_unlearned}(${answer_rate(ban_unlearned, unlearned_ttc).toFixed(2)}%) </td>
+    //     </tr>
+    // </tbody>
+    // `;
+    // $('#ban_data').html(temp_ban_data);
     
-    // displayData(totalData, 1, dataPerPage, data_list, ban_id);
-    // paging(totalData, dataPerPage, pageCount, 1, data_list, ban_id);
-    // $('#student_data').show()
-    // $('#pagingul').show();
+    data_list = banStudentData
+    totalData = banStudentData.length
+    displayData(totalData, 1, dataPerPage, data_list, ban_id);
+    paging(totalData, dataPerPage, pageCount, 1, data_list, ban_id);
+    $('#student_data').show()
+    $('#pagingul').show();
      
     // key값 `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
     // banData = allData.filter(e => e.ban_id == ban_id)[0]
