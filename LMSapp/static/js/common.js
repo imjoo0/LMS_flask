@@ -537,7 +537,7 @@ async function getTeacherInfo(t_id){
         return
     }else{
         // $('#consultingban_search_input').off('keyup');
-        $('#teachertitle').html(`${info[0].teacher_engname} 현황`)
+        $('#teachertitle').html(`${info[0].teacher_engname}선생님 현황`)
         $('.mo_inloading').show()
         $('.monot_inloading').hide()
         if (!consultingData && taskData) {
