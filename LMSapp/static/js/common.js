@@ -634,14 +634,13 @@ async function getTeacherInfo(t_id){
         let unlearned_ttc = TunlearnedData.length
         let unlearned_ttd = TunlearnedData.filter(u=>u.done == 1).length
         $('#ucomcom').html(`<strong> 완수: ${unlearned_ttd} / ${unlearned_ttc}건 ( ${answer_rate(unlearned_ttd,unlearned_ttc).toFixed(2)}% )</strong>`);
-        $('#hunhwang').html(`<button onclick="get_consulting_history()">📝</button>`)
         let temp_html = `
-        <td class="col-1">${make_nodata(TunlearnedData.filter(u=>u.category_id == 1).length)}</td>
-        <td class="col-1">${make_nodata(TunlearnedData.filter(u=>u.category_id == 4).length)}</td>
-        <td class="col-1">${make_nodata(TunlearnedData.filter(u=>u.category_id == 3).length)}</td>
+        <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 2).length)}</td>
+        <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 4).length)}</td>
+        <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 3).length)}</td>
         <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 5).length)}</td>
         <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 6).length)}</td>
-        <td class="col-1">${make_nodata(TunlearnedData.filter(u=>u.category_id == 2).length)}</td>
+        <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 2).length)}</td>
         `;
         $('#totalreport-row').html(temp_html)
 
