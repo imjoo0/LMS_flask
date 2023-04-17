@@ -576,7 +576,7 @@ async function getTeacherInfo(t_id){
         let os = 0
         let ss = 0
         info.forEach(ban_data => {
-            if(ban_data.name.toLowerCase().includes('meteor' || 'nebula')){
+            if(ban_data.name.toLowerCase().includes('meteor') || ban_data.name.toLowerCase().includes('nebula')){
                 IsG3 = true
             }else{
                 IsG3 = false
