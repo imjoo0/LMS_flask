@@ -187,6 +187,8 @@ def get_consulting_history(student_id):
 def delete_consulting(contents,ban_id):
     result = {}
     if request.method == 'GET':
+        print(contents)
+        print(ban_id)
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
