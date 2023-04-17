@@ -637,7 +637,7 @@ async function getTeacherInfo(t_id){
         // 미학습 상담
         let unlearned_ttc = TunlearnedData.length
         let unlearned_ttd = TunlearnedData.filter(u=>u.done == 1).length
-        $('#ucomcom').html(`<strong> 완수: ${unlearned_ttd} / ${unlearned_ttc}건 ( ${answer_rate(unlearned_ttd,unlearned_ttc).toFixed(2)}% )</strong>`);
+        $('#ucomcom').html(`<td class="col-6"> 완수: ${unlearned_ttd} / ${unlearned_ttc}건 </td> <td class="col-6"><strong>( ${answer_rate(unlearned_ttd,unlearned_ttc).toFixed(2)}% )</strong></td>`);
         let temp_html = ''
         if(IsG3){
             temp_html = `
