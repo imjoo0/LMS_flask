@@ -559,12 +559,25 @@ async function getTeacherInfo(t_id){
         }
         $('.mo_inloading').hide()
         $('.monot_inloading').show()
-        $('#teachertitle').html(info[0].teacher_name + '( '+ info[0].teacher_engname + ' )'+'선생님 현황 📞 '+ info[0].teacher_mobileno +' ✉️ '+ info[0].teacher_email
-        + ' )');
+        let temp_profile_data = `
+            <tbody  style="width:100%;">
+                <tr class="row" style="background: #DCE6F2;">
+                    <th class="col-12">담임 선생님 정보</th>
+                </tr>
+                <tr class="row" style="background:#DCE6F2;">
+                    <td class="col-4">${info.teacher_name}(${info.teacher_engname})</th>
+                    <td class="col-4"> 📞 ${info.teacher_mobileno} </th>
+                    <td class="col-4"> ✉️ ${info.teacher_email}</th>
+                </tr>
+            </tbody>
+        `;
+        $('#profile_data').html(temp_profile_data);
         // 선생님의 미학습 데이터 
-        let TconsultingData =  consultingData.filter(c=>c.teacher_id == t_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
-        let TunlearnedData = TconsultingData.filter(c=>c.category_id < 100)
-        let TTaskData =  taskData.filter(t=>t.teacher_id ==t_id)
+        TconsultingData =  consultingData.filter(c=>c.teacher_id == t_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
+        TunlearnedData = TconsultingData.filter(c=>c.category_id < 100)
+        unlearned_ttc = TunlearnedData.length
+
+        TTaskData =  taskData.filter(t=>t.teacher_id ==t_id)
         let IsG3 = false
         // let my_consulting = consultingData.filter(a => a.teacher_id == t_id && a.startdate <= today)
         // let u_consulting_my = my_consulting.filter(a => a.category_id < 100);
@@ -635,7 +648,6 @@ async function getTeacherInfo(t_id){
         });
 
         // 미학습 상담
-        let unlearned_ttc = TunlearnedData.length
         let unlearned_ttd = TunlearnedData.filter(u=>u.done == 1).length
         $('#ucomcom').html(`<td class="col-6"> 완수: ${unlearned_ttd} / ${unlearned_ttc}건 </td> <td class="col-6"><strong> ${answer_rate(unlearned_ttd,unlearned_ttc).toFixed(2)}% </strong></td>`);
         let temp_html = ''
@@ -702,19 +714,6 @@ async function getBanChart(ban_id) {
     }
     $('.mo_inloading').hide()
     $('.monot_inloading').show()
-    let temp_profile_data = `
-    <tbody  style="width:100%;">
-        <tr class="row" style="background: #DCE6F2;">
-            <th class="col-12">담임 선생님 정보</th>
-        </tr>
-        <tr class="row" style="background:#DCE6F2;">
-            <td class="col-4">${info.teacher_name}(${info.teacher_engname})</th>
-            <td class="col-4"> 📞 ${info.teacher_mobileno} </th>
-            <td class="col-4"> ✉️ ${info.teacher_email}</th>
-        </tr>
-    </tbody>
-    `;
-    $('#profile_data').html(temp_profile_data);
 
     let ban_unlearned = TunlearnedData.filter(u=>u.ban_id == ban_id).length
     let temp_ban_data = `
