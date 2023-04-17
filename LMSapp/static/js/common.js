@@ -647,11 +647,11 @@ async function getTeacherInfo(t_id){
         <td class="col-1">${TunlearnedData.filter(u=>u.category_id == 1).length}건</td>
         <td class="col-1">${TunlearnedData.filter(u=>u.category_id == 4).length}건</td>
         <td class="col-1">${TunlearnedData.filter(u=>u.category_id == 3).length}건</td>
-        <td class="col-2">${TunlearnedData.filter(u=>u.category_id == 5).length}건</td>
+        <td class="col-3">${TunlearnedData.filter(u=>u.category_id == 5).length}건</td>
         <td class="col-1">${TunlearnedData.filter(u=>u.category_id == 6).length}건</td>
         <td class="col-1">${TunlearnedData.filter(u=>u.category_id == 2).length}건</td>
         <td class="col-2"> 완수: ${unlearned_ttd} / ${unlearned_ttc}건</td>
-        <td class="col-3">${answer_rate(unlearned_ttd,unlearned_ttc).toFixed(2)}%</td>
+        <td class="col-2">${answer_rate(unlearned_ttd,unlearned_ttc).toFixed(2)}%</td>
         `;
         $('#totalreport-row').html(temp_html)
 
