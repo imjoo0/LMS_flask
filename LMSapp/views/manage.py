@@ -378,7 +378,7 @@ def request_all_ban(b_type):
         received_consulting_deadline = request.form['consulting_deadline']
         # 전체 반 대상 진행 일 경우 처리
         if b_type == 0:
-            targets = callapi.purple_allinfo('get_all_ban_student')
+            targets = callapi.purple_allinfo('get_all_ban_student_simple')
         # plus alpha 처리   
         elif b_type == 1:
             targets = callapi.purple_allinfo('get_plusalpha_ban')
