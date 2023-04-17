@@ -1357,7 +1357,7 @@ function get_taskban(key){
                     <td class="col-2">${item.teacher_mobileno}</td>
                     <td class="col-2">${item.teacher_email}</td>
                     <td class="col-3">${make_reject_code(item.done)}</td>
-                    <td class="col-1"><button class="modal-tbody-btn" onclick="delete_task('${tinfo[1]}',${item.ban_id})">🗑️</button></td>`;
+                    <td class="col-1"><button class="modal-tbody-btn" onclick="delete_task(${item.taskban_id})">🗑️</button></td>`;
             });
             $('#taskban_list').html(dataHtml);
         }
@@ -1483,37 +1483,30 @@ async function delete_ban_consulting(idx) {
         }
     })
 }
-async function delete_task(contents, ban_id) {
-    targets = taskData.filter(t => t.contents == contents && t.ban_id == ban_id)
-    var con_val = confirm('정말 삭제하시겠습니까?')
-    $.each(targets, function (index, item) {
-        if (con_val == true) {
-            delete_ban_task(item.id)
-        }
-    });
-    alert(`삭제되었습니다.`)
-    window.location.reload()
-}
-
-async function delete_ban_task(idx) {
+async function delete_task(idx) {
     const csrf = $('#csrf_token').val();
-    await $.ajax({
-        url: '/manage/api/delete_task/' + idx,
-        type: 'get',
-        headers: { 'content-type': 'application/json' },
-        data: {},
-        success: function (data) {
-            if (data.status == 200) {
-                alert(`삭제되었습니다.`)
-            } else {
-                alert(`실패 ${data.status} ${data.text}`)
+    var con_val = confirm('정말 삭제하시겠습니까?')
+    if (con_val == true) {
+        await $.ajax({
+            url: '/manage/api/delete_task/' + idx,
+            type: 'get',
+            headers: { 'content-type': 'application/json' },
+            data: {},
+            success: function (data) {
+                if (data.status == 200) {
+                    alert(`삭제되었습니다.`)
+                } else {
+                    alert(`실패 ${data.status} ${data.text}`)
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
             }
-        },
-        error: function (xhr, status, error) {
-            alert(xhr.responseText);
-        }
-    })
-    get_task()
+        })
+        alert(`삭제되었습니다.`)
+        window.location.reload()
+        get_task()
+    }
 }
 
 function plusconsulting(student_id, is_done) {

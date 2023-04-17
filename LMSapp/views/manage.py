@@ -254,7 +254,7 @@ def delete_task(id):
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute(f'delete from task where id={id}')
+                cur.execute(f'delete from taskban where id={id}')
                 db.commit()
                 result['status'] = 200
                 result['text'] = id
