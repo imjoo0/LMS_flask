@@ -528,6 +528,8 @@ function semesterShow(semester) {
 }
 
 async function getTeacherInfo(t_id){
+    $('#teacher_infobox').show()
+    $('#ban_infobox').hide()
     let info = banData.filter(t=>t.teacher_id == t_id)
     if (info.length == 0){
         let no_data_title = `<h1> ${response.text} </h1>`
@@ -684,6 +686,9 @@ async function getTeacherInfo(t_id){
 // 반 상세 정보 보내주는 함수 
 async function getBanChart(ban_id) {
     let info = banData.filter(b=>b.ban_id == ban_id)[0]
+    $('#buttonbox').html(`<button type="button" class="btn btn-back not_inloading" onclick="getTeacherInfo(${info.teacher_id})">선생님 차트로 돌아가기🔙 </button>
+    `)
+
     $('#teachertitle').html(`${info.name}반 현황`);
     $('#teacher_infobox').hide()
     $('#ban_infobox').show()

@@ -1213,11 +1213,12 @@ function get_consultingban(key) {
 
 }
 
-function go_back() {
+function go_teacherchartback(){
     $('#request_consultingban_listbox').hide();
     $('#request_consulting_listbox').show();
     $('#my_consulting_requestModalLabel').html('요청한 상담 목록');
 }
+
 async function sort_consulting(value) {
     let container = $('#consulting-pagination')
     container.pagination({
