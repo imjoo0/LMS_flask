@@ -537,6 +537,7 @@ async function getTeacherInfo(t_id){
         return
     }else{
         // $('#consultingban_search_input').off('keyup');
+        $('#teachertitle').html(`${info[0].teacher_engname} 현황`)
         $('.mo_inloading').show()
         $('.monot_inloading').hide()
         if (!consultingData && taskData) {
@@ -565,9 +566,9 @@ async function getTeacherInfo(t_id){
                     <th class="col-12">담임 선생님 정보</th>
                 </tr>
                 <tr class="row tagtagtitle">
-                    <td class="col-4">${info.teacher_name}(${info.teacher_engname})</th>
-                    <td class="col-4"> 📞 ${info.teacher_mobileno} </th>
-                    <td class="col-4"> ✉️ ${info.teacher_email}</th>
+                    <td class="col-4">${info[0].teacher_name}(${info[0].teacher_engname})</th>
+                    <td class="col-4"> 📞 ${info[0].teacher_mobileno} </th>
+                    <td class="col-4"> ✉️ ${info[0].teacher_email}</th>
                 </tr>
             </tbody>
         `;
@@ -697,13 +698,12 @@ async function getTeacherInfo(t_id){
 }
 // 반 상세 정보 보내주는 함수 
 async function getBanChart(ban_id) {
-    let info = banData.filter(b=>b.ban_id == ban_id)[0]
-    $('#buttonbox').html(`<button type="button" class="btn btn-back not_inloading" onclick="getTeacherInfo(${info.teacher_id})">선생님 차트로 돌아가기🔙 </button>
-    `)
-
-    $('#teachertitle').html(`${info.name}반 현황`);
     $('#teacher_infobox').hide()
     $('#ban_infobox').show()
+    let info = banData.filter(b=>b.ban_id == ban_id)[0]
+    $('#teachertitle').html(`${info.name}반 현황`);
+    $('#buttonbox').html(`<button type="button" class="btn btn-back not_inloading" onclick="getTeacherInfo(${info.teacher_id})">선생님 차트로 돌아가기🔙 </button>
+    `)
     $('.mo_inloading').show()
     $('.monot_inloading').hide()
     if(!studentsData){
@@ -732,8 +732,13 @@ async function getBanChart(ban_id) {
         </tr>
     </tbody>
     `;
-
     $('#ban_data').html(temp_ban_data);
+    
+    // displayData(totalData, 1, dataPerPage, data_list, ban_id);
+    // paging(totalData, dataPerPage, pageCount, 1, data_list, ban_id);
+    // $('#student_data').show()
+    // $('#pagingul').show();
+     
     // key값 `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
     // banData = allData.filter(e => e.ban_id == ban_id)[0]
     // $('#target_ban_info_requestModalLabel').html(result['students'][0].name + '반 상세 현황')
