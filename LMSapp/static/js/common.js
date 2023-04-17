@@ -633,7 +633,7 @@ async function getTeacherInfo(t_id){
         $('#task_p').html(`${answer_rate(total_done,TtaskData.length).toFixed(0)}%`)
 
         // 상담
-        let ttc = TconsultingData.length
+        let ttc = TconsultingData
         let ttd = TconsultingData.filter(c=>c.done == 1).length
         $('#consulting_chart').html(`${ttd}/${ttc.length}`)
         $('#cp').html(`${answer_rate(ttd,ttc.length).toFixed(0)}%`)
