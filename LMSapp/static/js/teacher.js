@@ -411,7 +411,7 @@ async function get_consulting(student_id, is_done) {
     student_report = reportsData.filter(r=>r.student_id == student_id)
     if(student_report.length != 0 ){
         // student_report_name = student_report[0].file_name
-        var pdfUrl = 'https://www.purpleacademy.co.kr/student/documents_download?file='+student_report[0].enc_name;
+        var pdfUrl = 'https://www.purpleacademy.co.kr/student/file='+student_report[0].enc_name;
         let temp_button = `
         <a onclick="openPopup('${pdfUrl}')" class="btn-two green rounded">원생리포트</a>
         `
