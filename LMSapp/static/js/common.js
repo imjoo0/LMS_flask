@@ -8,7 +8,7 @@ var globalCurrentPage = 1; //현재 페이지
 var data_list;
 const today = new Date().setHours(0, 0, 0, 0);
 function openPopup(url){
-    var popup = window.open('', 'popup', 'width=600,height=800');
+    var popup = window.open('', 'popup', 'width=800,height=600');
     popup.document.write('<html><body><iframe src="' + url + '" width="100%" height="100%" frameborder="0"></iframe></body></html>');
 }
 let make_recobook = function(c){
