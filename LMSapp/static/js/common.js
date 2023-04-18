@@ -629,8 +629,8 @@ async function getTeacherInfo(t_id){
             ban_student = studentsData.filter(s=>s.ban_id == ban_data.ban_id)
             data_list = ban_student
             totalData = ban_student.length
-            displayData(totalData, 1, dataPerPage, data_list, ban_id);
-            paging(totalData, dataPerPage, pageCount, 1, data_list, ban_id);
+            displayData(totalData, 1, dataPerPage, data_list, ban_data.ban_id);
+            paging(totalData, dataPerPage, pageCount, 1, data_list, ban_data.ban_id);
             temp_baninfo += `
             <tr class="row">
                 <td class="col-3">${ban_data.name}</td>
