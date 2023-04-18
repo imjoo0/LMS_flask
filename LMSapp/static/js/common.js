@@ -691,8 +691,9 @@ async function getTeacherInfo(t_id){
         $('#task_chart').html(`<td class="col-4">${total_done}/${TtasktodayData.length}건</td><td class="col-4">${answer_rate(total_done,TtasktodayData.length).toFixed(0)}%</td><td class="col-4">${answer_rate(history_done,Ttaskhisory.length).toFixed(0)}%</td>`);
 
         // 상담
-        let ttd = TconsultingData.filter(c=>c.done == 1).length
-        $('#consulting_chart').html(`<td class="col-4">${ttd} / ${TconsultingData.length}건</td><td class="col-4">${answer_rate(ttd,TconsultingData.length).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(TconsultingData.filter(c=>c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
+        let TconsultaskData = TconsultingData.filter(c=>c.category_id > 100)
+        let ttd = TconsultaskData.filter(c=>c.done == 1).length
+        $('#consulting_chart').html(`<td class="col-4">${ttd} / ${TconsultaskData.length}건</td><td class="col-4">${answer_rate(ttd,TconsultaskData.length).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(TconsultaskData.filter(c=>c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
     }
 
 }
