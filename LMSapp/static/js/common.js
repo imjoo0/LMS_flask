@@ -851,12 +851,12 @@ function change_studentban_kind(ban_id){
     paging(totalData, dataPerPage, pageCount, 1, data_list);
 }
 
+function openPopup(url){
+    var popup = window.open('', 'popup', 'width=600,height=800');
+    popup.document.write('<html><body><iframe src="' + url + '" width="100%" height="100%" frameborder="0"></iframe></body></html>');
+}
 // 상담 기록 조회 
 function get_consulting_history(s_id) {
-    console.log($.fn.magnificPopup);
-    $('.popup-link').magnificPopup({
-        type: 'iframe'
-    });
     student_info = studentsData.filter(s => s.student_id == s_id)[0]
     $('#consultinghistoryModalLabelt').html(`${student_info.ban_name}반 ${student_info.student_name} ( ${student_info.student_engname} * ${student_info.origin} )원생`)
     consultings = consultingData.filter(c => c.student_id == s_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
