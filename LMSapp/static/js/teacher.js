@@ -821,9 +821,10 @@ async function get_question_list() {
             $('.t_notinloading').show()
         })
     }
+    let container = $('#question_pagination')
+    console.log(questionAnswerdata)
     $('.Tinloading').hide()
     $('.t_notinloading').show()
-    let container = $('#question_pagination')
     if(questionAnswerdata.length > 0){
         $('#q_title_msg').hide();
         $('#questionlist').show()
