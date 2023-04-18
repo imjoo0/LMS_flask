@@ -372,12 +372,12 @@ async function get_consulting_student(done_code) {
                     // let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
                     temp_consulting_contents_box += `
                     <td class="col-2">${consulting.ban_name}</td>
-                    <td class="col-2">${consulting.student_name}</td>
+                    <td class="col-2">${consulting.student_name}</br>${consulting.student_origin}</td>
                     <td class="col-2">${consulting.student_birthday}</td>
                     <td class="col-2">${consulting.student_mobileno}</td>
                     <td class="col-2">${consulting.deadline}</td>
                     <td class="col-1">${consulting.consulting_num}</td>
-                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${consulting.student_id}',${0})"><span class="cursor-pointer">📞</span></td> 
+                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${consulting.student_id}',${0})"><span class="cursor-pointer">✏️</span></td> 
                     `;
                 });
                 $('#today_consulting_box').html(temp_consulting_contents_box);
