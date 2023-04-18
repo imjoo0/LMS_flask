@@ -250,9 +250,12 @@
             </div>
             <div class="modal-body py-4 px-5">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
-                <div id="pdf-container"></div>
-                <button id="pdf-open-btn">PDF 열기</button>
                 
+                
+                <a href="https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf" class="pdf-viewer btn btn-default btn-circle icon" data-toggle="tooltip" data-original-title="View PDF">
+                    <i class="fas fa-file-pdf"></i>
+                </a>
+
                 <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_cant_write_box">
                 </div>
                 <div class="d-flex justify-content-center mt-4 mb-2">

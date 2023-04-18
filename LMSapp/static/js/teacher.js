@@ -31,7 +31,7 @@ function get_data() {
         dataType: 'json',
         data: {},
         success: function (response) {
-            if(response['ban_data']=='없음'){
+            if (response['ban_data'] == '없음') {
                 // 예외 처리 
             }
             // 반 차트 데이터 
@@ -40,14 +40,14 @@ function get_data() {
             // let outstudent_t = response['outstudent'].length ( 선생님 기준 퇴소 율에 사용 )
             $('#ban_chart_list').empty()
             $('#history_ban').empty()
-            let unlearned_t =response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.category_id < 100).length : 0;
+            let unlearned_t = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.category_id < 100).length : 0;
             let temp_ban_option = '<option value="none" selected>반을 선택해주세요</option>';
-            for (i=0;i< response['ban_data'].length;i++) {
-                let register_no =  response['ban_data'][i]['register_no']
-                let name =  response['ban_data'][i]['name']
+            for (i = 0; i < response['ban_data'].length; i++) {
+                let register_no = response['ban_data'][i]['register_no']
+                let name = response['ban_data'][i]['name']
                 let semester = make_semester(response['ban_data'][i]['semester'])
-                let total_student_num =  response['ban_data'][i]['total_student_num']
-                let unlearned_arr = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.category_id < 100 && consulting.ban_id === register_no): 0;
+                let total_student_num = response['ban_data'][i]['total_student_num']
+                let unlearned_arr = response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.category_id < 100 && consulting.ban_id === register_no) : 0;
                 let unlearned = 0
                 let unlearned_ixl = 0
                 let unlearned_reading = 0
@@ -55,7 +55,7 @@ function get_data() {
                 let unlearned_writing = 0
                 let unlearned_homepage = 0
                 let unlearned_intoreading = 0
-                if(unlearned_arr != 0){
+                if (unlearned_arr != 0) {
                     unlearned = unlearned_arr.length;
                     unlearned_ixl = unlearned_arr.filter(a => a.category_id == 1).length
                     unlearned_reading = unlearned_arr.filter(a => a.category_id == 4).length
@@ -64,8 +64,8 @@ function get_data() {
                     unlearned_homepage = unlearned_arr.filter(a => a.category_id == 2).length
                     unlearned_intoreading = unlearned_arr.filter(a => a.category_id == 5 || a.category_id == 7).length
                 }
-                let switchstudent =response['switchstudent'].length > 0 ? response['switchstudent'].filter(a=> a.ban_id === register_no).length : 0;
-                let outstudent = response['outstudent'].length > 0 ? response['outstudent'].filter(a=> a.ban_id === register_no).length : 0;
+                let switchstudent = response['switchstudent'].length > 0 ? response['switchstudent'].filter(a => a.ban_id === register_no).length : 0;
+                let outstudent = response['outstudent'].length > 0 ? response['outstudent'].filter(a => a.ban_id === register_no).length : 0;
                 temp_ban_option += `
                 <option value=${register_no}>${name} (${semester}월 학기)</option>
                 `;
@@ -76,9 +76,9 @@ function get_data() {
                         <div class="chart-wrapper col-sm-5">
                             <canvas id="total-chart-element${i}" class="total-chart-element p-sm-3 p-2"></canvas>
                             <div class ="chart-data-summary">
-                                <span>관리중:${ total_student_num }</span><br>
-                                <span>* 이반:${ switchstudent }</span><br>
-                                <span>* 퇴소:${ outstudent }</span>
+                                <span>관리중:${total_student_num}</span><br>
+                                <span>* 이반:${switchstudent}</span><br>
+                                <span>* 퇴소:${outstudent}</span>
                             </div>
                         </div>
                         <div class="col-sm-7 d-flex justify-content-center align-items-center">
@@ -139,31 +139,31 @@ function get_data() {
             $('#my_ban_list').html(temp_ban_option)
             // 상담일지 조회 ban 선택 옵션 같이 붙이기 
             $('#history_ban').append(temp_ban_option)
-            
+
             // let consulting_deadlinemissed = consulting_notdone.length > 0 ? consulting_notdone.filter(c => new Date(c.deadline).setHours(0, 0, 0, 0) < today).length : 0;
             let consulting_t = response['all_consulting'].length;
-            let consulting_done = consulting_t != 0 ? response['all_consulting'].filter(consulting => consulting.done === 1).length : 0  
+            let consulting_done = consulting_t != 0 ? response['all_consulting'].filter(consulting => consulting.done === 1).length : 0
             // let consulting_notdone = consulting_t - consulting_done
-            let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done != 0  && new Date(task.created_at).setHours(0, 0, 0, 0) == today).length : 0;
+            let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done != 0 && new Date(task.created_at).setHours(0, 0, 0, 0) == today).length : 0;
             let total_task = response['all_task'].length
-            let task_notdone = total_task-task_done;
+            let task_notdone = total_task - task_done;
             let temp_report = `
             <td class="col-3"> ${task_done}/${total_task} </td>
-            <td class="col-3"> ( ${answer_rate(task_done,total_task).toFixed(0)}% ) </td>
+            <td class="col-3"> ( ${answer_rate(task_done, total_task).toFixed(0)}% ) </td>
             <td class="col-3"> ${consulting_done}/${consulting_t} </td>
             <td class="col-3"> ( ${answer_rate(consulting_done, consulting_t).toFixed(0)}% ) </td>
             `;
             $('#classreport').html(temp_report)
 
             // 오늘의 업무 뿌려주기 
-            if(task_notdone == 0){
+            if (task_notdone == 0) {
                 $('#task_title').html('오늘의 업무 끝 😆');
                 $('#task_button').hide();
-            }else{
-                $('#task_title').html('오늘의 업무 '+task_notdone+'건');
+            } else {
+                $('#task_title').html('오늘의 업무 ' + task_notdone + '건');
                 $('#task_button').show();
             }
-                // 오늘의 업무 중복 카테고리로 묶기 
+            // 오늘의 업무 중복 카테고리로 묶기 
             const categoryGrouped = response['all_task'].reduce((result, item) => {
                 const category = item.category;
                 if (!result[category]) {
@@ -173,29 +173,29 @@ function get_data() {
                 return result;
             }, {});
 
-                // 결과를 객체의 배열로 변환
+            // 결과를 객체의 배열로 변환
             const categoryGroupedresult = Object.entries(categoryGrouped).map(([category, items]) => {
                 return { [category]: items };
             });
 
             let temp_cate_menu = ''
-            for(i=0; i < categoryGroupedresult.length; i++){
+            for (i = 0; i < categoryGroupedresult.length; i++) {
                 const category = Object.keys(categoryGroupedresult[i])[0];
                 // const items = categoryGroupedresult[i][category].filter( e => e.done === 0 );
                 const items = categoryGroupedresult[i][category];
-                
+
                 items.sort((a, b) => b.priority - a.priority);
                 const contentsGrouped = items.reduce((result, item) => {
                     const contents = item.contents;
                     const priority = item.priority;
                     const deadline = item.deadline;
                     const doc = {
-                        'id':item.id,
-                        'ban_id':item.ban_id,
-                        'done':item.done,
-                        'created_at':new Date(item.created_at).setHours(0, 0, 0, 0)
+                        'id': item.id,
+                        'ban_id': item.ban_id,
+                        'done': item.done,
+                        'created_at': new Date(item.created_at).setHours(0, 0, 0, 0)
                     }
-                    const key =  priority + '_' + contents + '_' + deadline;
+                    const key = priority + '_' + contents + '_' + deadline;
                     if (!result[key]) {
                         result[key] = [];
                     }
@@ -219,7 +219,7 @@ function get_data() {
                 `;
 
                 if (contentsGroupedresult && contentsGroupedresult.length > 0) {
-                    for(j=0; j < contentsGroupedresult.length; j++){
+                    for (j = 0; j < contentsGroupedresult.length; j++) {
                         const contents = Object.keys(contentsGroupedresult[j])[0];
                         task_items = contentsGroupedresult[j][contents];
                         const v = contents.split('_')
@@ -230,17 +230,17 @@ function get_data() {
                                 <td class="col-2">${make_date(v[2])}</td>
                             </tr>
                             <td class="col-12">`;
-                            for(k=0; k < task_items.length; k++){
-                                const ban_name = response['ban_data'].filter(a => a.register_no === task_items[k].ban_id)[0]['name']
-                                if(task_items[k].done == 0){
-                                    temp_cate_menu += `
+                        for (k = 0; k < task_items.length; k++) {
+                            const ban_name = response['ban_data'].filter(a => a.register_no === task_items[k].ban_id)[0]['name']
+                            if (task_items[k].done == 0) {
+                                temp_cate_menu += `
                                     <label><input type="checkbox" name="taskid" value="${task_items[k].id}"/>${ban_name}</label>`;
-                                }else if(task_items[k].done == 1 && task_items[k].created_at == today){
-                                    temp_cate_menu += `
+                            } else if (task_items[k].done == 1 && task_items[k].created_at == today) {
+                                temp_cate_menu += `
                                     <label class="done">✅ ${ban_name}</label>`;
-                                }
                             }
-                            temp_cate_menu += `</td></tbody>`;
+                        }
+                        temp_cate_menu += `</td></tbody>`;
                     }
                 } else {
                     temp_cate_menu += `
@@ -253,13 +253,13 @@ function get_data() {
                 temp_cate_menu += `</tbody>`;
             }
             $('#cate_menu').html(temp_cate_menu);
-            
+
             // 상담 목록 
             let result = response['my_students'].reduce((acc, student) => {
                 const consultingList = response['all_consulting'].filter(c => c.student_id === student.register_no);
                 if (consultingList.length > 0) {
                     const todoconsulting = consultingList.filter(c => c.done === 0)
-                    if(todoconsulting.length > 0 ){
+                    if (todoconsulting.length > 0) {
                         const deadline = todoconsulting.reduce((prev, current) => {
                             let prevDueDate = make_date(prev.deadline);
                             let currentDueDate = make_date(current.deadline);
@@ -270,12 +270,12 @@ function get_data() {
                             let currentDueDate = make_date(current.missed);
                             return currentDueDate < prevDueDate ? prev : current;
                         }, todoconsulting[0]);
-    
+
                         acc.push({
-                            'teacher_id':student.id,
+                            'teacher_id': student.id,
                             'student_id': student.register_no,
-                            'student_origin':student.origin,
-                            'student_name': student.name +'('+student.nick_name+')',
+                            'student_origin': student.origin,
+                            'student_name': student.name + '(' + student.nick_name + ')',
                             'student_mobileno': student.mobileno,
                             'student_birthday': student.birthday,
                             'ban_id': student.ban_id,
@@ -283,15 +283,15 @@ function get_data() {
                             'consulting_num': todoconsulting.length,
                             'done_consulting_num': consultingList.length - todoconsulting.length,
                             'deadline': make_date(deadline.deadline),
-                            'missed' : missed_date(missed.missed),
+                            'missed': missed_date(missed.missed),
                             'consulting_list': consultingList
                         });
-                    }else{
+                    } else {
                         acc.push({
-                            'teacher_id':student.id,
+                            'teacher_id': student.id,
                             'student_id': student.register_no,
-                            'student_origin':student.origin,
-                            'student_name': student.name +'('+student.nick_name+')',
+                            'student_origin': student.origin,
+                            'student_name': student.name + '(' + student.nick_name + ')',
                             'student_mobileno': student.mobileno,
                             'student_birthday': student.birthday,
                             'ban_id': student.ban_id,
@@ -299,16 +299,16 @@ function get_data() {
                             'consulting_num': 0,
                             'done_consulting_num': consultingList.length,
                             'deadline': make_date('3000-01-01'),
-                            'missed' : missed_date('1111-01-01'),
+                            'missed': missed_date('1111-01-01'),
                             'consulting_list': consultingList
                         });
                     }
-                }else{
+                } else {
                     acc.push({
-                        'teacher_id':student.id,
+                        'teacher_id': student.id,
                         'student_id': student.register_no,
-                        'student_origin':student.origin,
-                        'student_name': student.name +'('+student.nick_name+')',
+                        'student_origin': student.origin,
+                        'student_name': student.name + '(' + student.nick_name + ')',
                         'student_mobileno': student.mobileno,
                         'student_birthday': student.birthday,
                         'ban_id': student.ban_id,
@@ -316,7 +316,7 @@ function get_data() {
                         'consulting_num': 0,
                         'done_consulting_num': 0,
                         'deadline': make_date('3000-01-01'),
-                        'missed' : missed_date('1111-01-01'),
+                        'missed': missed_date('1111-01-01'),
                         'consulting_list': []
                     });
                 }
@@ -332,13 +332,13 @@ function get_data() {
                 consultingStudentData = result
                 get_consulting_student(0)
             } else {
-                $('#today_consulting_title').html($('#today_consulting_title').html()+'   0건');
+                $('#today_consulting_title').html($('#today_consulting_title').html() + '   0건');
                 $('#consulting_student_list').hide();
                 $('#consultingstudent_pagination').hide();
             }
         },
-        error:function(xhr, status, error){
-                alert('xhr.responseText');
+        error: function (xhr, status, error) {
+            alert('xhr.responseText');
         }
     });
 }
@@ -347,21 +347,21 @@ async function get_consulting_student(done_code) {
     $('#consultingstudent_search_input').off('keyup');
     var container = $('#consultingstudent_pagination')
     let data = consultingStudentData.filter((e) => {
-        if(done_code == 0) {
+        if (done_code == 0) {
             $('#today_consulting_title').html('오늘의 상담');
             return e.missed != "오늘" && e.consulting_num != 0;
-        }else{
+        } else {
             $('#today_consulting_title').html('오늘의 부재중 상담');
             return e.missed == "오늘" && e.consulting_num != 0;
         }
     })
-    
+
     var paginationOptions = {
         prevText: '이전',
         nextText: '다음',
         pageSize: 5,
         pageClassName: 'float-end',
-        callback: function (data, pagination){
+        callback: function (data, pagination) {
             $('#consulting_student_list').show();
             $('#consultingstudent_pagination').show();
             var temp_consulting_contents_box = '';
@@ -382,85 +382,101 @@ async function get_consulting_student(done_code) {
         }
     };
 
-    if(data.length == 0){
-        $('#today_consulting_title').html($('#today_consulting_title').html()+'   0건');
+    if (data.length == 0) {
+        $('#today_consulting_title').html($('#today_consulting_title').html() + '   0건');
         $('#consulting_student_list').hide();
         $('#consultingstudent_pagination').hide();
-    }else{
+    } else {
         container.pagination(Object.assign(paginationOptions, { 'dataSource': data }))
     }
 
     $('#consultingstudent_search_input').on('keyup', function () {
         var searchInput = $(this).val().toLowerCase();
         var filteredData = data.filter(function (d) {
-            return (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1 )|| (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(searchInput) !== -1);
+            return (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(searchInput) !== -1);
         });
         container.pagination('destroy');
         container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
     });
-    
+
 }
 
 // 상담일지 작성 
 async function get_consulting(student_id, is_done) {
-    if(!reportsData){
-        await get_student_reports().then(()=>{
+    if (!reportsData) {
+        await get_student_reports().then(() => {
             console.log(reportsData)
         })
     }
-    student_report = reportsData.filter(r=>r.student_id == student_id)
-    if(student_report.length != 0 ){
+    student_report = reportsData.filter(r => r.student_id == student_id)
+    if (student_report.length != 0) {
         student_report_name = student_report[0].file_name
-        $('#pdf-open-btn').addEventListener('click', function(){
-            // PDF 파일 URL
-            var pdfUrl = 'https://www.purpleacademy.co.kr/student/documents_download?file='+student_report[0].enc_name;
-            
-            // PDF.js로 PDF 파일 로드
-            pdfjsLib.getDocument(pdfUrl).promise.then(function(pdfDoc_) {
-                var pdfDoc = pdfDoc_;
-                var currentPage = 1;
-                var pageCount = pdfDoc.numPages;
-            
-                // 첫 페이지 로드
-                pdfDoc.getPage(currentPage).then(function(page) {
-                var canvas = document.createElement('canvas');
-                var canvasContext = canvas.getContext('2d');
-            
-                var viewport = page.getViewport({ scale: 1.0 });
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;
-            
-                var renderContext = {
-                    canvasContext: canvasContext,
-                    viewport: viewport
-                };
-            
-                page.render(renderContext).promise.then(function() {
-                    document.getElementById('pdf-container').appendChild(canvas);
-                });
-                });
+        // Define click event handler for PDF viewer button
+        $('.pdf-viewer').click(function () {
+            // Get PDF file URL
+            var pdfUrl = $(this).attr('href');
+
+            // Open Magnific Popup with PDF viewer content
+            $.magnificPopup.open({
+                items: {
+                    src: '<div class="pdf-container"><canvas></canvas></div>',
+                    type: 'inline'
+                },
+                callbacks: {
+                    open: function () {
+                        // Load PDF file into canvas
+                        var canvas = this.content.find('canvas')[0];
+                        var pdfDoc = null;
+                        var pdfScale = 1.5;
+                        var pageNum = 1;
+
+                        // Initialize PDF.js library
+                        PDFJS.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
+                        PDFJS.getDocument(pdfUrl).then(function (pdfDoc_) {
+                            pdfDoc = pdfDoc_;
+                            renderPage(pageNum, canvas);
+                        });
+
+                        // Render PDF page on canvas
+                        function renderPage(num, canvas) {
+                            pdfDoc.getPage(num).then(function (page) {
+                                var viewport = page.getViewport({ scale: pdfScale });
+                                canvas.height = viewport.height;
+                                canvas.width = viewport.width;
+
+                                var ctx = canvas.getContext('2d');
+                                var renderContext = {
+                                    canvasContext: ctx,
+                                    viewport: viewport
+                                };
+                                page.render(renderContext);
+                            });
+                        }
+                    }
+                }
             });
         });
+
     }
-    
+
 
     const data = consultingStudentData.filter((e) => {
         return e.student_id == student_id && e.consulting_list.length != 0;
     })[0]
     $('#consultinghistoryModalLabelt').html(`${data['ban_name']}반 ${data['student_name']} 원생 ${data['done_consulting_num']}건 상담  ( 📞 ${data['student_mobileno']}  )`)
-    let cant_consulting_list = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == 0 && c.created_at != null) : 0;
-    let consulting_list = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=> c.done == is_done) : 0;
-    if(is_done == 0){
+    let cant_consulting_list = data['consulting_list'].length > 0 ? data['consulting_list'].filter(c => c.done == 0 && c.created_at != null) : 0;
+    let consulting_list = data['consulting_list'].length > 0 ? data['consulting_list'].filter(c => c.done == is_done) : 0;
+    if (is_done == 0) {
         $('#consultinghistoryModalLabelt').html(`${data['ban_name']}반 ${data['student_name']} 원생 ${data['consulting_num']}건 상담   ( 📞 ${data['student_mobileno']}  )`)
-        consulting_list = consulting_list.length  > 0 ? consulting_list.filter(c=>c.created_at == null) : 0
+        consulting_list = consulting_list.length > 0 ? consulting_list.filter(c => c.created_at == null) : 0
     }
     let consultinglist_len = consulting_list != 0 ? consulting_list.length : 0;
-    
-    if (cant_consulting_list.length > 0){
+
+    if (cant_consulting_list.length > 0) {
         $('#consulting_cant_write_box').empty();
         for (i = 0; i < cant_consulting_list.length; i++) {
             let target = cant_consulting_list[i]
-            let category = target['week_code']+'주간  '+ target['category']
+            let category = target['week_code'] + '주간  ' + target['category']
             let contents = target['contents']
             let consulting_missed = missed_date(target['missed'])
             let deadline = make_date(target['deadline'])
@@ -490,10 +506,10 @@ async function get_consulting(student_id, is_done) {
     }
     if (consultinglist_len == 0) {
         $('#consultinghistoryModalLabelt').html('진행 할 수 있는 상담이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 *')
-    }else{
-        consulting_list.sort((a, b) => {return make_date(a.deadline) - make_date(b.deadline)});
+    } else {
+        consulting_list.sort((a, b) => { return make_date(a.deadline) - make_date(b.deadline) });
         $('#consulting_write_box').empty();
-        for (i = 0; i < consultinglist_len; i++){
+        for (i = 0; i < consultinglist_len; i++) {
             let target = consulting_list[i]
             let category = target['category']
             let consulting_id = target['id']
@@ -501,8 +517,8 @@ async function get_consulting(student_id, is_done) {
             let consulting_missed = missed_date(target['missed'])
             let deadline = make_date(target['deadline'])
             let history_created = target['created_at']
-            if(target['category_id'] < 100){
-                category = target['week_code']+'주간  ' + category
+            if (target['category_id'] < 100) {
+                category = target['week_code'] + '주간  ' + category
             }
             let history_reason = target['reason'] == null ? '입력해주세요' : target['reason']
             let history_solution = target['solution'] == null ? '입력해주세요' : target['solution']
@@ -531,7 +547,7 @@ async function get_consulting(student_id, is_done) {
             $('#consulting_write_box').append(temp_consulting_contents_box);
         }
         let temp_post_box = `<p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>`;
-        if(is_done == 0){
+        if (is_done == 0) {
             temp_post_box = `
             <div class="modal-body-select-container">
             <span class="modal-body-select-label">부재중</span>
@@ -542,7 +558,7 @@ async function get_consulting(student_id, is_done) {
                     onclick="post_bulk_consultings(${consultinglist_len},${is_done})"
                     style="margin-right:5px">저장</button>
             </div>`
-        }else if(is_done == 1){
+        } else if (is_done == 1) {
             temp_post_box = `
             <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
                 <button class="btn btn-dark"
@@ -582,7 +598,7 @@ function post_target_consulting(consulting, is_done) {
             consulting_solution: consulting_solution,
             consulting_result: consulting_result,
             consulting_missed: consulting_missed,
-        },success: function (response) {
+        }, success: function (response) {
             if (response['result'] == '완료') {
             } else {
                 alert("상담일지 저장 실패")
@@ -625,10 +641,11 @@ async function get_consulting_history() {
                 });
                 $('#consulting_history_student_list').html(temp_consulting_history_student_list);
             }
-        }})
+        }
+    })
 }
 async function sort_consulting_history(ban_id) {
-    if(ban_id =="none"){
+    if (ban_id == "none") {
         return get_consulting_history()
     }
     let container = $('#consulting_history_student_list_pagination')
@@ -660,7 +677,8 @@ async function sort_consulting_history(ban_id) {
                 });
                 $('#consulting_history_student_list').html(temp_consulting_history_student_list);
             }
-        }})
+        }
+    })
 }
 
 // 메인화면 원생 리스트 조회 및 추가 상담 기능 
@@ -669,7 +687,7 @@ async function get_student(ban_id) {
     $('#teachers_student_list').show();
     $('#make_plus_consulting').hide();
     const data = consultingStudentData.filter((e) => {
-            return e.ban_id === ban_id;
+        return e.ban_id === ban_id;
     })
     $('#teachers_student_list').show()
     await container.pagination({
@@ -678,14 +696,14 @@ async function get_student(ban_id) {
         nextText: '다음',
         pageSize: 10,
         callback: function (data, pagination) {
-            if(data.length == 0){
+            if (data.length == 0) {
                 $('#banstudentlistModalLabel').html('반 원생이 없습니다.');
                 $('#student_data').hide();
-            }else{
-                $('#banstudentlistModalLabel').html(data[0]['ban_name']+'반 원생 목록');
+            } else {
+                $('#banstudentlistModalLabel').html(data[0]['ban_name'] + '반 원생 목록');
                 var temp_consulting_contents_box = '';
                 $.each(data, function (index, consulting) {
-                    let unlearned_arr = consulting.consulting_list.length > 0 ? consulting.consulting_list.filter(consulting => consulting.category_id < 100): 0;
+                    let unlearned_arr = consulting.consulting_list.length > 0 ? consulting.consulting_list.filter(consulting => consulting.category_id < 100) : 0;
                     let unlearned = unlearned_arr != 0 ? unlearned_arr.length : 0;
                     let unlearned_ixl = 0
                     let unlearned_reading = 0
@@ -693,7 +711,7 @@ async function get_student(ban_id) {
                     let unlearned_writing = 0
                     let unlearned_homepage = 0
                     let unlearned_intoreading = 0
-                    if(unlearned != 0){
+                    if (unlearned != 0) {
                         unlearned_ixl = unlearned_arr.filter(a => a.category_id == 1).length
                         unlearned_reading = unlearned_arr.filter(a => a.category_id == 4).length
                         unlearned_speacial = unlearned_arr.filter(a => a.category_id == 3).length
@@ -702,7 +720,7 @@ async function get_student(ban_id) {
                         unlearned_intoreading = unlearned_arr.filter(a => a.category_id == 5 || a.category_id == 7).length
                     }
                     let value = `${consulting.student_id}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.teacher_id}`
-                    if(make_IsG3(consulting.ban_name)){
+                    if (make_IsG3(consulting.ban_name)) {
                         $('#s_datahead').html(`
                         <th class="col-2">이름</th>
                         <th class="col-1">원번</th>
@@ -727,7 +745,7 @@ async function get_student(ban_id) {
                         <td class="col-1">${unlearned_intoreading}건</td>
                         <td class="col-1" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
                         `;
-                    }else{
+                    } else {
                         $('#s_datahead').html(`
                         <th class="col-1">이름</th>
                         <th class="col-1">원번</th>
@@ -755,7 +773,7 @@ async function get_student(ban_id) {
                         <td class="col-1" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
                         `;
                     }
-                    
+
                 });
                 $('#s_data').html(temp_consulting_contents_box);
                 $('#student_data').show();
@@ -773,14 +791,14 @@ function plusconsulting(value, b_id) {
     `;
     $('#plusconsulting_button_box').html(temp_button)
 }
-function plusconsulting_history(student_id, b_id,t_id) {
+function plusconsulting_history(student_id, b_id, t_id) {
     consulting_contents = $('#plus_consulting_contents').val()
     consulting_reason = $('#plus_consulting_reason').val()
     consulting_solution = $('#plus_consulting_solution').val()
     consulting_result = $('#plus_consulting_result').val()
     $.ajax({
         type: "POST",
-        url: '/teacher/plus_consulting/' + student_id + '/' + b_id+ '/' + t_id,
+        url: '/teacher/plus_consulting/' + student_id + '/' + b_id + '/' + t_id,
         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
         data: {
             consulting_contents: consulting_contents,
@@ -823,9 +841,9 @@ function update_done(target) {
 
 // 본원 문의 기능 
 function change_question_kind(str) {
-    if(str == "none"){
+    if (str == "none") {
         $('#question_topurple').hide()
-    }else if(str == "일반"){
+    } else if (str == "일반") {
         let question_html = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">대상 원생</span>
@@ -835,7 +853,7 @@ function change_question_kind(str) {
         `;
         $('#question_box').html(question_html);
         $('#question_topurple').show()
-    }else{
+    } else {
         let question_html = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">대상 원생</span>
@@ -853,16 +871,16 @@ function change_question_kind(str) {
         $('#question_topurple').show()
     }
 }
-function get_ban_student(ban_id){
+function get_ban_student(ban_id) {
     const data = consultingStudentData.filter((e) => {
         return e.ban_id == ban_id;
     })
     let temp_target_student = ''
-    if(data.length == 0){
-        temp_target_student ='<option value="none" selected>반 원생이 없습니다.</option>';
+    if (data.length == 0) {
+        temp_target_student = '<option value="none" selected>반 원생이 없습니다.</option>';
         $('#student_list').html(temp_target_student)
-    }else{
-        temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option>';
+    } else {
+        temp_target_student = '<option value="none" selected>대상 원생을 선택해주세요</option>';
         $.each(data, function (index, student) {
             temp_target_student += `
             <option value="${student.student_id}"> ${student.student_name}</option>
@@ -871,23 +889,23 @@ function get_ban_student(ban_id){
         });
     }
 }
-    // 상담일지 첨부 
+// 상담일지 첨부 
 function attach_consulting_history(student_id) {
     const data = consultingStudentData.filter((e) => {
         return e.student_id == student_id && e.done_consulting_num.length != 0;
     })[0]['consulting_list']
-    const consultinglist = data.length>0?data.filter( c => c.done == 1 ):0
+    const consultinglist = data.length > 0 ? data.filter(c => c.done == 1) : 0
     let temp_h_select = ''
-    if(consultinglist.length <= 0){
+    if (consultinglist.length <= 0) {
         alert('상담을 우선 진행해주세요  원생목록 👉 해당 원생 상담추가');
         temp_h_select = '<option value="none" selected>상담을 우선 진행해주세요  원생목록 👉 해당 원생 상담추가</option>'
-    }else{
+    } else {
         temp_h_select = '<option value="none" selected>상담을 선택해주세요</option>'
         $.each(consultinglist, function (index, consulting) {
             let category = ''
-            if(consulting.category_id < 100 ){
+            if (consulting.category_id < 100) {
                 category = `${consulting.week_code}주간 ${consulting.category}상담`
-            }else{
+            } else {
                 category = `${consulting.category} ${consulting.contents}`
             }
             temp_h_select += `
@@ -897,9 +915,9 @@ function attach_consulting_history(student_id) {
     }
     $('#h_select_box').html(temp_h_select)
 }
-    // 문의 리스트
+// 문의 리스트
 async function get_teacher_question() {
-    try{
+    try {
         const response = await $.ajax({
             type: "GET",
             url: "/teacher/question",
@@ -916,8 +934,8 @@ async function get_question_list() {
     $('#questiondetail').hide();
     $('.Tinloading').show()
     $('.t_notinloading').hide()
-    if(!banData){
-        await get_teacher_question().then(()=>{
+    if (!banData) {
+        await get_teacher_question().then(() => {
             $('.Tinloading').hide()
             $('.t_notinloading').show()
         })
@@ -925,7 +943,7 @@ async function get_question_list() {
     let container = $('#question_pagination')
     $('.Tinloading').hide()
     $('.t_notinloading').show()
-    if(questionAnswerdata.length > 0){
+    if (questionAnswerdata.length > 0) {
         $('#questionlist').show()
         $('#question_pagination').show()
         container.pagination({
@@ -950,20 +968,20 @@ async function get_question_list() {
                 $('#teacher_question_list').html(dataHtml);
             }
         })
-    }else{
+    } else {
         $('#questionlist').hide()
         $('#question_pagination').hide()
         $('#q_title_msg').show();
     }
-            
+
 }
-    // 문의 내용 상세보기
+// 문의 내용 상세보기
 async function get_question_detail(q_id) {
     $('#questionlist').hide()
     $('#question_pagination').hide()
     $('#questiondetail').show()
-    questiondata = questionAnswerdata.filter( q=> q.id == q_id)[0]
-    ban_student_data = consultingStudentData.filter(s=>s.student_id == questiondata.student_id)[0]
+    questiondata = questionAnswerdata.filter(q => q.id == q_id)[0]
+    ban_student_data = consultingStudentData.filter(s => s.student_id == questiondata.student_id)[0]
     let temp_question_list = `
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">문의 종류</span>
@@ -991,15 +1009,15 @@ async function get_question_detail(q_id) {
     </div>`;
     $('#teacher_question').html(temp_question_list);
     // 상담 일지 처리 
-    if(questiondata.category == 0){
+    if (questiondata.category == 0) {
         $('#consulting_history_attach').hide()
-    }else{
+    } else {
         $('#consulting_history_attach').show()
-        consulting_history = ban_student_data.consulting_list.filter(c=>c.id ==questiondata.consluting)[0]
+        consulting_history = ban_student_data.consulting_list.filter(c => c.id == questiondata.consluting)[0]
         let category = ''
-        if(consulting_history.category_id < 100 ){
+        if (consulting_history.category_id < 100) {
             category = `${consulting_history.week_code}주간 ${consulting_history.category}상담`
-        }else{
+        } else {
             category = `${consulting_history.category} ${consulting_history.contents}`
         }
         let temp_his = `
@@ -1028,13 +1046,13 @@ async function get_question_detail(q_id) {
     }
     let temp_answer_list = ''
     // 응답 처리 
-    if(questiondata.answer == 0){
+    if (questiondata.answer == 0) {
         temp_answer_list = `
         <div class="modal-body-select-container">
         <span class="modal-body-select-label">응답</span>
         <p>미응답</p>
         </div>`;
-    }else{
+    } else {
         temp_answer_list = `
         <div class="modal-body-select-container">
         <span class="modal-body-select-label">응답제목</span>
@@ -1048,8 +1066,8 @@ async function get_question_detail(q_id) {
             <span class="modal-body-select-label">응답일</span>
             <p>${questiondata.answer_data.created_at}</p>
         </div>`;
-        if(questiondata.category != 0){
-           temp_answer_list += `<div class="modal-body-select-container">
+        if (questiondata.category != 0) {
+            temp_answer_list += `<div class="modal-body-select-container">
            <span class="modal-body-select-label">처리</span>
            <p>${make_reject_code(questiondata.answer_data.reject_code)}</p>
            </div>`
