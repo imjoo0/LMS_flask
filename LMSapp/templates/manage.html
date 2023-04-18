@@ -29,7 +29,7 @@
     });
 </script>
 <!-- 반 정보 상세 조회 모달 창 -->
-<div class="modal fade" id="target_ban_info" tabindex="-100" aria-labelledby="target_ban_info_requestModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="target_ban_info" tabindex="-100" aria-labelledby="target_ban_info_requestModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header make_row">
@@ -72,9 +72,7 @@
             </div>
         </div>
     </div>
-</div>
-
-
+</div> -->
 
 <!-- 선생님 정보 조회 모달 -->
 <div class="modal fade" id="teacherinfo" tabindex="-1" aria-labelledby="teacherModalLabel" aria-hidden="true">
@@ -177,42 +175,29 @@
                                 </tr>
                                 <tr class="row" id="mybaninfo">
                                 </tr>
+                                <table class="table text-center monot_inloading" style="width:100%;">
+                                    <tbody style="width:100%;">
+                                        <tr class="row">
+                                            <th class="col-12" id="displayCount"></th>
+                                        </tr>
+                                        <tr class="row">
+                                            <th class="col-2">원생 정보</th>
+                                            <th class="col-2">연락처</th>
+                                            <th class="col-3">부모님 정보</th>
+                                            <th class="col-2">추천도서</th>
+                                            <th class="col-2">미학습</th>
+                                            <th class="col-1">상세</th>
+                                        </tr>
+                                        <tr id="s_data" class="row"></tr>
+                                    </tbody>
+                                </table>
+                                <ul id="pagingul" class="monot_inloading"></ul>
+                                <div id="ban_statistics" class="make_row w-100 monot_inloading"></div>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="info-container mt-5" style="display:none"id="student_data" >
-                    <div class="info-title">
-                        <span id="students_tabletitle">원생 정보</span>
-                    </div>
-                    <div class="info">
-                        <div class="mo_inloading" class="loader loader--style2 text-center" title="1">
-                            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
-                                <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
-                                    <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
-                                </path>
-                            </svg>
-                        </div>
-                        <table class="table text-center monot_inloading" style="width:100%;">
-                            <tbody style="width:100%;">
-                                <tr class="row">
-                                    <th class="col-12" id="displayCount"></th>
-                                </tr>
-                                <tr class="row">
-                                    <th class="col-2">원생 정보</th>
-                                    <th class="col-2">연락처</th>
-                                    <th class="col-3">부모님 정보</th>
-                                    <th class="col-2">추천도서</th>
-                                    <th class="col-2">미학습</th>
-                                    <th class="col-1">상세</th>
-                                </tr>
-                                <tr id="s_data" class="row"></tr>
-                            </tbody>
-                        </table>
-                        <ul id="pagingul" class="monot_inloading"></ul>
-                        <div id="ban_statistics" class="make_row w-100 monot_inloading"></div>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
