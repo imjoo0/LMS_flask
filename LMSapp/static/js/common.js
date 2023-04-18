@@ -870,7 +870,7 @@ function get_consulting_history(s_id) {
     <td class="col-3">${student_info.up}% </td>`
     $('#student_unlearned').html(temp_student_unlearned)
     
-    unlearnedconsulting = consultingData.filter(c => c.student_id == s_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today && category_id <100)
+    unlearnedconsulting = consultingData.filter(c => c.student_id == s_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today && c.category_id <100)
     let temp_student_unlearned_totalreport =`
     <th class="col-2">IXL</th>
     <th class="col-2">리딩</th>
