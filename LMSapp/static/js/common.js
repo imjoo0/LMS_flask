@@ -611,8 +611,6 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
 }
 
 async function getTeacherInfo(t_id){
-    $('#teacher_infobox').show()
-    $('#student_data').hide()
     let info = banData.filter(t=>t.teacher_id == t_id)
     if (info.length == 0){
         let no_data_title = `<h1> ${response.text} </h1>`
@@ -826,17 +824,20 @@ async function getTeacherInfo(t_id){
         Tstudent.sort((a, b) => b.up - a.up)
         data_list = Tstudent
         totalData = data_list.length
-        console.log(Tstudent)
         displayData(totalData, 1, dataPerPage, data_list);
         paging(totalData, dataPerPage, pageCount, 1, data_list);
     }
 }
 
 function change_studentban_kind(ban_id){
-    let change_student = Tstudent.filter(s=>s.ban_id == ban_id)
-    data_list = change_student
+    if(ban_id == "none"){
+        data_list = Tstudent
+    }else{
+        let change_student = Tstudent.filter(s=>s.ban_id == ban_id)
+        data_list = change_student
+    }
+    console.log(data_list)
     totalData = data_list.length
-    console.log(change_student)
     displayData(totalData, 1, dataPerPage, data_list);
     paging(totalData, dataPerPage, pageCount, 1, data_list);
 }
