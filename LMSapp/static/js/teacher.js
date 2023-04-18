@@ -345,6 +345,17 @@ function get_data() {
 // 메인화면 오늘의 상담
 async function get_consulting_student(done_code) {
     $('#consultingstudent_search_input').off('keyup');
+    
+    let data = consultingStudentData.filter((e) => {
+        if(done_code == 0) {
+            $('#today_consulting_title').html('오늘의 상담');
+            return e.missed != "오늘" && e.consulting_num != 0;
+        }else{
+            $('#today_consulting_title').html('오늘의 부재중 상담');
+            return e.missed == "오늘" && e.consulting_num != 0;
+        }
+    })
+    
     var paginationOptions = {
         prevText: '이전',
         nextText: '다음',
@@ -376,22 +387,13 @@ async function get_consulting_student(done_code) {
             }
         }
     };
-    let data = consultingStudentData.filter((e) => {
-        if(done_code == 0) {
-            $('#today_consulting_title').html('오늘의 상담');
-            return e.missed != "오늘" && e.consulting_num != 0;
-        }else{
-            $('#today_consulting_title').html('오늘의 부재중 상담');
-            return e.missed == "오늘" && e.consulting_num != 0;
-        }
-    })
     var container = $('#consultingstudent_pagination')
     container.pagination(Object.assign(paginationOptions, { 'dataSource': data }))
 
     $('#consultingstudent_search_input').on('keyup', function () {
         var searchInput = $(this).val().toLowerCase();
-        var filteredData = data.filter(function (data) {
-            return (data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1 )|| (data.hasOwnProperty('student_name') && data.student_name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('student_origin') && data.student_origin.toLowerCase().indexOf(searchInput) !== -1);
+        var filteredData = data.filter(function (d) {
+            return (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1 )|| (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(searchInput) !== -1);
         });
         container.pagination('destroy');
         container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
