@@ -540,24 +540,49 @@ async function getTeacherInfo(t_id){
         $('#teachertitle').html(`${info[0].teacher_engname}선생님 현황`)
         $('.mo_inloading').show()
         $('.monot_inloading').hide()
-        if (!consultingData && taskData) {
+        if (!consultingData && studentsData && taskData) {
             // await get_all_students()
             await get_all_consulting().then(() => {
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
-        }else if (consultingData && !taskData) {
+        }else if (consultingData && !studentsData && taskData) {
+            await get_all_students().then(() => {
+                $('.mo_inloading').hide()
+                $('.monot_inloading').show()
+            });
+        }else if (consultingData && studentsData && !taskData) {
             await get_all_task().then(() => {
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
-        }else if (!consultingData && !taskData) {
+        }else if (!consultingData && !studentsData && taskData) {
+            await get_all_students()
+            await get_all_consulting().then(() => {
+                $('.mo_inloading').hide()
+                $('.monot_inloading').show()
+            });
+        }else if (!consultingData && studentsData && !taskData) {
             await get_all_task()
             await get_all_consulting().then(() => {
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
+        }else if (consultingData && !studentsData && !taskData) {
+            await get_all_students()
+            await get_all_task().then(() => {
+                $('.mo_inloading').hide()
+                $('.monot_inloading').show()
+            });
+        }else if (!consultingData && !studentsData && !taskData) {
+            await get_all_students()
+            await get_all_consulting()
+            await get_all_task().then(() => {
+                $('.mo_inloading').hide()
+                $('.monot_inloading').show()
+            });
         }
+        
         $('.mo_inloading').hide()
         $('.monot_inloading').show()
         let temp_profile_data = `
@@ -580,9 +605,6 @@ async function getTeacherInfo(t_id){
 
         TTaskData =  taskData.filter(t=>t.teacher_id ==t_id)
         let IsG3 = false
-        // let my_consulting = consultingData.filter(a => a.teacher_id == t_id && a.startdate <= today)
-        // let u_consulting_my = my_consulting.filter(a => a.category_id < 100);
-        // let TstudentsData =studentsData.filter(t=>t.teacher_id == t_id)
         let temp_baninfo = `<tr class="row">
         <th class="col-3">반이름</th>
         <th class="col-1">학기</th>
@@ -604,6 +626,11 @@ async function getTeacherInfo(t_id){
             os += ban_data.out_num
             ss += ban_data.switch_minus_num
             unlearned = TunlearnedData.filter(c=>c.ban_id == ban_data.ban_id).length
+            ban_student = studentsData.filter(s=>s.ban_id == ban_data.ban_id)
+            data_list = ban_student
+            totalData = ban_student.length
+            displayData(totalData, 1, dataPerPage, data_list, ban_id);
+            paging(totalData, dataPerPage, pageCount, 1, data_list, ban_id);
             temp_baninfo += `
             <tr class="row">
                 <td class="col-3">${ban_data.name}</td>
@@ -614,26 +641,27 @@ async function getTeacherInfo(t_id){
                 <td class="col-1"> 이반- : ${ban_data.switch_minus_num}건</td>
                 <td class="col-2"> ${unlearned}건</td>
             </tr>
-            <th class="col-12" id="displayCount"></th>
-            <th class="col-3">원생</th>
-            <th class="col-2">원번</th>
-            <th class="col-3">부모님 정보</th>
-            <th class="col-3">미학습</th>
-            <th class="col-1">상세</th>
-            <tr class="row" id="s_data">
-                <th class="col-3">우망치</th>
-                <th class="col-2">P1010</th>
-                <th class="col-3">김퍼플 010-6565-3166</th>
-                <th class="col-3">45건 0.58 %</th>
-                <th class="col-1">✅</th>
+            <tr class="row">
+                <th class="col-12" id="displayCount"></th>
             </tr>
+            <tr class="row">
+                <th class="col-3">원생</th>
+                <th class="col-2">원번</th>
+                <th class="col-3">부모님 정보</th>
+                <th class="col-3">미학습</th>
+                <th class="col-1">상세</th>
+            </tr>
+            <tr class="row" id="s_data">
+                <td class="col-3">우망치</td>
+                <td class="col-2">P1010</td>
+                <td class="col-3">김퍼플 010-6565-3166</td>
+                <td class="col-3">45건 0.58 %</td>
+                <td class="col-1">✅</td>
+            </tr>
+            <ul id="pagingul"></ul>
+            <div id="ban_statistics" class="make_row w-100"></div>
             `;
         });
-        temp_baninfo += `
-        <tr id="s_data" class="row"></tr>
-        <ul id="pagingul" class="monot_inloading"></ul>
-        <div id="ban_statistics" class="make_row w-100 monot_inloading"></div>
-        `;
         $('#mybaninfo').html(temp_baninfo);
         
         let temp_teacher_info_student_num = `
@@ -725,7 +753,6 @@ async function getTeacherInfo(t_id){
         let ttd = TconsultaskData.filter(c=>c.done == 1).length
         $('#consulting_chart').html(`<td class="col-4">${ttd} / ${TconsultaskData.length}건</td><td class="col-4">${answer_rate(ttd,TconsultaskData.length).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(TconsultaskData.filter(c=>c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
     }
-
 }
 // 반 상세 정보 보내주는 함수 
 async function getBanChart(ban_id) {
@@ -763,12 +790,7 @@ async function getBanChart(ban_id) {
     // `;
     // $('#ban_data').html(temp_ban_data);
     
-    data_list = banStudentData
-    totalData = banStudentData.length
-    displayData(totalData, 1, dataPerPage, data_list, ban_id);
-    paging(totalData, dataPerPage, pageCount, 1, data_list, ban_id);
-    $('#student_data').show()
-    $('#pagingul').show();
+    
      
     // key값 `${item.ban_id}_${item.student_num}_${item.semester}_${item.teacher_id}`;
     // banData = allData.filter(e => e.ban_id == ban_id)[0]

@@ -10,11 +10,6 @@
     width: 40%;
 }
 
-/* js 처리 */
-#student_data{
-    display: none;
-}
-
 #request_box{
     margin-left: auto;
 }
