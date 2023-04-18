@@ -799,49 +799,63 @@ function attach_consulting_history(student_id) {
     $('#h_select_box').html(temp_h_select)
 }
     // 문의 리스트
-function get_question_list() {
+async function get_teacher_question() {
+    try{
+        const response = await $.ajax({
+            type: "GET",
+            url: "/teacher/question",
+            dataType: 'json',
+            data: {},
+        });
+        questionAnswerdata = response['data']
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
+}
+async function get_question_list() {
+    $('.Tinloading').show()
+    $('.t_notinloading').hide()
+    if(!banData){
+        await get_teacher_question().then(()=>{
+            $('.Tinloading').hide()
+            $('.t_notinloading').show()
+        })
+    }
+    $('.Tinloading').hide()
+    $('.t_notinloading').show()
     let container = $('#question_pagination')
-    $.ajax({
-        type: "GET",
-        url: "/teacher/question",
-        dataType: 'json',
-        data: {},
-        success: function (data) {
-            questionAnswerdata = data;
-            if(data.length > 0){
-                $('#q_title_msg').hide();
-                $('#questionlist').show()
-                $('#question_pagination').show()
-                container.pagination({
-                    dataSource: data,
-                    prevText: '이전',
-                    nextText: '다음',
-                    pageClassName: 'float-end',
-                    pageSize: 5,
-                    callback: function (data, pagination) {
-                        var dataHtml = '';
-                        $.each(data, function (index, item) {
-                            if (item.answer == 0) { done_code = '미응답' }
-                            else { done_code = item.answer_data.created_at + '에 응답' }
-                            dataHtml += `
-                            <td class="col-2">${q_category(item.category)}</td>
-                            <td class="col-5">${item.title}</td>
-                            <td class="col-3"> ${done_code} </td>
-                            <td class="col-1" onclick="get_question_detail(${item.id})"> <span class="cursor-pointer">🔍</span> </td>
-                            <td class="col-1" onclick="delete_question(${item.id})"> <span class="cursor-pointer">❌</span> </td>
-                            `;
-                        });
-                        $('#teacher_question_list').html(dataHtml);
-                    }
-                })
-            }else{
-                $('#questionlist').hide()
-                $('#question_pagination').hide()
-                $('#q_title_msg').show();
+    if(questionAnswerdata.length > 0){
+        $('#q_title_msg').hide();
+        $('#questionlist').show()
+        $('#question_pagination').show()
+        container.pagination({
+            dataSource: questionAnswerdata,
+            prevText: '이전',
+            nextText: '다음',
+            pageClassName: 'float-end',
+            pageSize: 5,
+            callback: function (questionAnswerdata, pagination) {
+                var dataHtml = '';
+                $.each(questionAnswerdata, function (index, item) {
+                    if (item.answer == 0) { done_code = '미응답' }
+                    else { done_code = item.answer_data.created_at + '에 응답' }
+                    dataHtml += `
+                    <td class="col-2">${q_category(item.category)}</td>
+                    <td class="col-5">${item.title}</td>
+                    <td class="col-3"> ${done_code} </td>
+                    <td class="col-1" onclick="get_question_detail(${item.id})"> <span class="cursor-pointer">🔍</span> </td>
+                    <td class="col-1" onclick="delete_question(${item.id})"> <span class="cursor-pointer">❌</span> </td>
+                    `;
+                });
+                $('#teacher_question_list').html(dataHtml);
             }
+        })
+    }else{
+        $('#questionlist').hide()
+        $('#question_pagination').hide()
+        $('#q_title_msg').show();
+    }
             
-        }
-    })
 }
     // 문의 내용 상세보기
 async function get_question_detail(q_id) {

@@ -561,7 +561,6 @@ function displayData(totalData, currentPage, dataPerPage,data_list) {
     } 
     $("#s_data").html(chartHtml);
 }
-
 function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
     totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
 
@@ -621,7 +620,6 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
         displayData(totalData, selectedPage, dataPerPage,data_list);
     });
 }
-
 async function getTeacherInfo(t_id){
     let info = banData.filter(t=>t.teacher_id == t_id)
     if (info.length == 0){
@@ -842,7 +840,6 @@ async function getTeacherInfo(t_id){
         paging(totalData, dataPerPage, pageCount, 1, data_list);
     }
 }
-
 function change_studentban_kind(ban_id){
     if(ban_id == "none"){
         data_list = Tstudent
@@ -854,8 +851,6 @@ function change_studentban_kind(ban_id){
     displayData(totalData, 1, dataPerPage, data_list);
     paging(totalData, dataPerPage, pageCount, 1, data_list);
 }
-
-
 // 상담 기록 조회 
 function get_consulting_history(s_id) {
     student_info = studentsData.filter(s => s.student_id == s_id)[0]
@@ -865,7 +860,7 @@ function get_consulting_history(s_id) {
     notdone_consultings = consultings.filter(c => c.done == 0)
     consultinglist_len = consultings.length
     let cant_consulting_list = notdone_consultings.length > 0 ? notdone_consultings.filter(c => c.created_at != null) : 0;
-    consultings = consultinglist_len > 0 ? notdone_consultings.filter(c => c.created_at == null) : 0
+    notdone_consultings = consultinglist_len > 0 ? notdone_consultings.filter(c => c.created_at == null) : 0
 
 
     // 미학습 상담
@@ -884,8 +879,8 @@ function get_consulting_history(s_id) {
         <th class="col-2">IXL</th>
         <th class="col-2">리딩</th>
         <th class="col-3">인투리딩 미응시</th>
-        <th class="col-3">라이팅 과제</th>
-        <th class="col-2">미접속</th>
+        <th class="col-3">라이팅 과제 미제출</th>
+        <th class="col-2">홈페이지 미접속</th>
         <td class="col-2">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 1).length)}</td>
         <td class="col-2">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 4).length)}</td>
         <td class="col-3">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 5).length)}</td>
@@ -898,7 +893,7 @@ function get_consulting_history(s_id) {
         <th class="col-2">리딩</th>
         <th class="col-2">리특</th>
         <th class="col-2">인투리딩 미응시</th>
-        <th class="col-2">라이팅 과제</th>
+        <th class="col-2">라이팅 과제 미제출</th>
         <th class="col-2">미접속</th>
         <td class="col-2">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 1).length)}</td>
         <td class="col-2">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 4).length)}</td>
