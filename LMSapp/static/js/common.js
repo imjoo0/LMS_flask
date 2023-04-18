@@ -614,16 +614,12 @@ async function getTeacherInfo(t_id){
                 <td class="col-1"> 이반- : ${ban_data.switch_minus_num}건</td>
                 <td class="col-2"> ${unlearned}건</td>
             </tr>
-            <tr class="row">
-                <th class="col-12" id="displayCount"></th>
-            </tr>
-            <tr class="row">
-                <th class="col-3">원생</th>
-                <th class="col-2">원번</th>
-                <th class="col-3">부모님 정보</th>
-                <th class="col-3">미학습</th>
-                <th class="col-1">상세</th>
-            </tr>
+            <th class="col-12" id="displayCount"></th>
+            <th class="col-3">원생</th>
+            <th class="col-2">원번</th>
+            <th class="col-3">부모님 정보</th>
+            <th class="col-3">미학습</th>
+            <th class="col-1">상세</th>
             <tr class="row" id="s_data">
                 <th class="col-3">우망치</th>
                 <th class="col-2">P1010</th>
