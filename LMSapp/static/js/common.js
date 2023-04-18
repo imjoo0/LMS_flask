@@ -541,22 +541,12 @@ function displayData(totalData, currentPage, dataPerPage,data_list,b_id) {
         i < last_item; // 55+5
         i++
     ) {
-        target = data_list[i]
-        console.log(target)
-        let register_no = target['student_id']
-        let name = target['student_name'];
-        let mobileno = target['mobileno'];
-        let parent_name_mobileno = target['pname'] +'('+target['pmobileno']+')';
-        let unlearned = target['unlearned'];
-        let up = target['up'];
         chartHtml +=`
-        <td class="col-2">${name}</td>
-        <td class="col-2">${mobileno} </td>
-        <td class="col-3">${parent_name_mobileno}</td>
-        <td class="col-2">${make_recobook(target['reco_book_code'])} </td>
-        <td class="col-2">${unlearned}(${up}%)</td><br>
-        <td class="col-1"> <button class="modal-tbody-btn" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${register_no})">📝</button><br>
-        `;
+        <td class="col-3">${data_list[i].name}( ${data_list[i].student_engname} )</td>
+        <td class="col-2">${data_list[i].origin}</td>
+        <td class="col-3">${data_list[i].pname} ( 📞${data_list[i].pmobileno} )</td>
+        <td class="col-3">45건 0.58 %</td>
+        <td class="col-1">✅</td>`;
     } 
     $("#s_data").html(chartHtml);
 }
@@ -745,11 +735,7 @@ async function getTeacherInfo(t_id){
                 <th class="col-1">상세</th>
             </tr>
             <tr class="row" id="s_data">
-                <td class="col-3">우망치</td>
-                <td class="col-2">P1010</td>
-                <td class="col-3">김퍼플 010-6565-3166</td>
-                <td class="col-3">45건 0.58 %</td>
-                <td class="col-1">✅</td>
+                
             </tr>
             <ul id="pagingul"></ul>
             <div id="ban_statistics" class="make_row w-100"></div>
