@@ -79,6 +79,14 @@ let make_semester=function(semester){
         return semester
     }
 }
+let make_IsG3 = function(ban_name){
+    if(ban_name.toLowerCase().includes('meteor') || ban_name.toLowerCase().includes('nebula')){
+        IsG3 = true
+    }else{
+        IsG3 = false
+    }
+    return IsG3
+}
 function q_category(category) {
     if (category == 0 || category == '0' ) {
         c ='일반문의'
@@ -664,7 +672,6 @@ async function getTeacherInfo(t_id){
                 $('.monot_inloading').show()
             });
         }
-        
         $('.mo_inloading').hide()
         $('.monot_inloading').show()
         let temp_profile_data = `
@@ -680,13 +687,14 @@ async function getTeacherInfo(t_id){
             </tbody>
         `;
         $('#profile_data').html(temp_profile_data);
-        // 선생님의 미학습 데이터 
+        
         TconsultingData =  consultingData.filter(c=>c.teacher_id == t_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
+        TTaskData =  taskData.filter(t=>t.teacher_id ==t_id)
+        
+        // 선생님의 미학습 데이터 
         TunlearnedData = TconsultingData.filter(c=>c.category_id < 100)
         unlearned_ttc = TunlearnedData.length
 
-        TTaskData =  taskData.filter(t=>t.teacher_id ==t_id)
-        let IsG3 = false
         let temp_baninfo = `<tr class="row">
         <th class="col-3">반이름</th>
         <th class="col-1">학기</th>
@@ -700,11 +708,7 @@ async function getTeacherInfo(t_id){
         let os = 0
         let ss = 0
         info.forEach(ban_data => {
-            if(ban_data.name.toLowerCase().includes('meteor') || ban_data.name.toLowerCase().includes('nebula')){
-                IsG3 = true
-            }else{
-                IsG3 = false
-            }
+            IsG3 = make_IsG3(ban_data.name)
             total_student_num += ban_data.student_num
             os += ban_data.out_num
             ss += ban_data.switch_minus_num
@@ -846,7 +850,7 @@ function change_studentban_kind(ban_id){
 // 상담 기록 조회 
 function get_consulting_history(s_id) {
     student_info = studentsData.filter(s => s.student_id == s_id)[0]
-    consultings = consultingData.filter(c => c.student_id == s_id)
+    consultings = consultingData.filter(c => c.student_id == s_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
     done_consultings = consultings.filter(c => c.done == 1)
     notdone_consultings = consultings.filter(c => c.done == 0)
     consultinglist_len = consultings.length
