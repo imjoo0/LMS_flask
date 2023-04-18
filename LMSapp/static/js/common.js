@@ -7,7 +7,9 @@ var pageCount = 10; //페이징에 나타낼 페이지 수
 var globalCurrentPage = 1; //현재 페이지
 var data_list;
 const today = new Date().setHours(0, 0, 0, 0);
-
+$('.popup-link').magnificPopup({
+    type: 'iframe'
+});
 let make_recobook = function(c){
     if( c == null){
         return '❌'
