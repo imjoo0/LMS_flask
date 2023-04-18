@@ -652,7 +652,7 @@ async function get_student(ban_id) {
                     <td class="col-2">${consulting.student_name}</td>
                     <td class="col-1">${consulting.student_origin}</td>
                     <td class="col-1">${consulting.student_birthday}</td>
-                    <td class="col-2">${consulting.student_mobileno}</td>
+                    <td class="col-1">${consulting.student_mobileno}</td>
                     <td class="col-1">${unlearned_homepage}건</td>
                     <td class="col-1">${unlearned_ixl}건</td>
                     <td class="col-1">${unlearned_speacial}건</td>
