@@ -850,7 +850,9 @@ function change_studentban_kind(ban_id){
 // 상담 기록 조회 
 function get_consulting_history(s_id) {
     student_info = studentsData.filter(s => s.student_id == s_id)[0]
-    console.log(student_info)
+    $('#consultinghistoryModalLabelt').html(`${student_info.ban_name}반 ${student_info.student_name} ( ${student_info.student_engname} * ${student_info.origin} )원생`)
+
+    // console.log(student_info)
     consultings = consultingData.filter(c => c.student_id == s_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
     done_consultings = consultings.filter(c => c.done == 1)
     notdone_consultings = consultings.filter(c => c.done == 0)
@@ -858,15 +860,31 @@ function get_consulting_history(s_id) {
     let cant_consulting_list = notdone_consultings.length > 0 ? notdone_consultings.filter(c => c.created_at != null) : 0;
     consultings = consultinglist_len > 0 ? notdone_consultings.filter(c => c.created_at == null) : 0
 
-    $('#consultinghistoryModalLabelt').html(`${student_info.ban_name}반 ${student_info.student_name} ( ${student_info.student_engname} *${student_info.origin} )원생 총 ${consultinglist_len}건 상담`)
 
     // 미학습 상담
 
     let temp_student_unlearned = `
-    <td class="col-4"> 완수: ${done_consultings.length} / ${consultinglist_len}건 ( ${answer_rate(done_consultings.length,consultinglist_len).toFixed(0)}% )</td> 
-    <td class="col-4" style="color:red">${make_nodata(consultings.filter(c=> new Date(c.deadline).setHours(0, 0, 0, 0) < today).length + cant_consulting_list.length)}</td>
-    <td class="col-4"><strong> ${answer_rate(unlearned_ttc,consultings[0].total_unlearned_consulting).toFixed(2)}% </strong></td>);`
+    <td class="col-3"> 총: ${consultinglist_len}건 완수: ${done_consultings.length} / ${consultinglist_len}건 ( ${answer_rate(done_consultings.length,consultinglist_len).toFixed(0)}% )</td> 
+    <td class="col-3" style="color:red">${make_nodata(consultings.filter(c=> new Date(c.deadline).setHours(0, 0, 0, 0) < today).length + cant_consulting_list.length)}</td>
+    <td class="col-3">${student_info.unlearned}건 </td>
+    <td class="col-3">${student_info.up}% </td>`
+    $('#student_unlearned').html(temp_student_unlearned)
     
+    unlearnedconsulting = consultingData.filter(c => c.student_id == s_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today && category_id <100)
+    let temp_student_unlearned_totalreport =`
+    <th class="col-2">IXL</th>
+    <th class="col-2">리딩</th>
+    <th class="col-3">인투리딩 미응시</th>
+    <th class="col-3">라이팅 과제</th>
+    <th class="col-2">미접속</th>
+    <td class="col-2">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 1).length)}</td>
+    <td class="col-2">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 4).length)}</td>
+    <td class="col-3">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 5).length)}</td>
+    <td class="col-3">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 6).length)}</td>
+    <td class="col-2">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 2).length)}</td>
+    `;
+    $('#student_unlearned_totalreport').html(temp_student_unlearned_totalreport);
+
     if (cant_consulting_list.length > 0) {
         $('#consulting_cant_write_box').empty();
         for (i = 0; i < cant_consulting_list.length; i++) {
