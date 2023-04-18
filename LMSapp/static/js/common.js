@@ -650,7 +650,11 @@ async function getTeacherInfo(t_id){
 
         // 미학습 상담
         let unlearned_ttd = TunlearnedData.filter(u=>u.done == 1).length
-        $('#ucomcom').html(`<td class="col-4"> 완수: ${unlearned_ttd} / ${unlearned_ttc}건 </td> <td class="col-4"> ${answer_rate(unlearned_ttd,unlearned_ttc).toFixed(0)}% </td><td class="col-4"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
+        $('#ucomcom').html(`
+        <td class="col-3"> 완수: ${unlearned_ttd} / ${unlearned_ttc}건 </td> 
+        <td class="col-3" style="color:red">${make_nodata(TunlearnedData.filter(c=>c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>
+        <td class="col-3"> ${answer_rate(unlearned_ttd,unlearned_ttc).toFixed(0)}% </td>
+        <td class="col-3"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
         let temp_html = ''
         if(IsG3){
             temp_html = `
