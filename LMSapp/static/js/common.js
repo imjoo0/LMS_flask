@@ -7,9 +7,6 @@ var pageCount = 10; //페이징에 나타낼 페이지 수
 var globalCurrentPage = 1; //현재 페이지
 var data_list;
 const today = new Date().setHours(0, 0, 0, 0);
-$('.popup-link').magnificPopup({
-    type: 'iframe'
-});
 let make_recobook = function(c){
     if( c == null){
         return '❌'
@@ -856,6 +853,9 @@ function change_studentban_kind(ban_id){
 
 // 상담 기록 조회 
 function get_consulting_history(s_id) {
+    $('.popup-link').magnificPopup({
+        type: 'iframe'
+    });
     student_info = studentsData.filter(s => s.student_id == s_id)[0]
     $('#consultinghistoryModalLabelt').html(`${student_info.ban_name}반 ${student_info.student_name} ( ${student_info.student_engname} * ${student_info.origin} )원생`)
     consultings = consultingData.filter(c => c.student_id == s_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
