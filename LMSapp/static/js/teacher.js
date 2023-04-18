@@ -648,19 +648,60 @@ async function get_student(ban_id) {
                         unlearned_intoreading = unlearned_arr.filter(a => a.category_id == 5 || a.category_id == 7).length
                     }
                     let value = `${consulting.student_id}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.teacher_id}`
-                    temp_consulting_contents_box += `
-                    <td class="col-2">${consulting.student_name}</td>
-                    <td class="col-1">${consulting.student_origin}</td>
-                    <td class="col-1">${consulting.student_birthday}</td>
-                    <td class="col-1">${consulting.student_mobileno}</td>
-                    <td class="col-1">${unlearned_homepage}건</td>
-                    <td class="col-1">${unlearned_ixl}건</td>
-                    <td class="col-1">${unlearned_speacial}건</td>
-                    <td class="col-1">${unlearned_reading}건</td>
-                    <td class="col-1">${unlearned_writing}건</td>
-                    <td class="col-1">${unlearned_intoreading}건</td>
-                    <td class="col-1" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
-                    `;
+                    if(make_IsG3(consulting.ban_name)){
+                        $('#s_datahead').html(`
+                        <th class="col-2">이름</th>
+                        <th class="col-1">원번</th>
+                        <th class="col-1">생년월일</th>
+                        <th class="col-2">연락처</th>
+                        <th class="col-1">미접속</th>
+                        <th class="col-1">IXL 미응시</th>
+                        <th class="col-1">리딩</th>
+                        <th class="col-1">라이팅 과제 미제출</th>
+                        <th class="col-1">인투리딩</th>
+                        <th class="col-1">추가</th>
+                        `)
+                        temp_consulting_contents_box += `
+                        <td class="col-2">${consulting.student_name}</td>
+                        <td class="col-1">${consulting.student_origin}</td>
+                        <td class="col-1">${consulting.student_birthday}</td>
+                        <td class="col-2">${consulting.student_mobileno}</td>
+                        <td class="col-1">${unlearned_homepage}건</td>
+                        <td class="col-1">${unlearned_ixl}건</td>
+                        <td class="col-1">${unlearned_reading}건</td>
+                        <td class="col-1">${unlearned_writing}건</td>
+                        <td class="col-1">${unlearned_intoreading}건</td>
+                        <td class="col-1" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
+                        `;
+                    }else{
+                        $('#s_datahead').html(`
+                        <th class="col-1">이름</th>
+                        <th class="col-1">원번</th>
+                        <th class="col-1">생년월일</th>
+                        <th class="col-2">연락처</th>
+                        <th class="col-1">미접속</th>
+                        <th class="col-1">IXL 미응시</th>
+                        <th class="col-1">리특</th>
+                        <th class="col-1">리딩</th>
+                        <th class="col-1">라이팅 과제 미제출</th>
+                        <th class="col-1">인투리딩</th>
+                        <th class="col-1">추가</th>
+                        `)
+                        temp_consulting_contents_box += `
+                        <td class="col-1">${consulting.student_name}</td>
+                        <td class="col-1">${consulting.student_origin}</td>
+                        <td class="col-1">${consulting.student_birthday}</td>
+                        <td class="col-2">${consulting.student_mobileno}</td>
+                        <td class="col-1">${unlearned_homepage}건</td>
+                        <td class="col-1">${unlearned_ixl}건</td>
+                        <td class="col-1">${unlearned_speacial}건</td>
+                        <td class="col-1">${unlearned_reading}건</td>
+                        <td class="col-1">${unlearned_writing}건</td>
+                        <td class="col-1">${unlearned_intoreading}건</td>
+                        <td class="col-1" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
+                        `;
+                    }
+                    
                 });
                 $('#s_data').html(temp_consulting_contents_box);
                 $('#student_data').show();
