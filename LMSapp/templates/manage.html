@@ -154,15 +154,9 @@
                 <div class="info-container mt-5">
                     <div class="info-title">
                         <span>Student Report</span>
+                        <select id="studentban_kind" class="modal-body-select" onchange="change_studentban_kind(this.value)" style="float:right;"></select>
                     </div>
                     <div class="info">
-                        <select id="studentban_kind" class="modal-body-select"
-                            onchange="change_studentban_kind(this.value)">
-                            <option value="none" selected>반을 선택해 주세요</option>
-                            <option value="일반">일반 문의</option>
-                            <option value="이반">이반 승인 요청</option>
-                            <option value="퇴소">퇴소 승인 요청</option>
-                        </select>
                         <table class="table text-center" id="student_data">
                             <tr class="row" style="background: #DCE6F2;">
                                 <th class="col-12" id="displayCount"></th>
