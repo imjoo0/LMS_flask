@@ -377,7 +377,7 @@ async function get_consulting_student(done_code) {
                     <td class="col-2">${consulting.student_mobileno}</td>
                     <td class="col-2">${consulting.deadline}</td>
                     <td class="col-1">${consulting.consulting_num}</td>
-                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${consulting.student_id}',${0})"><span class="cursor-pointer">✏️</span></td> 
+                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${consulting.student_id}',${0})"><span class="cursor-pointer">📝</span></td> 
                     `;
                 });
                 $('#today_consulting_box').html(temp_consulting_contents_box);
