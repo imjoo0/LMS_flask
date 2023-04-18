@@ -1,5 +1,5 @@
 // 전역변수로 api에서 불러온 정보를 저장 
-let switchstudentData,outstudentData,banData,studentsData, consultingData,consultingcateData, taskData,taskcateData,questionData,answerData,attachData; ; 
+let switchstudentData,outstudentData,banData,studentsData,reportsData, consultingData,consultingcateData, taskData,taskcateData,questionData,answerData,attachData; ; 
 
 var totalData = 0; //총 데이터 수
 var dataPerPage = 6;
@@ -157,6 +157,19 @@ async function get_all_students() {
             data: {},
         });
         studentsData = response['students']
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
+}
+
+async function get_student_reports() {
+    try{
+        const response = await $.ajax({
+            url: '/common/get_student_reports',
+            type: 'GET',
+            data: {},
+        });
+        reportsData = response['reports']
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }

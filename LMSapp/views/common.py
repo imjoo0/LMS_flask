@@ -58,6 +58,12 @@ def get_ban():
                 db.close()        
         return jsonify({'all_ban':all_ban,'switchstudent': switchstudent,'outstudent': outstudent})
 
+@bp.route("/get_student_reports", methods=['GET'])
+def get_student_reports():
+    if request.method == 'GET':
+        reports = callapi.purple_allinfo('get_student_reports')
+        return jsonify({'reports':reports})
+    
 @bp.route("/all_students", methods=['GET'])
 def get_all_students():
     if request.method == 'GET':

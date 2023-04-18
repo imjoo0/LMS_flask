@@ -402,7 +402,12 @@ async function get_consulting_student(done_code) {
 }
 
 // 상담일지 작성 
-function get_consulting(student_id, is_done) {
+async function get_consulting(student_id, is_done) {
+    if(!reportsData){
+        await get_student_reports().then(()=>{
+            console.log(reportsData)
+        })
+    }
     const data = consultingStudentData.filter((e) => {
         return e.student_id == student_id && e.consulting_list.length != 0;
     })[0]
