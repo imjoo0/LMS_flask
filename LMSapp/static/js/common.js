@@ -546,7 +546,7 @@ function displayData(totalData, currentPage, dataPerPage,data_list) {
         <td class="col-2">${data_list[i].origin}</td>
         <td class="col-3">${data_list[i].pname} ( 📞${data_list[i].pmobileno} )</td>
         <td class="col-3">${data_list[i].unlearned}건 ( ${data_list[i].up}% ) </td>
-        <td class="col-1custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${data_list[i].student_id})">📝</td>`;
+        <td class="col-1" custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${data_list[i].student_id})">📝</td>`;
     } 
     $("#s_data").html(chartHtml);
 }
