@@ -869,20 +869,39 @@ function get_consulting_history(s_id) {
     <td class="col-3">${student_info.unlearned}건 </td>
     <td class="col-3">${student_info.up}% </td>`
     $('#student_unlearned').html(temp_student_unlearned)
-    
+    let IsG3 = make_IsG3(student_info.ban_name)
     unlearnedconsulting = consultingData.filter(c => c.student_id == s_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today && c.category_id <100)
-    let temp_student_unlearned_totalreport =`
-    <th class="col-2">IXL</th>
-    <th class="col-2">리딩</th>
-    <th class="col-3">인투리딩 미응시</th>
-    <th class="col-3">라이팅 과제</th>
-    <th class="col-2">미접속</th>
-    <td class="col-2">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 1).length)}</td>
-    <td class="col-2">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 4).length)}</td>
-    <td class="col-3">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 5).length)}</td>
-    <td class="col-3">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 6).length)}</td>
-    <td class="col-2">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 2).length)}</td>
+    let temp_student_unlearned_totalreport =''
+    if(IsG3){
+        temp_student_unlearned_totalreport = `
+        <th class="col-2">IXL</th>
+        <th class="col-2">리딩</th>
+        <th class="col-3">인투리딩 미응시</th>
+        <th class="col-3">라이팅 과제</th>
+        <th class="col-2">미접속</th>
+        <td class="col-2">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 1).length)}</td>
+        <td class="col-2">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 4).length)}</td>
+        <td class="col-3">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 5).length)}</td>
+        <td class="col-3">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 6).length)}</td>
+        <td class="col-2">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 2).length)}</td>
+        `;
+    }else{
+        temp_student_unlearned_totalreport=  `
+        <th class="col-2">IXL</th>
+        <th class="col-2">리딩</th>
+        <th class="col-2">리특</th>
+        <th class="col-2">인투리딩 미응시</th>
+        <th class="col-2">라이팅 과제</th>
+        <th class="col-2">미접속</th>
+        <td class="col-2">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 1).length)}</td>
+        <td class="col-2">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 4).length)}</td>
+        <td class="col-2">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 3).length)}</td>
+        <td class="col-2">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 5).length)}</td>
+        <td class="col-2">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 6).length)}</td>
+        <td class="col-2">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 2).length)}</td>
     `;
+    }
+   
     $('#student_unlearned_totalreport').html(temp_student_unlearned_totalreport);
 
     if (cant_consulting_list.length > 0) {
