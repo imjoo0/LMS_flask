@@ -696,7 +696,7 @@ async function getTeacherInfo(t_id){
         <th class="col-2">이반</th>
         <th class="col-2">미학습</th>
         </tr>`
-        let temp_ban_option = `<option value="none" selected>${info.teacher_engname}선생님이 담당중인 전체 원생</option>`;
+        let temp_ban_option = `<option value="none" selected>${info[0].teacher_engname} 선생님이 담당중인 전체 원생</option>`;
         let total_student_num = 0
         let os = 0
         let ss = 0
@@ -830,6 +830,15 @@ async function getTeacherInfo(t_id){
         displayData(totalData, 1, dataPerPage, data_list);
         paging(totalData, dataPerPage, pageCount, 1, data_list);
     }
+}
+
+function change_studentban_kind(ban_id){
+    let change_student = Tstudent.filter(s=>s.ban_id == ban_id)
+    data_list = change_student
+    totalData = data_list.length
+    console.log(change_student)
+    displayData(totalData, 1, dataPerPage, data_list);
+    paging(totalData, dataPerPage, pageCount, 1, data_list);
 }
 // 반 상세 정보 보내주는 함수 
 async function getBanChart(ban_id) {
