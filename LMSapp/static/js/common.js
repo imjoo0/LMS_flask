@@ -696,6 +696,7 @@ async function getTeacherInfo(t_id){
         <th class="col-2">이반</th>
         <th class="col-2">미학습</th>
         </tr>`
+        let temp_ban_option = `<option value="none" selected>반을 선택해 주세요</option>`;
         let total_student_num = 0
         let os = 0
         let ss = 0
@@ -710,10 +711,10 @@ async function getTeacherInfo(t_id){
             ss += ban_data.switch_minus_num
             unlearned = TunlearnedData.filter(c=>c.ban_id == ban_data.ban_id).length
             ban_student = studentsData.filter(s=>s.ban_id == ban_data.ban_id)
-            data_list = ban_student
-            totalData = ban_student.length
-            displayData(totalData, 1, dataPerPage, data_list, ban_data.ban_id);
-            paging(totalData, dataPerPage, pageCount, 1, data_list, ban_data.ban_id);
+            // data_list = ban_student
+            // totalData = ban_student.length
+            // displayData(totalData, 1, dataPerPage, data_list, ban_data.ban_id);
+            // paging(totalData, dataPerPage, pageCount, 1, data_list, ban_data.ban_id);
             temp_baninfo += `
             <tr class="row">
                 <td class="col-3">${ban_data.name}</td>
@@ -724,22 +725,9 @@ async function getTeacherInfo(t_id){
                 <td class="col-1"> 이반- : ${ban_data.switch_minus_num}건</td>
                 <td class="col-2"> ${unlearned}건</td>
             </tr>
-            <tr class="row">
-                <th class="col-12" id="displayCount"></th>
-            </tr>
-            <tr class="row">
-                <th class="col-3">원생</th>
-                <th class="col-2">원번</th>
-                <th class="col-3">부모님 정보</th>
-                <th class="col-3">미학습</th>
-                <th class="col-1">상세</th>
-            </tr>
-            <tr class="row" id="s_data">
-                
-            </tr>
-            <ul id="pagingul"></ul>
-            <div id="ban_statistics" class="make_row w-100"></div>
             `;
+            temp_ban_option += `<option value="${ban_data.ban_id}" selected>${ban_data.name}</option>`
+
         });
         $('#mybaninfo').html(temp_baninfo);
         

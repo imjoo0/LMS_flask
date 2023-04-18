@@ -49,24 +49,7 @@
                         <span id="students_tabletitle">원생 정보</span>
                     </div>
                     <div class="info">
-                        <table class="table text-center monot_inloading" style="width:100%;">
-                            <tbody style="width:100%;">
-                                <tr class="row">
-                                    <th class="col-12" id="displayCount"></th>
-                                </tr>
-                                <tr class="row">
-                                    <th class="col-2">원생 정보</th>
-                                    <th class="col-2">연락처</th>
-                                    <th class="col-3">부모님 정보</th>
-                                    <th class="col-2">추천도서</th>
-                                    <th class="col-2">미학습</th>
-                                    <th class="col-1">상세</th>
-                                </tr>
-                                <tr id="s_data" class="row"></tr>
-                            </tbody>
-                        </table>
-                        <ul id="pagingul" class="monot_inloading"></ul>
-                        <div id="ban_statistics" class="make_row w-100 monot_inloading"></div>
+                        
                     </div>
                 </div>
             </div>
@@ -168,7 +151,36 @@
                         </table>
                     </div>
                 </div>
-                
+                <div class="info-container mt-5">
+                    <div class="info-title">
+                        <span>Student Report</span>
+                    </div>
+                    <div class="info">
+                        <select id="studentban_kind" class="modal-body-select"
+                            onchange="change_studentban_kind(this.value)">
+                            <option value="none" selected>반을 선택해 주세요</option>
+                            <option value="일반">일반 문의</option>
+                            <option value="이반">이반 승인 요청</option>
+                            <option value="퇴소">퇴소 승인 요청</option>
+                        </select>
+                        <table class="table text-center" id="student_data">
+                            <tr class="row" style="background: #DCE6F2;">
+                                <th class="col-12" id="displayCount"></th>
+                            </tr>
+                            <tr class="row" style="background:#DCE6F2;">
+                                <th class="col-2">원생 정보</th>
+                                <th class="col-2">연락처</th>
+                                <th class="col-3">부모님 정보</th>
+                                <th class="col-2">추천도서</th>
+                                <th class="col-2">미학습</th>
+                                <th class="col-1">상세</th>
+                            </tr>
+                            <tr id="s_data" class="row"></tr>
+                        </table>
+                        <ul id="pagingul"></ul>
+                        <div id="ban_statistics" class="make_row w-100"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
