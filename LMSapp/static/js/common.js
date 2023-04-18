@@ -7,6 +7,10 @@ var pageCount = 10; //페이징에 나타낼 페이지 수
 var globalCurrentPage = 1; //현재 페이지
 var data_list;
 const today = new Date().setHours(0, 0, 0, 0);
+function openPopup(url){
+    var popup = window.open('', 'popup', 'width=600,height=800');
+    popup.document.write('<html><body><iframe src="' + url + '" width="100%" height="100%" frameborder="0"></iframe></body></html>');
+}
 let make_recobook = function(c){
     if( c == null){
         return '❌'
@@ -851,10 +855,7 @@ function change_studentban_kind(ban_id){
     paging(totalData, dataPerPage, pageCount, 1, data_list);
 }
 
-function openPopup(url){
-    var popup = window.open('', 'popup', 'width=600,height=800');
-    popup.document.write('<html><body><iframe src="' + url + '" width="100%" height="100%" frameborder="0"></iframe></body></html>');
-}
+
 // 상담 기록 조회 
 function get_consulting_history(s_id) {
     student_info = studentsData.filter(s => s.student_id == s_id)[0]
