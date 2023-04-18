@@ -345,7 +345,7 @@ function get_data() {
 // 메인화면 오늘의 상담
 async function get_consulting_student(done_code) {
     $('#consultingstudent_search_input').off('keyup');
-    
+    var container = $('#consultingstudent_pagination')
     let data = consultingStudentData.filter((e) => {
         if(done_code == 0) {
             $('#today_consulting_title').html('오늘의 상담');
@@ -381,8 +381,14 @@ async function get_consulting_student(done_code) {
             $('#consulting_student_list').show();
         }
     };
-    var container = $('#consultingstudent_pagination')
-    container.pagination(Object.assign(paginationOptions, { 'dataSource': data }))
+
+    if(data.length == 0){
+        $('#today_consulting_title').html($('#today_consulting_title').html()+'   0건');
+        $('#consulting_student_list').hide();
+        $('#consultingstudent_pagination').hide();
+    }else{
+        container.pagination(Object.assign(paginationOptions, { 'dataSource': data }))
+    }
 
     $('#consultingstudent_search_input').on('keyup', function () {
         var searchInput = $(this).val().toLowerCase();
