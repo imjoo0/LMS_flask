@@ -807,7 +807,7 @@ async function get_teacher_question() {
             dataType: 'json',
             data: {},
         });
-        questionAnswerdata = response['data']
+        questionAnswerdata = response
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
