@@ -597,30 +597,31 @@ async function getTeacherInfo(t_id){
             os += ban_data.out_num
             ss += ban_data.switch_minus_num
             unlearned = TunlearnedData.filter(c=>c.ban_id == ban_data.ban_id).length
+            let temp_students_info =''
             temp_baninfo += `
-            <td class="col-3">${ban_data.name}</td>
-            <td class="col-1">${make_semester(ban_data.semester)}학기</td>
-            <td class="col-2">${ban_data.student_num}명</td>
-            <td class="col-2"> ${ban_data.out_num}건 ( ${ban_data.out_num_per}% )</td>
-            <td class="col-1"> 유입+ : ${ban_data.switch_plus_num}건</td>
-            <td class="col-1"> 이반- : ${ban_data.switch_minus_num}건</td>
-            <td class="col-2"> ${unlearned}건</td>
-            <table class="table text-center monot_inloading" style="width:100%;">
-                <tbody style="width:100%;">
-                    <tr class="row">
-                        <th class="col-12" id="displayCount"></th>
-                    </tr>
-                    <tr class="row">
-                        <th class="col-2">원생 정보</th>
-                        <th class="col-2">연락처</th>
-                        <th class="col-3">부모님 정보</th>
-                        <th class="col-2">추천도서</th>
-                        <th class="col-2">미학습</th>
-                        <th class="col-1">상세</th>
-                    </tr>
-                    <tr id="s_data" class="row"></tr>
-                </tbody>
-            </table>
+            <tr class="row">
+                <td class="col-3">${ban_data.name}</td>
+                <td class="col-1">${make_semester(ban_data.semester)}학기</td>
+                <td class="col-2">${ban_data.student_num}명</td>
+                <td class="col-2"> ${ban_data.out_num}건 ( ${ban_data.out_num_per}% )</td>
+                <td class="col-1"> 유입+ : ${ban_data.switch_plus_num}건</td>
+                <td class="col-1"> 이반- : ${ban_data.switch_minus_num}건</td>
+                <td class="col-2"> ${unlearned}건</td>
+            </tr>
+            `;
+            temp_students_info +=`
+            <tr class="row">
+                <th class="col-12" id="displayCount"></th>
+            </tr>
+            <tr class="row">
+                <th class="col-2">원생 정보</th>
+                <th class="col-2">연락처</th>
+                <th class="col-3">부모님 정보</th>
+                <th class="col-2">추천도서</th>
+                <th class="col-2">미학습</th>
+                <th class="col-1">상세</th>
+            </tr>
+            <tr id="s_data" class="row"></tr>
             <ul id="pagingul" class="monot_inloading"></ul>
             <div id="ban_statistics" class="make_row w-100 monot_inloading"></div>
             `;
