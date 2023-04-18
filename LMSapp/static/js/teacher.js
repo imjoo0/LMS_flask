@@ -410,51 +410,85 @@ async function get_consulting(student_id, is_done) {
     }
     student_report = reportsData.filter(r=>r.student_id == student_id)
     if(student_report.length != 0 ){
-        // student_report_name = student_report[0].file_name
-        $('#srepo').click(function() {
-            // Get PDF file URL
-            var pdfUrl = 'https://www.purpleacademy.co.kr/student/documents_download?file='+student_report[0].enc_name;
+        $('.file-viewer').click(function() {
+            // Get file URL and name
+            var fileUrl = 'https://www.purpleacademy.co.kr/student/documents_download?file=' + encodeURIComponent($(this).data('file'));
+            var fileName = $(this).data('file');
           
-            // Open Magnific Popup with PDF viewer content
+            // Open Magnific Popup with file viewer content
             $.magnificPopup.open({
               items: {
-                src: '<div class="pdf-container"><canvas></canvas></div>',
+                src: '<div class="file-container"></div>',
                 type: 'inline'
               },
               callbacks: {
                 open: function() {
-                  // Load PDF file into canvas
-                  var canvas = this.content.find('canvas')[0];
-                  var pdfDoc = null;
-                  var pdfScale = 1.5;
-                  var pageNum = 1;
+                  // Download file with Axios
+                  axios.get(fileUrl, { responseType: 'arraybuffer' }).then(function(response) {
+                    var fileBlob = new Blob([response.data], { type: response.headers['content-type'] });
+                    var fileUrl = URL.createObjectURL(fileBlob);
           
-                  // Initialize PDF.js library
-                  PDFJS.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
-                  PDFJS.getDocument(pdfUrl).then(function(pdfDoc_) {
-                    pdfDoc = pdfDoc_;
-                    renderPage(pageNum, canvas);
+                    // Display file in container
+                    var container = $('.file-container');
+                    if (fileName.endsWith('.pdf')) {
+                      container.html('<iframe src="' + fileUrl + '"></iframe>');
+                    } else {
+                      container.html('<embed src="' + fileUrl + '" type="' + response.headers['content-type'] + '"></embed>');
+                    }
                   });
-          
-                  // Render PDF page on canvas
-                  function renderPage(num, canvas) {
-                    pdfDoc.getPage(num).then(function(page) {
-                      var viewport = page.getViewport({scale: pdfScale});
-                      canvas.height = viewport.height;
-                      canvas.width = viewport.width;
-          
-                      var ctx = canvas.getContext('2d');
-                      var renderContext = {
-                        canvasContext: ctx,
-                        viewport: viewport
-                      };
-                      page.render(renderContext);
-                    });
-                  }
+                },
+                beforeClose: function() {
+                  // Revoke object URL to free memory
+                  URL.revokeObjectURL($('.file-container').find('iframe, embed').attr('src'));
                 }
               }
             });
         });
+        // student_report_name = student_report[0].file_name
+        // $('#srepo').click(function() {
+        //     // Get PDF file URL
+        //     var pdfUrl = 'https://www.purpleacademy.co.kr/student/documents_download?file='+student_report[0].enc_name;
+          
+        //     // Open Magnific Popup with PDF viewer content
+        //     $.magnificPopup.open({
+        //       items: {
+        //         src: '<div class="pdf-container"><canvas></canvas></div>',
+        //         type: 'inline'
+        //       },
+        //       callbacks: {
+        //         open: function() {
+        //           // Load PDF file into canvas
+        //           var canvas = this.content.find('canvas')[0];
+        //           var pdfDoc = null;
+        //           var pdfScale = 1.5;
+        //           var pageNum = 1;
+          
+        //           // Initialize PDF.js library
+        //           PDFJS.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
+        //           PDFJS.getDocument(pdfUrl).then(function(pdfDoc_) {
+        //             pdfDoc = pdfDoc_;
+        //             renderPage(pageNum, canvas);
+        //           });
+          
+        //           // Render PDF page on canvas
+        //           function renderPage(num, canvas) {
+        //             pdfDoc.getPage(num).then(function(page) {
+        //               var viewport = page.getViewport({scale: pdfScale});
+        //               canvas.height = viewport.height;
+        //               canvas.width = viewport.width;
+          
+        //               var ctx = canvas.getContext('2d');
+        //               var renderContext = {
+        //                 canvasContext: ctx,
+        //                 viewport: viewport
+        //               };
+        //               page.render(renderContext);
+        //             });
+        //           }
+        //         }
+        //       }
+        //     });
+        // });
         // $('#consulting_contents_box').append(temp_button);
         
     }
