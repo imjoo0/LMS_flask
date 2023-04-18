@@ -720,7 +720,7 @@ async function getTeacherInfo(t_id){
                 <td class="col-2"> ${unlearned}건</td>
             </tr>
             `;
-            temp_ban_option += `<option value="${ban_data.ban_id}" selected>${ban_data.name}반 원생</option>`
+            temp_ban_option += `<option value="${ban_data.ban_id}">${ban_data.name}반 원생</option>`
 
         });
         $('#mybaninfo').html(temp_baninfo);
