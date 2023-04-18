@@ -274,9 +274,10 @@ function get_data() {
                         acc.push({
                             'teacher_id':student.id,
                             'student_id': student.register_no,
+                            'student_origin':student.origin,
                             'student_name': student.name +'('+student.nick_name+')',
                             'student_mobileno': student.mobileno,
-                            'student_reco_book_code': make_recobook(student.reco_book_code),
+                            'student_birthday': student.birthday,
                             'ban_id': student.ban_id,
                             'ban_name': student.classname,
                             'consulting_num': todoconsulting.length,
@@ -289,9 +290,10 @@ function get_data() {
                         acc.push({
                             'teacher_id':student.id,
                             'student_id': student.register_no,
+                            'student_origin':student.origin,
                             'student_name': student.name +'('+student.nick_name+')',
                             'student_mobileno': student.mobileno,
-                            'student_reco_book_code': make_recobook(student.reco_book_code),
+                            'student_birthday': student.birthday,
                             'ban_id': student.ban_id,
                             'ban_name': student.classname,
                             'consulting_num': 0,
@@ -305,9 +307,10 @@ function get_data() {
                     acc.push({
                         'teacher_id':student.id,
                         'student_id': student.register_no,
+                        'student_origin':student.origin,
                         'student_name': student.name +'('+student.nick_name+')',
                         'student_mobileno': student.mobileno,
-                        'student_reco_book_code': make_recobook(student.reco_book_code),
+                        'student_birthday': student.birthday,
                         'ban_id': student.ban_id,
                         'ban_name': student.classname,
                         'consulting_num': 0,
@@ -370,7 +373,7 @@ async function get_consulting_student(done_code) {
                     temp_consulting_contents_box += `
                     <td class="col-2">${consulting.ban_name}</td>
                     <td class="col-2">${consulting.student_name}</td>
-                    <td class="col-2">${consulting.student_reco_book_code}</td>
+                    <td class="col-2">${consulting.student_birthday}</td>
                     <td class="col-2">${consulting.student_mobileno}</td>
                     <td class="col-2">${consulting.deadline}</td>
                     <td class="col-1">${consulting.consulting_num}</td>
@@ -561,7 +564,7 @@ async function get_consulting_history() {
                     <td class="col-2">${consulting.ban_name}</td>
                     <td class="col-2">${consulting.student_name}</td>
                     <td class="col-2">${consulting.student_mobileno}</td>
-                    <td class="col-2">${consulting.student_reco_book_code}</td>
+                    <td class="col-2">${consulting.student_birthday}</td>
                     <td class="col-2">${consulting.done_consulting_num}</td>
                     <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">상담일지 수정</td> 
                     `;
@@ -596,7 +599,7 @@ async function sort_consulting_history(ban_id) {
                     <td class="col-2">${consulting.ban_name}</td>
                     <td class="col-2">${consulting.student_name}</td>
                     <td class="col-2">${consulting.student_mobileno}</td>
-                    <td class="col-2">${consulting.student_reco_book_code}</td>
+                    <td class="col-2">${consulting.student_birthday}</td>
                     <td class="col-2">${consulting.done_consulting_num}</td>
                     <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">상담일지 수정</td> 
                     `;
@@ -647,7 +650,8 @@ async function get_student(ban_id) {
                     let value = `${consulting.student_id}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.teacher_id}`
                     temp_consulting_contents_box += `
                     <td class="col-2">${consulting.student_name}</td>
-                    <td class="col-1">${consulting.student_reco_book_code}</td>
+                    <td class="col-1">${consulting.student_origin}</td>
+                    <td class="col-1">${consulting.student_birthday}</td>
                     <td class="col-2">${consulting.student_mobileno}</td>
                     <td class="col-1">${unlearned_homepage}건</td>
                     <td class="col-1">${unlearned_ixl}건</td>
