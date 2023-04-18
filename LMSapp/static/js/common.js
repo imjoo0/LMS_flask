@@ -853,6 +853,7 @@ function change_studentban_kind(ban_id){
 
 // 상담 기록 조회 
 function get_consulting_history(s_id) {
+    console.log($.fn.magnificPopup);
     $('.popup-link').magnificPopup({
         type: 'iframe'
     });
