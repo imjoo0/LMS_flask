@@ -542,7 +542,7 @@ function displayData(totalData, currentPage, dataPerPage,data_list) {
         i++
     ) {
         chartHtml +=`
-        <td class="col-3">${data_list[i].name}( ${data_list[i].student_engname} )</td>
+        <td class="col-3">${data_list[i].student_name}( ${data_list[i].student_engname} )</td>
         <td class="col-3">${data_list[i].origin}</td>
         <td class="col-3">${data_list[i].pname} ( 📞${data_list[i].pmobileno} )</td>
         <td class="col-3">${data_list[i].unlearned}건 ( ${data_list[i].up}% ) </td>`;
@@ -589,7 +589,7 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
 
     $("#pagingul").html(pageHtml);
     let displayCount = "";
-    displayCount = " 원생 명단 1 - " + totalPage + " 페이지 / " + totalData + "건";
+    displayCount = " 원생 명단 1 - " + totalPage + " 페이지 / " + totalData + "명";
     $("#displayCount").text(displayCount);
 
     //페이징 번호 클릭 이벤트 
