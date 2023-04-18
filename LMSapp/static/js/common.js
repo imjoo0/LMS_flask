@@ -526,7 +526,7 @@ function semesterShow(semester) {
     });
 
 }
-function displayData(totalData, currentPage, dataPerPage,data_list,b_id) {
+function displayData(totalData, currentPage, dataPerPage,data_list) {
     let chartHtml = "";
 
     //Number로 변환하지 않으면 아래에서 +를 할 경우 스트링 결합이 되어버림.. 
@@ -543,15 +543,14 @@ function displayData(totalData, currentPage, dataPerPage,data_list,b_id) {
     ) {
         chartHtml +=`
         <td class="col-3">${data_list[i].name}( ${data_list[i].student_engname} )</td>
-        <td class="col-2">${data_list[i].origin}</td>
+        <td class="col-3">${data_list[i].origin}</td>
         <td class="col-3">${data_list[i].pname} ( 📞${data_list[i].pmobileno} )</td>
-        <td class="col-3">45건 0.58 %</td>
-        <td class="col-1">✅</td>`;
+        <td class="col-3">${data_list[i].unlearned}건 ( ${data_list[i].up}% ) </td>`;
     } 
     $("#s_data").html(chartHtml);
 }
 
-function paging(totalData, dataPerPage, pageCount, currentPage, data_list, b_id) {
+function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
     totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
 
     if (totalPage < pageCount) {
@@ -605,11 +604,12 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list, b_id)
         globalCurrentPage = selectedPage;
 
         //페이징 표시 재호출
-        paging(totalData, dataPerPage, pageCount, selectedPage, data_list,b_id);
+        paging(totalData, dataPerPage, pageCount, selectedPage, data_list);
         //글 목록 표시 재호출
-        displayData(totalData, selectedPage, dataPerPage,data_list,b_id);
+        displayData(totalData, selectedPage, dataPerPage,data_list);
     });
 }
+
 async function getTeacherInfo(t_id){
     $('#teacher_infobox').show()
     $('#student_data').hide()
@@ -818,14 +818,17 @@ async function getTeacherInfo(t_id){
         $('#consulting_chart').html(`<td class="col-4">${ttd} / ${TconsultaskData.length}건</td><td class="col-4">${answer_rate(ttd,TconsultaskData.length).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(TconsultaskData.filter(c=>c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
     
         // 원생
-        console.log(studentsData)
-        console.log(info)
-        Tstudent = studentsData.filter(s=>s.teacher_id == info.teacher_id)
-        console.log(Tstudent)
+        Tstudent = studentsData.filter(s=>s.teacher_id == info[0].teacher_id)
+        Tstudent.forEach((elem) => {
+            elem.unlearned = TunlearnedData.filter(a => a.student_id == elem.student_id).length
+            elem.up = answer_rate(elem.unlearned, TunlearnedData.length).toFixed(0)
+        });
+        Tstudent.sort((a, b) => b.up - a.up)
         data_list = Tstudent
-        totalData = Tstudent.length
-        displayData(totalData, 1, dataPerPage, data_list, ban_data.ban_id);
-        paging(totalData, dataPerPage, pageCount, 1, data_list, ban_data.ban_id);
+        totalData = data_list.length
+        console.log(Tstudent)
+        displayData(totalData, 1, dataPerPage, data_list);
+        paging(totalData, dataPerPage, pageCount, 1, data_list);
     }
 }
 // 반 상세 정보 보내주는 함수 
