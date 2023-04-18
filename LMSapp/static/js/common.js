@@ -826,7 +826,13 @@ async function getTeacherInfo(t_id){
             elem.unlearned = TunlearnedData.filter(a => a.student_id == elem.student_id).length
             elem.up = answer_rate(elem.unlearned, TunlearnedData.length).toFixed(0)
         });
-        Tstudent.sort((a, b) => b.up - a.up)
+        Tstudent.sort((a, b) => {
+            if (b.up !== a.up) {
+                return b.up - a.up;
+            } else {
+                return b.unlearned - a.unlearned; // students.length가 큰 순으로 정렬
+            }
+        });
         data_list = Tstudent
         totalData = data_list.length
         displayData(totalData, 1, dataPerPage, data_list);
@@ -841,7 +847,6 @@ function change_studentban_kind(ban_id){
         let change_student = Tstudent.filter(s=>s.ban_id == ban_id)
         data_list = change_student
     }
-    console.log(data_list)
     totalData = data_list.length
     displayData(totalData, 1, dataPerPage, data_list);
     paging(totalData, dataPerPage, pageCount, 1, data_list);
@@ -851,8 +856,6 @@ function change_studentban_kind(ban_id){
 function get_consulting_history(s_id) {
     student_info = studentsData.filter(s => s.student_id == s_id)[0]
     $('#consultinghistoryModalLabelt').html(`${student_info.ban_name}반 ${student_info.student_name} ( ${student_info.student_engname} * ${student_info.origin} )원생`)
-
-    // console.log(student_info)
     consultings = consultingData.filter(c => c.student_id == s_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
     done_consultings = consultings.filter(c => c.done == 1)
     notdone_consultings = consultings.filter(c => c.done == 0)
