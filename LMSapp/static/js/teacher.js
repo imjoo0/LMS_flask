@@ -813,6 +813,8 @@ async function get_teacher_question() {
     }
 }
 async function get_question_list() {
+    $('#q_title_msg').hide();
+    $('#questiondetail').hide();
     $('.Tinloading').show()
     $('.t_notinloading').hide()
     if(!banData){
@@ -822,11 +824,9 @@ async function get_question_list() {
         })
     }
     let container = $('#question_pagination')
-    console.log(questionAnswerdata)
     $('.Tinloading').hide()
     $('.t_notinloading').show()
     if(questionAnswerdata.length > 0){
-        $('#q_title_msg').hide();
         $('#questionlist').show()
         $('#question_pagination').show()
         container.pagination({
