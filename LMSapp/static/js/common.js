@@ -599,6 +599,14 @@ async function getTeacherInfo(t_id){
             unlearned = TunlearnedData.filter(c=>c.ban_id == ban_data.ban_id).length
             temp_baninfo += `
             <tr class="row">
+                <th class="col-3">반이름</th>
+                <th class="col-1">학기</th>
+                <th class="col-2">원생 수</th>
+                <th class="col-2">퇴소 ( 퇴소율 )</th>
+                <th class="col-2">이반</th>
+                <th class="col-2">미학습</th>
+            </tr>
+            <tr class="row">
                 <td class="col-3">${ban_data.name}</td>
                 <td class="col-1">${make_semester(ban_data.semester)}학기</td>
                 <td class="col-2">${ban_data.student_num}명</td>
