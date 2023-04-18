@@ -408,6 +408,42 @@ async function get_consulting(student_id, is_done) {
             console.log(reportsData)
         })
     }
+    student_report = reportsData.filter(r=>r.student_id == student_id)
+    if(student_report.length != 0 ){
+        student_report_name = student_report[0].file_name
+        $('#pdf-open-btn').addEventListener('click', function(){
+            // PDF 파일 URL
+            var pdfUrl = 'https://www.purpleacademy.co.kr/student/documents_download?file='+student_report[0].enc_name;
+            
+            // PDF.js로 PDF 파일 로드
+            pdfjsLib.getDocument(pdfUrl).promise.then(function(pdfDoc_) {
+                var pdfDoc = pdfDoc_;
+                var currentPage = 1;
+                var pageCount = pdfDoc.numPages;
+            
+                // 첫 페이지 로드
+                pdfDoc.getPage(currentPage).then(function(page) {
+                var canvas = document.createElement('canvas');
+                var canvasContext = canvas.getContext('2d');
+            
+                var viewport = page.getViewport({ scale: 1.0 });
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+            
+                var renderContext = {
+                    canvasContext: canvasContext,
+                    viewport: viewport
+                };
+            
+                page.render(renderContext).promise.then(function() {
+                    document.getElementById('pdf-container').appendChild(canvas);
+                });
+                });
+            });
+        });
+    }
+    
+
     const data = consultingStudentData.filter((e) => {
         return e.student_id == student_id && e.consulting_list.length != 0;
     })[0]
