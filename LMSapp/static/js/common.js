@@ -696,7 +696,7 @@ async function getTeacherInfo(t_id){
         <th class="col-2">이반</th>
         <th class="col-2">미학습</th>
         </tr>`
-        let temp_ban_option = `<option value="none" selected>반을 선택해 주세요</option>`;
+        let temp_ban_option = `<option value="none" selected>${info.teacher_engname}선생님이 담당중인 전체 원생</option>`;
         let total_student_num = 0
         let os = 0
         let ss = 0
@@ -710,11 +710,7 @@ async function getTeacherInfo(t_id){
             os += ban_data.out_num
             ss += ban_data.switch_minus_num
             unlearned = TunlearnedData.filter(c=>c.ban_id == ban_data.ban_id).length
-            ban_student = studentsData.filter(s=>s.ban_id == ban_data.ban_id)
-            // data_list = ban_student
-            // totalData = ban_student.length
-            // displayData(totalData, 1, dataPerPage, data_list, ban_data.ban_id);
-            // paging(totalData, dataPerPage, pageCount, 1, data_list, ban_data.ban_id);
+            
             temp_baninfo += `
             <tr class="row">
                 <td class="col-3">${ban_data.name}</td>
@@ -726,10 +722,11 @@ async function getTeacherInfo(t_id){
                 <td class="col-2"> ${unlearned}건</td>
             </tr>
             `;
-            temp_ban_option += `<option value="${ban_data.ban_id}" selected>${ban_data.name}</option>`
+            temp_ban_option += `<option value="${ban_data.ban_id}" selected>${ban_data.name}반 원생</option>`
 
         });
         $('#mybaninfo').html(temp_baninfo);
+        $('#studentban_kind').html(temp_ban_option)
         
         let temp_teacher_info_student_num = `
             <span>관리중:${ total_student_num }</span><br>
@@ -819,6 +816,16 @@ async function getTeacherInfo(t_id){
         let TconsultaskData = TconsultingData.filter(c=>c.category_id > 100)
         let ttd = TconsultaskData.filter(c=>c.done == 1).length
         $('#consulting_chart').html(`<td class="col-4">${ttd} / ${TconsultaskData.length}건</td><td class="col-4">${answer_rate(ttd,TconsultaskData.length).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(TconsultaskData.filter(c=>c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
+    
+        // 원생
+        console.log(studentsData)
+        console.log(info)
+        Tstudent = studentsData.filter(s=>s.teacher_id == info.teacher_id)
+        console.log(Tstudent)
+        data_list = Tstudent
+        totalData = Tstudent.length
+        displayData(totalData, 1, dataPerPage, data_list, ban_data.ban_id);
+        paging(totalData, dataPerPage, pageCount, 1, data_list, ban_data.ban_id);
     }
 }
 // 반 상세 정보 보내주는 함수 
