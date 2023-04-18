@@ -508,3 +508,7 @@ details > summary {
     background-color:#DCE6F2;;
     font-size:1.2rem
 }
+
+.no_mb{
+    margin-bottom: 0;
+}
