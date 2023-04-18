@@ -411,11 +411,51 @@ async function get_consulting(student_id, is_done) {
     student_report = reportsData.filter(r=>r.student_id == student_id)
     if(student_report.length != 0 ){
         // student_report_name = student_report[0].file_name
-        var pdfUrl = 'https://www.purpleacademy.co.kr/student/file='+student_report[0].enc_name;
-        let temp_button = `
-        <a onclick="openPopup('${pdfUrl}')" class="btn-two green rounded">원생리포트</a>
-        `
-        $('#consulting_contents_box').append(temp_button);
+        $('#srepo').click(function() {
+            // Get PDF file URL
+            var pdfUrl = 'https://www.purpleacademy.co.kr/student/documents_download?file='+student_report[0].enc_name;
+          
+            // Open Magnific Popup with PDF viewer content
+            $.magnificPopup.open({
+              items: {
+                src: '<div class="pdf-container"><canvas></canvas></div>',
+                type: 'inline'
+              },
+              callbacks: {
+                open: function() {
+                  // Load PDF file into canvas
+                  var canvas = this.content.find('canvas')[0];
+                  var pdfDoc = null;
+                  var pdfScale = 1.5;
+                  var pageNum = 1;
+          
+                  // Initialize PDF.js library
+                  PDFJS.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
+                  PDFJS.getDocument(pdfUrl).then(function(pdfDoc_) {
+                    pdfDoc = pdfDoc_;
+                    renderPage(pageNum, canvas);
+                  });
+          
+                  // Render PDF page on canvas
+                  function renderPage(num, canvas) {
+                    pdfDoc.getPage(num).then(function(page) {
+                      var viewport = page.getViewport({scale: pdfScale});
+                      canvas.height = viewport.height;
+                      canvas.width = viewport.width;
+          
+                      var ctx = canvas.getContext('2d');
+                      var renderContext = {
+                        canvasContext: ctx,
+                        viewport: viewport
+                      };
+                      page.render(renderContext);
+                    });
+                  }
+                }
+              }
+            });
+        });
+        // $('#consulting_contents_box').append(temp_button);
         
     }
     
