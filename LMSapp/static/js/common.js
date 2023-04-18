@@ -583,7 +583,14 @@ async function getTeacherInfo(t_id){
         // let my_consulting = consultingData.filter(a => a.teacher_id == t_id && a.startdate <= today)
         // let u_consulting_my = my_consulting.filter(a => a.category_id < 100);
         // let TstudentsData =studentsData.filter(t=>t.teacher_id == t_id)
-        let temp_baninfo = ''
+        let temp_baninfo = `<tr class="row">
+        <th class="col-3">반이름</th>
+        <th class="col-1">학기</th>
+        <th class="col-2">원생 수</th>
+        <th class="col-2">퇴소 ( 퇴소율 )</th>
+        <th class="col-2">이반</th>
+        <th class="col-2">미학습</th>
+        </tr>`
         let total_student_num = 0
         let os = 0
         let ss = 0
@@ -599,14 +606,6 @@ async function getTeacherInfo(t_id){
             unlearned = TunlearnedData.filter(c=>c.ban_id == ban_data.ban_id).length
             temp_baninfo += `
             <tr class="row">
-                <th class="col-3">반이름</th>
-                <th class="col-1">학기</th>
-                <th class="col-2">원생 수</th>
-                <th class="col-2">퇴소 ( 퇴소율 )</th>
-                <th class="col-2">이반</th>
-                <th class="col-2">미학습</th>
-            </tr>
-            <tr class="row">
                 <td class="col-3">${ban_data.name}</td>
                 <td class="col-1">${make_semester(ban_data.semester)}학기</td>
                 <td class="col-2">${ban_data.student_num}명</td>
@@ -619,21 +618,18 @@ async function getTeacherInfo(t_id){
                 <th class="col-12" id="displayCount"></th>
             </tr>
             <tr class="row">
-                <th class="col-2">원생 정보</th>
-                <th class="col-2">연락처</th>
+                <th class="col-3">원생</th>
+                <th class="col-2">원번</th>
                 <th class="col-3">부모님 정보</th>
-                <th class="col-2">추천도서</th>
-                <th class="col-2">미학습</th>
+                <th class="col-3">미학습</th>
                 <th class="col-1">상세</th>
             </tr>
-            <tr class="row">
-                <td class="col-3">${ban_data.name}</td>
-                <td class="col-1">${make_semester(ban_data.semester)}학기</td>
-                <td class="col-2">${ban_data.student_num}명</td>
-                <td class="col-2"> ${ban_data.out_num}건 ( ${ban_data.out_num_per}% )</td>
-                <td class="col-1"> 유입+ : ${ban_data.switch_plus_num}건</td>
-                <td class="col-1"> 이반- : ${ban_data.switch_minus_num}건</td>
-                <td class="col-2"> ${unlearned}건</td>
+            <tr class="row" id="s_data">
+                <th class="col-3">우망치</th>
+                <th class="col-2">P1010</th>
+                <th class="col-3">김퍼플 010-6565-3166</th>
+                <th class="col-3">45건 0.58 %</th>
+                <th class="col-1">✅</th>
             </tr>
             `;
         });
