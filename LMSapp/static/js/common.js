@@ -901,7 +901,6 @@ function get_consulting_history(s_id) {
         <td class="col-2">${make_nodata(unlearnedconsulting.filter(u=>u.category_id == 2).length)}</td>
     `;
     }
-   
     $('#student_unlearned_totalreport').html(temp_student_unlearned_totalreport);
 
     if (cant_consulting_list.length > 0) {
