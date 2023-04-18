@@ -516,3 +516,84 @@ details > summary {
 input::placeholder {
     text-align: center;
 }
+
+/* button */
+.student_report_button_box {
+    background-color: white;
+    border-radius: 4px;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+.btn, .btn-two {
+    margin: 9px;
+}
+.btn-two{
+  padding: 20px 40px; 
+  font-size: 22px;
+}
+a[class*="btn"] {text-decoration: none;}
+input[class*="btn"], 
+button[class*="btn"] {border: 0;}
+
+/* Colors for .btn and .btn-two */
+.btn.blue, .btn-two.blue     {background-color: #7fb1bf;}
+.btn.green, .btn-two.green   {background-color: #9abf7f;}
+.btn.red, .btn-two.red       {background-color: #fa5a5a;}
+.btn.purple, .btn-two.purple {background-color: #cb99c5;}
+.btn.cyan, .btn-two.cyan     {background-color: #7fccde;}
+.btn.yellow, .btn-two.yellow {background-color: #f0d264;}
+
+.rounded {
+    border-radius: 10px;
+}
+
+.btn {
+    position: relative;
+    border: 0;
+    padding: 15px 25px;
+    display: inline-block;
+    text-align: center;
+    color: white;
+  }
+  .btn:active {
+    top: 4px; 
+  }
+  
+  /* color classes for .btn */
+  .btn.blue {box-shadow: 0px 4px #74a3b0;}
+  .btn.blue:active {box-shadow: 0 0 #74a3b0; background-color: #709CA8;}
+  
+  .btn.green {box-shadow: 0px 4px 0px #87a86f;}
+  .btn.green:active {box-shadow: 0 0 #87a86f; background-color: #87a86f;}
+  
+  .btn.red {box-shadow:0px 4px 0px #E04342;}
+  .btn.red:active {box-shadow: 0 0 #ff4c4b; background-color: #ff4c4b;}
+  
+  .btn.purple {box-shadow:0px 4px 0px #AD83A8;}
+  .btn.purple:active {box-shadow: 0 0 #BA8CB5; background-color: #BA8CB5;}
+  
+  .btn.cyan {box-shadow:0px 4px 0px #73B9C9;}
+  .btn.cyan:active {box-shadow: 0 0 #73B9C9; background-color: #70B4C4;}
+  
+  .btn.yellow {box-shadow:0px 4px 0px #D1B757;}
+  .btn.yellow:active {box-shadow: 0 0 #ff4c4b; background-color: #D6BB59;}
+  
+  /* Button two - I have no creativity for names */
+  .btn-two {
+    color: white; 
+    padding: 15px 25px;
+    display: inline-block;
+    border: 1px solid rgba(0,0,0,0.21);
+    border-bottom-color: rgba(0,0,0,0.34);
+    text-shadow:0 1px 0 rgba(0,0,0,0.15);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.34) inset, 
+                0 2px 0 -1px rgba(0,0,0,0.13), 
+                0 3px 0 -1px rgba(0,0,0,0.08), 
+                0 3px 13px -1px rgba(0,0,0,0.21);
+  }
+  .btn-two:active {
+    top: 1px;
+    border-color: rgba(0,0,0,0.34) rgba(0,0,0,0.21) rgba(0,0,0,0.21);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.89),0 1px rgba(0,0,0,0.05) inset;
+    position: relative;
+  }
