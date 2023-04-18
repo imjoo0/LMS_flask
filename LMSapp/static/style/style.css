@@ -512,3 +512,7 @@ details > summary {
 .no_mb{
     margin-bottom: 0;
 }
+
+input::placeholder {
+    text-align: center;
+}
