@@ -362,29 +362,23 @@ async function get_consulting_student(done_code) {
         pageSize: 5,
         pageClassName: 'float-end',
         callback: function (data, pagination){
-            if(data.length == 0){
-                $('#today_consulting_title').html($('#today_consulting_title').html()+'   0건');
-                $('#consulting_student_list').hide();
-                $('#consultingstudent_pagination').hide();
-            }else{
-                $('#consulting_student_list').show();
-                $('#consultingstudent_pagination').show();
-                var temp_consulting_contents_box = '';
-                $.each(data, function (index, consulting) {
-                    // let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
-                    temp_consulting_contents_box += `
-                    <td class="col-2">${consulting.ban_name}</td>
-                    <td class="col-2">${consulting.student_name}</br>${consulting.student_origin}</td>
-                    <td class="col-2">${consulting.student_birthday}</td>
-                    <td class="col-2">${consulting.student_mobileno}</td>
-                    <td class="col-2">${consulting.deadline}</td>
-                    <td class="col-1">${consulting.consulting_num}</td>
-                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${consulting.student_id}',${0})"><span class="cursor-pointer">📝</span></td> 
-                    `;
-                });
-                $('#today_consulting_box').html(temp_consulting_contents_box);
-                $('#consulting_student_list').show();
-            }
+            $('#consulting_student_list').show();
+            $('#consultingstudent_pagination').show();
+            var temp_consulting_contents_box = '';
+            $.each(data, function (index, consulting) {
+                // let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
+                temp_consulting_contents_box += `
+                <td class="col-2">${consulting.ban_name}</td>
+                <td class="col-2">${consulting.student_name}</br>${consulting.student_origin}</td>
+                <td class="col-2">${consulting.student_birthday}</td>
+                <td class="col-2">${consulting.student_mobileno}</td>
+                <td class="col-2">${consulting.deadline}</td>
+                <td class="col-1">${consulting.consulting_num}</td>
+                <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${consulting.student_id}',${0})"><span class="cursor-pointer">📝</span></td> 
+                `;
+            });
+            $('#today_consulting_box').html(temp_consulting_contents_box);
+            $('#consulting_student_list').show();
         }
     };
     var container = $('#consultingstudent_pagination')
