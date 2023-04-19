@@ -511,24 +511,25 @@ async function get_consulting(student_id, is_done) {
     let todo_consulting = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == 0) : 0;
     let todo_consulting_num = todo_consulting.length;
     
+    // 완료한 상담 
+    let done_consulting = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == 1) : 0;
+    let done_consulting_num = done_consulting.length;
+    
     // 이미 원생이 학습 진행 
     let cant_consulting_list = todo_consulting_num  != 0 ? todo_consulting.filter(c=>c.created_at != null) : 0;
     let cant_consulting_list_num = cant_consulting_list != 0 ? cant_consulting_list.length : 0;
 
     // 진행해야 하는 상담 
-    let consulting_list = todo_consulting_num  != 0 ? consulting_list.filter(c=>c.created_at == null) : 0
+    let consulting_list = todo_consulting_num  != 0 ? todo_consulting_num.filter(c=>c.created_at == null) : 0
     let consultinglist_num = consulting_list != 0 ? consulting_list.length : 0;
 
     // 기한 지난 상담 
-    let deadline_consulting = consultinglist_num != 0 ? consulting_list.filter(c=> today < new Date(c.deadline).setHours(0, 0, 0, 0)).length : 0
-    deadline_consulting +=  cant_consulting_list_num != 0 ? cant_consulting_list.filter(c=> today < new Date(c.deadline).setHours(0, 0, 0, 0)).length : 0
+    let deadline_consulting = todo_consulting_num != 0 ? todo_consulting.filter(c=> today < new Date(c.deadline).setHours(0, 0, 0, 0)).length : 0
     
     // 미학습 상담 
-    let unlearned_consulting_list = consultinglist_num != 0 ? consulting_list.filter(c=> c.category_id < 100) : 0
+    let unlearned_consulting_list = todo_consulting_num != 0 ? todo_consulting.filter(c=> c.category_id < 100) : 0
     let unlearned_num = unlearned_consulting_list.length
-    // 완료한 상담 
-    let done_consulting = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == 1) : 0;
-    let done_consulting_num = done_consulting.length;
+    
     
     $('#student_consulting_info_box').html(`
     <td class="col-3">${make_nodata(data['done_consulting_num'])}</td>
