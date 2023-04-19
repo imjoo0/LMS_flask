@@ -598,9 +598,10 @@ function get_consulting_history_by_cate(category) {
         console.log(consultings)
         $.each(consultings, function (index, consulting) {
             category = Object.keys(consulting)[0]
-            $('#consulting_write_box').empty();
+            let temp_consulting_contents_box = ''
             for (i = 0; i < consulting[category]; i++){
                 let target = consulting[category][i]
+                console.log(target)
                 let category = target['category']
                 let consulting_id = target['id']
                 let contents = target['contents']
@@ -613,7 +614,8 @@ function get_consulting_history_by_cate(category) {
                 let history_reason = target['reason'] == null ? '입력해주세요' : target['reason']
                 let history_solution = target['solution'] == null ? '입력해주세요' : target['solution']
                 let history_result = target['result'] == null ? '입력해주세요' : target['result']
-                let temp_consulting_contents_box = `
+
+                temp_consulting_contents_box += `
                 <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
                 <p mt-lg-4 mt-5>✅<strong>${category}</strong></br><strong>➖상담 마감일:
                     ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br></br>${contents}</br></p>
@@ -634,8 +636,8 @@ function get_consulting_history_by_cate(category) {
                 </div>
                 <p>상담 일시 : ${make_date(history_created)}</p>
                 `;
-                $('#consulting_write_box').append(temp_consulting_contents_box);
             }
+            $('#consulting_write_box').html(temp_consulting_contents_box);
             let temp_post_box = `<p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>`;
             $('#consulting_write_box').append(temp_post_box);
         });
