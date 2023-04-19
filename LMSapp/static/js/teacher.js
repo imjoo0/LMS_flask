@@ -546,16 +546,17 @@ async function get_consulting(student_id, is_done) {
     `)
     if(is_done == 0){
         consultings = todo_consulting.reduce((acc, c) => {
-            if(!acc[c.category_id]){
-                acc[c.category_id] = [];
+            if(!acc[c.category]){
+                acc[c.category] = [];
             }
-            acc[c.category_id].push(c);
+            acc[c.category].push(c);
             return acc;
         }, {});
         consultings =  Object.entries(consultings).map(([v, items]) => {
             return { [v]: items };
         });
-        console.log(consultings)
+        category = Object.keys(consultings)
+        console.log(category)
     }else{
         consultings = done_consulting
 
