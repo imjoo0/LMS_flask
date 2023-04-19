@@ -501,12 +501,6 @@ async function get_consulting(student_id, is_done) {
     $('.mo_inloading').show()
     $('.monot_inloading').hide()
 
-    let total_ban_unlearned_consulting = 0
-    $.each(consultingStudentData, function (index, consulting) {
-        total_ban_unlearned_consulting += consulting.consulting_list.filter(u=>u.category_id<100 && u.ban_id == data.ban_id).length
-    });
-    console.log(total_ban_unlearned_consulting)
-
     $('#student_info_box').html(`
     <th class="col-2">${data.student_name}</th>
     <th class="col-2">${data.student_origin}</th>
@@ -514,60 +508,52 @@ async function get_consulting(student_id, is_done) {
     <th class="col-3">📞${data.student_mobileno}</th>
     <th class="col-3">원생리포트 확인 📃</th>
     `);
-    console.log(data)
-    //  원래 해야 했던 상담 
-    let todo_consulting = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == 0) : 0;
-    let todo_consulting_num = todo_consulting.length;
+    let total_ban_unlearned_consulting = 0
+    $.each(consultingStudentData, function (index, consulting) {
+        total_ban_unlearned_consulting += consulting.consulting_list.filter(u=>u.category_id<100 && u.ban_id == data.ban_id).length
+    });
+
+    let target_consulting = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == is_done) : 0;
+    let target_consulting_num = target_consulting.length;
     
     // 완료한 상담 
-    let done_consulting = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == 1) : 0;
-    let done_consulting_num = done_consulting.length;
+    // let done_consulting = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == 1) : 0;
+    // let done_consulting_num = done_consulting.length;
     
     // 이미 원생이 학습 진행 
-    let cant_consulting_list = todo_consulting_num  != 0 ? todo_consulting.filter(c=>c.created_at != null) : 0;
-    let cant_consulting_list_num = cant_consulting_list != 0 ? cant_consulting_list.length : 0;
+    // let cant_consulting_list = target_consulting_num  != 0 ? target_consulting.filter(c=>c.created_at != null) : 0;
+    // let cant_consulting_list_num = cant_consulting_list != 0 ? cant_consulting_list.length : 0;
 
-    // 진행해야 하는 상담 
-    let should_consulting_list = todo_consulting_num  != 0 ? todo_consulting.filter(c=>c.created_at == null) : 0
-    let should_consultinglist_num = should_consulting_list != 0 ? should_consulting_list.length : 0;
+    // // 진행해야 하는 상담 
+    // let should_consulting_list = target_consulting_num  != 0 ? target_consulting.filter(c=>c.created_at == null) : 0
+    // let should_consultinglist_num = should_consulting_list != 0 ? should_consulting_list.length : 0;
 
-    // 기한 지난 상담 
-    let deadline_consulting = todo_consulting_num != 0 ? todo_consulting.filter(c=> today < new Date(c.deadline).setHours(0, 0, 0, 0)).length : 0
+    // 기한 지난 상담 수
+    deadline_consulting = target_consulting_num != 0 ? target_consulting.filter(c=> today < new Date(c.deadline).setHours(0, 0, 0, 0)).length : 0
     
     // 미학습 상담 
-    let unlearned_consulting_list = todo_consulting_num != 0 ? todo_consulting.filter(c=> c.category_id < 100) : 0
-    let unlearned_num = unlearned_consulting_list.length
+    let unlearned_num = target_consulting_num != 0 ? target_consulting.filter(c=> c.category_id < 100).length : 0
     
+    // 상담 카테고리별로 묶기 
+    consultings = target_consulting.reduce((acc, c) => {
+        if(!acc[c.category]){
+            acc[c.category] = [];
+        }
+        acc[c.category].push(c);
+        return acc;
+    }, {});
+    consultings =  Object.entries(consultings).map(([v, items]) => {
+        return { [v]: items };
+    });
+
     
     $('#student_consulting_info_box').html(`
-    <td class="col-3">완수 : ${make_nodata(done_consulting_num)}/${make_nodata(should_consultinglist_num)}</td>
+    <td class="col-3">${make_nodata(target_consulting_num)}</td>
     <td class="col-3">${make_nodata(deadline_consulting)}</td>
     <td class="col-3">${make_nodata(unlearned_num)}</td>
     <td class="col-3">${answer_rate(unlearned_num,total_ban_unlearned_consulting).toFixed(0)}%</td>
     `)
-    if(is_done == 0){
-        consultings = todo_consulting.reduce((acc, c) => {
-            if(!acc[c.category]){
-                acc[c.category] = [];
-            }
-            acc[c.category].push(c);
-            return acc;
-        }, {});
-        consultings =  Object.entries(consultings).map(([v, items]) => {
-            return { [v]: items };
-        });
-    }else{
-        consultings = done_consulting.reduce((acc, c) => {
-            if(!acc[c.category]){
-                acc[c.category] = [];
-            }
-            acc[c.category].push(c);
-            return acc;
-        }, {});
-        consultings =  Object.entries(consultings).map(([v, items]) => {
-            return { [v]: items };
-        });
-    }
+    
     let temp_consulting_contents_box = `<a class="btn-two green small" onclick="get_consulting_history_by_cate(${0})">전체 상담</a>`;
     $.each(consultings, function (index, consulting) {
         category = Object.keys(consulting)[0]
@@ -599,6 +585,7 @@ function get_consulting_history_by_cate(category) {
         let temp_consulting_contents_box = ''
         $.each(consultings, function (index, consulting) {
             category = Object.keys(consulting)
+            temp_consulting_contents_box += `<h3>${category}</h3`
             $.each(consulting[category], function (index, target) {
                 let category = target['category']
                 let consulting_id = target['id']
@@ -606,12 +593,17 @@ function get_consulting_history_by_cate(category) {
                 let consulting_missed = missed_date(target['missed'])
                 let deadline = make_date(target['deadline'])
                 let history_created = target['created_at']
+                let cant_consulting = false
                 if(target['category_id'] < 100){
                     category = target['week_code']+'주간  ' + category
+                    if(target.done == 0 && target.created_at != null){
+                        cant_consulting = true
+                    }
                 }
                 let history_reason = target['reason'] == null ? '입력해주세요' : target['reason']
                 let history_solution = target['solution'] == null ? '입력해주세요' : target['solution']
                 let history_result = target['result'] == null ? '입력해주세요' : target['result']
+
 
                 temp_consulting_contents_box += `
                 <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
