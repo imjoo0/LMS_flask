@@ -555,25 +555,33 @@ async function get_consulting(student_id, is_done) {
         consultings =  Object.entries(consultings).map(([v, items]) => {
             return { [v]: items };
         });
-        console.log(consultings)
-        // category = Object.keys(consultings)
-        // console.log(category)
-
-        let temp_student_unlearned_totalreport = `<a class="btn-two green rounded" onclick="get_consulting_history_by_cate(${0})">전체 상담</a>`;
-        // let category_num = cateogry.length
-        $.each(consultings, function (index, consulting) {
-            // let idx = category_num/12
-            category = Object.keys(consulting)[0]
+    }else{
+        consultings = done_consulting.reduce((acc, c) => {
+            if(!acc[c.category]){
+                acc[c.category] = [];
+            }
+            acc[c.category].push(c);
+            return acc;
+        }, {});
+        consultings =  Object.entries(consultings).map(([v, items]) => {
+            return { [v]: items };
+        });
+    }
+    let temp_student_unlearned_totalreport = `<a class="btn-two green rounded" onclick="get_consulting_history_by_cate(${0})">전체 상담</a>`;
+    $.each(consultings, function (index, consulting) {
+        category = Object.keys(consulting)[0]
+        if(consulting[category].category_id > 100){
+            temp_student_unlearned_totalreport += `
+            <a class="btn-two yellow rounded" onclick="get_consulting_history_by_cate(${consulting[category].category_id})">${category} ${consulting[category].length}건</a>
+            `;
+        }else{
             temp_student_unlearned_totalreport += `
             <a class="btn-two blue rounded" onclick="get_consulting_history_by_cate(${consulting[category].category_id})">${category} ${consulting[category].length}건</a>
             `;
-        });
-        $('#consulting_contents_box').html(temp_student_unlearned_totalreport)
-
-    }else{
-        consultings = done_consulting
-
-    }
+        }
+    });
+    $('#consulting_contents_box').html(temp_student_unlearned_totalreport)
+    
     // let IsG3 = make_IsG3(data.ban_name)
     // let temp_student_unlearned_totalreport =''
     // if(IsG3){
