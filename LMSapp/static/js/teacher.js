@@ -567,22 +567,21 @@ async function get_consulting(student_id, is_done) {
             return { [v]: items };
         });
     }
-    let temp_student_unlearned_totalreport = `<a class="btn-two green mini" onclick="get_consulting_history_by_cate(${0})">전체 상담</a>`;
+    let temp_student_unlearned_totalreport = `<a class="btn-two green small" onclick="get_consulting_history_by_cate(${0})">전체 상담</a>`;
     $.each(consultings, function (index, consulting) {
         category = Object.keys(consulting)[0]
         if(consulting[category][0].category_id > 100){
             temp_student_unlearned_totalreport += `
-            <a class="btn-two blue mini" onclick="get_consulting_history_by_cate(${consulting[category][0].category_id})">${category} ${consulting[category].length}건</a>
-            <a href="#" class="btn-two green mini">Button</a>
+            <a class="btn-two blue small" onclick="get_consulting_history_by_cate(${consulting[category][0].category_id})">${category} ${consulting[category].length}건</a>
             `;
         }else{
             temp_student_unlearned_totalreport += `
-            <a class="btn-two yellow mini" onclick="get_consulting_history_by_cate(${consulting[category][0].category_id})">${category} ${consulting[category].length}건</a>
+            <a class="btn-two yellow small" onclick="get_consulting_history_by_cate(${consulting[category][0].category_id})">${category} ${consulting[category].length}건</a>
             `;
         }
     });
     temp_student_unlearned_totalreport += `
-            <a class="btn-two red mini" onclick="get_consulting_history_by_cate(${-1})">기한 지난 상담 ${cant_consulting_list_num}건</a>
+            <a class="btn-two red small" onclick="get_consulting_history_by_cate(${-1})">기한 지난 상담 ${cant_consulting_list_num}건</a>
             `;
     $('#consulting_contents_box').html(temp_student_unlearned_totalreport)
     
