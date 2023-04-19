@@ -403,11 +403,11 @@ async function get_consulting_student(done_code) {
 
 // 상담일지 작성 
 async function get_consulting(student_id, is_done) {
-    if(!reportsData){
-        await get_student_reports().then(()=>{
-            console.log(reportsData)
-        })
-    }
+    // if(!reportsData){
+    //     await get_student_reports().then(()=>{
+    //         console.log(reportsData)
+    //     })
+    // }
     // student_report = reportsData.filter(r=>r.student_id == student_id)
     // if(student_report.length != 0 ){
     //     $('.file-viewer').click(function() {
