@@ -576,7 +576,7 @@ async function get_consulting(student_id, is_done) {
             `;
         }else{
             temp_student_unlearned_totalreport += `
-            <a class="btn-two yellow small" onclick="get_consulting_history_by_cate(${consulting[category][0].category_id})">${category} ${consulting[category].length}건</a>
+            <a class="btn-two purple small" onclick="get_consulting_history_by_cate(${consulting[category][0].category_id})">${category} ${consulting[category].length}건</a>
             `;
         }
     });
