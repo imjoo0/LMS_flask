@@ -508,10 +508,10 @@ async function get_consulting(student_id, is_done) {
     console.log(total_ban_unlearned_consulting)
 
     $('#student_info_box').html(`
-    <td class="col-3">${data.student_name}</td>
-    <td class="col-3">${data.student_origin}</td>
-    <td class="col-3">${data.student_birthday}</td>
-    <td class="col-3">${data.student_mobileno}</td>
+    <th class="col-3">${data.student_name}</th>
+    <th class="col-3">원번 : ${data.student_origin}</th>
+    <th class="col-3">생년월일 : ${data.student_birthday}</th>
+    <th class="col-3">연락처 : ${data.student_mobileno}</th>
     `);
     //  원래 해야 했던 상담 
     let todo_consulting = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == 0) : 0;
@@ -527,7 +527,7 @@ async function get_consulting(student_id, is_done) {
 
     // 진행해야 하는 상담 
     let should_consulting_list = todo_consulting_num  != 0 ? todo_consulting.filter(c=>c.created_at == null) : 0
-    let consultinglist_num = should_consulting_list != 0 ? should_consulting_list.length : 0;
+    let should_consultinglist_num = should_consulting_list != 0 ? should_consulting_list.length : 0;
 
     // 기한 지난 상담 
     let deadline_consulting = todo_consulting_num != 0 ? todo_consulting.filter(c=> today < new Date(c.deadline).setHours(0, 0, 0, 0)).length : 0
@@ -538,7 +538,7 @@ async function get_consulting(student_id, is_done) {
     
     
     $('#student_consulting_info_box').html(`
-    <td class="col-3">${make_nodata(done_consulting_num)}</td>
+    <td class="col-3">완수 : ${make_nodata(done_consulting_num)}/${make_nodata(should_consultinglist_num)}</td>
     <td class="col-3">${make_nodata(deadline_consulting)}</td>
     <td class="col-3">${make_nodata(unlearned_num)}</td>
     <td class="col-3">${answer_rate(unlearned_num,total_ban_unlearned_consulting).toFixed(0)}%</td>
