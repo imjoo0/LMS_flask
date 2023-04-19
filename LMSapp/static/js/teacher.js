@@ -567,9 +567,9 @@ async function get_consulting(student_id, is_done) {
             `;
         }
     });
-    temp_consulting_contents_box += `
-        <a class="btn-two red small" onclick="get_consulting_history_by_cate(${1})">진행 불가 상담 ${make_nodata(cant_consulting_list_num)}</a>
-    `;
+    // temp_consulting_contents_box += `
+    //     <a class="btn-two red small" onclick="get_consulting_history_by_cate(${1})">진행 불가 상담 ${make_nodata(cant_consulting_list_num)}</a>
+    // `;
     $('#consulting_contents_box').html(temp_consulting_contents_box)
     console.log(consultings)
     get_consulting_history_by_cate(0);
