@@ -524,16 +524,16 @@ input::placeholder {
     text-align: center;
     margin-bottom: 40px;
   }
-.btn, .btn-two {
-    margin: 9px;
-}
-.btn-two{
-  padding: 20px 40px; 
-  font-size: 22px;
-}
-a[class*="btn"] {text-decoration: none;}
-input[class*="btn"], 
-button[class*="btn"] {border: 0;}
+  .btn-gradient {
+    margin: 5px;
+  }
+  .btn.small, 
+  .btn-two.small, 
+  .btn-gradient.small, 
+  .btn-effect.small {
+    padding: 8px 18px;  
+    font-size: 14px;
+  }
 
 /* Colors for .btn and .btn-two */
 .btn.blue, .btn-two.blue     {background-color: #7fb1bf;}
@@ -578,22 +578,4 @@ button[class*="btn"] {border: 0;}
   .btn.yellow {box-shadow:0px 4px 0px #D1B757;}
   .btn.yellow:active {box-shadow: 0 0 #ff4c4b; background-color: #D6BB59;}
   
-  /* Button two - I have no creativity for names */
-  .btn-two {
-    color: white; 
-    padding: 15px 25px;
-    display: inline-block;
-    border: 1px solid rgba(0,0,0,0.21);
-    border-bottom-color: rgba(0,0,0,0.34);
-    text-shadow:0 1px 0 rgba(0,0,0,0.15);
-    box-shadow: 0 1px 0 rgba(255,255,255,0.34) inset, 
-                0 2px 0 -1px rgba(0,0,0,0.13), 
-                0 3px 0 -1px rgba(0,0,0,0.08), 
-                0 3px 13px -1px rgba(0,0,0,0.21);
-  }
-  .btn-two:active {
-    top: 1px;
-    border-color: rgba(0,0,0,0.34) rgba(0,0,0,0.21) rgba(0,0,0,0.21);
-    box-shadow: 0 1px 0 rgba(255,255,255,0.89),0 1px rgba(0,0,0,0.05) inset;
-    position: relative;
-  }
+  
