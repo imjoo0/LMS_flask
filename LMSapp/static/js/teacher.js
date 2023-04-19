@@ -514,6 +514,7 @@ async function get_consulting(student_id, is_done) {
     <th class="col-3">📞${data.student_mobileno}</th>
     <th class="col-3">원생리포트 확인 📃</th>
     `);
+    console.log(data)
     //  원래 해야 했던 상담 
     let todo_consulting = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == 0) : 0;
     let todo_consulting_num = todo_consulting.length;
@@ -595,7 +596,6 @@ async function get_consulting(student_id, is_done) {
 function get_consulting_history_by_cate(category) {
     // 전체 상담 
     if(category==0){
-        console.log(consultings)
         let temp_consulting_contents_box = ''
         $.each(consultings, function (index, consulting) {
             category = Object.keys(consulting)
