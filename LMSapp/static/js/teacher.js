@@ -596,9 +596,9 @@ function get_consulting_history_by_cate(category) {
     // 전체 상담 
     if(category==0){
         console.log(consultings)
+        let temp_consulting_contents_box = ''
         $.each(consultings, function (index, consulting) {
             category = Object.keys(consulting)
-            let temp_consulting_contents_box = ''
             $.each(consulting[category], function (index, target) {
                 let category = target['category']
                 let consulting_id = target['id']
