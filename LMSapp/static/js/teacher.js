@@ -514,7 +514,6 @@ async function get_consulting(student_id, is_done) {
     });
 
     let target_consulting = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == is_done) : 0;
-    const target_consulting_cate = [...new Set(target_consulting.map(obj => obj.category))];
     let target_consulting_num = target_consulting.length;
     
     // 완료한 상담 
@@ -533,26 +532,24 @@ async function get_consulting(student_id, is_done) {
     deadline_consulting = target_consulting_num != 0 ? target_consulting.filter(c=> today < new Date(c.deadline).setHours(0, 0, 0, 0)).length : 0
     
     // 미학습 상담 
-    let unlearned_consulting_num = target_consulting_num != 0 ? target_consulting.filter(c=> c.category_id < 100).length : 0
+    let unlearned_consulting= target_consulting_num != 0 ? target_consulting.filter(c=> c.category_id < 100) : 0
+    let unlearned_consulting_num = unlearned_consulting.length
+    const unlearned_consulting_cate = [...new Set(unlearned_consulting.map(obj => obj.category))];
     // unlearned_cate.push()
 
     
     $('#student_consulting_info_box').html(`
     <td class="col-3">${make_nodata(target_consulting_num)}</td>
     <td class="col-3">${make_nodata(deadline_consulting)}</td>
-    <td class="col-3">${make_nodata(unlearned_consulting_num)}</td>
-    <td class="col-3">${answer_rate(unlearned_consulting_num,total_ban_unlearned_consulting).toFixed(0)}%</td>
+    <td class="col-3" id="unccate"></td>
+    <td class="col-3">${answer_rate(unlearned_consulting.length,total_ban_unlearned_consulting).toFixed(0)}%</td>
     `)
     
-    let temp_consulting_contents_box = `<a class="btn-two green small" onclick="get_consulting_history_by_cate(${0})">전체 상담</a>`;
+    let temp_consulting_contents_box = '';
     $.each(target_consulting_cate, function (index, category) {
         temp_consulting_contents_box += `<a class="btn-two purple small" onclick="get_consulting_history_by_cate('${category}')">${category}</a>`;
     });
-    // temp_consulting_contents_box += `
-    //     <a class="btn-two red small" onclick="get_consulting_history_by_cate(${1})">진행 불가 상담 ${make_nodata(cant_consulting_list_num)}</a>
-    // `;
-    $('#consulting_contents_box').html(temp_consulting_contents_box)
-    console.log(target_consulting_cate)
+    $('#unccate').html(temp_consulting_contents_box)
     // get_consulting_history_by_cate(0);
 
 
