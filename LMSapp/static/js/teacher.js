@@ -538,10 +538,10 @@ async function get_consulting(student_id, is_done) {
 
     
     $('#student_consulting_info_box').html(`
-    <td class="col-3">${make_nodata(target_consulting_num)}</td>
-    <td class="col-3">${make_nodata(deadline_consulting)}</td>
-    <td class="col-3">${make_nodata(unlearned_consulting_num)} / ${data.ban_name}미학습 :${make_nodata(total_ban_unlearned_consulting)}</td>
-    <td class="col-3">${answer_rate(unlearned_consulting_num,total_ban_unlearned_consulting).toFixed(0)}%</td>
+    <td class="col-2">${make_nodata(target_consulting_num)}</td>
+    <td class="col-2">${make_nodata(deadline_consulting)}</td>
+    <td class="col-6">${data.student_name}원생 미학습 : ${make_nodata(unlearned_consulting_num)} / ${data.ban_name}반 총 미학습 :${make_nodata(total_ban_unlearned_consulting)}</td>
+    <td class="col-2"><strong>${answer_rate(unlearned_consulting_num,total_ban_unlearned_consulting).toFixed(0)}%</strong></td>
     `)
     const color_pallete = ['green','purple','yellow','red','blue','orange','cyan']
     let temp_consulting_contents_box = '';
