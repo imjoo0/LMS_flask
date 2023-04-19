@@ -510,9 +510,9 @@ async function get_consulting(student_id, is_done) {
     $('#student_info_box').html(`
     <th class="col-2">${data.student_name}</th>
     <th class="col-2">${data.student_origin}</th>
-    <th class="col-3">${data.student_birthday}</th>
+    <th class="col-2">${data.student_birthday}</th>
     <th class="col-3">📞${data.student_mobileno}</th>
-    <th class="col-2">원생리포트 : 📃</th>
+    <th class="col-3">원생리포트 확인 📃</th>
     `);
     //  원래 해야 했던 상담 
     let todo_consulting = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == 0) : 0;
