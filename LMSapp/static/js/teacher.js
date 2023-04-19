@@ -403,8 +403,6 @@ async function get_consulting_student(done_code) {
 
 // 상담일지 작성 
 async function get_consulting(student_id, is_done) {
-    $('.mo_inloading').show()
-    $('.monot_inloading').hide()
     // if(!reportsData){
     //     await get_student_reports().then(()=>{
     //         console.log(reportsData)
@@ -497,12 +495,17 @@ async function get_consulting(student_id, is_done) {
     const data = consultingStudentData.filter((e) => {
         return e.student_id == student_id && e.consulting_list.length != 0;
     })[0]
-
-    let total_ban_unlearned_consulting = 0
-    consultingStudentData.each(c=> total_ban_unlearned_consulting += (c.consulting_list.filter(u=>u.category_id<100 && u.ban_id == data.ban_id).length) )
-    console.log(total_ban_unlearned_consulting)
     $('#consultinghistoryModalLabelt').html(`${data['student_name']} 원생 상담일지`)
     console.log(data)
+    
+    $('.mo_inloading').show()
+    $('.monot_inloading').hide()
+
+    let total_ban_unlearned_consulting = 0
+    $.each(consultingStudentData, function (index, consulting) {
+        total_ban_unlearned_consulting += consulting[consulting_list].filter(u=>u.category_id<100 && u.ban_id == data.ban_id).length
+    });
+    console.log(total_ban_unlearned_consulting)
 
     $('#student_info_box').html(`
     <td class="col-3">${data.student_name}</td>
