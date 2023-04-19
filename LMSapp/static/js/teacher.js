@@ -597,8 +597,10 @@ function get_consulting_history_by_cate(category) {
     if(category==0){
         console.log(consultings)
         $.each(consultings, function (index, consulting) {
-            category = Object.keys(consulting)[0]
+            category = Object.keys(consulting)
             let temp_consulting_contents_box = ''
+            console.log(category)
+            console.log(consulting[category])
             for (i = 0; i < consulting[category]; i++){
                 let target = consulting[category][i]
                 console.log(target)
