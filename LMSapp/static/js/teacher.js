@@ -643,7 +643,7 @@ function get_consulting_history_by_cate(category) {
             </div>
             <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
                 <button class="btn btn-dark"
-                    onclick="post_bulk_consultings(${10},${is_done})"
+                    onclick="post_bulk_consultings(${10},${0})"
                     style="margin-right:5px">저장</button>
             </div>`;
             $('#consulting_write_box').append(temp_post_box);
