@@ -555,6 +555,7 @@ async function get_consulting(student_id, is_done) {
         consultings =  Object.entries(consultings).map(([v, items]) => {
             return { [v]: items };
         });
+        console.log(consultings)
         category = Object.keys(consultings)
         console.log(category)
     }else{
