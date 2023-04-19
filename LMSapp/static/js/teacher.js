@@ -515,6 +515,7 @@ async function get_consulting(student_id, is_done) {
 
     let target_consulting = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == is_done) : 0;
     let target_consulting_num = target_consulting.length;
+    const target_consulting_cate = [...new Set(target_consulting.map(obj => obj.category))];
     
     // 완료한 상담 
     // let done_consulting = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == 1) : 0;
@@ -532,23 +533,22 @@ async function get_consulting(student_id, is_done) {
     deadline_consulting = target_consulting_num != 0 ? target_consulting.filter(c=> today < new Date(c.deadline).setHours(0, 0, 0, 0)).length : 0
     
     // 미학습 상담 
-    let unlearned_consulting= target_consulting_num != 0 ? target_consulting.filter(c=> c.category_id < 100) : 0
-    const unlearned_consulting_cate = [...new Set(unlearned_consulting.map(obj => obj.category))];
+    let unlearned_consulting_num= target_consulting_num != 0 ? target_consulting.filter(c=> c.category_id < 100).length : 0
     // unlearned_cate.push()
 
     
     $('#student_consulting_info_box').html(`
     <td class="col-3">${make_nodata(target_consulting_num)}</td>
     <td class="col-3">${make_nodata(deadline_consulting)}</td>
-    <td class="col-3" id="unccate"></td>
-    <td class="col-3">${answer_rate(unlearned_consulting.length,total_ban_unlearned_consulting).toFixed(0)}%</td>
+    <td class="col-3">${make_nodata(unlearned_consulting_num)} / ${data.ban_name}미학습 :${make_nodata(total_ban_unlearned_consulting)}</td>
+    <td class="col-3">${answer_rate(unlearned_consulting_num,total_ban_unlearned_consulting).toFixed(0)}%</td>
     `)
-    const color_pallete = ['green','purple','yellow','red','blue']
+    const color_pallete = ['green','purple','yellow','red','blue','orange','cyan']
     let temp_consulting_contents_box = '';
-    $.each(unlearned_consulting_cate, function (index, category) {
+    $.each(target_consulting_cate, function (index, category) {
         temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" onclick="get_consulting_history_by_cate('${category}')">${category}</a>`;
     });
-    $('#unccate').html(temp_consulting_contents_box)
+    $('#consulting_contents_box_cate').html(temp_consulting_contents_box)
     // get_consulting_history_by_cate(0);
 
 
