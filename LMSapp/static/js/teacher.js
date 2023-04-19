@@ -568,9 +568,9 @@ async function get_consulting(student_id, is_done) {
             <td class="col-5">${category}</td>
             <td class="col-5">${make_nodata(consulting[category].length)}</td>
             <td class="col-2">✏️</td>
-            `
-            // total_ban_unlearned_consulting += consulting.consulting_list.filter(u=>u.category_id<100 && u.ban_id == data.ban_id).length
+            `;
         });
+        $('#student_unlearned_totalreport').html(temp_student_unlearned_totalreport)
 
     }else{
         consultings = done_consulting
