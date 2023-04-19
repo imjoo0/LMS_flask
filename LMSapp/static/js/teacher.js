@@ -533,7 +533,6 @@ async function get_consulting(student_id, is_done) {
     
     // 미학습 상담 
     let unlearned_consulting= target_consulting_num != 0 ? target_consulting.filter(c=> c.category_id < 100) : 0
-    let unlearned_consulting_num = unlearned_consulting.length
     const unlearned_consulting_cate = [...new Set(unlearned_consulting.map(obj => obj.category))];
     // unlearned_cate.push()
 
@@ -546,7 +545,7 @@ async function get_consulting(student_id, is_done) {
     `)
     
     let temp_consulting_contents_box = '';
-    $.each(target_consulting_cate, function (index, category) {
+    $.each(unlearned_consulting_cate, function (index, category) {
         temp_consulting_contents_box += `<a class="btn-two purple small" onclick="get_consulting_history_by_cate('${category}')">${category}</a>`;
     });
     $('#unccate').html(temp_consulting_contents_box)
