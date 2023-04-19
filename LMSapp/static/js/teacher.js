@@ -543,10 +543,10 @@ async function get_consulting(student_id, is_done) {
     <td class="col-3" id="unccate"></td>
     <td class="col-3">${answer_rate(unlearned_consulting.length,total_ban_unlearned_consulting).toFixed(0)}%</td>
     `)
-    
+    const color_pallete = ['green','purple','yellow','red','blue']
     let temp_consulting_contents_box = '';
     $.each(unlearned_consulting_cate, function (index, category) {
-        temp_consulting_contents_box += `<a class="btn-two purple small" onclick="get_consulting_history_by_cate('${category}')">${category}</a>`;
+        temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" onclick="get_consulting_history_by_cate('${category}')">${category}</a>`;
     });
     $('#unccate').html(temp_consulting_contents_box)
     // get_consulting_history_by_cate(0);
