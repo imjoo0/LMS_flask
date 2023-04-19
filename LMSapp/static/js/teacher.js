@@ -503,7 +503,7 @@ async function get_consulting(student_id, is_done) {
 
     let total_ban_unlearned_consulting = 0
     $.each(consultingStudentData, function (index, consulting) {
-        total_ban_unlearned_consulting += consulting[consulting_list].filter(u=>u.category_id<100 && u.ban_id == data.ban_id).length
+        total_ban_unlearned_consulting += consulting.consulting_list.filter(u=>u.category_id<100 && u.ban_id == data.ban_id).length
     });
     console.log(total_ban_unlearned_consulting)
 
@@ -526,8 +526,8 @@ async function get_consulting(student_id, is_done) {
     let cant_consulting_list_num = cant_consulting_list != 0 ? cant_consulting_list.length : 0;
 
     // 진행해야 하는 상담 
-    let consulting_list = todo_consulting_num  != 0 ? todo_consulting.filter(c=>c.created_at == null) : 0
-    let consultinglist_num = consulting_list != 0 ? consulting_list.length : 0;
+    let should_consulting_list = todo_consulting_num  != 0 ? todo_consulting.filter(c=>c.created_at == null) : 0
+    let consultinglist_num = should_consulting_list != 0 ? should_consulting_list.length : 0;
 
     // 기한 지난 상담 
     let deadline_consulting = todo_consulting_num != 0 ? todo_consulting.filter(c=> today < new Date(c.deadline).setHours(0, 0, 0, 0)).length : 0
