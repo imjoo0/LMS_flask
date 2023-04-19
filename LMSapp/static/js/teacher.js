@@ -539,9 +539,9 @@ async function get_consulting(student_id, is_done) {
     
     $('#student_consulting_info_box').html(`
     <td class="col-3">${make_nodata(done_consulting_num)}</td>
-    <td class="col-3">${make_nodata(deadline_consulting)}}</td>
-    <td class="col-3">${make_nodata(unlearned_num)}}</td>
-    <td class="col-3">${answer_rate(unlearned_num,total_ban_unlearned_consulting).toFixed(0)}}</td>
+    <td class="col-3">${make_nodata(deadline_consulting)}</td>
+    <td class="col-3">${make_nodata(unlearned_num)}</td>
+    <td class="col-3">${answer_rate(unlearned_num,total_ban_unlearned_consulting).toFixed(0)}%</td>
     `)
 
     $('.mo_inloading').hide()
