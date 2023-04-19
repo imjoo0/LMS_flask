@@ -559,18 +559,16 @@ async function get_consulting(student_id, is_done) {
         // category = Object.keys(consultings)
         // console.log(category)
 
-        let temp_student_unlearned_totalreport = '';
+        let temp_student_unlearned_totalreport = `<a class="btn-two green rounded" onclick="get_consulting_history_by_cate(${0})">전체 상담</a>`;
         // let category_num = cateogry.length
         $.each(consultings, function (index, consulting) {
             // let idx = category_num/12
             category = Object.keys(consulting)[0]
             temp_student_unlearned_totalreport += `
-            <td class="col-5">${category}</td>
-            <td class="col-5">${make_nodata(consulting[category].length)}</td>
-            <td class="col-2">✏️</td>
+            <a class="btn-two blue rounded" onclick="get_consulting_history_by_cate(${consulting[category].category_id})">${category} ${consulting[category].length}건</a>
             `;
         });
-        $('#student_unlearned_totalreport').html(temp_student_unlearned_totalreport)
+        $('#consulting_contents_box').html(temp_student_unlearned_totalreport)
 
     }else{
         consultings = done_consulting
