@@ -502,10 +502,10 @@ async function get_consulting(student_id, is_done) {
     $('.monot_inloading').hide()
 
     $('#student_info_box').html(`
-    <th class="col-4">${data.student_name}</th>
-    <th class="col-4">${data.student_origin}</th>
-    <th class="col-4">생년월일 : ${data.student_birthday}</th>
-    <th class="col-4">📞${data.student_mobileno}</th>
+    <th class="col-3">${data.student_name}</th>
+    <th class="col-3">${data.student_origin}</th>
+    <th class="col-3">생년월일 : ${data.student_birthday}</th>
+    <th class="col-3">📞${data.student_mobileno}</th>
     `);
     let total_ban_unlearned_consulting = 0
     $.each(consultingStudentData, function (index, consulting) {
