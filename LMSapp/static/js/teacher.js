@@ -601,9 +601,7 @@ function get_consulting_history_by_cate(category) {
             let temp_consulting_contents_box = ''
             console.log(category)
             console.log(consulting[category])
-            for (i = 0; i < consulting[category]; i++){
-                let target = consulting[category][i]
-                console.log(target)
+            $.each(consulting[category], function (index, target) {
                 let category = target['category']
                 let consulting_id = target['id']
                 let contents = target['contents']
@@ -638,7 +636,7 @@ function get_consulting_history_by_cate(category) {
                 </div>
                 <p>상담 일시 : ${make_date(history_created)}</p>
                 `;
-            }
+            })
             $('#consulting_write_box').html(temp_consulting_contents_box);
             let temp_post_box = `<p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>`;
             $('#consulting_write_box').append(temp_post_box);
