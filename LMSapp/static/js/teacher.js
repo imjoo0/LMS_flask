@@ -538,10 +538,15 @@ async function get_consulting(student_id, is_done) {
 
     
     $('#student_consulting_info_box').html(`
+    <th class="col-1">상담</th>
+    <th class="col-1">기한 지남</th>
+    <th class="col-4">${data.student_name} 미학습</th>
+    <th class="col-4">${data.ban_name}반 총 미학습</th>
+    <th class="col-2">미학습 발생율</th>
     <td class="col-1">${make_nodata(target_consulting_num)}</td>
     <td class="col-1">${make_nodata(deadline_consulting)}</td>
     <td class="col-4">${make_nodata(unlearned_consulting_num)}</td>
-    <td class="col-4">/ ${data.ban_name}반 총 미학습 :${make_nodata(total_ban_unlearned_consulting)}</td>
+    <td class="col-4">${make_nodata(total_ban_unlearned_consulting)}</td>
     <td class="col-2"><strong>${answer_rate(unlearned_consulting_num,total_ban_unlearned_consulting).toFixed(0)}%</strong></td>
     `)
     const color_pallete = ['green','purple','yellow','red','blue','orange','cyan']
