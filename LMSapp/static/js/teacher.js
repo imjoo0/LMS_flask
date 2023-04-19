@@ -558,6 +558,20 @@ async function get_consulting(student_id, is_done) {
         console.log(consultings)
         category = Object.keys(consultings)
         console.log(category)
+
+        // let temp_student_unlearned_totalreport = '';
+        // let category_num = cateogry.length
+        // $.each(category, function (index, consulting) {
+        //     let idx = category_num/12
+        //     temp_student_unlearned_totalreport += `
+        //     <td class="col-${idx}">${cateogry}</td>
+        //     <td class="col-3">${make_nodata(deadline_consulting)}</td>
+        //     <td class="col-3">${make_nodata(unlearned_num)}</td>
+        //     <td class="col-3">${answer_rate(unlearned_num,total_ban_unlearned_consulting).toFixed(0)}%</td>
+        //     `
+        //     total_ban_unlearned_consulting += consulting.consulting_list.filter(u=>u.category_id<100 && u.ban_id == data.ban_id).length
+        // });
+
     }else{
         consultings = done_consulting
 
