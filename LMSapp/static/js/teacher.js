@@ -520,7 +520,7 @@ async function get_consulting(student_id, is_done) {
     let cant_consulting_list_num = cant_consulting_list != 0 ? cant_consulting_list.length : 0;
 
     // 진행해야 하는 상담 
-    let consulting_list = todo_consulting_num  != 0 ? todo_consulting_num.filter(c=>c.created_at == null) : 0
+    let consulting_list = todo_consulting_num  != 0 ? todo_consulting.filter(c=>c.created_at == null) : 0
     let consultinglist_num = consulting_list != 0 ? consulting_list.length : 0;
 
     // 기한 지난 상담 
