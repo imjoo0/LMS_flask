@@ -580,6 +580,9 @@ async function get_consulting(student_id, is_done) {
             `;
         }
     });
+    temp_student_unlearned_totalreport += `
+            <a class="btn-two red rounded" onclick="get_consulting_history_by_cate(${-1})">기한 지난 상담 ${cant_consulting_list_num}건</a>
+            `;
     $('#consulting_contents_box').html(temp_student_unlearned_totalreport)
     
     // let IsG3 = make_IsG3(data.ban_name)
@@ -720,6 +723,7 @@ async function get_consulting(student_id, is_done) {
     //     $('#consulting_write_box').append(temp_post_box);
     // }
 }
+
 function post_bulk_consultings(c_length, is_done) {
     for (i = 0; i < c_length; i++) {
         target = $('#target_consulting_id' + i).val()
