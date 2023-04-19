@@ -585,38 +585,8 @@ async function get_consulting(student_id, is_done) {
             `;
     $('#consulting_contents_box').html(temp_student_unlearned_totalreport)
     
-    // let IsG3 = make_IsG3(data.ban_name)
-    // let temp_student_unlearned_totalreport =''
-    // if(IsG3){
-    //     temp_student_unlearned_totalreport = `
-    //     <th class="col-2">IXL</th>
-    //     <th class="col-2">리딩</th>
-    //     <th class="col-3">인투리딩 미응시</th>
-    //     <th class="col-3">라이팅 과제 미제출</th>
-    //     <th class="col-2">홈페이지 미접속</th>
-    //     <td class="col-2">${make_nodata(unlearned_consulting_list.filter(u=>u.category_id == 1).length)}</td>
-    //     <td class="col-2">${make_nodata(unlearned_consulting_list.filter(u=>u.category_id == 4).length)}</td>
-    //     <td class="col-3">${make_nodata(unlearned_consulting_list.filter(u=>u.category_id == 5).length)}</td>
-    //     <td class="col-3">${make_nodata(unlearned_consulting_list.filter(u=>u.category_id == 6).length)}</td>
-    //     <td class="col-2">${make_nodata(unlearned_consulting_list.filter(u=>u.category_id == 2).length)}</td>
-    //     `;
-    // }else{
-    //     temp_student_unlearned_totalreport=  `
-    //     <th class="col-2">IXL</th>
-    //     <th class="col-2">리딩</th>
-    //     <th class="col-2">리특</th>
-    //     <th class="col-2">인투리딩 미응시</th>
-    //     <th class="col-2">라이팅 과제 미제출</th>
-    //     <th class="col-2">미접속</th>
-    //     <td class="col-2">${make_nodata(unlearned_consulting_list.filter(u=>u.category_id == 1).length)}</td>
-    //     <td class="col-2">${make_nodata(unlearned_consulting_list.filter(u=>u.category_id == 4).length)}</td>
-    //     <td class="col-2">${make_nodata(unlearned_consulting_list.filter(u=>u.category_id == 3).length)}</td>
-    //     <td class="col-2">${make_nodata(unlearned_consulting_list.filter(u=>u.category_id == 5).length)}</td>
-    //     <td class="col-2">${make_nodata(unlearned_consulting_list.filter(u=>u.category_id == 6).length)}</td>
-    //     <td class="col-2">${make_nodata(unlearned_consulting_list.filter(u=>u.category_id == 2).length)}</td>
-    // `;
-    // }
-    // $('#student_unlearned_totalreport').html(temp_student_unlearned_totalreport);
+
+    console.log(consultings)
 
     $('.mo_inloading').hide()
     $('.monot_inloading').show()
