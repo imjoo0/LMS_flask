@@ -552,9 +552,9 @@ async function get_consulting(student_id, is_done) {
             acc[c.category].push(c);
             return acc;
         }, {});
-        consultings =  Object.entries(consultings).map(([v, items]) => {
-            return { [v]: items };
-        });
+        // consultings =  Object.entries(consultings).map(([v, items]) => {
+        //     return { [v]: items };
+        // });
         console.log(consultings)
         category = Object.keys(consultings)
         console.log(category)
