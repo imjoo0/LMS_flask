@@ -512,7 +512,7 @@ async function get_consulting(student_id, is_done) {
     let todo_consulting_num = todo_consulting.length;
     
     // 이미 원생이 학습 진행 
-    let cant_consulting_list = todo_consulting_num  != 0 ? todo_consulting.filter(c.created_at != null) : 0;
+    let cant_consulting_list = todo_consulting_num  != 0 ? todo_consulting.filter(c=>c.created_at != null) : 0;
     let cant_consulting_list_num = cant_consulting_list != 0 ? cant_consulting_list.length : 0;
 
     // 진행해야 하는 상담 
