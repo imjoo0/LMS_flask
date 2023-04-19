@@ -610,17 +610,17 @@ async function get_consulting(student_id, is_done) {
                 ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br></br>${contents}</br></p>
             <div class="modal-body-select-container">
                 <span class="modal-body-select-label">상담 사유</span>
-                <input class="modal-body-select" type="text" size="50"
+                <input class="modal-body" type="text" size="50"
                     id="consulting_reason${consulting_id}" placeholder="${history_reason}">
             </div>
             <div class="modal-body-select-container">
                 <span class="modal-body-select-label">제공한 가이드</span>
-                <input class="modal-body-select" type="text" size="50"
+                <input class="modal-body" type="text" size="50"
                     id="consulting_solution${consulting_id}" placeholder="${history_solution}">
             </div>
             <div class="modal-body-select-container">
                 <span class="modal-body-select-label">상담 결과</span>
-                <textarea class="modal-body-select" type="text" rows="5" cols="25"
+                <textarea class="modal-body" type="text" rows="5" cols="25"
                     id="consulting_result${consulting_id}" placeholder="${history_result}"></textarea>
             </div>
             <p>상담 일시 : ${make_date(history_created)}</p>
