@@ -640,14 +640,14 @@ async function get_consulting(student_id, is_done) {
             </div>
             <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
                 <button class="btn btn-dark"
-                    onclick="post_bulk_consultings(${consultinglist_len},${is_done})"
+                    onclick="post_bulk_consultings(${target_consulting_num},${is_done})"
                     style="margin-right:5px">저장</button>
             </div>`
         }else if(is_done == 1){
             temp_post_box = `
             <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
                 <button class="btn btn-dark"
-                    onclick="post_bulk_consultings(${consultinglist_len},${is_done})"
+                    onclick="post_bulk_consultings(${target_consulting_num},${is_done})"
                     style="margin-right:5px">수정</button>
             </div>`
         }
