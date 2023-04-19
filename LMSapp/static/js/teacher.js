@@ -544,10 +544,8 @@ async function get_consulting(student_id, is_done) {
     <td class="col-3">${make_nodata(unlearned_num)}</td>
     <td class="col-3">${answer_rate(unlearned_num,total_ban_unlearned_consulting).toFixed(0)}%</td>
     `)
-    let consultings = []
     if(is_done == 0){
-        consultings = todo_consulting
-        consultings.reduce((acc, c) => {
+        consultings = todo_consulting.reduce((acc, c) => {
             if(!acc[c.category_id]){
                 acc[c.category_id] = [];
             }
