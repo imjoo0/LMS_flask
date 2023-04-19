@@ -502,11 +502,10 @@ async function get_consulting(student_id, is_done) {
     $('.monot_inloading').hide()
 
     $('#student_info_box').html(`
-    <th class="col-2">${data.student_name}</th>
-    <th class="col-2">${data.student_origin}</th>
-    <th class="col-2">${data.student_birthday}</th>
-    <th class="col-3">📞${data.student_mobileno}</th>
-    <th class="col-3">원생리포트 확인 📃</th>
+    <th class="col-4">${data.student_name}</th>
+    <th class="col-4">${data.student_origin}</th>
+    <th class="col-4">생년월일 : ${data.student_birthday}</th>
+    <th class="col-4">📞${data.student_mobileno}</th>
     `);
     let total_ban_unlearned_consulting = 0
     $.each(consultingStudentData, function (index, consulting) {
@@ -550,7 +549,7 @@ async function get_consulting(student_id, is_done) {
     <td class="col-2"><strong>${answer_rate(unlearned_consulting_num,total_ban_unlearned_consulting).toFixed(0)}%</strong></td>
     `)
     const color_pallete = ['green','purple','yellow','red','blue','orange','cyan']
-    let temp_consulting_contents_box = '';
+    let temp_consulting_contents_box = '<a class="btn-two cyan small">원생리포트</a>';
     $.each(target_consulting_cate, function (index, category) {
         temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" onclick="get_consulting_history_by_cate('${category}')">${category}</a>`;
     });
