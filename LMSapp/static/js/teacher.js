@@ -546,31 +546,31 @@ async function get_consulting(student_id, is_done) {
     `)
     if(is_done == 0){
         consultings = todo_consulting.reduce((acc, c) => {
-            if(!acc[c.category]){
-                acc[c.category] = [];
+            if(!acc[c.category_id]){
+                acc[c.category_id] = [];
             }
-            acc[c.category].push(c);
+            acc[c.category_id].push(c);
             return acc;
         }, {});
-        // consultings =  Object.entries(consultings).map(([v, items]) => {
-        //     return { [v]: items };
-        // });
+        consultings =  Object.entries(consultings).map(([v, items]) => {
+            return { [v]: items };
+        });
         console.log(consultings)
-        category = Object.keys(consultings)
-        console.log(category)
+        // category = Object.keys(consultings)
+        // console.log(category)
 
-        // let temp_student_unlearned_totalreport = '';
+        let temp_student_unlearned_totalreport = '';
         // let category_num = cateogry.length
-        // $.each(category, function (index, consulting) {
-        //     let idx = category_num/12
-        //     temp_student_unlearned_totalreport += `
-        //     <td class="col-${idx}">${cateogry}</td>
-        //     <td class="col-3">${make_nodata(deadline_consulting)}</td>
-        //     <td class="col-3">${make_nodata(unlearned_num)}</td>
-        //     <td class="col-3">${answer_rate(unlearned_num,total_ban_unlearned_consulting).toFixed(0)}%</td>
-        //     `
-        //     total_ban_unlearned_consulting += consulting.consulting_list.filter(u=>u.category_id<100 && u.ban_id == data.ban_id).length
-        // });
+        $.each(consultings, function (index, consulting) {
+            // let idx = category_num/12
+            category = Object.keys(consulting)[0]
+            temp_student_unlearned_totalreport += `
+            <td class="col-5">${consulting.cateogry}</td>
+            <td class="col-5">${make_nodata(deadline_consulting)}</td>
+            <td class="col-2">✏️</td>
+            `
+            total_ban_unlearned_consulting += consulting.consulting_list.filter(u=>u.category_id<100 && u.ban_id == data.ban_id).length
+        });
 
     }else{
         consultings = done_consulting
