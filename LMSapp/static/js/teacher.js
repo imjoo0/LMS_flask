@@ -546,10 +546,10 @@ async function get_consulting(student_id, is_done) {
     `)
     if(is_done == 0){
         consultings = todo_consulting.reduce((acc, c) => {
-            if(!acc[c.category_id]){
-                acc[c.category_id] = [];
+            if(!acc[c.category]){
+                acc[c.category] = [];
             }
-            acc[c.category_id].push(c);
+            acc[c.category].push(c);
             return acc;
         }, {});
         consultings =  Object.entries(consultings).map(([v, items]) => {
@@ -565,11 +565,11 @@ async function get_consulting(student_id, is_done) {
             // let idx = category_num/12
             category = Object.keys(consulting)[0]
             temp_student_unlearned_totalreport += `
-            <td class="col-5">${consulting.cateogry}</td>
-            <td class="col-5">${make_nodata(deadline_consulting)}</td>
+            <td class="col-5">${category}</td>
+            <td class="col-5">${make_nodata(consulting[category].length)}</td>
             <td class="col-2">✏️</td>
             `
-            total_ban_unlearned_consulting += consulting.consulting_list.filter(u=>u.category_id<100 && u.ban_id == data.ban_id).length
+            // total_ban_unlearned_consulting += consulting.consulting_list.filter(u=>u.category_id<100 && u.ban_id == data.ban_id).length
         });
 
     }else{
