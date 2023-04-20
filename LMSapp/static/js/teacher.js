@@ -571,7 +571,7 @@ async function get_consulting(student_id, is_done) {
     }else{
         consultingGroupedCategory.forEach(function(key) {
             target_consultings = consultingGrouped[key]
-            temp_consulting_write_box += `<h3 id="target_${key}" style="margin-top:500px;margin-bottom:1.2rem;">${key}</h3>`
+            temp_consulting_write_box += `<h3 id="target_${key}" style="margin-bottom:1.2rem;">${key}</h3>`
             for (i = 0; i < target_consultings.length; i++){
                 let target = target_consultings[i]
                 let category = target['category']
@@ -616,25 +616,25 @@ async function get_consulting(student_id, is_done) {
                     `;
                 }
             }
-            temp_consulting_write_box += `
-            <div class="modal-body-select-container">
-                <span class="modal-body-select-label">상담 결과</span>
-                <textarea class="modal-body" type="text" rows="5" cols="25"
-                    id="consulting_result" placeholder="history_result가져와야함"></textarea>
-            </div>
-            <p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
-            <div class="modal-body-select-container">
-            <span class="modal-body-select-label">부재중</span>
-            <label><input type="checkbox" id="missed">부재중</label>
-            </div>
-            <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
-                <button class="btn btn-dark"
-                    onclick="post_bulk_consultings(${target_consulting_num},${is_done})"
-                    style="margin-right:5px">저장</button>
-            </div>
-            `;
-            $('#consulting_write_box').html(temp_consulting_write_box);
         });
+        temp_consulting_write_box += `
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">상담 결과</span>
+            <textarea class="modal-body" type="text" rows="5" cols="25"
+                id="consulting_result" placeholder="history_result가져와야함"></textarea>
+        </div>
+        <p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
+        <div class="modal-body-select-container">
+        <span class="modal-body-select-label">부재중</span>
+        <label><input type="checkbox" id="missed">부재중</label>
+        </div>
+        <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
+            <button class="btn btn-dark"
+                onclick="post_bulk_consultings(${target_consulting_num},${is_done})"
+                style="margin-right:5px">저장</button>
+        </div>
+        `;
+        $('#consulting_write_box').html(temp_consulting_write_box);
         // let temp_post_box = '';
         // if(is_done == 0){
         //     temp_post_box += `
@@ -649,6 +649,7 @@ async function get_consulting(student_id, is_done) {
         // }
         // $('#consulting_write_box').append(temp_post_box);
         // target_consulting.sort((a, b) => {return make_date(a.deadline) - make_date(b.deadline)});
+
     }
 
     $('.mo_inloading').hide()
