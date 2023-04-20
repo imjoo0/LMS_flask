@@ -579,7 +579,7 @@ async function get_consulting(student_id, is_done) {
                 }
                 if(target['category_id'] < 100){
                     temp_consulting_write_box += `
-                    <p class="mt-lg-4 mt-5">✅${category} 검사 업데이트 날짜: <strong>${make_date(target['startdate'])}</strong></p>
+                    <p class="mt-lg-4 mt-5">✅${category} 검사 날짜: <strong>${make_date(target['startdate'])}</strong></p>
                     `;
                     category = target['week_code']+'주간  ' + category
                 }
