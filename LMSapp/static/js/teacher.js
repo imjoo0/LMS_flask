@@ -675,9 +675,9 @@ function post_bulk_consultings(c_length, is_done) {
 }
 function post_target_consulting(consulting, is_done) {
     consulting_missed = $(`input:checkbox[id="missed"]`).is(":checked")
+    consulting_result = $('#consulting_result').val()
     consulting_reason = $('#consulting_reason' + consulting).val()
     consulting_solution = $('#consulting_solution' + consulting).val()
-    consulting_result = $('#consulting_result').val()
     if ((consulting_reason.length == 0)) {
         consulting_reason = "작성 내역이 없습니다"
     } if ((consulting_solution.length == 0)) {
