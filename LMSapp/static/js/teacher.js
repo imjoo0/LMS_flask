@@ -581,7 +581,7 @@ function get_consulting_history_by_cate(category) {
             $('#consulting_write_box').html(temp_consulting_contents_box);
         }else{
             $.each(consultingGrouped, function (index, consultings) {
-                console.log(index)
+                console.log(consultings)
                 console.log(consultingGroupedCategory)
                 key = consultingGroupedCategory[index]
                 console.log(key)
