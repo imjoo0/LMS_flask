@@ -621,7 +621,7 @@ async function get_consulting(student_id, is_done) {
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">상담 결과</span>
             <textarea class="modal-body" type="text" rows="5" cols="25"
-                id="consulting_result" placeholder="history_result가져와야함"></textarea>
+                id="consulting_result" placeholder="오늘 ${data.student_name}원생 대상 상담 결과를 남겨주세요"></textarea>
         </div>
         <p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
         <div class="modal-body-select-container">
