@@ -570,6 +570,7 @@ async function get_consulting(student_id, is_done) {
         temp_consulting_write_box += '<p>진행 할 수 있는 상담이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 </p>'
         $('#consulting_write_box').html(temp_consulting_write_box);
     }else{
+        let idx = 0;
         consultingGroupedCategory.forEach(function(key) {
             target_consultings = consultingGrouped[key]
             temp_consulting_write_box += `<h3 id="target_${key}" style="margin-bottom:1.2rem;">${key}</h3>`
@@ -592,7 +593,7 @@ async function get_consulting(student_id, is_done) {
                 let history_solution = target['solution'] == null ? '입력해주세요' : target['solution']
                 // let history_result = target['result'] == null ? '입력해주세요' : target['result']
                 if(cantCon){
-                    should_consulting_num -= 1
+                    should_consulting_num -= 1;
                     temp_consulting_write_box += `
                     <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br><strong>➖상담 마감일:
                         ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br>
@@ -602,7 +603,7 @@ async function get_consulting(student_id, is_done) {
                     `;
                 }else{
                     temp_consulting_write_box += `
-                    <input type="hidden" id="target_consulting_id${i}" value="${consulting_id}" style="display: block;" />
+                    <input type="hidden" id="target_consulting_id${idx}" value="${consulting_id}" style="display: block;" />
                     <p mt-lg-4 mt-5>✅<strong>${category}</strong></br><strong>➖상담 마감일:
                         ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br></br>${contents}</br></p>
                     <div class="modal-body-select-container">
@@ -616,6 +617,7 @@ async function get_consulting(student_id, is_done) {
                     </div>
                     <p>상담 일시 : ${make_date(history_created)}</p>
                     `;
+                    idx +=1 ;
                 }
             }
         });
