@@ -556,12 +556,13 @@ async function get_consulting(student_id, is_done) {
             }
             acc[item.category].push(item);
             return acc;
-        }, {});
+        }, []);
         
         consultingGroupedCategory = Object.keys(consultingGrouped)
         $.each(consultingGroupedCategory, function (index, category) {
             temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" onclick="get_consulting_history_by_cate('${category}')">${category}</a>`;
         });
+        console.log(consultingGrouped[0][consultingGroupedCategory][0])
         $('#consulting_contents_box_cate').html(temp_consulting_contents_box)
     }
 
