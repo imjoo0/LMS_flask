@@ -403,11 +403,6 @@ async function get_consulting_student(done_code) {
 
 // 상담일지 작성 
 async function get_consulting(student_id, is_done) {
-    
-    const modalTopHeadHeight = document.querySelector('.modal_top_head').offsetHeight;
-    // modal_top_head 바로 아래에 있는 요소의 margin-top 값을 modalTopHeadHeight로 설정
-    const modalBottomBody = document.querySelector('.modal_bottom_body');
-    modalBottomBody.style.marginTop = `${modalTopHeadHeight}px`;
     // if(!reportsData){
     //     await get_student_reports().then(()=>{
     //         console.log(reportsData)
@@ -569,14 +564,14 @@ async function get_consulting(student_id, is_done) {
         $('#consulting_contents_box_cate').html(temp_consulting_contents_box)
     }
 
-    let temp_consulting_write_box = `<h3 id="target_전체" style="margin-bottom:1.2rem;">상담 목록</h3>`
+    let temp_consulting_write_box = `<h3 id="target_전체" style="margin-bottom:1.2rem;" class="category_bottom_title">상담 목록</h3>`
     if (target_consulting_num == 0) {
         temp_consulting_write_box += '<p>진행 할 수 있는 상담이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 </p>'
         $('#consulting_write_box').html(temp_consulting_write_box);
     }else{
         consultingGroupedCategory.forEach(function(key) {
             target_consultings = consultingGrouped[key]
-            temp_consulting_write_box += `<h3 id="target_${key}" style="margin-bottom:1.2rem;">${key}</h3>`
+            temp_consulting_write_box += `<h3 id="target_${key}" style="margin-bottom:1.2rem;" class="category_bottom_title">${key}</h3>`
             for (i = 0; i < target_consultings.length; i++){
                 let target = target_consultings[i]
                 console.log(target)
@@ -663,7 +658,7 @@ async function get_consulting(student_id, is_done) {
 function get_consulting_history_by_cate(category) {
     const modalTopHeadHeight = document.querySelector('.modal_top_head').offsetHeight;
     // modal_top_head 바로 아래에 있는 요소의 margin-top 값을 modalTopHeadHeight로 설정
-    const modalBottomBody = document.querySelector('.modal_bottom_body');
+    const modalBottomBody = document.querySelector('.category_bottom_title');
     modalBottomBody.style.marginTop = `${modalTopHeadHeight}px`;
     // 전체 상담 
     var target = $(category.target.getAttribute('href'));
