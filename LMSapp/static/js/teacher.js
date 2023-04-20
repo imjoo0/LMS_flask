@@ -630,7 +630,7 @@ async function get_consulting(student_id, is_done) {
                     style="margin-right:5px">저장</button>
             </div>
             `;
-            temp_consulting_contents_box += `<a href="#consulting_button_box" class="btn-two black small" onclick="get_consulting_history_by_cate(event)">부재중</a>`;
+            temp_consulting_contents_box += `<a class="btn-two black small" onclick="missed_consulting(${should_consulting_num},${is_done})">부재중</a>`;
         }else if(is_done == 1){
             temp_consulting_write_box += `
             <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
@@ -664,11 +664,51 @@ function get_consulting_history_by_cate(category) {
         }, 1000);
     }
 }
-
+// 부재중 처리
+async function missed_consulting(c_length, is_done) {
+    const csrf = $('#csrf_token').val();
+    var con_val = confirm('부재중 처리 하시겠습니까?')
+    if (con_val == true) {
+        for (i = 0; i < c_length; i++) {
+            target = $('#target_consulting_id' + i).val()
+            post_missed_consulting(target, is_done)
+        }
+    }
+}
+function post_missed_consulting(consulting, is_done) {
+    consulting_missed = $(`input:checkbox[id="missed"]`).is(":checked")
+    consulting_result = $('#consulting_result').val()
+    consulting_reason = $('#consulting_reason' + consulting).val()
+    consulting_solution = $('#consulting_solution' + consulting).val()
+    if (!consulting_reason || consulting_reason.length == 0) {
+        consulting_reason = "작성 내역이 없습니다"
+    } 
+    if (!consulting_solution || consulting_solution.length == 0) {
+        consulting_solution = "작성 내역이 없습니다"
+    } 
+    if (!consulting_result || consulting_result.length == 0) {
+        consulting_result = "작성 내역이 없습니다"
+    }
+    $.ajax({
+        type: "POST",
+        url: '/teacher/consulting_history/' + consulting + '/' + is_done,
+        // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+        data: {
+            consulting_reason: consulting_reason,
+            consulting_solution: consulting_solution,
+            consulting_result: consulting_result,
+            consulting_missed: consulting_missed,
+        },success: function (response) {
+            if (response['result'] == '완료') {
+            } else {
+                alert("상담일지 저장 실패")
+            }
+        }
+    })
+}
 function post_bulk_consultings(c_length, is_done) {
     for (i = 0; i < c_length; i++) {
         target = $('#target_consulting_id' + i).val()
-        console.log(target)
         post_target_consulting(target, is_done)
     }
     alert("상담 저장 완료")
