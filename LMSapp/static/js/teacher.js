@@ -630,7 +630,7 @@ function get_consulting_history_by_cate(category) {
                     let temp_post_box = `<p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>`;
                     if(target.done == 0){
                         temp_post_box += `
-                        <div class="modal-body-select-container tagtagtitle">
+                        <div class="modal-body-select-container">
                             <span class="modal-body-select-label">상담 결과</span>
                             <textarea class="modal-body" type="text" rows="5" cols="25"
                                 id="consulting_result" placeholder="history_result가져와야함"></textarea>
@@ -652,7 +652,7 @@ function get_consulting_history_by_cate(category) {
                                 style="margin-right:5px">수정</button>
                         </div>`
                     }
-                    $('#consulting_write_box').html(temp_post_box);
+                    $('#consulting_write_box').append(temp_post_box);
                 }
             });
             // target_consulting.sort((a, b) => {return make_date(a.deadline) - make_date(b.deadline)});
