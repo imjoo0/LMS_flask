@@ -513,6 +513,7 @@ async function get_consulting(student_id, is_done) {
 
     target_consulting = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == is_done) : 0;
     target_consulting_num = target_consulting.length;
+    should_consulting_num = target_consulting_num
     // const target_consulting_cate = [...new Set(target_consulting.map(obj => obj.category))];
     
     // 완료한 상담 
@@ -590,9 +591,8 @@ async function get_consulting(student_id, is_done) {
                 let history_reason = target['reason'] == null ? '입력해주세요' : target['reason']
                 let history_solution = target['solution'] == null ? '입력해주세요' : target['solution']
                 // let history_result = target['result'] == null ? '입력해주세요' : target['result']
-                let cantCon_num = 0;
                 if(cantCon){
-                    cantCon_num += 1;
+                    should_consulting_num -= 1
                     temp_consulting_write_box += `
                     <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br><strong>➖상담 마감일:
                         ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br>
@@ -633,7 +633,7 @@ async function get_consulting(student_id, is_done) {
             </div>
             <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
                 <button class="btn btn-dark"
-                    onclick="post_bulk_consultings(${target_consulting_num-cantCon_num},${is_done})"
+                    onclick="post_bulk_consultings(${should_consulting_num},${is_done})"
                     style="margin-right:5px">저장</button>
             </div>
             `;
@@ -641,7 +641,7 @@ async function get_consulting(student_id, is_done) {
             temp_consulting_write_box += `
             <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
                 <button class="btn btn-dark"
-                    onclick="post_bulk_consultings(${target_consulting_num},${is_done})"
+                    onclick="post_bulk_consultings(${should_consulting_num},${is_done})"
                     style="margin-right:5px">수정</button>
             </div>`
         }
