@@ -559,17 +559,12 @@ async function get_consulting(student_id, is_done) {
             return acc;
         }, []);
         consultingGroupedCategory = Object.keys(consultingGrouped)
-        $.each(consultingGroupedCategory, function (index, category) {
-            temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" href="#target_${category}" onclick="get_consulting_history_by_cate(event)">${category}</a>`;
-        });
-        temp_consulting_contents_box += `<a class="btn-two black small" href="#target_부재중" onclick="get_consulting_history_by_cate(event)">부재중</a>`;
-        $('#consulting_contents_box_cate').html(temp_consulting_contents_box)
 
         let temp_consulting_write_box = `<h3 id="target_전체" style="margin-bottom:1.2rem;">상담 목록</h3>`
         let idx = 0;
         $.each(consultingGroupedCategory, function (index, key) {
+            temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" href="#target_${category}" onclick="get_consulting_history_by_cate(event)">${category}</a>`;
             target_consultings = consultingGrouped[key]
-            console.log(target_consultings)
             temp_consulting_write_box += `<h3 id="target_${key}" style="margin-bottom:1.2rem;">${key}</h3>`
             for (i = 0; i < target_consultings.length; i++){
                 let target = target_consultings[i]
@@ -645,7 +640,11 @@ async function get_consulting(student_id, is_done) {
             </div>`
         }
         $('#consulting_write_box').html(temp_consulting_write_box);
-        target_consulting.sort((a, b) => {return make_date(a.deadline) - make_date(b.deadline)});
+
+        temp_consulting_contents_box += `<a class="btn-two black small" href="#target_부재중" onclick="get_consulting_history_by_cate(event)">부재중</a>`;
+        $('#consulting_contents_box_cate').html(temp_consulting_contents_box)
+
+        // target_consulting.sort((a, b) => {return make_date(a.deadline) - make_date(b.deadline)});
 
     }else{
         temp_consulting_write_box += '<p>진행 할 수 있는 상담이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 </p>'
