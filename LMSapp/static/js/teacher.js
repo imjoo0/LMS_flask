@@ -581,9 +581,7 @@ function get_consulting_history_by_cate(category) {
             $('#consulting_write_box').html(temp_consulting_contents_box);
         }else{
             console.log(consultingGrouped)
-            $.each(consultingGrouped, function (index, consultings) {
-                console.log(consultings)
-                console.log(consultingGroupedCategory)
+            for (i = 0; i < consultingGrouped.length; i++){
                 key = consultingGroupedCategory[index]
                 console.log(key)
                 target_consultings = consultings[key]
@@ -660,7 +658,7 @@ function get_consulting_history_by_cate(category) {
                     }
                     $('#consulting_write_box').html(temp_post_box);
                 }
-            });
+
             // target_consulting.sort((a, b) => {return make_date(a.deadline) - make_date(b.deadline)});
         }
         
