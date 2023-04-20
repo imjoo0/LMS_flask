@@ -582,10 +582,13 @@ function get_consulting_history_by_cate(category){
             $('#consulting_write_box').html(temp_consulting_contents_box);
         }else{
             console.log(consultingGrouped)
+            console.log(consultingGroupedCategory)
             for (i = 0; i < consultingGrouped.length; i++){
+                console.log('tq')
                 key = consultingGroupedCategory[i]
+                console.log(consultingGrouped[i][key])
                 console.log(key)
-                target_consultings = consultings[key]
+                target_consultings = consultingGrouped[i][key]
                 console.log(target_consultings)
                 for (i = 0; i < target_consultings.length; i++){
                     let target = target_consultings[i]
