@@ -562,7 +562,6 @@ async function get_consulting(student_id, is_done) {
         $.each(consultingGroupedCategory, function (index, category) {
             temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" onclick="get_consulting_history_by_cate('${category}')">${category}</a>`;
         });
-        console.log(consultingGrouped[0][consultingGroupedCategory][0])
         $('#consulting_contents_box_cate').html(temp_consulting_contents_box)
     }
 
@@ -584,7 +583,7 @@ function get_consulting_history_by_cate(category){
         }else{
             console.log(consultingGrouped)
             for (i = 0; i < consultingGrouped.length; i++){
-                key = consultingGroupedCategory[index]
+                key = consultingGroupedCategory[i]
                 console.log(key)
                 target_consultings = consultings[key]
                 console.log(target_consultings)
