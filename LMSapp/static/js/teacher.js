@@ -555,7 +555,7 @@ async function get_consulting(student_id, is_done) {
             if (!acc[item.category]) {
                 acc[item.category] = [];
             }
-            acc[v].push(item);
+            acc[item.category].push(item);
             return acc;
         }, []);
         console.log(consultingGrouped)
