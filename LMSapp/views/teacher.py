@@ -190,7 +190,7 @@ def task(tb_id):
             return jsonify({'result': '업무완료 실패'})    
 
 @bp.route("/consulting_missed/<int:id>", methods=['POST'])
-def consulting_history(id):
+def consulting_missed(id):
     if request.method =='POST':
         target_consulting = Consulting.query.get_or_404(id)
         target_consulting.missed = Today
@@ -213,7 +213,6 @@ def consulting_history(id,is_done):
         received_solution = request.form['consulting_solution']
         # 제공 가이드
         received_result = request.form['consulting_result']
-
         if(is_done == 0):
             target_consulting.reason = received_reason
             target_consulting.solution = received_solution
