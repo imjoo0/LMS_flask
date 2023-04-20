@@ -627,7 +627,7 @@ function get_consulting_history_by_cate(category) {
                         `;
                     }
                     $('#consulting_write_box').html(temp_consulting_contents_box);
-                    let temp_post_box = `<p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>`;
+                    let temp_post_box = '';
                     if(target.done == 0){
                         temp_post_box += `
                         <div class="modal-body-select-container">
@@ -652,6 +652,8 @@ function get_consulting_history_by_cate(category) {
                                 style="margin-right:5px">수정</button>
                         </div>`
                     }
+                    temp_post_box += `<p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>`;
+
                     $('#consulting_write_box').append(temp_post_box);
                 }
             });
