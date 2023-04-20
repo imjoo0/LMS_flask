@@ -557,7 +557,6 @@ async function get_consulting(student_id, is_done) {
             acc[item.category].push(item);
             return acc;
         }, []);
-        
         consultingGroupedCategory = Object.keys(consultingGrouped)
         $.each(consultingGroupedCategory, function (index, category) {
             temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" onclick="get_consulting_history_by_cate('${category}')">${category}</a>`;
@@ -572,7 +571,7 @@ async function get_consulting(student_id, is_done) {
     
 }
 // 상담일지 작성 
-function get_consulting_history_by_cate(category){
+function get_consulting_history_by_cate(category) {
     // 전체 상담 
     console.log(category)
     if(category=='전체'){
@@ -581,16 +580,8 @@ function get_consulting_history_by_cate(category){
             temp_consulting_contents_box += '<h3>진행 할 수 있는 상담이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 <h3>'
             $('#consulting_write_box').html(temp_consulting_contents_box);
         }else{
-            console.log(typeof(consultingGrouped))
-            console.log(consultingGrouped)
-            console.log(consultingGroupedCategory)
-            for (i = 0; i < consultingGrouped.length; i++){
-                console.log('tq')
-                key = consultingGroupedCategory[i]
-                console.log(consultingGrouped[i][key])
-                console.log(key)
-                target_consultings = consultingGrouped[i][key]
-                console.log(target_consultings)
+            consultingGroupedCategory.forEach(function(key) {
+                target_consultings = consultingGrouped[key]
                 for (i = 0; i < target_consultings.length; i++){
                     let target = target_consultings[i]
                     console.log(target)
@@ -663,11 +654,10 @@ function get_consulting_history_by_cate(category){
                     }
                     $('#consulting_write_box').html(temp_post_box);
                 }
-
+            });
             // target_consulting.sort((a, b) => {return make_date(a.deadline) - make_date(b.deadline)});
+        }
         
-            }
-    }
     }else if(category == 1){
         // cantconsulting
     }else{
