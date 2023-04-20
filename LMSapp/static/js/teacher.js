@@ -551,12 +551,13 @@ async function get_consulting(student_id, is_done) {
     let temp_consulting_contents_box = `<a class="btn-two cyan small">원생리포트</a><a class="btn-two white small" onclick="get_consulting_history_by_cate('전체')">전체 상담</a>`;
     if( target_consulting_num != 0 ){
         consultingGrouped = target_consulting.reduce((acc, item) => {
-            if (!acc[item.category]) {
+            if (!acc[`${item.category}`]) {
                 acc[item.category] = [];
             }
-            acc[item.category].push(item);
+            acc[`${item.category}`].push(item);
             return acc;
         }, []);
+
         consultingGroupedCategory = Object.keys(consultingGrouped)
         $.each(consultingGroupedCategory, function (index, category) {
             temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" onclick="get_consulting_history_by_cate('${category}')">${category}</a>`;
