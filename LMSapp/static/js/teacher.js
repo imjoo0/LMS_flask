@@ -562,13 +562,11 @@ async function get_consulting(student_id, is_done) {
         $.each(consultingGroupedCategory, function (index, category) {
             temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" href="#target_${category}" onclick="get_consulting_history_by_cate(event)">${category}</a>`;
         });
+        temp_consulting_contents_box += `<a class="btn-two black small" href="#missed" onclick="get_consulting_history_by_cate(event)">부재중</a>`;
         $('#consulting_contents_box_cate').html(temp_consulting_contents_box)
     }
 
-    let temp_consulting_write_box = `<div class="modal-body-select-container">
-    <span class="modal-body-select-label">부재중</span>
-    <label><input type="checkbox" id="missed">부재중</label>
-    </div><h3 id="target_전체" style="margin-bottom:1.2rem;">상담 목록</h3>`
+    let temp_consulting_write_box = `<h3 id="target_전체" style="margin-bottom:1.2rem;">상담 목록</h3>`
     if (target_consulting_num == 0) {
         temp_consulting_write_box += '<p>진행 할 수 있는 상담이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 </p>'
         $('#consulting_write_box').html(temp_consulting_write_box);
@@ -632,6 +630,10 @@ async function get_consulting(student_id, is_done) {
                     id="consulting_result" placeholder="오늘 ${data.student_name}원생 대상 상담 결과를 남겨주세요"></textarea>
             </div>
             <p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
+            <div class="modal-body-select-container">
+            <span class="modal-body-select-label">부재중</span>
+            <label><input type="checkbox" id="missed">부재중</label>
+            </div>
             <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
                 <button class="btn btn-dark"
                     onclick="post_bulk_consultings(${should_consulting_num},${is_done})"

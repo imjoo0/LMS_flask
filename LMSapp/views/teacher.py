@@ -193,12 +193,9 @@ def task(tb_id):
 @bp.route("/consulting_history/<int:id>/<int:is_done>", methods=['POST'])
 def consulting_history(id,is_done):
     if request.method =='POST':
-        print(id)
-        print(is_done)
         # 부재중 체크 (id-consulting_id)
         received_missed = request.form['consulting_missed']
         target_consulting = Consulting.query.get_or_404(id)
-        print(target_consulting)
         if received_missed == "true":
             target_consulting.missed = Today
             target_consulting.done = 0
