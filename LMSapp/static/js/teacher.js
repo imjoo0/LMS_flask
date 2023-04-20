@@ -578,10 +578,10 @@ async function get_consulting(student_id, is_done) {
                     should_consulting_num -= 1;
                 }
                 if(target['category_id'] < 100){
-                    category = target['week_code']+'주간  ' + category
                     temp_consulting_write_box += `
-                    <p class="mt-lg-4 mt-5">✅${category} 검사 업데이트 날짜:</br><strong>➖${make_date(target['startdate'])}</strong></p>
+                    <p class="mt-lg-4 mt-5">✅${category} 검사 업데이트 날짜: <strong>${make_date(target['startdate'])}</strong></p>
                     `;
+                    category = target['week_code']+'주간  ' + category
                 }
                 let history_reason = target['reason'] == null ? '입력해주세요' : target['reason']
                 let history_solution = target['solution'] == null ? '입력해주세요' : target['solution']
