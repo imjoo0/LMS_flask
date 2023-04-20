@@ -562,7 +562,9 @@ async function get_consulting(student_id, is_done) {
         let temp_consulting_write_box = `<h3 id="target_전체" style="margin-bottom:1.2rem;">상담 목록</h3>`
         let idx = 0;
         consultingGroupedCategory.forEach(function(index, key) {
+            console.log(key)
             target_consultings = consultingGrouped[key]
+            console.log(target_consultings)
             temp_consulting_write_box += `<h3 id="target_${key}" style="margin-bottom:1.2rem;">${key}</h3>`
             for (i = 0; i < target_consultings.length; i++){
                 let target = target_consultings[i]
