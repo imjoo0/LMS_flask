@@ -565,11 +565,10 @@ async function get_consulting(student_id, is_done) {
         $('#consulting_contents_box_cate').html(temp_consulting_contents_box)
     }
 
-    let temp_consulting_write_box = `<h3 id="target_전체" style="margin-bottom:1.2rem;">상담 목록</h3>
-    <div class="modal-body-select-container">
+    let temp_consulting_write_box = `<div class="modal-body-select-container">
     <span class="modal-body-select-label">부재중</span>
     <label><input type="checkbox" id="missed">부재중</label>
-    </div>`
+    </div><h3 id="target_전체" style="margin-bottom:1.2rem;">상담 목록</h3>`
     if (target_consulting_num == 0) {
         temp_consulting_write_box += '<p>진행 할 수 있는 상담이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 </p>'
         $('#consulting_write_box').html(temp_consulting_write_box);
