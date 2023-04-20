@@ -571,7 +571,7 @@ async function get_consulting(student_id, is_done) {
     
 }
 // 상담일지 작성 
-function get_consulting_history_by_cate(category) {
+function get_consulting_history_by_cate(category){
     // 전체 상담 
     console.log(category)
     if(category=='전체'){
@@ -660,8 +660,9 @@ function get_consulting_history_by_cate(category) {
                 }
 
             // target_consulting.sort((a, b) => {return make_date(a.deadline) - make_date(b.deadline)});
-        }
         
+            }
+    }
     }else if(category == 1){
         // cantconsulting
     }else{
