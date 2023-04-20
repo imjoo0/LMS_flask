@@ -107,8 +107,8 @@ def get_all_task():
 
 @bp.route('/downloadfile/question/<int:q_id>')
 def download_file(q_id):
-    attachment = Attachments.query.filter_by(question_id=q_id).all()
-    if attachment is None:
+    attachments = Attachments.query.filter_by(question_id=q_id).all()
+    if attachments is None:
         return "File not found."
     zip_buffer = BytesIO()
     with zipfile.ZipFile(zip_buffer, "w") as zip_file:
