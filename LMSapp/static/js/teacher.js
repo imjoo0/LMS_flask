@@ -620,17 +620,13 @@ async function get_consulting(student_id, is_done) {
                     id="consulting_result" placeholder="오늘 ${data.student_name}원생 대상 상담 결과를 남겨주세요"></textarea>
             </div>
             <p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
-            <div class="modal-body-select-container">
-            <span class="modal-body-select-label">부재중</span>
-            <label><input type="checkbox" id="missed">부재중</label>
-            </div>
             <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
                 <button class="btn btn-dark"
                     onclick="post_bulk_consultings(${should_consulting_num},${is_done})"
                     style="margin-right:5px">저장</button>
             </div>
             `;
-            temp_consulting_contents_box += `<a class="btn-two black small" onclick="missed_consulting(${should_consulting_num},${is_done})">부재중</a>`;
+            temp_consulting_contents_box += `<a class="btn-two black small" onclick="missed_consulting(${should_consulting_num})">부재중</a>`;
         }else if(is_done == 1){
             temp_consulting_write_box += `
             <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
@@ -665,39 +661,24 @@ function get_consulting_history_by_cate(category) {
     }
 }
 // 부재중 처리
-async function missed_consulting(c_length, is_done) {
+async function missed_consulting(c_length) {
     const csrf = $('#csrf_token').val();
     var con_val = confirm('부재중 처리 하시겠습니까?')
     if (con_val == true) {
         for (i = 0; i < c_length; i++) {
             target = $('#target_consulting_id' + i).val()
-            post_missed_consulting(target, is_done)
+            post_missed_consulting(target)
         }
     }
+    alert('부재중 처리 되었습니다')
+    window.location.reload()
 }
-function post_missed_consulting(consulting, is_done) {
-    consulting_missed = $(`input:checkbox[id="missed"]`).is(":checked")
-    consulting_result = $('#consulting_result').val()
-    consulting_reason = $('#consulting_reason' + consulting).val()
-    consulting_solution = $('#consulting_solution' + consulting).val()
-    if (!consulting_reason || consulting_reason.length == 0) {
-        consulting_reason = "작성 내역이 없습니다"
-    } 
-    if (!consulting_solution || consulting_solution.length == 0) {
-        consulting_solution = "작성 내역이 없습니다"
-    } 
-    if (!consulting_result || consulting_result.length == 0) {
-        consulting_result = "작성 내역이 없습니다"
-    }
+function post_missed_consulting(consulting) {
     $.ajax({
         type: "POST",
-        url: '/teacher/consulting_history/' + consulting + '/' + is_done,
+        url: '/teacher/consulting_missed/' + consulting,
         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
         data: {
-            consulting_reason: consulting_reason,
-            consulting_solution: consulting_solution,
-            consulting_result: consulting_result,
-            consulting_missed: consulting_missed,
         },success: function (response) {
             if (response['result'] == '완료') {
             } else {
@@ -715,7 +696,6 @@ function post_bulk_consultings(c_length, is_done) {
     window.location.reload()
 }
 function post_target_consulting(consulting, is_done) {
-    consulting_missed = $(`input:checkbox[id="missed"]`).is(":checked")
     consulting_result = $('#consulting_result').val()
     consulting_reason = $('#consulting_reason' + consulting).val()
     consulting_solution = $('#consulting_solution' + consulting).val()
@@ -736,7 +716,6 @@ function post_target_consulting(consulting, is_done) {
             consulting_reason: consulting_reason,
             consulting_solution: consulting_solution,
             consulting_result: consulting_result,
-            consulting_missed: consulting_missed,
         },success: function (response) {
             if (response['result'] == '완료') {
             } else {
