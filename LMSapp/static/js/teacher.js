@@ -681,8 +681,8 @@ async function missed_consulting(c_length) {
             target = $('#target_consulting_id' + i).val()
             post_missed_consulting(target)
         }
+        alert('부재중 처리 되었습니다')
     }
-    alert('부재중 처리 되었습니다')
     window.location.reload()
 }
 function post_missed_consulting(consulting) {
