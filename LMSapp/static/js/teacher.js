@@ -580,6 +580,7 @@ function get_consulting_history_by_cate(category) {
             temp_consulting_contents_box += '<h3>진행 할 수 있는 상담이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 <h3>'
             $('#consulting_write_box').html(temp_consulting_contents_box);
         }else{
+            console.log(consultingGrouped)
             $.each(consultingGrouped, function (index, consultings) {
                 console.log(consultings)
                 console.log(consultingGroupedCategory)
