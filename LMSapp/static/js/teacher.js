@@ -556,10 +556,8 @@ async function get_consulting(student_id, is_done) {
             }
             acc[item.category].push(item);
             return acc;
-        }, []);
-        consultingGrouped = Object.entries(consultingGrouped).map(([v, items]) => {
-            return { [v]: items };
-        });
+        }, {});
+        
         consultingGroupedCategory = Object.keys(consultingGrouped)
         $.each(consultingGroupedCategory, function (index, category) {
             temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" onclick="get_consulting_history_by_cate('${category}')">${category}</a>`;
