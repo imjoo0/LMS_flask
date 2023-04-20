@@ -566,42 +566,7 @@ async function get_consulting(student_id, is_done) {
         $('#consulting_contents_box_cate').html(temp_consulting_contents_box)
     }
 
-    get_consulting_history_by_cate(0);
-
-
-    // 여기여기여기
-    // if (cant_consulting_list.length > 0){
-    //     $('#consulting_cant_write_box').empty();
-    //     for (i = 0; i < cant_consulting_list.length; i++) {
-    //         let target = cant_consulting_list[i]
-    //         let category = target['week_code']+'주간  '+ target['category']
-    //         let contents = target['contents']
-    //         let consulting_missed = missed_date(target['missed'])
-    //         let deadline = make_date(target['deadline'])
-    //         let history_created = target['created_at']
-    //         let temp_consulting_contents_box = `
-    //         <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br><strong>➖상담 마감일:
-    //             ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br>
-    //             <strong style="color:red;">➖ 이미 원생이 ${make_date(history_created)}일 날 학습을 완료했습니다. (  ✏️ 추천: 원생목록에서 추가 상담 진행)</strong></br>
-    //             ${contents}</br> 
-    //         </p>
-    //         `;
-    //         $('#consulting_cant_write_box').append(temp_consulting_contents_box);
-    //     }
-    //     temp_post_box = `
-    //     <p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
-    //         <div class="modal-body-select-container">
-    //         <span class="modal-body-select-label">부재중</span>
-    //         <label><input type="checkbox" id="missed">부재중</label>
-    //         </div>
-    //         <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
-    //             <button class="btn btn-dark"
-    //                 onclick="post_bulk_consultings(${consultinglist_len},${is_done})"
-    //                 style="margin-right:5px">저장</button>
-    //         </div>
-    //     `;
-    //     $('#consulting_write_box').append(temp_post_box);
-    // }
+    get_consulting_history_by_cate('전체');
 
     $('.mo_inloading').hide()
     $('.monot_inloading').show()
