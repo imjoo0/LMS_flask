@@ -564,7 +564,7 @@ async function get_consulting(student_id, is_done) {
         $('#consulting_contents_box_cate').html(temp_consulting_contents_box)
     }
 
-    let temp_consulting_write_box = `<h3 id="target_전체" style="margin-bottom:1.2rem;">상담 목록</h3>;`
+    let temp_consulting_write_box = `<h3 id="target_전체" style="margin-bottom:1.2rem;">상담 목록</h3>`
     if (target_consulting_num == 0) {
         temp_consulting_write_box += '<p>진행 할 수 있는 상담이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 </p>'
         $('#consulting_write_box').html(temp_consulting_write_box);
@@ -652,6 +652,10 @@ async function get_consulting(student_id, is_done) {
 
     $('.mo_inloading').hide()
     $('.monot_inloading').show()
+    const modalTopHeadHeight = document.querySelector('.modal_top_head').offsetHeight;
+    // modal_top_head 바로 아래에 있는 요소의 margin-top 값을 modalTopHeadHeight로 설정
+    const modalBottomBody = document.querySelector('.modal_bottom_body');
+    modalBottomBody.style.marginTop = `${modalTopHeadHeight}px`;
     
 }
 // 상담일지 작성 
@@ -664,6 +668,10 @@ function get_consulting_history_by_cate(category) {
             scrollTop: target.offset().top
         }, 1000);
     }
+    const modalTopHeadHeight = document.querySelector('.modal_top_head').offsetHeight;
+    // modal_top_head 바로 아래에 있는 요소의 margin-top 값을 modalTopHeadHeight로 설정
+    const modalBottomBody = document.querySelector('.modal_bottom_body');
+    modalBottomBody.style.marginTop = `${modalTopHeadHeight}px`;
 }
 
 function post_bulk_consultings(c_length, is_done) {
