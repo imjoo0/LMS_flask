@@ -582,6 +582,7 @@ function get_consulting_history_by_cate(category) {
         }else{
             consultingGroupedCategory.forEach(function(key) {
                 target_consultings = consultingGrouped[key]
+                temp_consulting_contents_box += `<h3 style="margin-bottom:1.2rem;">${key}</h3>`
                 for (i = 0; i < target_consultings.length; i++){
                     let target = target_consultings[i]
                     console.log(target)
