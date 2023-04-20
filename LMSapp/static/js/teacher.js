@@ -492,11 +492,10 @@ async function get_consulting(student_id, is_done) {
     //     // $('#consulting_contents_box').append(temp_button);
         
     // }
-    const data = consultingStudentData.filter((e) => {
+    data = consultingStudentData.filter((e) => {
         return e.student_id == student_id && e.consulting_list.length != 0;
     })[0]
     $('#consultinghistoryModalLabelt').html(`${data['student_name']} 원생 상담일지`)
-    console.log(data)
     
     $('.mo_inloading').show()
     $('.monot_inloading').hide()
@@ -580,6 +579,7 @@ function get_consulting_history_by_cate(category) {
         let temp_consulting_contents_box = '';
         if (target_consulting_num == 0) {
             temp_consulting_contents_box += '<h3>진행 할 수 있는 상담이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 <h3>'
+            $('#consulting_write_box').html(temp_consulting_contents_box);
         }else{
             $.each(consultingGrouped, function (index, consultings) {
                 key = consultingGroupedCategory[index]
