@@ -578,7 +578,6 @@ function get_consulting_history_by_cate(category) {
     console.log(category)
     if(category=='전체'){
         let temp_consulting_contents_box = '';
-        $('#consulting_write_box').empty();
         if (target_consulting_num == 0) {
             temp_consulting_contents_box += '<h3>진행 할 수 있는 상담이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 <h3>'
         }else{
