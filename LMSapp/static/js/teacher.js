@@ -582,7 +582,7 @@ async function get_consulting(student_id, is_done) {
                 }
                 let history_reason = target['reason'] == null ? '입력해주세요' : target['reason']
                 let history_solution = target['solution'] == null ? '입력해주세요' : target['solution']
-                // let history_result = target['result'] == null ? '입력해주세요' : target['result']
+                let history_result = target['result'] == null ? '입력해주세요' : target['result']
                 if(cantCon){
                     temp_consulting_write_box += `
                     <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br><strong>➖상담 마감일:
@@ -605,8 +605,17 @@ async function get_consulting(student_id, is_done) {
                         <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"
                             id="consulting_solution${consulting_id}" placeholder="${history_solution}">
                     </div>
-                    <p>상담 일시 : ${make_date(history_created)}</p>
                     `;
+                    if(is_done == 1){
+                        temp_consulting_write_box += `
+                        <div class="modal-body-select-container">
+                        <span class="modal-body-select-label">상담 결과</span>
+                        <textarea class="modal-body-select" type="text" rows="5" cols="25"
+                            id="consulting_result${consulting_id}" style="width: 75%;" placeholder="${history_result}"></textarea>
+                        </div>
+                        `;
+                    }
+                    temp_consulting_write_box += `<p>상담 일시 : ${make_date(history_created)}</p> `;
                     idx +=1 ;
                 }
             }
