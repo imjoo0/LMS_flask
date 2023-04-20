@@ -668,6 +668,7 @@ function get_consulting_history_by_cate(category) {
 function post_bulk_consultings(c_length, is_done) {
     for (i = 0; i < c_length; i++) {
         target = $('#target_consulting_id' + i).val()
+        console.log(target)
         post_target_consulting(target, is_done)
     }
     alert("상담 저장 완료")
@@ -678,15 +679,13 @@ function post_target_consulting(consulting, is_done) {
     consulting_result = $('#consulting_result').val()
     consulting_reason = $('#consulting_reason' + consulting).val()
     consulting_solution = $('#consulting_solution' + consulting).val()
-    console.log(consulting_missed)
-    console.log(consulting_result)
-    console.log(consulting_reason)
-    console.log(consulting_solution)
-    if ((consulting_reason.length == 0)) {
+    if (!consulting_reason || consulting_reason.length == 0) {
         consulting_reason = "작성 내역이 없습니다"
-    } if ((consulting_solution.length == 0)) {
+    } 
+    if (!consulting_solution || consulting_solution.length == 0) {
         consulting_solution = "작성 내역이 없습니다"
-    } if ((consulting_result.length == 0)) {
+    } 
+    if (!consulting_result || consulting_result.length == 0) {
         consulting_result = "작성 내역이 없습니다"
     }
     $.ajax({
