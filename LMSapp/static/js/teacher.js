@@ -575,6 +575,7 @@ async function get_consulting(student_id, is_done) {
 // 상담일지 작성 
 function get_consulting_history_by_cate(category) {
     // 전체 상담 
+    console.log(category)
     if(category=='전체'){
         let temp_consulting_contents_box = '';
         $('#consulting_write_box').empty();
