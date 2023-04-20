@@ -619,8 +619,10 @@ function get_consulting_history_by_cate(category) {
             $.each(consultingGrouped, function (index, consultings) {
                 key = consultingGroupedCategory[index]
                 target_consultings = consultings[key]
+                console.log(target_consultings)
                 for (i = 0; i < target_consultings.length; i++){
                     let target = target_consultings[i]
+                    console.log(target)
                     let category = target['category']
                     let consulting_id = target['id']
                     let contents = target['contents']

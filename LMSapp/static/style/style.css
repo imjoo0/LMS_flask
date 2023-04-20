@@ -637,7 +637,7 @@ input::placeholder {
   .btn.purple, .btn-two.purple {background-color: #cb99c5;}
   .btn.cyan, .btn-two.cyan     {background-color: #7fccde;}
   .btn.yellow, .btn-two.yellow {background-color: #f0d264;}
-  .btn.white, .btn-two.white     {background-color: #d8d8ce; color: black;}
+  .btn.white, .btn-two.white     {background-color: #fcfcf1; color: black;}
   
   .rounded {
     border-radius: 10px;
