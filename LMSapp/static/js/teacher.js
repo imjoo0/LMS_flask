@@ -514,7 +514,7 @@ async function get_consulting(student_id, is_done) {
 
     let target_consulting = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == is_done) : 0;
     let target_consulting_num = target_consulting.length;
-    const target_consulting_cate = [...new Set(target_consulting.map(obj => obj.category))];
+    // const target_consulting_cate = [...new Set(target_consulting.map(obj => obj.category))];
     
     // 완료한 상담 
     // let done_consulting = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == 1) : 0;
@@ -549,11 +549,23 @@ async function get_consulting(student_id, is_done) {
     <td class="col-2"><strong>${answer_rate(unlearned_consulting_num,total_ban_unlearned_consulting).toFixed(0)}%</strong></td>
     `)
     const color_pallete = ['green','purple','yellow','red','blue','orange','cyan']
-    let temp_consulting_contents_box = '<a class="btn-two cyan small">원생리포트</a>';
-    $.each(target_consulting_cate, function (index, category) {
-        temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" onclick="get_consulting_history_by_cate('${category}')">${category}</a>`;
-    });
-    $('#consulting_contents_box_cate').html(temp_consulting_contents_box)
+    let temp_consulting_contents_box = `<a class="btn-two cyan small">원생리포트</a><a class="btn-two orange small" onclick="get_consulting_history_by_cate('전체')">전체 상담</a>`;
+    if( target_consulting_num != 0 ){
+        let consultingGrouped = target_consulting.reduce((acc, item) => {
+            if (!acc[item.category]) {
+                acc[item.category] = [];
+            }
+            acc[v].push(item);
+            return acc;
+        }, []);
+        console.log(consultingGrouped)
+        $.each(Object.keys(consultingGrouped), function (index, category) {
+            temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" onclick="get_consulting_history_by_cate('${category}')">${category}</a>`;
+        });
+        $('#consulting_contents_box_cate').html(temp_consulting_contents_box)
+    
+    }
+
     // get_consulting_history_by_cate(0);
 
 
