@@ -5,6 +5,7 @@ from flask_file_upload import FileUpload
 from io import BytesIO
 import callapi
 import pymysql
+import zipfile
 from flask import session
 
 bp = Blueprint('common', __name__, url_prefix='/common')
@@ -109,7 +110,14 @@ def download_file(q_id):
     attachment = Attachments.query.filter_by(question_id=q_id).all()
     if attachment is None:
         return "File not found."
-    return send_file(BytesIO(attachment.data),as_attachment=True, mimetype=attachment.mime_type,download_name=attachment.file_name )
+    zip_buffer = BytesIO()
+    with zipfile.ZipFile(zip_buffer, "w") as zip_file:
+        for attachment in attachments:
+            file_buffer = BytesIO(attachment.data)
+            zip_file.writestr(attachment.file_name, file_buffer.getvalue())
+    zip_buffer.seek(0)
+    return send_file(zip_buffer, as_attachment=True, filename='attachments.zip')
+    # return send_file(BytesIO(attachment.data),as_attachment=True, mimetype=attachment.mime_type,download_name=attachment.file_name )
     # # # 파일 저장
     # save_path = os.path.join(config.UPLOAD_FOLDER, uploadto)
     # with open(save_path, 'wb') as f:
