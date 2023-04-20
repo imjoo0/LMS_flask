@@ -577,6 +577,7 @@ async function get_consulting(student_id, is_done) {
                 let cantCon = false
                 if(target.created_at != null && target.done == 0){
                     cantCon = true
+                    should_consulting_num -= 1;
                 }
                 if(target['category_id'] < 100){
                     category = target['week_code']+'주간  ' + category
@@ -585,7 +586,6 @@ async function get_consulting(student_id, is_done) {
                 let history_solution = target['solution'] == null ? '입력해주세요' : target['solution']
                 // let history_result = target['result'] == null ? '입력해주세요' : target['result']
                 if(cantCon){
-                    should_consulting_num -= 1;
                     temp_consulting_write_box += `
                     <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br><strong>➖상담 마감일:
                         ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br>
@@ -631,7 +631,7 @@ async function get_consulting(student_id, is_done) {
                     style="margin-right:5px">저장</button>
             </div>
             `;
-            temp_consulting_contents_box += `<a class="btn-two black small" href="#missed" onclick="get_consulting_history_by_cate(event)">부재중</a>`;
+            temp_consulting_contents_box += `<a  href="#consulting_button_box" class="btn-two black small" onclick="get_consulting_history_by_cate(event)">부재중</a>`;
         }else if(is_done == 1){
             temp_consulting_write_box += `
             <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
