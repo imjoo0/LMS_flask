@@ -678,6 +678,10 @@ function post_target_consulting(consulting, is_done) {
     consulting_result = $('#consulting_result').val()
     consulting_reason = $('#consulting_reason' + consulting).val()
     consulting_solution = $('#consulting_solution' + consulting).val()
+    console.log(consulting_missed)
+    console.log(consulting_result)
+    console.log(consulting_reason)
+    console.log(consulting_solution)
     if ((consulting_reason.length == 0)) {
         consulting_reason = "작성 내역이 없습니다"
     } if ((consulting_solution.length == 0)) {
