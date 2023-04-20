@@ -560,7 +560,7 @@ async function get_consulting(student_id, is_done) {
         }, []);
         consultingGroupedCategory = Object.keys(consultingGrouped)
 
-        let temp_consulting_write_box = `<h3 id="target_전체" style="margin-bottom:1.2rem;">상담 목록</h3>`
+        let temp_consulting_write_box = ''
         let idx = 0;
         $.each(consultingGroupedCategory, function (index, key) {
             temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" href="#target_${key}" onclick="get_consulting_history_by_cate(event)">${key}</a>`;
