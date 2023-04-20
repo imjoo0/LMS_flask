@@ -31,7 +31,7 @@ class Question(db.Model):
     answer = db.Column(db.Integer,nullable=True)
 
     qa = db.relationship("Answer", uselist=False, back_populates="question", cascade="all, delete", overlaps="qa")
-    qcomments = db.relationship("Comment", back_populates="question", cascade='all, delete-orphan', single_parent=True,overlaps="qcomments")
+    qcomments = db.relationship("Comment", back_populates="question", cascade='all, delete-orphan',overlaps="qcomments")
     attachments = db.relationship('Attachments', uselist=False,back_populates='question', cascade='all, delete-orphan', single_parent=True)
 
 @file_upload.Model
@@ -44,7 +44,7 @@ class Attachments(db.Model):
     data = db.Column(db.LargeBinary)
     file_name = db.Column(db.String(200))
 
-    question = db.relationship("Question", back_populates='attachments', single_parent=True)
+    question = db.relationship("Question", back_populates='attachments')
 
 class Comment(db.Model):
     __tablename__ = 'comment'
