@@ -697,13 +697,13 @@ function get_consulting_history_by_cate(category) {
     }else if(category == 1){
         // cantconsulting
     }else{
-        $.each(consultings[category], function (index, consulting) {
-            if(consulting.category_id > 100){
+        // $.each(consultings[category], function (index, consulting) {
+        //     if(consulting.category_id > 100){
                 
-            }else{
+        //     }else{
                 
-            }
-        });
+        //     }
+        // });
     }
 }
 
