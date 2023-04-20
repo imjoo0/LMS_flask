@@ -548,8 +548,6 @@ async function get_consulting(student_id, is_done) {
     <td class="col-4">${make_nodata(total_ban_unlearned_consulting)}</td>
     <td class="col-2"><strong>${answer_rate(unlearned_consulting_num,total_ban_unlearned_consulting).toFixed(0)}%</strong></td>
     `)
-    const color_pallete = ['green','purple','yellow','red','blue','orange','cyan','white']
-    let temp_consulting_contents_box = `<a class="btn-two cyan small">원생리포트</a><a class="btn-two white small" href="#target_전체" onclick="get_consulting_history_by_cate(event)">전체 상담</a>`;
     if( target_consulting_num != 0 ){
         consultingGrouped = target_consulting.reduce((acc, item) => {
             if (!acc[item.category]) {
@@ -559,11 +557,11 @@ async function get_consulting(student_id, is_done) {
             return acc;
         }, []);
         consultingGroupedCategory = Object.keys(consultingGrouped)
-
+        const color_pallete = ['green','purple','yellow','red','blue','orange','cyan','white']
+        let temp_consulting_contents_box = `<a class="btn-two cyan small">원생리포트</a>`;
         let temp_consulting_write_box = ''
         let idx = 0;
         $.each(consultingGroupedCategory, function (index, key) {
-            temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" href="#target_${key}" onclick="get_consulting_history_by_cate(event)">${key}</a>`;
             target_consultings = consultingGrouped[key]
             temp_consulting_write_box += `<h3 id="target_${key}" style="margin-bottom:1.2rem;">${key}</h3>`
             for (i = 0; i < target_consultings.length; i++){
@@ -613,6 +611,7 @@ async function get_consulting(student_id, is_done) {
                 }
             }
         });
+        temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" href="#target_${key}" onclick="get_consulting_history_by_cate(event)">${key}</a>`;
         if(is_done == 0){
             temp_consulting_write_box += `
             <div class="modal-body-select-container">
@@ -631,7 +630,7 @@ async function get_consulting(student_id, is_done) {
                     style="margin-right:5px">저장</button>
             </div>
             `;
-            temp_consulting_contents_box += `<a  href="#consulting_button_box" class="btn-two black small" onclick="get_consulting_history_by_cate(event)">부재중</a>`;
+            temp_consulting_contents_box += `<a href="#consulting_button_box" class="btn-two black small" onclick="get_consulting_history_by_cate(event)">부재중</a>`;
         }else if(is_done == 1){
             temp_consulting_write_box += `
             <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
