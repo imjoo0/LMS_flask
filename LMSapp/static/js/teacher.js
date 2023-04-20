@@ -658,7 +658,7 @@ function get_consulting_history_by_cate(category) {
     // 전체 상담 
     var target = $(category.target.getAttribute('href'));
     if (target.length) {
-        event.preventDefault();
+        category.preventDefault();
         $('html, body').animate({
             scrollTop: target.offset().top
         }, 1000);
