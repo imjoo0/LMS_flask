@@ -511,7 +511,7 @@ async function get_consulting(student_id, is_done) {
         total_ban_unlearned_consulting += consulting.consulting_list.filter(u=>u.category_id<100 && u.ban_id == data.ban_id).length
     });
 
-    target_consulting = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == is_done) : 0;
+    target_consulting = data['consulting_list'].length  > 0 ? data['consulting_list'].filter( c=>c.done == 0) : 0;
     target_consulting_num = target_consulting.length;
     // const target_consulting_cate = [...new Set(target_consulting.map(obj => obj.category))];
     
@@ -571,7 +571,7 @@ async function get_consulting(student_id, is_done) {
     }else{
         consultingGroupedCategory.forEach(function(key) {
             target_consultings = consultingGrouped[key]
-            temp_consulting_write_box += `<h3 id="target_${key}" style="margin-bottom:1.2rem;">${key}</h3>`
+            temp_consulting_write_box += `<h3 id="target_${key}" style="margin-top:500px;margin-bottom:1.2rem;">${key}</h3>`
             for (i = 0; i < target_consultings.length; i++){
                 let target = target_consultings[i]
                 let category = target['category']
@@ -615,12 +615,8 @@ async function get_consulting(student_id, is_done) {
                     <p>상담 일시 : ${make_date(history_created)}</p>
                     `;
                 }
-                $('#consulting_write_box').html(temp_consulting_write_box);
             }
-        });
-        let temp_post_box = '';
-        if(is_done == 0){
-            temp_post_box += `
+            temp_consulting_write_box += `
             <div class="modal-body-select-container">
                 <span class="modal-body-select-label">상담 결과</span>
                 <textarea class="modal-body" type="text" rows="5" cols="25"
@@ -635,16 +631,23 @@ async function get_consulting(student_id, is_done) {
                 <button class="btn btn-dark"
                     onclick="post_bulk_consultings(${target_consulting_num},${is_done})"
                     style="margin-right:5px">저장</button>
-            </div>`
-        }else if(is_done == 1){
-            temp_post_box += `
-            <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
-                <button class="btn btn-dark"
-                    onclick="post_bulk_consultings(${target_consulting_num},${is_done})"
-                    style="margin-right:5px">수정</button>
-            </div>`
-        }
-        $('#consulting_write_box').append(temp_post_box);
+            </div>
+            `;
+            $('#consulting_write_box').html(temp_consulting_write_box);
+        });
+        // let temp_post_box = '';
+        // if(is_done == 0){
+        //     temp_post_box += `
+        //     `
+        // }else if(is_done == 1){
+        //     temp_post_box += `
+        //     <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
+        //         <button class="btn btn-dark"
+        //             onclick="post_bulk_consultings(${target_consulting_num},${is_done})"
+        //             style="margin-right:5px">수정</button>
+        //     </div>`
+        // }
+        // $('#consulting_write_box').append(temp_post_box);
         // target_consulting.sort((a, b) => {return make_date(a.deadline) - make_date(b.deadline)});
     }
 
