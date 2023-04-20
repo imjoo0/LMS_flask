@@ -633,6 +633,7 @@ input::placeholder {
   .btn.blue, .btn-two.blue     {background-color: #7fb1bf;}
   .btn.green, .btn-two.green   {background-color: #9abf7f;}
   .btn.red, .btn-two.red       {background-color: #fa5a5a;}
+  .btn.orange, .btn-two.orange       {background-color: #faa75a;}
   .btn.purple, .btn-two.purple {background-color: #cb99c5;}
   .btn.cyan, .btn-two.cyan     {background-color: #7fccde;}
   .btn.yellow, .btn-two.yellow {background-color: #f0d264;}
