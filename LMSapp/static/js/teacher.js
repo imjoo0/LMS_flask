@@ -559,7 +559,7 @@ async function get_consulting(student_id, is_done) {
         }, []);
         consultingGroupedCategory = Object.keys(consultingGrouped)
         $.each(consultingGroupedCategory, function (index, category) {
-            temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" onclick="get_consulting_history_by_cate('${category}')">${category}</a>`;
+            temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" href="#target_${category}" onclick="get_consulting_history_by_cate(event)">${category}</a>`;
         });
         $('#consulting_contents_box_cate').html(temp_consulting_contents_box)
     }
@@ -582,7 +582,7 @@ function get_consulting_history_by_cate(category) {
         }else{
             consultingGroupedCategory.forEach(function(key) {
                 target_consultings = consultingGrouped[key]
-                temp_consulting_contents_box += `<h3 style="margin-bottom:1.2rem;">${key}</h3>`
+                temp_consulting_contents_box += `<h3 id="target_${key}" style="margin-bottom:1.2rem;">${key}</h3>`
                 for (i = 0; i < target_consultings.length; i++){
                     let target = target_consultings[i]
                     console.log(target)
@@ -661,16 +661,14 @@ function get_consulting_history_by_cate(category) {
             // target_consulting.sort((a, b) => {return make_date(a.deadline) - make_date(b.deadline)});
         }
         
-    }else if(category == 1){
-        // cantconsulting
     }else{
-        // $.each(consultings[category], function (index, consulting) {
-        //     if(consulting.category_id > 100){
-                
-        //     }else{
-                
-        //     }
-        // });
+        var target = $(category.target.getAttribute('href'));
+        if (target.length) {
+            event.preventDefault();
+            $('html, body').animate({
+              scrollTop: target.offset().top
+            }, 1000);
+        }
     }
 }
 
