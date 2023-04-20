@@ -125,7 +125,7 @@ def question():
         student_id = request.form['target_student']
         create_date = datetime.now().date()
         # 첨부 파일 처리
-        file = request.files['file-upload']
+        files = request.files.getlist('file-upload')
         if question_category == '일반':
             # 영교부에서 재택T 문의 관리 하는 시놀로지 채팅 방 token 값 받아야 함. 
             Synologytoken = 'PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q'
@@ -144,7 +144,8 @@ def question():
             new_question = Question(consulting_history=history_id, category=cateory, title=title, contents=contents,teacher_id=teacher, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         db.session.add(new_question)
         db.session.commit()
-        common.save_attachment(file, new_question.id)
+        for file in files:
+            common.save_attachment(file, new_question.id)
         # const groupToken = {
         #         행정파트: '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"',
         #         내근티처: '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"',
