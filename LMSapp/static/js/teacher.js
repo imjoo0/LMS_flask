@@ -403,6 +403,11 @@ async function get_consulting_student(done_code) {
 
 // 상담일지 작성 
 async function get_consulting(student_id, is_done) {
+    
+    const modalTopHeadHeight = document.querySelector('.modal_top_head').offsetHeight;
+    // modal_top_head 바로 아래에 있는 요소의 margin-top 값을 modalTopHeadHeight로 설정
+    const modalBottomBody = document.querySelector('.modal_bottom_body');
+    modalBottomBody.style.marginTop = `${modalTopHeadHeight}px`;
     // if(!reportsData){
     //     await get_student_reports().then(()=>{
     //         console.log(reportsData)
@@ -652,14 +657,14 @@ async function get_consulting(student_id, is_done) {
 
     $('.mo_inloading').hide()
     $('.monot_inloading').show()
-    const modalTopHeadHeight = document.querySelector('.modal_top_head').offsetHeight;
-    // modal_top_head 바로 아래에 있는 요소의 margin-top 값을 modalTopHeadHeight로 설정
-    const modalBottomBody = document.querySelector('.modal_bottom_body');
-    modalBottomBody.style.marginTop = `${modalTopHeadHeight}px`;
     
 }
 // 상담일지 작성 
 function get_consulting_history_by_cate(category) {
+    const modalTopHeadHeight = document.querySelector('.modal_top_head').offsetHeight;
+    // modal_top_head 바로 아래에 있는 요소의 margin-top 값을 modalTopHeadHeight로 설정
+    const modalBottomBody = document.querySelector('.modal_bottom_body');
+    modalBottomBody.style.marginTop = `${modalTopHeadHeight}px`;
     // 전체 상담 
     var target = $(category.target.getAttribute('href'));
     if (target.length) {
@@ -668,10 +673,10 @@ function get_consulting_history_by_cate(category) {
             scrollTop: target.offset().top
         }, 1000);
     }
-    const modalTopHeadHeight = document.querySelector('.modal_top_head').offsetHeight;
-    // modal_top_head 바로 아래에 있는 요소의 margin-top 값을 modalTopHeadHeight로 설정
-    const modalBottomBody = document.querySelector('.modal_bottom_body');
-    modalBottomBody.style.marginTop = `${modalTopHeadHeight}px`;
+    // modalTopHeadHeight = document.querySelector('.modal_top_head').offsetHeight;
+    // // modal_top_head 바로 아래에 있는 요소의 margin-top 값을 modalTopHeadHeight로 설정
+    // modalBottomBody = document.querySelector('.modal_bottom_body');
+    // modalBottomBody.style.marginTop = `${modalTopHeadHeight}px`;
 }
 
 function post_bulk_consultings(c_length, is_done) {
