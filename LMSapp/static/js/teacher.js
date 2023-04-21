@@ -1000,8 +1000,18 @@ function get_ban_student(ban_id){
         $('#student_list').html(temp_target_student)
     }else{
         temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option>';
+        data.sort(function(a,b){
+            var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+            var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+            if (nameA < nameB) {
+                return -1;
+            }
+            if (nameA > nameB) {
+                return 1;
+            }
+            return 0; 
+        })
         $.each(data, function (index, student) {
-            console.log(student)
             temp_target_student += `
             <option value="${student.student_id}"> ${student.student_name} *${student.student_origin}</option>
             `;
