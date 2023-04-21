@@ -11,21 +11,11 @@ function openPopup(url){
     var popup = window.open('', 'popup', 'width=800,height=600');
     popup.document.write('<html><body><iframe src="' + url + '" width="100%" height="100%" frameborder="0"></iframe></body></html>');
 }
-// let make_recobook = function(c){
-//     if( c == null){
-//         return '❌'
-//     } else if(c == 'NOT'){
-//         result = c + ' (추천도서없음)'
-//         return result
-//     }else{
-//         return c
-//     }
-// }
 let make_reject_code = function(rc){
     if( rc == 0){
-        return '❌';
+        return '❌ 반려';
     }else{
-        return '⭕';
+        return '⭕ 승인';
     }
 }
 let make_cycle = function(c){
