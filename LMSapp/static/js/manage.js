@@ -170,7 +170,7 @@ function so_paginating(done_code) {
             $('#so_search_input').on('keyup', function () {
                 var searchInput = $(this).val().toLowerCase();
                 var filteredData = qdata.filter(function (data) {
-                    return data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1;
+                    return (data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1);
                 });
                 container.pagination('destroy');
                 container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
@@ -199,12 +199,12 @@ async function get_soquestion_detail(q_id, done_code) {
             $('.cs_inloading').hide()
             $('.not_inloading').show()
         });
-    } else if (!studentsData && consultingData) {
+    }else if (!studentsData && consultingData) {
         await get_all_students().then(() => {
             $('.cs_inloading').hide()
             $('.not_inloading').show()
         });
-    } else if (studentsData && !consultingData) {
+    }else if (studentsData && !consultingData) {
         await get_all_consulting().then(() => {
             $('.cs_inloading').hide()
             $('.not_inloading').show()
@@ -596,8 +596,10 @@ function post_answer(q_id, category) {
     answer_title = $('#answer_title').val()
     answer_contents = $('#answer_contents').val()
     o_ban_id = 0
-    if (category != 0 && category != 4) {
-        o_ban_id = $('#o_ban_id' + category).val()
+    if (category == 2) {
+        o_ban_id = $('#o_ban_id2').val()
+    }else if(category == 3 || category == 1){
+        o_ban_id = $('#o_ban_id').val()
     }
     $.ajax({
         type: "POST",
