@@ -1006,7 +1006,7 @@ function get_ban_student(ban_id){
             `;
             $('#student_list').html(temp_target_student)
         });
-        $('.plzsearch').html('<input type="text" id="qstudent_search_input" placeholder="원생 이름 혹은 원번으로 검색" style="float:right;width:350px;height:40px; margin-left:10px;">')
+        $('.plzsearch').append('<input type="text" id="qstudent_search_input" placeholder="원생 이름 혹은 원번으로 검색" style="float:right;width:350px;height:40px; margin-left:10px;">')
     }
 }
     // 상담일지 첨부 
