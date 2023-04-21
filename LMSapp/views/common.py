@@ -110,19 +110,19 @@ def download_file(q_id):
     attachments = Attachments.query.filter_by(question_id=q_id).all()
     if attachments is None:
         return "File not found."
-    zip_buffer = BytesIO()
-    with zipfile.ZipFile(zip_buffer, "w") as zip_file:
-        for attachment in attachments:
-            file_buffer = BytesIO(attachment.data)
-            zip_file.writestr(attachment.file_name, file_buffer.getvalue())
-    zip_buffer.seek(0)
-    return send_file(zip_buffer, as_attachment=True, mimetype='application/zip',download_name='attach.zip')
-
-    # # # 파일 저장
-    # attachment = Attachments.query.filter_by(question_id=q_id).first()
-    # if attachment is None:
-    #     return "File not found."
-    # return send_file(BytesIO(attachment.data),as_attachment=True, mimetype=attachment.mime_type,download_name=attachment.file_name )
+    
+    if len(attachments) == 1:
+        # 이미지 파일의 경우 직접 브라우저에 출력
+        return send_file(BytesIO(attachments[0].data), mimetype=attachments[0].mime_type)
+    else:
+        # 다중 파일의 경우 압축하여 다운로드
+        zip_buffer = BytesIO()
+        with zipfile.ZipFile(zip_buffer, "w") as zip_file:
+            for attachment in attachments:
+                file_buffer = BytesIO(attachment.data)
+                zip_file.writestr(attachment.file_name, file_buffer.getvalue())
+        zip_buffer.seek(0)
+        return send_file(zip_buffer, as_attachment=True, mimetype='application/zip', download_name='attachments.zip')
 
 # 문의 조회 기능 
 
