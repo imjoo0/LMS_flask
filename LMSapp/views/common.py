@@ -119,7 +119,7 @@ def download_file(q_id):
         with zipfile.ZipFile(zip_buffer, "w") as zip_file:
             for attachment in attachments:
                 file_buffer = BytesIO(attachment.data)
-                zip_file.writestr(attachment.file_name.replace('\0', ''), file_buffer.getvalue())
+                zip_file.writestr('첨부파일.ZIP', file_buffer.getvalue())
         zip_buffer.seek(0)
         return send_file(zip_buffer, as_attachment=True, mimetype='application/zip', download_name='attachments.zip')
 
