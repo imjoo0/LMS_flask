@@ -28,7 +28,7 @@ def answer(id):
         o_ban_id = request.form['o_ban_id']
         if(target_question.category == 2):
             o_ban_id = o_ban_id.split('_')[0]
-        new_answer = Answer(content=answer_contents,title=answer_title,created_at=Today,reject_code=o_ban_id,question_id = id)
+        new_answer = Answer(content=answer_contents,title=answer_title,created_at=Today,reject_code=int(o_ban_id),question_id = id)
         db.session.add(new_answer)
         if target_question.category == 2 and o_ban_id != 0 :    
             new_switch_student = SwitchStudent(ban_id = target_question.ban_id,switch_ban_id=o_ban_id,teacher_id = target_question.teacher_id,student_id=target_question.student_id,created_at=Today)
