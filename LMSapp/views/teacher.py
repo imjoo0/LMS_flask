@@ -143,7 +143,7 @@ def question():
             if question_category == '퇴소':
                 category = 1
                 payloadText  = "새 퇴소요청이 등록되었습니다"+'('+title+')'
-            elif question_category == '퇴소':
+            elif question_category == '이반':
                 category = 2
                 payloadText  = "새 이반요청이 등록되었습니다"+'('+title+')'
             else:
