@@ -289,7 +289,7 @@ async function get_soquestion_detail(q_id, done_code) {
     $('#consulting_history_attach').show()
 
     // 응답 처리 
-    if (done_code == 0) {
+    if(done_code == 0) {
         $('#teacher_answer').hide()
         $('#manage_answer').show()
         $('#manage_answer_1').show()
@@ -308,7 +308,7 @@ async function get_soquestion_detail(q_id, done_code) {
             $('#manage_answer_3').show()
         }
         $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category})">저장</button>`);
-    } else {
+    }else{
         $('#manage_answer').hide()
         answer_data = answerData.filter(a => a.question_id == q_id)[0]
         let temp_answer_list = `
@@ -596,8 +596,8 @@ function post_answer(q_id, category) {
     answer_title = $('#answer_title').val()
     answer_contents = $('#answer_contents').val()
     o_ban_id = 0
-    if (category == 2) {
-        o_ban_id = $('#o_ban_id2').val()
+    if(category == 2) {
+        o_ban_id = Number($('#o_ban_id2').split('_')[0])
     }else if(category == 3 || category == 1){
         o_ban_id = $('#o_ban_id').val()
     }
