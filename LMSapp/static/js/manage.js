@@ -218,12 +218,10 @@ async function get_soquestion_detail(q_id, done_code) {
     student_data = studentsData.filter(s => s.student_id == question_detail_data.student_id)[0]
     attach = attachData.filter(a => a.question_id == q_id)[0]['file_name']
     // 문의 상세 내용 
-    console.log(question_detail_data.cateogry)
-    console.log(question_detail_data)
     let temp_question_list = `
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">문의 종류</span>
-        <p>${q_category(question_detail_data.cateogry)}</p>
+        <p>${q_category(question_detail_data.category)}</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">제목</span>
