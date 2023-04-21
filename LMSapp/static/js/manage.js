@@ -597,6 +597,7 @@ function post_answer(q_id, category) {
     answer_contents = $('#answer_contents').val()
     o_ban_id = 0
     if(category == 2) {
+        console.log($('#o_ban_id2'))
         o_ban_id = Number($('#o_ban_id2').split('_')[0])
     }else if(category == 3 || category == 1){
         o_ban_id = $('#o_ban_id').val()
