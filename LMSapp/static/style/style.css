@@ -890,3 +890,7 @@ input::placeholder {
   .btn-gradient.purple:active {background: #BD8EB7;}
   .btn-gradient.yellow:active {background: #DBC05B;}
   .btn-gradient.green:active  {background: #72B08E;}
+
+  .btn-back{
+    color: #608FBF;
+  }
