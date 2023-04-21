@@ -1003,12 +1003,11 @@ function get_ban_student(ban_id){
     const data = consultingStudentData.filter((e) => {
         return e.ban_id == ban_id;
     })
-    let temp_target_student = ''
     if(data.length == 0){
-        temp_target_student ='<option value="none" selected>반 원생이 없습니다.</option>';
+        let temp_target_student ='<option value="none" selected>반 원생이 없습니다.</option>';
         $('#student_list').html(temp_target_student)
     }else{
-        temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option>';
+        let temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option>';
         // ㄱㄴㄷㄹ 순 정렬 
         data.sort(function(a,b){
             var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
@@ -1029,29 +1028,29 @@ function get_ban_student(ban_id){
             $('#student_list').html(temp_target_student)
         });
 
-        $('#student_list').html(temp_target_student).selectmenu({
-            width: 200, // select box의 너비 설정
-            // 검색 기능 활성화
-            create: function(event, ui) {
-              var widget = $(this).selectmenu('widget');
-              var input = $('<input>').appendTo(widget).on('input', function() {
-                var options = $(this).closest('.ui-selectmenu-menu').find('.ui-menu-item');
-                var searchString = $(this).val().toLowerCase();
-                options.each(function() {
-                  var text = $(this).text().toLowerCase();
-                  if (text.indexOf(searchString) === -1) {
-                    $(this).hide();
-                  } else {
-                    $(this).show();
-                  }
-                });
-              });
-            },
-            // select box의 option 설정
-            change: function(event, ui) {
-              console.log(ui.item.value); // 선택된 항목의 값
-            }
-          }).selectmenu('refresh');
+        // $('#student_list').html(temp_target_student).selectmenu({
+        //     width: "70%", // select box의 너비 설정
+        //     // 검색 기능 활성화
+        //     create: function(event, ui) {
+        //       var widget = $(this).selectmenu('widget');
+        //       var input = $('<input>').appendTo(widget).on('input', function() {
+        //         var options = $(this).closest('.ui-selectmenu-menu').find('.ui-menu-item');
+        //         var searchString = $(this).val().toLowerCase();
+        //         options.each(function() {
+        //           var text = $(this).text().toLowerCase();
+        //           if (text.indexOf(searchString) === -1) {
+        //             $(this).hide();
+        //           } else {
+        //             $(this).show();
+        //           }
+        //         });
+        //       });
+        //     },
+        //     // select box의 option 설정
+        //     change: function(event, ui) {
+        //       console.log(ui.item.value); // 선택된 항목의 값
+        //     }
+        //   }).selectmenu('refresh');
     }
 }
     // 상담일지 첨부 
