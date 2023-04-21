@@ -296,6 +296,7 @@ async function get_soquestion_detail(q_id, done_code) {
         if (question_detail_data.category == 2) {
             let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
             banData.forEach(ban_data => {
+                console.log(ban_data)
                 let value = `${ban_data.id}_${ban_data.teacher_id}_${ban_data.name}`;
                 let selectmsg = `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
                 temp_o_ban_id += selectmsg
