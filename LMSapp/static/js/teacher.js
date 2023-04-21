@@ -830,77 +830,23 @@ async function get_student(ban_id) {
                 $('#banstudentlistModalLabel').html(data[0]['ban_name']+'반 원생 목록');
                 var temp_consulting_contents_box = '';
                 $.each(data, function (index, consulting) {
-                    let unlearned_arr = consulting.consulting_list.length > 0 ? consulting.consulting_list.filter(consulting => consulting.category_id < 100): 0;
-                    let unlearned = unlearned_arr != 0 ? unlearned_arr.length : 0;
-                    let unlearned_ixl = 0
-                    let unlearned_reading = 0
-                    let unlearned_speacial = 0
-                    let unlearned_writing = 0
-                    let unlearned_homepage = 0
-                    let unlearned_intoreading = 0
-                    if(unlearned != 0){
-                        unlearned_ixl = unlearned_arr.filter(a => a.category_id == 1).length
-                        unlearned_reading = unlearned_arr.filter(a => a.category_id == 4).length
-                        unlearned_speacial = unlearned_arr.filter(a => a.category_id == 3).length
-                        unlearned_writing = unlearned_arr.filter(a => a.category_id == 6).length
-                        unlearned_homepage = unlearned_arr.filter(a => a.category_id == 2).length
-                        unlearned_intoreading = unlearned_arr.filter(a => a.category_id == 5 || a.category_id == 7).length
-                    }
                     let value = `${consulting.student_id}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.teacher_id}`
-                    if(make_IsG3(consulting.ban_name)){
                         $('#s_datahead').html(`
                         <th class="col-2">이름</th>
-                        <th class="col-1">원번</th>
-                        <th class="col-1">생년월일</th>
+                        <th class="col-2">원번</th>
+                        <th class="col-2">생년월일</th>
                         <th class="col-2">연락처</th>
-                        <th class="col-1">미접속</th>
-                        <th class="col-1">IXL 미응시</th>
-                        <th class="col-1">리딩</th>
-                        <th class="col-1">라이팅 과제 미제출</th>
-                        <th class="col-1">인투리딩</th>
-                        <th class="col-1">추가</th>
+                        <th class="col-2">상담 기록</th>
+                        <th class="col-2">자체 상담</th>
                         `)
                         temp_consulting_contents_box += `
                         <td class="col-2">${consulting.student_name}</td>
-                        <td class="col-1">${consulting.student_origin}</td>
-                        <td class="col-1">${consulting.student_birthday}</td>
+                        <td class="col-2">${consulting.student_origin}</td>
+                        <td class="col-2">${consulting.student_birthday}</td>
                         <td class="col-2">${consulting.student_mobileno}</td>
-                        <td class="col-1">${unlearned_homepage}건</td>
-                        <td class="col-1">${unlearned_ixl}건</td>
-                        <td class="col-1">${unlearned_reading}건</td>
-                        <td class="col-1">${unlearned_writing}건</td>
-                        <td class="col-1">${unlearned_intoreading}건</td>
-                        <td class="col-1" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
+                        <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">수정 및 조회</td> 
+                        <td class="col-2" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
                         `;
-                    }else{
-                        $('#s_datahead').html(`
-                        <th class="col-1">이름</th>
-                        <th class="col-1">원번</th>
-                        <th class="col-1">생년월일</th>
-                        <th class="col-2">연락처</th>
-                        <th class="col-1">미접속</th>
-                        <th class="col-1">IXL 미응시</th>
-                        <th class="col-1">리특</th>
-                        <th class="col-1">리딩</th>
-                        <th class="col-1">라이팅 과제 미제출</th>
-                        <th class="col-1">인투리딩</th>
-                        <th class="col-1">추가</th>
-                        `)
-                        temp_consulting_contents_box += `
-                        <td class="col-1">${consulting.student_name}</td>
-                        <td class="col-1">${consulting.student_origin}</td>
-                        <td class="col-1">${consulting.student_birthday}</td>
-                        <td class="col-2">${consulting.student_mobileno}</td>
-                        <td class="col-1">${unlearned_homepage}건</td>
-                        <td class="col-1">${unlearned_ixl}건</td>
-                        <td class="col-1">${unlearned_speacial}건</td>
-                        <td class="col-1">${unlearned_reading}건</td>
-                        <td class="col-1">${unlearned_writing}건</td>
-                        <td class="col-1">${unlearned_intoreading}건</td>
-                        <td class="col-1" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
-                        `;
-                    }
-                    
                 });
                 $('#s_data').html(temp_consulting_contents_box);
                 $('#student_data').show();
@@ -998,7 +944,6 @@ function change_question_kind(str) {
         $('#question_topurple').show()
     }
 }
-
 function get_ban_student(ban_id){
     const data = consultingStudentData.filter((e) => {
         return e.ban_id == ban_id;
