@@ -17,6 +17,7 @@ function go_back() {
     // 문의 관련 
     $('#questiondetail').hide();
     $('#questionlist').show();
+    $('#question_pagination').show()
     // 원생 리스트 관련 
     $('#teachers_student_list').show();
     $('#make_plus_consulting').hide();
