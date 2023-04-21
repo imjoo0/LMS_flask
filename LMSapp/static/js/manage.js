@@ -296,8 +296,7 @@ async function get_soquestion_detail(q_id, done_code) {
         if (question_detail_data.category == 2) {
             let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
             banData.forEach(ban_data => {
-                console.log(ban_data)
-                let value = `${ban_data.id}_${ban_data.teacher_id}_${ban_data.name}`;
+                let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}`;
                 let selectmsg = `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
                 temp_o_ban_id += selectmsg
             });
@@ -598,7 +597,6 @@ function post_answer(q_id, category) {
     answer_contents = $('#answer_contents').val()
     o_ban_id = 0
     if(category == 2) {
-        console.log($('#o_ban_id2').val())
         o_ban_id = Number($('#o_ban_id2').val().split('_')[0])
     }else if(category == 3 || category == 1){
         o_ban_id = $('#o_ban_id').val()
