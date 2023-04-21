@@ -54,6 +54,7 @@ function main_view() {
         get_total_data()
     }
     $('#qubox').hide()
+    $('#Tqubox').hide()
     $('#sobox').hide()
     $('#ulbox').hide()
     $('#detailban').show()
@@ -62,6 +63,7 @@ function main_view() {
 // 이반 * 퇴소 
 async function sodata() {
     $('#qubox').hide()
+    $('#Tqubox').hide()
     $('#ulbox').hide()
     $('#detailban').hide()
     $('#sobox').show()
@@ -337,6 +339,7 @@ async function csdata() {
     $('#sobox').hide()
     $('#ulbox').hide()
     $('#qubox').show()
+    $('#Tqubox').hide()
 
     $('.cs_inloading').show()
     $('.not_inloading').hide()
@@ -618,6 +621,7 @@ async function uldata() {
     $('#qubox').hide()
     $('#sobox').hide()
     $('#detailban').hide()
+    $('#Tqubox').hide()
     $('#ulbox').show()
     let container = $('#ul_pagination')
     $('.cs_inloading').show()
