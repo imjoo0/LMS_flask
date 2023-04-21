@@ -1001,6 +1001,7 @@ function get_ban_student(ban_id){
     }else{
         temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option>';
         $.each(data, function (index, student) {
+            console.log(student)
             temp_target_student += `
             <option value="${student.student_id}"> ${student.student_name}</option>
             `;
