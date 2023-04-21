@@ -399,7 +399,7 @@ function paginating(done_code) {
             $('#cs_search_input').on('keyup', function () {
                 var searchInput = $(this).val().toLowerCase();
                 var filteredData = qdata.filter(function (data) {
-                    return data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1;
+                    return data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1 || (data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1);
                 });
                 container.pagination('destroy');
                 container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
@@ -417,6 +417,96 @@ function paginating(done_code) {
         $('#pagination').hide()
         $('#csno_data_msg').html('문의가 없습니다')
         $('#csno_data_msg').show()
+    }
+}
+
+// 기술 지원 문의 
+async function Tcsdata() {
+    $('#detailban').hide()
+    $('#sobox').hide()
+    $('#ulbox').hide()
+    $('#qubox').hide()
+    $('#Tqubox').show()
+
+    $('.cs_inloading').show()
+    $('.not_inloading').hide()
+    if (!questionData) {
+        await get_all_question().then(() => {
+            $('.cs_inloading').hide()
+            $('.not_inloading').show()
+        });
+    }
+    $('.cs_inloading').hide()
+    $('.not_inloading').show()
+    Tpaginating(0)
+}
+function Tpaginating(done_code) {
+    $('#Tcs_search_input').off('keyup');
+    csqData = questionData.filter(q => q.category == 4)
+    total_question_num = csqData.length
+    csdata_noanswer = total_question_num != 0 ? csqData.filter(a => a.answer == 0).length : 0
+
+    let temp_newcs = `
+    <td class="col-4">${total_question_num}  건</td>
+    <td class="col-4">${total_question_num - csdata_noanswer}  건</td>
+    <td class="col-4">${csdata_noanswer}  건</td>
+    `;
+    $('#newTcs').html(temp_newcs)
+
+    if (total_question_num != 0) {
+        qdata = csqData.length > 0 ? csqData.filter(a => a.answer == done_code) : [];
+        if (qdata.length != 0) {
+            $('#Tcsno_data_msg').hide()
+            $('#Tcs_teacher_question').show()
+            $('#pagination').show()
+            var paginationOptions = {
+                prevText: '이전',
+                nextText: '다음',
+                pageSize: 5,
+                pageClassName: 'float-end',
+                callback: function (data, pagination) {
+                    var dataHtml = '';
+                    $.each(data, function (index, item) {
+                        ban = banData.filter(b => b.ban_id == item.ban_id)[0]
+                        item.ban_name = ban.name
+                        item.teacher_name = ban.teacher_engname + '( ' + ban.teacher_name + ' )'
+                        dataHtml += `
+                    <td class="col-1">일반문의</td>
+                    <td class="col-1">${item.ban_name}</td>
+                    <td class="col-2">${item.teacher_name}</td>
+                    <td class="col-2">${item.title}</td>
+                    <td class="col-4">${item.contents}</td>
+                    <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</td>
+                    <td class="col-1" onclick="delete_question(${item.id})">❌</td>
+                    `;
+                    });
+                    $('#Talim_tr').html(dataHtml);
+                }
+            };
+            var container = $('#pagination');
+            container.pagination(Object.assign(paginationOptions, { 'dataSource': qdata }));
+
+            $('#Tcs_search_input').on('keyup', function () {
+                var searchInput = $(this).val().toLowerCase();
+                var filteredData = qdata.filter(function (data) {
+                    return (data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1);
+                });
+                container.pagination('destroy');
+                container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
+            });
+
+        } else {
+            $('#Tcs_teacher_question').hide()
+            $('#Tpagination').hide()
+            let temp_nodatamasg = $(`#cs_question_view option[value="${done_code}"]`).text() + '가 없습니다';
+            $('#Tcsno_data_msg').html(temp_nodatamasg)
+            $('#Tcsno_data_msg').show()
+        }
+    } else {
+        $('#Tcs_teacher_question').hide()
+        $('#Tpagination').hide()
+        $('#Tcsno_data_msg').html('문의가 없습니다')
+        $('#Tcsno_data_msg').show()
     }
 }
 // 일반 문의 상세보기
