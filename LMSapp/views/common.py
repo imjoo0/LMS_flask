@@ -24,7 +24,7 @@ standard = datetime.strptime('11110101',"%Y%m%d").date()
 
 def save_attachment(file, q_id):
     attachment = Attachments(
-        file_name=secure_filename(file.filename),
+        file_name=secure_filename(file.filename.replace('\0', '')),
         mime_type=file.mimetype,
         data=file.read(),
         question_id = q_id
@@ -119,7 +119,7 @@ def download_file(q_id):
         with zipfile.ZipFile(zip_buffer, "w") as zip_file:
             for attachment in attachments:
                 file_buffer = BytesIO(attachment.data)
-                zip_file.writestr(attachment.file_name.replace('\0', ''), file_buffer.getvalue())
+                zip_file.writestr(attachment.file_name, file_buffer.getvalue())
         zip_buffer.seek(0)
         return send_file(zip_buffer, as_attachment=True, mimetype='application/zip', download_name='attachments.zip')
 
