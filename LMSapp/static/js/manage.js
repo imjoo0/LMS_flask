@@ -596,7 +596,7 @@ function post_answer(q_id, category) {
     answer_title = $('#answer_title').val()
     answer_contents = $('#answer_contents').val()
     o_ban_id = 0
-    if (category != 0 || category != 4) {
+    if (category != 0 && category != 4) {
         o_ban_id = $('#o_ban_id' + category).val()
     }
     $.ajax({
