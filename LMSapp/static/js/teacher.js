@@ -563,6 +563,7 @@ async function get_consulting(student_id, is_done) {
     <td class="col-4">${make_nodata(total_ban_unlearned_consulting)}</td>
     <td class="col-2"><strong>${answer_rate(unlearned_consulting_num,total_ban_unlearned_consulting).toFixed(0)}%</strong></td>
     `)
+    let temp_consulting_write_box = ''
     if( target_consulting_num != 0 ){
         consultingGrouped = target_consulting.reduce((acc, item) => {
             if (!acc[item.category]) {
@@ -574,7 +575,6 @@ async function get_consulting(student_id, is_done) {
         consultingGroupedCategory = Object.keys(consultingGrouped)
         const color_pallete = ['green','purple','yellow','red','blue','orange','cyan','white']
         let temp_consulting_contents_box = `<a class="btn-two cyan small">원생리포트</a>`;
-        let temp_consulting_write_box = ''
         let idx = 0;
         $.each(consultingGroupedCategory, function (index, key) {
             target_consultings = consultingGrouped[key]
