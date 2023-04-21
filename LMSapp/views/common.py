@@ -107,21 +107,24 @@ def get_all_task():
 
 @bp.route('/downloadfile/question/<int:q_id>')
 def download_file(q_id):
-    # attachments = Attachments.query.filter_by(question_id=q_id).all()
-    # if attachments is None:
-    #     return "File not found."
-    # zip_buffer = BytesIO()
-    # with zipfile.ZipFile(zip_buffer, "w") as zip_file:
-    #     for attachment in attachments:
-    #         file_buffer = BytesIO(attachment.data)
-    #         zip_file.writestr(attachment.file_name, file_buffer.getvalue())
-    # zip_buffer.seek(0)
-    # return send_file(zip_buffer, as_attachment=True, filename='attachments.zip')
-    # # # 파일 저장
-    attachment = Attachments.query.filter_by(question_id=q_id).first()
-    if attachment is None:
+    attachments = Attachments.query.filter_by(question_id=q_id).all()
+    if attachments is None:
         return "File not found."
-    return send_file(BytesIO(attachment.data),as_attachment=True, mimetype=attachment.mime_type,download_name=attachment.file_name )
+    zip_buffer = BytesIO()
+    with zipfile.ZipFile(zip_buffer, "w") as zip_file:
+        for attachment in attachments:
+            file_buffer = BytesIO(attachment.data)
+            print(file_buffer)
+            zip_file.writestr(attachment.file_name, file_buffer.getvalue())
+        print(zipfile)
+    zip_buffer.seek(0)
+    print(zip_buffer)
+    return send_file(zip_buffer, as_attachment=True, filename='attachments.zip')
+    # # # 파일 저장
+    # attachment = Attachments.query.filter_by(question_id=q_id).first()
+    # if attachment is None:
+    #     return "File not found."
+    # return send_file(BytesIO(attachment.data),as_attachment=True, mimetype=attachment.mime_type,download_name=attachment.file_name )
 
 # 문의 조회 기능 
 
