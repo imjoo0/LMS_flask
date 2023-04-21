@@ -999,14 +999,14 @@ function get_ban_student(ban_id){
         temp_target_student ='<option value="none" selected>반 원생이 없습니다.</option>';
         $('#student_list').html(temp_target_student)
     }else{
-        temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option>';
+        temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option> <input type="text" id="qstudent_search_input" placeholder="원생 이름 혹은 원번으로 검색">';
         $.each(data, function (index, student) {
             temp_target_student += `
             <option value="${student.student_id}"> ${student.student_name}</option>
             `;
             $('#student_list').html(temp_target_student)
         });
-        $('.plzsearch').append('<input type="text" id="qstudent_search_input" placeholder="원생 이름 혹은 원번으로 검색" style="float:right;width:350px;height:40px; margin-left:10px;">')
+        // $('.plzsearch').append('<input type="text" id="qstudent_search_input" placeholder="원생 이름 혹은 원번으로 검색" style="float:right;width:350px;height:40px; margin-left:10px;">')
     }
 }
     // 상담일지 첨부 
