@@ -25,10 +25,9 @@ def answer(id):
         target_question.answer = 1
         answer_title = request.form['answer_title']
         answer_contents = request.form['answer_contents']
+        o_ban_id = request.form['o_ban_id']
         if(target_question.category == 2):
-            o_ban_id = request.form['o_ban_id'].split('_')[0]
-        else:
-            o_ban_id = request.form['o_ban_id']
+            o_ban_id = o_ban_id.split('_')[0]
         new_answer = Answer(content=answer_contents,title=answer_title,created_at=Today,reject_code=o_ban_id,question_id = id)
         db.session.add(new_answer)
         if target_question.category == 2 and o_ban_id != 0 :    

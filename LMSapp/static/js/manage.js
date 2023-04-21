@@ -120,7 +120,7 @@ async function sodata() {
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
     $('#so_search_input').off('keyup');
-    soqData = questionData.filter(q => q.category != 0)
+    soqData = questionData.filter(q => q.category != 0 && q.category != 4)
     total_soquestion_num = soqData.length
     sodata_noanswer = total_soquestion_num != 0 ? soqData.filter(a => a.answer == 0).length : 0
 
@@ -293,10 +293,7 @@ async function get_soquestion_detail(q_id, done_code) {
         $('#teacher_answer').hide()
         $('#manage_answer').show()
         $('#manage_answer_1').show()
-        if (question_detail_data.category == 1) {
-            $('#manage_answer_2').hide()
-            $('#manage_answer_3').show()
-        } else {
+        if (question_detail_data.category == 2) {
             let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
             banData.forEach(ban_data => {
                 let value = `${ban_data.id}_${ban_data.teacher_id}_${ban_data.name}`;
@@ -306,6 +303,9 @@ async function get_soquestion_detail(q_id, done_code) {
             $('#o_ban_id2').html(temp_o_ban_id)
             $('#manage_answer_2').show()
             $('#manage_answer_3').hide()
+        } else {
+            $('#manage_answer_2').hide()
+            $('#manage_answer_3').show()
         }
         $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category})">저장</button>`);
     } else {
