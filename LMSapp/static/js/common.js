@@ -95,8 +95,12 @@ function q_category(category) {
         c ='일반문의'
     }else if(category == 1 || category == '1' ) {
         c ='퇴소문의'
-    }else{
+    }else if(category == 2 || category == '2' ){
         c ='이반문의'
+    }else if(category == 3 || category == '3' ){
+        c ='취소 환불 문의'
+    }else{
+        c = '기술 지원 문의'
     }
     return c
 }

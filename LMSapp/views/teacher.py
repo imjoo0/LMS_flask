@@ -129,19 +129,27 @@ def question():
         if question_category == '일반':
             # 영교부에서 재택T 문의 관리 하는 시놀로지 채팅 방 token 값 받아야 함. 
             Synologytoken = 'PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q'
-            cateory = 0
+            category = 0
             payloadText  = "새 문의가 등록되었습니다"+'('+title+')'
-            new_question = Question(category=cateory, title=title, contents=contents,teacher_id=teacher, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
+            new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
+        elif question_category == '기술': 
+            Synologytoken = 'iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg'
+            category = 4
+            payloadText  = "새 문의가 등록되었습니다"+'('+title+')'
+            new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         else:
             Synologytoken = 'PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q'
             history_id = request.form['consulting_history']
             if question_category == '퇴소':
-                cateory = 1
+                category = 1
                 payloadText  = "새 퇴소요청이 등록되었습니다"+'('+title+')'
-            else:
-                cateory = 2
+            elif question_category == '퇴소':
+                category = 2
                 payloadText  = "새 이반요청이 등록되었습니다"+'('+title+')'
-            new_question = Question(consulting_history=history_id, category=cateory, title=title, contents=contents,teacher_id=teacher, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
+            else:
+                category = 3
+                payloadText  = "새 퇴소요청이 등록되었습니다"+'('+title+')'
+            new_question = Question(consulting_history=history_id, category=category, title=title, contents=contents,teacher_id=teacher, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         db.session.add(new_question)
         db.session.commit()
         for file in files:
