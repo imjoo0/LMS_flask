@@ -116,7 +116,7 @@ def download_file(q_id):
             file_buffer = BytesIO(attachment.data)
             zip_file.writestr(attachment.file_name, file_buffer.getvalue())
     zip_buffer.seek(0)
-    return send_file(zip_buffer, as_attachment=True, attachment_filename='attachments.zip')
+    return send_file(zip_buffer, as_attachment=True)
 
     # # # 파일 저장
     # attachment = Attachments.query.filter_by(question_id=q_id).first()
