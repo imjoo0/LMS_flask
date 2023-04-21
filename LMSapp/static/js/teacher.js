@@ -349,13 +349,13 @@ function get_data() {
         }
     });
 }
-// 메인화면 오늘의 상담
+// 메인화면 상담
 async function get_consulting_student(done_code) {
     $('#consultingstudent_search_input').off('keyup');
     var container = $('#consultingstudent_pagination')
     let data = consultingStudentData.filter((e) => {
         if(done_code == 0) {
-            $('#today_consulting_title').html('오늘의 상담');
+            $('#today_consulting_title').html('상담 목록');
             return e.missed != "오늘" && e.consulting_num != 0;
         }else{
             $('#today_consulting_title').html('오늘의 부재중 상담');
