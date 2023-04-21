@@ -156,103 +156,110 @@ function get_data() {
             $('#classreport').html(temp_report)
 
             // 오늘의 업무 뿌려주기 
-            if(task_notdone == 0){
-                $('#task_title').html('오늘의 업무 끝 😆');
+            if(total_task == 0){
+                $('#task_title').html('오늘의 업무 0건');
+                $('#cate_menu').html('<p>오늘의 업무가 없습니다</p>');
                 $('#task_button').hide();
             }else{
-                $('#task_title').html('오늘의 업무 '+task_notdone+'건');
-                $('#task_button').show();
-            }
-                // 오늘의 업무 중복 카테고리로 묶기 
-            const categoryGrouped = response['all_task'].reduce((result, item) => {
-                const category = item.category;
-                if (!result[category]) {
-                    result[category] = [];
+                if(task_notdone == 0){
+                    $('#task_title').html('오늘의 업무 끝 😆');
+                    $('#task_button').hide();
+                }else{
+                    $('#task_title').html('오늘의 업무 '+task_notdone+'건');
+                    $('#task_button').show();
                 }
-                result[category].push(item);
-                return result;
-            }, {});
-
-                // 결과를 객체의 배열로 변환
-            const categoryGroupedresult = Object.entries(categoryGrouped).map(([category, items]) => {
-                return { [category]: items };
-            });
-
-            let temp_cate_menu = ''
-            for(i=0; i < categoryGroupedresult.length; i++){
-                const category = Object.keys(categoryGroupedresult[i])[0];
-                // const items = categoryGroupedresult[i][category].filter( e => e.done === 0 );
-                const items = categoryGroupedresult[i][category];
-                
-                items.sort((a, b) => b.priority - a.priority);
-                const contentsGrouped = items.reduce((result, item) => {
-                    const contents = item.contents;
-                    const priority = item.priority;
-                    const deadline = item.deadline;
-                    const doc = {
-                        'id':item.id,
-                        'ban_id':item.ban_id,
-                        'done':item.done,
-                        'created_at':new Date(item.created_at).setHours(0, 0, 0, 0)
+                    // 오늘의 업무 중복 카테고리로 묶기 
+                const categoryGrouped = response['all_task'].reduce((result, item) => {
+                    const category = item.category;
+                    if (!result[category]) {
+                        result[category] = [];
                     }
-                    const key =  priority + '_' + contents + '_' + deadline;
-                    if (!result[key]) {
-                        result[key] = [];
-                    }
-                    result[key].push(doc);
+                    result[category].push(item);
                     return result;
                 }, {});
-
-                // 결과를 객체의 배열로 변환
-                const contentsGroupedresult = Object.entries(contentsGrouped).map(([key, items]) => {
-                    return { [key]: items };
+    
+                    // 결과를 객체의 배열로 변환
+                const categoryGroupedresult = Object.entries(categoryGrouped).map(([category, items]) => {
+                    return { [category]: items };
                 });
-                temp_cate_menu += `
-                <thead  style="background-color:#ffc107;">
-                    <tr class="row">
-                    <th class="col-2">< 업무순서</th>
-                    <th class="col-8">${category}업무</th>
-                    <th class="col-2">마감일 ></th>
-                    </tr>
-                </thead>
-                <tbody style="width:100%;">  
-                `;
-
-                if (contentsGroupedresult && contentsGroupedresult.length > 0) {
-                    for(j=0; j < contentsGroupedresult.length; j++){
-                        const contents = Object.keys(contentsGroupedresult[j])[0];
-                        task_items = contentsGroupedresult[j][contents];
-                        const v = contents.split('_')
+    
+                let temp_cate_menu = ''
+                for(i=0; i < categoryGroupedresult.length; i++){
+                    const category = Object.keys(categoryGroupedresult[i])[0];
+                    // const items = categoryGroupedresult[i][category].filter( e => e.done === 0 );
+                    const items = categoryGroupedresult[i][category];
+                    
+                    items.sort((a, b) => b.priority - a.priority);
+                    const contentsGrouped = items.reduce((result, item) => {
+                        const contents = item.contents;
+                        const priority = item.priority;
+                        const deadline = item.deadline;
+                        const doc = {
+                            'id':item.id,
+                            'ban_id':item.ban_id,
+                            'done':item.done,
+                            'created_at':new Date(item.created_at).setHours(0, 0, 0, 0)
+                        }
+                        const key =  priority + '_' + contents + '_' + deadline;
+                        if (!result[key]) {
+                            result[key] = [];
+                        }
+                        result[key].push(doc);
+                        return result;
+                    }, {});
+    
+                    // 결과를 객체의 배열로 변환
+                    const contentsGroupedresult = Object.entries(contentsGrouped).map(([key, items]) => {
+                        return { [key]: items };
+                    });
+                    temp_cate_menu += `
+                    <thead  style="background-color:#ffc107;">
+                        <tr class="row">
+                        <th class="col-2">< 업무순서</th>
+                        <th class="col-8">${category}업무</th>
+                        <th class="col-2">마감일 ></th>
+                        </tr>
+                    </thead>
+                    <tbody style="width:100%;">  
+                    `;
+    
+                    if (contentsGroupedresult && contentsGroupedresult.length > 0) {
+                        for(j=0; j < contentsGroupedresult.length; j++){
+                            const contents = Object.keys(contentsGroupedresult[j])[0];
+                            task_items = contentsGroupedresult[j][contents];
+                            const v = contents.split('_')
+                            temp_cate_menu += `
+                                <tr class="row">
+                                    <td class="col-2">${make_priority(v[0])}</td>
+                                    <td class="col-8">${v[1]}</td>
+                                    <td class="col-2">${make_date(v[2])}</td>
+                                </tr>
+                                <td class="col-12">`;
+                                for(k=0; k < task_items.length; k++){
+                                    const ban_name = response['ban_data'].filter(a => a.register_no === task_items[k].ban_id)[0]['name']
+                                    if(task_items[k].done == 0){
+                                        temp_cate_menu += `
+                                        <label><input type="checkbox" name="taskid" value="${task_items[k].id}"/>${ban_name}</label>`;
+                                    }else if(task_items[k].done == 1 && task_items[k].created_at == today){
+                                        temp_cate_menu += `
+                                        <label class="done">✅ ${ban_name}</label>`;
+                                    }
+                                }
+                                temp_cate_menu += `</td></tbody>`;
+                        }
+                    } else {
                         temp_cate_menu += `
                             <tr class="row">
-                                <td class="col-2">${make_priority(v[0])}</td>
-                                <td class="col-8">${v[1]}</td>
-                                <td class="col-2">${make_date(v[2])}</td>
+                                <td class="col-12">해당 카테고리의 업무가 없습니다.</td>
                             </tr>
-                            <td class="col-12">`;
-                            for(k=0; k < task_items.length; k++){
-                                const ban_name = response['ban_data'].filter(a => a.register_no === task_items[k].ban_id)[0]['name']
-                                if(task_items[k].done == 0){
-                                    temp_cate_menu += `
-                                    <label><input type="checkbox" name="taskid" value="${task_items[k].id}"/>${ban_name}</label>`;
-                                }else if(task_items[k].done == 1 && task_items[k].created_at == today){
-                                    temp_cate_menu += `
-                                    <label class="done">✅ ${ban_name}</label>`;
-                                }
-                            }
-                            temp_cate_menu += `</td></tbody>`;
+                        `;
                     }
-                } else {
-                    temp_cate_menu += `
-                        <tr class="row">
-                            <td class="col-12">해당 카테고리의 업무가 없습니다.</td>
-                        </tr>
-                    `;
+    
+                    temp_cate_menu += `</tbody>`;
                 }
-
-                temp_cate_menu += `</tbody>`;
+                $('#cate_menu').html(temp_cate_menu);
             }
-            $('#cate_menu').html(temp_cate_menu);
+            
             
             // 상담 목록 
             let result = response['my_students'].reduce((acc, student) => {
