@@ -114,12 +114,10 @@ def download_file(q_id):
     with zipfile.ZipFile(zip_buffer, "w") as zip_file:
         for attachment in attachments:
             file_buffer = BytesIO(attachment.data)
-            print(file_buffer)
             zip_file.writestr(attachment.file_name, file_buffer.getvalue())
-        print(zipfile)
     zip_buffer.seek(0)
-    print(zip_buffer)
-    return send_file(zip_buffer, as_attachment=True, filename='attachments.zip')
+    return send_file(zip_buffer, as_attachment=True, attachment_filename='attachments.zip')
+
     # # # 파일 저장
     # attachment = Attachments.query.filter_by(question_id=q_id).first()
     # if attachment is None:
