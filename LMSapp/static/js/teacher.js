@@ -340,9 +340,6 @@ function get_data() {
             }, []);
             if (result.length > 0) {
                 result = result.sort((a, b) => {
-                    return b.consulting_num - a.consulting_num;
-                });
-                result = result.sort((a, b) => {
                     return a.deadline - b.deadline
                 });
                 consultingStudentData = result
