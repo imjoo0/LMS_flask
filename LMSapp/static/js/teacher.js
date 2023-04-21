@@ -1003,7 +1003,7 @@ function get_ban_student(ban_id){
         $.each(data, function (index, student) {
             console.log(student)
             temp_target_student += `
-            <option value="${student.student_id}"> ${student.student_name}</option>
+            <option value="${student.student_id}"> ${student.student_name} *${student.student_origin}</option>
             `;
             $('#student_list').html(temp_target_student)
         });
