@@ -534,7 +534,7 @@ async function get_question_detail(q_id, done_code) {
     let temp_question_list = `
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">문의 종류</span>
-        <p>일반문의</p>
+        <p>${q_category(question_detail_data.category)}</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">제목</span>
@@ -596,7 +596,7 @@ function post_answer(q_id, category) {
     answer_title = $('#answer_title').val()
     answer_contents = $('#answer_contents').val()
     o_ban_id = 0
-    if (category != 0) {
+    if (category != 0 || category != 4) {
         o_ban_id = $('#o_ban_id' + category).val()
     }
     $.ajax({
