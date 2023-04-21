@@ -1052,6 +1052,7 @@ async function get_question_list() {
     $('#questiondetail').hide();
     $('.Tinloading').show()
     $('.t_notinloading').hide()
+    $('#question_pagination').show()
     if(!banData){
         await get_teacher_question().then(()=>{
             $('.Tinloading').hide()
@@ -1192,7 +1193,6 @@ async function get_question_detail(q_id) {
         }
     }
     $('#teacher_answer').html(temp_answer_list);
-    $('#question_pagination').hide()
     // 댓글 처리
     // const temp_comment = `
     // <div class="comment-typing">
