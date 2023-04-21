@@ -148,20 +148,23 @@ function get_data() {
             let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done != 0  && new Date(task.created_at).setHours(0, 0, 0, 0) == today).length : 0;
             let total_task = response['all_task'].length
             let task_notdone = total_task-task_done;
-            let temp_report = `
-            <td class="col-3"> ${task_done}/${total_task} </td>
-            <td class="col-3"> ( ${answer_rate(task_done,total_task).toFixed(0)}% ) </td>
-            <td class="col-3"> ${consulting_done}/${consulting_t} </td>
-            <td class="col-3"> ( ${answer_rate(consulting_done, consulting_t).toFixed(0)}% ) </td>
-            `;
-            $('#classreport').html(temp_report)
-
+            let temp_report = ''
             // 오늘의 업무 뿌려주기 
             if(total_task == 0){
+                temp_report += `
+                <td class="col-3">오늘의 업무가 없습니다</td>
+                <td class="col-3">➖</td>
+                `;
+                
                 $('#task_title').html('오늘의 업무 0건');
                 $('#cate_menu').html('<p>오늘의 업무가 없습니다</p>');
                 $('#task_button').hide();
             }else{
+                temp_report += `
+                <td class="col-3"> ${task_done}/${total_task} </td>
+                <td class="col-3"> ( ${answer_rate(task_done,total_task).toFixed(0)}% ) </td>
+                `;
+                
                 if(task_notdone == 0){
                     $('#task_title').html('오늘의 업무 끝 😆');
                     $('#task_button').hide();
@@ -261,6 +264,11 @@ function get_data() {
                 $('#cate_menu').html(temp_cate_menu);
             }
             
+            temp_report += `
+            <td class="col-3"> ${consulting_done}/${consulting_t} </td>
+            <td class="col-3"> ( ${answer_rate(consulting_done, consulting_t).toFixed(0)}% ) </td>
+            `;
+            $('#classreport').html(temp_report)
             
             // 상담 목록 
             let result = response['my_students'].reduce((acc, student) => {
