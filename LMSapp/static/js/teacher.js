@@ -964,7 +964,7 @@ function change_question_kind(str) {
         $('#question_topurple').hide()
     }else if(str == "일반" || str == "기술"){
         let question_html = `
-        <div class="modal-body-select-container plzsearch">
+        <div class="modal-body-select-container">
             <span class="modal-body-select-label">대상 원생</span>
             <select id="student_list" class="modal-body-select" name="target_student">
             </select>
@@ -974,7 +974,7 @@ function change_question_kind(str) {
         $('#question_topurple').show()
     }else{
         let question_html = `
-        <div class="modal-body-select-container plzsearch">
+        <div class="modal-body-select-container">
             <span class="modal-body-select-label">대상 원생</span>
             <select id="student_list" class="modal-body-select" name="target_student"
                 onchange="attach_consulting_history(this.value)">
@@ -999,14 +999,13 @@ function get_ban_student(ban_id){
         temp_target_student ='<option value="none" selected>반 원생이 없습니다.</option>';
         $('#student_list').html(temp_target_student)
     }else{
-        temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option> <input type="text" id="qstudent_search_input" placeholder="원생 이름 혹은 원번으로 검색">';
+        temp_target_student ='<option value="none" selected>대상 원생을 선택해주세요</option>';
         $.each(data, function (index, student) {
             temp_target_student += `
             <option value="${student.student_id}"> ${student.student_name}</option>
             `;
             $('#student_list').html(temp_target_student)
         });
-        // $('.plzsearch').append('<input type="text" id="qstudent_search_input" placeholder="원생 이름 혹은 원번으로 검색" style="float:right;width:350px;height:40px; margin-left:10px;">')
     }
 }
     // 상담일지 첨부 
