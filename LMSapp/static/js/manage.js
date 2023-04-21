@@ -501,7 +501,7 @@ function Tpaginating(done_code) {
         } else {
             $('#Tcs_teacher_question').hide()
             $('#Tpagination').hide()
-            let temp_nodatamasg = $(`#cs_question_view option[value="${done_code}"]`).text() + '가 없습니다';
+            let temp_nodatamasg = $(`#Tcs_question_view option[value="${done_code}"]`).text() + '가 없습니다';
             $('#Tcsno_data_msg').html(temp_nodatamasg)
             $('#Tcsno_data_msg').show()
         }
