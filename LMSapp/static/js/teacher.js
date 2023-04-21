@@ -961,7 +961,7 @@ function update_done(target) {
 function change_question_kind(str) {
     if(str == "none"){
         $('#question_topurple').hide()
-    }else if(str == "일반" || "기술"){
+    }else if(str == "일반" || str == "기술"){
         let question_html = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">대상 원생</span>

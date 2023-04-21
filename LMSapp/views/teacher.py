@@ -148,7 +148,7 @@ def question():
                 payloadText  = "새 이반요청이 등록되었습니다"+'('+title+')'
             else:
                 category = 3
-                payloadText  = "새 퇴소요청이 등록되었습니다"+'('+title+')'
+                payloadText  = "새 취소 환불 요청이 등록되었습니다"+'('+title+')'
             new_question = Question(consulting_history=history_id, category=category, title=title, contents=contents,teacher_id=teacher, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         db.session.add(new_question)
         db.session.commit()
