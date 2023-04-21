@@ -964,7 +964,7 @@ function change_question_kind(str) {
         $('#question_topurple').hide()
     }else if(str == "일반" || str == "기술"){
         let question_html = `
-        <div class="modal-body-select-container">
+        <div class="modal-body-select-container plzsearch">
             <span class="modal-body-select-label">대상 원생</span>
             <select id="student_list" class="modal-body-select" name="target_student">
             </select>
@@ -974,7 +974,7 @@ function change_question_kind(str) {
         $('#question_topurple').show()
     }else{
         let question_html = `
-        <div class="modal-body-select-container">
+        <div class="modal-body-select-container plzsearch">
             <span class="modal-body-select-label">대상 원생</span>
             <select id="student_list" class="modal-body-select" name="target_student"
                 onchange="attach_consulting_history(this.value)">
@@ -1006,6 +1006,9 @@ function get_ban_student(ban_id){
             `;
             $('#student_list').html(temp_target_student)
         });
+        let temp_search = `
+        `
+        $('.plzsearch').html('<input type="text" id="qstudent_search_input" placeholder="원생 이름 혹은 원번으로 검색" style="float:right;width:350px;height:40px; margin-left:10px;">')
     }
 }
     // 상담일지 첨부 
