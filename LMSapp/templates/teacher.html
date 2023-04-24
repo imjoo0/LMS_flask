@@ -211,6 +211,13 @@
 
                         </select>
                     </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 원생 / 반 검색</span></div>
+                    <div class="col-md-4 col-sm-6 col-12">
+                        <select id="history_cate" onchange="sort_consulting_history(this.value)"
+                            class="form-select form-select w-100" aria-label="Default select example">
+
+                        </select>
+                    </div>
                 </div>
                 <h3 class="h_title" id="h_title_msg">상담진행 내역이 없습니다! 😂</h3>
                 <div id="consulting_history_box">
@@ -231,7 +238,7 @@
                                         <th class="col-2">이름</th>
                                         <th class="col-2">이름</th>
                                         <th class="col-1">원번</th>
-                                        <th class="col-1">✅</th>
+                                        <th class="col-1">확인</th>
                                     </tr>
                                 </thead>
                                 <tr class="row" id="consulting_history_student_list">

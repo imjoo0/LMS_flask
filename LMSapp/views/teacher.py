@@ -15,6 +15,7 @@ bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 current_time = datetime.now()
 Today = current_time.date()
 today_yoil = current_time.weekday() + 1
+print(today_yoil)
 standard = datetime.strptime('11110101', "%Y%m%d").date()
 
 # def task_cycle(){

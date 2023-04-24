@@ -143,8 +143,8 @@ function get_data() {
             let consulting_t = allConsultingData.length;
             let consulting_done = consulting_t != 0 ? allConsultingData.filter(consulting => consulting.done === 1).length : 0  
             // let consulting_notdone = consulting_t - consulting_done
-            let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done != 0  && new Date(task.created_at).setHours(0, 0, 0, 0) == today).length : 0;
             let total_task = response['all_task'].length
+            let task_done = total_task > 0 ? response['all_task'].filter(task => task.done != 0  && new Date(task.created_at).setHours(0, 0, 0, 0) == today).length : 0;
             let task_notdone = total_task-task_done;
             let temp_report = ''
             // 오늘의 업무 뿌려주기 
@@ -783,7 +783,7 @@ function get_consulting_history(){
                     student_info = myStudentData.filter(s=>s.register_no == consulting.student_id)[0]
                     let title = consulting.contents
                     if(consulting.category_id < 100){
-                        title = consulting.week_code +'주간 '+consulting.category+' 상담'                       
+                        title = consulting.week_code +'주간 '+consulting.category                      
                     }
                     dataHtml += `
                         <td class="col-2"> ${consulting.category}</td>
