@@ -96,7 +96,7 @@ function q_category(category) {
 }
 function make_nodata(d){
     if(d==0){
-        return '0️⃣건'
+        return '없음'
     }else{
         return d+'건'
     }
