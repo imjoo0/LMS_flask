@@ -761,8 +761,9 @@ function get_consulting_history_by_cate(category) {
 }
 
 function get_consulting_history(){
-    console.log(consultingStudentData)
-    // let target_consulting = consultingStudentData.length  > 0 ? data['consulting_list'].filter( c=>c.done == is_done) : 0;
+    let target_list = consultingStudentData.length  > 0 ? consultingStudentData.filter( c=>c.done_consulting_num != 0) : 0;
+
+    console.log(target_list)
     // let target_consulting_num = target_consulting.length;
 
     // if( target_consulting_num != 0 ){
