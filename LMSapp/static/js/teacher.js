@@ -761,50 +761,97 @@ function get_consulting_history_by_cate(category) {
     }
 }
 
+//  지난 상담 상담일지 
 function get_consulting_history(){
+    $('#consulting_list_search_input').off('keyup');
     let container = $('#consulting_history_student_list_pagination')
+    var category_list = []
+    var paginationOptions = {
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 5,
+        callback: function (data, pagination) {
+            var idxHtml = `<option value="none">전체</option>`;
+            var dataHtml = '';
+            $.each(data, function (index, consulting) {
+                category_list.push(consulting.category)
+                student_info = myStudentData.filter(s=>s.register_no == consulting.student_id)[0]
+                consulting.student_name = student_info.name + '( ' + student_info.nick_name + ' )'
+                consulting.origin = student_info.origin 
+                consulting.ban_name = student_info.classname 
+                let title = consulting.contents
+                if(consulting.category_id < 100){
+                    title = consulting.week_code +'주간 '+consulting.category                      
+                }
+                dataHtml += `
+                    <td class="col-2"> ${consulting.category}</td>
+                    <td class="col-2">${title}</td>
+                    <td class="col-2">${make_date(consulting.created_at)}</td>
+                    <td class="col-2"> ${consulting.ban_name}</td>
+                    <td class="col-2"> ${consulting.student_name}</td>
+                    <td class="col-1"> ${consulting.origin}</td>
+                    <td class="col-1" onclick ="get_consultingban(${consulting.id})"> 🔍 </td>`;
+            });
+            $('#consulting_history_student_list').html(dataHtml);
+            category_set = new Set(category_list)
+            category_list = [...category_set]
+            $.each(category_list, function (idx, val) {
+                idxHtml += `<option value="${val}">${val}</option>`
+            })
+            $('#history_cate').html(idxHtml);
+        }
+    }
     let target_list = allConsultingData.length  > 0 ? allConsultingData.filter( c=>c.done != 0) : 0;
     let target_consulting_num = target_list.length;
-
-    console.log(target_list)
-
     if( target_consulting_num != 0 ){
-        var category_list = []
-        container.pagination({
-            dataSource: target_list,
-            prevText: '이전',
-            nextText: '다음',
-            pageSize: 5,
-            callback: function (target_list, pagination) {
-                var idxHtml = `<option value="none">전체</option>`;
-                var dataHtml = '';
-                $.each(target_list, function (index, consulting) {
-                    category_list.push(consulting.category)
-                    student_info = myStudentData.filter(s=>s.register_no == consulting.student_id)[0]
-                    let title = consulting.contents
-                    if(consulting.category_id < 100){
-                        title = consulting.week_code +'주간 '+consulting.category                      
-                    }
-                    dataHtml += `
-                        <td class="col-2"> ${consulting.category}</td>
-                        <td class="col-2">${title}</td>
-                        <td class="col-2">${make_date(consulting.created_at)}</td>
-                        <td class="col-2"> ${student_info.classname}</td>
-                        <td class="col-2"> ${student_info.name}( ${student_info.nick_name} )</td>
-                        <td class="col-1"> ${student_info.origin}</td>
-                        <td class="col-1" onclick ="get_consultingban(${consulting.id})"> 🔍 </td>`;
-                });
-                $('#consulting_history_student_list').html(dataHtml);
-                category_set = new Set(category_list)
-                category_list = [...category_set]
-                $.each(category_list, function (idx, val) {
-                    idxHtml += `<option value="${val}">${val}</option>`
-                })
-                $('#history_cate').html(idxHtml);
-            }
-        })
+        container.pagination(Object.assign(paginationOptions, { 'dataSource': target_list }))
+        $('#consulting_list_search_input').on('keyup', function () {
+            var searchInput = $(this).val().toLowerCase();
+            var filteredData = data.filter(function (d) {
+                return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1 )|| (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1)||(d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1 ));
+            });
+            container.pagination('destroy');
+            container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
+        });
     }
-
+}
+async function sort_consulting_history(ban_id) {
+    if(ban_id =="none"){
+        return get_consulting_history()
+    }
+    let container = $('#consulting_history_student_list_pagination')
+    const data = consultingStudentData.filter((e) => {
+        return e.ban_id == ban_id;
+    })
+    result = result.sort((a, b) => {
+        return b.done_consulting_num - a.done_consulting_num;
+    });
+    await container.pagination({
+        dataSource: data,
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 10,
+        callback: function (data, pagination) {
+            if (data.length <= 0) {
+                $('#consulting_history_box').hide()
+                $('#h_title_msg').show();
+            } else {
+                $('#h_title_msg').hide();
+                $('#consulting_history_box').show()
+                let temp_consulting_history_student_list = '';
+                $.each(data, function (index, consulting) {
+                    temp_consulting_history_student_list += `
+                    <td class="col-2">${consulting.ban_name}</td>
+                    <td class="col-2">${consulting.student_name}</td>
+                    <td class="col-2">${consulting.student_mobileno}</td>
+                    <td class="col-2">${consulting.student_birthday}</td>
+                    <td class="col-2">${consulting.done_consulting_num}</td>
+                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">✅</td> 
+                    `;
+                });
+                $('#consulting_history_student_list').html(temp_consulting_history_student_list);
+            }
+        }})
 }
 // 부재중 처리
 async function missed_consulting(c_length) {
