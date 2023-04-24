@@ -744,7 +744,6 @@ function post_target_consulting(consulting, is_done) {
 // 상담기록 조회 
 async function get_consulting_history(ban_id) {
     $('#student_list_search_input').off('keyup');
-    $('#consultingListModalLabel').html(`${data[0].ban_name}반 원생 목록`);
     var paginationOptions = {
         prevText: '이전',
         nextText: '다음',
@@ -781,6 +780,7 @@ async function get_consulting_history(ban_id) {
         return e.ban_id === ban_id;
     })
     if(data.length > 0){
+        $('#consultingListModalLabel').html(`${data[0].ban_name}반 원생 목록`);
         data.sort((a, b) => {
             return b.done_consulting_num - a.done_consulting_num;
         });
