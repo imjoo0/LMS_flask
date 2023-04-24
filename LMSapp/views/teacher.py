@@ -15,7 +15,6 @@ bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 current_time = datetime.now()
 Today = current_time.date()
 today_yoil = current_time.weekday() + 1
-print(today_yoil)
 standard = datetime.strptime('11110101', "%Y%m%d").date()
 
 # def task_cycle(){
@@ -44,7 +43,6 @@ def get_data():
     switchstudent = []
     outstudent = []
     my_students = callapi.purple_info(session['user_id'], 'get_mystudents')
-    print()
     if len(ban_data) != 0:
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00',
                                 port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
