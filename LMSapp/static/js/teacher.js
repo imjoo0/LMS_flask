@@ -764,9 +764,9 @@ async function get_consulting_history(ban_id) {
                 $('#consulting_history_box').show()
                 let temp_consulting_history_student_list = '';
                 $.each(data, function (index, consulting) {
+                    let value = `${consulting.student_id}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.teacher_id}`
                     temp_consulting_history_student_list += `
                     <td class="col-2">${consulting.ban_name}</td>
-
                     <td class="col-2">${consulting.student_name}</td>
                     <td class="col-2">${consulting.student_origin}</td>
                     <td class="col-2">${consulting.student_birthday}</td>
