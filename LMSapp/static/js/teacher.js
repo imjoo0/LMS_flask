@@ -781,33 +781,27 @@ function get_consulting_history(){
                 $.each(target_list, function (index, consulting) {
                     category_list.push(consulting.category)
                     console.log(myStudentData)
-                    student_info = myStudentData.filter(s=>s.register_no == consulting.studnet_id)
+                    student_info = myStudentData.filter(s=>s.register_no == consulting.studnet_id)[0]
                     console.log(student_info)
                     dataHtml += `
                         <td class="col-2"> ${consulting.category}</td>
                         <td class="col-2">"${consulting.contents}"</td>
                         <td class="col-2">${consulting.created_at}</td>
-                        <td class="col-2"> ${student_info.name}</td>
+                        <td class="col-2"> ${student_info.name}( ${student_info.nick_name} )</td>
                         <td class="col-2"> ${student_info.origin}</td>
                         <td class="col-2" onclick ="get_consultingban(${consulting.id})"> 🔍 </td>`;
                 });
-                category_set = new Set(category_list)
-                category_list = [...category_set]
-                $.each(category_list, function (idx, val) {
-                    idxHtml += `<option value="${val}">${val}</option>`
-                })
-                $('#history_cate').html(idxHtml);
                 $('#consulting_history_student_list').html(dataHtml);
             }
         })
+        category_set = new Set(category_list)
+        category_list = [...category_set]
+        $.each(category_list, function (idx, val) {
+            idxHtml += `<option value="${val}">${val}</option>`
+        })
+        $('#history_cate').html(idxHtml);
     }
-    // consultingGrouped = target_consulting.reduce((acc, item) => {
-    //     if (!acc[item.category]) {
-    //         acc[item.category] = [];
-    //     }
-    //     acc[item.category].push(item);
-    //     return acc;
-    //     }, []);
+
 }
 // 부재중 처리
 async function missed_consulting(c_length) {
