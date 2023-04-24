@@ -86,7 +86,7 @@ function get_data() {
                             <table class="table text-center" id="class_list">
                                 <tbody style="width:100%;">
                                     <tr class="row">
-                                        <th class="col-12" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${register_no})">${name}반  원생 목록  ✔️</th>
+                                        <th class="col-12" data-bs-toggle="modal" data-bs-target="#consulting_history_list" onclick="get_consulting_history()>${name}반  원생 목록  ✔️</th>
                                     </tr>
                                     <tr class="row">
                                         <th class="col-12">총 미학습 ${unlearned}건  (${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</th>
@@ -777,6 +777,7 @@ async function get_consulting_history() {
             }
         }})
 }
+
 async function sort_consulting_history(ban_id) {
     if(ban_id =="none"){
         return get_consulting_history()
@@ -812,7 +813,7 @@ async function sort_consulting_history(ban_id) {
             }
         }})
 }
-
+// data-bs-target="#consulting_history_list" onclick="get_consulting_history()
 // 메인화면 원생 리스트 조회 및 추가 상담 기능 
 async function get_student(ban_id) {
     $('#student_list_search_input').off('keyup');
