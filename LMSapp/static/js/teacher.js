@@ -762,6 +762,7 @@ function get_consulting_history_by_cate(category) {
 }
 
 function get_consulting_history(){
+    let container = $('#consulting_history_student_list_pagination')
     let target_list = allConsultingData.length  > 0 ? allConsultingData.filter( c=>c.done != 0) : 0;
     let target_consulting_num = target_list.length;
 
