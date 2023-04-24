@@ -384,7 +384,7 @@ async function get_student(ban_id) {
                     unlearned_homepage = make_nodata(ulconsultings.filter(a => a.category_id == 2).length)
                     unlearned_intoreading = make_nodata(ulconsultings.filter(a => a.category_id == 5 || a.category_id == 7).length)
                     temp_consulting_history_student_list += `
-                    <td class="col-2">${consulting.student_name}</td>
+                    <td class="col-1">${consulting.student_name}</td>
                     <td class="col-1">${consulting.student_origin}</td>
                     <td class="col-1">${consulting.student_birthday}</td>
                     <td class="col-1">${unlearned_ixl}</td>
@@ -393,6 +393,7 @@ async function get_student(ban_id) {
                     <td class="col-1">${unlearned_writing}</td>
                     <td class="col-1">${unlearned_homepage}</td>
                     <td class="col-1">${unlearned_intoreading}</td>
+                    <td class="col-1">${make_nodata(ulconsultings.length)}</td>
                     <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">📃</td> 
                     <td class="col-1" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
                     `;
