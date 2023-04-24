@@ -766,11 +766,13 @@ async function get_consulting_history(ban_id) {
                 $.each(data, function (index, consulting) {
                     temp_consulting_history_student_list += `
                     <td class="col-2">${consulting.ban_name}</td>
+
                     <td class="col-2">${consulting.student_name}</td>
-                    <td class="col-2">${consulting.student_mobileno}</td>
+                    <td class="col-2">${consulting.student_origin}</td>
                     <td class="col-2">${consulting.student_birthday}</td>
                     <td class="col-2">${consulting.done_consulting_num}</td>
-                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">상담일지 수정</td> 
+                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">📃</td> 
+                    <td class="col-2" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
                     `;
                 });
                 $('#consulting_history_student_list').html(temp_consulting_history_student_list);
@@ -786,6 +788,9 @@ async function sort_consulting_history(ban_id) {
     const data = consultingStudentData.filter((e) => {
         return e.ban_id == ban_id;
     })
+    result = result.sort((a, b) => {
+        return b.done_consulting_num - a.done_consulting_num;
+    });
     await container.pagination({
         dataSource: data,
         prevText: '이전',
@@ -806,7 +811,7 @@ async function sort_consulting_history(ban_id) {
                     <td class="col-2">${consulting.student_mobileno}</td>
                     <td class="col-2">${consulting.student_birthday}</td>
                     <td class="col-2">${consulting.done_consulting_num}</td>
-                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">상담일지 수정</td> 
+                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">✅</td> 
                     `;
                 });
                 $('#consulting_history_student_list').html(temp_consulting_history_student_list);
