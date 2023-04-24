@@ -19,9 +19,10 @@ function go_back() {
     $('#questionlist').show();
     $('#question_pagination').show()
     // 원생 리스트 관련 
-    $('#teachers_student_list').show();
+    $('#consulting_history_box').show();
+    $('#consulting_history_bansel_box').show()
     $('#make_plus_consulting').hide();
-    $('#banstudentlistModalLabel').html('원생목록')
+    $('#consultingListModalLabel').html('원생 목록')
 }
 
 // 메인화면 데이터 
@@ -797,9 +798,11 @@ async function get_consulting_history(ban_id) {
 }
 function plusconsulting(value, b_id) {
     let v = value.split('_')
-    $('#teachers_student_list').hide();
+    $('#h_title').hide();
+    $('#consulting_history_box').hide()
+    $('#consulting_history_bansel_box').hide()
     $('#make_plus_consulting').show();
-    $('#banstudentlistModalLabel').html(`${v[1]} 원생 추가 상담  ( 📞 ${v[2]}  )`)
+    $('#consultingListModalLabel').html(`${v[1]} 원생 추가 상담  ( 📞 ${v[2]}  )`)
     let temp_button = `
     <button class="btn btn-dark" onclick=plusconsulting_history(${Number(v[0])},${b_id},${Number(v[3])})>저장</button>
     `;
