@@ -802,6 +802,7 @@ function get_consulting_history(){
         }
     }
     let target_list = allConsultingData.length  > 0 ? allConsultingData.filter( c=>c.done != 0) : 0;
+    console.log(target_list)
     let target_consulting_num = target_list.length;
     if( target_consulting_num != 0 ){
         container.pagination(Object.assign(paginationOptions, { 'dataSource': target_list }))
