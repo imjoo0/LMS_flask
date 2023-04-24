@@ -393,8 +393,8 @@ async function get_student(ban_id) {
                     <td class="col-1">${unlearned_writing}</td>
                     <td class="col-1">${unlearned_homepage}</td>
                     <td class="col-1">${unlearned_intoreading}</td>
-                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">📃</td> 
-                    <td class="col-2" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
+                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">📃</td> 
+                    <td class="col-1" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
                     `;
                 });
                 $('#ban_student_info').html(temp_consulting_history_student_list);
