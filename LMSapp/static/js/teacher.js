@@ -747,7 +747,7 @@ async function get_consulting_history(ban_id) {
     const data = consultingStudentData.filter((e) => {
         return e.ban_id === ban_id;
     })
-    data = data.sort((a, b) => {
+    data.sort((a, b) => {
         return b.done_consulting_num - a.done_consulting_num;
     });
     await container.pagination({
