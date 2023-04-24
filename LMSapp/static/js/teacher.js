@@ -397,13 +397,11 @@ async function get_student(ban_id) {
     const data = consultingStudentData.filter((e) => {
         return e.ban_id === ban_id;
     })
-    if(data.length > 0){
-        $('#ban_student_listModalLabelt').html(`${data[0].ban_name}반 원생 목록`);
-        data.sort((a, b) => {
-            return b.done_consulting_num - a.done_consulting_num;
-        });
-        container.pagination(Object.assign(paginationOptions, { 'dataSource': data }))
-    }
+    $('#ban_student_listModalLabelt').html(`${data[0].ban_name}반 원생 목록`);
+    data.sort((a, b) => {
+        return b.done_consulting_num - a.done_consulting_num;
+    });
+    container.pagination(Object.assign(paginationOptions, { 'dataSource': data }))
     $('#student_list_search_input').on('keyup', function () {
         var searchInput = $(this).val().toLowerCase();
         var filteredData = data.filter(function (d) {
