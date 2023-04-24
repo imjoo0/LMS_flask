@@ -48,7 +48,7 @@ function get_data() {
                 banArray.push(response['ban_data']);
                 response['ban_data'] = banArray;
             }
-            console.log(repsponse['ban_data'])
+            console.log(response['ban_data'])
             for (i=0;i< response['ban_data'].length;i++) {
                 let register_no =  response['ban_data'][i]['register_no']
                 let name =  response['ban_data'][i]['name']
