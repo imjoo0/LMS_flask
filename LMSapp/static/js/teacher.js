@@ -766,7 +766,7 @@ function get_consulting_history(){
     $('#consulting_list_search_input').off('keyup');
     let container = $('#consulting_history_student_list_pagination')
     // var category_list = []
-    var paginationOptions = {
+    CpaginationOptions = {
         prevText: '이전',
         nextText: '다음',
         pageSize: 5,
@@ -804,14 +804,14 @@ function get_consulting_history(){
             idxHtml += `<option value="${val}">${val}</option>`
         })
         $('#history_cate').html(idxHtml);
-        container.pagination(Object.assign(paginationOptions, { 'dataSource': target_list}))
+        container.pagination(Object.assign(CpaginationOptions, { 'dataSource': target_list}))
         $('#consulting_list_search_input').on('keyup', function () {
             var searchInput = $(this).val().toLowerCase();
             var filteredData = target_list.filter(function (d) {
                 return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1 )|| (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1)||(d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1 ));
             });
             container.pagination('destroy');
-            container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData  }));
+            container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData  }));
         });
     }
 }
@@ -823,7 +823,7 @@ async function sort_consulting_history(category) {
     const data = target_list.filter((e) => {
         return e.category == category;
     })
-    container.pagination(Object.assign(paginationOptions, { 'dataSource': target_list}))
+    container.pagination(Object.assign(CpaginationOptions, { 'dataSource': data}))
 }
 // 부재중 처리
 async function missed_consulting(c_length) {
