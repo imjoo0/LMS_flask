@@ -783,11 +783,11 @@ function get_consulting_history(){
                     student_info = myStudentData.filter(s=>s.register_no == consulting.student_id)[0]
                     let title = consulting.contents
                     if(consulting.category_id < 100){
-                        title = consulting.week_code +'간 '+consulting.category                       
+                        title = consulting.week_code +'주간 '+consulting.category+' 상담'                       
                     }
                     dataHtml += `
                         <td class="col-2"> ${consulting.category}</td>
-                        <td class="col-2">"${title}"</td>
+                        <td class="col-2">${title}</td>
                         <td class="col-2">${make_date(consulting.created_at)}</td>
                         <td class="col-2"> ${student_info.classname}</td>
                         <td class="col-2"> ${student_info.name}( ${student_info.nick_name} )</td>
