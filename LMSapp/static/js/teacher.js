@@ -785,9 +785,10 @@ function get_consulting_history(){
                         <td class="col-2"> ${consulting.category}</td>
                         <td class="col-2">"${consulting.contents}"</td>
                         <td class="col-2">${consulting.created_at}</td>
-                        <td class="col-2"> ${student_info.name}( ${student_info.nick_name} )</td>
-                        <td class="col-2"> ${student_info.origin}</td>
-                        <td class="col-2" onclick ="get_consultingban(${consulting.id})"> 🔍 </td>`;
+                        <td class="col-2"> ${student_info.ban_name}</td>
+                        <td class="col-1"> ${student_info.name}( ${student_info.nick_name} )</td>
+                        <td class="col-1"> ${student_info.origin}</td>
+                        <td class="col-1" onclick ="get_consultingban(${consulting.id})"> 🔍 </td>`;
                 });
                 $('#consulting_history_student_list').html(dataHtml);
                 category_set = new Set(category_list)
