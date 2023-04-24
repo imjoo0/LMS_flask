@@ -31,7 +31,7 @@ standard = datetime.strptime('11110101', "%Y%m%d").date()
 @bp.route("/", methods=['GET'])
 def home():
     if request.method == 'GET':
-        teacher_info = callapi.purple_info(session['user_id'], 'get_teacher_info')[0]
+        teacher_info = callapi.purple_info(session['user_id'], 'get_teacher_info')
         return render_template('teacher.html', user=teacher_info)
     
 # 차트 관련
