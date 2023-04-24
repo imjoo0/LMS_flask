@@ -780,9 +780,7 @@ function get_consulting_history(){
                 var dataHtml = '';
                 $.each(target_list, function (index, consulting) {
                     category_list.push(consulting.category)
-                    console.log(myStudentData)
                     student_info = myStudentData.filter(s=>s.register_no == consulting.student_id)[0]
-                    console.log(student_info)
                     dataHtml += `
                         <td class="col-2"> ${consulting.category}</td>
                         <td class="col-2">"${consulting.contents}"</td>
@@ -792,14 +790,14 @@ function get_consulting_history(){
                         <td class="col-2" onclick ="get_consultingban(${consulting.id})"> 🔍 </td>`;
                 });
                 $('#consulting_history_student_list').html(dataHtml);
+                category_set = new Set(category_list)
+                category_list = [...category_set]
+                $.each(category_list, function (idx, val) {
+                    idxHtml += `<option value="${val}">${val}</option>`
+                })
+                $('#history_cate').html(idxHtml);
             }
         })
-        category_set = new Set(category_list)
-        category_list = [...category_set]
-        $.each(category_list, function (idx, val) {
-            idxHtml += `<option value="${val}">${val}</option>`
-        })
-        $('#history_cate').html(idxHtml);
     }
 
 }
