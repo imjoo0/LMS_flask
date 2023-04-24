@@ -807,7 +807,7 @@ function get_consulting_history(){
         container.pagination(Object.assign(paginationOptions, { 'dataSource': target_list }))
         $('#consulting_list_search_input').on('keyup', function () {
             var searchInput = $(this).val().toLowerCase();
-            var filteredData = data.filter(function (d) {
+            var filteredData = target_list.filter(function (d) {
                 return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1 )|| (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1)||(d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1 ));
             });
             container.pagination('destroy');
