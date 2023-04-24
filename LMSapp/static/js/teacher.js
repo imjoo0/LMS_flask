@@ -41,7 +41,6 @@ function get_data() {
             // let switchstudent_t =  response['switchstudent'].length ( 선생님 기준 이반 율에 사용 )
             // let outstudent_t = response['outstudent'].length ( 선생님 기준 퇴소 율에 사용 )
             $('#ban_chart_list').empty()
-            $('#history_ban').empty()
             let unlearned_t =response['all_consulting'].length > 0 ? response['all_consulting'].filter(consulting => consulting.category_id < 100).length : 0;
             let temp_ban_option = '<option value="none" selected>반을 선택해주세요</option>';
             for (i=0;i< response['ban_data'].length;i++) {
@@ -139,8 +138,6 @@ function get_data() {
             }
             // 본원 문의 ban선택 옵션 같이 붙이기 
             $('#my_ban_list').html(temp_ban_option)
-            // 상담일지 조회 ban 선택 옵션 같이 붙이기 
-            $('#history_ban').append(temp_ban_option)
             
             // let consulting_deadlinemissed = consulting_notdone.length > 0 ? consulting_notdone.filter(c => new Date(c.deadline).setHours(0, 0, 0, 0) < today).length : 0;
             let consulting_t = response['all_consulting'].length;
