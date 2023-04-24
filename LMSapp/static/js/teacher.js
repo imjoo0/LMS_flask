@@ -376,11 +376,23 @@ async function get_student(ban_id) {
                 let temp_consulting_history_student_list = '';
                 $.each(data, function (index, consulting) {
                     let value = `${consulting.student_id}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.teacher_id}`
+                    ulconsultings = consulting.consulting_list.filter(c => c.category_id < 100)
+                    unlearned_ixl = make_nodata(ulconsultings.filter(a => a.category_id == 1).length)
+                    unlearned_reading = make_nodata(ulconsultings.filter(a => a.category_id == 4).length)
+                    unlearned_speacial = make_nodata(ulconsultings.filter(a => a.category_id == 3).length)
+                    unlearned_writing = make_nodata(ulconsultings.filter(a => a.category_id == 6).length)
+                    unlearned_homepage = make_nodata(ulconsultings.filter(a => a.category_id == 2).length)
+                    unlearned_intoreading = make_nodata(ulconsultings.filter(a => a.category_id == 5 || a.category_id == 7).length)
                     temp_consulting_history_student_list += `
                     <td class="col-2">${consulting.student_name}</td>
-                    <td class="col-2">${consulting.student_origin}</td>
-                    <td class="col-2">${consulting.student_birthday}</td>
-                    <td class="col-2">${consulting.done_consulting_num}</td>
+                    <td class="col-1">${consulting.student_origin}</td>
+                    <td class="col-1">${consulting.student_birthday}</td>
+                    <td class="col-1">${unlearned_ixl}</td>
+                    <td class="col-1">${unlearned_reading}</td>
+                    <td class="col-1">${unlearned_speacial}</td>
+                    <td class="col-1">${unlearned_writing}</td>
+                    <td class="col-1">${unlearned_homepage}</td>
+                    <td class="col-1">${unlearned_intoreading}</td>
                     <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">📃</td> 
                     <td class="col-2" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
                     `;
@@ -900,8 +912,6 @@ function post_target_consulting(consulting, is_done) {
         }
     })
 }
-
-// 상담기록 조회 
 
 // 업무 완료 
 function get_update_done() {
