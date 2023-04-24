@@ -19,10 +19,10 @@ function go_back() {
     $('#questionlist').show();
     $('#question_pagination').show()
     // 원생 리스트 관련 
-    $('#consulting_history_box').show();
-    $('#consulting_history_bansel_box').show()
+    $('#ban_student_list_box').show();
+    $('#ban_student_list_bansel_box').show()
     $('#make_plus_consulting').hide();
-    $('#consultingListModalLabel').html('원생 목록')
+    $('#ban_student_listModalLabelt').html('원생 목록')
 }
 
 // 메인화면 데이터 
@@ -417,7 +417,6 @@ async function get_consulting_student(done_code) {
     });
     
 }
-
 // 상담일지 작성 
 async function get_consulting(student_id, is_done) {
     // if(!reportsData){
@@ -743,7 +742,7 @@ function post_target_consulting(consulting, is_done) {
 }
 
 // 상담기록 조회 
-async function get_consulting_history(ban_id) {
+async function get_student(ban_id) {
     $('#student_list_search_input').off('keyup');
     var paginationOptions = {
         prevText: '이전',
@@ -752,13 +751,13 @@ async function get_consulting_history(ban_id) {
         callback: function (data, pagination) {
             if (data.length <= 0) {
                 $('#consulting_history_bansel_box').hide()
-                $('#consulting_history_box').hide()
+                $('#ban_student_list_box').hide()
                 $('#h_title_msg').show();
             } else {
                 // data.sort((a,n))
                 $('#h_title_msg').hide();
                 $('#consulting_history_bansel_box').show()
-                $('#consulting_history_box').show()
+                $('#ban_student_list_box').show()
                 let temp_consulting_history_student_list = '';
                 $.each(data, function (index, consulting) {
                     let value = `${consulting.student_id}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.teacher_id}`
@@ -771,17 +770,17 @@ async function get_consulting_history(ban_id) {
                     <td class="col-2" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
                     `;
                 });
-                $('#consulting_history_student_list').html(temp_consulting_history_student_list);
+                $('#ban_student_info').html(temp_consulting_history_student_list);
             }
         }
     }
     
-    let container = $('#consulting_history_student_list_pagination')
+    let container = $('#ban_student_list_pagination')
     const data = consultingStudentData.filter((e) => {
         return e.ban_id === ban_id;
     })
     if(data.length > 0){
-        $('#consultingListModalLabel').html(`${data[0].ban_name}반 원생 목록`);
+        $('#ban_student_listModalLabelt').html(`${data[0].ban_name}반 원생 목록`);
         data.sort((a, b) => {
             return b.done_consulting_num - a.done_consulting_num;
         });
@@ -798,9 +797,9 @@ async function get_consulting_history(ban_id) {
 }
 function plusconsulting(value, b_id) {
     let v = value.split('_')
-    $('#h_title').hide();
-    $('#consulting_history_box').hide()
-    $('#consulting_history_bansel_box').hide()
+    $('#h_title_msg').hide();
+    $('#ban_student_list_box').hide()
+    $('#ban_student_list_bansel_box').hide()
     $('#make_plus_consulting').show();
     $('#consultingListModalLabel').html(`${v[1]} 원생 추가 상담  ( 📞 ${v[2]}  )`)
     let temp_button = `

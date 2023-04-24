@@ -197,19 +197,73 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="consultingListModalLabel">
                     <img src="https://purpleacademy.net/free_project/public/image/answer-a-question.png"
+                        style="width: 30px; margin-bottom: 2px;">&nbsp;&nbsp;상담일지 확인
+                </h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="my-4 d-flex flex-wrap justify-content-end align-items-center"
+                    id="consulting_history_bansel_box">
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 반별 진행 상담 내역</span></div>
+                    <div class="col-md-4 col-sm-6 col-12">
+                        <select id="history_ban" onchange="sort_consulting_history(this.value)"
+                            class="form-select form-select w-100" aria-label="Default select example">
+
+                        </select>
+                    </div>
+                </div>
+                <h3 class="h_title" id="h_title_msg">상담진행 내역이 없습니다! 😂</h3>
+                <div id="consulting_history_box">
+                    <div class="d-flex justify-content-start align-items-start flex-column">
+                        <table class="table text-center">
+                            <tbody style="width:100%;">
+                                <thead>
+                                    <tr class="row">
+                                        <th class="col-2">반</th>
+                                        <th class="col-2">이름</th>
+                                        <th class="col-2">연락처</th>
+                                        <th class="col-2">생년월일</th>
+                                        <th class="col-2">진행한 상담 수</th>
+                                        <th class="col-2">✅</th>
+                                    </tr>
+                                </thead>
+                                <tr class="row" id="consulting_history_student_list">
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center w-100">
+                        <div id="consulting_history_student_list_pagination" class="py-5"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--원생목록-->
+<div class="modal fade" id="ban_student_list" tabindex="-1" aria-labelledby="ban_student_listModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ban_student_listModalLabelt">
+                    <img src="https://purpleacademy.net/free_project/public/image/answer-a-question.png"
                         style="width: 30px; margin-bottom: 2px;">&nbsp;&nbsp;원생 목록
                 </h5>
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <div class="my-4 d-flex flex-wrap justify-content-end align-items-center" id="consulting_history_bansel_box">
+                <div class="my-4 d-flex flex-wrap justify-content-end align-items-center" id="ban_student_list_bansel_box">
                     <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 원생 검색</span></div>
                     <div class="col-md-4 col-sm-6 col-12">
                         <input type="text" id="student_list_search_input" placeholder="원생 이름 혹은 원번으로 검색" style="width:100%;height:2em;margin-bottom:10px;">
                     </div>
                 </div>
                 <h3 class="h_title" id="h_title_msg">원생 정보가 없습니다! 😂</h3>
-                <div id="consulting_history_box">
+                <div id="ban_student_list_box">
                     <div class="d-flex justify-content-start align-items-start flex-column">
                         <table class="table text-center">
                             <tbody style="width:100%;">
@@ -223,14 +277,14 @@
                                         <th class="col-2">자체 상담</th>
                                     </tr>
                                 </thead>
-                                <tr class="row" id="consulting_history_student_list">
+                                <tr class="row" id="ban_student_info">
 
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="d-flex justify-content-center align-items-center w-100">
-                        <div id="consulting_history_student_list_pagination" class="py-5"></div>
+                        <div id="ban_student_list_pagination" class="py-5"></div>
                     </div>
                 </div>
 
