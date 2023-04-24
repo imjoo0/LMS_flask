@@ -781,12 +781,13 @@ function get_consulting_history(){
                 $.each(target_list, function (index, consulting) {
                     category_list.push(consulting.category)
                     student_info = myStudentData.filter(s=>s.register_no == consulting.student_id)[0]
+                    console.log(student_info)
                     dataHtml += `
                         <td class="col-2"> ${consulting.category}</td>
                         <td class="col-2">"${consulting.contents}"</td>
                         <td class="col-2">${consulting.created_at}</td>
                         <td class="col-2"> ${student_info.ban_name}</td>
-                        <td class="col-1"> ${student_info.name}( ${student_info.nick_name} )</td>
+                        <td class="col-2"> ${student_info.name}( ${student_info.nick_name} )</td>
                         <td class="col-1"> ${student_info.origin}</td>
                         <td class="col-1" onclick ="get_consultingban(${consulting.id})"> 🔍 </td>`;
                 });
