@@ -765,7 +765,7 @@ function get_consulting_history_by_cate(category) {
 function get_consulting_history(){
     $('#consulting_list_search_input').off('keyup');
     let container = $('#consulting_history_student_list_pagination')
-    var category_list = []
+    // var category_list = []
     var paginationOptions = {
         prevText: '이전',
         nextText: '다음',
@@ -773,8 +773,8 @@ function get_consulting_history(){
         callback: function (data, pagination) {
             var idxHtml = `<option value="none">전체</option>`;
             var dataHtml = '';
+            var category_set = new Set();
             $.each(data, function (index, consulting) {
-                category_list.push(consulting.category)
                 student_info = myStudentData.filter(s=>s.register_no == consulting.student_id)[0]
                 consulting.student_name = student_info.name + '( ' + student_info.nick_name + ' )'
                 consulting.origin = student_info.origin 
@@ -793,8 +793,6 @@ function get_consulting_history(){
                     <td class="col-1" onclick ="get_consultingban(${consulting.id})"> 🔍 </td>`;
             });
             $('#consulting_history_student_list').html(dataHtml);
-            category_set = new Set(category_list)
-            category_list = [...category_set]
             $.each(category_list, function (idx, val) {
                 idxHtml += `<option value="${val}">${val}</option>`
             })
@@ -802,17 +800,19 @@ function get_consulting_history(){
         }
     }
     let target_list = allConsultingData.length  > 0 ? allConsultingData.filter( c=>c.done != 0) : 0;
-    console.log(target_list)
     let target_consulting_num = target_list.length;
     if( target_consulting_num != 0 ){
-        container.pagination(Object.assign(paginationOptions, { 'dataSource': target_list }))
+        // 중복 없는 카테고리 배열 생성
+        let category_set = new Set(target_list.map(c => c.category));
+        let category_list = [...category_set];
+        container.pagination(Object.assign(paginationOptions, { 'dataSource': target_list, 'category_list': category_list}))
         $('#consulting_list_search_input').on('keyup', function () {
             var searchInput = $(this).val().toLowerCase();
             var filteredData = target_list.filter(function (d) {
                 return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1 )|| (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1)||(d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1 ));
             });
             container.pagination('destroy');
-            container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
+            container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData, 'category_list': category_list  }));
         });
     }
 }
