@@ -781,7 +781,7 @@ function get_consulting_history(){
                 $.each(target_list, function (index, consulting) {
                     category_list.push(consulting.category)
                     console.log(myStudentData)
-                    student_info = myStudentData.filter(s=>s.register_no == consulting.studnet_id)[0]
+                    student_info = myStudentData.filter(s=>s.register_no == consulting.student_id)[0]
                     console.log(student_info)
                     dataHtml += `
                         <td class="col-2"> ${consulting.category}</td>
