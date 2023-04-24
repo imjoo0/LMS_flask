@@ -136,12 +136,12 @@ function get_data() {
                     },
                 });
             }
+            allConsultingData = response['all_consulting']
             // 본원 문의 ban선택 옵션 같이 붙이기 
             $('#my_ban_list').html(temp_ban_option)
-            
             // let consulting_deadlinemissed = consulting_notdone.length > 0 ? consulting_notdone.filter(c => new Date(c.deadline).setHours(0, 0, 0, 0) < today).length : 0;
-            let consulting_t = response['all_consulting'].length;
-            let consulting_done = consulting_t != 0 ? response['all_consulting'].filter(consulting => consulting.done === 1).length : 0  
+            let consulting_t = allConsultingData.length;
+            let consulting_done = consulting_t != 0 ? allConsultingData.filter(consulting => consulting.done === 1).length : 0  
             // let consulting_notdone = consulting_t - consulting_done
             let task_done = response['all_task'].length > 0 ? response['all_task'].filter(task => task.done != 0  && new Date(task.created_at).setHours(0, 0, 0, 0) == today).length : 0;
             let total_task = response['all_task'].length
@@ -270,7 +270,7 @@ function get_data() {
             
             // 상담 목록 
             let result = response['my_students'].reduce((acc, student) => {
-                const consultingList = response['all_consulting'].filter(c => c.student_id === student.register_no);
+                const consultingList = allConsultingData.filter(c => c.student_id === student.register_no);
                 if (consultingList.length > 0) {
                     const todoconsulting = consultingList.filter(c => c.done == 0)
                     if(todoconsulting.length > 0 ){
@@ -761,7 +761,7 @@ function get_consulting_history_by_cate(category) {
 }
 
 function get_consulting_history(){
-    let target_list = consultingStudentData.length  > 0 ? consultingStudentData.filter( c=>c.done_consulting_num != 0) : 0;
+    let target_list = allConsultingData.length  > 0 ? allConsultingData.filter( c=>c.done != 0) : 0;
 
     console.log(target_list)
     // let target_consulting_num = target_consulting.length;
