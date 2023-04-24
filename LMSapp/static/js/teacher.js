@@ -512,7 +512,12 @@ async function get_consulting(student_id, is_done) {
         return e.student_id == student_id && e.consulting_list.length != 0;
     })[0]
     $('#consultinghistoryModalLabelt').html(`${data['student_name']} 원생 상담일지`)
-    
+    if(is_done == 1){
+        $('#banstudentlistModalLabel').html(`${data['student_name']} 원생 상담일지`)
+        $('#teachers_student_list').hide()
+        $('#make_plus_consulting').hide()
+    }
+
     $('.mo_inloading').show()
     $('.monot_inloading').hide()
 
@@ -810,15 +815,11 @@ async function sort_consulting_history(ban_id) {
 
 // 메인화면 원생 리스트 조회 및 추가 상담 기능 
 async function get_student(ban_id) {
+    $('#student_list_search_input').off('keyup');
     let container = $('#banstudent_pagination')
     $('#teachers_student_list').show();
     $('#make_plus_consulting').hide();
-    const data = consultingStudentData.filter((e) => {
-            return e.ban_id === ban_id;
-    })
-    $('#teachers_student_list').show()
-    await container.pagination({
-        dataSource: data,
+    var paginationOptions = {
         prevText: '이전',
         nextText: '다음',
         pageSize: 10,
@@ -844,7 +845,7 @@ async function get_student(ban_id) {
                         <td class="col-2">${consulting.student_origin}</td>
                         <td class="col-2">${consulting.student_birthday}</td>
                         <td class="col-2">${consulting.student_mobileno}</td>
-                        <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">수정 및 조회</td> 
+                        <td class="col-2" onclick="get_consulting(${consulting.student_id},${1})">수정 및 조회</td> 
                         <td class="col-2" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
                         `;
                 });
@@ -852,7 +853,25 @@ async function get_student(ban_id) {
                 $('#student_data').show();
             }
         }
+    };
+    
+    const data = consultingStudentData.filter((e) => {
+        return e.ban_id === ban_id;
     })
+    if(data.length > 0){
+        container.pagination(Object.assign(paginationOptions, { 'dataSource': data }))
+        $('#teachers_student_list').show()
+    }
+
+    $('#student_list_search_input').on('keyup', function () {
+        var searchInput = $(this).val().toLowerCase();
+        var filteredData = data.filter(function (d) {
+            return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1 )|| (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(searchInput) !== -1));
+        });
+        container.pagination('destroy');
+        container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
+    });
+    
 }
 function plusconsulting(value, b_id) {
     let v = value.split('_')
