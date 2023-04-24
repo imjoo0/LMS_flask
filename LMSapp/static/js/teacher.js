@@ -793,37 +793,48 @@ function get_consulting_history(){
             $('#consulting_history_student_list').html(dataHtml);
         }
     }
-    target_list = allConsultingData.length  > 0 ? allConsultingData.filter( c=>c.done != 0) : 0;
+    target_list = allConsultingData.length > 0 ? allConsultingData.filter(c => c.done != 0) : 0;
     let target_consulting_num = target_list.length;
-    if( target_consulting_num != 0 ){
+    if (target_consulting_num != 0) {
         // 중복 없는 카테고리 배열 생성
         let category_set = new Set(target_list.map(c => c.category));
         let category_list = [...category_set];
         var idxHtml = `<option value="none">전체</option>`;
         $.each(category_list, function (idx, val) {
-            idxHtml += `<option value="${val}">${val}</option>`
+        idxHtml += `<option value="${val}">${val}</option>`
         })
         $('#history_cate').html(idxHtml);
-        container.pagination(Object.assign(CpaginationOptions, { 'dataSource': target_list}))
-        $('#consulting_list_search_input').on('keyup', function () {
-            var searchInput = $(this).val().toLowerCase();
-            var filteredData = target_list.filter(function (d) {
-                return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1 )|| (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1)||(d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1 ));
+        // 검색 조건이 변경될 때마다 검색 결과 업데이트하는 함수
+        const updateSearchResult = function() {
+            // 현재 검색 조건에서 선택된 값을 가져옴
+            const selectedCategory = $('#history_cate').val();
+            const searchInput = $('#consulting_list_search_input').val().toLowerCase();
+
+            // 검색 조건과 검색어를 모두 만족하는 데이터를 필터링함
+            const filteredData = target_list.filter(function (d) {
+                return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1 )|| (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1)||(d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1 )) &&
+                (selectedCategory == 'none' || d.category == selectedCategory);
             });
+
+            // 필터링된 데이터를 화면에 출력함
             container.pagination('destroy');
             container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData  }));
-        });
+        };
+
+        container.pagination(Object.assign(CpaginationOptions, { 'dataSource': target_list  }));
+        // 검색 조건 변경 시 검색 결과를 업데이트함
+        $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
     }
 }
 async function sort_consulting_history(category) {
-    if(category =="none"){
-        return get_consulting_history()
+    if (category == "none") {
+      return get_consulting_history()
     }
     let container = $('#consulting_history_student_list_pagination')
     const data = target_list.filter((e) => {
-        return e.category == category;
+      return e.category == category;
     })
-    container.pagination(Object.assign(CpaginationOptions, { 'dataSource': data}))
+    container.pagination(Object.assign(CpaginationOptions, { 'dataSource': data  }));
 }
 // 부재중 처리
 async function missed_consulting(c_length) {
