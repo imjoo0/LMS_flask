@@ -86,7 +86,7 @@ function get_data() {
                             <table class="table text-center" id="class_list">
                                 <tbody style="width:100%;">
                                     <tr class="row">
-                                        <th class="col-12" data-bs-toggle="modal" data-bs-target="#consulting_history_list" onclick="get_consulting_history()>${name}반  원생 목록  ✔️</th>
+                                        <th class="col-12" data-bs-toggle="modal" data-bs-target="#consulting_history_list" onclick="get_consulting_history(${register_no})">${name}반  원생 목록  ✔️</th>
                                     </tr>
                                     <tr class="row">
                                         <th class="col-12">총 미학습 ${unlearned}건  (${answer_rate(unlearned, unlearned_t).toFixed(2)}%)</th>
@@ -742,10 +742,10 @@ function post_target_consulting(consulting, is_done) {
 }
 
 // 상담기록 조회 
-async function get_consulting_history() {
+async function get_consulting_history(ban_id) {
     let container = $('#consulting_history_student_list_pagination')
     const data = consultingStudentData.filter((e) => {
-        return e.done_consulting_num != 0;
+        return e.ban_id === ban_id;
     })
     await container.pagination({
         dataSource: data,
@@ -784,7 +784,7 @@ async function sort_consulting_history(ban_id) {
     }
     let container = $('#consulting_history_student_list_pagination')
     const data = consultingStudentData.filter((e) => {
-        return e.done_consulting_num != 0 && e.ban_id == ban_id;
+        return e.ban_id == ban_id;
     })
     await container.pagination({
         dataSource: data,
