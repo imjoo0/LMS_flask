@@ -793,7 +793,7 @@ function get_consulting_history(){
             $('#consulting_history_student_list').html(dataHtml);
         }
     }
-    let target_list = allConsultingData.length  > 0 ? allConsultingData.filter( c=>c.done != 0) : 0;
+    target_list = allConsultingData.length  > 0 ? allConsultingData.filter( c=>c.done != 0) : 0;
     let target_consulting_num = target_list.length;
     if( target_consulting_num != 0 ){
         // 중복 없는 카테고리 배열 생성
@@ -815,43 +815,15 @@ function get_consulting_history(){
         });
     }
 }
-async function sort_consulting_history(ban_id) {
-    if(ban_id =="none"){
+async function sort_consulting_history(category) {
+    if(category =="none"){
         return get_consulting_history()
     }
     let container = $('#consulting_history_student_list_pagination')
-    const data = consultingStudentData.filter((e) => {
-        return e.ban_id == ban_id;
+    const data = target_list.filter((e) => {
+        return e.category == category;
     })
-    result = result.sort((a, b) => {
-        return b.done_consulting_num - a.done_consulting_num;
-    });
-    await container.pagination({
-        dataSource: data,
-        prevText: '이전',
-        nextText: '다음',
-        pageSize: 10,
-        callback: function (data, pagination) {
-            if (data.length <= 0) {
-                $('#consulting_history_box').hide()
-                $('#h_title_msg').show();
-            } else {
-                $('#h_title_msg').hide();
-                $('#consulting_history_box').show()
-                let temp_consulting_history_student_list = '';
-                $.each(data, function (index, consulting) {
-                    temp_consulting_history_student_list += `
-                    <td class="col-2">${consulting.ban_name}</td>
-                    <td class="col-2">${consulting.student_name}</td>
-                    <td class="col-2">${consulting.student_mobileno}</td>
-                    <td class="col-2">${consulting.student_birthday}</td>
-                    <td class="col-2">${consulting.done_consulting_num}</td>
-                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">✅</td> 
-                    `;
-                });
-                $('#consulting_history_student_list').html(temp_consulting_history_student_list);
-            }
-        }})
+    container.pagination(Object.assign(paginationOptions, { 'dataSource': target_list}))
 }
 // 부재중 처리
 async function missed_consulting(c_length) {
