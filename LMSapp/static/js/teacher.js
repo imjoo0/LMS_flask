@@ -356,7 +356,6 @@ function get_data() {
         }
     });
 }
-
 async function get_student(ban_id) {
     $('#student_list_search_input').off('keyup');
     var paginationOptions = {
@@ -759,6 +758,22 @@ function get_consulting_history_by_cate(category) {
             scrollTop: target.offset().top
         }, 1000);
     }
+}
+
+function get_consulting_history(){
+    console.log(consultingStudentData)
+    // let target_consulting = consultingStudentData.length  > 0 ? data['consulting_list'].filter( c=>c.done == is_done) : 0;
+    // let target_consulting_num = target_consulting.length;
+
+    // if( target_consulting_num != 0 ){
+    // consultingGrouped = target_consulting.reduce((acc, item) => {
+    //     if (!acc[item.category]) {
+    //         acc[item.category] = [];
+    //     }
+    //     acc[item.category].push(item);
+    //     return acc;
+    //     }, []);
+    // }
 }
 // 부재중 처리
 async function missed_consulting(c_length) {
