@@ -243,7 +243,7 @@ function get_data() {
                                         if(task_items[k].done == 0){
                                         temp_cate_menu += `
                                             <label><input type="checkbox" name="taskid" value="${task_items[k].id}"/>${ban_name.name}</label>`;
-                                        }else if(task_items[k].done == 1 && task_items[k].created_at == today){
+                                        }else if(task_items[k].done == 1){
                                             temp_cate_menu += `
                                             <label class="done">✅ ${ban_name}</label>`;
                                         }   
