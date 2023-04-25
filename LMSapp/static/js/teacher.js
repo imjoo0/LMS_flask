@@ -200,7 +200,7 @@ function get_data() {
                             'id':item.id,
                             'ban_id':item.ban_id,
                             'done':item.done,
-                            'created_at':item.created_at
+                            'created_at':new Date(item.created_at).setHours(0, 0, 0, 0)
                         }
                         const key =  priority + '_' + contents + '_' + deadline;
                         if (!result[key]) {
@@ -243,14 +243,9 @@ function get_data() {
                                         if(task_items[k].done == 0){
                                         temp_cate_menu += `
                                             <label><input type="checkbox" name="taskid" value="${task_items[k].id}"/>${ban_name.name}</label>`;
-                                        }else if(task_items[k].done == 1){
-                                            console.log(typeof(task_items[k].created_at))
-                                            console.log(new Date(task_items[k].created_at).setHours(0,0,0,0))
-                                            console.log(today)
-                                            if(today){
-                                                temp_cate_menu += `
-                                                <label class="done">✅ ${ban_name.name}</label>`;
-                                            }
+                                        }else if(task_items[k].done == 1 && task_items[k].created_at === today){
+                                            temp_cate_menu += `
+                                            <label class="done">✅ ${ban_name.name}</label>`;
                                         }   
                                     }
                                 }
