@@ -808,7 +808,7 @@ function get_consulting_history(){
                     <td class="col-2"> ${consulting.ban_name}</td>
                     <td class="col-2"> ${consulting.student_name}</td>
                     <td class="col-1"> ${consulting.origin}</td>
-                    <td class="col-1" onclick ="get_consultingban(${consulting.id})"> 🔍 </td>`;
+                    <td class="col-1" onclick ="get_consulting_history_detail(${consulting.id})"> 🔍 </td>`;
             });
             $('#consulting_history_student_list').html(dataHtml);
         }
