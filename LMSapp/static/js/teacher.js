@@ -1232,7 +1232,7 @@ async function get_question_detail(q_id) {
     </div>`;
     $('#teacher_question').html(temp_question_list);
     // 상담 일지 처리 
-    if(questiondata.category == 0 || questiondata.category == 4 ){
+    if(questiondata.category == 0 || questiondata.category == 4 || questiondata.category == 5 ){
         $('#consulting_history_attach').hide()
     }else{
         $('#consulting_history_attach').show()
