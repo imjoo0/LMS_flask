@@ -244,8 +244,9 @@ function get_data() {
                                         temp_cate_menu += `
                                             <label><input type="checkbox" name="taskid" value="${task_items[k].id}"/>${ban_name.name}</label>`;
                                         }else if(task_items[k].done == 1){
-                                            console.log(task_items[k].created_at)
-                                            if(new Date(task_items[k].created_at).getTime() === today){
+                                            console.log(typeof(task_items[k].created_at))
+                                            console.log(new Date(task_items[k].created_at).getTime())
+                                            if(today){
                                                 temp_cate_menu += `
                                                 <label class="done">✅ ${ban_name.name}</label>`;
                                             }
