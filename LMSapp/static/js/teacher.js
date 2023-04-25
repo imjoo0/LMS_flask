@@ -1141,7 +1141,7 @@ async function get_question_detail(q_id) {
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">대상 반 | 학생</span>
-        <p>${ban_student_data.ban_name} ➖ ${ban_student_data.student_name}</p>
+        <p>${ban_student_data.classname} ➖ ${ban_student_data.name} (${ban_student_data.nick_name}:${ban_student_data.origin})</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">첨부파일</span>
