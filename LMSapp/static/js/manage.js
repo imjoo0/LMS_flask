@@ -1158,6 +1158,8 @@ function post_consulting_request() {
 
 // 요청 상담 관리 기능 
 async function get_request_consulting() {
+    $('#request_consultingban_listbox').hide();
+    $('#request_consulting_listbox').show();
     $('#my_consulting_requestModalLabel').html('요청한 상담 목록');
     $('.mo_inloading').show()
     $('.not_inloading').hide()
@@ -1246,7 +1248,7 @@ async function get_request_consulting() {
 function get_consultingban(key) {
     $('#consultingreqban_search_input').off('keyup');
     cinfo = key.split('_')
-    $('#my_consulting_requestModalLabel').html(cinfo[0] + ' | "' + cinfo[1] + '" 상담을 진행중인 반 목록');
+    $('#my_consulting_requestModalLabel').html(cinfo[0] + ' :  " ' + cinfo[1] + '" 상담을 진행중인 반 목록');
     $('#request_consulting_listbox').hide()
     $('#request_consultingban_listbox').show()
     const target_bans = [];
@@ -1301,9 +1303,6 @@ function get_consultingban(key) {
 }
 
 function go_teacherchartback(){
-    $('#request_consultingban_listbox').hide();
-    $('#request_consulting_listbox').show();
-    $('#my_consulting_requestModalLabel').html('요청한 상담 목록');
 }
 
 async function sort_consulting(value) {
