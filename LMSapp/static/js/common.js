@@ -204,7 +204,7 @@ async function get_all_task() {
 }
 
 // 전체 반 정보(차트) 가져오는 함수 
-function get_total_data() {
+async function get_total_data() {
     $('#semester').hide();
     $('#detailban').show();
     $('#qubox').hide()
@@ -216,7 +216,7 @@ function get_total_data() {
     try{
         $('#inloading').show()
         $('#semester_pagination').hide()
-        get_all_ban().then(()=>{
+        await get_all_ban().then(()=>{
             total_student_num = banData[0].total_student_num
             outstudent_num = outstudentData.length;
             switchstudent_num = switchstudentData.length
