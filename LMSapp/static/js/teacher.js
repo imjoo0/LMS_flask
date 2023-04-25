@@ -778,6 +778,7 @@ function get_consulting_history_by_cate(category) {
     }
 }
 
+
 //  지난 상담 상담일지 
 function get_consulting_history(){
     $('#consulting_history_bansel_box').show()
@@ -878,6 +879,11 @@ async function get_consulting_history_detail(c_id) {
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">상담 일시</span>
         <p>${make_date(consulting_history.created_at)}</p>
+    </div>
+    <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
+        <button class="btn btn-dark"
+            onclick="post_bulk_consultings(${target_consulting_num},${is_done})"
+        style="margin-right:5px">수정</button>
     </div>
     `;
     $('#consulting_history_box_detail').html(temp_his);

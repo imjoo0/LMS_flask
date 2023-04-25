@@ -248,7 +248,8 @@
                     </div>
                 </div>
                 <div id="consulting_history_box_detail">
-                    
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
+                    <button type="button" class="btn btn-back" onclick="get_consulting_history()">원생 목록으로 돌아가기🔙 </button>
                 </div>
             </div>
         </div>
