@@ -869,10 +869,11 @@ async function get_consulting_history_detail(c_id) {
         <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"
             id="consulting_solution${c_id}" placeholder="${consulting_history.solution}">
     </div>
-
-    <span class="modal-body-select-label">상담 결과</span>
-    <textarea class="modal-body-select" type="text" rows="5" cols="25"
-        id="consulting_result${c_id}" style="width: 75%;" placeholder="${consulting_history.result}"></textarea>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">상담 결과</span>
+        <textarea class="modal-body-select" type="text" rows="5" cols="25"
+            id="consulting_result${c_id}" style="width: 75%;" placeholder="${consulting_history.result}"></textarea>
+    </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">상담 일시</span>
         <p>${make_date(consulting_history.created_at)}</p>
