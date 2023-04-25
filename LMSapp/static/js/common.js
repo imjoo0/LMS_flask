@@ -129,17 +129,18 @@ async function get_all_ban() {
         outstudentData = response['outstudent']
         switchstudentData = response['switchstudent']
         response['all_ban'].forEach((elem) => {
-            totalOutnum += Number(elem.out_student_num)
-            totalHoldnum += Number(elem.hold_student_num)
+            elem.out_student_num = Number(elem.out_student_num)
+            elem.hold_student_num = Number(elem.hold_student_num)
+            totalOutnum += elem.out_student_num
+            totalHoldnum += elem.hold_student_num
             elem.switch_minus_num = switchstudentData.filter(a => a.ban_id == elem.ban_id).length
             elem.switch_plus_num = switchstudentData.filter(a => a.switch_ban_id == elem.ban_id).length
         });
 
         banData = response['all_ban'].map((item) => 
         {
-            return {...item,out_num_per:answer_rate(Number(item.out_student_num),totalOutnum).toFixed(0)}
+            return {...item,out_num_per:Number(answer_rate(item.out_student_num,totalOutnum).toFixed(0))}
         })
-        console.log(banData)
         banData.sort((a, b) =>{
             if (b.out_num_per !== a.out_num_per) {
                 return b.out_num_per - a.out_num_per; // out_num_per 큰 순으로 정렬
