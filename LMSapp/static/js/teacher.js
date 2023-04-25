@@ -239,11 +239,10 @@ function get_data() {
                                 <td class="col-12">`;
                                 for(k=0; k < task_items.length; k++){
                                     const ban_name = response['ban_data'].filter(a => a.register_no === task_items[k].ban_id)[0]
-                                    console.log(ban_name)
-                                    if(task_items[k].done == 0){
+                                    if(task_items[k].done == 0 && ban_name !== undefined){
                                         temp_cate_menu += `
                                         <label><input type="checkbox" name="taskid" value="${task_items[k].id}"/>${ban_name.name}</label>`;
-                                    }else if(task_items[k].done == 1 && task_items[k].created_at == today){
+                                    }else if(task_items[k].done == 1 && task_items[k].created_at == today && ban_name !== undefined){
                                         temp_cate_menu += `
                                         <label class="done">✅ ${ban_name}</label>`;
                                     }
