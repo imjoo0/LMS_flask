@@ -13,9 +13,9 @@ function openPopup(url){
 }
 let make_reject_code = function(rc){
     if( rc == 0){
-        return '❌ 반려';
+        return '❌';
     }else{
-        return '⭕ 승인';
+        return '⭕';
     }
 }
 let make_cycle = function(c){
@@ -116,8 +116,6 @@ function make_duedate(s,d){
         return '오류'
     }
 }
-
-
 async function get_all_ban() {
     try{
         const response = await $.ajax({

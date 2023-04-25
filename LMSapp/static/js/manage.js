@@ -1165,7 +1165,7 @@ async function get_request_consulting() {
     if (!consultingData) {
         await get_all_consulting().then(() => {
             // 컨설팅 정보로 
-            requeConsultings = consultingData.filter(c => c.category_id > 100)
+            requeConsultings = consultingData.filter(c => c.category_id > 100 && c.category_id != 110)
             if (requeConsultings.length > 0) {
                 const consultingGrouped = requeConsultings.reduce((acc, item) => {
                     const v = `${item.category}_${item.contents}_${item.startdate}_${item.deadline}`;
