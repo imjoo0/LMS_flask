@@ -268,9 +268,10 @@ function get_data() {
             `;
             $('#classreport').html(temp_report)
             
-            // myStudentData = response['my_students'].filter(s=>s.category_id != 2)
+            allStudentData =  response['my_students']
+            myStudentData = response['my_students'].filter(s=>s.category_id != 2)
             // 상담 목록 
-            let result = response['my_students'].reduce((acc, student) => {
+            let result = myStudentData.reduce((acc, student) => {
                 const consultingList = allConsultingData.filter(c => c.student_id === student.register_no);
                 if (consultingList.length > 0) {
                     const todoconsulting = consultingList.filter(c => c.done == 0)
@@ -789,7 +790,7 @@ function get_consulting_history(){
         callback: function (data, pagination) {
             var dataHtml = '';
             $.each(data, function (index, consulting) {
-                student_info = myStudentData.filter(s=>s.register_no == consulting.student_id)[0]
+                student_info = allStudentData.filter(s=>s.register_no == consulting.student_id)[0]
                 consulting.student_name = student_info.name + '( ' + student_info.nick_name + ' )'
                 consulting.origin = student_info.origin 
                 consulting.ban_name = student_info.classname 
