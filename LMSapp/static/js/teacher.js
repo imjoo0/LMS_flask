@@ -1121,7 +1121,9 @@ async function get_question_detail(q_id) {
     $('#question_pagination').hide()
     $('#questiondetail').show()
     questiondata = questionAnswerdata.filter( q=> q.id == q_id)[0]
-    ban_student_data = allStudentData.filter(s=>s.student_id == questiondata.student_id)[0]
+    ban_student_data = allStudentData.filter(s=>s.student_id == questiondata.student_id)
+    console.log(ban_student_data)
+    console.log(ban_student_data[0])
     let temp_question_list = `
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">문의 종류</span>
