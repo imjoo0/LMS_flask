@@ -511,6 +511,96 @@ function Tpaginating(done_code) {
         $('#Tcsno_data_msg').show()
     }
 }
+// 일반 문의 
+async function inTdata() {
+    $('#detailban').hide()
+    $('#sobox').hide()
+    $('#ulbox').hide()
+    $('#qubox').hide()
+    $('#Tqubox').hide()
+    $('#inTqubox').show()
+
+    $('.cs_inloading').show()
+    $('.not_inloading').hide()
+    if (!questionData) {
+        await get_all_question().then(() => {
+            $('.cs_inloading').hide()
+            $('.not_inloading').show()
+        });
+    }
+    $('.cs_inloading').hide()
+    $('.not_inloading').show()
+    paginating(0)
+}
+function inTpaginating(done_code) {
+    $('#inTcs_search_input').off('keyup');
+    csqData = questionData.filter(q => q.category == 5)
+    total_question_num = csqData.length
+    csdata_noanswer = total_question_num != 0 ? csqData.filter(a => a.answer == 0).length : 0
+
+    let temp_newcs = `
+    <td class="col-4">${total_question_num}  건</td>
+    <td class="col-4">${total_question_num - csdata_noanswer}  건</td>
+    <td class="col-4">${csdata_noanswer}  건</td>
+    `;
+    $('#inTnewcs').html(temp_newcs)
+
+    if (total_question_num != 0) {
+        qdata = csqData.length > 0 ? csqData.filter(a => a.answer == done_code) : [];
+        if (qdata.length != 0) {
+            $('#inTcsno_data_msg').hide()
+            $('#inTcs_teacher_question').show()
+            $('#inTpagination').show()
+            var paginationOptions = {
+                prevText: '이전',
+                nextText: '다음',
+                pageSize: 5,
+                pageClassName: 'float-end',
+                callback: function (data, pagination) {
+                    var dataHtml = '';
+                    $.each(data, function (index, item) {
+                        ban = banData.filter(b => b.ban_id == item.ban_id)[0]
+                        item.ban_name = ban.name
+                        item.teacher_name = ban.teacher_engname + '( ' + ban.teacher_name + ' )'
+                        dataHtml += `
+                        <td class="col-1">내근티처 문의</td>
+                        <td class="col-1">${item.ban_name}</td>
+                        <td class="col-2">${item.teacher_name}</td>
+                        <td class="col-2">${item.title}</td>
+                        <td class="col-4">${item.contents}</td>
+                        <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</td>
+                        <td class="col-1" onclick="delete_question(${item.id})">❌</td>
+                    `;
+                    });
+                    $('#inTalim_tr').html(dataHtml);
+                }
+            };
+            var container = $('#inTpagination');
+            container.pagination(Object.assign(paginationOptions, { 'dataSource': qdata }));
+
+            $('#inTcs_search_input').on('keyup', function () {
+                var searchInput = $(this).val().toLowerCase();
+                var filteredData = qdata.filter(function (data) {
+                    return data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1 || (data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1);
+                });
+                container.pagination('destroy');
+                container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
+            });
+
+        } else {
+            $('#inTcs_teacher_question').hide()
+            $('#inTpagination').hide()
+            let temp_nodatamasg = $(`#inTcs_question_view option[value="${done_code}"]`).text() + '가 없습니다';
+            $('#inTcsno_data_msg').html(temp_nodatamasg)
+            $('#inTcsno_data_msg').show()
+        }
+    } else {
+        $('#inTcs_teacher_question').hide()
+        $('#inTpagination').hide()
+        $('#inTcsno_data_msg').html('문의가 없습니다')
+        $('#inTcsno_data_msg').show()
+    }
+}
 // 일반 문의 상세보기
 async function get_question_detail(q_id, done_code) {
     $('.cs_inloading').show()

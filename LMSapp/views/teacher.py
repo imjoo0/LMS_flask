@@ -136,6 +136,11 @@ def question():
             category = 4
             payloadText  = "새 문의가 등록되었습니다"+'('+title+')'
             new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
+        elif question_category == '내근': 
+            Synologytoken = 'MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv'
+            category = 5
+            payloadText  = "새 문의가 등록되었습니다"+'('+title+')'
+            new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         else:
             Synologytoken = 'PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q'
             history_id = request.form['consulting_history']
