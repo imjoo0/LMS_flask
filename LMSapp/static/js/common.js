@@ -580,8 +580,8 @@ async function getTeacherInfo(t_id){
         <th class="col-1">학기</th>
         <th class="col-1">원생 수</th>
         <th class="col-2">퇴소 ( 퇴소율 )</th>
-        <th class="col-2">보류</th>
-        <th class="col-2">이반</th>
+        <th class="col-1">보류</th>
+        <th class="col-3">이반</th>
         <th class="col-2">미학습</th>
         </tr>`
         let temp_ban_option = `<option value="none" selected>${info[0].teacher_engname} 선생님이 담당중인 전체 원생</option>`;
@@ -601,12 +601,11 @@ async function getTeacherInfo(t_id){
             <tr class="row">
                 <td class="col-2">${ban_data.name}</td>
                 <td class="col-1">${make_semester(ban_data.semester)}학기</td>
-                <td class="col-1">${ban_data.student_num}명</td>
-                <td class="col-2"> ${ban_data.out_student_num}건 ( ${ban_data.out_num_per}% )</td>
-                <td class="col-2"> ${ban_data.hold_student_num}</td>
-                <td class="col-2"> 유입+ : ${ban_data.switch_plus_num}건</td>
-                <td class="col-2"> 이반- : ${ban_data.switch_minus_num}건</td>
-                <td class="col-2"> ${unlearned}건</td>
+                <td class="col-1">${ban_data.student_num-ban_data.out_student_num-ban_data.switch_minus_num}명</td>
+                <td class="col-2">${ban_data.out_student_num}건 ( ${ban_data.out_num_per}% )</td>
+                <td class="col-1">${ban_data.hold_student_num}</td>
+                <td class="col-3">유입+ : ${ban_data.switch_plus_num}건 이반- : ${ban_data.switch_minus_num}건</td>
+                <td class="col-2">${unlearned}건</td>
             </tr>
             `;
             temp_ban_option += `<option value="${ban_data.ban_id}">${ban_data.name}반 원생</option>`
