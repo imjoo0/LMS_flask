@@ -200,7 +200,7 @@ function get_data() {
                             'id':item.id,
                             'ban_id':item.ban_id,
                             'done':item.done,
-                            'created_at':new Date(item.created_at).setHours(0, 0, 0, 0)
+                            'created_at':item.created_at
                         }
                         const key =  priority + '_' + contents + '_' + deadline;
                         if (!result[key]) {
