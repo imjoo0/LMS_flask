@@ -780,6 +780,9 @@ function get_consulting_history_by_cate(category) {
 
 //  지난 상담 상담일지 
 function get_consulting_history(){
+    $('#consulting_history_bansel_box').show()
+    $('#consulting_history_box').show()
+    $('#consulting_history_box_detail').hide()
     $('#consulting_list_search_input').off('keyup');
     let container = $('#consulting_history_student_list_pagination')
     // var category_list = []
@@ -843,6 +846,43 @@ function get_consulting_history(){
         $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
     }
 }
+    // 문의 내용 상세보기
+async function get_consulting_history_detail(c_id) {
+    $('#consulting_history_bansel_box').hide()
+    $('#consulting_history_box').hide()
+    $('#consulting_history_box_detail').show()
+    consulting_history = allConsultingData.filter(c=>c.id == c_id)[0]
+    let category = ''
+    if(consulting_history.category_id < 100 ){
+        category = `${consulting_history.week_code}주간 ${consulting_history.category}상담`
+    }else{
+        category = `${consulting_history.category} ${consulting_history.contents}`
+    }
+    let temp_his = `
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">상담 종류</span>
+        <p>${category}</p>
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">상담 사유</span>
+        <p>${consulting_history.reason}</p>
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">제공한 가이드</span>
+        <p>${consulting_history.solution}</p>
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">상담 결과</span>
+        <p>${consulting_history.result}</p>
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">상담 일시</span>
+        <p>${make_date(consulting_history.created_at)}</p>
+    </div>
+    `;
+    $('#consulting_history_box_detail').html(temp_his);
+}
+    
 async function sort_consulting_history(category) {
     if (category == "none") {
       return get_consulting_history()
