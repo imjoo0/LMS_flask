@@ -758,7 +758,7 @@ async function get_consulting(student_id, is_done) {
 
         // target_consulting.sort((a, b) => {return make_date(a.deadline) - make_date(b.deadline)});
     }else{
-        temp_consulting_write_box += '<p>진행 할 수 있는 상담이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 </p>'
+        temp_consulting_write_box += '<p>진행 상담 내역이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 </p>'
         $('#consulting_write_box').html(temp_consulting_write_box);
     }
 
