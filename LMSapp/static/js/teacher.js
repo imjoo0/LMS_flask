@@ -869,9 +869,10 @@ async function get_consulting_history_detail(c_id) {
         <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"
             id="consulting_solution${c_id}" placeholder="${consulting_history.solution}">
     </div>
-    <div class="modal-body-select-container" id="consulting_result">
+    <div class="modal-body-select-container">
         <span class="modal-body-select-label">상담 결과</span>
-        <p>${consulting_history.result}</p>
+        <textarea class="modal-body-select" type="text" rows="5" cols="25"
+            id="consulting_result${c_id}" style="width: 75%;" placeholder="${consulting_history.result}"></textarea>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">상담 일시</span>
@@ -879,7 +880,7 @@ async function get_consulting_history_detail(c_id) {
     </div>
     <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
         <button class="btn btn-dark"
-            onclick="post_target_consulting(${c_id},${1})"
+            onclick="post_one_consulting(${c_id},${1})"
         style="margin-right:5px">수정</button>
     </div>
     `;
@@ -930,6 +931,41 @@ function post_bulk_consultings(c_length, is_done) {
     }
     alert("상담 저장 완료")
     window.location.reload()
+}
+async function post_one_consulting(consulting,is_done) {
+    consulting_result = $('#consulting_result'+ consulting).val()
+    consulting_reason = $('#consulting_reason' + consulting).val()
+    consulting_solution = $('#consulting_solution' + consulting).val()
+    if (!consulting_reason || consulting_reason.length == 0) {
+        consulting_reason = "작성 내역이 없습니다"
+    } 
+    if (!consulting_solution || consulting_solution.length == 0) {
+        consulting_solution = "작성 내역이 없습니다"
+    } 
+    if (!consulting_result || consulting_result.length == 0) {
+        consulting_result = "작성 내역이 없습니다"
+    }
+
+    const csrf = $('#csrf_token').val();
+    var con_val = confirm('정말 수정하시겠습니까?')
+    if (con_val == true) {
+        await $.ajax({
+            type: "POST",
+            url: '/teacher/consulting_history/' + consulting + '/' + is_done,
+            // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+            data: {
+                consulting_reason: consulting_reason,
+                consulting_solution: consulting_solution,
+                consulting_result: consulting_result,
+            },success: function (response) {
+                if (response['result'] == '완료') {
+                    alert("상담일지 수정 완료")
+                } else {
+                    alert("상담일지 수정 실패")
+                }
+            }
+        })
+    }
 }
 function post_target_consulting(consulting, is_done) {
     consulting_result = $('#consulting_result').val()
