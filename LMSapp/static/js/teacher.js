@@ -268,9 +268,9 @@ function get_data() {
             `;
             $('#classreport').html(temp_report)
             
-            myStudentData = response['my_students']
+            // myStudentData = response['my_students'].filter(s=>s.category_id != 2)
             // 상담 목록 
-            let result = myStudentData.reduce((acc, student) => {
+            let result = response['my_students'].reduce((acc, student) => {
                 const consultingList = allConsultingData.filter(c => c.student_id === student.register_no);
                 if (consultingList.length > 0) {
                     const todoconsulting = consultingList.filter(c => c.done == 0)
