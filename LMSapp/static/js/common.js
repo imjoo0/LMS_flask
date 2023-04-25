@@ -588,6 +588,7 @@ async function getTeacherInfo(t_id){
         let total_student_num = 0
         let os = 0
         let ss = 0
+        let hs = 0
         info.forEach(ban_data => {
             IsG3 = make_IsG3(ban_data.name)
             total_student_num += ban_data.student_num
