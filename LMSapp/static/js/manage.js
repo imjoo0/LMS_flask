@@ -55,25 +55,13 @@ $(document).ready(async function () {
 })
 
 
-async function main_view() {
-    if (!banData) {
-        await get_total_data().then(()=>{
-            $('#qubox').hide()
-            $('#Tqubox').hide()
-            $('#inTqubox').hide()
-            $('#sobox').hide()
-            $('#ulbox').hide()
-            $('#detailban').show()
-        })
-    }else{
-        $('#qubox').hide()
-        $('#Tqubox').hide()
-        $('#inTqubox').hide()
-        $('#sobox').hide()
-        $('#ulbox').hide()
-        $('#detailban').show()
-    }
-    
+function main_view() {
+    $('#qubox').hide()
+    $('#Tqubox').hide()
+    $('#inTqubox').hide()
+    $('#sobox').hide()
+    $('#ulbox').hide()
+    $('#detailban').show()
 }
 
 // 이반 * 퇴소 
