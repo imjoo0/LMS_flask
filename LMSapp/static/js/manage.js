@@ -47,9 +47,9 @@ $(document).ready(function () {
         $(this).addClass('active');
     })
 })
-$(window).on('load', function () {
+$(window).on('load', async function () {
     try {
-        get_total_data();
+        await get_total_data();
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
