@@ -81,7 +81,10 @@ let make_IsG3 = function(ban_name){
     return IsG3
 }
 let make_IsToday = function(day){
+    console.log(day)
+    console.log(today)
     daydate=new Date(day).setHours(0, 0, 0, 0)
+    console.log(daydate)
     if(daydate == today){
         return true
     }else{
