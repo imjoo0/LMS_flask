@@ -7,6 +7,8 @@ var pageCount = 10; //페이징에 나타낼 페이지 수
 var globalCurrentPage = 1; //현재 페이지
 var data_list;
 const today = new Date().setHours(0, 0, 0, 0);
+const todayyoil = new Date().getDay()
+
 function openPopup(url){
     var popup = window.open('', 'popup', 'width=800,height=600');
     popup.document.write('<html><body><iframe src="' + url + '" width="100%" height="100%" frameborder="0"></iframe></body></html>');
@@ -126,7 +128,7 @@ async function get_all_ban() {
         });
         totalOutnum = 0;
         totalHoldnum = 0
-        outstudentData = response['outstudent']
+        // outstudentData = response['outstudent']
         switchstudentData = response['switchstudent']
         response['all_ban'].forEach((elem) => {
             elem.out_student_num = Number(elem.out_student_num)
@@ -219,7 +221,7 @@ async function get_total_data() {
             $('#semester_pagination').hide()
             await get_all_ban().then(()=>{
                 total_student_num = banData[0].total_student_num
-                outstudent_num = outstudentData.length;
+                // outstudent_num = outstudentData.length; 필요 없어진 부분 
                 switchstudent_num = switchstudentData.length
                 // 학기 별 원생
                 onesemester = total_student_num != 0 ? banData.filter(e => e.semester == 1) : 0
@@ -567,17 +569,18 @@ async function getTeacherInfo(t_id){
         $('#profile_data').html(temp_profile_data);
         
         TconsultingData =  consultingData.filter(c=>c.teacher_id == t_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
-        TTaskData =  taskData.filter(t=>t.teacher_id ==t_id)
+        TTaskData =  taskData.filter(t=>t.teacher_id == t_id)
         
         // 선생님의 미학습 데이터 
         TunlearnedData = TconsultingData.filter(c=>c.category_id < 100)
         unlearned_ttc = TunlearnedData.length
 
         let temp_baninfo = `<tr class="row">
-        <th class="col-3">반이름</th>
+        <th class="col-2">반이름</th>
         <th class="col-1">학기</th>
-        <th class="col-2">원생 수</th>
+        <th class="col-1">원생 수</th>
         <th class="col-2">퇴소 ( 퇴소율 )</th>
+        <th class="col-2">보류</th>
         <th class="col-2">이반</th>
         <th class="col-2">미학습</th>
         </tr>`
@@ -588,18 +591,20 @@ async function getTeacherInfo(t_id){
         info.forEach(ban_data => {
             IsG3 = make_IsG3(ban_data.name)
             total_student_num += ban_data.student_num
-            os += ban_data.out_num
+            os += ban_data.out_student_num
             ss += ban_data.switch_minus_num
+            hs += ban_data.hold_student_num
             unlearned = TunlearnedData.filter(c=>c.ban_id == ban_data.ban_id).length
             
             temp_baninfo += `
             <tr class="row">
-                <td class="col-3">${ban_data.name}</td>
+                <td class="col-2">${ban_data.name}</td>
                 <td class="col-1">${make_semester(ban_data.semester)}학기</td>
-                <td class="col-2">${ban_data.student_num}명</td>
-                <td class="col-2"> ${ban_data.out_num}건 ( ${ban_data.out_num_per}% )</td>
-                <td class="col-1"> 유입+ : ${ban_data.switch_plus_num}건</td>
-                <td class="col-1"> 이반- : ${ban_data.switch_minus_num}건</td>
+                <td class="col-1">${ban_data.student_num}명</td>
+                <td class="col-2"> ${ban_data.out_student_num}건 ( ${ban_data.out_num_per}% )</td>
+                <td class="col-2"> ${ban_data.hold_student_num}</td>
+                <td class="col-2"> 유입+ : ${ban_data.switch_plus_num}건</td>
+                <td class="col-2"> 이반- : ${ban_data.switch_minus_num}건</td>
                 <td class="col-2"> ${unlearned}건</td>
             </tr>
             `;
@@ -612,6 +617,7 @@ async function getTeacherInfo(t_id){
         let temp_teacher_info_student_num = `
             <span>관리중:${ total_student_num }</span><br>
             <span>* 이반:${ ss }</span><br>
+            <span>* 보류:${ hs }</span><br>
             <span>* 퇴소:${ os }</span>
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
@@ -624,12 +630,12 @@ async function getTeacherInfo(t_id){
         new Chart($(('#total-chart-element')), {
             type: 'doughnut',
             data: {
-                labels: ['관리중', '이반', '퇴소'],
+                labels: ['관리중', '이반', '보류', '퇴소'],
                 datasets: [
                     {
                         data: [total_student_num, ss, os],
-                        backgroundColor: ['#B39CD0', '#ffd400', '#F23966'],
-                        hoverOffset: 4,
+                        backgroundColor: ['#B39CD0', '#ffd400', '#faa75a', '#F23966'],
+                        hoverOffset: 5,
                     },
                 ],
             },
@@ -686,15 +692,14 @@ async function getTeacherInfo(t_id){
         }
         $('#totalreport-row').html(temp_html)
 
-
-        let TtasktodayData = TTaskData.filter(t => new Date(t.startdate).setHours(0, 0, 0, 0) <= today)
-        let Ttaskhisory = TTaskData.filter(t=> today < new Date(t.deadline).setHours(0, 0, 0, 0))
+        let TtasktodayData = TTaskData.filter(t => new Date(t.startdate).setHours(0, 0, 0, 0) <= today && today < new Date(t.deadline).setHours(0, 0, 0, 0) && ((task.cycle == 0) || (task.cycle == todayyoil)))
+        let today_done = TtasktodayData.filter(t=>t.done == 1).length
+        let Ttaskhisory = TTaskData.filter(t=> new Date(t.deadline).setHours(0, 0, 0, 0) < today)
         let history_done = Ttaskhisory.filter(t=>t.done == 1).length
-        let total_done = TtasktodayData.filter(t=>t.done == 1).length
-        $('#task_chart').html(`<td class="col-4">${total_done}/${TtasktodayData.length}건</td><td class="col-4">${answer_rate(total_done,TtasktodayData.length).toFixed(0)}%</td><td class="col-4">${answer_rate(history_done,Ttaskhisory.length).toFixed(0)}%</td>`);
+        $('#task_chart').html(`<td class="col-4">${today_done}/${TtasktodayData.length}건</td><td class="col-4">${answer_rate(today_done,TtasktodayData.length).toFixed(0)}%</td><td class="col-4">${answer_rate(history_done,Ttaskhisory.length).toFixed(0)}%</td>`);
 
         // 상담
-        let TconsultaskData = TconsultingData.filter(c=>c.category_id > 100)
+        let TconsultaskData = TconsultingData.filter(c=>c.category_id > 100 && c.category_id != 110)
         let ttd = TconsultaskData.filter(c=>c.done == 1).length
         $('#consulting_chart').html(`<td class="col-4">${ttd} / ${TconsultaskData.length}건</td><td class="col-4">${answer_rate(ttd,TconsultaskData.length).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(TconsultaskData.filter(c=>c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
     
