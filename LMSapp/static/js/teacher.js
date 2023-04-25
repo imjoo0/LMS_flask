@@ -961,7 +961,7 @@ async function post_one_consulting(consulting,is_done) {
             },success: function (response) {
                 if (response['result'] == '완료') {
                     alert("상담일지 수정 완료")
-                    get_consulting_history()
+                    window.location.reload()
                 } else {
                     alert("상담일지 수정 실패")
                 }
