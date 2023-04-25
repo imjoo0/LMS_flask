@@ -3,12 +3,16 @@ var selectedBanList = [];
 var selectedStudentList = [];
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(async function () {
-    await get_total_data();
-    $('.nav-link').on('click', function () {
-        $('.nav-link').removeClass('active');
-        $(this).addClass('active');
-    })
-
+    try{
+        await get_total_data().then(()=>{
+            $('.nav-link').on('click', function () {
+            $('.nav-link').removeClass('active');
+            $(this).addClass('active');
+            })
+        })
+    }catch(error){
+        alert('Error occurred while retrieving data.');
+    }
 })
 // API 호출 
 async function get_all_question() {
