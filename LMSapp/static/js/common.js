@@ -586,12 +586,16 @@ async function getTeacherInfo(t_id){
         </tr>`
         let temp_ban_option = `<option value="none" selected>${info[0].teacher_engname} 선생님이 담당중인 전체 원생</option>`;
         let total_student_num = 0
+        let now_student_num = 0
         let os = 0
         let ss = 0
         let hs = 0
         info.forEach(ban_data => {
             IsG3 = make_IsG3(ban_data.name)
+            let now_student = ban_data.student_num-ban_data.out_student_num-ban_data.switch_minus_num
+            
             total_student_num += ban_data.student_num
+            now_student_num += now_student
             os += ban_data.out_student_num
             ss += ban_data.switch_minus_num
             hs += ban_data.hold_student_num
@@ -601,7 +605,7 @@ async function getTeacherInfo(t_id){
             <tr class="row">
                 <td class="col-2">${ban_data.name}</td>
                 <td class="col-1">${make_semester(ban_data.semester)}학기</td>
-                <td class="col-1">${ban_data.student_num-ban_data.out_student_num-ban_data.switch_minus_num}명</td>
+                <td class="col-1">${now_student}명</td>
                 <td class="col-2">${ban_data.out_student_num}건 ( ${ban_data.out_num_per}% )</td>
                 <td class="col-1">${ban_data.hold_student_num}</td>
                 <td class="col-3">유입+ : ${ban_data.switch_plus_num}건 이반- : ${ban_data.switch_minus_num}건</td>
@@ -615,7 +619,8 @@ async function getTeacherInfo(t_id){
         $('#studentban_kind').html(temp_ban_option)
         
         let temp_teacher_info_student_num = `
-            <span>관리중:${ total_student_num }</span><br>
+            <span>초기 배정:${ total_student_num }</span><br>
+            <span>관리중:${ now_student_num }</span><br>
             <span>* 이반:${ ss }</span><br>
             <span>* 보류:${ hs }</span><br>
             <span>* 퇴소:${ os }</span>
