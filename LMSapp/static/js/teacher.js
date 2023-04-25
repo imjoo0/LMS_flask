@@ -869,10 +869,9 @@ async function get_consulting_history_detail(c_id) {
         <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"
             id="consulting_solution${c_id}" placeholder="${consulting_history.solution}">
     </div>
-    <div class="modal-body-select-container">
+    <div class="modal-body-select-container" id="consulting_result${c_id}">
         <span class="modal-body-select-label">상담 결과</span>
-        <textarea class="modal-body-select" type="text" rows="5" cols="25"
-            id="consulting_result${c_id}" style="width: 75%;" placeholder="${consulting_history.result}"></textarea>
+        <p>${consulting_history.result}</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">상담 일시</span>
