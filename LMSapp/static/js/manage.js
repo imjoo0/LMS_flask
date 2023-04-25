@@ -55,6 +55,7 @@ function main_view() {
     }
     $('#qubox').hide()
     $('#Tqubox').hide()
+    $('#inTqubox').hide()
     $('#sobox').hide()
     $('#ulbox').hide()
     $('#detailban').show()
@@ -64,6 +65,7 @@ function main_view() {
 async function sodata() {
     $('#qubox').hide()
     $('#Tqubox').hide()
+    $('#inTqubox').hide()
     $('#ulbox').hide()
     $('#detailban').hide()
     $('#sobox').show()
@@ -340,6 +342,7 @@ async function csdata() {
     $('#ulbox').hide()
     $('#qubox').show()
     $('#Tqubox').hide()
+    $('#inTqubox').hide()
 
     $('.cs_inloading').show()
     $('.not_inloading').hide()
@@ -429,6 +432,7 @@ async function Tcsdata() {
     $('#ulbox').hide()
     $('#qubox').hide()
     $('#Tqubox').show()
+    $('#inTqubox').hide()
 
     $('.cs_inloading').show()
     $('.not_inloading').hide()
@@ -713,6 +717,7 @@ async function uldata() {
     $('#sobox').hide()
     $('#detailban').hide()
     $('#Tqubox').hide()
+    $('#inTqubox').hide()
     $('#ulbox').show()
     let container = $('#ul_pagination')
     $('.cs_inloading').show()
