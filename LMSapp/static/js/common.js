@@ -135,7 +135,11 @@ async function get_all_ban() {
             elem.switch_plus_num = switchstudentData.filter(a => a.switch_ban_id == elem.ban_id).length
         });
 
-        banData = response['all_ban'].map((item) => item.out_num_per = answer_rate(Number(item.out_student_num),totalOutnum).toFixed(0))
+        banData = response['all_ban'].map((item) => 
+        {
+            return {...item,out_num_per:answer_rate(Number(item.out_student_num),totalOutnum).toFixed(0)}
+        })
+        console.log(banData)
         banData.sort((a, b) =>{
             if (b.out_num_per !== a.out_num_per) {
                 return b.out_num_per - a.out_num_per; // out_num_per 큰 순으로 정렬
@@ -143,6 +147,7 @@ async function get_all_ban() {
                 return b.student_num - a.student_num; // students.length가 큰 순으로 정렬
             }
         })
+        console.log(banData)
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
