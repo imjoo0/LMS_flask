@@ -80,6 +80,14 @@ let make_IsG3 = function(ban_name){
     }
     return IsG3
 }
+let make_IsToday = function(day){
+    daydate=new Date(day).setHours(0, 0, 0, 0)
+    if(daydate == today){
+        return true
+    }else{
+        return false
+    }
+}
 function q_category(category) {
     if (category == 0 || category == '0' ) {
         c ='일반문의'
