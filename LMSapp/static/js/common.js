@@ -206,6 +206,7 @@ async function get_total_data() {
         $('#semester_pagination').hide()
         if(!banData){
             await get_all_ban().then(()=>{
+                console.log(banData)
                 total_student_num = banData[0].total_student_num
                 outstudent_num = outstudentData.length;
                 switchstudent_num = switchstudentData.length
