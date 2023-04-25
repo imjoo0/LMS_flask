@@ -1302,9 +1302,6 @@ function get_consultingban(key) {
 
 }
 
-function go_teacherchartback(){
-}
-
 async function sort_consulting(value) {
     let container = $('#consulting-pagination')
     container.pagination({
