@@ -246,6 +246,7 @@ function get_data() {
                                         }else if(task_items[k].done == 1){
                                             console.log(typeof(task_items[k].created_at))
                                             console.log(new Date(task_items[k].created_at).getTime())
+                                            console.log(today)
                                             if(today){
                                                 temp_cate_menu += `
                                                 <label class="done">✅ ${ban_name.name}</label>`;
