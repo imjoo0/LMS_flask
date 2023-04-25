@@ -431,7 +431,7 @@ function plusconsulting(value, b_id) {
     $('#ban_student_list_box').hide()
     $('#ban_student_list_bansel_box').hide()
     $('#make_plus_consulting').show();
-    $('#consultingListModalLabel').html(`${v[1]} 원생 추가 상담  ( 📞 ${v[2]}  )`)
+    $('#ban_student_listModalLabelt').html(`${v[1]} 원생 추가 상담  ( 📞 ${v[2]}  )`)
     let temp_button = `
     <button class="btn btn-dark" onclick=plusconsulting_history(${Number(v[0])},${b_id},${Number(v[3])})>저장</button>
     `;
