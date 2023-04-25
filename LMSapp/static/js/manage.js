@@ -1,19 +1,6 @@
 // const today = new Date();
 var selectedBanList = [];
 var selectedStudentList = [];
-// 처음 get 할때 뿌려질 정보 보내는 함수 
-$(document).ready(async function () {
-    try{
-        await get_total_data().then(()=>{
-            $('.nav-link').on('click', function () {
-            $('.nav-link').removeClass('active');
-            $(this).addClass('active');
-            })
-        })
-    }catch(error){
-        alert('Error occurred while retrieving data.');
-    }
-})
 // API 호출 
 async function get_all_question() {
     try {
@@ -53,16 +40,40 @@ async function get_all_taskcate() {
         alert('Error occurred while retrieving data.');
     }
 }
-function main_view() {
-    if (!banData) {
-        get_total_data()
+// 처음 get 할때 뿌려질 정보 보내는 함수 
+$(document).ready(async function () {
+    try{
+        await get_total_data().then(()=>{
+            $('.nav-link').on('click', function () {
+            $('.nav-link').removeClass('active');
+            $(this).addClass('active');
+            })
+        })
+    }catch(error){
+        alert('Error occurred while retrieving data.');
     }
-    $('#qubox').hide()
-    $('#Tqubox').hide()
-    $('#inTqubox').hide()
-    $('#sobox').hide()
-    $('#ulbox').hide()
-    $('#detailban').show()
+})
+
+
+async function main_view() {
+    if (!banData) {
+        await get_total_data().then(()=>{
+            $('#qubox').hide()
+            $('#Tqubox').hide()
+            $('#inTqubox').hide()
+            $('#sobox').hide()
+            $('#ulbox').hide()
+            $('#detailban').show()
+        })
+    }else{
+        $('#qubox').hide()
+        $('#Tqubox').hide()
+        $('#inTqubox').hide()
+        $('#sobox').hide()
+        $('#ulbox').hide()
+        $('#detailban').show()
+    }
+    
 }
 
 // 이반 * 퇴소 
