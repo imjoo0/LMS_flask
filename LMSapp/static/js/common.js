@@ -209,7 +209,6 @@ async function get_total_data() {
                 total_student_num = banData[0].total_student_num
                 outstudent_num = outstudentData.length;
                 switchstudent_num = switchstudentData.length
-                first_total = total_student_num + outstudent_num
                 // 학기 별 원생
                 onesemester = total_student_num != 0 ? banData.filter(e => e.semester == 1) : 0
                 fivesemester = total_student_num != 0 ? banData.filter(e => e.semester == 2) : 0
@@ -218,15 +217,13 @@ async function get_total_data() {
                 // 학기별 원생수 및 퇴소 원생 수 
                 onesemester_total = onesemester[0].semester_student_num
                 oneoutnum = onesemester.reduce((acc, item) => acc + item.out_num, 0);
-                first_onesemester = onesemester_total + oneoutnum
+                console.log(oneoutnum)
         
                 fivesemester_total = fivesemester[0].semester_student_num
                 fiveoutnum = fivesemester.reduce((acc, item) => acc + item.out_num, 0);
-                first_fivesemester = fivesemester_total + fiveoutnum
         
                 ninesemester_total = ninesemester[0].semester_student_num
                 nineoutnum = ninesemester.reduce((acc, item) => acc + item.out_num, 0);
-                first_ninesemester = ninesemester_total + nineoutnum
         
                 let semester_student_table = `
                     <table>
@@ -239,28 +236,28 @@ async function get_total_data() {
                         </tr>
                         <tr>
                             <th class="need">전체</th>
-                            <td>${first_total}명</td>
                             <td>${total_student_num}명</td>
-                            <td>${outstudent_num}명(${answer_rate(outstudent_num, first_total).toFixed(2)}%)</td>
+                            <td>${total_student_num}명</td>
+                            <td>${outstudent_num}명(${answer_rate(outstudent_num, total_student_num).toFixed(2)}%)</td>
                             <td><span class='cursor-pointer fs-4' onclick="semesterShow(${3}">📜</span></td>
                         </tr>
                         <tr>
                             <th class="need">1월 학기</th>
-                            <td>${first_onesemester}명</td>
+                            <td>${onesemester_total}명</td>
                             <td>${onesemester_total}명</td>
                             <td>${oneoutnum}명(${answer_rate(oneoutnum, outstudent_num).toFixed(1)}%)</td>
                             <td><span class='cursor-pointer fs-4' onclick="semesterShow(${1})">📜</span></td>
                         </tr>
                         <tr>
                             <th class="need">5월 학기</th>
-                            <td>${first_fivesemester}명</td>
+                            <td>${fivesemester_total}명</td>
                             <td>${fivesemester_total}명</td>
                             <td>${fiveoutnum}명(${answer_rate(fiveoutnum, outstudent_num).toFixed(1)}%)</td>
                             <td><span class='cursor-pointer fs-4' onclick="semesterShow(${2})">📜</span></td>
                         </tr>
                         <tr>
                             <th>9월 학기</th>
-                            <td>${first_ninesemester}명</td>
+                            <td>${ninesemester_total}명</td>
                             <td>${ninesemester_total}명</td>
                             <td>${nineoutnum}명(${answer_rate(nineoutnum, outstudent_num).toFixed(1)}%)</td>
                             <td><span class='cursor-pointer fs-4' onclick="semesterShow(${0})">📜</span></td>
@@ -350,7 +347,6 @@ async function get_total_data() {
             total_student_num = banData[0].total_student_num
             outstudent_num = outstudentData.length;
             switchstudent_num = switchstudentData.length
-            first_total = total_student_num + outstudent_num
             // 학기 별 원생
             onesemester = total_student_num != 0 ? banData.filter(e => e.semester == 1) : 0
             fivesemester = total_student_num != 0 ? banData.filter(e => e.semester == 2) : 0
@@ -358,16 +354,13 @@ async function get_total_data() {
     
             // 학기별 원생수 및 퇴소 원생 수 
             onesemester_total = onesemester[0].semester_student_num
-            oneoutnum = onesemester.reduce((acc, item) => acc + item.out_num, 0);
-            first_onesemester = onesemester_total + oneoutnum
+            oneoutnum = onesemester.reduce((acc, item) => acc + item.out_num, 0)
     
             fivesemester_total = fivesemester[0].semester_student_num
             fiveoutnum = fivesemester.reduce((acc, item) => acc + item.out_num, 0);
-            first_fivesemester = fivesemester_total + fiveoutnum
     
             ninesemester_total = ninesemester[0].semester_student_num
             nineoutnum = ninesemester.reduce((acc, item) => acc + item.out_num, 0);
-            first_ninesemester = ninesemester_total + nineoutnum
     
             let semester_student_table = `
                 <table>
@@ -380,28 +373,28 @@ async function get_total_data() {
                     </tr>
                     <tr>
                         <th class="need">전체</th>
-                        <td>${first_total}명</td>
                         <td>${total_student_num}명</td>
-                        <td>${outstudent_num}명(${answer_rate(outstudent_num, first_total).toFixed(2)}%)</td>
+                        <td>${total_student_num}명</td>
+                        <td>${outstudent_num}명(${answer_rate(outstudent_num, total_student_num).toFixed(2)}%)</td>
                         <td><span class='cursor-pointer fs-4' onclick="semesterShow(${3}">📜</span></td>
                     </tr>
                     <tr>
                         <th class="need">1월 학기</th>
-                        <td>${first_onesemester}명</td>
+                        <td>${onesemester_total}명</td>
                         <td>${onesemester_total}명</td>
                         <td>${oneoutnum}명(${answer_rate(oneoutnum, outstudent_num).toFixed(1)}%)</td>
                         <td><span class='cursor-pointer fs-4' onclick="semesterShow(${1})">📜</span></td>
                     </tr>
                     <tr>
                         <th class="need">5월 학기</th>
-                        <td>${first_fivesemester}명</td>
+                        <td>${fivesemester_total}명</td>
                         <td>${fivesemester_total}명</td>
                         <td>${fiveoutnum}명(${answer_rate(fiveoutnum, outstudent_num).toFixed(1)}%)</td>
                         <td><span class='cursor-pointer fs-4' onclick="semesterShow(${2})">📜</span></td>
                     </tr>
                     <tr>
                         <th>9월 학기</th>
-                        <td>${first_ninesemester}명</td>
+                        <td>${ninesemester_total}명</td>
                         <td>${ninesemester_total}명</td>
                         <td>${nineoutnum}명(${answer_rate(nineoutnum, outstudent_num).toFixed(1)}%)</td>
                         <td><span class='cursor-pointer fs-4' onclick="semesterShow(${0})">📜</span></td>
