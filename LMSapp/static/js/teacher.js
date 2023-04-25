@@ -1153,7 +1153,7 @@ async function get_question_detail(q_id) {
         $('#consulting_history_attach').hide()
     }else{
         $('#consulting_history_attach').show()
-        consulting_history = ban_student_data.consulting_list.filter(c=>c.id ==questiondata.consluting)[0]
+        consulting_history = allConsultingData.filter(c=>c.id ==questiondata.consluting)[0]
         let category = ''
         if(consulting_history.category_id < 100 ){
             category = `${consulting_history.week_code}주간 ${consulting_history.category}상담`
