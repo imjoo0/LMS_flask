@@ -883,6 +883,7 @@ async function get_consulting_history_detail(c_id) {
             onclick="post_one_consulting(${c_id},${1})"
         style="margin-right:5px">수정</button>
     </div>
+    <button type="button" class="btn btn-back" onclick="get_consulting_history()">원생 목록으로 돌아가기🔙 </button>
     `;
     $('#consulting_history_box_detail').html(temp_his);
 }
@@ -960,6 +961,7 @@ async function post_one_consulting(consulting,is_done) {
             },success: function (response) {
                 if (response['result'] == '완료') {
                     alert("상담일지 수정 완료")
+                    get_consulting_history()
                 } else {
                     alert("상담일지 수정 실패")
                 }
