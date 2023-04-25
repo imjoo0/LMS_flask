@@ -693,7 +693,7 @@ async function getTeacherInfo(t_id){
         }
         $('#totalreport-row').html(temp_html)
 
-        let TtasktodayData = TTaskData.filter(t => new Date(t.startdate).setHours(0, 0, 0, 0) <= today && today < new Date(t.deadline).setHours(0, 0, 0, 0) && ((task.cycle == 0) || (task.cycle == todayyoil)))
+        let TtasktodayData = TTaskData.filter(t => new Date(t.startdate).setHours(0, 0, 0, 0) <= today && today < new Date(t.deadline).setHours(0, 0, 0, 0) && ((t.cycle == 0) || (t.cycle == todayyoil)))
         let today_done = TtasktodayData.filter(t=>t.done == 1).length
         let Ttaskhisory = TTaskData.filter(t=> new Date(t.deadline).setHours(0, 0, 0, 0) < today)
         let history_done = Ttaskhisory.filter(t=>t.done == 1).length
