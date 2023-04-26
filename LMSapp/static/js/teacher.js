@@ -80,18 +80,20 @@ async function get_data(){
             unlearned_cate.forEach((category) => {
                 let num = ban_unlearned.filter(u=>u.category == category).length
                 temp_ban_chart += `
+                <li>
                 <td class = "col-12">
                 ${category} : ${num}건(${answer_rate(num, ban_unlearned_num).toFixed(0)}%)
                 </td>
+                </li>
                 `
             })
             temp_ban_chart += `
                         </ul>
-                        </details>
-                        </th>
-                        </tr>
-                        </tbody>
-                        </table>
+                    </details>
+                    </th>
+                </tr>
+                </tbody>
+                </table>
                     </div>
                 </div>
             </div>
