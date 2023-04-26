@@ -35,7 +35,7 @@ async function get_data(){
         allConsultingData = response['all_consulting']
         myStudentData = allStudentData.filter(s => s.category_id != 2)
         allconsultingsNum = allConsultingData.length
-        UnlearnedConsultingsData = allconsultingsNum > 0 ? allConsultingData.filter(consulting => consulting.category_id < 100).length : 0;
+        UnlearnedConsultingsData = allconsultingsNum > 0 ? allConsultingData.filter(consulting => consulting.category_id < 100) : 0;
         UnlearnedConsultingsNum = UnlearnedConsultingsData.length
         switchstudentData = response['switchstudent']
         $('#ban_chart_list').empty()
