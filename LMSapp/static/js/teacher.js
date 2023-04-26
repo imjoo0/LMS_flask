@@ -377,36 +377,38 @@ async function get_student(ban_id) {
     }
 
     let container = $('#ban_student_list_pagination')
-    const data = consultingStudentData.filter((e) => {
+    let data = consultingStudentData.filter((e) => {
         return e.ban_id === ban_id;
     })
     let sort_option = $('#sort-order[name="sort-order"]:checked').val();
-    switch (sort_option) {
-        case "name_desc":
-          data.sort(function (a, b) {
-              var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
-              var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
-              if (nameA < nameB) {
-                  return -1;
-              }
-              if (nameA > nameB) {
-                  return 1;
-              }
-              return 0;
-          });
-          break;
-    
-        case "ul_desc":
-          data.sort(function (a, b) {
-              return b.unlearned_num - a.unlearned_num;
-          });
-          break;
-    
-        case "consulting_desc":
-          data.sort(function (a, b) {
-            return b.done_consulting_num - a.done_consulting_num;
-          });
-          break;
+    if ($('#sort-order').is(':checked')) {
+        switch (sort_option) {
+            case "name_desc":
+            data.sort(function (a, b) {
+                var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+                var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });
+            break;
+        
+            case "ul_desc":
+            data.sort(function (a, b) {
+                return b.unlearned_num - a.unlearned_num;
+            });
+            break;
+        
+            case "consulting_desc":
+            data.sort(function (a, b) {
+                return b.done_consulting_num - a.done_consulting_num;
+            });
+            break;
+        }
     }
     $('#ban_student_listModalLabelt').html(`${data[0].ban_name}반 원생 목록`);
     container.pagination(Object.assign(paginationOptions, { 'dataSource': data }))
