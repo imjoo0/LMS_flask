@@ -503,7 +503,7 @@ async function get_consulting_student(done_code) {
 
     $('#consultingstudent_search_input').on('keyup', function () {
         var searchInput = $(this).val().toLowerCase();
-        var filteredData = data.filter(function (d) {
+        var filteredData = consulting_targetdata.filter(function (d) {
             return (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(searchInput) !== -1);
         });
         Consultingcontainer.pagination('destroy');
@@ -512,6 +512,7 @@ async function get_consulting_student(done_code) {
 
 }
 function sort_consultingoption(sortBy) {
+    console.log(consulting_targetdata)
     switch (sortBy) {
         case "name_desc":
         consulting_targetdata.sort(function (a, b) {
