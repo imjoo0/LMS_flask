@@ -393,9 +393,6 @@ async function get_student(ban_id) {
     });
 }
 function sort_option(sortBy) {
-    StudentfilteredData = Targetdata.filter(function (d) {
-        return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(StudentsearchInput) !== -1) || (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(StudentsearchInput) !== -1));
-    });
     switch (sortBy) {
       case "name_desc":
         StudentfilteredData.sort(function (a, b) {
@@ -424,10 +421,14 @@ function sort_option(sortBy) {
         break;
     }
     // 데이터 정렬 후 페이지네이션 다시 설정
-    Studentcontainer.pagination("destroy");
-    Studentcontainer.pagination(
-      Object.assign(StudentpaginationOptions, { dataSource: StudentfilteredData })
-    );
+    $('#student_list_search_input').on('keyup', function () {
+        StudentsearchInput = $(this).val().toLowerCase();
+        StudentfilteredData = Targetdata.filter(function (d) {
+            return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(StudentsearchInput) !== -1) || (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(StudentsearchInput) !== -1));
+        });
+        Studentcontainer.pagination('destroy');
+        Studentcontainer.pagination(Object.assign(StudentpaginationOptions, { 'dataSource': filteredData }));
+    })
 }
 function plusconsulting(value, b_id) {
     let v = value.split('_')
