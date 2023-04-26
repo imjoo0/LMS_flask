@@ -9,20 +9,14 @@
 //     return str;
 // }
 
-$(document).ready(async function () {
-    try {
-        response = $.ajax({
-            type: "GET",
-            url: "/teacher/get_data",
-            dataType: 'json',
-            data: {},
-        })
-        await get_data()
-    } catch (error) {
-        alert('Error occurred while retrieving data.');
-    }
-})
-async function get_data() {
+$(document).ready(function () {
+    const response = $.ajax({
+        type: "GET",
+        url: "/teacher/get_data",
+        dataType: 'json',
+        data: {},
+    })
+
     mybansData = response['ban_data']
     mytasksData = response['all_task']
     allStudentData = response['my_students']
@@ -334,7 +328,7 @@ async function get_data() {
         $('#consultingstudent_pagination').hide();
     }
 
-}
+})
 function go_back() {
     // 문의 관련 
     $('#questiondetail').hide();
