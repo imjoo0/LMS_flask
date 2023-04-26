@@ -627,7 +627,10 @@ async function getTeacherInfo(t_id){
             <span>* 퇴소:${ os }</span>
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
-        var newTotalChart  = new Chart($(('#total-chart-element')), {
+        if(newTotalChart){
+            newTotalChart.destroy();
+        }
+        var newTotalChart  = new Chart($(('#total-chart-element')),{
             type: 'doughnut',
             data: {
                 labels: ['관리중', '이반', '보류', '퇴소'],
@@ -671,9 +674,9 @@ async function getTeacherInfo(t_id){
             `
         })
         temp_html += `
-                    </ul>
-                </details>
-                </th>`
+                </ul>
+            </details>
+        </th>`
         $('#totalreport-row').html(temp_html)
 
         let TtasktodayData = null
@@ -696,7 +699,7 @@ async function getTeacherInfo(t_id){
         // 원생
         Tstudent = null
         Tstudent = studentsData.filter(s=>s.teacher_id == info[0].teacher_id)
-        Tstudent.forEach((elem) => {
+        Tstudent.forEach((elem)=>{
             elem.unlearned = TunlearnedData.filter(a => a.student_id == elem.student_id).length
             elem.up = answer_rate(elem.unlearned, TunlearnedData.length).toFixed(0)
         });
