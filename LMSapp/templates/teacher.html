@@ -274,12 +274,9 @@
                 <div id="ban_student_list_box">
                     <div class="my-4 d-flex flex-wrap justify-content-end align-items-center" id="ban_student_list_bansel_box" style="display:none">
                         <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 정렬 기준</span></div>
-                        <select id="sort-select">
-                            <option value="name-desc">이름 (내림차순)</option>
-                            <option value="unlearned-asc">미학습 누적 건수 순</option>
-                            <option value="consulting-desc">상담 진행 건수 순</option>
-                        </select>
-                        <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 원생 검색</span></div>
+                        <input type="checkbox" id="sort-order" name="sort-order" value="name-desc">이름 (내림차순)
+                        <input type="checkbox" id="sort-order" name="sort-order" value="consulting-desc">상담 진행 건수 순  
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0" style="margin-left:50%;"><span>📌 원생 검색</span></div>
                         <div class="col-md-4 col-sm-6 col-12">
                             <input type="text" id="student_list_search_input" placeholder="원생 이름 혹은 원번으로 검색" style="width:100%;height:2em;margin-bottom:10px;">
                         </div>
