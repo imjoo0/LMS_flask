@@ -8,7 +8,7 @@
 //     }
 //     return str;
 // }
-$(document).ready(function () {
+$(window).on('load', async function () {
     get_data()
 })
 async function get_data(){
