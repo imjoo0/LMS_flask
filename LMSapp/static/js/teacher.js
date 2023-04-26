@@ -71,6 +71,7 @@ async function get_data(){
                                     <th class="col-12" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${elem.register_no})">${elem.name}반  원생 목록  ✔️</th>
                                 </tr>
                                 <tr class="row">
+                                <td class="col-12"> 
                                 <details>
                                     <summary>총 미학습 ${ban_unlearned_num}건  (${answer_rate(ban_unlearned_num, UnlearnedConsultingsNum).toFixed(0)}%)</summary>
                                     <ul>
@@ -85,6 +86,7 @@ async function get_data(){
             temp_ban_chart += `
                             </ul>
                         </details>
+                        </td>
                         </tr>
                         </tbody>
                         </table>
