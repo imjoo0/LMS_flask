@@ -231,8 +231,9 @@ async function get_data(){
                         <td class="col-2">${make_date(contents[2])}</td>
                     </tr>
                     <td class="col-12">`;
-                    for (j = 0; j < contentsGrouped['key'].length; j++) {
-                        let target = contentsGrouped['key'][j]
+                    console.log(contentsGrouped[key])
+                    for (j = 0; j < contentsGrouped[key].length; j++) {
+                        let target = contentsGrouped[key][j]
                         const ban_name = mybansData.filter(a => a.register_no === target.ban_id)[0]
                         if (ban_name !== undefined) {
                             if (task_items[k].done == 0) {
