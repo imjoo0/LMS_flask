@@ -18,7 +18,7 @@ async function get_data(){
         url: "/teacher/get_data",
         dataType: 'json',
         data: {},
-        success: await function (response) {
+        success:function (response) {
             mybansData = response['ban_data']
             mytasksData = response['all_task']
             allStudentData = response['my_students']
