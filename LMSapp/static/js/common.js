@@ -666,7 +666,7 @@ async function getTeacherInfo(t_id){
             let num = TunlearnedData.filter(u=>u.category == category).length
             temp_html += `
             <li>
-            ${category} : ${num}건(${answer_rate(num, unlearned_ttc).toFixed(0)}%)
+            ${category} : ${num}건 ( 선생님 미학습 발생 중 ${answer_rate(num, unlearned_ttc).toFixed(0)}%)
             </li>
             `
         })
