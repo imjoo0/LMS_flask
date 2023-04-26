@@ -12,9 +12,9 @@
 // $(document).ready(function () {
 //     get_data()
 // })
-$(window).on('load', async function () {
+$(window).on('load', function () {
     try{
-        const response = await $.ajax({
+        const response = $.ajax({
             type: "GET",
             url: "/teacher/get_data",
             dataType: 'json',
@@ -23,7 +23,7 @@ $(window).on('load', async function () {
             mybansData = response['ban_data']
             mytasksData = response['all_task']
             allStudentData = response['my_students']
-            myStudentData = response['my_students'].filter(s => s.category_id != 2)
+            myStudentData = allStudentData.filter(s => s.category_id != 2)
             allConsultingData = response['all_consulting']
             allconsultingsNum = allConsultingData.length
 
