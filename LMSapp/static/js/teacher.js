@@ -14,7 +14,7 @@
 // })
 async function get_data() {
     try {
-        const response = await $.ajax({
+        const response = $.ajax({
             type: "GET",
             url: "/teacher/get_data",
             dataType: 'json',
