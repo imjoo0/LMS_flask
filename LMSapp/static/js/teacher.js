@@ -8,22 +8,25 @@
 //     }
 //     return str;
 // }
-
-$(document).ready(function () {
-    get_data()
-})
+$(window).on('load', async function () {
+    try {
+        await get_data()();
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
+});
 async function get_data(){
     $.ajax({
         type: "GET",
         url: "/teacher/get_data",
         dataType: 'json',
         data: {},
-        success:function (response) {
+        success: await function (response) {
             mybansData = response['ban_data']
             mytasksData = response['all_task']
             allStudentData = response['my_students']
             allConsultingData = response['all_consulting']
-            
+
             myStudentData = allStudentData.filter(s => s.category_id != 2)
             console.log(mybansData)
             console.log(mytasksData)
