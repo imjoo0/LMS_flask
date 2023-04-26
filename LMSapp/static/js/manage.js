@@ -101,7 +101,7 @@ async function sodata() {
                     <td class="col-1">${student_num}</td>
                     <td class="col-1">${item.hold_student_num}</td>
                     <td class="col-1">${item.switch_plus_num}</td>
-                    <td class="col-3"> 총: ${item.switch_minus_num + item.out_num}명 ( 퇴소 : ${item.out_num}명 / 이반 : ${item.switch_minus_num}명 )</td>
+                    <td class="col-3"> 총: ${item.switch_minus_num + item.out_student_num}명 ( 퇴소 : ${item.out_student_num}명 / 이반 : ${item.switch_minus_num}명 )</td>
                     <td class="col-1"><strong>${item.out_num_per} %</strong></td>
                     <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${item.teacher_id})"><span class="cursor-pointer">👉</td>
                     `;
