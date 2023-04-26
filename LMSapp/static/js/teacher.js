@@ -12,8 +12,8 @@
 // $(document).ready(function () {
 //     get_data()
 // })
-$(document).ready(function () {
-    try{
+async function get_data() {
+    try {
         const response = $.ajax({
             type: "GET",
             url: "/teacher/get_data",
@@ -27,11 +27,16 @@ $(document).ready(function () {
         myStudentData = allStudentData.filter(s => s.category_id != 2)
         allConsultingData = response['all_consulting']
         allconsultingsNum = allConsultingData.length
-
         UnlearnedConsultingsData = allconsultingsNum > 0 ? allConsultingData.filter(consulting => consulting.category_id < 100).length : 0;
         UnlearnedConsultingsNum = UnlearnedConsultingsData.length
         switchstudentData = response['switchstudent']
-
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
+}
+$(window).on('load', async function () {
+    try{
+        await get_data();
         $('#ban_chart_list').empty()
         let temp_ban_option = '<option value="none" selected>반을 선택해주세요</option>';
         mybansData.forEach((elem) => {
