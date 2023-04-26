@@ -629,7 +629,7 @@ async function getTeacherInfo(t_id){
                 datasets: [
                     {
                         data: [total_student_num, ss,hs, os],
-                        backgroundColor: ['#B39CD0', '#ffd400', '#F23966', '#C24F77'],
+                        backgroundColor: ['#B39CD0', '#ffd400', '#F23966','#C24F77'],
                         hoverOffset: 4,
                     },
                 ],
