@@ -60,8 +60,7 @@ async function get_data(){
                         <canvas id="total-chart-element${elem.register_no}" class="total-chart-element p-sm-3 p-2"></canvas>
                         <div class ="chart-data-summary">
                             <span>관리중:${now_student_num}</span><br>
-                            <span>* 이반:${switch_minus_num}</span><br>
-                            <span>* 보류:${elem.hold_student_num}</span>
+                            <span>* 이반:${switch_minus_num} 보류:${elem.hold_student_num}</span><br>
                             <span>* 퇴소:${elem.out_student_num}</span>
                         </div>
                     </div>
