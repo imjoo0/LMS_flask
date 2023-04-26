@@ -36,6 +36,7 @@ async function get_data() {
 $(window).on('load', async function () {
     try{
         await get_data().then(() => {
+            console.log('ㅅㅂ')
             $('#ban_chart_list').empty()
             let temp_ban_option = '<option value="none" selected>반을 선택해주세요</option>';
             mybansData.forEach((elem) => {
