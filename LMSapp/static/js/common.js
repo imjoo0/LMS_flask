@@ -630,7 +630,7 @@ async function getTeacherInfo(t_id){
         if(newTotalChart){
             newTotalChart.destroy();
         }
-        var newTotalChart  = new Chart($(('#total-chart-element')),{
+        var newTotalChart  = new Chart($((`#total-chart-element${t_id}`)),{
             type: 'doughnut',
             data: {
                 labels: ['관리중', '이반', '보류', '퇴소'],
@@ -655,11 +655,8 @@ async function getTeacherInfo(t_id){
                 height: 500,
             },
         });
-
         // 미학습 발생
-        $('#ucomcom').html(`
-        <td class="col-6">총 ${unlearned_ttc}건 </td> 
-        <td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
+        $('#ucomcom').html(`<td class="col-6">총 ${unlearned_ttc}건 </td><td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
         
         let temp_html = `<th class="col-12"><details>
         <summary>총 미학습  ${unlearned_ttc}건 <strong> 발생율: ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% 상세보기 </strong></summary>
@@ -667,11 +664,7 @@ async function getTeacherInfo(t_id){
         let unlearned_cate = [...new Set(TunlearnedData.map(item => item.category))];
         unlearned_cate.forEach((category) => {
             let num = TunlearnedData.filter(u=>u.category == category).length
-            temp_html += `
-            <li>
-            ${category} : ${num}건 ( 선생님 미학습 발생 중 ${answer_rate(num, unlearned_ttc).toFixed(0)}%)
-            </li>
-            `
+            temp_html += `<li>${category} : ${num}건 ( 선생님 미학습 발생 중 ${answer_rate(num, unlearned_ttc).toFixed(0)}%)</li>`
         })
         temp_html += `
                 </ul>
