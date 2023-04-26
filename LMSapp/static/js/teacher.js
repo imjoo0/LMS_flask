@@ -386,7 +386,6 @@ async function get_student(ban_id) {
     });
 }
 function sort_option(sortBy) {
-    var filteredData = Targetdata;
     switch (sortBy) {
         case "name_desc":
         Targetdata.sort(function (a, b) {
@@ -418,7 +417,7 @@ function sort_option(sortBy) {
     // 데이터 정렬 후 페이지네이션 다시 설정
     Studentcontainer.pagination("destroy");
     Studentcontainer.pagination(
-      Object.assign(StudentpaginationOptions, { dataSource: filteredData })
+      Object.assign(StudentpaginationOptions, { dataSource: Targetdata })
     );
 }
 
