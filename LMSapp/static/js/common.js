@@ -497,6 +497,9 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
 }
 async function getTeacherInfo(t_id){
     let info = banData.filter(t=>t.teacher_id == t_id)
+    if(teacherChart){
+        teacherChart.destroy(); // destroy previous chart
+    }
     if (info.length == 0){
         let no_data_title = `<h1> ${response.text} </h1>`
         $('#teacherModalLabel').html(no_data_title);
@@ -627,7 +630,7 @@ async function getTeacherInfo(t_id){
             <span>* 퇴소:${ os }</span>
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
-        new Chart($(('#total-chart-element')), {
+        var teacherChart = new Chart($(('#total-chart-element')), {
             type: 'doughnut',
             data: {
                 labels: ['관리중', '이반', '보류', '퇴소'],
