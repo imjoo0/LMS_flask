@@ -321,8 +321,6 @@ function go_back() {
     $('#make_plus_consulting').hide();
     $('#ban_student_listModalLabelt').html('원생 목록')
 }
-
-
 async function get_student(ban_id) {
     $('#student_list_search_input').off('keyup');
     $('#ban_student_list_box').show();
@@ -346,22 +344,23 @@ async function get_student(ban_id) {
                 $.each(data, function (index, consulting) {
                     let value = `${consulting.student_id}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.teacher_id}`
                     ulconsultings = consulting.consulting_list.filter(c => c.category_id < 100)
-                    unlearned_ixl = make_nodata(ulconsultings.filter(a => a.category_id == 1).length)
-                    unlearned_reading = make_nodata(ulconsultings.filter(a => a.category_id == 4).length)
-                    unlearned_speacial = make_nodata(ulconsultings.filter(a => a.category_id == 3).length)
-                    unlearned_writing = make_nodata(ulconsultings.filter(a => a.category_id == 6).length)
-                    unlearned_homepage = make_nodata(ulconsultings.filter(a => a.category_id == 2).length)
-                    unlearned_intoreading = make_nodata(ulconsultings.filter(a => a.category_id == 5 || a.category_id == 7).length)
+                    let unlearned_cate = [...new Set(ulconsultings.map(item => item.category))];
+                    let temp_cate = ''
+                    unlearned_cate.forEach((category) => {
+                        let num = ban_unlearned.filter(u=>u.category == category).length
+                        let index = 6/unlearned_cate.length 
+                        temp_cate += `
+                            <td class="col-${index}">${category} : ${num}건</td>
+                        `
+                    })
                     temp_consulting_history_student_list += `
                     <td class="col-1">${consulting.student_name}</td>
                     <td class="col-1">${consulting.student_origin}</td>
                     <td class="col-1">${consulting.student_birthday}</td>
-                    <td class="col-1">${unlearned_ixl}</td>
-                    <td class="col-1">${unlearned_reading}</td>
-                    <td class="col-1">${unlearned_speacial}</td>
-                    <td class="col-1">${unlearned_writing}</td>
-                    <td class="col-1">${unlearned_homepage}</td>
-                    <td class="col-1">${unlearned_intoreading}</td>
+                    `
+                    temp_consulting_history_student_list += temp_cate
+                    temp_consulting_history_student_list +=
+                    `
                     <td class="col-1">${make_nodata(ulconsultings.length)}</td>
                     <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">📝</td> 
                     <td class="col-1" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
