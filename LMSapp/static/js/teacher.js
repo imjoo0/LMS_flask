@@ -46,7 +46,7 @@ async function get_data(){
             let ban_unlearned = UnlearnedConsultingsNum > 0 ? UnlearnedConsultingsData.filter(consulting => consulting.ban_id === elem.register_no) : 0;
             console.log(ban_unlearned)
             let unlearned_cate = [...new Set(ban_unlearned.map(item => item.category))];
-            console.log(ban_unlearned)
+            console.log(unlearned_cate)
             let switch_minus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.ban_id == elem.register_no).length : 0;
             let switch_plus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.switch_ban_id == elem.register_no).length : 0;
             let now_student_num = elem.first_student_num - switch_minus_num + switch_plus_num - elem.out_student_num
