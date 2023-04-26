@@ -359,6 +359,7 @@ function get_data() {
     });
 }
 
+// 뭐야 시발 
 async function get_student(ban_id) {
     $('#student_list_search_input').off('keyup');
     $('#ban_student_list_box').show();
