@@ -363,7 +363,6 @@ async function get_student(ban_id) {
                     </ul>
                     </details>
                     </td>
-                    <td class="col-1">${make_nodata(ulconsultings.length)}</td>
                     <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">📝</td> 
                     <td class="col-1" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
                     `;
