@@ -346,22 +346,22 @@ async function get_student(ban_id) {
                     ulconsultings = consulting.consulting_list.filter(c => c.category_id < 100)
                     let unlearned_cate = [...new Set(ulconsultings.map(item => item.category))];
                     temp_consulting_history_student_list += `
-                    <td class="col-2">${consulting.student_name}</td>
-                    <td class="col-1">${consulting.student_origin}</td>
-                    <td class="col-1">${consulting.student_birthday}</td>
-                    <td class="col-6"> 
-                        <details>
-                            <summary>총 ${ulconsultings.length}건</summary>
-                            <ul>
+                    <details>
+                        <summary>
+                        <td class="col-2">${consulting.student_name}</td>
+                        <td class="col-1">${consulting.student_origin}</td>
+                        <td class="col-1">${consulting.student_birthday}</td>
+                        <td class="col-3">${consulting.student_mobileno}</td>
+                        <td class="col-3"><strong>총 ${ulconsultings.length}건</strong></td></summary>
+                        <ul>
                     `;
                     unlearned_cate.forEach((category) => {
                         let num = ulconsultings.filter(u=>u.category == category).length
                         temp_consulting_history_student_list += `<li>${category} : ${num}건</li>`
                     })
                     temp_consulting_history_student_list += `
-                    </ul>
+                        </ul>
                     </details>
-                    </td>
                     <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">📝</td> 
                     <td class="col-1" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
                     `;
