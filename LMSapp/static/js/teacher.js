@@ -515,6 +515,7 @@ function sort_consultingoption(sortBy) {
     console.log(consulting_targetdata)
     switch (sortBy) {
         case "ban_desc":
+        $('#ban_name_sort').html('<strong>반 이름순 정렬👇</strong>')    
         consulting_targetdata.sort(function (a, b) {
             var nameA = a.ban_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
             var nameB = b.ban_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
