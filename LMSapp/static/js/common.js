@@ -563,12 +563,12 @@ async function getTeacherInfo(t_id){
         `;
         $('#profile_data').html(temp_profile_data);
         
-        TconsultingData =  consultingData.filter(c=>c.teacher_id == t_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
-        TTaskData =  taskData.filter(t=>t.teacher_id == t_id)
+        let TconsultingData =  consultingData.filter(c=>c.teacher_id == t_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
+        let TTaskData =  taskData.filter(t=>t.teacher_id == t_id)
         
         // 선생님의 미학습 데이터 
-        TunlearnedData = TconsultingData.filter(c=>c.category_id < 100)
-        unlearned_ttc = TunlearnedData.length
+        let TunlearnedData = TconsultingData.filter(c=>c.category_id < 100)
+        let unlearned_ttc = TunlearnedData.length
 
         let temp_baninfo = `<tr class="row">
         <th class="col-2">반이름</th>
@@ -628,9 +628,9 @@ async function getTeacherInfo(t_id){
                 labels: ['관리중', '이반', '보류', '퇴소'],
                 datasets: [
                     {
-                        data: [total_student_num, ss, os],
-                        backgroundColor: ['#B39CD0', '#ffd400', '#faa75a', '#F23966'],
-                        hoverOffset: 5,
+                        data: [total_student_num, ss,hs, os],
+                        backgroundColor: ['#B39CD0', '#ffd400', '#F23966', '#C24F77'],
+                        hoverOffset: 4,
                     },
                 ],
             },
@@ -678,7 +678,7 @@ async function getTeacherInfo(t_id){
         $('#task_chart').html(`<td class="col-4">${today_done}/${TtasktodayData.length}건</td><td class="col-4">${answer_rate(today_done,TtasktodayData.length).toFixed(0)}%</td><td class="col-4">${answer_rate(history_done,Ttaskhisory.length).toFixed(0)}%</td>`);
 
         // 상담
-        let TconsultaskData = TconsultingData.filter(c=>c.category_id > 100 && c.category_id != 110)
+        let TconsultaskData = TconsultingData.filter(c=>c.category_id != 110)
         let ttd = TconsultaskData.filter(c=>c.done == 1).length
         $('#consulting_chart').html(`<td class="col-4">${ttd} / ${TconsultaskData.length}건</td><td class="col-4">${answer_rate(ttd,TconsultaskData.length).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(TconsultaskData.filter(c=>c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
     
