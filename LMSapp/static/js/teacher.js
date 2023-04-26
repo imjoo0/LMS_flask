@@ -330,7 +330,7 @@ async function get_student(ban_id) {
     $('#ban_student_list_box').show();
     $('#ban_student_list_bansel_box').show()
     $('#make_plus_consulting').hide();
-    var paginationOptions = {
+    StudentpaginationOptions = {
         prevText: '이전',
         nextText: '다음',
         pageSize: 10,
@@ -375,14 +375,14 @@ async function get_student(ban_id) {
         return e.ban_id === ban_id;
     })
     $('#ban_student_listModalLabelt').html(`${Targetdata[0].ban_name}반 원생 목록`);
-    Studentcontainer.pagination(Object.assign(paginationOptions, { 'dataSource': Targetdata }))
+    Studentcontainer.pagination(Object.assign(StudentpaginationOptions, { 'dataSource': Targetdata }))
     $('#student_list_search_input').on('keyup', function () {
         var searchInput = $(this).val().toLowerCase();
         var filteredData = Targetdata.filter(function (d) {
             return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1 )|| (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(searchInput) !== -1));
         });
         Studentcontainer.pagination('destroy');
-        Studentcontainer.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
+        Studentcontainer.pagination(Object.assign(StudentpaginationOptions, { 'dataSource': filteredData }));
     });
 }
 function sort_option(sortBy) {
