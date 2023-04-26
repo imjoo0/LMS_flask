@@ -550,7 +550,7 @@ async function getTeacherInfo(t_id){
         if(teacherChart){
             teacherChart.destroy(); // destroy previous chart
         }
-        
+
         $('.mo_inloading').hide()
         $('.monot_inloading').show()
 
@@ -631,7 +631,8 @@ async function getTeacherInfo(t_id){
             <span>* 퇴소:${ os }</span>
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
-        var teacherChart = new Chart($(('#total-chart-element')), {
+        var teacherChart = null
+        teacherChart = new Chart($(('#total-chart-element')), {
             type: 'doughnut',
             data: {
                 labels: ['관리중', '이반', '보류', '퇴소'],
