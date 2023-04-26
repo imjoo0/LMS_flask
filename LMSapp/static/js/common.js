@@ -659,21 +659,21 @@ async function getTeacherInfo(t_id){
         <td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
         
         let temp_html = `<th class="col-12"><details>
-        <summary>총 미학습  ${unlearned_ttc}건 <strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></summary>
+        <summary>총 미학습  ${unlearned_ttc}건 <strong> 발생율: ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% 상세보기 </strong></summary>
         <ul>`
         let unlearned_cate = [...new Set(TunlearnedData.map(item => item.category))];
         unlearned_cate.forEach((category) => {
             let num = TunlearnedData.filter(u=>u.category == category).length
             temp_html += `
             <li>
-            ${category} : ${num}건
+            ${category} : ${num}건(${answer_rate(num, unlearned_ttc).toFixed(0)}%)
             </li>
             `
         })
         temp_html += `
-            </ul>
-        </details>
-        </th>`
+                    </ul>
+                </details>
+                </th>`
         $('#totalreport-row').html(temp_html)
 
         let TtasktodayData = TTaskData.filter(t => ( new Date(t.startdate).setHours(0, 0, 0, 0) <= today && today < new Date(t.deadline).setHours(0, 0, 0, 0) ) && ( (t.cycle == 0 && t.created_at == null) || (t.cycle == 0 &&  new Date(t.created_at).setHours(0, 0, 0, 0) == today) || (t.cycle == todayyoil) ))
