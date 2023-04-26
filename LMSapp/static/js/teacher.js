@@ -24,7 +24,7 @@ $(window).on('load', function () {
             mytasksData = response['all_task']
             allStudentData = response['my_students']
             console.log(allStudentData)
-            myStudentData = allStudentData.filter(s => s.category_id != 2)
+            // myStudentData = allStudentData.filter(s => s.category_id != 2)
             allConsultingData = response['all_consulting']
             allconsultingsNum = allConsultingData.length
 
