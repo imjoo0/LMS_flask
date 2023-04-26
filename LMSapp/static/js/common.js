@@ -148,7 +148,6 @@ async function get_all_ban() {
                 return b.student_num - a.student_num; // students.length가 큰 순으로 정렬
             }
         })
-        console.log(banData)
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
@@ -229,9 +228,7 @@ async function get_total_data() {
                 // 학기별 원생수 및 퇴소 원생 수 
                 onesemester_total = onesemester[0].semester_student_num
                 oneoutnum = onesemester.reduce((acc, item) => acc + item.out_student_num, 0);
-                console.log(onesemester)
-                console.log(oneoutnum)
-        
+
                 fivesemester_total = fivesemester[0].semester_student_num
                 fiveoutnum = fivesemester.reduce((acc, item) => acc + item.out_student_num, 0);
         
@@ -707,6 +704,8 @@ async function getTeacherInfo(t_id){
         $('#consulting_chart').html(`<td class="col-4">${ttd} / ${TconsultaskData.length}건</td><td class="col-4">${answer_rate(ttd,TconsultaskData.length).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(TconsultaskData.filter(c=>c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
     
         // 원생
+        console.log(studentsData)
+        console.log(info)
         Tstudent = studentsData.filter(s=>s.teacher_id == info[0].teacher_id)
         Tstudent.forEach((elem) => {
             elem.unlearned = TunlearnedData.filter(a => a.student_id == elem.student_id).length
