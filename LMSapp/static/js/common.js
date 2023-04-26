@@ -637,11 +637,13 @@ async function getTeacherInfo(t_id){
         });
         data_list = Tstudent
         totalData = data_list.length
+        console.log(data_list)
         displayData(totalData, 1, dataPerPage, data_list);
         paging(totalData, dataPerPage, pageCount, 1, data_list);
     }
 }
 function displayData(totalData, currentPage, dataPerPage,data_list) {
+    console.log(totalData)
     let chartHtml = "";
 
     //Number로 변환하지 않으면 아래에서 +를 할 경우 스트링 결합이 되어버림.. 
