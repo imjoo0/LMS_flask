@@ -12,9 +12,9 @@
 // $(document).ready(function () {
 //     get_data()
 // })
-$(window).on('load', function () {
+$(window).on('load', async function () {
     try{
-        const response = $.ajax({
+        const response = await $.ajax({
             type: "GET",
             url: "/teacher/get_data",
             dataType: 'json',
