@@ -77,10 +77,14 @@ async function get_data(){
             let unlearned_cate = [...new Set(ban_unlearned.map(item => item.category))];
             unlearned_cate.forEach((category) => {
                 let num = ban_unlearned.filter(u=>u.category == category).length
-                let index = 12/unlearned_cate.length
                 temp_ban_chart += `
-                    <th class="col-${index}">${category}</th>
-                    <td class="col-${index}">${num}건(${answer_rate(num, ban_unlearned_num).toFixed(0)}%)</td>`
+                <tr class="row">
+                    <th class="col-12">${category}</th>
+                </tr>
+                <tr class="row">
+                    <td class="col-12">${num}건(${answer_rate(num, ban_unlearned_num).toFixed(0)}%)</td>
+                </tr>
+                `
             })
             temp_ban_chart += `
                         </tbody>
