@@ -530,7 +530,7 @@ function sort_consultingoption(sortBy) {
     
         case "deadline_desc":
         consulting_targetdata.sort(function (a, b) {
-            return a.deadline - b.deadline;
+            return new Date(a.deadline) - new Date(b.deadline);
         });
         break;
     
