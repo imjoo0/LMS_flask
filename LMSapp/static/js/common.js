@@ -507,7 +507,6 @@ async function getTeacherInfo(t_id){
         $('.mo_inloading').show()
         $('.monot_inloading').hide()
         if (!consultingData && studentsData && taskData) {
-            // await get_all_students()
             await get_all_consulting().then(() => {
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
@@ -550,6 +549,7 @@ async function getTeacherInfo(t_id){
         }
         $('.mo_inloading').hide()
         $('.monot_inloading').show()
+
         let temp_profile_data = `
             <tbody  style="width:100%;">
                 <tr class="row tagtagtitle">
@@ -565,8 +565,11 @@ async function getTeacherInfo(t_id){
         $('#profile_data').html(temp_profile_data);
         let TconsultingData = null 
         TconsultingData =  consultingData.filter(c=>c.teacher_id == t_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
+        console.log(TconsultingData)
         let TTaskData =  null
         TTaskData = taskData.filter(t=>t.teacher_id == t_id)
+        console.log(TTaskData)
+
         
         // 선생님의 미학습 데이터 
         let TunlearnedData = null
