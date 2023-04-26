@@ -9,9 +9,9 @@
 //     return str;
 // }
 
-$(document).ready(async function () {
+$(document).ready(function () {
     try{
-        const response = await $.ajax({
+        const response = $.ajax({
             type: "GET",
             url: "/teacher/get_data",
             dataType: 'json',
@@ -32,7 +32,7 @@ $(document).ready(async function () {
         alert('Error occurred while retrieving data.');
     }
 })
-$(window).on('load', async function () {
+$(window).on('load', function () {
     try{
         $('#ban_chart_list').empty()
         let temp_ban_option = '<option value="none" selected>반을 선택해주세요</option>';
