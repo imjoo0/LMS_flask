@@ -25,10 +25,6 @@ async function get_data(){
         allConsultingData = response['all_consulting']
 
         myStudentData = allStudentData.filter(s => s.category_id != 2)
-        console.log(mybansData)
-        console.log(mytasksData)
-        console.log(allStudentData)
-        console.log(myStudentData)
         allconsultingsNum = allConsultingData.length
         UnlearnedConsultingsData = allconsultingsNum > 0 ? allConsultingData.filter(consulting => consulting.category_id < 100).length : 0;
         UnlearnedConsultingsNum = UnlearnedConsultingsData.length
