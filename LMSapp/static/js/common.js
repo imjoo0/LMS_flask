@@ -653,43 +653,27 @@ async function getTeacherInfo(t_id){
             },
         });
 
-        // 미학습 상담
-        let unlearned_ttd = TunlearnedData.filter(u=>u.done == 1).length
+        // 미학습 발생
         $('#ucomcom').html(`
-        <td class="col-3"> 완수: ${unlearned_ttd} / ${unlearned_ttc}건 </td> 
-        <td class="col-3" style="color:red">${make_nodata(TunlearnedData.filter(c=>c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>
-        <td class="col-3"> ${answer_rate(unlearned_ttd,unlearned_ttc).toFixed(0)}% </td>
-        <td class="col-3"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
-        let temp_html = ''
-        if(IsG3){
-            temp_html = `
-            <th class="col-2">IXL</th>
-            <th class="col-2">리딩</th>
-            <th class="col-3">인투리딩 미응시</th>
-            <th class="col-3">라이팅 과제</th>
-            <th class="col-2">미접속</th>
-            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 1).length)}</td>
-            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 4).length)}</td>
-            <td class="col-3">${make_nodata(TunlearnedData.filter(u=>u.category_id == 5).length)}</td>
-            <td class="col-3">${make_nodata(TunlearnedData.filter(u=>u.category_id == 6).length)}</td>
-            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 2).length)}</td>
-            `;
-        }else{
-            temp_html = `
-            <th class="col-2">IXL</th>
-            <th class="col-2">리딩</th>
-            <th class="col-2">리특</th>
-            <th class="col-2">인투리딩 미응시</th>
-            <th class="col-2">라이팅 과제</th>
-            <th class="col-2">미접속</th>
-            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 1).length)}</td>
-            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 4).length)}</td>
-            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 3).length)}</td>
-            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 5).length)}</td>
-            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 6).length)}</td>
-            <td class="col-2">${make_nodata(TunlearnedData.filter(u=>u.category_id == 2).length)}</td>
-            `;
-        }
+        <td class="col-6">총 ${unlearned_ttc}건 </td> 
+        <td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
+        
+        let temp_html = `<th class="col-12"><details>
+        <summary>총 미학습  ${unlearned_ttc}건 <strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></summary>
+        <ul>`
+        let unlearned_cate = [...new Set(TunlearnedData.map(item => item.category))];
+        unlearned_cate.forEach((category) => {
+            let num = TunlearnedData.filter(u=>u.category == category).length
+            temp_html += `
+            <li>
+            ${category} : ${num}건
+            </li>
+            `
+        })
+        temp_html += `
+            </ul>
+        </details>
+        </th>`
         $('#totalreport-row').html(temp_html)
 
         let TtasktodayData = TTaskData.filter(t => ( new Date(t.startdate).setHours(0, 0, 0, 0) <= today && today < new Date(t.deadline).setHours(0, 0, 0, 0) ) && ( (t.cycle == 0 && t.created_at == null) || (t.cycle == 0 &&  new Date(t.created_at).setHours(0, 0, 0, 0) == today) || (t.cycle == todayyoil) ))
