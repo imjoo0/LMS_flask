@@ -711,18 +711,20 @@ async function getTeacherInfo(t_id){
         totalData = data_list.length
         displayData(totalData, 1, dataPerPage, data_list);
         paging(totalData, dataPerPage, pageCount, 1, data_list);
+        $('#studentban_kind').on('change', function() {
+            // 실행할 함수 내용
+            let ban_id = $(this).val()
+            if(ban_id == "none"){
+                data_list = Tstudent
+            }else{
+                let change_student = Tstudent.filter(s=>s.ban_id == ban_id)
+                data_list = change_student
+            }
+            totalData = data_list.length
+            displayData(totalData, 1, dataPerPage, data_list);
+            paging(totalData, dataPerPage, pageCount, 1, data_list);
+        });
     }
-}
-function change_studentban_kind(ban_id){
-    if(ban_id == "none"){
-        data_list = Tstudent
-    }else{
-        let change_student = Tstudent.filter(s=>s.ban_id == ban_id)
-        data_list = change_student
-    }
-    totalData = data_list.length
-    displayData(totalData, 1, dataPerPage, data_list);
-    paging(totalData, dataPerPage, pageCount, 1, data_list);
 }
 // 상담 기록 조회 
 function get_consulting_history(s_id) {
