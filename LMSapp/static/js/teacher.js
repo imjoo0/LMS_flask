@@ -377,6 +377,7 @@ async function get_student(ban_id) {
         return e.ban_id === ban_id;
     })
     $('#ban_student_listModalLabelt').html(`${data[0].ban_name}반 원생 목록`);
+    console.log(data)
     data.sort((a, b) => {
         return b.done_consulting_num - a.done_consulting_num;
     });
