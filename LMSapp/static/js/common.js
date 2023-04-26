@@ -656,6 +656,7 @@ function displayData(totalData, currentPage, dataPerPage,data_list) {
         i < last_item; // 55+5
         i++
     ) {
+        console.log(data_list[i])
         chartHtml +=`
         <td class="col-3">${data_list[i].student_name}( ${data_list[i].student_engname} )</td>
         <td class="col-2">${data_list[i].origin}</td>
