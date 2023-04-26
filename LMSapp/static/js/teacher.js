@@ -384,19 +384,21 @@ async function get_student(ban_id) {
     $('#ban_student_listModalLabelt').html(`${Targetdata[0].ban_name}반 원생 목록`);
     Studentcontainer.pagination(Object.assign(StudentpaginationOptions, { 'dataSource': Targetdata }))
     $('#student_list_search_input').on('keyup', function () {
-        var searchInput = $(this).val().toLowerCase();
-        var filteredData = Targetdata.filter(function (d) {
-            return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(searchInput) !== -1));
+        StudentsearchInput = $(this).val().toLowerCase();
+        StudentfilteredData = Targetdata.filter(function (d) {
+            return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(StudentsearchInput) !== -1) || (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(StudentsearchInput) !== -1));
         });
         Studentcontainer.pagination('destroy');
         Studentcontainer.pagination(Object.assign(StudentpaginationOptions, { 'dataSource': filteredData }));
     });
 }
 function sort_option(sortBy) {
-    var filteredData = Targetdata;
+    StudentfilteredData = Targetdata.filter(function (d) {
+        return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(StudentsearchInput) !== -1) || (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(StudentsearchInput) !== -1));
+    });
     switch (sortBy) {
       case "name_desc":
-        filteredData.sort(function (a, b) {
+        StudentfilteredData.sort(function (a, b) {
             var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
             var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
             if (nameA < nameB) {
@@ -410,22 +412,21 @@ function sort_option(sortBy) {
         break;
   
       case "ul_desc":
-        filteredData.sort(function (a, b) {
+        StudentfilteredData.sort(function (a, b) {
             return b.unlearned_num - a.unlearned_num;
         });
         break;
   
       case "consulting_desc":
-        filteredData.sort(function (a, b) {
+        StudentfilteredData.sort(function (a, b) {
           return b.done_consulting_num - a.done_consulting_num;
         });
         break;
     }
-  
     // 데이터 정렬 후 페이지네이션 다시 설정
     Studentcontainer.pagination("destroy");
     Studentcontainer.pagination(
-      Object.assign(StudentpaginationOptions, { dataSource: filteredData })
+      Object.assign(StudentpaginationOptions, { dataSource: StudentfilteredData })
     );
 }
 function plusconsulting(value, b_id) {
