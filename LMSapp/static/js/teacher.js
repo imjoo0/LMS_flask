@@ -389,7 +389,7 @@ async function get_student(ban_id) {
             return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(StudentsearchInput) !== -1) || (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(StudentsearchInput) !== -1));
         });
         Studentcontainer.pagination('destroy');
-        Studentcontainer.pagination(Object.assign(StudentpaginationOptions, { 'dataSource': filteredData }));
+        Studentcontainer.pagination(Object.assign(StudentpaginationOptions, { 'dataSource': StudentfilteredData }));
     });
 }
 function sort_option(sortBy) {
@@ -427,7 +427,7 @@ function sort_option(sortBy) {
             return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(StudentsearchInput) !== -1) || (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(StudentsearchInput) !== -1));
         });
         Studentcontainer.pagination('destroy');
-        Studentcontainer.pagination(Object.assign(StudentpaginationOptions, { 'dataSource': filteredData }));
+        Studentcontainer.pagination(Object.assign(StudentpaginationOptions, { 'dataSource': StudentfilteredData }));
     })
 }
 function plusconsulting(value, b_id) {
