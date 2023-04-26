@@ -44,6 +44,7 @@ $(document).ready(function () {
                     elem.unlearned['homepage'] = ban_unlearned.filter(a => a.category_id == 2).length
                     elem.unlearned['intoreading'] = ban_unlearned.filter(a => a.category_id == 5 || a.category_id == 7).length
                 }
+                console.log(elem)
                 // let outstudent = response['outstudent'].length > 0 ? response['outstudent'].filter(a=> a.ban_id === register_no).length : 0;
                 let temp_ban_chart = `
                 <div class="d-flex justify-content-start align-items-start flex-column w-100 my-2">
