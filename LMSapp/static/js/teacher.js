@@ -79,10 +79,7 @@ async function get_data(){
                 let num = ban_unlearned.filter(u=>u.category == category).length
                 temp_ban_chart += `
                 <tr class="row">
-                    <th class="col-12">${category}</th>
-                </tr>
-                <tr class="row">
-                    <td class="col-12">${num}건(${answer_rate(num, ban_unlearned_num).toFixed(0)}%)</td>
+                    <td class="col-12">${category} : ${num}건(${answer_rate(num, ban_unlearned_num).toFixed(0)}%)</td>
                 </tr>
                 `
             })
