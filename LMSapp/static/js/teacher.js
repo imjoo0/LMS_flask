@@ -23,6 +23,7 @@ $(window).on('load', function () {
             mybansData = response['ban_data']
             mytasksData = response['all_task']
             allStudentData = response['my_students']
+            console.log(allStudentData)
             myStudentData = allStudentData.filter(s => s.category_id != 2)
             allConsultingData = response['all_consulting']
             allconsultingsNum = allConsultingData.length
