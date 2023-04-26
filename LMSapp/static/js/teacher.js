@@ -103,8 +103,8 @@ async function get_data(){
                     labels: ['관리중', '이반', '퇴소'],
                     datasets: [
                         {
-                            data: [now_student_num, switch_minus_num, elem.out_student_num],
-                            backgroundColor: ['#B39CD0', '#ffd400', '#F23966'],
+                            data: [now_student_num, switch_minus_num, elem.out_student_num, elem.hold_student_num],
+                            backgroundColor: ['#B39CD0', '#ffd400', '#F23966','#C24F77'],
                             hoverOffset: 4,
                         },
                     ],
