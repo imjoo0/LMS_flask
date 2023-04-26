@@ -73,14 +73,14 @@ async function sodata() {
     $('#detailban').hide()
     $('#sobox').show()
     let container = $('#sob_pagination')
-    if (outstudent_num == 0 && switchstudent_num == 0) {
+    if (totalOutnum == 0 && switchstudent_num == 0) {
         let no_data_title = '이반 * 퇴소 발생이 없었어요'
         $('#sotitle').html(no_data_title);
         $('#sotable').hide()
         return
     } else {
         $('#sotitle').empty();
-        switch_out_bans = banData.filter(e => e.out_num != 0 || e.switch_minus_num != 0)
+        switch_out_bans = banData.filter(e => e.out_student_num != 0 || e.switch_minus_num != 0)
         container.pagination({
             dataSource: switch_out_bans,
             prevText: '이전',
