@@ -31,20 +31,15 @@ $(document).ready(function () {
                 let semester = make_semester(elem.semester)
                 temp_ban_option += `<option value=${elem.register_no}>${elem.name} (${semester}월 학기)</option>`;
                 let ban_unlearned = UnlearnedConsultingsNum > 0 ? UnlearnedConsultingsData.filter(consulting => consulting.ban_id === register_no) : 0;
-                elem.switch_minus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.ban_id == elem.register_no).length : 0;
-                elem.switch_plus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.switch_ban_id == elem.register_no).length : 0;
-                elem.now_student_num = elem.first_student_num - elem.switch_minus_num + elem.switch_plus_num - elem.out_student_num
-                if (ban_unlearned != 0) {
-                    elem.unlearned = {}
-                    elem.unlearned['total_num'] = ban_unlearned.length;
-                    elem.unlearned['IXL'] = ban_unlearned.filter(a => a.category_id == 1).length
-                    elem.unlearned['reading'] = ban_unlearned.filter(a => a.category_id == 4).length
-                    elem.unlearned['speacial'] = ban_unlearned.filter(a => a.category_id == 3).length
-                    elem.unlearned['writing'] = ban_unlearned.filter(a => a.category_id == 6).length
-                    elem.unlearned['homepage'] = ban_unlearned.filter(a => a.category_id == 2).length
-                    elem.unlearned['intoreading'] = ban_unlearned.filter(a => a.category_id == 5 || a.category_id == 7).length
-                }
-                console.log(elem)
+                let switch_minus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.ban_id == elem.register_no).length : 0;
+                let switch_plus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.switch_ban_id == elem.register_no).length : 0;
+                let now_student_num = elem.first_student_num - switch_minus_num + switch_plus_num - elem.out_student_num
+                let unlearned_ixl = ban_unlearned.filter(a => a.category_id == 1).length
+                let unlearned_reading = ban_unlearned.filter(a => a.category_id == 4).length
+                let unlearned_speacial = ban_unlearned.filter(a => a.category_id == 3).length
+                let unlearned_writing = ban_unlearned.filter(a => a.category_id == 6).length
+                let unlearned_homepage = ban_unlearned.filter(a => a.category_id == 2).length
+                let unlearned_intoreading = ban_unlearned.filter(a => a.category_id == 5 || a.category_id == 7).length
                 // let outstudent = response['outstudent'].length > 0 ? response['outstudent'].filter(a=> a.ban_id === register_no).length : 0;
                 let temp_ban_chart = `
                 <div class="d-flex justify-content-start align-items-start flex-column w-100 my-2">
@@ -53,8 +48,8 @@ $(document).ready(function () {
                         <div class="chart-wrapper col-sm-5">
                             <canvas id="total-chart-element${elem.register_no}" class="total-chart-element p-sm-3 p-2"></canvas>
                             <div class ="chart-data-summary">
-                                <span>관리중:${elem.now_student_num}</span><br>
-                                <span>* 이반:${elem.switch_minus_num}</span><br>
+                                <span>관리중:${now_student_num}</span><br>
+                                <span>* 이반:${switch_minus_num}</span><br>
                                 <span>* 퇴소:${elem.out_student_num}</span>
                             </div>
                         </div>
@@ -65,7 +60,7 @@ $(document).ready(function () {
                                         <th class="col-12" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${elem.register_no})">${elem.name}반  원생 목록  ✔️</th>
                                     </tr>
                                     <tr class="row">
-                                        <th class="col-12">총 미학습 ${elem.unlearned['total_num']}건  (${answer_rate(elem.unlearned['total_num'], UnlearnedConsultingsNum).toFixed(0)}%)</th>
+                                        <th class="col-12">총 미학습 ${ban_unlearned.length}건  (${answer_rate(ban_unlearned.length, UnlearnedConsultingsNum).toFixed(0)}%)</th>
                                     </tr>`
                 if (make_IsG3(elem.name)) {
                     temp_ban_chart += `
