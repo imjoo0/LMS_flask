@@ -74,16 +74,18 @@ async function get_data(){
                                 <th class="col-12"> 
                                 <details>
                                     <summary>총 미학습 ${ban_unlearned_num}건  (${answer_rate(ban_unlearned_num, UnlearnedConsultingsNum).toFixed(0)}%)</summary>
+                                    <ul>
                                     `
             let unlearned_cate = [...new Set(ban_unlearned.map(item => item.category))];
             unlearned_cate.forEach((category) => {
                 let num = ban_unlearned.filter(u=>u.category == category).length
                 temp_ban_chart += `
-                <td class = "col-12">
-                ${category} : ${num}건(${answer_rate(num, ban_unlearned_num).toFixed(0)}%)</td>
+                <td class = "col-12"><li>
+                ${category} : ${num}건(${answer_rate(num, ban_unlearned_num).toFixed(0)}%)</li></td>
                 `
             })
             temp_ban_chart += `
+                        </ul>
                         </details>
                         </th>
                         </tr>
