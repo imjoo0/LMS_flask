@@ -347,12 +347,12 @@ async function get_student(ban_id) {
                     let unlearned_cate = [...new Set(ulconsultings.map(item => item.category))];
                     temp_consulting_history_student_list += `
                     <details>
-                        <summary>
-                        <td class="10">${consulting.student_name}
+                    <td class="10">
+                        <summary>${consulting.student_name}
                           ${consulting.student_origin}
                           ${consulting.student_birthday}
                           ${consulting.student_mobileno}
-                        <strong>총 ${ulconsultings.length}건</strong></td></summary>
+                        <strong>총 ${ulconsultings.length}건</strong></summary></td>
                         <ul>
                     `;
                     unlearned_cate.forEach((category) => {
