@@ -34,12 +34,20 @@ $(document).ready(function () {
                 let switch_minus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.ban_id == elem.register_no).length : 0;
                 let switch_plus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.switch_ban_id == elem.register_no).length : 0;
                 let now_student_num = elem.first_student_num - switch_minus_num + switch_plus_num - elem.out_student_num
-                let unlearned_ixl = ban_unlearned.filter(a => a.category_id == 1).length
-                let unlearned_reading = ban_unlearned.filter(a => a.category_id == 4).length
-                let unlearned_speacial = ban_unlearned.filter(a => a.category_id == 3).length
-                let unlearned_writing = ban_unlearned.filter(a => a.category_id == 6).length
-                let unlearned_homepage = ban_unlearned.filter(a => a.category_id == 2).length
-                let unlearned_intoreading = ban_unlearned.filter(a => a.category_id == 5 || a.category_id == 7).length
+                let unlearned_ixl = 0 
+                let unlearned_reading = 0
+                let unlearned_speacial = 0
+                let unlearned_writing = 0 
+                let unlearned_homepage = 0
+                let unlearned_intoreading = 0
+                if(ban_unlearned != 0){
+                    unlearned_ixl = ban_unlearned.filter(a => a.category_id == 1).length
+                    unlearned_reading = ban_unlearned.filter(a => a.category_id == 4).length
+                    unlearned_speacial = ban_unlearned.filter(a => a.category_id == 3).length
+                    unlearned_writing = ban_unlearned.filter(a => a.category_id == 6).length
+                    unlearned_homepage = ban_unlearned.filter(a => a.category_id == 2).length
+                    unlearned_intoreading = ban_unlearned.filter(a => a.category_id == 5 || a.category_id == 7).length
+                }
                 // let outstudent = response['outstudent'].length > 0 ? response['outstudent'].filter(a=> a.ban_id === register_no).length : 0;
                 let temp_ban_chart = `
                 <div class="d-flex justify-content-start align-items-start flex-column w-100 my-2">
