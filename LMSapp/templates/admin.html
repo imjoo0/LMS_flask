@@ -179,121 +179,51 @@
             </div>
         </div>
         <!-- 학기별 원생 수 정보 -->
-        <div class="info-container" style="margin-top: 10px;">
+        <div class="info-container" id="detailban" style="display: none;">
             <div class="info-title" style="border-bottom: 2px groove #F66F5B">
                 <span id="banchart_title">PURPLE</span>
             </div>
-            <div class="info">
-                <div class="d-flex justify-content-center align-items-center flex-column w-100">
-                    <div class="d-flex justify-content-start align-items-start w-100" style="overflow: scroll;">
-                        <div class="d-flex justify-content-center align-items-center flex-column mt-4"
-                            style="width: 1362px important;" id="detailban">
-                            <div class="info  make_col">
-                                <div class="d-flex justify-content-center align-items-center flex-column w-100 make_row">
-                                    <div id="ban-statistics" class="d-flex justify-content-end align-items-center w-100">
-                                        <div class="info-container" style="width:100%;">
-                                            <div id="inloading" class="loader loader--style2 text-center" title="1">
-                                                <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
-                                                    <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
-                                                        <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
-                                                    </path>
-                                                </svg>
-                                            </div>
-                                            <div id="target_ban_info_body">
-                                                <div class="row row-cols-2">
-                                                    <div class="semester-student-chart-wrapper col-7 px-4 py-5">
-                                                        <canvas id="semester-student-chart"></canvas>
-                                                    </div>  
-                                                <div id="semester-student-table" class="col-5 px-4 py-5">
-                            
-                                                    </div>
-                                                </div>
-                                                <table id="semester" class="table text-center mt-5" style="width:100%;">
-                                                    <thead>
-                                                        <tr class="row">
-                                                            <th class="col-2" id="semester_s">학기</th>
-                                                            <th class="col-2">담당 선생님</th>
-                                                            <th class="col-2">초기 등록 학생 수</th>
-                                                            <th class="col-2">관리중인 학생 수</th>
-                                                            <th class="col-2">퇴소 및 이반 수  (퇴소율)</th>
-                                                            <th class="col-1">선생님 정보</th>
-                                                            <th class="col-1">반 정보</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tr class="row" id="semester_banlist">
-                    
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                            <div class="d-flex justify-content-center align-items-center w-100">
-                                                <div id="semester_pagination" class="mt-4 mb-5 text-center"></div>
-                                            </div>
-                                        </div>
+            <div class="info  make_col">
+                <div class="d-flex justify-content-center align-items-center flex-column w-100 make_row">
+                    <div id="ban-statistics" class="d-flex justify-content-end align-items-center w-100">
+                        <div class="info-container" style="width:100%;">
+                            <div id="inloading" class="loader loader--style2 text-center" title="1">
+                                <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                                    <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                                        <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
+                                    </path>
+                                </svg>
+                            </div>
+                            <div id="target_ban_info_body">
+                                <div class="row row-cols-2">
+                                    <div class="semester-student-chart-wrapper col-7 px-4 py-5">
+                                        <canvas id="semester-student-chart"></canvas>
+                                    </div>  
+                                <div id="semester-student-table" class="col-5 px-4 py-5">
+            
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="make_row">
-            <!-- 퇴소 이반 현황 -->
-            <div class="info-container">
-                <div class="info-title">
-                    <span>퇴소 / 이반 현황</span>
-                </div>
-                <div class="info">
-                    <div class="d-flex justify-content-center align-items-center flex-column w-100">
-                        <div class="d-flex justify-content-start align-items-start w-100" style="overflow: scroll;">
-                            <div class="d-flex justify-content-center align-items-center flex-column mt-4"
-                                style="width: 1362px important;">
-
-                                <table class="table text-center" style="width:100%;" id="so_data">
-                                    <tr class="row" style="background: #DCE6F2;">
-                                        <th class="col-12" id="displayCount1"></th>
+                                <input class="not_inloading search_input_box" type="text" id="ban_search_input" placeholder="반 혹은 선생님으로 검색">
+                                <table id="semester" class="table text-center mt-5" style="width:100%;">
+                                    <thead>
+                                        <tr class="row">
+                                            <th class="col-2" id="semester_s">학기</th>
+                                            <th class="col-2">담임 T</th>
+                                            <th class="col-1">현재 원생 수</th>
+                                            <th class="col-1">초기 배정 수</th>
+                                            <th class="col-2">➕ 추가 등록 한 원생 수</th>
+                                            <th class="col-2">➖ 퇴소 및 이반 수</th>
+                                            <th class="col-1"><strong>퇴소율</strong></th>
+                                            <th class="col-1">상세보기</th>
+                                        </tr>
+                                    </thead>
+                                    <tr class="row" id="semester_banlist">
+    
                                     </tr>
-                                    <tr class="row" style="background:#DCE6F2;">
-                                        <th class="col-2">반 이름</th>
-                                        <th class="col-2">학기</th>
-                                        <th class="col-3">담임 T</th>
-                                        <th class="col-2">이반 발생</th>
-                                        <th class="col-2">퇴소 발생</th>
-                                        <th class="col-1">상세</th>
-                                    </tr>
-                                    <tr id="static_data1" class="row"></tr>
                                 </table>
-                                <ul id="pagingul1"></ul>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- 미학습 발생 현황 -->
-            <div class="info-container" style="margin-left: 20px;">
-                <div class="info-title">
-                    <span>미학습 발생 현황</span>
-                </div>
-                <div class="info">
-                    <div class="d-flex justify-content-center align-items-center flex-column w-100">
-                        <div class="d-flex justify-content-start align-items-start w-100" style="overflow: scroll;">
-                            <div class="d-flex justify-content-center align-items-center flex-column mt-4"
-                                style="width: 1362px important;">
-
-                                <table class="table text-center" style="width:100%;" id="ul_data_box">
-                                    <tr class="row" style="background: #DCE6F2;">
-                                        <th class="col-12" id="displayCount2"></th>
-                                    </tr>
-                                    <tr class="row" style="background:#DCE6F2;">
-                                        <th class="col-3">반 이름</th>
-                                        <th class="col-2">학기</th>
-                                        <th class="col-3">담임 T</th>
-                                        <th class="col-3">미학습발생</th>
-                                        <th class="col-1">상세</th>
-                                    </tr>
-                                    <tr id="static_data2" class="row"></tr>
-                                </table>
-                                <ul id="pagingul2"></ul>
+                            <div class="d-flex justify-content-center align-items-center w-100">
+                                <div id="semester_pagination" class="mt-4 mb-5 text-center"></div>
                             </div>
                         </div>
                     </div>
