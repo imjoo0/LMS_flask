@@ -230,6 +230,7 @@ async function get_data(){
         // 상담 목록 
         let result = myStudentData.reduce((acc, student) => {
             const consultingList = allConsultingData.filter(c => c.student_id === student.register_no);
+            const unlearned_num = consultingList.filter(u=>u.category_id < 100).length;
             if (consultingList.length > 0) {
                 const todoconsulting = consultingList.filter(c => c.done == 0)
                 if (todoconsulting.length > 0) {
@@ -257,7 +258,8 @@ async function get_data(){
                         'done_consulting_num': consultingList.length - todoconsulting.length,
                         'deadline': make_date(deadline.deadline),
                         'missed': missed_date(missed.missed),
-                        'consulting_list': consultingList
+                        'consulting_list': consultingList,
+                        'unlearned_num':unlearned_num
                     });
                 } else {
                     acc.push({
@@ -273,7 +275,8 @@ async function get_data(){
                         'done_consulting_num': consultingList.length,
                         'deadline': make_date('3000-01-01'),
                         'missed': missed_date('1111-01-01'),
-                        'consulting_list': consultingList
+                        'consulting_list': consultingList,
+                        'unlearned_num':unlearned_num
                     });
                 }
             } else {
@@ -290,7 +293,8 @@ async function get_data(){
                     'done_consulting_num': 0,
                     'deadline': make_date('3000-01-01'),
                     'missed': missed_date('1111-01-01'),
-                    'consulting_list': []
+                    'consulting_list': [],
+                    'unlearned_num':unlearned_num
                 });
             }
             return acc;
@@ -404,19 +408,11 @@ function sort_option(sortBy) {
         });
         break;
   
-    //   case "name_desc":
-    //     data.sort(function (a, b) {
-    //       var nameA = a.student_name.toUpperCase();
-    //       var nameB = b.student_name.toUpperCase();
-    //       if (nameA < nameB) {
-    //         return 1;
-    //       }
-    //       if (nameA > nameB) {
-    //         return -1;
-    //       }
-    //       return 0;
-    //     });
-    //     break;
+      case "ul_desc":
+        Targetdata.sort(function (a, b) {
+            return b.unlearned_num - a.unlearned_num;
+        });
+        break;
   
       case "consulting_desc":
         Targetdata.sort(function (a, b) {
