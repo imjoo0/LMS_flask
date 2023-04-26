@@ -335,44 +335,38 @@ async function get_student(ban_id) {
         nextText: '다음',
         pageSize: 10,
         callback: function (data, pagination) {
-            if (data.length <= 0) {
-                $('#consulting_history_bansel_box').hide()
-                $('#ban_student_list_box').hide()
-                $('#h_title_msg').show();
-            }else{
-                $('#h_title_msg').hide();
-                $('#consulting_history_bansel_box').show()
-                $('#ban_student_list_box').show()
-                let temp_consulting_history_student_list = '';
-                $.each(data, function (index, consulting) {
-                    let value = `${consulting.student_id}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.teacher_id}`
-                    ulconsultings = consulting.consulting_list.filter(c => c.category_id < 100)
-                    let unlearned_cate = [...new Set(ulconsultings.map(item => item.category))];
-                    temp_consulting_history_student_list += `
-                    <td class="col-2">${consulting.student_name}</td>
-                    <td class="col-1">${consulting.student_origin}</td>
-                    <td class="col-1">${consulting.student_birthday}</td>
-                    <td class="col-2">${consulting.student_mobileno}</td>
-                    <td class="col-3"> 
-                        <details>
-                            <summary>총 ${ulconsultings.length}건</summary>
-                            <ul>
-                    `;
-                    unlearned_cate.forEach((category) => {
-                        let num = ulconsultings.filter(u=>u.category == category).length
-                        temp_consulting_history_student_list += `<li>${category} : ${num}건</li>`
-                    })
-                    temp_consulting_history_student_list += `
-                    </ul>
-                    </details>
-                    </td>
-                    <td class="col-1">${consulting.done_consulting_num}건</td> 
-                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">📝</td> 
-                    <td class="col-1" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
-                    `;
-                });
-                $('#ban_student_info').html(temp_consulting_history_student_list);
-            }
+            $('#h_title_msg').hide();
+            $('#consulting_history_bansel_box').show()
+            $('#ban_student_list_box').show()
+            let temp_consulting_history_student_list = '';
+            $.each(data, function (index, consulting) {
+                let value = `${consulting.student_id}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.teacher_id}`
+                ulconsultings = consulting.consulting_list.filter(c => c.category_id < 100)
+                let unlearned_cate = [...new Set(ulconsultings.map(item => item.category))];
+                temp_consulting_history_student_list += `
+                <td class="col-2">${consulting.student_name}</td>
+                <td class="col-1">${consulting.student_origin}</td>
+                <td class="col-1">${consulting.student_birthday}</td>
+                <td class="col-2">${consulting.student_mobileno}</td>
+                <td class="col-3"> 
+                    <details>
+                        <summary>총 ${ulconsultings.length}건</summary>
+                        <ul>
+                `;
+                unlearned_cate.forEach((category) => {
+                    let num = ulconsultings.filter(u=>u.category == category).length
+                    temp_consulting_history_student_list += `<li>${category} : ${num}건</li>`
+                })
+                temp_consulting_history_student_list += `
+                </ul>
+                </details>
+                </td>
+                <td class="col-1">${consulting.done_consulting_num}건</td> 
+                <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">📝</td> 
+                <td class="col-1" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
+                `;
+            });
+            $('#ban_student_info').html(temp_consulting_history_student_list);
         }
     }
 
