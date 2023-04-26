@@ -49,6 +49,9 @@ async function get_data(){
             let switch_plus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.switch_ban_id == elem.register_no).length : 0;
             let now_student_num = elem.first_student_num - switch_minus_num + switch_plus_num - elem.out_student_num
             // let outstudent = response['outstudent'].length > 0 ? response['outstudent'].filter(a=> a.ban_id === register_no).length : 0;
+            let ban_unlearned = UnlearnedConsultingsNum > 0 ? UnlearnedConsultingsData.filter(consulting => consulting.ban_id === elem.register_no) : 0;
+            let ban_unlearned_num = ban_unlearned.length;
+
             let temp_ban_chart = `
             <div class="d-flex justify-content-start align-items-start flex-column w-100 my-2">
                 <h5 class="mb-3">📌  ${elem.name} (${semester}월 학기)</h5>
@@ -68,64 +71,16 @@ async function get_data(){
                                     <th class="col-12" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${elem.register_no})">${elem.name}반  원생 목록  ✔️</th>
                                 </tr>
                                 <tr class="row">
-                                    <th class="col-12">총 미학습 ${ban_unlearned.length}건  (${answer_rate(ban_unlearned.length, UnlearnedConsultingsNum).toFixed(0)}%)</th>
+                                    <th class="col-12">총 미학습 ${ban_unlearned_num}건  (${answer_rate(ban_unlearned_num, UnlearnedConsultingsNum).toFixed(0)}%)</th>
                                 </tr>
                                 `
-            if (make_IsG3(elem.name)) {
-                temp_ban_chart += `
-                    <tr class="row">
-                    <th class="col-2">IXL</th>
-                    <th class="col-2">리딩</th>
-                    <th class="col-4">인투리딩미응시</th>
-                    <th class="col-2">라이팅</th>
-                    <th class="col-2">미접속</th>
-                    </tr>
-                    <tr class="row">
-                    <td class="col-2">${unlearned_ixl}건(${answer_rate(unlearned_ixl, unlearned).toFixed(0)}%)</td>
-                    <td class="col-2">${unlearned_reading}건(${answer_rate(unlearned_reading, unlearned).toFixed(0)}%)</td>
-                    <td class="col-4">${unlearned_intoreading}건(${answer_rate(unlearned_intoreading, unlearned).toFixed(0)}%)</td>
-                    <td class="col-2">${unlearned_writing}건(${answer_rate(unlearned_writing, unlearned).toFixed(0)}%)</td>
-                    <td class="col-2">${unlearned_homepage}건(${answer_rate(unlearned_homepage, unlearned).toFixed(0)}%)</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    `;
-            } else {
-                temp_ban_chart += `
-                    <tr class="row">
-                    <th class="col-2">IXL</th>
-                    <th class="col-2">리딩</th>
-                    <th class="col-2">리특</th>
-                    <th class="col-2">인투리딩</th>
-                    <th class="col-2">라이팅</th>
-                    <th class="col-2">미접속</th>
-                    </tr>
-                    <tr class="row">
-                    <td class="col-2">${unlearned_ixl}건(${answer_rate(unlearned_ixl, unlearned).toFixed(0)}%)</td>
-                    <td class="col-2">${unlearned_reading}건(${answer_rate(unlearned_reading, unlearned).toFixed(0)}%)</td>
-                    <td class="col-2">${unlearned_speacial}건(${answer_rate(unlearned_speacial, unlearned).toFixed(0)}%)</td>
-                    <td class="col-2">${unlearned_intoreading}건(${answer_rate(unlearned_intoreading, unlearned).toFixed(0)}%)</td>
-                    <td class="col-2">${unlearned_writing}건(${answer_rate(unlearned_writing, unlearned).toFixed(0)}%)</td>
-                    <td class="col-2">${unlearned_homepage}건(${answer_rate(unlearned_homepage, unlearned).toFixed(0)}%)</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    `;
-            }
-            let ban_unlearned = UnlearnedConsultingsNum > 0 ? UnlearnedConsultingsData.filter(consulting => consulting.ban_id === elem.register_no) : 0;
             let unlearned_cate = [...new Set(ban_unlearned.map(item => item.category))];
             unlearned_cate.forEach((category) => {
                 let num = ban_unlearned.filter(u=>u.category == category).length
                 let index = 12/unlearned_cate.length
                 temp_ban_chart += `
                     <th class="col-${index}">${cateogry}</th>
-                    <td class="col-${index}">${num}건(${answer_rate(num, ban_unlearned.length).toFixed(0)}%)</td>`
+                    <td class="col-${index}">${num}건(${answer_rate(num, ban_unlearned_num).toFixed(0)}%)</td>`
             })
             temp_ban_chart += `
                         </tbody>
