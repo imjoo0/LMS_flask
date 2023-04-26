@@ -347,7 +347,7 @@ async function get_student(ban_id) {
                     let unlearned_cate = [...new Set(ulconsultings.map(item => item.category))];
                     let temp_cate = ''
                     unlearned_cate.forEach((category) => {
-                        let num = ban_unlearned.filter(u=>u.category == category).length
+                        let num = ulconsultings.filter(u=>u.category == category).length
                         let index = 6/unlearned_cate.length 
                         temp_cate += `
                             <td class="col-${index}">${category} : ${num}건</td>
