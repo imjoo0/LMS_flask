@@ -10,12 +10,15 @@
 // }
 
 $(document).ready(function () {
+    get_data()
+})
+async function get_data(){
     $.ajax({
         type: "GET",
         url: "/teacher/get_data",
         dataType: 'json',
         data: {},
-        success: function (response) {
+        success: await function (response) {
             mybansData = response['ban_data']
             mytasksData = response['all_task']
             allStudentData = response['my_students']
@@ -330,9 +333,12 @@ $(document).ready(function () {
                 $('#consulting_student_list').hide();
                 $('#consultingstudent_pagination').hide();
             }
+        },
+        error:function(xhr, status, error){
+                alert('xhr.responseText');
         }
     })
-})
+}
 function go_back() {
     // 문의 관련 
     $('#questiondetail').hide();
