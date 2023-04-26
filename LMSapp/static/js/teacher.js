@@ -71,16 +71,18 @@ async function get_data(){
                                     <th class="col-12" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${elem.register_no})">${elem.name}반  원생 목록  ✔️</th>
                                 </tr>
                                 <details>
-                                    <summary><th class="col-12">총 미학습 ${ban_unlearned_num}건  (${answer_rate(ban_unlearned_num, UnlearnedConsultingsNum).toFixed(0)}%)</th></summary>
-                                `
+                                    <summary>총 미학습 ${ban_unlearned_num}건  (${answer_rate(ban_unlearned_num, UnlearnedConsultingsNum).toFixed(0)}%)</summary>
+                                    <ul>
+                                    `
             let unlearned_cate = [...new Set(ban_unlearned.map(item => item.category))];
             unlearned_cate.forEach((category) => {
                 let num = ban_unlearned.filter(u=>u.category == category).length
                 temp_ban_chart += `
-                    <td class="col-12">${category} : ${num}건(${answer_rate(num, ban_unlearned_num).toFixed(0)}%)</td>
+                <li>${category} : ${num}건(${answer_rate(num, ban_unlearned_num).toFixed(0)}%)</li>
                 `
             })
             temp_ban_chart += `
+                            </ul>
                         </details>
                         </tbody>
                         </table>
