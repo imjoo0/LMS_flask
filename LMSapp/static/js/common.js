@@ -494,7 +494,7 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
         displayData(totalData, selectedPage, dataPerPage,data_list);
     });
 }
-function getTeacherInfo(t_id){
+async function getTeacherInfo(t_id){
     let info = banData.filter(t=>t.teacher_id == t_id)
     if (info.length == 0){
         let no_data_title = `<h1> ${response.text} </h1>`
@@ -507,42 +507,42 @@ function getTeacherInfo(t_id){
         $('.monot_inloading').hide()
         if (!consultingData && studentsData && taskData) {
             // await get_all_students()
-            get_all_consulting().then(() => {
+            await get_all_consulting().then(() => {
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
         }else if (consultingData && !studentsData && taskData) {
-            get_all_students().then(() => {
+            await get_all_students().then(() => {
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
         }else if (consultingData && studentsData && !taskData) {
-            get_all_task().then(() => {
+            await get_all_task().then(() => {
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
         }else if (!consultingData && !studentsData && taskData) {
-            get_all_students()
-            get_all_consulting().then(() => {
+            await get_all_students()
+            await get_all_consulting().then(() => {
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
         }else if (!consultingData && studentsData && !taskData) {
-            get_all_task()
-            get_all_consulting().then(() => {
+            await get_all_task()
+            await get_all_consulting().then(() => {
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
         }else if (consultingData && !studentsData && !taskData) {
-            get_all_students()
-            get_all_task().then(() => {
+            await get_all_students()
+            await get_all_task().then(() => {
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
         }else if (!consultingData && !studentsData && !taskData) {
-            get_all_students()
-            get_all_consulting()
-            get_all_task().then(() => {
+            await get_all_students()
+            await get_all_consulting()
+            await get_all_task().then(() => {
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
