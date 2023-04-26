@@ -345,29 +345,24 @@ async function get_student(ban_id) {
                     let value = `${consulting.student_id}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.teacher_id}`
                     ulconsultings = consulting.consulting_list.filter(c => c.category_id < 100)
                     let unlearned_cate = [...new Set(ulconsultings.map(item => item.category))];
-                    let temp_cate = ''
-                    unlearned_cate.forEach((category) => {
-                        let num = ulconsultings.filter(u=>u.category == category).length
-                        let ucl = unlearned_cate.length
-                        let index = 6/ucl 
-                        if(ucl>3 && ucl !=6){
-                            index = 1
-                            temp_cate += `
-                            <td class="col-${6-ucl}">${category} : ${num}건</td>
-                            `
-                        }
-                        temp_cate += `
-                            <td class="col-${index}">${category} : ${num}건</td>
-                        `
-                    })
+                    
                     temp_consulting_history_student_list += `
-                    <td class="col-1">${consulting.student_name}</td>
+                    <td class="col-2">${consulting.student_name}</td>
                     <td class="col-1">${consulting.student_origin}</td>
                     <td class="col-1">${consulting.student_birthday}</td>
-                    `
-                    temp_consulting_history_student_list += temp_cate
-                    temp_consulting_history_student_list +=
-                    `
+                    <td class="col-6"> 
+                        <details>
+                            <summary>총 ${ulconsultings.length}건</summary>
+                            <ul>
+                    `;
+                    unlearned_cate.forEach((category) => {
+                        let num = ulconsultings.filter(u=>u.category == category).length
+                        temp_consulting_history_student_list += `<li>${category} : ${num}건</li>`
+                    })
+                    temp_consulting_history_student_list += `
+                    </ul>
+                    </details>
+                    </td>
                     <td class="col-1">${make_nodata(ulconsultings.length)}</td>
                     <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">📝</td> 
                     <td class="col-1" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
