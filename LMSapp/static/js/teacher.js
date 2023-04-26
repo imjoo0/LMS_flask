@@ -300,9 +300,6 @@ async function get_data(){
             return acc;
         }, []);
         if (result.length > 0) {
-            result = result.sort((a, b) => {
-                return a.deadline - b.deadline
-            });
             consultingStudentData = result
             get_consulting_student(0)
         } else {
@@ -459,8 +456,8 @@ function plusconsulting_history(student_id, b_id, t_id) {
 // 메인화면 상담
 async function get_consulting_student(done_code) {
     $('#consultingstudent_search_input').off('keyup');
-    var container = $('#consultingstudent_pagination')
-    let data = consultingStudentData.filter((e) => {
+    Consultingcontainer = $('#consultingstudent_pagination')
+    consulting_targetdata = consultingStudentData.filter((e) => {
         if (done_code == 0) {
             $('#today_consulting_title').html('상담 목록');
             return e.missed != "오늘" && e.consulting_num != 0;
@@ -470,7 +467,7 @@ async function get_consulting_student(done_code) {
         }
     })
 
-    var paginationOptions = {
+    ConsultingpaginationOptions = {
         prevText: '이전',
         nextText: '다음',
         pageSize: 5,
@@ -496,12 +493,12 @@ async function get_consulting_student(done_code) {
         }
     };
 
-    if (data.length == 0) {
+    if (consulting_targetdata.length == 0) {
         $('#today_consulting_title').html($('#today_consulting_title').html() + '   0건');
         $('#consulting_student_list').hide();
         $('#consultingstudent_pagination').hide();
-    } else {
-        container.pagination(Object.assign(paginationOptions, { 'dataSource': data }))
+    }else{
+        Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': consulting_targetdata }))
     }
 
     $('#consultingstudent_search_input').on('keyup', function () {
@@ -509,10 +506,45 @@ async function get_consulting_student(done_code) {
         var filteredData = data.filter(function (d) {
             return (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(searchInput) !== -1);
         });
-        container.pagination('destroy');
-        container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
+        Consultingcontainer.pagination('destroy');
+        Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': filteredData }));
     });
 
+}
+function sort_consultingoption(sortBy) {
+    switch (sortBy) {
+        case "name_desc":
+        consulting_targetdata.sort(function (a, b) {
+            var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+            var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+            if (nameA < nameB) {
+                return -1;
+            }
+            if (nameA > nameB) {
+                return 1;
+            }
+            return 0;
+        });
+        break;
+    
+        case "deadline_desc":
+        consulting_targetdata.sort(function (a, b) {
+            return a.deadline - b.deadline;
+        });
+        break;
+    
+        case "consulting_desc":
+        consulting_targetdata.sort(function (a, b) {
+            return b.consulting_num - a.consulting_num;
+        });
+        break;
+    }
+  
+    // 데이터 정렬 후 페이지네이션 다시 설정
+    Consultingcontainer.pagination("destroy");
+    Consultingcontainer.pagination(
+      Object.assign(ConsultingpaginationOptions, { dataSource: consulting_targetdata })
+    );
 }
 // 상담기록 수정 
 // async function get_consulting(student_id, is_done) {
