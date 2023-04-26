@@ -339,7 +339,7 @@ async function get_student(ban_id) {
                 $('#consulting_history_bansel_box').hide()
                 $('#ban_student_list_box').hide()
                 $('#h_title_msg').show();
-            } else {
+            }else{
                 $('#h_title_msg').hide();
                 $('#consulting_history_bansel_box').show()
                 $('#ban_student_list_box').show()
@@ -377,20 +377,24 @@ async function get_student(ban_id) {
     }
 
     let container = $('#ban_student_list_pagination')
-    let data = consultingStudentData.filter((e) => {
+    const data = consultingStudentData.filter((e) => {
         return e.ban_id === ban_id;
     })
     $('#ban_student_listModalLabelt').html(`${data[0].ban_name}반 원생 목록`);
+    data.sort((a, b) => {
+        return b.done_consulting_num - a.done_consulting_num;
+    });
     container.pagination(Object.assign(paginationOptions, { 'dataSource': data }))
     $('#student_list_search_input').on('keyup', function () {
         var searchInput = $(this).val().toLowerCase();
         var filteredData = data.filter(function (d) {
-            return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(searchInput) !== -1));
+            return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1 )|| (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(searchInput) !== -1));
         });
         container.pagination('destroy');
         container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
     });
 }
+
 function plusconsulting(value, b_id) {
     let v = value.split('_')
     $('#h_title_msg').hide();
