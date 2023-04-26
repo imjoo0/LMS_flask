@@ -9,21 +9,31 @@
 //     return str;
 // }
 $(window).on('load', async function () {
-    get_data()
-})
-async function get_data(){
     try{
-        let response = await $.ajax({
+        response = await $.ajax({
             type: "GET",
             url: "/teacher/get_data",
             dataType: 'json',
             data: {}
         })
+        await get_data()
+    }catch{
+        console.log('err')
+    }
+})
+async function get_data(){
+    // try{
+    //     let response = await $.ajax({
+    //         type: "GET",
+    //         url: "/teacher/get_data",
+    //         dataType: 'json',
+    //         data: {}
+    //     })
         mybansData = response['ban_data']
         mytasksData = response['all_task']
         allStudentData = response['my_students']
         allConsultingData = response['all_consulting']
-
+        console.log(allConsultingData)
         myStudentData = allStudentData.filter(s => s.category_id != 2)
         allconsultingsNum = allConsultingData.length
         UnlearnedConsultingsData = allconsultingsNum > 0 ? allConsultingData.filter(consulting => consulting.category_id < 100).length : 0;
@@ -334,9 +344,9 @@ async function get_data(){
             $('#consulting_student_list').hide();
             $('#consultingstudent_pagination').hide();
         }
-    }catch{
-        console.log('err')
-    }
+    // }catch{
+    //     console.log('err')
+    // }
 }
 function go_back() {
     // 문의 관련 
