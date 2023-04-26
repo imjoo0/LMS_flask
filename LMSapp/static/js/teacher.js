@@ -391,7 +391,9 @@ async function get_student(ban_id) {
             }
             return 0;
         })
-    }elif(sortOption == 'consulting-desc'){
+    }else if(sortOption == 'consulting-desc'){
+        data.sort((a, b) => b.done_consulting_num - a.done_consulting_num);
+    }else{
         data.sort((a, b) => b.done_consulting_num - a.done_consulting_num);
     }
 
