@@ -233,6 +233,7 @@ async function get_data(){
                     <td class="col-12">`;
                     $.each(contentsGrouped[key], function (index, ban) {
                         const ban_name = mybansData.filter(a => a.register_no === ban.ban_id)[0]
+                        console.log(ban)
                         if (ban_name !== undefined) {
                             if (ban.done == 0) {
                                 temp_cate_menu += `
