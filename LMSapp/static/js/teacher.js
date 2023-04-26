@@ -12,12 +12,13 @@ $(document).ready(function () {
     get_data()
 })
 async function get_data(){
-    response = await $.ajax({
-        type: "GET",
-        url: "/teacher/get_data",
-        dataType: 'json',
-        data: {}
-    }).then(()=>{
+    try{
+        let response = await $.ajax({
+            type: "GET",
+            url: "/teacher/get_data",
+            dataType: 'json',
+            data: {}
+        })
         mybansData = response['ban_data']
         mytasksData = response['all_task']
         allStudentData = response['my_students']
@@ -337,7 +338,9 @@ async function get_data(){
             $('#consulting_student_list').hide();
             $('#consultingstudent_pagination').hide();
         }
-    })
+    }catch{
+        console.log('err')
+    }
 }
 function go_back() {
     // 문의 관련 
