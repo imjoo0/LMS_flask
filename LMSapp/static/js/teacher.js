@@ -14,7 +14,7 @@
 // })
 async function get_data() {
     try {
-        const response = $.ajax({
+        const response = await $.ajax({
             type: "GET",
             url: "/teacher/get_data",
             dataType: 'json',
@@ -342,6 +342,7 @@ $(window).on('load', async function () {
         alert('Error occurred while retrieving data.');
     }
 });
+
 function go_back() {
     // 문의 관련 
     $('#questiondetail').hide();
