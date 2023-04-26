@@ -348,11 +348,11 @@ async function get_student(ban_id) {
                     temp_consulting_history_student_list += `
                     <details>
                         <summary>
-                        <td class="col-2">${consulting.student_name}</td>
-                        <td class="col-1">${consulting.student_origin}</td>
-                        <td class="col-1">${consulting.student_birthday}</td>
-                        <td class="col-3">${consulting.student_mobileno}</td>
-                        <td class="col-3"><strong>총 ${ulconsultings.length}건</strong></td></summary>
+                        <td class="10">${consulting.student_name}
+                          ${consulting.student_origin}
+                          ${consulting.student_birthday}
+                          ${consulting.student_mobileno}
+                        <strong>총 ${ulconsultings.length}건</strong></td></summary>
                         <ul>
                     `;
                     unlearned_cate.forEach((category) => {
