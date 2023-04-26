@@ -370,19 +370,19 @@ async function get_student(ban_id) {
         }
     }
 
-    let container = $('#ban_student_list_pagination')
+    Studentcontainer = $('#ban_student_list_pagination')
     Targetdata = consultingStudentData.filter((e) => {
         return e.ban_id === ban_id;
     })
     $('#ban_student_listModalLabelt').html(`${Targetdata[0].ban_name}반 원생 목록`);
-    container.pagination(Object.assign(paginationOptions, { 'dataSource': Targetdata }))
+    Studentcontainer.pagination(Object.assign(paginationOptions, { 'dataSource': Targetdata }))
     $('#student_list_search_input').on('keyup', function () {
         var searchInput = $(this).val().toLowerCase();
         var filteredData = Targetdata.filter(function (d) {
             return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1 )|| (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(searchInput) !== -1));
         });
-        container.pagination('destroy');
-        container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
+        Studentcontainer.pagination('destroy');
+        Studentcontainer.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
     });
 }
 function sort_option(sortBy) {
