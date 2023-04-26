@@ -371,22 +371,55 @@ async function get_student(ban_id) {
     }
 
     let container = $('#ban_student_list_pagination')
-    const data = consultingStudentData.filter((e) => {
+    Targetdata = consultingStudentData.filter((e) => {
         return e.ban_id === ban_id;
     })
-    $('#ban_student_listModalLabelt').html(`${data[0].ban_name}반 원생 목록`);
-    data.sort((a, b) => {
-        return b.done_consulting_num - a.done_consulting_num;
-    });
-    container.pagination(Object.assign(paginationOptions, { 'dataSource': data }))
+    $('#ban_student_listModalLabelt').html(`${Targetdata[0].ban_name}반 원생 목록`);
+    container.pagination(Object.assign(paginationOptions, { 'dataSource': Targetdata }))
     $('#student_list_search_input').on('keyup', function () {
         var searchInput = $(this).val().toLowerCase();
-        var filteredData = data.filter(function (d) {
+        var filteredData = Targetdata.filter(function (d) {
             return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1 )|| (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(searchInput) !== -1));
         });
         container.pagination('destroy');
         container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
     });
+}
+function sort_option(sortBy) {
+    var filteredData = Targetdata;
+    switch (sortBy) {
+        case "name_desc":
+        Targetdata.sort(function (a, b) {
+            var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+            var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+            if (nameA < nameB) {
+                return -1;
+            }
+            if (nameA > nameB) {
+                return 1;
+            }
+            return 0;
+        });
+        break;
+    
+        case "ul_desc":
+        Targetdata.sort(function (a, b) {
+            return b.unlearned_num - a.unlearned_num;
+        });
+        break;
+    
+        case "consulting_desc":
+        Targetdata.sort(function (a, b) {
+            return b.done_consulting_num - a.done_consulting_num;
+        });
+        break;
+    }
+  
+    // 데이터 정렬 후 페이지네이션 다시 설정
+    Studentcontainer.pagination("destroy");
+    Studentcontainer.pagination(
+      Object.assign(StudentpaginationOptions, { dataSource: filteredData })
+    );
 }
 
 function plusconsulting(value, b_id) {
