@@ -10,13 +10,13 @@
 // }
 $(window).on('load', async function () {
     try{
-        response = $.ajax({
+        response = await $.ajax({
             type: "GET",
             url: "/teacher/get_data",
             dataType: 'json',
             data: {}
         })
-        await get_data()
+        get_data()
     }catch{
         console.log('err')
     }
