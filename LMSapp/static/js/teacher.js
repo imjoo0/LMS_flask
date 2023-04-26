@@ -514,6 +514,19 @@ async function get_consulting_student(done_code) {
 function sort_consultingoption(sortBy) {
     console.log(consulting_targetdata)
     switch (sortBy) {
+        case "ban_desc":
+        consulting_targetdata.sort(function (a, b) {
+            var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+            var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+            if (nameA < nameB) {
+                return -1;
+            }
+            if (nameA > nameB) {
+                return 1;
+            }
+            return 0;
+        });
+        break;
         case "name_desc":
         consulting_targetdata.sort(function (a, b) {
             var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
