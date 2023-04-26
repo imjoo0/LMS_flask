@@ -12,7 +12,7 @@
 // $(document).ready(function () {
 //     get_data()
 // })
-$(window).on('load', function () {
+$(document).ready(function () {
     try{
         const response = $.ajax({
             type: "GET",
