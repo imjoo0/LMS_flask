@@ -547,10 +547,6 @@ async function getTeacherInfo(t_id){
                 $('.monot_inloading').show()
             });
         }
-        if(teacherChart){
-            teacherChart.destroy(); // destroy previous chart
-        }
-
         $('.mo_inloading').hide()
         $('.monot_inloading').show()
 
