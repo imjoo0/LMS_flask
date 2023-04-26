@@ -11,16 +11,16 @@
 
 $(document).ready(async function () {
     try {
-        const response = await $.ajax({
+        response = await $.ajax({
             type: "GET",
             url: "/teacher/get_data",
             dataType: 'json',
             data: {},
         })
+        await get_data()
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
-    await get_data()
 })
 async function get_data() {
     mybansData = response['ban_data']
