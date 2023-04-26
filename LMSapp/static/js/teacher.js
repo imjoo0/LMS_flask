@@ -395,7 +395,7 @@ async function get_student(ban_id) {
 function sort_option(sortBy) {
     switch (sortBy) {
       case "name_desc":
-        StudentfilteredData.sort(function (a, b) {
+        Targetdata.sort(function (a, b) {
             var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
             var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
             if (nameA < nameB) {
@@ -409,13 +409,13 @@ function sort_option(sortBy) {
         break;
   
       case "ul_desc":
-        StudentfilteredData.sort(function (a, b) {
+        Targetdata.sort(function (a, b) {
             return b.unlearned_num - a.unlearned_num;
         });
         break;
   
       case "consulting_desc":
-        StudentfilteredData.sort(function (a, b) {
+        Targetdata.sort(function (a, b) {
           return b.done_consulting_num - a.done_consulting_num;
         });
         break;
