@@ -231,20 +231,18 @@ async function get_data(){
                         <td class="col-2">${make_date(contents[2])}</td>
                     </tr>
                     <td class="col-12">`;
-                    console.log(contentsGrouped[key])
-                    for (j = 0; j < contentsGrouped[key].length; j++) {
-                        let target = contentsGrouped[key][j]
-                        const ban_name = mybansData.filter(a => a.register_no === target.ban_id)[0]
+                    $.each(contentsGrouped[key], function (index, ban) {
+                        const ban_name = mybansData.filter(a => a.register_no === ban.ban_id)[0]
                         if (ban_name !== undefined) {
-                            if (task_items[k].done == 0) {
+                            if (ban.done == 0) {
                                 temp_cate_menu += `
-                                    <label><input type="checkbox" name="taskid" value="${task_items[k].id}"/>${ban_name.name}</label>`;
-                            } else if (task_items[k].done == 1 && task_items[k].created_at === today) {
+                                    <label><input type="checkbox" name="taskid" value="${ban.id}"/>${ban_name.name}</label>`;
+                            } else if (ban.done == 1 && ban.created_at === today) {
                                 temp_cate_menu += `
                                 <label class="done">✅ ${ban_name.name}</label>`;
                             }
                         }
-                    }
+                    })
                     temp_cate_menu += `</td></tbody>`;
                 });
             });
