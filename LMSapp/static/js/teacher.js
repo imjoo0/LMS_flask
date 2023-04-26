@@ -348,7 +348,7 @@ async function get_student(ban_id) {
                     <td class="col-2">${consulting.student_name}</td>
                     <td class="col-1">${consulting.student_origin}</td>
                     <td class="col-1">${consulting.student_birthday}</td>
-                    <td class="col-3">${consulting.student_mobileno}</td>
+                    <td class="col-2">${consulting.student_mobileno}</td>
                     <td class="col-3"> 
                         <details>
                             <summary>총 ${ulconsultings.length}건</summary>
@@ -362,6 +362,7 @@ async function get_student(ban_id) {
                     </ul>
                     </details>
                     </td>
+                    <td class="col-1">${consulting.done_consulting_num}건</td> 
                     <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id},${1})">📝</td> 
                     <td class="col-1" onclick="plusconsulting('${value}',${consulting.ban_id})"><span class="cursor-pointer">➕</span></td> 
                     `;
@@ -388,6 +389,7 @@ async function get_student(ban_id) {
         }
         return 0;
     })
+
     container.pagination(Object.assign(paginationOptions, { 'dataSource': data }))
     $('#student_list_search_input').on('keyup', function () {
         var searchInput = $(this).val().toLowerCase();
