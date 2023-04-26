@@ -33,37 +33,21 @@ async function get_data(){
         mytasksData = response['all_task']
         allStudentData = response['my_students']
         allConsultingData = response['all_consulting']
+        switchstudentData = response['switchstudent']
+
         myStudentData = allStudentData.filter(s => s.category_id != 2)
         allconsultingsNum = allConsultingData.length
         UnlearnedConsultingsData = allconsultingsNum > 0 ? allConsultingData.filter(consulting => consulting.category_id < 100) : 0;
         UnlearnedConsultingsNum = UnlearnedConsultingsData.length
-        switchstudentData = response['switchstudent']
+        
         $('#ban_chart_list').empty()
         let temp_ban_option = '<option value="none" selected>반을 선택해주세요</option>';
         mybansData.forEach((elem) => {
             let semester = make_semester(elem.semester)
             temp_ban_option += `<option value=${elem.register_no}>${elem.name} (${semester}월 학기)</option>`;
-            let ban_unlearned = UnlearnedConsultingsNum > 0 ? UnlearnedConsultingsData.filter(consulting => consulting.ban_id === elem.register_no) : 0;
-            console.log(ban_unlearned)
-            let unlearned_cate = [...new Set(ban_unlearned.map(item => item.category))];
-            console.log(unlearned_cate)
             let switch_minus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.ban_id == elem.register_no).length : 0;
             let switch_plus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.switch_ban_id == elem.register_no).length : 0;
             let now_student_num = elem.first_student_num - switch_minus_num + switch_plus_num - elem.out_student_num
-            let unlearned_ixl = 0 
-            let unlearned_reading = 0
-            let unlearned_speacial = 0
-            let unlearned_writing = 0 
-            let unlearned_homepage = 0
-            let unlearned_intoreading = 0
-            if(ban_unlearned != 0){
-                unlearned_ixl = ban_unlearned.filter(a => a.category_id == 1).length
-                unlearned_reading = ban_unlearned.filter(a => a.category_id == 4).length
-                unlearned_speacial = ban_unlearned.filter(a => a.category_id == 3).length
-                unlearned_writing = ban_unlearned.filter(a => a.category_id == 6).length
-                unlearned_homepage = ban_unlearned.filter(a => a.category_id == 2).length
-                unlearned_intoreading = ban_unlearned.filter(a => a.category_id == 5 || a.category_id == 7).length
-            }
             // let outstudent = response['outstudent'].length > 0 ? response['outstudent'].filter(a=> a.ban_id === register_no).length : 0;
             let temp_ban_chart = `
             <div class="d-flex justify-content-start align-items-start flex-column w-100 my-2">
@@ -85,7 +69,8 @@ async function get_data(){
                                 </tr>
                                 <tr class="row">
                                     <th class="col-12">총 미학습 ${ban_unlearned.length}건  (${answer_rate(ban_unlearned.length, UnlearnedConsultingsNum).toFixed(0)}%)</th>
-                                </tr>`
+                                </tr>
+                                `
             if (make_IsG3(elem.name)) {
                 temp_ban_chart += `
                     <tr class="row">
@@ -133,6 +118,22 @@ async function get_data(){
                     </div>
                     `;
             }
+            let ban_unlearned = UnlearnedConsultingsNum > 0 ? UnlearnedConsultingsData.filter(consulting => consulting.ban_id === elem.register_no) : 0;
+            let unlearned_cate = [...new Set(ban_unlearned.map(item => item.category))];
+            unlearned_cate.forEach((category) => {
+                let num = ban_unlearned.filter(u=>u.category == category).length
+                let index = 12/unlearned_cate.length
+                temp_ban_chart += `
+                    <th class="col-${index}">${cateogry}</th>
+                    <td class="col-${index}">${num}건(${answer_rate(num, ban_unlearned.length).toFixed(0)}%)</td>`
+            })
+            temp_ban_chart += `
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            `;
             $('#ban_chart_list').append(temp_ban_chart);
             new Chart($((`#total-chart-element${elem.register_no}`)), {
                 type: 'doughnut',
