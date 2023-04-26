@@ -379,23 +379,22 @@ async function get_student(ban_id) {
     $('#ban_student_listModalLabelt').html(`${data[0].ban_name}반 원생 목록`);
     // ㄱㄴㄷㄹ 순 정렬 
     let sortOption = $('#sort-select').val();
-    const sortFunctions = {
-        'name-desc': (a, b) => b.student_name.localeCompare(a.student_name),
-        'unlearned-asc': (a, b) => a.done_consulting_num.localeCompare(b.done_consulting_num),
-        'birthday-desc': (a, b) => b.done_consulting_num.localeCompare(a.done_consulting_num),
-        // data.sort(function (a, b) {
-        //     var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
-        //     var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
-        //     if (nameA < nameB) {
-        //         return -1;
-        //     }
-        //     if (nameA > nameB) {
-        //         return 1;
-        //     }
-        //     return 0;
-        // })
-    };
-    data.sort(sortFunctions[sortOption]);
+    if(sortOption == 'name-desc'){
+        data.sort(function (a, b) {
+            var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+            var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+            if (nameA < nameB) {
+                return -1;
+            }
+            if (nameA > nameB) {
+                return 1;
+            }
+            return 0;
+        })
+    }elif(sortOption == 'consulting-desc'){
+        data.sort((a, b) => b.done_consulting_num - a.done_consulting_num);
+    }
+
     container.pagination(Object.assign(paginationOptions, { 'dataSource': data }))
     $('#student_list_search_input').on('keyup', function () {
         var searchInput = $(this).val().toLowerCase();
