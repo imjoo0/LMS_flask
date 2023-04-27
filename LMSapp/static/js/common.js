@@ -666,9 +666,9 @@ async function getTeacherInfo(t_id){
                 }
                 }]
             });
-            resolve(chart);
-        }).then((chart) => {
-            console.log(chart)
+            resolve(teacherChart);
+        }).then((teacherChart) => {
+            console.log(teacherChart)
             $('#ucomcom').html(`<td class="col-6">총 ${unlearned_ttc}건 </td><td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
             let temp_html = `<th class="col-12"><details>
             <summary>총 미학습  ${unlearned_ttc}건 <strong> 발생율: ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% 상세보기 </strong></summary>
