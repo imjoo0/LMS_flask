@@ -121,9 +121,10 @@ async function get_all_ban() {
         totalOutnum = 0;
         totalHoldnum = 0
         consultingData = response['consulting']
+        let unlearned_total = consultingData.filter(c=>c.category_id<100)
         switchstudentData = response['switchstudent']
         response['all_ban'].forEach((elem) => {
-            elem.unlearned_num = consultingData.filter(c=>c.ban_id == elem.ban_id && c.category_id<100).length
+            elem.unlearned_num = answer_rate(unlearned_total.filter(c=>c.ban_id == elem.ban_id).length,unlearned_total.length)
             elem.out_student_num = Number(elem.out_student_num)
             elem.hold_student_num = Number(elem.hold_student_num)
             totalOutnum += elem.out_student_num
@@ -412,7 +413,7 @@ function sort_data(sort_op){
         case "ban_sort":
             $('#ban_sort').html('<strong>반 ( 이름순 정렬👇 )</strong>')
             $('#teacher_sort').html('선생님 ( 이름 순 정렬👉 )')    
-            $('#unlearned_sort').html('미학습 ( 높은 순 정렬👉 )')     
+            $('#unlearned_sort').html('미학습율 ( 높은 순 정렬👉 )')     
             $('#out_sort').html('퇴소율 ( 높은 순 정렬👉 )')  
             resultData.sort(function (a, b) {     
                 var nameA = a.name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
