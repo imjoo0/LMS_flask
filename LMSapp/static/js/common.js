@@ -354,6 +354,48 @@ async function get_total_data() {
 }
 function sort_data(sort_op){
     console.log(sort_op)
+    switch (sortBy) {
+        case "name_desc":
+            $('#ban_sort').html('<strong>원생 (이름순 정렬👇)</strong>')
+            $('#uconsulting_sort').html('미학습 (미학습 건 정렬👉)')    
+            $('#dconsulting_sort').html('상담 (상담 건 정렬👉)')   
+        Targetdata.sort(function (a, b) {     
+            var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+            var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+            if (nameA < nameB) {
+                return -1;
+            }
+            if (nameA > nameB) {
+                return 1;
+            }
+            return 0;
+        });
+        break;
+    
+        case "ul_desc":
+            $('#ban_sort').html('원생 (이름순 정렬👉)')
+            $('#uconsulting_sort').html('<strong>미학습 (미학습 건 정렬👇)</strong>')    
+            $('#dconsulting_sort').html('상담 (상담 건 정렬👉)')   
+        Targetdata.sort(function (a, b) {
+            return b.unlearned_num - a.unlearned_num;
+        });
+        break;
+    
+        case "consulting_desc":
+            $('#ban_sort').html('원생 (이름순 정렬👉)')
+            $('#uconsulting_sort').html('미학습 (미학습 건 정렬👉)')    
+            $('#dconsulting_sort').html('<strong>상담 (상담 건 정렬👇)</strong>')   
+        Targetdata.sort(function (a, b) {
+            return b.done_consulting_num - a.done_consulting_num;
+        });
+        break;
+    }
+  
+    // 데이터 정렬 후 페이지네이션 다시 설정
+    Studentcontainer.pagination("destroy");
+    Studentcontainer.pagination(
+      Object.assign(StudentpaginationOptions, { dataSource: Targetdata })
+    );
 }
 function semesterShow(semester) {
     $('#ban_search_input').off('keyup');
