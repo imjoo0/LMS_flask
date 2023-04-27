@@ -496,6 +496,10 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
     });
 }
 async function getTeacherInfo(t_id){
+    // 이전에 그려진 차트 삭제
+    if (chart) {
+        chart.destroy();
+    }
     let info = banData.filter(t=>t.teacher_id == t_id)
     if (info.length == 0){
         let no_data_title = `<h1> ${response.text} </h1>`
