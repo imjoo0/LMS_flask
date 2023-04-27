@@ -634,6 +634,15 @@ async function getTeacherInfo(t_id){
             let ctx = document.getElementById('total-chart-element').getContext('2d');
             if (chart) {
                 chart.destroy();
+                $('#chartboxbox').html(`
+                <canvas id="total-chart-element" class="total-chart-element p-sm-3 p-2"></canvas>
+                <div class ="chart-data-summary" id="teacher_info_student_num">
+                <span>초기 배정:${ total_student_num }</span><br>
+                <span>관리중:${ now_student_num }</span><br>
+                <span>* 이반:${ ss }</span><br>
+                <span>* 보류:${ hs }</span><br>
+                <span>* 퇴소:${ os }</span>
+                </div>`);
             }
             new Chart(ctx, {
                 type: 'doughnut',
@@ -668,7 +677,10 @@ async function getTeacherInfo(t_id){
             });
             resolve();
         }).then(() => {
-            $('#ucomcom').html(`<td class="col-6">총 ${unlearned_ttc}건 </td><td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
+            
+        });
+        // 미학습 발생
+        $('#ucomcom').html(`<td class="col-6">총 ${unlearned_ttc}건 </td><td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
             let temp_html = `<th class="col-12"><details>
             <summary>총 미학습  ${unlearned_ttc}건 <strong> 발생율: ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% 상세보기 </strong></summary>
             <ul>`
@@ -721,9 +733,6 @@ async function getTeacherInfo(t_id){
             console.log(data_list)
             displayData(totalData, 1, dataPerPage, data_list);
             paging(totalData, dataPerPage, pageCount, 1, data_list);
-        });
-        // 미학습 발생
-        
         $('#studentban_kind').on('change', function() {
             // 실행할 함수 내용
             let ban_id = $(this).val()
