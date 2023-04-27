@@ -1424,9 +1424,9 @@ async function get_question_detail(q_id) {
         <span class="modal-body-select-label">대상 반 | 학생</span>
         <p>${ban_student_data.classname} ➖ ${ban_student_data.name} (${ban_student_data.nick_name}:${ban_student_data.origin})</p>
     </div>`
-    console.log(questiondata)
+    console.log(questiondata.attach)
     if(questiondata.attach != "없음"){
-        questiondata.forEach((a)=>{
+        questiondata.attach.forEach((a)=>{
             temp_question_list += `
             <div class="modal-body-select-container">
                 <span class="modal-body-select-label">첨부파일</span>
