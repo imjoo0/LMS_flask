@@ -381,8 +381,8 @@ function semesterShow(semester) {
                 let teacher_name = item.teacher_engname + '( ' + item.teacher_name +' )'
                 let total_out_count = item.out_student_num + item.switch_minus_num
                 temp_semester_banlist += `
-                <td class="col-2" data-bs-toggle="modal" data-bs-target="#baninfomodal" onclick="getBanInfo(${item.ban_id})">${item.name} ✅ </td>
-                <td class="col-3" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${item.teacher_id})">${teacher_name} ✅ </td>
+                <td class="col-2" data-bs-toggle="modal" data-bs-target="#baninfomodal" onclick="getBanInfo(${item.ban_id})">${item.name}  👉 상세 보기 </td>
+                <td class="col-3" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${item.teacher_id})">${teacher_name}  👉 상세 보기 </td>
                 <td class="col-1">${item.student_num - total_out_count + item.switch_plus_num}</td>
                 <td class="col-1">${item.student_num}</td>
                 <td class="col-2">${item.switch_plus_num}</td>
