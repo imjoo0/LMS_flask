@@ -1423,11 +1423,19 @@ async function get_question_detail(q_id) {
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">대상 반 | 학생</span>
         <p>${ban_student_data.classname} ➖ ${ban_student_data.name} (${ban_student_data.nick_name}:${ban_student_data.origin})</p>
-    </div>
-    <div class="modal-body-select-container">
-        <span class="modal-body-select-label">첨부파일</span>
-        <a href="/common/downloadfile/question/${q_id}/attachment/${questiondata.attach_id}" download="${questiondata.attach}">${questiondata.attach}</a>
-    </div>`;
+    </div>`
+    
+    if(questiondata.attach != "없음"){
+        questiondata.forEach((a)=>{
+            temp_question_list += `
+            <div class="modal-body-select-container">
+                <span class="modal-body-select-label">첨부파일</span>
+                <a href="/common/downloadfile/question/${q_id}/attachment/${a.id}" download="${a.file_name}">${a.file_name}</a>
+            </div>`;
+        })
+    }
+
+    
     $('#teacher_question').html(temp_question_list);
     // 상담 일지 처리 
     if (questiondata.category == 0 || questiondata.category == 4 || questiondata.category == 5) {

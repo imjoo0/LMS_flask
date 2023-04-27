@@ -113,8 +113,11 @@ def question():
                 qdata['attach'] = []
                 for qa in q.attachments:
                     print(qa)
-                    qdata['attach'] = qa.attachments.file_name
-                    qdata['attach_id'] = qa.attachments.id
+                    print(qa.id)
+                    qdata['attach'].append({
+                        'id': qa.id,
+                        'id':qa.file_name
+                    })
             data.append(qdata)
         return data
 
