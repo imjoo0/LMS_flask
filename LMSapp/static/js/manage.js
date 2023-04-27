@@ -626,6 +626,7 @@ async function get_question_detail(q_id, done_code) {
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
     student_data = studentsData.filter(s => s.student_id == question_detail_data.student_id)[0]
     attach = attachData.filter(a => a.question_id == q_id)[0]['file_name']
+    console.log(student_data)
     // 문의 상세 내용 
     let temp_question_list = `
     <div class="modal-body-select-container">
