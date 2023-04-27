@@ -632,7 +632,6 @@ async function getTeacherInfo(t_id){
             chart.destroy()
         }
         let ctx = document.getElementById('total-chart-element').getContext('2d');
-
         // Promise를 이용하여 차트를 그립니다.
         new Promise((resolve) => {
             new Chart(ctx, {
