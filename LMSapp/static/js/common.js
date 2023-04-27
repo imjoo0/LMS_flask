@@ -666,8 +666,9 @@ async function getTeacherInfo(t_id){
                 }
                 }]
             });
-        }).then((resolve) => {
             resolve();
+        }).then(() => {
+            
             
         });
         // 미학습 발생
