@@ -628,11 +628,12 @@ async function getTeacherInfo(t_id){
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
         let chart = Chart.getChart('total-chart-element')
-        if(chart){
-            chart.destroy()
-        }
-        let ctx = document.getElementById('total-chart-element').getContext('2d');
         new Promise( (resolve) => {
+            if(chart){
+                chart.destroy()
+            }
+            let ctx = document.getElementById('total-chart-element').getContext('2d');
+        }).then(() => {
             new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -664,8 +665,6 @@ async function getTeacherInfo(t_id){
                     }
                 }]
             });
-        }).then(() => {
-            console.log('차트가 그려졌습니다.');
         });
         
         console.log(Chart.getChart('total-chart-element'))
