@@ -506,7 +506,7 @@ async function getTeacherInfo(t_id){
         $('#teachertitle').html(`${info[0].teacher_engname} TEACHER REPORT`)
         $('.mo_inloading').show()
         $('.monot_inloading').hide()
-        let ctx = '';
+        let ctx = document.getElementById('total-chart-element').getContext('2d');
         if(Chart.getChart('total-chart-element')){
             console.log(Chart.getChart('total-chart-element'))
             Chart.getChart('total-chart-element').destroy()
