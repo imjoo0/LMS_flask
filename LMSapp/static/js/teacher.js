@@ -443,7 +443,6 @@ function plusconsulting_history(student_id, b_id, t_id) {
     consulting_contents = $('#plus_consulting_contents').val()
     consulting_reason = $('#plus_consulting_reason').val()
     consulting_solution = $('#plus_consulting_solution').val()
-    consulting_result = $('#plus_consulting_result').val()
     $.ajax({
         type: "POST",
         url: '/teacher/plus_consulting/' + student_id + '/' + b_id + '/' + t_id,
@@ -451,8 +450,7 @@ function plusconsulting_history(student_id, b_id, t_id) {
         data: {
             consulting_contents: consulting_contents,
             consulting_reason: consulting_reason,
-            consulting_solution: consulting_solution,
-            consulting_result: consulting_result
+            consulting_solution: consulting_solution
         },
         success: function (response) {
             {
@@ -928,7 +926,6 @@ async function get_consulting(student_id, is_done) {
                 }
                 let history_reason = target['reason'] == null ? '입력해주세요' : target['reason']
                 let history_solution = target['solution'] == null ? '입력해주세요' : target['solution']
-                let history_result = target['result'] == null ? '입력해주세요' : target['result']
                 temp_consulting_write_box += `
                 <input type="hidden" id="target_consulting_id${idx}" value="${consulting_id}" style="display: block;" />
                 <p mt-lg-4 mt-5>✅<strong>${category}</strong></br><strong>➖상담 마감일:
@@ -1147,7 +1144,6 @@ function post_bulk_consultings(c_length, is_done) {
     window.location.reload()
 }
 async function post_one_consulting(consulting, is_done) {
-    consulting_result = $('#consulting_result' + consulting).val()
     consulting_reason = $('#consulting_reason' + consulting).val()
     consulting_solution = $('#consulting_solution' + consulting).val()
     if (!consulting_reason || consulting_reason.length == 0) {
@@ -1155,9 +1151,6 @@ async function post_one_consulting(consulting, is_done) {
     }
     if (!consulting_solution || consulting_solution.length == 0) {
         consulting_solution = "작성 내역이 없습니다"
-    }
-    if (!consulting_result || consulting_result.length == 0) {
-        consulting_result = "작성 내역이 없습니다"
     }
 
     const csrf = $('#csrf_token').val();
@@ -1169,8 +1162,7 @@ async function post_one_consulting(consulting, is_done) {
             // data: JSON.stringify(jsonData), // String -> json 형태로 변환
             data: {
                 consulting_reason: consulting_reason,
-                consulting_solution: consulting_solution,
-                consulting_result: consulting_result,
+                consulting_solution: consulting_solution
             }, success: function (response) {
                 if (response['result'] == '완료') {
                     alert("상담일지 수정 완료")
@@ -1183,7 +1175,6 @@ async function post_one_consulting(consulting, is_done) {
     }
 }
 function post_target_consulting(consulting, is_done) {
-    consulting_result = $('#consulting_result').val()
     consulting_reason = $('#consulting_reason' + consulting).val()
     consulting_solution = $('#consulting_solution' + consulting).val()
     if (!consulting_reason || consulting_reason.length == 0) {
@@ -1192,17 +1183,13 @@ function post_target_consulting(consulting, is_done) {
     if (!consulting_solution || consulting_solution.length == 0) {
         consulting_solution = "작성 내역이 없습니다"
     }
-    if (!consulting_result || consulting_result.length == 0) {
-        consulting_result = "작성 내역이 없습니다"
-    }
     $.ajax({
         type: "POST",
         url: '/teacher/consulting_history/' + consulting + '/' + is_done,
         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
         data: {
             consulting_reason: consulting_reason,
-            consulting_solution: consulting_solution,
-            consulting_result: consulting_result,
+            consulting_solution: consulting_solution
         }, success: function (response) {
             if (response['result'] == '완료') {
             } else {
@@ -1342,7 +1329,7 @@ function attach_consulting_history(student_id) {
                 category = `${consulting.category} ${consulting.contents}`
             }
             temp_h_select += `
-            <option value="${consulting.id}"> ${category} - 상담결과: ${consulting.result}</option>
+            <option value="${consulting.id}"> ${category} - 제공한 가이드: ${consulting.solution}</option>
             `;
         });
     }
@@ -1466,10 +1453,6 @@ async function get_question_detail(q_id) {
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">제공한 가이드</span>
             <p>${consulting_history.solution}</p>
-        </div>
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">상담 결과</span>
-            <p>${consulting_history.result}</p>
         </div>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">상담 일시</span>

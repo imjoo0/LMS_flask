@@ -220,21 +220,16 @@ def consulting_history(id,is_done):
         received_reason = request.form['consulting_reason']
         # 제공 가이드
         received_solution = request.form['consulting_solution']
-        # 제공 가이드
-        received_result = request.form['consulting_result']
         if(is_done == 0):
             target_consulting.reason = received_reason
             target_consulting.solution = received_solution
-            target_consulting.result = received_result
             target_consulting.created_at = Today
         else:
             if(received_reason !="작성 내역이 없습니다"):
                 target_consulting.reason = received_reason
             if(received_solution !="작성 내역이 없습니다"):    
                 target_consulting.solution = received_solution
-            if(received_result !="작성 내역이 없습니다"):    
-                target_consulting.result = received_result
-            if((received_reason !="작성 내역이 없습니다") or (received_solution !="작성 내역이 없습니다") or (received_result !="작성 내역이 없습니다")):
+            if((received_reason !="작성 내역이 없습니다") or (received_solution !="작성 내역이 없습니다")):
                 target_consulting.created_at = Today
         target_consulting.done = 1
         db.session.commit()
@@ -249,10 +244,8 @@ def plus_consulting(student_id,b_id,t_id):
     received_reason = request.form['consulting_reason']
     # 제공 가이드
     received_solution = request.form['consulting_solution']
-    # 제공 결과
-    received_result = request.form['consulting_result']
     # 상담생성 
-    newconsulting =  Consulting(teacher_id=t_id,ban_id=b_id,category_id=110,student_id=student_id,contents=received_contents,startdate=Today,deadline=Today,done=1,missed=standard,reason=received_reason,solution=received_solution,result=received_result,created_at=Today)
+    newconsulting =  Consulting(teacher_id=t_id,ban_id=b_id,category_id=110,student_id=student_id,contents=received_contents,startdate=Today,deadline=Today,done=1,missed=standard,reason=received_reason,solution=received_solution,created_at=Today)
     db.session.add(newconsulting)
     db.session.commit()
     return{'result':'추가 상담 저장 완료'}
