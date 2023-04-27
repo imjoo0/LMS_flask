@@ -628,10 +628,8 @@ async function getTeacherInfo(t_id){
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
 
-        if(teacherChart){
-            teacherChart.destroy()
-        }
         let ctx = document.getElementById('total-chart-element').getContext('2d');
+        const teacherChart = null
         teacherChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
