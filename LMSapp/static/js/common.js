@@ -407,8 +407,6 @@ function semesterShow(semester) {
 }
 
 function sort_data(sort_op){
-    console.log(sort_op)
-    console.log(resultData)
     switch (sort_op) {
         case "ban_sort":
             $('#ban_sort').html('<strong>반 ( 이름순 정렬👇 )</strong>')
@@ -416,27 +414,35 @@ function sort_data(sort_op){
             $('#unlearned_sort').html('미학습 ( 높은 순 정렬👉 )')     
             $('#out_sort').html('퇴소율 ( 높은 순 정렬👉 )')  
             resultData.sort(function (a, b) {     
-            var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
-            var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
-            if (nameA < nameB) {
-                return -1;
-            }
-            if (nameA > nameB) {
-                return 1;
-            }
-            return 0;
-        });
-        break;
+                var nameA = a.name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+                var nameB = b.name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });
+            break;
     
         case "teacher_sort":
             $('#ban_sort').html('반 ( 이름순 정렬👉 )')
             $('#teacher_sort').html('<strong>선생님 ( 이름 순 정렬👇 )</strong>')    
             $('#unlearned_sort').html('미학습 ( 높은 순 정렬👉 )')     
             $('#out_sort').html('퇴소율 ( 높은 순 정렬👉 )')   
-        Targetdata.sort(function (a, b) {
-            return b.unlearned_num - a.unlearned_num;
-        });
-        break;
+            resultData.sort(function (a, b) {     
+                var nameA = a.teacher_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+                var nameB = b.teacher_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });
+            break;
     
         case "unlearned_sort":
             $('#ban_sort').html('반 ( 이름순 정렬👉 )')
@@ -453,10 +459,10 @@ function sort_data(sort_op){
             $('#teacher_sort').html('선생님 ( 이름 순 정렬👉 )')    
             $('#unlearned_sort').html('미학습 ( 높은 순 정렬👉 )')     
             $('#out_sort').html('<strong>퇴소율 ( 높은 순 정렬👇 )</strong>')  
-        Targetdata.sort(function (a, b) {
-            return b.done_consulting_num - a.done_consulting_num;
-        });
-        break;
+            resultData.sort(function (a, b) {
+                return b.out_num_per - a.out_num_per;
+            });             
+            break;
     }
   
     // 데이터 정렬 후 페이지네이션 다시 설정
