@@ -549,18 +549,20 @@ async function getTeacherInfo(t_id){
         }
         $('.mo_inloading').hide()
         $('.monot_inloading').show()
+        
         $('#chartboxbox').html(`
         <canvas id="total-chart-element${t_id}" class="total-chart-element p-sm-3 p-2"></canvas>
         <div class ="chart-data-summary" id="teacher_info_student_num">
             
         </div>
-        `)
+        `);
+
         let temp_profile_data = `
             <tbody  style="width:100%;">
                 <tr class="row tagtagtitle">
                     <th class="col-12">담임 선생님 정보</th>
                 </tr>
-                <tr class="row">
+                <tr class="row tagtagtitle">
                     <td class="col-4">${info[0].teacher_name}(${info[0].teacher_engname})</th>
                     <td class="col-4"> 📞 ${info[0].teacher_mobileno} </th>
                     <td class="col-4"> ✉️ ${info[0].teacher_email}</th>
@@ -638,7 +640,7 @@ async function getTeacherInfo(t_id){
             chart.destroy()
         }
         let ctx = document.getElementById(`total-chart-element${t_id}`).getContext('2d');
-        new Chart(ctx, {
+        let TeacherChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels: ['관리중', '이반', '보류', '퇴소'],
