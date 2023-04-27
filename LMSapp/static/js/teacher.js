@@ -1426,7 +1426,7 @@ async function get_question_detail(q_id) {
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">첨부파일</span>
-        <a href="/common/downloadfile/question/${q_id}" download="${questiondata.attach}">${questiondata.attach}</a>
+        <a href="/common/downloadfile/question/${q_id}/attachment/${questiondata.attach_id}" download="${questiondata.attach}">${questiondata.attach}</a>
     </div>`;
     $('#teacher_question').html(temp_question_list);
     // 상담 일지 처리 

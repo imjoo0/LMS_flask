@@ -105,23 +105,29 @@ def get_all_task():
                 db.close()        
         return jsonify({'task':task})
 
-@bp.route('/downloadfile/question/<int:q_id>')
-def download_file(q_id):
-    attachments = Attachments.query.filter_by(question_id=q_id).all()
-    if attachments is None:
+# @bp.route('/downloadfile/question/<int:q_id>')
+# def download_file(q_id):
+#     attachments = Attachments.query.filter_by(question_id=q_id).all()
+#     if attachments is None:
+#         return "File not found."
+#     if len(attachments) == 1:
+#         # 이미지 파일의 경우 직접 브라우저에 출력
+#         return send_file(BytesIO(attachments[0].data), mimetype=attachments[0].mime_type)
+#     else:
+#         # 다중 파일의 경우 압축하여 다운로드
+#         zip_buffer = BytesIO()
+#         with zipfile.ZipFile(zip_buffer, "w") as zip_file:
+#             for attachment in attachments:
+#                 file_buffer = BytesIO(attachment.data)
+#                 zip_file.writestr(attachment.file_name, file_buffer.getvalue())
+#         zip_buffer.seek(0)
+#         return send_file(zip_buffer, as_attachment=True, mimetype='application/zip', download_name='attachments.zip')
+@bp.route('/downloadfile/question/<int:q_id>/attachment/<int:att_id>')
+def download_attachment(q_id, att_id):
+    attachment = Attachments.query.filter_by(id=att_id, question_id=q_id).first()
+    if attachment is None:
         return "File not found."
-    if len(attachments) == 1:
-        # 이미지 파일의 경우 직접 브라우저에 출력
-        return send_file(BytesIO(attachments[0].data), mimetype=attachments[0].mime_type)
-    else:
-        # 다중 파일의 경우 압축하여 다운로드
-        zip_buffer = BytesIO()
-        with zipfile.ZipFile(zip_buffer, "w") as zip_file:
-            for attachment in attachments:
-                file_buffer = BytesIO(attachment.data)
-                zip_file.writestr(attachment.file_name, file_buffer.getvalue())
-        zip_buffer.seek(0)
-        return send_file(zip_buffer, as_attachment=True, mimetype='application/zip', download_name='attachments.zip')
+    return send_file(BytesIO(attachment.data), as_attachment=True, mimetype=attachment.mime_type, download_name=attachment.file_name)
 
 # 문의 조회 기능 
 
