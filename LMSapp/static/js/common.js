@@ -630,8 +630,6 @@ async function getTeacherInfo(t_id){
         let chart = Chart.getChart('total-chart-element')
         if(chart){
             chart.destroy()
-            ctx = document.getElementById('total-chart-element').getContext('2d');
-
         }
         let ctx = document.getElementById('total-chart-element').getContext('2d');
         new Chart(ctx, {
