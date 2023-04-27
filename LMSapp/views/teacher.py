@@ -108,16 +108,13 @@ def question():
                 qdata['answer_data']['created_at']=q.qa.created_at.strftime('%Y-%m-%d')
             if (q.attachments is None):
                 qdata['attach'] = "없음"
-                qdata['attach_id'] = "없음"
             else:
                 my_attachments = Attachments.query.filter(Attachments.question_id == q.id).all()
                 qdata['attach'] = []
                 for qa in my_attachments:
-                    print(qa)
-                    print(qa.id)
                     qdata['attach'].append({
                         'id': qa.id,
-                        'id':qa.file_name
+                        'file_name':qa.file_name
                     })
             data.append(qdata)
         return data
