@@ -549,7 +549,12 @@ async function getTeacherInfo(t_id){
         }
         $('.mo_inloading').hide()
         $('.monot_inloading').show()
-
+        $('#chartboxbox').html(`
+        <canvas id="total-chart-element${t_id}" class="total-chart-element p-sm-3 p-2"></canvas>
+        <div class ="chart-data-summary" id="teacher_info_student_num">
+            
+        </div>
+        `)
         let temp_profile_data = `
             <tbody  style="width:100%;">
                 <tr class="row tagtagtitle">
@@ -628,11 +633,11 @@ async function getTeacherInfo(t_id){
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
 
-        var chart = Chart.getChart('total-chart-element')
+        var chart = Chart.getChart(`total-chart-element${t_id}`)
         if (chart) {
             chart.destroy()
         }
-        let ctx = document.getElementById('total-chart-element').getContext('2d');
+        let ctx = document.getElementById(`total-chart-element${t_id}`).getContext('2d');
         new Chart(ctx, {
             type: 'doughnut',
             data: {
