@@ -718,6 +718,8 @@ async function getTeacherInfo(t_id){
                 return b.unlearned - a.unlearned; // students.length가 큰 순으로 정렬
             }
         });
+        let data_list = null 
+        let totalData = null
         data_list = Tstudent
         totalData = data_list.length
         displayData(totalData, 1, dataPerPage, data_list);
