@@ -506,6 +506,14 @@ async function getTeacherInfo(t_id){
         $('#teachertitle').html(`${info[0].teacher_engname} TEACHER REPORT`)
         $('.mo_inloading').show()
         $('.monot_inloading').hide()
+        if(Chart.getChart('total-chart-element')){
+            Chart.getChart('total-chart-element').destroy()
+            $('#chartboxbox').html(`<canvas id="total-chart-element" class="total-chart-element p-sm-3 p-2"></canvas>
+            <div class ="chart-data-summary" id="teacher_info_student_num">
+                
+            </div>`)
+            let ctx = null
+        }
         if (!consultingData && studentsData && taskData) {
             await get_all_consulting().then(() => {
                 $('.mo_inloading').hide()
@@ -627,15 +635,7 @@ async function getTeacherInfo(t_id){
             <span>* 퇴소:${ os }</span>
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
-
-        if(Chart.getChart('total-chart-element')){
-            Chart.getChart('total-chart-element').destroy()
-            $('#chartboxbox').html(`<canvas id="total-chart-element" class="total-chart-element p-sm-3 p-2"></canvas>
-            <div class ="chart-data-summary" id="teacher_info_student_num">
-                
-            </div>`)
-        }
-        let ctx = document.getElementById('total-chart-element').getContext('2d');
+        ctx = document.getElementById('total-chart-element').getContext('2d');
         new Chart(ctx, {
             type: 'doughnut',
             data: {
