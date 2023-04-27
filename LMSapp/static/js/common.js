@@ -619,31 +619,23 @@ async function getTeacherInfo(t_id){
         $('#mybaninfo').html(temp_baninfo);
         $('#studentban_kind').html(temp_ban_option)
         
-        let temp_teacher_info_student_num = `
-            <span>초기 배정:${ total_student_num }</span><br>
-            <span>관리중:${ now_student_num }</span><br>
-            <span>* 이반:${ ss }</span><br>
-            <span>* 보류:${ hs }</span><br>
-            <span>* 퇴소:${ os }</span>
-        `
-        $('#teacher_info_student_num').html(temp_teacher_info_student_num)
+        $('#chartboxbox').html(`
+        <canvas id="total-chart-element${t_id}" class="total-chart-element p-sm-3 p-2"></canvas>
+        <div class ="chart-data-summary">
+        <span>초기 배정:${ total_student_num }</span><br>
+        <span>관리중:${ now_student_num }</span><br>
+        <span>* 이반:${ ss }</span><br>
+        <span>* 보류:${ hs }</span><br>
+        <span>* 퇴소:${ os }</span>
+        </div>`);
 
-        let chart = Chart.getChart('total-chart-element');
+        let chart = Chart.getChart(`total-chart-element${t_id}`);
         if (chart) {
             chart.destroy();
-            $('#chartboxbox').html(`
-            <canvas id="total-chart-element" class="total-chart-element p-sm-3 p-2"></canvas>
-            <div class ="chart-data-summary" id="teacher_info_student_num">
-            <span>초기 배정:${ total_student_num }</span><br>
-            <span>관리중:${ now_student_num }</span><br>
-            <span>* 이반:${ ss }</span><br>
-            <span>* 보류:${ hs }</span><br>
-            <span>* 퇴소:${ os }</span>
-            </div>`);
         }
         // promise를 이용하여 차트를 그립니다.
         new Promise((resolve) => {
-            let ctx = document.getElementById('total-chart-element').getContext('2d');
+            let ctx = document.getElementById(`total-chart-element${t_id}`).getContext('2d');
             new Chart(ctx, {
                 type: 'doughnut',
                 data: {
