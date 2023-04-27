@@ -705,7 +705,7 @@ async function getTeacherInfo(t_id){
         $('#consulting_chart').html(`<td class="col-4">${ttd} / ${TconsultaskData.length}건</td><td class="col-4">${answer_rate(ttd,TconsultaskData.length).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(TconsultaskData.filter(c=>c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
     
         // 원생
-        Tstudent = null
+        let Tstudent = null
         Tstudent = studentsData.filter(s=>s.teacher_id == info[0].teacher_id)
         Tstudent.forEach((elem)=>{
             elem.unlearned = TunlearnedData.filter(a => a.student_id == elem.student_id).length
