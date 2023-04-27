@@ -628,12 +628,12 @@ async function getTeacherInfo(t_id){
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
 
-        var chart = Chart.getChart('#total-chart-element')
+        var chart = Chart.getChart('total-chart-element')
         if (chart) {
             chart.destroy()
         }
         let ctx = document.getElementById('total-chart-element').getContext('2d');
-        let teacherchart = new Chart(ctx, {
+        new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels: ['관리중', '이반', '보류', '퇴소'],
