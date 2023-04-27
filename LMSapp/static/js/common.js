@@ -722,6 +722,7 @@ async function getTeacherInfo(t_id){
         totalData = null
         data_list = Tstudent
         totalData = data_list.length
+        console.log(data_list)
         displayData(totalData, 1, dataPerPage, data_list);
         paging(totalData, dataPerPage, pageCount, 1, data_list);
         $('#studentban_kind').on('change', function() {
