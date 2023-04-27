@@ -633,7 +633,7 @@ async function getTeacherInfo(t_id){
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
 
-        var chart = Chart.getChart(`total-chart-element${t_id}`)
+        var chart = Chart.getChart(`#total-chart-element${t_id}`)
         if (chart) {
             chart.destroy()
         }
