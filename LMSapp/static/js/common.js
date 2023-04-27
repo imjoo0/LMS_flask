@@ -631,7 +631,6 @@ async function getTeacherInfo(t_id){
         // promise를 이용하여 차트를 그립니다.
         new Promise((resolve) => {
             let chart = Chart.getChart('total-chart-element');
-            let ctx = document.getElementById('total-chart-element').getContext('2d');
             if (chart) {
                 chart.destroy();
                 $('#chartboxbox').html(`
@@ -644,6 +643,9 @@ async function getTeacherInfo(t_id){
                 <span>* 퇴소:${ os }</span>
                 </div>`);
             }
+            resolve();
+        }).then(() => {
+            let ctx = document.getElementById('total-chart-element').getContext('2d');
             new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -675,8 +677,6 @@ async function getTeacherInfo(t_id){
                 }
                 }]
             });
-            resolve();
-        }).then(() => {
             
         });
         // 미학습 발생
