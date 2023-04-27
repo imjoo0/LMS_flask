@@ -634,12 +634,6 @@ async function getTeacherInfo(t_id){
 
         let canvas = $(`#total-chart-element${t_id}`)[0];
         let ctx = canvas.getContext('2d');
-
-        // 이전에 그려진 차트 삭제
-        if (chart) {
-            chart.destroy();
-        }
-
         let chart = new Chart(ctx, {
             type: 'doughnut',
             data: {
