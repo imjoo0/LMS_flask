@@ -627,12 +627,13 @@ async function getTeacherInfo(t_id){
             <span>* 퇴소:${ os }</span>
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
-        let ctx = document.getElementById('total-chart-element').getContext('2d');
-        if(Chart.getChart('total-chart-element')){
-            Chart.getChart('total-chart-element').destroy()
+        let chart = Chart.getChart('total-chart-element').destroy()
+        if(chart){
+            chart.destroy()
             ctx = document.getElementById('total-chart-element').getContext('2d');
 
         }
+        let ctx = document.getElementById('total-chart-element').getContext('2d');
         new Chart(ctx, {
             type: 'doughnut',
             data: {
