@@ -629,7 +629,6 @@ async function getTeacherInfo(t_id){
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
 
         let ctx = document.getElementById('total-chart-element').getContext('2d');
-        ctx.destroy()
         teacherChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
@@ -653,8 +652,33 @@ async function getTeacherInfo(t_id){
                 responsive: true,
                 width: 500,
                 height: 500,
+            }}
+        );
+        teacherChart.destroy()
+        teacherChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['관리중', '이반', '보류', '퇴소'],
+                datasets: [
+                    {
+                        data: [total_student_num, ss,hs, os],
+                        backgroundColor: ['#B39CD0', '#ffd400', '#F23966','#C24F77'],
+                        hoverOffset: 4,
+                    },
+                ],
             },
-        }
+            options: {
+                maintainAspectRatio: false,
+                aspectRatio: 1,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+                responsive: true,
+                width: 500,
+                height: 500,
+            }}
         );
         // 미학습 발생
         $('#ucomcom').html(`<td class="col-6">총 ${unlearned_ttc}건 </td><td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
