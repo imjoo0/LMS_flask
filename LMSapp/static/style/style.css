@@ -862,3 +862,8 @@ input::placeholder {
   .btn-back{
     color: #635994;
   }
+
+  .hr-dotted {
+    border : 0px;
+    border-top: 5px dotted #663399;
+  }

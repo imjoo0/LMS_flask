@@ -909,7 +909,7 @@ async function get_consulting(student_id, is_done) {
         let idx = 0;
         $.each(consultingGroupedCategory, function (index, key) {
             target_consultings = consultingGrouped[key]
-            temp_consulting_write_box += `<h3 id="target_${key}" style="margin-bottom:1.2rem;">${key}</h3>`
+            temp_consulting_write_box += `<hr class='hr-dotted'/><h3 id="target_${key}" style="margin-bottom:1.2rem;">${key}</h3>`
             for (i = 0; i < target_consultings.length; i++) {
                 let target = target_consultings[i]
                 let category = target['category']
