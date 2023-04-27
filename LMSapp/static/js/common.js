@@ -352,7 +352,9 @@ async function get_total_data() {
         alert('Error occurred while retrieving data.');
     }
 }
-
+function sort_data(sort_op){
+    console.log(sort_op)
+}
 function semesterShow(semester) {
     $('#ban_search_input').off('keyup');
     $('#semester').show();

@@ -874,11 +874,11 @@
                             <input class="not_inloading search_input_box" type="text" id="ban_search_input" placeholder="반 혹은 선생님으로 검색">
                             <table id="semester" class="table text-center mt-5" style="width:100%;">
                                 <thead>
-                                    <tr class="row">
-                                        <th class="col-3" onclick="sort_data('banname_desc')" id="ban_sort">반 (이름순 정렬👉)</th>
-                                        <th class="col-3" onclick="sort_data('teachername_desc')" id="teacher_sort">선생님 (이름 순 정렬👉)</th>
-                                        <th class="col-3" onclick="sort_data('unlearned_desc')" id="unlearned_sort">미학습 (미학습 발생 높은순 정렬👉)</th>
-                                        <th class="col-3" onclick="sort_data('out_desc')" id="out_sort">퇴소율 (퇴소율 높은 순 정렬👉)</th>
+                                    <tr class="row" onclick="sort_data(this.value)">
+                                        <th class="col-3" val="banname_desc" id="ban_sort">반 (이름순 정렬👉)</th>
+                                        <th class="col-3" val="teachername_desc" id="teacher_sort">선생님 (이름 순 정렬👉)</th>
+                                        <th class="col-3" val="unlearned_desc" id="unlearned_sort">미학습 (미학습 발생 높은순 정렬👉)</th>
+                                        <th class="col-3" val="out_desc" id="out_sort">퇴소율 (퇴소율 높은 순 정렬👉)</th>
                                     </tr>
                                     <tr class="row">
                                         <th class="col-2" id="semester_s">학기</th>
