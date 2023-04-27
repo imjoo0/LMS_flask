@@ -1,11 +1,5 @@
 // 전역변수로 api에서 불러온 정보를 저장 
 let switchstudentData,outstudentData,banData,totalOutnum,totalHoldnum,studentsData,reportsData, consultingData,consultingcateData, taskData,taskcateData,questionData,answerData,attachData;
-
-var totalData = 0; //총 데이터 수
-var dataPerPage = 6;
-var pageCount = 10; //페이징에 나타낼 페이지 수
-var globalCurrentPage = 1; //현재 페이지
-var data_list;
 const today = new Date().setHours(0, 0, 0, 0);
 const todayyoil = new Date().getDay()
 
@@ -412,89 +406,6 @@ function semesterShow(semester) {
     });
 
 }
-function displayData(totalData, currentPage, dataPerPage,data_list) {
-    let chartHtml = "";
-
-    //Number로 변환하지 않으면 아래에서 +를 할 경우 스트링 결합이 되어버림.. 
-    currentPage = Number(currentPage);
-    dataPerPage = Number(dataPerPage);
-    let last_item = (currentPage - 1) * dataPerPage + dataPerPage;
-    if( last_item > totalData){
-        last_item = totalData
-    }
-    for (
-        var i = (currentPage - 1) * dataPerPage; //11*5 = 55
-        i < last_item; // 55+5
-        i++
-    ) {
-        chartHtml +=`
-        <td class="col-3">${data_list[i].student_name}( ${data_list[i].student_engname} )</td>
-        <td class="col-2">${data_list[i].origin}</td>
-        <td class="col-3">${data_list[i].pname} ( 📞${data_list[i].pmobileno} )</td>
-        <td class="col-3">${data_list[i].unlearned}건 ( ${data_list[i].up}% ) </td>
-        <td class="col-1" custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${data_list[i].student_id})">📝</td>`;
-    } 
-    $("#s_data").html(chartHtml);
-}
-function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
-    totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
-
-    if (totalPage < pageCount) {
-        pageCount = totalPage;
-    }
-
-    let pageGroup = Math.ceil(currentPage / pageCount); // 페이지 그룹 1/10 1~10까지는 '1' , 11~20 까지는 2 , 21~30까지는 3 
-    let last = pageGroup * pageCount; //화면에 보여질 마지막 페이지 번호
-
-    if (last > totalPage) {
-        last = totalPage;
-    }
-    let first = last - (pageCount - 1); //화면에 보여질 첫번째 페이지 번호
-    let next = last + 1;
-    let prev = first - 1;
-
-    let pageHtml = "";
-
-    if (prev > 0) {
-        pageHtml += "<li><a class='cursor-pointer' id='prev'> 이전 </a></li>";
-    }
-
-    //페이징 번호 표시 
-    for (var i = first; i <= last; i++) {
-        if (currentPage == i) {
-            pageHtml +=
-                "<li class='on'><a class='cursor-pointer' id='" + i + "'>" + i + "</a></li>";
-        } else {
-            pageHtml += "<li><a class='cursor-pointer' id='" + i + "'>" + i + "</a></li>";
-        }
-    }
-
-    if (last < totalPage) {
-        pageHtml += "<li><a class='cursor-pointer' id='next' > 다음 </a></li>";
-    }
-
-    $("#pagingul").html(pageHtml);
-    let displayCount = "";
-    displayCount = " 원생 명단 1 - " + totalPage + " 페이지 / " + totalData + "명";
-    $("#displayCount").text(displayCount);
-
-    //페이징 번호 클릭 이벤트 
-    $("#pagingul li a").click(function () {
-        let $id = $(this).attr("id");
-        selectedPage = $(this).text();
-
-        if ($id == "next") selectedPage = next;
-        if ($id == "prev") selectedPage = prev;
-
-        //전역변수에 선택한 페이지 번호를 담는다...
-        globalCurrentPage = selectedPage;
-
-        //페이징 표시 재호출
-        paging(totalData, dataPerPage, pageCount, selectedPage, data_list);
-        //글 목록 표시 재호출
-        displayData(totalData, selectedPage, dataPerPage,data_list);
-    });
-}
 async function getTeacherInfo(t_id){
     let info = banData.filter(t=>t.teacher_id == t_id)
     if (info.length == 0){
@@ -662,75 +573,94 @@ async function getTeacherInfo(t_id){
             });
             resolve();
         }).then(() => {
-            
-            
         });
         // 미학습 발생
         $('#ucomcom').html(`<td class="col-6">총 ${unlearned_ttc}건 </td><td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
-            let temp_html = `<th class="col-12"><details>
-            <summary>총 미학습  ${unlearned_ttc}건 <strong> 발생율: ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% 상세보기 </strong></summary>
-            <ul>`
-            let unlearned_cate = [...new Set(TunlearnedData.map(item => item.category))];
-            unlearned_cate.forEach((category) => {
-                let num = TunlearnedData.filter(u=>u.category == category).length
-                temp_html += `<li>${category} : ${num}건 ( 선생님 미학습 발생 중 ${answer_rate(num, unlearned_ttc).toFixed(0)}%)</li>`
-            })
-            temp_html += `
-                    </ul>
-                </details>
-            </th>`
-            $('#totalreport-row').html(temp_html)
+        let temp_html = `<th class="col-12"><details>
+        <summary>총 미학습  ${unlearned_ttc}건 <strong> 발생율: ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% 상세보기 </strong></summary>
+        <ul>`
+        let unlearned_cate = [...new Set(TunlearnedData.map(item => item.category))];
+        unlearned_cate.forEach((category) => {
+            let num = TunlearnedData.filter(u=>u.category == category).length
+            temp_html += `<li>${category} : ${num}건 ( 선생님 미학습 발생 중 ${answer_rate(num, unlearned_ttc).toFixed(0)}%)</li>`
+        })
+        temp_html += `
+                </ul>
+            </details>
+        </th>`
+        $('#totalreport-row').html(temp_html)
 
-            let TtasktodayData = null
-            TtasktodayData = TTaskData.filter(t => ( new Date(t.startdate).setHours(0, 0, 0, 0) <= today && today < new Date(t.deadline).setHours(0, 0, 0, 0) ) && ( (t.cycle == 0 && t.created_at == null) || (t.cycle == 0 &&  new Date(t.created_at).setHours(0, 0, 0, 0) == today) || (t.cycle == todayyoil) ))
-            let today_done = null
-            today_done = TtasktodayData.filter(t=>t.done == 1).length
-            let Ttaskhisory = null
-            Ttaskhisory = TTaskData.filter(t=> new Date(t.deadline).setHours(0, 0, 0, 0) < today)
-            let history_done = null
-            history_done = Ttaskhisory.filter(t=>t.done == 1).length
-            $('#task_chart').html(`<td class="col-4">${today_done}/${TtasktodayData.length}건</td><td class="col-4">${answer_rate(today_done,TtasktodayData.length).toFixed(0)}%</td><td class="col-4">${answer_rate(history_done,Ttaskhisory.length).toFixed(0)}%</td>`);
+        let TtasktodayData = null
+        TtasktodayData = TTaskData.filter(t => ( new Date(t.startdate).setHours(0, 0, 0, 0) <= today && today < new Date(t.deadline).setHours(0, 0, 0, 0) ) && ( (t.cycle == 0 && t.created_at == null) || (t.cycle == 0 &&  new Date(t.created_at).setHours(0, 0, 0, 0) == today) || (t.cycle == todayyoil) ))
+        let today_done = null
+        today_done = TtasktodayData.filter(t=>t.done == 1).length
+        let Ttaskhisory = null
+        Ttaskhisory = TTaskData.filter(t=> new Date(t.deadline).setHours(0, 0, 0, 0) < today)
+        let history_done = null
+        history_done = Ttaskhisory.filter(t=>t.done == 1).length
+        $('#task_chart').html(`<td class="col-4">${today_done}/${TtasktodayData.length}건</td><td class="col-4">${answer_rate(today_done,TtasktodayData.length).toFixed(0)}%</td><td class="col-4">${answer_rate(history_done,Ttaskhisory.length).toFixed(0)}%</td>`);
 
-            // 상담
-            let TconsultaskData = null
-            TconsultaskData = TconsultingData.filter(c=>c.category_id != 110)
-            let ttd = null
-            ttd = TconsultaskData.filter(c=>c.done == 1).length
-            $('#consulting_chart').html(`<td class="col-4">${ttd} / ${TconsultaskData.length}건</td><td class="col-4">${answer_rate(ttd,TconsultaskData.length).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(TconsultaskData.filter(c=>c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
-        
-            // 원생
-            let Tstudent = null
-            Tstudent = studentsData.filter(s=>s.teacher_id == info[0].teacher_id)
-            Tstudent.forEach((elem)=>{
-                elem.unlearned = TunlearnedData.filter(a => a.student_id == elem.student_id).length
-                elem.up = answer_rate(elem.unlearned, TunlearnedData.length).toFixed(0)
-            });
-            Tstudent.sort((a, b) => {
-                if (b.up !== a.up) {
-                    return b.up - a.up;
-                } else {
-                    return b.unlearned - a.unlearned; // students.length가 큰 순으로 정렬
-                }
-            });
-            data_list = null 
-            totalData = null
-            data_list = Tstudent
-            totalData = data_list.length
-            console.log(data_list)
-            displayData(totalData, 1, dataPerPage, data_list);
-            paging(totalData, dataPerPage, pageCount, 1, data_list);
+        // 상담
+        let TconsultaskData = null
+        TconsultaskData = TconsultingData.filter(c=>c.category_id != 110)
+        let ttd = null
+        ttd = TconsultaskData.filter(c=>c.done == 1).length
+        $('#consulting_chart').html(`<td class="col-4">${ttd} / ${TconsultaskData.length}건</td><td class="col-4">${answer_rate(ttd,TconsultaskData.length).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(TconsultaskData.filter(c=>c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
+    
+        // 원생
+        let Tstudent = null
+        Tstudent = studentsData.filter(s=>s.teacher_id == info[0].teacher_id)
+        Tstudent.forEach((elem)=>{
+            elem.unlearned = TunlearnedData.filter(a => a.student_id == elem.student_id).length
+            elem.up = answer_rate(elem.unlearned, TunlearnedData.length).toFixed(0)
+        });
+        Tstudent.sort((a, b) => {
+            if (b.up !== a.up) {
+                return b.up - a.up;
+            } else {
+                return b.unlearned - a.unlearned; // students.length가 큰 순으로 정렬
+            }
+        });
+        var paginationOptions = {
+            prevText: '이전',
+            nextText: '다음',
+            pageSize: 10,
+            pageClassName: 'float-end',
+            callback: function (data, pagination) {
+                let chartHtml = "";
+                $.each(data, function (index, item) {
+                    chartHtml +=`
+                    <td class="col-3">${item.student_name}( ${item.student_engname} )</td>
+                    <td class="col-2">${item.origin}</td>
+                    <td class="col-3">${item.pname} ( 📞${item.pmobileno} )</td>
+                    <td class="col-3">${item.unlearned}건 ( ${item.up}% ) </td>
+                    <td class="col-1" custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${item.student_id})">📝</td>`;
+                });
+                $("#s_data").html(chartHtml);
+            }
+        };
+
+        var StudentContainer = $('#pagingul')
+        StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': Tstudent }))
+    
+        // $('#ban_search_input').on('keyup', function () {
+        //     var searchInput = $(this).val().toLowerCase();
+        //     var filteredData = resultData.filter(function (data) {
+        //         return (data.hasOwnProperty('name') && data.name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('teacher_engname') && data.teacher_engname.toLowerCase().indexOf(searchInput) !== -1);
+        //     });
+        //     StudentContainer.pagination('destroy');
+        //     StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
+        // });
+
         $('#studentban_kind').on('change', function() {
             // 실행할 함수 내용
             let ban_id = $(this).val()
             if(ban_id == "none"){
-                data_list = Tstudent
+                StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': Tstudent }))
             }else{
                 let change_student = Tstudent.filter(s=>s.ban_id == ban_id)
-                data_list = change_student
+                StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': change_student }))
             }
-            totalData = data_list.length
-            displayData(totalData, 1, dataPerPage, data_list);
-            paging(totalData, dataPerPage, pageCount, 1, data_list);
         });
     }
 }
