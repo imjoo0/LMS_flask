@@ -634,7 +634,6 @@ async function getTeacherInfo(t_id){
             let ctx = document.getElementById('total-chart-element').getContext('2d');
             if (chart) {
                 chart.destroy();
-                ctx.chart.destroy();
             }
             let teacherChart = new Chart(ctx, {
                 type: 'doughnut',
@@ -667,7 +666,9 @@ async function getTeacherInfo(t_id){
                 }
                 }]
             });
-        }).then(() => {
+            resolve(chart);
+        }).then((chart) => {
+            console.log(chart)
             $('#ucomcom').html(`<td class="col-6">총 ${unlearned_ttc}건 </td><td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
             let temp_html = `<th class="col-12"><details>
             <summary>총 미학습  ${unlearned_ttc}건 <strong> 발생율: ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% 상세보기 </strong></summary>
