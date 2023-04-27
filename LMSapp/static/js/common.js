@@ -667,63 +667,63 @@ async function getTeacherInfo(t_id){
                 }]
             });
         }).then(() => {
-            console.log('차트가 그려졌습니다.');
+            $('#ucomcom').html(`<td class="col-6">총 ${unlearned_ttc}건 </td><td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
+        
+            let temp_html = `<th class="col-12"><details>
+            <summary>총 미학습  ${unlearned_ttc}건 <strong> 발생율: ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% 상세보기 </strong></summary>
+            <ul>`
+            let unlearned_cate = [...new Set(TunlearnedData.map(item => item.category))];
+            unlearned_cate.forEach((category) => {
+                let num = TunlearnedData.filter(u=>u.category == category).length
+                temp_html += `<li>${category} : ${num}건 ( 선생님 미학습 발생 중 ${answer_rate(num, unlearned_ttc).toFixed(0)}%)</li>`
+            })
+            temp_html += `
+                    </ul>
+                </details>
+            </th>`
+            $('#totalreport-row').html(temp_html)
+
+            let TtasktodayData = null
+            TtasktodayData = TTaskData.filter(t => ( new Date(t.startdate).setHours(0, 0, 0, 0) <= today && today < new Date(t.deadline).setHours(0, 0, 0, 0) ) && ( (t.cycle == 0 && t.created_at == null) || (t.cycle == 0 &&  new Date(t.created_at).setHours(0, 0, 0, 0) == today) || (t.cycle == todayyoil) ))
+            let today_done = null
+            today_done = TtasktodayData.filter(t=>t.done == 1).length
+            let Ttaskhisory = null
+            Ttaskhisory = TTaskData.filter(t=> new Date(t.deadline).setHours(0, 0, 0, 0) < today)
+            let history_done = null
+            history_done = Ttaskhisory.filter(t=>t.done == 1).length
+            $('#task_chart').html(`<td class="col-4">${today_done}/${TtasktodayData.length}건</td><td class="col-4">${answer_rate(today_done,TtasktodayData.length).toFixed(0)}%</td><td class="col-4">${answer_rate(history_done,Ttaskhisory.length).toFixed(0)}%</td>`);
+
+            // 상담
+            let TconsultaskData = null
+            TconsultaskData = TconsultingData.filter(c=>c.category_id != 110)
+            let ttd = null
+            ttd = TconsultaskData.filter(c=>c.done == 1).length
+            $('#consulting_chart').html(`<td class="col-4">${ttd} / ${TconsultaskData.length}건</td><td class="col-4">${answer_rate(ttd,TconsultaskData.length).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(TconsultaskData.filter(c=>c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
+        
+            // 원생
+            let Tstudent = null
+            Tstudent = studentsData.filter(s=>s.teacher_id == info[0].teacher_id)
+            Tstudent.forEach((elem)=>{
+                elem.unlearned = TunlearnedData.filter(a => a.student_id == elem.student_id).length
+                elem.up = answer_rate(elem.unlearned, TunlearnedData.length).toFixed(0)
+            });
+            Tstudent.sort((a, b) => {
+                if (b.up !== a.up) {
+                    return b.up - a.up;
+                } else {
+                    return b.unlearned - a.unlearned; // students.length가 큰 순으로 정렬
+                }
+            });
+            data_list = null 
+            totalData = null
+            data_list = Tstudent
+            totalData = data_list.length
+            console.log(data_list)
+            displayData(totalData, 1, dataPerPage, data_list);
+            paging(totalData, dataPerPage, pageCount, 1, data_list);
         });
         // 미학습 발생
-        $('#ucomcom').html(`<td class="col-6">총 ${unlearned_ttc}건 </td><td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
         
-        let temp_html = `<th class="col-12"><details>
-        <summary>총 미학습  ${unlearned_ttc}건 <strong> 발생율: ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% 상세보기 </strong></summary>
-        <ul>`
-        let unlearned_cate = [...new Set(TunlearnedData.map(item => item.category))];
-        unlearned_cate.forEach((category) => {
-            let num = TunlearnedData.filter(u=>u.category == category).length
-            temp_html += `<li>${category} : ${num}건 ( 선생님 미학습 발생 중 ${answer_rate(num, unlearned_ttc).toFixed(0)}%)</li>`
-        })
-        temp_html += `
-                </ul>
-            </details>
-        </th>`
-        $('#totalreport-row').html(temp_html)
-
-        let TtasktodayData = null
-        TtasktodayData = TTaskData.filter(t => ( new Date(t.startdate).setHours(0, 0, 0, 0) <= today && today < new Date(t.deadline).setHours(0, 0, 0, 0) ) && ( (t.cycle == 0 && t.created_at == null) || (t.cycle == 0 &&  new Date(t.created_at).setHours(0, 0, 0, 0) == today) || (t.cycle == todayyoil) ))
-        let today_done = null
-        today_done = TtasktodayData.filter(t=>t.done == 1).length
-        let Ttaskhisory = null
-        Ttaskhisory = TTaskData.filter(t=> new Date(t.deadline).setHours(0, 0, 0, 0) < today)
-        let history_done = null
-        history_done = Ttaskhisory.filter(t=>t.done == 1).length
-        $('#task_chart').html(`<td class="col-4">${today_done}/${TtasktodayData.length}건</td><td class="col-4">${answer_rate(today_done,TtasktodayData.length).toFixed(0)}%</td><td class="col-4">${answer_rate(history_done,Ttaskhisory.length).toFixed(0)}%</td>`);
-
-        // 상담
-        let TconsultaskData = null
-        TconsultaskData = TconsultingData.filter(c=>c.category_id != 110)
-        let ttd = null
-        ttd = TconsultaskData.filter(c=>c.done == 1).length
-        $('#consulting_chart').html(`<td class="col-4">${ttd} / ${TconsultaskData.length}건</td><td class="col-4">${answer_rate(ttd,TconsultaskData.length).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(TconsultaskData.filter(c=>c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
-    
-        // 원생
-        let Tstudent = null
-        Tstudent = studentsData.filter(s=>s.teacher_id == info[0].teacher_id)
-        Tstudent.forEach((elem)=>{
-            elem.unlearned = TunlearnedData.filter(a => a.student_id == elem.student_id).length
-            elem.up = answer_rate(elem.unlearned, TunlearnedData.length).toFixed(0)
-        });
-        Tstudent.sort((a, b) => {
-            if (b.up !== a.up) {
-                return b.up - a.up;
-            } else {
-                return b.unlearned - a.unlearned; // students.length가 큰 순으로 정렬
-            }
-        });
-        data_list = null 
-        totalData = null
-        data_list = Tstudent
-        totalData = data_list.length
-        console.log(data_list)
-        displayData(totalData, 1, dataPerPage, data_list);
-        paging(totalData, dataPerPage, pageCount, 1, data_list);
         $('#studentban_kind').on('change', function() {
             // 실행할 함수 내용
             let ban_id = $(this).val()
