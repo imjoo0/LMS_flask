@@ -683,7 +683,7 @@ async function getTeacherInfo(t_id){
                 }}
             );
         }
-        
+        console.log(Chart.getChart('total-chart-element'))
         // 미학습 발생
         $('#ucomcom').html(`<td class="col-6">총 ${unlearned_ttc}건 </td><td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
         
