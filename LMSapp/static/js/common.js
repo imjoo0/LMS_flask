@@ -659,12 +659,6 @@ async function getTeacherInfo(t_id){
                 width: 500,
                 height: 500,
                 },
-                // 그리기가 완료되면 resolve를 호출합니다.
-                plugins: [{
-                afterRender: (c, easing) => {
-                    resolve();
-                }
-                }]
             });
             resolve();
         }).then(() => {
