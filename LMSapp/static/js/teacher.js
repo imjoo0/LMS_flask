@@ -1424,7 +1424,7 @@ async function get_question_detail(q_id) {
         <span class="modal-body-select-label">대상 반 | 학생</span>
         <p>${ban_student_data.classname} ➖ ${ban_student_data.name} (${ban_student_data.nick_name}:${ban_student_data.origin})</p>
     </div>`
-    
+    console.log(questiondata)
     if(questiondata.attach != "없음"){
         questiondata.forEach((a)=>{
             temp_question_list += `
