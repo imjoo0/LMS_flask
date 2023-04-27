@@ -628,12 +628,7 @@ async function getTeacherInfo(t_id){
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
         if(Chart.getChart('total-chart-element')){
-            console.log(Chart.getChart('total-chart-element'))
             Chart.getChart('total-chart-element').destroy()
-            $('#chartboxbox').html(`<canvas id="total-chart-element" class="total-chart-element p-sm-3 p-2"></canvas>
-            <div class ="chart-data-summary" id="teacher_info_student_num">
-                
-            </div>`);
             let ctx = document.getElementById('total-chart-element').getContext('2d');
             new Chart(ctx, {
                 type: 'doughnut',
