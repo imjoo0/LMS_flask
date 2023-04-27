@@ -621,6 +621,7 @@ async function getTeacherInfo(t_id){
                 return b.unlearned - a.unlearned; // students.length가 큰 순으로 정렬
             }
         });
+        $('#displayCount').html(`전체원생 수: ${Tstudent.length}명`)
         var paginationOptions = {
             prevText: '이전',
             nextText: '다음',
@@ -656,10 +657,13 @@ async function getTeacherInfo(t_id){
             // 실행할 함수 내용
             let ban_id = $(this).val()
             if(ban_id == "none"){
+                $('#displayCount').html(`전체원생 수: ${Tstudent.length}명`)
                 StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': Tstudent }))
             }else{
                 let change_student = Tstudent.filter(s=>s.ban_id == ban_id)
+                console.log(change_student)
                 StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': change_student }))
+                $('#displayCount').html(`${change_student[0].ban_name}원생 수: ${Tstudent.length}명`)
             }
         });
     }
