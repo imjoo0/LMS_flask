@@ -120,9 +120,10 @@ async function get_all_ban() {
         });
         totalOutnum = 0;
         totalHoldnum = 0
-        // outstudentData = response['outstudent']
+        consultingData = response['consulting']
         switchstudentData = response['switchstudent']
         response['all_ban'].forEach((elem) => {
+            elem.unlearned_num = consultingData.filter(c=>c.ban_id == elem.ban_id && c.category_id<100).length
             elem.out_student_num = Number(elem.out_student_num)
             elem.hold_student_num = Number(elem.hold_student_num)
             totalOutnum += elem.out_student_num
@@ -449,10 +450,10 @@ function sort_data(sort_op){
             $('#teacher_sort').html('선생님 ( 이름 순 정렬👉 )')    
             $('#unlearned_sort').html('<strong>미학습 ( 높은 순 정렬👇 )</strong>')     
             $('#out_sort').html('퇴소율 ( 높은 순 정렬👉 )')  
-        Targetdata.sort(function (a, b) {
-            return b.done_consulting_num - a.done_consulting_num;
-        });
-        break;
+            resultData.sort(function (a, b) {
+                return b.unlearned_num - a.unlearned_num;
+            });             
+            break;
 
         case "out_sort":
             $('#ban_sort').html('반 ( 이름순 정렬👉 )')
