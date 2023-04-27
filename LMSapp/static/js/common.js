@@ -502,10 +502,6 @@ async function getTeacherInfo(t_id){
         $('#teacherModalLabel').html(no_data_title);
         return
     }else{
-        $('#chartboxbox').html(`<canvas id="total-chart-element${t_id}" class="total-chart-element p-sm-3 p-2"></canvas>
-        <div class ="chart-data-summary" id="teacher_info_student_num">
-            
-        </div>`)
         // $('#consultingban_search_input').off('keyup');
         $('#teachertitle').html(`${info[0].teacher_engname} TEACHER REPORT`)
         $('.mo_inloading').show()
@@ -632,9 +628,12 @@ async function getTeacherInfo(t_id){
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
 
-        let canvas = $(`#total-chart-element${t_id}`)[0];
-        let ctx = canvas.getContext('2d');
-        let chart = new Chart(ctx, {
+        var chart = Chart.getChart('total-chart-element')
+        if (chart) {
+            chart.destroy()
+        }
+        let ctx = document.getElementById('total-chart-element').getContext('2d');
+        let teacherchart = new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels: ['관리중', '이반', '보류', '퇴소'],
