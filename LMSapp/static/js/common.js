@@ -392,7 +392,7 @@ function semesterShow(semester) {
         }
     };
     
-    var SemesterContainer = $('#semester_pagination')
+    SemesterContainer = $('#semester_pagination')
     SemesterContainer.pagination(Object.assign(ResultpaginationOptions, { 'dataSource': resultData }))
 
     $('#ban_search_input').on('keyup', function () {
