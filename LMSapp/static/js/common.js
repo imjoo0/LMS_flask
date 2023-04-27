@@ -643,8 +643,6 @@ async function getTeacherInfo(t_id){
                 <span>* 퇴소:${ os }</span>
                 </div>`);
             }
-            resolve();
-        }).then(() => {
             let ctx = document.getElementById('total-chart-element').getContext('2d');
             new Chart(ctx, {
                 type: 'doughnut',
@@ -677,6 +675,8 @@ async function getTeacherInfo(t_id){
                 }
                 }]
             });
+            resolve();
+        }).then(() => {
             
         });
         // 미학습 발생
