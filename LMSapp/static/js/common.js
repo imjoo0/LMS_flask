@@ -352,51 +352,6 @@ async function get_total_data() {
         alert('Error occurred while retrieving data.');
     }
 }
-function sort_data(sort_op){
-    console.log(sort_op)
-    switch (sortBy) {
-        case "name_desc":
-            $('#ban_sort').html('<strong>원생 (이름순 정렬👇)</strong>')
-            $('#uconsulting_sort').html('미학습 (미학습 건 정렬👉)')    
-            $('#dconsulting_sort').html('상담 (상담 건 정렬👉)')   
-        Targetdata.sort(function (a, b) {     
-            var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
-            var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
-            if (nameA < nameB) {
-                return -1;
-            }
-            if (nameA > nameB) {
-                return 1;
-            }
-            return 0;
-        });
-        break;
-    
-        case "ul_desc":
-            $('#ban_sort').html('원생 (이름순 정렬👉)')
-            $('#uconsulting_sort').html('<strong>미학습 (미학습 건 정렬👇)</strong>')    
-            $('#dconsulting_sort').html('상담 (상담 건 정렬👉)')   
-        Targetdata.sort(function (a, b) {
-            return b.unlearned_num - a.unlearned_num;
-        });
-        break;
-    
-        case "consulting_desc":
-            $('#ban_sort').html('원생 (이름순 정렬👉)')
-            $('#uconsulting_sort').html('미학습 (미학습 건 정렬👉)')    
-            $('#dconsulting_sort').html('<strong>상담 (상담 건 정렬👇)</strong>')   
-        Targetdata.sort(function (a, b) {
-            return b.done_consulting_num - a.done_consulting_num;
-        });
-        break;
-    }
-  
-    // 데이터 정렬 후 페이지네이션 다시 설정
-    Studentcontainer.pagination("destroy");
-    Studentcontainer.pagination(
-      Object.assign(StudentpaginationOptions, { dataSource: Targetdata })
-    );
-}
 function semesterShow(semester) {
     $('#ban_search_input').off('keyup');
     $('#semester').show();
@@ -413,7 +368,7 @@ function semesterShow(semester) {
         $('#semester_s').html('전체 반')
         resultData = banData;
     }
-    var paginationOptions = {
+    ResultpaginationOptions = {
         prevText: '이전',
         nextText: '다음',
         pageSize: 10,
@@ -438,7 +393,7 @@ function semesterShow(semester) {
     };
     
     var SemesterContainer = $('#semester_pagination')
-    SemesterContainer.pagination(Object.assign(paginationOptions, { 'dataSource': resultData }))
+    SemesterContainer.pagination(Object.assign(ResultpaginationOptions, { 'dataSource': resultData }))
 
     $('#ban_search_input').on('keyup', function () {
         var searchInput = $(this).val().toLowerCase();
@@ -446,9 +401,69 @@ function semesterShow(semester) {
             return (data.hasOwnProperty('name') && data.name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('teacher_engname') && data.teacher_engname.toLowerCase().indexOf(searchInput) !== -1);
         });
         SemesterContainer.pagination('destroy');
-        SemesterContainer.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
+        SemesterContainer.pagination(Object.assign(ResultpaginationOptions, { 'dataSource': filteredData }));
     });
 
+}
+
+function sort_data(sort_op){
+    console.log(sort_op)
+    console.log(resultData)
+    switch (sort_op) {
+        case "ban_sort":
+            $('#ban_sort').html('<strong>반 ( 이름순 정렬👇 )</strong>')
+            $('#teacher_sort').html('선생님 ( 이름 순 정렬👉 )')    
+            $('#unlearned_sort').html('미학습 ( 높은 순 정렬👉 )')     
+            $('#out_sort').html('퇴소율 ( 높은 순 정렬👉 )')  
+            resultData.sort(function (a, b) {     
+            var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+            var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+            if (nameA < nameB) {
+                return -1;
+            }
+            if (nameA > nameB) {
+                return 1;
+            }
+            return 0;
+        });
+        break;
+    
+        case "teacher_sort":
+            $('#ban_sort').html('반 ( 이름순 정렬👉 )')
+            $('#teacher_sort').html('<strong>선생님 ( 이름 순 정렬👇 )</strong>')    
+            $('#unlearned_sort').html('미학습 ( 높은 순 정렬👉 )')     
+            $('#out_sort').html('퇴소율 ( 높은 순 정렬👉 )')   
+        Targetdata.sort(function (a, b) {
+            return b.unlearned_num - a.unlearned_num;
+        });
+        break;
+    
+        case "unlearned_sort":
+            $('#ban_sort').html('반 ( 이름순 정렬👉 )')
+            $('#teacher_sort').html('선생님 ( 이름 순 정렬👉 )')    
+            $('#unlearned_sort').html('<strong>미학습 ( 높은 순 정렬👇 )</strong>')     
+            $('#out_sort').html('퇴소율 ( 높은 순 정렬👉 )')  
+        Targetdata.sort(function (a, b) {
+            return b.done_consulting_num - a.done_consulting_num;
+        });
+        break;
+
+        case "out_sort":
+            $('#ban_sort').html('반 ( 이름순 정렬👉 )')
+            $('#teacher_sort').html('선생님 ( 이름 순 정렬👉 )')    
+            $('#unlearned_sort').html('미학습 ( 높은 순 정렬👉 )')     
+            $('#out_sort').html('<strong>퇴소율 ( 높은 순 정렬👇 )</strong>')  
+        Targetdata.sort(function (a, b) {
+            return b.done_consulting_num - a.done_consulting_num;
+        });
+        break;
+    }
+  
+    // 데이터 정렬 후 페이지네이션 다시 설정
+    SemesterContainer.pagination("destroy");
+    SemesterContainer.pagination(
+      Object.assign(ResultpaginationOptions, { dataSource: Targetdata })
+    );
 }
 async function getTeacherInfo(t_id){
     let info = banData.filter(t=>t.teacher_id == t_id)
