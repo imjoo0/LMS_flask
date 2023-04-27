@@ -124,7 +124,7 @@ async function get_all_ban() {
         let unlearned_total = consultingData.filter(c=>c.category_id<100)
         switchstudentData = response['switchstudent']
         response['all_ban'].forEach((elem) => {
-            elem.unlearned_num = answer_rate(unlearned_total.filter(c=>c.ban_id == elem.ban_id).length,unlearned_total.length)
+            elem.unlearned_num = answer_rate(unlearned_total.filter(c=>c.ban_id == elem.ban_id).length,unlearned_total.length).toFixed(2)
             elem.out_student_num = Number(elem.out_student_num)
             elem.hold_student_num = Number(elem.hold_student_num)
             totalOutnum += elem.out_student_num
@@ -381,8 +381,9 @@ function semesterShow(semester) {
                 let teacher_name = item.teacher_engname + '( ' + item.teacher_name +' )'
                 let total_out_count = item.out_student_num + item.switch_minus_num
                 temp_semester_banlist += `
-                <td class="col-2">${item.name}</td>
+                <td class="col-1">${item.name}</td>
                 <td class="col-2">${teacher_name}</td>
+                <td class="col-1">${item.unlearned_num} %</td>
                 <td class="col-1">${item.student_num - total_out_count + item.switch_plus_num}</td>
                 <td class="col-1">${item.student_num}</td>
                 <td class="col-2">${item.switch_plus_num}</td>
