@@ -110,6 +110,7 @@ def question():
                 qdata['attach'] = "없음"
                 qdata['attach_id'] = "없음"
             else:
+                print(q.attachements)
                 qdata['attach'] = q.attachments.file_name
                 qdata['attach_id'] = q.attachments.id
             data.append(qdata)
