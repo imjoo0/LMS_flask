@@ -110,8 +110,9 @@ def question():
                 qdata['attach'] = "없음"
                 qdata['attach_id'] = "없음"
             else:
+                my_attachments = Attachments.query.filter(Attachments.question_id == q.id).all()
                 qdata['attach'] = []
-                for qa in q.attachments:
+                for qa in my_attachments:
                     print(qa)
                     print(qa.id)
                     qdata['attach'].append({
