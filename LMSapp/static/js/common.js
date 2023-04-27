@@ -628,13 +628,14 @@ async function getTeacherInfo(t_id){
         <span>* 보류:${ hs }</span><br>
         <span>* 퇴소:${ os }</span>`);
 
-        let chart = Chart.getChart(`total-chart-element${t_id}`);
+        let text = total-chart-element+t_id
+        let chart = Chart.getChart(text);
         if (chart) {
             chart.destroy();
         }
         // promise를 이용하여 차트를 그립니다.
         new Promise((resolve) => {
-            let ctx = document.getElementById(`total-chart-element${t_id}`).getContext('2d');
+            let ctx = document.getElementById(text).getContext('2d');
             new Chart(ctx, {
                 type: 'doughnut',
                 data: {
