@@ -630,6 +630,9 @@ async function getTeacherInfo(t_id){
         let ctx = document.getElementById('total-chart-element').getContext('2d');
         if(Chart.getChart('total-chart-element')){
             ctx.chart.destroy()
+            Chart.getChart('total-chart-element').destroy()
+            ctx = document.getElementById('total-chart-element').getContext('2d');
+
         }
         new Chart(ctx, {
             type: 'doughnut',
