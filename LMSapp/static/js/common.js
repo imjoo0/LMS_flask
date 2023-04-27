@@ -633,41 +633,30 @@ async function getTeacherInfo(t_id){
         }
         let ctx = document.getElementById('total-chart-element').getContext('2d');
         
-        // Promise를 이용하여 차트를 그립니다.
-        new Promise((resolve) => {
-            new Chart(ctx, {
+        new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['관리중', '이반', '보류', '퇴소'],
-                datasets: [
+              labels: ['관리중', '이반', '보류', '퇴소'],
+              datasets: [
                 {
-                    data: [total_student_num, ss, hs, os],
-                    backgroundColor: ['#B39CD0', '#ffd400', '#F23966', '#C24F77'],
-                    hoverOffset: 4,
+                  data: [total_student_num, ss, hs, os],
+                  backgroundColor: ['#B39CD0', '#ffd400', '#F23966', '#C24F77'],
+                  hoverOffset: 4,
                 },
-                ],
+              ],
             },
             options: {
-                maintainAspectRatio: false,
-                aspectRatio: 1,
-                plugins: {
+              maintainAspectRatio: false,
+              aspectRatio: 1,
+              plugins: {
                 legend: {
-                    display: false,
+                  display: false,
                 },
-                },
-                responsive: true,
-                width: 500,
-                height: 500,
+              },
+              responsive: true,
+              width: 500,
+              height: 500,
             },
-            // 그리기가 완료되면 resolve를 호출합니다.
-            plugins: [{
-                afterRender: (c, easing) => {
-                resolve();
-                }
-            }]
-            });
-        }).then(() => {
-            console.log('차트가 그려졌습니다.');
         });
         
         console.log(Chart.getChart('total-chart-element'))
