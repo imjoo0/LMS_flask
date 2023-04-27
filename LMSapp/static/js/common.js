@@ -631,15 +631,9 @@ async function getTeacherInfo(t_id){
             <span>* 퇴소:${ os }</span>
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
-        var chart = Chart.getChart(`total-chart-element${t_id}`).getContext('2d');
-        if (chart) {
-            chart.destroy()
-        }
-        // PURPLE 섹션 차트 그리기
-        let ctx = document.getElementById(`total-chart-element${t_id}`).getContext('2d');
-        // let totalChartE = new Chart(ctx, {
-        // let canvas = $(`#total-chart-element${t_id}`)[0];
-        // let ctx = canvas.getContext('2d');
+
+        let canvas = $(`#total-chart-element${t_id}`)[0];
+        let ctx = canvas.getContext('2d');
         let chart = new Chart(ctx, {
             type: 'doughnut',
             data: {
