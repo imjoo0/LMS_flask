@@ -635,10 +635,6 @@ async function getTeacherInfo(t_id){
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
 
-        var chart = Chart.getChart(`#total-chart-element${t_id}`)
-        if (chart) {
-            chart.destroy()
-        }
         let ctx = document.getElementById(`total-chart-element${t_id}`).getContext('2d');
         let TeacherChart = new Chart(ctx, {
             type: 'doughnut',
@@ -665,6 +661,11 @@ async function getTeacherInfo(t_id){
                 height: 500,
             },
         });
+        let chart = Chart.getChart(`#total-chart-element${t_id}`)
+        if (chart) {
+            chart.destroy()
+        }
+
         // 미학습 발생
         $('#ucomcom').html(`<td class="col-6">총 ${unlearned_ttc}건 </td><td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
         
