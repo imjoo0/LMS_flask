@@ -836,95 +836,6 @@ function sort_consultingoption(sortBy) {
 
 // 상담일지 작성 
 async function get_consulting(student_id, is_done) {
-    // if(!reportsData){
-    //     await get_student_reports().then(()=>{
-    //         console.log(reportsData)
-    //     })
-    // }
-    // student_report = reportsData.filter(r=>r.student_id == student_id)
-    // if(student_report.length != 0 ){
-    //     $('.file-viewer').click(function() {
-    //         // Get file URL and name
-    //         var fileUrl = 'https://www.purpleacademy.co.kr/student/documents_download?file=' + encodeURIComponent($(this).data('file'));
-    //         var fileName = $(this).data('file');
-
-    //         // Open Magnific Popup with file viewer content
-    //         $.magnificPopup.open({
-    //           items: {
-    //             src: '<div class="file-container"></div>',
-    //             type: 'inline'
-    //           },
-    //           callbacks: {
-    //             open: function() {
-    //               // Download file with Axios
-    //               axios.get(fileUrl, { responseType: 'arraybuffer' }).then(function(response) {
-    //                 var fileBlob = new Blob([response.data], { type: response.headers['content-type'] });
-    //                 var fileUrl = URL.createObjectURL(fileBlob);
-
-    //                 // Display file in container
-    //                 var container = $('.file-container');
-    //                 if (fileName.endsWith('.pdf')) {
-    //                   container.html('<iframe src="' + fileUrl + '"></iframe>');
-    //                 } else {
-    //                   container.html('<embed src="' + fileUrl + '" type="' + response.headers['content-type'] + '"></embed>');
-    //                 }
-    //               });
-    //             },
-    //             beforeClose: function() {
-    //               // Revoke object URL to free memory
-    //               URL.revokeObjectURL($('.file-container').find('iframe, embed').attr('src'));
-    //             }
-    //           }
-    //         });
-    //     });
-    //     // student_report_name = student_report[0].file_name
-    //     // $('#srepo').click(function() {
-    //     //     // Get PDF file URL
-    //     //     var pdfUrl = 'https://www.purpleacademy.co.kr/student/documents_download?file='+student_report[0].enc_name;
-
-    //     //     // Open Magnific Popup with PDF viewer content
-    //     //     $.magnificPopup.open({
-    //     //       items: {
-    //     //         src: '<div class="pdf-container"><canvas></canvas></div>',
-    //     //         type: 'inline'
-    //     //       },
-    //     //       callbacks: {
-    //     //         open: function() {
-    //     //           // Load PDF file into canvas
-    //     //           var canvas = this.content.find('canvas')[0];
-    //     //           var pdfDoc = null;
-    //     //           var pdfScale = 1.5;
-    //     //           var pageNum = 1;
-
-    //     //           // Initialize PDF.js library
-    //     //           PDFJS.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
-    //     //           PDFJS.getDocument(pdfUrl).then(function(pdfDoc_) {
-    //     //             pdfDoc = pdfDoc_;
-    //     //             renderPage(pageNum, canvas);
-    //     //           });
-
-    //     //           // Render PDF page on canvas
-    //     //           function renderPage(num, canvas) {
-    //     //             pdfDoc.getPage(num).then(function(page) {
-    //     //               var viewport = page.getViewport({scale: pdfScale});
-    //     //               canvas.height = viewport.height;
-    //     //               canvas.width = viewport.width;
-
-    //     //               var ctx = canvas.getContext('2d');
-    //     //               var renderContext = {
-    //     //                 canvasContext: ctx,
-    //     //                 viewport: viewport
-    //     //               };
-    //     //               page.render(renderContext);
-    //     //             });
-    //     //           }
-    //     //         }
-    //     //       }
-    //     //     });
-    //     // });
-    //     // $('#consulting_contents_box').append(temp_button);
-
-    // }
     data = consultingStudentData.filter((e) => {
         return e.student_id == student_id && e.consulting_list.length != 0;
     })[0]
@@ -1028,19 +939,10 @@ async function get_consulting(student_id, is_done) {
                 </div>
                 <div class="modal-body-select-container">
                     <span class="modal-body-select-label">제공한 가이드</span>
-                    <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"
-                        id="consulting_solution${consulting_id}" placeholder="${history_solution}">
+                    <textarea class="modal-body" type="text" rows="5" cols="25"
+                        id="consulting_solution${consulting_id}" placeholder="${history_solution}"></textarea> 
                 </div>
                 `;
-                if (is_done == 1) {
-                    temp_consulting_write_box += `
-                    <div class="modal-body-select-container">
-                    <span class="modal-body-select-label">상담 결과</span>
-                    <textarea class="modal-body-select" type="text" rows="5" cols="25"
-                        id="consulting_result${consulting_id}" style="width: 75%;" placeholder="${history_result}"></textarea>
-                    </div>
-                    `;
-                }
                 temp_consulting_write_box += `<p>상담 일시 : ${make_date(history_created)}</p> `;
                 idx += 1;
             }
@@ -1048,11 +950,6 @@ async function get_consulting(student_id, is_done) {
         });
         if (is_done == 0) {
             temp_consulting_write_box += `
-            <div class="modal-body-select-container">
-                <span class="modal-body-select-label">상담 결과</span>
-                <textarea class="modal-body" type="text" rows="5" cols="25"
-                    id="consulting_result" placeholder="오늘 ${data.student_name}원생 대상에게 진행한 상담 결과를 남겨주세요"></textarea>
-            </div>
             <p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
             <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
                 <button class="btn btn-dark"
