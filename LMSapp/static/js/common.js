@@ -393,7 +393,7 @@ function semesterShow(semester) {
                 <td class="col-2">${item.switch_plus_num}</td>
                 <td class="col-2"> 총: ${total_out_count}명 ( 퇴소 : ${item.out_student_num} / 이반 : ${item.switch_minus_num} / 보류 : ${item.hold_student_num} )</td>
                 <td class="col-1"><strong> ${item.out_num_per} %</strong></td>
-                <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${item.teacher_id})"><span class="cursor-pointer">👉</span></td>;`;
+                <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherData(${item.teacher_id})"><span class="cursor-pointer">👉</span></td>;`;
             });
             $('#semester_banlist').html(temp_semester_banlist)
         }
@@ -495,7 +495,55 @@ function paging(totalData, dataPerPage, pageCount, currentPage, data_list) {
         displayData(totalData, selectedPage, dataPerPage,data_list);
     });
 }
-async function getTeacherInfo(t_id){
+async function getTeacherData(t_id){
+    $('.mo_inloading').show()
+    $('.monot_inloading').hide()
+    if (!consultingData && studentsData && taskData) {
+        await get_all_consulting().then(() => {
+            $('.mo_inloading').hide()
+            $('.monot_inloading').show()
+        });
+    }else if (consultingData && !studentsData && taskData) {
+        await get_all_students().then(() => {
+            $('.mo_inloading').hide()
+            $('.monot_inloading').show()
+        });
+    }else if (consultingData && studentsData && !taskData) {
+        await get_all_task().then(() => {
+            $('.mo_inloading').hide()
+            $('.monot_inloading').show()
+        });
+    }else if (!consultingData && !studentsData && taskData) {
+        await get_all_students()
+        await get_all_consulting().then(() => {
+            $('.mo_inloading').hide()
+            $('.monot_inloading').show()
+        });
+    }else if (!consultingData && studentsData && !taskData) {
+        await get_all_task()
+        await get_all_consulting().then(() => {
+            $('.mo_inloading').hide()
+            $('.monot_inloading').show()
+        });
+    }else if (consultingData && !studentsData && !taskData) {
+        await get_all_students()
+        await get_all_task().then(() => {
+            $('.mo_inloading').hide()
+            $('.monot_inloading').show()
+        });
+    }else if (!consultingData && !studentsData && !taskData) {
+        await get_all_students()
+        await get_all_consulting()
+        await get_all_task().then(() => {
+            $('.mo_inloading').hide()
+            $('.monot_inloading').show()
+        });
+    }
+    $('.mo_inloading').hide()
+    $('.monot_inloading').show()
+    getTeacherInfo(t_id)
+}
+function getTeacherInfo(t_id){
     let info = banData.filter(t=>t.teacher_id == t_id)
     if (info.length == 0){
         let no_data_title = `<h1> ${response.text} </h1>`
@@ -504,51 +552,7 @@ async function getTeacherInfo(t_id){
     }else{
         // $('#consultingban_search_input').off('keyup');
         $('#teachertitle').html(`${info[0].teacher_engname} TEACHER REPORT`)
-        $('.mo_inloading').show()
-        $('.monot_inloading').hide()
-        if (!consultingData && studentsData && taskData) {
-            await get_all_consulting().then(() => {
-                $('.mo_inloading').hide()
-                $('.monot_inloading').show()
-            });
-        }else if (consultingData && !studentsData && taskData) {
-            await get_all_students().then(() => {
-                $('.mo_inloading').hide()
-                $('.monot_inloading').show()
-            });
-        }else if (consultingData && studentsData && !taskData) {
-            await get_all_task().then(() => {
-                $('.mo_inloading').hide()
-                $('.monot_inloading').show()
-            });
-        }else if (!consultingData && !studentsData && taskData) {
-            await get_all_students()
-            await get_all_consulting().then(() => {
-                $('.mo_inloading').hide()
-                $('.monot_inloading').show()
-            });
-        }else if (!consultingData && studentsData && !taskData) {
-            await get_all_task()
-            await get_all_consulting().then(() => {
-                $('.mo_inloading').hide()
-                $('.monot_inloading').show()
-            });
-        }else if (consultingData && !studentsData && !taskData) {
-            await get_all_students()
-            await get_all_task().then(() => {
-                $('.mo_inloading').hide()
-                $('.monot_inloading').show()
-            });
-        }else if (!consultingData && !studentsData && !taskData) {
-            await get_all_students()
-            await get_all_consulting()
-            await get_all_task().then(() => {
-                $('.mo_inloading').hide()
-                $('.monot_inloading').show()
-            });
-        }
-        $('.mo_inloading').hide()
-        $('.monot_inloading').show()
+        
 
         let temp_profile_data = `
             <tbody  style="width:100%;">
