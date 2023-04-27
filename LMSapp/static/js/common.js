@@ -631,10 +631,7 @@ async function getTeacherInfo(t_id){
             <span>* 퇴소:${ os }</span>
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
-        if(newTotalChart){
-            newTotalChart.destroy();
-        }
-        var newTotalChart  = new Chart($((`#total-chart-element${t_id}`)),{
+        new Chart($((`#total-chart-element${t_id}`)),{
             type: 'doughnut',
             data: {
                 labels: ['관리중', '이반', '보류', '퇴소'],
