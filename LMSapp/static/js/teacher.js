@@ -1426,6 +1426,7 @@ async function get_question_detail(q_id) {
     </div>
     <div class="modal-body-select-container">
     <span class="modal-body-select-label">첨부파일</span>
+    <div class="make_col">
     `
     if(questiondata.attach != "없음"){
         questiondata.attach.forEach((a)=>{
@@ -1434,7 +1435,7 @@ async function get_question_detail(q_id) {
             `;
         })
     }
-    temp_question_list += `</div>`;
+    temp_question_list += `</div></div>`;
     $('#teacher_question').html(temp_question_list);
     // 상담 일지 처리 
     if (questiondata.category == 0 || questiondata.category == 4 || questiondata.category == 5) {
