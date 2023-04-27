@@ -627,7 +627,7 @@ async function getTeacherInfo(t_id){
             <span>* 퇴소:${ os }</span>
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
-        let chart = Chart.getChart('total-chart-element').destroy()
+        let chart = Chart.getChart('total-chart-element')
         if(chart){
             chart.destroy()
             ctx = document.getElementById('total-chart-element').getContext('2d');
