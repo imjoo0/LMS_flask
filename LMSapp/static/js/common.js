@@ -627,9 +627,33 @@ async function getTeacherInfo(t_id){
             <span>* 퇴소:${ os }</span>
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
-
-        Chart.getChart('total-chart-element').destroy()
         let ctx = document.getElementById('total-chart-element').getContext('2d');
+        Chart.getChart('total-chart-element') ? Chart.getChart('total-chart-element').destroy():
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['관리중', '이반', '보류', '퇴소'],
+                datasets: [
+                    {
+                        data: [total_student_num, ss,hs, os],
+                        backgroundColor: ['#B39CD0', '#ffd400', '#F23966','#C24F77'],
+                        hoverOffset: 4,
+                    },
+                ],
+            },
+            options: {
+                maintainAspectRatio: false,
+                aspectRatio: 1,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+                responsive: true,
+                width: 500,
+                height: 500,
+            },
+        });; 
         new Chart(ctx, {
             type: 'doughnut',
             data: {
