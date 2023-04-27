@@ -631,7 +631,16 @@ async function getTeacherInfo(t_id){
             <span>* 퇴소:${ os }</span>
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
-        new Chart($((`#total-chart-element${t_id}`)),{
+
+        let canvas = $(`#total-chart-element${t_id}`)[0];
+        let ctx = canvas.getContext('2d');
+
+        // 이전에 그려진 차트 삭제
+        if (chart) {
+            chart.destroy();
+        }
+
+        let chart = new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels: ['관리중', '이반', '보류', '퇴소'],
