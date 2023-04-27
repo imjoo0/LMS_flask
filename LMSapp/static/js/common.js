@@ -560,7 +560,7 @@ async function getTeacherInfo(t_id){
                 <tr class="row tagtagtitle">
                     <th class="col-12">담임 선생님 정보</th>
                 </tr>
-                <tr class="row tagtagtitle">
+                <tr class="row">
                     <td class="col-4">${info[0].teacher_name}(${info[0].teacher_engname})</th>
                     <td class="col-4"> 📞 ${info[0].teacher_mobileno} </th>
                     <td class="col-4"> ✉️ ${info[0].teacher_email}</th>
