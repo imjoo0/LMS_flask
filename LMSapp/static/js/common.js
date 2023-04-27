@@ -468,7 +468,7 @@ function sort_data(sort_op){
     // 데이터 정렬 후 페이지네이션 다시 설정
     SemesterContainer.pagination("destroy");
     SemesterContainer.pagination(
-      Object.assign(ResultpaginationOptions, { dataSource: Targetdata })
+      Object.assign(ResultpaginationOptions, { dataSource: resultData })
     );
 }
 async function getTeacherInfo(t_id){
