@@ -505,7 +505,9 @@ async function getTeacherInfo(t_id){
         // $('#consultingban_search_input').off('keyup');
         $('#teachertitle').html(`${info[0].teacher_engname} TEACHER REPORT`)
         $('.mo_inloading').show()
-        $('.monot_inloading').hide()        
+        $('.monot_inloading').hide() 
+        $('#chartboxbox').html(`<canvas id="total-chart-element${t_id}" class="total-chart-element p-sm-3 p-2"></canvas>
+        <div class ="chart-data-summary" id="teacher_info_student_num"></div>`);       
         if (!consultingData && studentsData && taskData) {
             await get_all_consulting().then(() => {
                 $('.mo_inloading').hide()
@@ -619,15 +621,12 @@ async function getTeacherInfo(t_id){
         $('#mybaninfo').html(temp_baninfo);
         $('#studentban_kind').html(temp_ban_option)
         
-        $('#chartboxbox').html(`
-        <canvas id="total-chart-element${t_id}" class="total-chart-element p-sm-3 p-2"></canvas>
-        <div class ="chart-data-summary">
+        $('#teacher_info_student_num').html(`
         <span>초기 배정:${ total_student_num }</span><br>
         <span>관리중:${ now_student_num }</span><br>
         <span>* 이반:${ ss }</span><br>
         <span>* 보류:${ hs }</span><br>
-        <span>* 퇴소:${ os }</span>
-        </div>`);
+        <span>* 퇴소:${ os }</span>`);
 
         let chart = Chart.getChart(`total-chart-element${t_id}`);
         if (chart) {
