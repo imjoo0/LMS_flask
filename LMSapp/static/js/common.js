@@ -628,7 +628,7 @@ async function getTeacherInfo(t_id){
         <span>* 보류:${ hs }</span><br>
         <span>* 퇴소:${ os }</span>`);
 
-        let text = total-chart-element+t_id
+        let text = 'total-chart-element'+t_id
         let chart = Chart.getChart(text);
         if (chart) {
             chart.destroy();
