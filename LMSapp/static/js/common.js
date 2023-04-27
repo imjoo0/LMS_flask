@@ -377,17 +377,17 @@ function semesterShow(semester) {
         callback: function (data, pagination) {
             var temp_semester_banlist = '';
             $.each(data, function (index, item) {
+                console.log(item)
                 let teacher_name = item.teacher_engname + '( ' + item.teacher_name +' )'
                 let total_out_count = item.out_student_num + item.switch_minus_num
                 temp_semester_banlist += `
-                <td class="col-2">${item.name}</td>
-                <td class="col-2">${teacher_name}</td>
+                <td class="col-2" data-bs-toggle="modal" data-bs-target="#baninfomodal" onclick="getBanInfo(${item.ban_id})">${item.name} ✅ </td>
+                <td class="col-3" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${item.teacher_id})">${teacher_name} ✅ </td>
                 <td class="col-1">${item.student_num - total_out_count + item.switch_plus_num}</td>
                 <td class="col-1">${item.student_num}</td>
                 <td class="col-2">${item.switch_plus_num}</td>
                 <td class="col-2"> 총: ${total_out_count}명 ( 퇴소 : ${item.out_student_num} / 이반 : ${item.switch_minus_num} / 보류 : ${item.hold_student_num} )</td>
-                <td class="col-1"><strong> ${item.out_num_per} %</strong></td>
-                <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${item.teacher_id})"><span class="cursor-pointer">👉</span></td>;`;
+                <td class="col-1"><strong> ${item.out_num_per} %</strong></td>;`;
             });
             $('#semester_banlist').html(temp_semester_banlist)
         }

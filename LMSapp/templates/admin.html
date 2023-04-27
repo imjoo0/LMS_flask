@@ -21,6 +21,91 @@
 {% endblock %}
 {% block content %}
 {% autoescape off %}
+
+<!-- 반 정보 조회 모달 -->
+<div class="modal fade" id="baninfomodal" tabindex="-1" aria-labelledby="baninfomodalModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header make_row">
+                <h5 class="modal-title" id="baninfomodaltitle"></h5>
+                <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="mo_inloading" class="loader loader--style2 text-center" title="1">
+                <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                    <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                        <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
+                    </path>
+                </svg>
+            </div>
+            <div class="modal-body monot_inloading" id="ban_infobox">
+                <div class="info-container">
+                    <div class="info-title">
+                        <span>Total Chart</span>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="class-chart-element" class="total-chart-element p-sm-3 p-2"></canvas>
+                        <div class ="chart-data-summary" id="class_info_student_num">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="info-container mt-5">
+                    <div class="info-title">
+                        <span>class Report</span>
+                    </div>
+                    <div class="info">
+                        <div class="total_table" style="width:90%">
+                            <table class="table text-center no_mb" id="banprofile_data" >
+                                <tbody style="width:100%;" id="banprofile_data_mybaninfo">
+                                </tbody>
+                            </table>
+                            <table class="table text-center no_mb">
+                                <tbody style="width:100%;">
+                                    <tr class="row tagtagtitle">
+                                        <th class="col-12">미학습 현황</th>
+                                    </tr>
+                                    <tr class="row">
+                                        <th class="col-6">누적 미학습</th>
+                                        <th class="col-6">미학습 발생율</th>
+                                    </tr>
+                                    <tr class="row" id="banucomcom"></tr>
+                                    <tr id="bantotalreport-row" class="row">
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-container mt-5">
+                    <div class="info-title">
+                        <span>Student Report</span>
+                        <select id="studentban_kind" class="modal-body-select" style="float:right;"></select>
+                    </div>
+                    <div class="info make_col">
+                        <table class="table text-center" id="banstudent_data" style="width:100%">
+                            <tr class="row" style="background: #DCE6F2;">
+                                <th class="col-12" id="displayCount"></th>
+                            </tr>
+                            <tr class="row" style="background:#DCE6F2;">
+                                <th class="col-3">원생 정보</th>
+                                <th class="col-2">원번</th>
+                                <th class="col-3">부모님 정보</th>
+                                <th class="col-3">미학습</th>
+                                <th class="col-1">상세</th>
+                            </tr>
+                            <tr id="bans_data" class="row"></tr>
+                        </table>
+                        <div class="d-flex justify-content-center align-items-center w-100">
+                            <div id="banspagingul" class="mt-4 mb-5 text-center"></div>
+                        </div>
+                        <!-- <ul id="pagingul"></ul> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- 선생님 정보 조회 모달 -->
 <div class="modal fade" id="teacherinfo" tabindex="-1" aria-labelledby="teacherModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -207,14 +292,13 @@
                                 <table id="semester" class="table text-center mt-5" style="width:100%;">
                                     <thead>
                                         <tr class="row">
-                                            <th class="col-2" id="semester_s">학기</th>
-                                            <th class="col-2">담임 T</th>
+                                            <th class="col-2" id="semester_s">학기 (상세 조회)</th>
+                                            <th class="col-3">담임 T (상세 조회)</th>
                                             <th class="col-1">현재 원생 수</th>
                                             <th class="col-1">초기 배정 수</th>
                                             <th class="col-2">➕ 추가 등록 한 원생 수</th>
                                             <th class="col-2">➖ 퇴소 및 이반 수</th>
                                             <th class="col-1"><strong>퇴소율</strong></th>
-                                            <th class="col-1">상세보기</th>
                                         </tr>
                                     </thead>
                                     <tr class="row" id="semester_banlist">
