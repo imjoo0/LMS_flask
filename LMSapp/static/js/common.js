@@ -635,7 +635,7 @@ async function getTeacherInfo(t_id){
         }
         // promise를 이용하여 차트를 그립니다.
         new Promise((resolve) => {
-            let ctx = $(`#total-chart-element${t_id}`).getContext('2d');
+            let ctx = $(`#total-chart-element${t_id}`)[0].getContext('2d');
             new Chart(ctx, {
                 type: 'doughnut',
                 data: {
