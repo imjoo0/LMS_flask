@@ -505,9 +505,7 @@ async function getTeacherInfo(t_id){
         // $('#consultingban_search_input').off('keyup');
         $('#teachertitle').html(`${info[0].teacher_engname} TEACHER REPORT`)
         $('.mo_inloading').show()
-        $('.monot_inloading').hide() 
-        $('#chartboxbox').html(`<canvas id="total-chart-element${t_id}" class="total-chart-element p-sm-3 p-2"></canvas>
-        <div class ="chart-data-summary" id="teacher_info_student_num"></div>`);       
+        $('.monot_inloading').hide()        
         if (!consultingData && studentsData && taskData) {
             await get_all_consulting().then(() => {
                 $('.mo_inloading').hide()
@@ -621,21 +619,22 @@ async function getTeacherInfo(t_id){
         $('#mybaninfo').html(temp_baninfo);
         $('#studentban_kind').html(temp_ban_option)
         
-        $('#teacher_info_student_num').html(`
-        <span>초기 배정:${ total_student_num }</span><br>
-        <span>관리중:${ now_student_num }</span><br>
-        <span>* 이반:${ ss }</span><br>
-        <span>* 보류:${ hs }</span><br>
-        <span>* 퇴소:${ os }</span>`);
-
-        let text = 'total-chart-element'+toString(t_id)
-        let chart = Chart.getChart(text);
+        let temp_teacher_info_student_num = `
+            <span>초기 배정:${ total_student_num }</span><br>
+            <span>관리중:${ now_student_num }</span><br>
+            <span>* 이반:${ ss }</span><br>
+            <span>* 보류:${ hs }</span><br>
+            <span>* 퇴소:${ os }</span>
+        `
+        $('#teacher_info_student_num').html(temp_teacher_info_student_num)
+        
+        let chart = Chart.getChart('total-chart-element');
         if (chart) {
             chart.destroy();
         }
         // promise를 이용하여 차트를 그립니다.
         new Promise((resolve) => {
-            let ctx = document.getElementById(text).getContext('2d');
+            let ctx = document.getElementById('total-chart-element').getContext('2d');
             new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -667,10 +666,9 @@ async function getTeacherInfo(t_id){
                 }
                 }]
             });
+        }).then((resolve) => {
             resolve();
-        }).then(() => {
             
-            console.log('확인')
         });
         // 미학습 발생
         $('#ucomcom').html(`<td class="col-6">총 ${unlearned_ttc}건 </td><td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
