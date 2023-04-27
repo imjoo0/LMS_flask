@@ -628,8 +628,11 @@ async function getTeacherInfo(t_id){
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
 
+        if(teacherChart){
+            teacherChart.destroy()
+        }
         let ctx = document.getElementById('total-chart-element').getContext('2d');
-        const teacherChart = new Chart(ctx, {
+        teacherChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels: ['관리중', '이반', '보류', '퇴소'],
@@ -653,7 +656,7 @@ async function getTeacherInfo(t_id){
                 width: 500,
                 height: 500,
             },
-        },teacherChart.destroy()
+        }
         );
         // 미학습 발생
         $('#ucomcom').html(`<td class="col-6">총 ${unlearned_ttc}건 </td><td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
