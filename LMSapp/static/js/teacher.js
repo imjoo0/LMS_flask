@@ -387,7 +387,7 @@ function sort_option(sortBy) {
         case "name_desc":
             $('#ban_sort').html('<strong>원생 (이름순 정렬👇)</strong>')
             $('#uconsulting_sort').html('미학습 (미학습 건 정렬👉)')    
-            $('#dconsulting_sort').html('상담 (상담 건 정렬👉)')   
+            $('#dconsulting_sort').html('진행상담 (상담 건 정렬👉)')   
         Targetdata.sort(function (a, b) {     
             var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
             var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
@@ -404,7 +404,7 @@ function sort_option(sortBy) {
         case "ul_desc":
             $('#ban_sort').html('원생 (이름순 정렬👉)')
             $('#uconsulting_sort').html('<strong>미학습 (미학습 건 정렬👇)</strong>')    
-            $('#dconsulting_sort').html('상담 (상담 건 정렬👉)')   
+            $('#dconsulting_sort').html('진행상담 (상담 건 정렬👉)')   
         Targetdata.sort(function (a, b) {
             return b.unlearned_num - a.unlearned_num;
         });
@@ -413,7 +413,7 @@ function sort_option(sortBy) {
         case "consulting_desc":
             $('#ban_sort').html('원생 (이름순 정렬👉)')
             $('#uconsulting_sort').html('미학습 (미학습 건 정렬👉)')    
-            $('#dconsulting_sort').html('<strong>상담 (상담 건 정렬👇)</strong>')   
+            $('#dconsulting_sort').html('<strong>진행상담 (상담 건 정렬👇)</strong>')   
         Targetdata.sort(function (a, b) {
             return b.done_consulting_num - a.done_consulting_num;
         });
@@ -583,6 +583,7 @@ function sort_consultingoption(sortBy) {
       Object.assign(ConsultingpaginationOptions, { dataSource: consulting_targetdata })
     );
 }
+
 // 상담기록 수정 
 // async function get_consulting(student_id, is_done) {
 //     // if(!reportsData){
@@ -895,7 +896,7 @@ async function get_consulting(student_id, is_done) {
     <td class="col-2"><strong>${answer_rate(unlearned_consulting_num, total_ban_unlearned_consulting).toFixed(0)}%</strong></td>
     `)
     let temp_consulting_write_box = ''
-    if (target_consulting_num != 0) {
+    if (target_consulting_num != 0){
         consultingGrouped = target_consulting.reduce((acc, item) => {
             if (!acc[item.category]) {
                 acc[item.category] = [];
@@ -908,9 +909,10 @@ async function get_consulting(student_id, is_done) {
         let temp_consulting_contents_box = `<a class="btn-two cyan small">원생리포트</a>`;
         let idx = 0;
         $.each(consultingGroupedCategory, function (index, key) {
-            target_consultings = consultingGrouped[key]
-            temp_consulting_write_box += `<hr class='hr-dotted'/><h3 id="target_${key}" style="margin-bottom:1.2rem;">${key}</h3>`
-            for (i = 0; i < target_consultings.length; i++) {
+            let target_consultings = consultingGrouped[key]
+            let cate_consultings_num = target_consultings.length
+            temp_consulting_write_box += `<hr class='hr-dotted'/><h3 id="target_${key}" style="margin-bottom:1.2rem;">${key} ${cate_consultings_num}건</h3>`
+            for (i = 0; i < cate_consultings_num; i++) {
                 let target = target_consultings[i]
                 let category = target['category']
                 let consulting_id = target['id']
@@ -919,10 +921,10 @@ async function get_consulting(student_id, is_done) {
                 let deadline = make_date(target['deadline'])
                 let history_created = target['created_at']
                 if (target['category_id'] < 100) {
-                    temp_consulting_write_box += `
-                    <p class="mt-lg-4 mt-5">✅${category} 검사 날짜: <strong>${make_date(target['startdate'])}</strong></p>
-                    `;
                     category = target['week_code'] + '주간  ' + category
+                    temp_consulting_write_box += `
+                    <p class="mt-lg-4 mt-5">✅${category} 검사 날짜: <strong> ${make_date(target['startdate'])}</strong></p>
+                    `;
                 }
                 let history_reason = target['reason'] == null ? '입력해주세요' : target['reason']
                 let history_solution = target['solution'] == null ? '입력해주세요' : target['solution']
@@ -950,22 +952,21 @@ async function get_consulting(student_id, is_done) {
             <p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
             <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
                 <button class="btn btn-dark"
-                    onclick="post_bulk_consultings(${target_consulting_num},${is_done})"
+                    onclick="post_bulk_consultings(${idx},${is_done})"
                     style="margin-right:5px">저장</button>
             </div>
             `;
-            temp_consulting_contents_box += `<a class="btn-two black small" onclick="missed_consulting(${target_consulting_num})">부재중</a>`;
+            temp_consulting_contents_box += `<a class="btn-two black small" onclick="missed_consulting(${idx})">부재중</a>`;
         } else if (is_done == 1) {
             temp_consulting_write_box += `
             <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
                 <button class="btn btn-dark"
-                    onclick="post_bulk_consultings(${target_consulting_num},${is_done})"
+                    onclick="post_bulk_consultings(${idx},${is_done})"
                     style="margin-right:5px">수정</button>
             </div>`
         }
         $('#consulting_write_box').html(temp_consulting_write_box);
         $('#consulting_contents_box_cate').html(temp_consulting_contents_box)
-
         // target_consulting.sort((a, b) => {return make_date(a.deadline) - make_date(b.deadline)});
     } else {
         temp_consulting_write_box += '<p>진행 상담 내역이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 </p>'

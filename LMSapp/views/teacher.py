@@ -207,6 +207,7 @@ def task(tb_id):
 @bp.route("/consulting_missed/<int:id>", methods=['POST'])
 def consulting_missed(id):
     if request.method =='POST':
+        print(id)
         target_consulting = Consulting.query.get_or_404(id)
         target_consulting.missed = Today
         target_consulting.done = 0
