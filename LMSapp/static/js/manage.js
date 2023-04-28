@@ -541,7 +541,7 @@ async function inTdata() {
     }
     $('.cs_inloading').hide()
     $('.not_inloading').show()
-    paginating(0)
+    inTpaginating(0)
 }
 function inTpaginating(done_code) {
     $('#inTcs_search_input').off('keyup');
