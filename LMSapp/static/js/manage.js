@@ -1182,7 +1182,7 @@ async function get_request_consulting() {
     let requeConsultings = []
     if (!consultingData) {
         await get_all_consulting().then(() => {
-            requeConsultings = consultingData.filter(c => c.category_id != 110)
+            requeConsultings = consultingData.filter(c =>(c.category_id != 110 && c.category_id>100))
             if (requeConsultings.length > 0) {
                 const consultingGrouped = requeConsultings.reduce((acc, item) => {
                     const v = `${item.category}_${item.contents}_${item.startdate}_${item.deadline}`;
@@ -1205,7 +1205,7 @@ async function get_request_consulting() {
             $('#request_consultingban_listbox').hide()
         });
     } else {
-        requeConsultings = consultingData.filter(c => c.category_id != 110)
+        requeConsultings = consultingData.filter(c => (c.category_id != 110 && c.category_id>100))
         if (requeConsultings.length > 0) {
             const consultingGrouped = requeConsultings.reduce((acc, item) => {
                 const v = `${item.category}_${item.contents}_${item.startdate}_${item.deadline}`;
