@@ -927,4 +927,3 @@ async function delete_question(q_id){
     get_consulting()
     }
 }
-
