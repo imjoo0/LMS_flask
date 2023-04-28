@@ -207,7 +207,6 @@ def task(tb_id):
 @bp.route("/consulting_missed/<int:id>", methods=['POST'])
 def consulting_missed(id):
     if request.method =='POST':
-        print(id)
         target_consulting = Consulting.query.get_or_404(id)
         target_consulting.missed = Today
         target_consulting.done = 0
@@ -236,8 +235,8 @@ def consulting_history(id,is_done):
                 target_consulting.reason = received_reason
             if(received_solution !="작성 내역이 없습니다"):    
                 target_consulting.solution = received_solution
-            if((received_reason !="작성 내역이 없습니다") or (received_solution !="작성 내역이 없습니다")):
-                target_consulting.created_at = Today
+            # if((received_reason !="작성 내역이 없습니다") or (received_solution !="작성 내역이 없습니다")):
+            #     target_consulting.done = 1
         target_consulting.done = 1
         db.session.commit()
     return{'result':'완료'}
