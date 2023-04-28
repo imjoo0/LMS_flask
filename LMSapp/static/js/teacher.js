@@ -638,6 +638,8 @@ async function student_consulting(student_id) {
         consultingGroupedCategory = Object.keys(consultingGrouped)
         let idx = 0;
         let temp_consulting_write_box = `
+        <table class="table text-center monot_inloading">
+            <tbody style="width:100%;">
                 <tr class="row tagtagtitle">
                     <th class="col-4">진행 날짜</th>
                     <th class="col-4">진행 한 상담 건</th>
@@ -709,11 +711,12 @@ async function student_consulting(student_id) {
             </tbody>
         </table>
         `;
-        $('#student_consulting_info_box').append(temp_consulting_write_box);
+        $('#consulting_write_box').html(temp_consulting_write_box);
     } else {
         temp_consulting_write_box += '<p>진행 상담 내역이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 </p>'
         $('#consulting_write_box').html(temp_consulting_write_box);
     }
+
     $('.mo_inloading').hide()
     $('.monot_inloading').show()
 }
