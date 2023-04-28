@@ -483,7 +483,7 @@ function sort_data(sort_op){
     );
 }
 $('.target_chart').click(function(){
-    config = {
+    Tconfig = {
         type: 'doughnut',
         data: {
         labels: ['관리중', '이반', '보류', '퇴소'],
@@ -509,7 +509,7 @@ $('.target_chart').click(function(){
         },
     }
     ctx = document.getElementById('total-chart-element').getContext('2d');
-    TeacherChart = new Chart(ctx,config)
+    TeacherChart = new Chart(ctx,Tconfig)
 });
 async function getTeacherInfo(t_id){
     let info = banData.filter(t=>t.teacher_id == t_id)
@@ -639,7 +639,7 @@ async function getTeacherInfo(t_id){
             <span>* 퇴소:${ os }</span>
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
-        let dataset = config.data.datasets
+        let dataset = Tconfig.data.datasets
         dataset[0].data = [total_student_num, ss, hs, os]
         TeacherChart.update();
         // 미학습 발생
