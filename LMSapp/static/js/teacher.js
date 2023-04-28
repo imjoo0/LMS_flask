@@ -655,7 +655,7 @@ async function student_consulting(student_id) {
                     temp_consulting_write_box += `
                         <td class="col-4">${make_date(key)}</td>
                         <td class="col-4">${cate_consultings_num}건</td>
-                        <td class="col-4">📝</td>
+                        <td class="col-4" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="show_consulting_write_box('${key}')">📝</td>
                     `
                 });
                 $('#studentlist_consulting_info_box').html(temp_consulting_write_box)
