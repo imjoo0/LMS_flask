@@ -720,15 +720,15 @@ async function getTeacherInfo(t_id){
         //     StudentContainer.pagination('destroy');
         //     StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
         // });
-
         $('#studentban_kind').on('change', function() {
             // 실행할 함수 내용
             let ban_id = $(this).val()
+            let change_student = null
             if(ban_id == "none"){
                 $('#displayCount').html(`관리 중인 원생 수: ${Tstudent.length}명`)
                 StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': Tstudent }))
             }else{
-                let change_student = Tstudent.filter(s=>s.ban_id == ban_id)
+                change_student = Tstudent.filter(s=>s.ban_id == ban_id)
                 console.log(Tstudent)
                 console.log(ban_id)
                 StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': change_student }))
