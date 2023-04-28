@@ -397,7 +397,7 @@ function semesterShow(semester) {
                 <td class="col-2">${item.switch_plus_num}</td>
                 <td class="col-2"> 총: ${total_out_count}명 ( 퇴소 : ${item.out_student_num} / 이반 : ${item.switch_minus_num} / 보류 : ${item.hold_student_num} )</td>
                 <td class="col-1"><strong> ${item.out_num_per} %</strong></td>
-                <td class="col-1 target_chart" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${item.teacher_id})"><span class="cursor-pointer">👉</span></td>;`;
+                <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${item.teacher_id})"><span class="cursor-pointer">👉</span></td>;`;
             });
             $('#semester_banlist').html(temp_semester_banlist)
         }
@@ -482,35 +482,6 @@ function sort_data(sort_op){
       Object.assign(ResultpaginationOptions, { dataSource: resultData })
     );
 }
-$('.target_chart').click(function(){
-    Tconfig = {
-        type: 'doughnut',
-        data: {
-        labels: ['관리중', '이반', '보류', '퇴소'],
-        datasets: [
-            {
-            data: [0, 0, 0, 0],
-            backgroundColor: ['#B39CD0', '#ffd400', '#F23966', '#C24F77'],
-            hoverOffset: 4,
-            },
-        ],
-        },
-        options: {
-        maintainAspectRatio: false,
-        aspectRatio: 1,
-        plugins: {
-            legend: {
-            display: false,
-            },
-        },
-        responsive: true,
-        width: 500,
-        height: 500,
-        },
-    }
-    ctx = document.getElementById('total-chart-element').getContext('2d');
-    TeacherChart = new Chart(ctx,Tconfig)
-});
 async function getTeacherInfo(t_id){
     let info = banData.filter(t=>t.teacher_id == t_id)
     if (info.length == 0){
@@ -639,9 +610,36 @@ async function getTeacherInfo(t_id){
             <span>* 퇴소:${ os }</span>
         `
         $('#teacher_info_student_num').html(temp_teacher_info_student_num)
-        let dataset = Tconfig.data.datasets
-        dataset[0].data = [total_student_num, ss, hs, os]
-        TeacherChart.update();
+        var config = {
+            type: 'doughnut',
+            data: {
+            labels: ['관리중', '이반', '보류', '퇴소'],
+            datasets: [
+                {
+                data: [total_student_num, ss, hs, os],
+                backgroundColor: ['#B39CD0', '#ffd400', '#F23966', '#C24F77'],
+                hoverOffset: 4,
+                },
+            ],
+            },
+            options: {
+            maintainAspectRatio: false,
+            aspectRatio: 1,
+            plugins: {
+                legend: {
+                display: false,
+                },
+            },
+            responsive: true,
+            width: 500,
+            height: 500,
+            },
+        }
+        if(Chart.getChart('total-chart-element')){
+            Chart.getChart('total-chart-element').update();
+        }
+        let ctx = document.getElementById('total-chart-element').getContext('2d');
+        const TeacherChart = new Chart(ctx,config)
         // 미학습 발생
         $('#ucomcom').html(`<td class="col-6">총 ${unlearned_ttc}건 </td><td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
         let temp_html = `<th class="col-12"><details>
