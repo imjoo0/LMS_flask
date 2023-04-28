@@ -629,7 +629,7 @@ async function get_question_detail(q_id, done_code) {
     $('#manage_answer').hide()
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
     student_data = studentsData.filter(s => s.student_id == question_detail_data.student_id)[0]
-    attach = attachData.filter(a => a.question_id == q_id)[0]['file_name']
+    attach = attachData.filter(a => a.question_id == q_id)
     console.log(student_data)
     // 문의 상세 내용 
     let temp_question_list = `
@@ -658,9 +658,17 @@ async function get_question_detail(q_id, done_code) {
         <p>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin} )</p>
     </div>
     <div class="modal-body-select-container">
-        <span class="modal-body-select-label">첨부파일</span>
-        <a href="/common/downloadfile/question/${q_id}" download="${attach}">${attach}</a>
-    </div>`;
+    <span class="modal-body-select-label">첨부파일</span>
+    <div class="make_col">
+    `
+    if(attach.length != 0){
+        attach.forEach((a)=>{
+            temp_question_list +=`<a href="/common/downloadfile/question/${q_id}/attachment/${a.id}" download="${a.file_name}">${a.file_name}</a>`
+        })
+    }else{
+        temp_question_list +=`<p>첨부 파일 없음</p>`
+    }
+    temp_question_list += `</div></div>`
     $('#teacher_question').html(temp_question_list);
 
     // 응답 처리 
