@@ -634,17 +634,13 @@ async function student_consulting(student_id) {
             <th class="col-3">진행 한 상담</th>
             <th class="col-3">${data.ban_name}반 총 미학습</th>
             <th class="col-6">${data.student_name}원생의 미학습</th>
-            
             <td class="col-3">총 ${make_nodata(target_consulting_num)}</td>
             <td class="col-3">${make_nodata(total_ban_unlearned_consulting)}</td>
             <td class="col-4">진행한 상담 : ${make_nodata(unlearned_consulting_num.filter(c => c.done == 1).length)}</td>
             <td class="col-2"><strong>미학습 율 : ${answer_rate(unlearned_consulting_num.length, total_ban_unlearned_consulting).toFixed(0)}%</strong></td>
-            <tr class="row tagtagtitle">
-                <th class="col-4">진행 날짜</th>
-                <th class="col-4">진행 한 상담 건</th>
-                <th class="col-4">상세 보기 및 수정</th>
-            </tr>
-            <tr class="row">`;
+            <th class="col-4 tagtagtitle">진행 날짜</th>
+            <th class="col-4 tagtagtitle">진행 한 상담 건</th>
+            <th class="col-4 tagtagtitle">상세 보기 및 수정</th>`;
         $.each(consultingGroupedCategory, function (index, key) {
             let target_consultings = consultingGrouped[key]
             let cate_consultings_num = target_consultings.length
@@ -693,7 +689,6 @@ async function student_consulting(student_id) {
         //             onclick="post_bulk_consultings(${idx},${is_done})"
         //             style="margin-right:5px">수정</button>
         //     </div>`
-        temp_consulting_write_box += `</tr>`;
         $('#studentlist_consulting_info_box').html(temp_consulting_write_box)
     } else {
         $('#studentlist_consulting_info_box').html('<p>진행 상담 내역이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 </p>')
