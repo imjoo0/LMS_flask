@@ -250,6 +250,7 @@ async function get_soquestion_detail(q_id, done_code) {
     </div>
     <div class="modal-body-select-container">
     <span class="modal-body-select-label">첨부파일</span>
+    <div class="make_col">
     `
     if(attach.length != 0){
         attach.forEach((a)=>{
@@ -258,7 +259,7 @@ async function get_soquestion_detail(q_id, done_code) {
     }else{
         temp_question_list +=`<p>첨부 파일 없음</p>`
     }
-    temp_question_list += `</div>`
+    temp_question_list += `</div></div>`
     $('#teacher_question').html(temp_question_list);
     // 상담 일지 처리 
     let consulting_history = consultingData.filter(c => c.id == question_detail_data.consulting_history)
