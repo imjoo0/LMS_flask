@@ -720,24 +720,22 @@ async function getTeacherInfo(t_id){
         //     StudentContainer.pagination('destroy');
         //     StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
         // });
-        
-        let change_student = null
-        $('#studentban_kind').on('change', function() {
-            // 실행할 함수 내용
-            let ban_id = $(this).val()
-            if(ban_id == "none"){
-                $('#displayCount').html(`관리 중인 원생 수: ${Tstudent.length}명`)
-                StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': Tstudent }))
-            }else{
-                change_student = Tstudent.filter(s=>s.ban_id == ban_id)
-                console.log(change_student)
-                StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': change_student }))
-                $('#displayCount').html(`${change_student[0].ban_name}원생 수: ${Tstudent.length}명`)
-            }
-        });
-        change_student = null
     }
 }
+$('#studentban_kind').on('change', function() {
+    // 실행할 함수 내용
+    let change_student = null
+    let ban_id = $(this).val()
+    if(ban_id == "none"){
+        $('#displayCount').html(`관리 중인 원생 수: ${Tstudent.length}명`)
+        StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': Tstudent }))
+    }else{
+        change_student = Tstudent.filter(s=>s.ban_id == ban_id)
+        console.log(change_student)
+        StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': change_student }))
+        $('#displayCount').html(`${change_student[0].ban_name}원생 수: ${Tstudent.length}명`)
+    }
+});
 // 상담 기록 조회 
 function get_consulting_history(s_id) {
     student_info = studentsData.filter(s => s.student_id == s_id)[0]
