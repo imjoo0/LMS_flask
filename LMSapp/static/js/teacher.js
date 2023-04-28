@@ -618,13 +618,13 @@ async function student_consulting(student_id) {
 
 
     $('#student_consulting_info_box').html(`
-    <th class="col-1">진행 한 상담</th>
-    <th class="col-4">${data.ban_name}반 총 미학습</th>
+    <th class="col-3">진행 한 상담</th>
+    <th class="col-3">${data.ban_name}반 총 미학습</th>
     <th class="col-6">${data.student_name}원생의 미학습</th>
     
-    <td class="col-1">총 ${make_nodata(target_consulting_num)}</td>
-    <td class="col-4">${make_nodata(total_ban_unlearned_consulting)} 건</td>
-    <td class="col-4">진행한 상담 : ${make_nodata(unlearned_consulting_num.filter(c => c.done == 1).length)} 건</td>
+    <td class="col-3">총 ${make_nodata(target_consulting_num)}</td>
+    <td class="col-3">${make_nodata(total_ban_unlearned_consulting)}</td>
+    <td class="col-4">진행한 상담 : ${make_nodata(unlearned_consulting_num.filter(c => c.done == 1).length)}</td>
     <td class="col-2"><strong>미학습 율 : ${answer_rate(unlearned_consulting_num.length, total_ban_unlearned_consulting).toFixed(0)}%</strong></td>
     `)
     if (target_consulting_num != 0){
@@ -638,8 +638,6 @@ async function student_consulting(student_id) {
         consultingGroupedCategory = Object.keys(consultingGrouped)
         let idx = 0;
         let temp_consulting_write_box = `
-        <table class="table text-center monot_inloading">
-            <tbody style="width:100%;">
                 <tr class="row tagtagtitle">
                     <th class="col-4">진행 날짜</th>
                     <th class="col-4">진행 한 상담 건</th>
@@ -711,7 +709,7 @@ async function student_consulting(student_id) {
             </tbody>
         </table>
         `;
-        $('#consulting_write_box').html(temp_consulting_write_box);
+        $('#student_consulting_info_box').append(temp_consulting_write_box);
     } else {
         temp_consulting_write_box += '<p>진행 상담 내역이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 </p>'
         $('#consulting_write_box').html(temp_consulting_write_box);
