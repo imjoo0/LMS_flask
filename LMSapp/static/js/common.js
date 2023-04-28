@@ -641,14 +641,9 @@ async function getTeacherInfo(t_id){
         }
         let ctx = document.getElementById('total-chart-element').getContext('2d');
         const TeacherChart = new Chart(ctx, config);
-        // promise를 이용하여 차트를 그립니다.
-        new Promise((resolve) => {
-            let dataset = config.data.datasets;
-            dataset[0].data = [total_student_num, ss, hs, os]
-            resolve();
-        }).then(() => {
-            TeacherChart.update();
-        });
+        let dataset = config.data.datasets;
+        dataset[0].data = [total_student_num, ss, hs, os]
+        TeacherChart.update();
         // 미학습 발생
         $('#ucomcom').html(`<td class="col-6">총 ${unlearned_ttc}건 </td><td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
         let temp_html = `<th class="col-12"><details>
