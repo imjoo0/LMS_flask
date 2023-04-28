@@ -484,6 +484,10 @@ function sort_data(sort_op){
 }
 async function getTeacherInfo(t_id){
     let info = banData.filter(t=>t.teacher_id == t_id)
+    let chart = Chart.getChart('total-chart-element');
+    if (chart) {
+        chart.destroy();
+    }
     if (info.length == 0){
         let no_data_title = `<h1> ${response.text} </h1>`
         $('#teacherModalLabel').html(no_data_title);
@@ -635,16 +639,14 @@ async function getTeacherInfo(t_id){
             height: 500,
             },
         }
-
-        let chart = Chart.getChart('total-chart-element');
-        if (chart) {
-            let dataset = config.data.datasets;
-            dataset[0].data = [total_student_num, ss, hs, os]
-            chart.update();
-        }
         let ctx = document.getElementById('total-chart-element').getContext('2d');
-        new Chart(ctx, config)
-
+        new Chart(ctx, config);
+        // promise를 이용하여 차트를 그립니다.
+        new Promise((resolve) => {
+            
+            resolve();
+        }).then(() => {
+        });
         // 미학습 발생
         $('#ucomcom').html(`<td class="col-6">총 ${unlearned_ttc}건 </td><td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
         let temp_html = `<th class="col-12"><details>
