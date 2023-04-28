@@ -655,14 +655,14 @@ async function student_consulting(student_id) {
                     temp_consulting_write_box += `
                         <td class="col-4">${make_date(key)}</td>
                         <td class="col-4">${cate_consultings_num}건</td>
-                        <td class="col-4" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="show_consulting_write_box('${key}')">📝</td>
+                        <td class="col-4" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="show_consulting_history_box('${key}')">📝</td>
                     `
                 });
                 $('#studentlist_consulting_info_box').html(temp_consulting_write_box)
             }
         })
     } else {
-        $('#studentlist_consulting_info_box').html('<p>진행 상담 내역이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 </p>')
+        $('#studentlist_consulting_info_box').html('<p>진행 상담 내역이 없습니다.* 원생 목록에서 자체 상담을 진행해주세요 </p>')
     }
     $('.mo_inloading').hide()
     $('.monot_inloading').show()
