@@ -72,44 +72,44 @@ async function sodata() {
     $('#ulbox').hide()
     $('#detailban').hide()
     $('#sobox').show()
-    let container = $('#sob_pagination')
-    if (totalOutnum == 0 && switchstudent_num == 0) {
-        let no_data_title = '이반 * 퇴소 발생이 없었어요'
-        $('#sotitle').html(no_data_title);
-        $('#sotable').hide()
-        return
-    } else {
-        $('#sotitle').empty();
-        switch_out_bans = banData.filter(e => e.out_student_num != 0 || e.switch_minus_num != 0)
-        container.pagination({
-            dataSource: switch_out_bans,
-            prevText: '이전',
-            nextText: '다음',
-            pageClassName: 'float-end',
-            pageSize: 5,
-            callback: function (switch_out_bans, pagination) {
-                var temp_html = '';
-                $.each(switch_out_bans, function (index, item) {
-                    let student_num = Number(item.student_num)
-                    let teacher_name = item.teacher_engname + '( ' + item.teacher_name + ' )'
+    // let container = $('#sob_pagination')
+    // if (totalOutnum == 0 && switchstudent_num == 0) {
+    //     let no_data_title = '이반 * 퇴소 발생이 없었어요'
+    //     $('#sotitle').html(no_data_title);
+    //     $('#sotable').hide()
+    //     return
+    // } else {
+    //     $('#sotitle').empty();
+    //     switch_out_bans = banData.filter(e => e.out_student_num != 0 || e.switch_minus_num != 0)
+    //     container.pagination({
+    //         dataSource: switch_out_bans,
+    //         prevText: '이전',
+    //         nextText: '다음',
+    //         pageClassName: 'float-end',
+    //         pageSize: 5,
+    //         callback: function (switch_out_bans, pagination) {
+    //             var temp_html = '';
+    //             $.each(switch_out_bans, function (index, item) {
+    //                 let student_num = Number(item.student_num)
+    //                 let teacher_name = item.teacher_engname + '( ' + item.teacher_name + ' )'
 
-                    temp_html += `
-                    <td class="col-1">${item.name}</td>
-                    <td class="col-1">${make_semester(item.semester)}월 학기</td>
-                    <td class="col-1">${teacher_name}</td>
-                    <td class="col-1">${student_num + item.switch_plus_num - item.switch_minus_num - item.out_student_num}</td>
-                    <td class="col-1">${student_num}</td>
-                    <td class="col-1">${item.hold_student_num}</td>
-                    <td class="col-1">${item.switch_plus_num}</td>
-                    <td class="col-3"> 총: ${item.switch_minus_num + item.out_student_num}명 ( 퇴소 : ${item.out_student_num}명 / 이반 : ${item.switch_minus_num}명 )</td>
-                    <td class="col-1"><strong>${item.out_num_per} %</strong></td>
-                    <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${item.teacher_id})"><span class="cursor-pointer">👉</td>
-                    `;
-                });
-                $('#static_data1').html(temp_html);
-            }
-        })
-    }
+    //                 temp_html += `
+    //                 <td class="col-1">${item.name}</td>
+    //                 <td class="col-1">${make_semester(item.semester)}월 학기</td>
+    //                 <td class="col-1">${teacher_name}</td>
+    //                 <td class="col-1">${student_num + item.switch_plus_num - item.switch_minus_num - item.out_student_num}</td>
+    //                 <td class="col-1">${student_num}</td>
+    //                 <td class="col-1">${item.hold_student_num}</td>
+    //                 <td class="col-1">${item.switch_plus_num}</td>
+    //                 <td class="col-3"> 총: ${item.switch_minus_num + item.out_student_num}명 ( 퇴소 : ${item.out_student_num}명 / 이반 : ${item.switch_minus_num}명 )</td>
+    //                 <td class="col-1"><strong>${item.out_num_per} %</strong></td>
+    //                 <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${item.teacher_id})"><span class="cursor-pointer">👉</td>
+    //                 `;
+    //             });
+    //             $('#static_data1').html(temp_html);
+    //         }
+    //     })
+    // }
     $('.cs_inloading').show()
     $('.not_inloading').hide()
     if (!questionData) {
