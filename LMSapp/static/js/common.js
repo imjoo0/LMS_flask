@@ -720,10 +720,11 @@ async function getTeacherInfo(t_id){
         //     StudentContainer.pagination('destroy');
         //     StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
         // });
+        
+        let change_student = null
         $('#studentban_kind').on('change', function() {
             // 실행할 함수 내용
             let ban_id = $(this).val()
-            let change_student = null
             if(ban_id == "none"){
                 $('#displayCount').html(`관리 중인 원생 수: ${Tstudent.length}명`)
                 StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': Tstudent }))
@@ -734,6 +735,7 @@ async function getTeacherInfo(t_id){
                 $('#displayCount').html(`${change_student[0].ban_name}원생 수: ${Tstudent.length}명`)
             }
         });
+        change_student = null
     }
 }
 // 상담 기록 조회 
