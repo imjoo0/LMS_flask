@@ -322,38 +322,32 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="consultinghistoryModalLabelt">
-                    <img src="#" style="width: 30px;">&nbsp;&nbsp;상담일지 작성
+                    <img src="#" style="width: 30px;">&nbsp;&nbsp;상담일지
                 </h5>
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body py-4 px-5">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
-                <table class="table text-center">
+                <button type="button" class="btn btn-back" onclick="go_back()">원생 목록으로 돌아가기🔙 </button>
+                <div class="mo_inloading" class="loader loader--style2 text-center" title="1">
+                    <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                        <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                            <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
+                        </path>
+                    </svg>
+                </div>
+                <table class="table text-center monot_inloading">
                     <tbody style="width:100%;">
-                        <tr class="row tagtagtitle">
-                            <th class="col-12">상담 현황</th>
+                        <tr class="row tagtagtitle" id="studentlist_info_box">
+                            
                         </tr>
-                        <tr class="row">
-                            <th class="col-3">상담</th>
-                            <th class="col-3">기한 지남</th>
-                            <th class="col-3">미학습 상담</th>
-                            <th class="col-3">미학습 발생율</th>
-                        </tr>
-                        <tr class="row" id="student_unlearned">
-                        </tr>
-                        <tr id="student_unlearned_totalreport" class="row">
+                        <tr class="row" id="studentlist_consulting_info_box">
                         </tr>
                     </tbody>
                 </table>
-                <div class="d-flex justify-content-center mt-4 mb-2 make_col" id="consulting_cant_write_box">
+                <div class="d-flex justify-content-center align-items-center w-100">
+                    <div id="studentlist_pagination" class="mt-4 mb-5 text-center"></div>
                 </div>
-                <div class="d-flex justify-content-center mt-4 mb-2">
-                    <div id="consulting_write_box">
-
-
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

@@ -587,7 +587,7 @@ function sort_consultingoption(sortBy) {
     );
 }
 
-// 상담기록 수정
+// 상담기록 날짜별
 async function student_consulting(student_id) {    
     $('#h_title_msg').hide();
     $('#ban_student_list_box').hide()

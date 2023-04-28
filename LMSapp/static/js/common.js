@@ -728,6 +728,8 @@ async function getTeacherInfo(t_id){
                 $('#displayCount').html(`관리 중인 원생 수: ${Tstudent.length}명`)
                 StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': Tstudent }))
             }else{
+                console.log(ban_id)
+                console.log(Tstudent)
                 let change_student = Tstudent.filter(s=>s.ban_id == ban_id)
                 console.log(change_student)
                 StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': change_student }))
