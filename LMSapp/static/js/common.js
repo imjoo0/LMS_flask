@@ -637,10 +637,9 @@ async function getTeacherInfo(t_id){
         }
         if(Chart.getChart('total-chart-element')){
             Chart.getChart('total-chart-element').destroy()
-            Chart.getChart('total-chart-element').update();
         }
         let ctx = document.getElementById('total-chart-element').getContext('2d');
-        const TeacherChart = new Chart(ctx,config)
+        const TeacherChart = new Chart(ctx,config).update()
         // 미학습 발생
         $('#ucomcom').html(`<td class="col-6">총 ${unlearned_ttc}건 </td><td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
         let temp_html = `<th class="col-12"><details>
