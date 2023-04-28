@@ -709,30 +709,22 @@ async function getTeacherInfo(t_id){
             }
         };
 
-        StudentContainer = $('#pagingul')
+        var StudentContainer = $('#pagingul')
         StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': Tstudent }))
     
-        // $('#ban_search_input').on('keyup', function () {
-        //     var searchInput = $(this).val().toLowerCase();
-        //     var filteredData = resultData.filter(function (data) {
-        //         return (data.hasOwnProperty('name') && data.name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('teacher_engname') && data.teacher_engname.toLowerCase().indexOf(searchInput) !== -1);
-        //     });
-        //     StudentContainer.pagination('destroy');
-        //     StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
-        // });
+        $('#studentban_kind').on('change', function() {
+            // 실행할 함수 내용
+            let change_student = null
+            let ban_id = $(this).val()
+            if(ban_id.includes('_')){
+                teacher_id = ban_id.split('_')[1]
+                change_student = studentsData.filter(s=>s.teacher_id == teacher_id)
+            }
+            StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': change_student }))
+            $('#displayCount').html(`${change_student[0].ban_name}원생 수: ${Tstudent.length}명`)
+        });
     }
 }
-$('#studentban_kind').on('change', function() {
-    // 실행할 함수 내용
-    let change_student = null
-    let ban_id = $(this).val()
-    if(ban_id.includes('_')){
-        teacher_id = ban_id.split('_')[1]
-        change_student = studentsData.filter(s=>s.teacher_id == teacher_id)
-    }
-    StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': change_student }))
-    $('#displayCount').html(`${change_student[0].ban_name}원생 수: ${Tstudent.length}명`)
-});
 // 상담 기록 조회 
 function get_consulting_history(s_id) {
     student_info = studentsData.filter(s => s.student_id == s_id)[0]
