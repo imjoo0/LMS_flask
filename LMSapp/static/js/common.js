@@ -565,7 +565,6 @@ async function getTeacherInfo(t_id){
         <th class="col-3">이반</th>
         <th class="col-2">미학습</th>
         </tr>`
-        let temp_ban_option = `<option value="none_${info[0].teacher_id}" selected>${info[0].teacher_engname} 선생님이 담당중인 전체 원생</option>`;
         let total_student_num = 0
         let now_student_num = 0
         let os = 0
@@ -592,11 +591,8 @@ async function getTeacherInfo(t_id){
                 <td class="col-2">${unlearned}건</td>
             </tr>
             `;
-            temp_ban_option += `<option value="${ban_data.ban_id}">${ban_data.name}반 원생</option>`
-
         });
         $('#mybaninfo').html(temp_baninfo);
-        $('#studentban_kind').html(temp_ban_option)
         
         let temp_teacher_info_student_num = `
             <span>초기 배정:${ total_student_num }</span><br>
@@ -711,20 +707,6 @@ async function getTeacherInfo(t_id){
 
         var StudentContainer = $('#pagingul')
         StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': Tstudent }))
-    
-        $('#studentban_kind').on('change', function() {
-            // 실행할 함수 내용
-            let change_student = null
-            let ban_id = $(this).val()
-            if(ban_id.includes('_')){
-                teacher_id = ban_id.split('_')[1]
-                change_student = studentsData.filter(s=>s.teacher_id == teacher_id)
-            }
-            paginationOptions.dataSource = change_student; // dataSource 업데이트
-            StudentContainer.pagination('destroy');
-            StudentContainer.pagination(paginationOptions);
-            $('#displayCount').html(`${change_student[0].ban_name}원생 수: ${change_student.length}명`) // change_student 변수를 이용하여 학생 수 업데이트
-        });
     }
 }
 // 상담 기록 조회 
