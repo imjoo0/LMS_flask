@@ -335,7 +335,7 @@ async function get_soquestion_detail(q_id, done_code) {
         </div>
         <div class="modal-body-select-container">
            <span class="modal-body-select-label">처리</span>
-           <p>${make_reject_code(answer_data.reject_code)}</p>
+           <p>${make_answer_code(answer_data.reject_code)}</p>
         </div>
         `;
         $('#teacher_answer').html(temp_answer_list);

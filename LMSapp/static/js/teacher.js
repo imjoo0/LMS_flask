@@ -1362,7 +1362,7 @@ async function get_question_detail(q_id) {
         if (questiondata.category != 0 && questiondata.category != 4) {
             temp_answer_list += `<div class="modal-body-select-container">
            <span class="modal-body-select-label">처리</span>
-           <p>${make_reject_code(questiondata.answer_data.reject_code)}</p>
+           <p>${make_answer_code(questiondata.answer_data.reject_code)}</p>
            </div>`
         }
     }

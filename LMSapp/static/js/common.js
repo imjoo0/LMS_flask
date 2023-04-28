@@ -9,9 +9,17 @@ function openPopup(url){
 }
 let make_reject_code = function(rc){
     if( rc == 0){
-        return '❌';
+        return '❌ 미진행';
     }else{
-        return '⭕';
+        return '⭕ 진행';
+    }
+}
+
+let make_answer_code = function(rc){
+    if( rc == 0){
+        return '❌ 반려';
+    }else{
+        return '⭕ 승인';
     }
 }
 let make_cycle = function(c){
