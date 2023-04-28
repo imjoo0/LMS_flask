@@ -636,6 +636,7 @@ async function getTeacherInfo(t_id){
             },
         }
         if(Chart.getChart('total-chart-element')){
+            Chart.getChart('total-chart-element').destroy()
             Chart.getChart('total-chart-element').update();
         }
         let ctx = document.getElementById('total-chart-element').getContext('2d');
