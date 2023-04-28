@@ -621,14 +621,14 @@ async function student_consulting(student_id) {
     let unlearned_consulting_num = data['consulting_list'].length > 0 ? data['consulting_list'].filter(c => c.category_id < 100) : 0
 
     if (target_consulting_num != 0){
-        consultingGrouped = target_consulting.reduce((acc, item) => {
+        DateconsultingGrouped = target_consulting.reduce((acc, item) => {
             if (!acc[item.created_at]) {
                 acc[item.created_at] = [];
             }
             acc[item.created_at].push(item);
             return acc;
         }, []);
-        consultingGroupedCategory = Object.keys(consultingGrouped)
+        DateconsultingGroupedCategory = Object.keys(DateconsultingGrouped)
         let idx = 0;
         let temp_consulting_write_box = `
             <th class="col-3">진행 한 상담</th>
@@ -642,15 +642,15 @@ async function student_consulting(student_id) {
             <th class="col-4 tagtagtitle">진행 한 상담 건</th>
             <th class="col-4 tagtagtitle">상세 보기 및 수정</th>`;
         container.pagination({
-            dataSource: consultingGroupedCategory,
+            dataSource: DateconsultingGroupedCategory,
             prevText: '이전',
             nextText: '다음',
             pageClassName: 'float-end',
             pageSize: 5,
-            callback: function (consultingGroupedCategory, pagination) {
+            callback: function (DateconsultingGroupedCategory, pagination) {
                 var dataHtml = '';
-                $.each(consultingGroupedCategory, function (index, key) {
-                    let target_consultings = consultingGrouped[key]
+                $.each(DateconsultingGroupedCategory, function (index, key) {
+                    let target_consultings = DateconsultingGrouped[key]
                     let cate_consultings_num = target_consultings.length
                     temp_consulting_write_box += `
                         <td class="col-4">${make_date(key)}</td>
@@ -667,7 +667,78 @@ async function student_consulting(student_id) {
     $('.mo_inloading').hide()
     $('.monot_inloading').show()
 }
+// 상담일지 수정 
+async function show_consulting_history_box(date_key) {
+    $('#consultinghistoryModalLabelt').html(`${make_date(date_key)}날짜 상담일지`)
+    $('.mo_inloading').show()
+    $('.monot_inloading').hide()
 
+    $('#student_info_box').html('');
+    $('#student_consulting_info_box').html('')
+    let temp_consulting_write_box = ''
+    let target_consulting = DateconsultingGrouped[date_key]
+    let consultingGrouped = target_consulting.reduce((acc, item) => {
+        if (!acc[item.category]) {
+            acc[item.category] = [];
+        }
+        acc[item.category].push(item);
+        return acc;
+    }, []);
+    let consultingGroupedCategory = Object.keys(consultingGrouped)
+    const color_pallete = ['green', 'purple', 'yellow', 'red', 'blue', 'orange', 'cyan', 'white']
+    let temp_consulting_contents_box = `<a class="btn-two cyan small">원생리포트</a>`;
+    let idx = 0;
+    $.each(consultingGroupedCategory, function (index, key) {
+        let target_consultings = consultingGrouped[key]
+        let cate_consultings_num = target_consultings.length
+        temp_consulting_write_box += `<hr class='hr-dotted'/><h3 id="target_${key}" style="margin-bottom:1.2rem;">${key} ${cate_consultings_num}건</h3>`
+        for (i = 0; i < cate_consultings_num; i++) {
+            let target = target_consultings[i]
+            let category = target['category']
+            let consulting_id = target['id']
+            let contents = target['contents']
+            let consulting_missed = missed_date(target['missed'])
+            let deadline = make_date(target['deadline'])
+            let history_created = target['created_at']
+            if (target['category_id'] < 100) {
+                category = target['week_code'] + '주간  ' + category
+                temp_consulting_write_box += `
+                <p class="mt-lg-4 mt-5">✅${category} 검사 날짜: <strong> ${make_date(target['startdate'])}</strong></p>
+                `;
+            }
+            let history_reason = target['reason'] == null ? '입력해주세요' : target['reason']
+            let history_solution = target['solution'] == null ? '입력해주세요' : target['solution']
+            temp_consulting_write_box += `
+            <input type="hidden" id="target_consulting_id${idx}" value="${consulting_id}" style="display: block;" />
+            <p mt-lg-4 mt-5>✅<strong>${category}</strong></br><strong>➖상담 마감일:
+                ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br></br>${contents}</br></p>
+            <div class="modal-body-select-container">
+                <span class="modal-body-select-label">상담 사유</span>
+                <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason${consulting_id}" placeholder="${history_reason}">
+            </div>
+            <div class="modal-body-select-container">
+                <span class="modal-body-select-label">제공한 가이드</span>
+                <textarea class="modal-body" type="text" rows="5" cols="25"
+                    id="consulting_solution${consulting_id}" placeholder="${history_solution}"></textarea> 
+            </div>
+            `;
+            temp_consulting_write_box += `<p>상담 일시 : ${make_date(history_created)}</p> `;
+            idx += 1;
+        }
+        temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" href="#target_${key}" onclick="get_consulting_history_by_cate(event)">${key} ${cate_consultings_num}건</a>`;
+    });
+    temp_consulting_write_box += `
+    <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
+        <button class="btn btn-dark"
+            onclick="post_bulk_consultings(${idx},${1})"
+            style="margin-right:5px">수정</button>
+    </div>
+    `;
+    $('#consulting_write_box').html(temp_consulting_write_box);
+    $('#consulting_contents_box_cate').html(temp_consulting_contents_box)
+    $('.mo_inloading').hide()
+    $('.monot_inloading').show()
+}
 
 // 상담일지 작성 
 async function get_consulting(student_id) {
