@@ -614,7 +614,8 @@ async function getTeacherInfo(t_id){
         if(chart){
             chart.destroy();
         }
-        let ctx = document.getElementById('total-chart-element').getContext('2d');
+        let ctx = null
+        ctx = document.getElementById('total-chart-element').getContext('2d');
         new Chart(ctx,{
             type: 'doughnut',
             data: {
