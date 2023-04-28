@@ -709,7 +709,7 @@ async function getTeacherInfo(t_id){
             }
         };
 
-        var StudentContainer = $('#pagingul')
+        StudentContainer = $('#pagingul')
         StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': Tstudent }))
     
         // $('#ban_search_input').on('keyup', function () {
