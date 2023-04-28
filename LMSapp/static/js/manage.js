@@ -252,7 +252,7 @@ async function get_soquestion_detail(q_id, done_code) {
     <span class="modal-body-select-label">첨부파일</span>
     `
     if(attach.length != 0){
-        questiondata.attach.forEach((a)=>{
+        attach.forEach((a)=>{
             temp_question_list +=`<a href="/common/downloadfile/question/${q_id}/attachment/${a.id}" download="${a.file_name}">${a.file_name}</a>`
         })
     }else{
@@ -282,10 +282,6 @@ async function get_soquestion_detail(q_id, done_code) {
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">제공한 가이드</span>
             <p>${consulting_history[0].solution}</p>
-        </div>
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">상담 결과</span>
-            <p>${consulting_history[0].result}</p>
         </div>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">상담 일시</span>
