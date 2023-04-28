@@ -945,7 +945,7 @@ async function get_consulting(student_id, is_done) {
                 temp_consulting_write_box += `<p>상담 일시 : ${make_date(history_created)}</p> `;
                 idx += 1;
             }
-            temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" href="#target_${key}" onclick="get_consulting_history_by_cate(event)">${key}</a>`;
+            temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" href="#target_${key}" onclick="get_consulting_history_by_cate(event)">${key} ${cate_consultings_num}건</a>`;
         });
         if (is_done == 0) {
             temp_consulting_write_box += `
