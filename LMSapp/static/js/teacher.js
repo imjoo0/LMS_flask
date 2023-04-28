@@ -594,7 +594,7 @@ async function student_consulting(student_id) {
     $('#ban_student_list_bansel_box').hide()
     $('#make_plus_consulting').hide()
     $('#student_consulting_datebox').show();
-
+    let container = $('#studentlist_pagination')
     data = consultingStudentData.filter((e) => {
         return e.student_id == student_id && e.consulting_list.length != 0;
     })[0]
@@ -641,59 +641,29 @@ async function student_consulting(student_id) {
             <th class="col-4 tagtagtitle">진행 날짜</th>
             <th class="col-4 tagtagtitle">진행 한 상담 건</th>
             <th class="col-4 tagtagtitle">상세 보기 및 수정</th>`;
-        $.each(consultingGroupedCategory, function (index, key) {
-            let target_consultings = consultingGrouped[key]
-            let cate_consultings_num = target_consultings.length
-            temp_consulting_write_box += `
-                <td class="col-4">${make_date(key)}</td>
-                <td class="col-4">${cate_consultings_num}건</td>
-                <td class="col-4">📝</td>
-                `
-            // for (i = 0; i < cate_consultings_num; i++) {
-            //     let target = target_consultings[i]
-            //     let category = target['category']
-            //     let consulting_id = target['id']
-            //     let contents = target['contents']
-            //     let consulting_missed = missed_date(target['missed'])
-            //     let deadline = make_date(target['deadline'])
-            //     let history_created = target['created_at']
-            //     if (target['category_id'] < 100) {
-            //         category = target['week_code'] + '주간  ' + category
-            //         temp_consulting_write_box += `
-            //         <p class="mt-lg-4 mt-5">✅${category} 검사 날짜: <strong> ${make_date(target['startdate'])}</strong></p>
-            //         `;
-            //     }
-            //     let history_reason = target['reason'] == null ? '입력해주세요' : target['reason']
-            //     let history_solution = target['solution'] == null ? '입력해주세요' : target['solution']
-            //     temp_consulting_write_box += `
-            //     <input type="hidden" id="target_consulting_id${idx}" value="${consulting_id}" style="display: block;" />
-            //     <p mt-lg-4 mt-5>✅<strong>${category}</strong></br><strong>➖상담 마감일:
-            //         ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br></br>${contents}</br></p>
-            //     <div class="modal-body-select-container">
-            //         <span class="modal-body-select-label">상담 사유</span>
-            //         <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason${consulting_id}" placeholder="${history_reason}">
-            //     </div>
-            //     <div class="modal-body-select-container">
-            //         <span class="modal-body-select-label">제공한 가이드</span>
-            //         <textarea class="modal-body" type="text" rows="5" cols="25"
-            //             id="consulting_solution${consulting_id}" placeholder="${history_solution}"></textarea> 
-            //     </div>
-            //     `;
-            //     temp_consulting_write_box += `<p>상담 일시 : ${make_date(history_created)}</p> `;
-            //     idx += 1;
-            // }
-        });
-        //     temp_consulting_write_box += `
-        //     <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
-        //         <button class="btn btn-dark"
-        //             onclick="post_bulk_consultings(${idx},${is_done})"
-        //             style="margin-right:5px">수정</button>
-        //     </div>`
-        $('#studentlist_consulting_info_box').html(temp_consulting_write_box)
+        container.pagination({
+            dataSource: consultingGroupedCategory,
+            prevText: '이전',
+            nextText: '다음',
+            pageClassName: 'float-end',
+            pageSize: 5,
+            callback: function (consultingGroupedCategory, pagination) {
+                var dataHtml = '';
+                $.each(consultingGroupedCategory, function (index, key) {
+                    let target_consultings = consultingGrouped[key]
+                    let cate_consultings_num = target_consultings.length
+                    temp_consulting_write_box += `
+                        <td class="col-4">${make_date(key)}</td>
+                        <td class="col-4">${cate_consultings_num}건</td>
+                        <td class="col-4">📝</td>
+                    `
+                });
+                $('#studentlist_consulting_info_box').html(temp_consulting_write_box)
+            }
+        })
     } else {
         $('#studentlist_consulting_info_box').html('<p>진행 상담 내역이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 </p>')
     }
-
     $('.mo_inloading').hide()
     $('.monot_inloading').show()
 }
@@ -1229,7 +1199,6 @@ async function get_question_list() {
         $('#question_pagination').hide()
         $('#q_title_msg').show();
     }
-
 }
 // 문의 내용 상세보기
 async function get_question_detail(q_id) {
