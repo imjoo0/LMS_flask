@@ -1300,9 +1300,7 @@ async function get_question_detail(q_id) {
     `
     if(questiondata.attach != "없음"){
         questiondata.attach.forEach((a)=>{
-            temp_question_list += `
-                <a href="/common/downloadfile/question/${q_id}/attachment/${a.id}" download="${a.file_name}">${a.file_name}</a>
-            `;
+            temp_question_list += `<a href="/common/downloadfile/question/${q_id}/attachment/${a.id}" download="${a.file_name}">${a.file_name}</a>`;
         })
     }
     temp_question_list += `</div></div>`;

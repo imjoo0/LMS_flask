@@ -55,7 +55,7 @@ def get_sodata():
                 cur.execute('SELECT answer.title,answer.content,answer.created_at,answer.reject_code,answer.question_id FROM LMS.answer left join question on answer.question_id =question.id')
                 answer = cur.fetchall()
 
-                cur.execute('select question_id,file_name from attachment left join question on attachment.question_id =question.id')
+                cur.execute('select question_id,file_name,id from attachment')
                 attach = cur.fetchall()
 
         except Exception as e:
