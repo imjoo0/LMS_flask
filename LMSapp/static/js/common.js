@@ -638,14 +638,12 @@ async function getTeacherInfo(t_id){
 
         let chart = Chart.getChart('total-chart-element');
         if (chart) {
-            chart.destroy();
+            let dataset = config.data.datasets;
+            dataset[0].data = [total_student_num, ss, hs, os]
+            chart.update();
         }
-        let dataset = config.data.datasets;
-        dataset[0].data = [total_student_num, ss, hs, os]
         let ctx = document.getElementById('total-chart-element').getContext('2d');
-        const TeacherChart = new Chart(ctx, config);
-        console.log(config)
-        TeacherChart.update();
+        new Chart(ctx, config)
 
         // 미학습 발생
         $('#ucomcom').html(`<td class="col-6">총 ${unlearned_ttc}건 </td><td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
