@@ -720,6 +720,7 @@ async function getTeacherInfo(t_id){
                 teacher_id = ban_id.split('_')[1]
                 change_student = studentsData.filter(s=>s.teacher_id == teacher_id)
             }
+            StudentContainer.pagination('destroy');
             StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': change_student }))
             $('#displayCount').html(`${change_student[0].ban_name}원생 수: ${Tstudent.length}명`)
         });
