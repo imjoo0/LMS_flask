@@ -651,7 +651,7 @@ async function student_consulting(student_id) {
             let target_consultings = consultingGrouped[key]
             let cate_consultings_num = target_consultings.length
             temp_consulting_write_box += `
-            <td class="col-4">${key}</td>
+            <td class="col-4">${make_date(key)}</td>
             <td class="col-4">${cate_consultings_num}건</td>
             <td class="col-4">📝</td>
             `
