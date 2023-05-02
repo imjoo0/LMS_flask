@@ -639,7 +639,8 @@ async function getTeacherInfo(t_id){
             Chart.getChart('total-chart-element').destroy()
         }
         let ctx = document.getElementById('total-chart-element').getContext('2d');
-        const TeacherChart = new Chart(ctx,config).update()
+        let TeacherChart = new Chart(ctx,config).update()
+        
         // 미학습 발생
         $('#ucomcom').html(`<td class="col-6">총 ${unlearned_ttc}건 </td><td class="col-6"><strong> ${answer_rate(unlearned_ttc,TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
         let temp_html = `<th class="col-12"><details>
