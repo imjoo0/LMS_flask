@@ -83,7 +83,7 @@
                         <div class="modal-body-select-container" style="display:none">
                             <span class="modal-body-select-label">선생님 핸드폰 번호</span>
                             <input class="modal-body-select modal-body-select-100" type="text"
-                                name="teacher_mobileno" value="{{ user['mobileno'] }}">
+                                   name="teacher_mobileno" value="{{ user['mobileno'] if 'mobileno' in user else 'no_data' }}">
                         </div>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">첨부 파일</span>
