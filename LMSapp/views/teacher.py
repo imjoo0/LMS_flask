@@ -120,6 +120,11 @@ def question():
         return data
     elif request.method == 'POST':
         URI = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
+        # groupToken = {
+        #         '행정파트': '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"',
+        #         '내근티처': '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"',
+        #         '개발관리': '"iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg"',
+        # }
         question_category = request.form['question_category']
         title = request.form['question_title']
         contents = request.form['question_contents']
@@ -132,22 +137,22 @@ def question():
         files = request.files.getlist('file-upload')
         if question_category == '일반':
             # 영교부에서 재택T 문의 관리 하는 시놀로지 채팅 방 token 값 받아야 함. 
-            Synologytoken = 'PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q'
+            Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
             category = 0
             payloadText  = "새 문의가 등록되었습니다"+'('+title+')'
             new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         elif question_category == '기술': 
-            Synologytoken = 'iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg'
+            Synologytoken = '"iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg"'
             category = 4
             payloadText  = "새 문의가 등록되었습니다"+'('+title+')'
             new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         elif question_category == '내근': 
-            Synologytoken = 'MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv'
+            Synologytoken = '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"'
             category = 5
             payloadText  = "새 문의가 등록되었습니다"+'('+title+')'
             new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         else:
-            Synologytoken = 'PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q'
+            Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
             history_id = request.form['consulting_history']
             if question_category == '퇴소':
                 category = 1
@@ -160,23 +165,12 @@ def question():
         db.session.commit()
         for file in files:
             common.save_attachment(file, new_question.id)
-        # const groupToken = {
-        #         행정파트: '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"',
-        #         내근티처: '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"',
-        #         개발관리: '"iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg"',
-        #       };
-        # URI = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
-        # Synologytoken = 'PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q'
-
+        
         payload = {
             "text": payloadText
         }
         payload_json = json.dumps(payload)
-
-        headers = {
-            'Content-Type': 'application/json'
-        }
-
+        headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
         requestURI = f"{URI}&token={Synologytoken}"
         try:
             response = requests.post(requestURI, headers=headers, data=payload_json)
@@ -187,8 +181,6 @@ def question():
         except requests.exceptions.RequestException as e:
             print("시놀로지 전송 실패")
             print(e)
-
-
         return redirect('/')
 # 오늘 해야 할 업무 완료 저장 
 @bp.route("/task/<int:tb_id>", methods=['POST'])
