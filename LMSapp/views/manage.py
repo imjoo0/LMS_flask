@@ -328,8 +328,14 @@ def make_task():
                 targets = callapi.purple_allinfo('get_all_ban_teacher')
             elif received_target_ban[0] == '1':   
                 targets = callapi.purple_allinfo('get_plusalpha_ban_teacher')
-            else:
+            elif received_target_ban[0] == '2': 
                 targets = callapi.purple_allinfo('get_nfinter_ban_teacher')
+            elif received_target_ban[0] == '3': 
+                targets = callapi.purple_allinfo('get_sixteen_ban_teacher')
+            elif received_target_ban[0] == '4': 
+                targets = callapi.purple_allinfo('get_seventeen_ban_teacher')
+            elif received_target_ban[0] == '5': 
+                targets = callapi.purple_allinfo('get_eighteen_ban_teacher')
             
             for target in targets:
                 new_task = TaskBan(ban_id=target['ban_id'],teacher_id=target['teacher_id'], task_id=task.id ,done=0)
@@ -390,8 +396,14 @@ def request_all_ban(b_type):
         elif b_type == 1:
             targets = callapi.purple_allinfo('get_plusalpha_ban')
         # nf 노블 처리 
-        else:
+        elif b_type == 2:
             targets = callapi.purple_allinfo('get_nfinter_ban')
+        elif b_type == 3:
+            targets = callapi.purple_allinfo('get_sixteen_ban')
+        elif b_type == 4:
+            targets = callapi.purple_allinfo('get_seventeen_ban')
+        elif b_type == 5:
+            targets = callapi.purple_allinfo('get_eightteen_ban')
         for target in targets:
             new_consulting = Consulting(ban_id=target['ban_id'],teacher_id=target['teacher_id'], category_id=received_consulting_category, student_id=target['student_id'],contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
             db.session.add(new_consulting)

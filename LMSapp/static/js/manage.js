@@ -937,7 +937,14 @@ function task_ban_change(btid) {
         } else if (btid == 2) {
             // nf 노블 처리 
             $('#task_msg').html('👉 NF/Inter반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 화면이 이동하기 전 까지 대기 해 주세요)')
+        }else if (btid == 3) {
+            $('#task_msg').html('👉 16기 반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
+        }else if (btid == 4) {
+            $('#task_msg').html('👉 17기 반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
+        }else if (btid == 5) {
+            $('#task_msg').html('👉 18기 반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
         }
+
     }
 }
 function delete_selected_ban(idx) {
@@ -1044,6 +1051,15 @@ async function ban_change(btid) {
         } else if (btid == 2) {
             // nf 노블 처리 
             $('#consulting_msg').html('👉 NF/Inter반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
+        }else if (btid == 3) {
+            // nf 노블 처리 
+            $('#consulting_msg').html('👉 16기 반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
+        }else if (btid == 4) {
+            // nf 노블 처리 
+            $('#consulting_msg').html('👉 17기 반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
+        }else if (btid == 5) {
+            // nf 노블 처리 
+            $('#consulting_msg').html('👉 18기 반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
         }
     }
 }
