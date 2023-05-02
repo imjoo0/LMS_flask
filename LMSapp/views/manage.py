@@ -391,7 +391,7 @@ def request_all_ban(b_type):
             targets = callapi.purple_allinfo('get_plusalpha_ban')
         # nf 노블 처리 
         else:
-            targets = callapi.purple_allinfo('get_nfnovel_ban')
+            targets = callapi.purple_allinfo('get_nfinter_ban')
         for target in targets:
             new_consulting = Consulting(ban_id=target['ban_id'],teacher_id=target['teacher_id'], category_id=received_consulting_category, student_id=target['student_id'],contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
             db.session.add(new_consulting)
