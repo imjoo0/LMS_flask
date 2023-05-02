@@ -136,7 +136,7 @@ def question():
         teacher_engname = request.form.get('teacher_engname', None)
         create_date = datetime.now().date()
         
-        payloadText  = teacher_name+'( '+ teacher_engname +' )님으로 부터' + question_category + '문의가 등록되었습니다 \n'+title
+        payloadText  = teacher_name+'( '+ teacher_engname +' )님으로 부터 ' + question_category + '문의가 등록되었습니다 \n 제목:'+ title +'\n'+contents
         # 첨부 파일 처리
         files = request.files.getlist('file-upload')
         if question_category == '일반':
