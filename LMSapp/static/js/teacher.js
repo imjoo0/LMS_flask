@@ -32,10 +32,10 @@ async function get_data(){
         mybansData = response['ban_data']
         mytasksData = response['all_task']
         allStudentData = response['my_students']
-        allConsultingData = response['all_consulting']
         switchstudentData = response['switchstudent']
 
-        myStudentData = allStudentData.filter(s => s.category_id != 2)
+        myStudentData = allStudentData.filter(s => s.category_id != 2 && !switchstudentData.some(sd=>sd.student_id === allStudentData.register_no))
+        allConsultingData = response['all_consulting'].filter(c=>myStudentData.some(sd=>sd.student_id === c.student_id))
         allconsultingsNum = allConsultingData.length
         UnlearnedConsultingsData = allconsultingsNum > 0 ? allConsultingData.filter(consulting => consulting.category_id < 100) : 0;
         UnlearnedConsultingsNum = UnlearnedConsultingsData.length
