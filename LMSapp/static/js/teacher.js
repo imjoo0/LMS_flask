@@ -765,7 +765,7 @@ async function get_consulting(student_id) {
     let target_consulting_num = target_consulting.length;
 
     // 기한 지난 상담 수
-    let deadline_consulting = target_consulting_num != 0 ? target_consulting.filter(c => today < new Date(c.deadline).setHours(0, 0, 0, 0)).length : 0
+    let deadline_consulting = target_consulting_num != 0 ? target_consulting.filter(c => new Date(c.deadline).setHours(0, 0, 0, 0) < today).length : 0
 
     // 미학습 상담 
     let unlearned_consulting_num = data['consulting_list'].length > 0 ? data['consulting_list'].filter(c => c.category_id < 100).length : 0
