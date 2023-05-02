@@ -35,7 +35,7 @@ def answer(id):
         
         headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
         http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
-        
+
         new_answer = Answer(content=answer_contents,title=answer_title,created_at=Today,reject_code=int(o_ban_id),question_id = id)
         db.session.add(new_answer)
         if target_question.category == 2 and o_ban_id != 0 :    
@@ -329,7 +329,7 @@ def make_task():
             elif received_target_ban[0] == '1':   
                 targets = callapi.purple_allinfo('get_plusalpha_ban_teacher')
             else:
-                targets = callapi.purple_allinfo('get_nfnovel_ban_teacher')
+                targets = callapi.purple_allinfo('get_nfinter_ban_teacher')
             
             for target in targets:
                 new_task = TaskBan(ban_id=target['ban_id'],teacher_id=target['teacher_id'], task_id=task.id ,done=0)
@@ -390,7 +390,7 @@ def request_all_ban(b_type):
         elif b_type == 1:
             targets = callapi.purple_allinfo('get_plusalpha_ban')
         # nf 노블 처리 
-        else :
+        else:
             targets = callapi.purple_allinfo('get_nfnovel_ban')
         for target in targets:
             new_consulting = Consulting(ban_id=target['ban_id'],teacher_id=target['teacher_id'], category_id=received_consulting_category, student_id=target['student_id'],contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')

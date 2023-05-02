@@ -936,7 +936,7 @@ function task_ban_change(btid) {
             $('#task_msg').html('👉 PLUS/ALPHA반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 화면이 이동하기 전 까지 대기 해 주세요)')
         } else if (btid == 2) {
             // nf 노블 처리 
-            $('#task_msg').html('👉 NF/NOVEL반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 화면이 이동하기 전 까지 대기 해 주세요)')
+            $('#task_msg').html('👉 NF/Inter반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 화면이 이동하기 전 까지 대기 해 주세요)')
         }
     }
 }
@@ -1043,7 +1043,7 @@ async function ban_change(btid) {
             $('#consulting_msg').html('👉 PLUS/ALPHA반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
         } else if (btid == 2) {
             // nf 노블 처리 
-            $('#consulting_msg').html('👉 NF/NOVEL반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
+            $('#consulting_msg').html('👉 NF/Inter반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
         }
     }
 }
@@ -1152,7 +1152,7 @@ function post_consulting_request() {
             }
         })
     } else {
-        // b_type에 따라 전체 학생, 플러스/알파반, NF/NOVEL반으로 구분하여 API 호출
+        // b_type에 따라 전체 학생, 플러스/알파반, NF/Inter반으로 구분하여 API 호출
         b_type = $('#consulting_target_aban').val()[0]
         $.ajax({
             type: "POST",
