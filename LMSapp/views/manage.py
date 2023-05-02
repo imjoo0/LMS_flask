@@ -6,6 +6,7 @@ import json
 import callapi
 import pymysql
 from LMSapp.views import common
+import requests
 
 bp = Blueprint('manage', __name__, url_prefix='/manage')
 
@@ -21,11 +22,20 @@ def home():
 @bp.route('/answer/<int:id>', methods=['POST'])
 def answer(id):
     if request.method == 'POST':
+        post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
         target_question = Question.query.get_or_404(id)
         target_question.answer = 1
         answer_title = request.form['answer_title']
         answer_contents = request.form['answer_contents']
         o_ban_id = request.form['o_ban_id']
+
+        data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
+                  'templateCode': "work_cs_answer",
+                  'recipientList': [{'recipientNo':target_question.mobileno, 'templateParameter': { '답변내용':answer_contents}, }, ], }
+        
+        headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
+        http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
+        
         new_answer = Answer(content=answer_contents,title=answer_title,created_at=Today,reject_code=int(o_ban_id),question_id = id)
         db.session.add(new_answer)
         if target_question.category == 2 and o_ban_id != 0 :    

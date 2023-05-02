@@ -720,8 +720,12 @@ function post_answer(q_id, category) {
         },
         success: function (response) {
             {
-                alert(response["result"])
-                window.location.reload()
+                if(response['result'] == '문의 답변 저장 완료'){
+                    alert(response["result"])
+                    window.location.reload()
+                }else{
+                    alert('문의 답변 저장 실패')
+                }
             }
         }
     });

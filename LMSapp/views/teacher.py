@@ -118,7 +118,6 @@ def question():
                     })
             data.append(qdata)
         return data
-
     elif request.method == 'POST':
         URI = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
         question_category = request.form['question_category']
@@ -127,6 +126,7 @@ def question():
         teacher = session['user_registerno']
         ban_id = request.form['ban_id']
         student_id = request.form['target_student']
+        teacher_mobileno = request.form['teacher_mobileno']
         create_date = datetime.now().date()
         # 첨부 파일 처리
         files = request.files.getlist('file-upload')
@@ -135,17 +135,17 @@ def question():
             Synologytoken = 'PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q'
             category = 0
             payloadText  = "새 문의가 등록되었습니다"+'('+title+')'
-            new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
+            new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         elif question_category == '기술': 
             Synologytoken = 'iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg'
             category = 4
             payloadText  = "새 문의가 등록되었습니다"+'('+title+')'
-            new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
+            new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         elif question_category == '내근': 
             Synologytoken = 'MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv'
             category = 5
             payloadText  = "새 문의가 등록되었습니다"+'('+title+')'
-            new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
+            new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         else:
             Synologytoken = 'PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q'
             history_id = request.form['consulting_history']

@@ -864,7 +864,6 @@ function get_consulting_history_by_cate(category) {
     }
 }
 
-
 //  지난 상담 상담일지 
 function get_consulting_history() {
     $('#consulting_history_bansel_box').show()
