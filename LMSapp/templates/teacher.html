@@ -80,10 +80,10 @@
                             <textarea id="question_contents" class="modal-body-select modal-body-select-100" type="text"
                                 rows="5" cols="25" name="question_contents"></textarea>
                         </div>
-                        <div class="modal-body-select-container" style="display:none">
+                        <div class="modal-body-select-container">
                             <span class="modal-body-select-label">선생님 핸드폰 번호</span>
                             <input class="modal-body-select modal-body-select-100" type="text"
-                                   name="teacher_mobileno" value="{{ user['mobileno'] if 'mobileno' in user else 'no_data' }}">
+                                   name="teacher_mobileno" value="{{ user['mobileno'] }}" placeholder="{{user['mobileno'] }}">
                         </div>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">첨부 파일</span>
