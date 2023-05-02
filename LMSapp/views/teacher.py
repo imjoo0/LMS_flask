@@ -127,7 +127,6 @@ def question():
         ban_id = request.form['ban_id']
         student_id = request.form['target_student']
         teacher_mobileno = request.form.get('teacher_mobileno', None)
-        print(teacher_mobileno)
         create_date = datetime.now().date()
         # 첨부 파일 처리
         files = request.files.getlist('file-upload')
