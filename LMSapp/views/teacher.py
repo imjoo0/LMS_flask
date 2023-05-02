@@ -132,52 +132,44 @@ def question():
         ban_id = request.form['ban_id']
         student_id = request.form['target_student']
         teacher_mobileno = request.form.get('teacher_mobileno', None)
+        teacher_name = request.form.get('teacher_name', None)
+        teacher_engname = request.form.get('teacher_engname', None)
         create_date = datetime.now().date()
+        
+        payloadText  = teacher_name+'( '+ teacher_engname +' )님으로 부터' + question_category + '문의가 등록되었습니다 \n'+title
         # 첨부 파일 처리
         files = request.files.getlist('file-upload')
         if question_category == '일반':
             # 영교부에서 재택T 문의 관리 하는 시놀로지 채팅 방 token 값 받아야 함. 
             Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
             category = 0
-            payloadText  = "새 문의가 등록되었습니다"+'('+title+')'
             new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         elif question_category == '기술': 
             Synologytoken = '"iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg"'
             category = 4
-            payloadText  = "새 문의가 등록되었습니다"+'('+title+')'
             new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         elif question_category == '내근': 
             Synologytoken = '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"'
             category = 5
-            payloadText  = "새 문의가 등록되었습니다"+'('+title+')'
             new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         else:
             Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
             history_id = request.form['consulting_history']
             if question_category == '퇴소':
                 category = 1
-                payloadText  = "새 퇴소요청이 등록되었습니다"+'('+title+')'
             elif question_category == '이반':
                 category = 2
-                payloadText  = "새 이반요청이 등록되었습니다"+'('+title+')'
             new_question = Question(consulting_history=history_id, category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
+        
         db.session.add(new_question)
         db.session.commit()
         for file in files:
             common.save_attachment(file, new_question.id)
-        
-        payload = {
-            "text": payloadText
-        }
-        payload_json = json.dumps(payload)
-        headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
-        requestURI = f"{URI}&token={Synologytoken}"
+        requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
         try:
-            response = requests.post(requestURI, headers=headers, data=payload_json)
-            if response.status_code == 200:
-                print("시놀로지 전송 성공")
-            else:
-                print("시놀로지 전송 실패")
+            response = requests.get(requestURI)
+            response.raise_for_status()
+            print(f"statusCode: {response.status_code}")
         except requests.exceptions.RequestException as e:
             print("시놀로지 전송 실패")
             print(e)
