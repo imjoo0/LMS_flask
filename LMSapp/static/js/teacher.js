@@ -32,10 +32,10 @@ async function get_data(){
         mybansData = response['ban_data']
         mytasksData = response['all_task']
         allStudentData = response['my_students']
+        allConsultingData = response['all_consulting']
         switchstudentData = response['switchstudent']
 
-        myStudentData = allStudentData.filter(s => s.category_id != 2 && !switchstudentData.some(sd=>sd.student_id === allStudentData.register_no))
-        allConsultingData = response['all_consulting'].filter(c=>myStudentData.some(sd=>sd.student_id === c.student_id))
+        myStudentData = allStudentData.filter(s => s.category_id != 2)
         allconsultingsNum = allConsultingData.length
         UnlearnedConsultingsData = allconsultingsNum > 0 ? allConsultingData.filter(consulting => consulting.category_id < 100) : 0;
         UnlearnedConsultingsNum = UnlearnedConsultingsData.length
@@ -49,7 +49,7 @@ async function get_data(){
             let switch_plus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.switch_ban_id == elem.register_no).length : 0;
             let now_student_num = elem.first_student_num - switch_minus_num + switch_plus_num - elem.out_student_num
             // let outstudent = response['outstudent'].length > 0 ? response['outstudent'].filter(a=> a.ban_id === register_no).length : 0;
-            let ban_unlearned = UnlearnedConsultingsNum > 0 ? UnlearnedConsultingsData.filter(consulting => consulting.ban_id === elem.register_no && ( switchstudentData.filter(a => a.student_id != consulting.student_id) )) : 0;
+            let ban_unlearned = UnlearnedConsultingsNum > 0 ? UnlearnedConsultingsData.filter(consulting => consulting.ban_id === elem.register_no) : 0;
             let ban_unlearned_num = ban_unlearned.length;
 
             let temp_ban_chart = `
