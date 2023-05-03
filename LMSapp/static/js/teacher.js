@@ -635,6 +635,7 @@ async function student_consulting(student_id) {
     let unlearned_consulting_num =  myconsulting_num > 0 ? data['consulting_list'].filter(c => c.category_id < 100) : 0  
 
     if (target_consulting.length != 0 && ConsultingHistory.length!=0){
+        console.log(target_consulting)
         DateconsultingGrouped = target_consulting.reduce((acc, item) => {
             if (!acc[item.created_at]) {
                 acc[item.created_at] = [];
