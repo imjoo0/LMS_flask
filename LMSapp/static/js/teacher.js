@@ -1061,11 +1061,22 @@ function get_consulting_history_by_cate(category) {
 }
 
 //  지난 상담 상담일지 
-function get_consulting_history() {
+async function get_consulting_history() {
     $('#consulting_history_bansel_box').show()
     $('#consulting_history_box').show()
     $('#consulting_history_box_detail').hide()
     $('#consulting_list_search_input').off('keyup');
+    try {
+        const response = await $.ajax({
+            type: "GET",
+            url: "/teacher/get_mystudents_history",
+            dataType: 'json',
+            data: {},
+        });
+        ConsultingHistory = response['all_consulting_history']
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
     let container = $('#consulting_history_student_list_pagination')
     // var category_list = []
     CpaginationOptions = {
@@ -1097,10 +1108,14 @@ function get_consulting_history() {
     }
     target_list = allConsultingData.length > 0 ? allConsultingData.filter(c => c.done != 0) : 0;
     let target_consulting_num = target_list.length;
-    if (target_consulting_num != 0) {
+    console.log(target_list)
+    if (target_consulting_num != 0 && ConsultingHistory.length != 0) {
         // 중복 없는 카테고리 배열 생성
         let category_set = new Set(target_list.map(c => c.category));
+        let history_category_set = new Set(ConsultingHistory.map(c => c.category))
+        category_set.push(history_category_set)
         let category_list = [...category_set];
+        console.log(category_set)
         var idxHtml = `<option value="none">전체</option>`;
         $.each(category_list, function (idx, val) {
             idxHtml += `<option value="${val}">${val}</option>`
