@@ -1108,6 +1108,7 @@ async function get_consulting_history() {
     }
     target_list = allConsultingData.length > 0 ? allConsultingData.filter(c => c.done != 0) : 0;
     let target_consulting_num = target_list.length;
+    console.log(target_list)
     console.log(ConsultingHistory)
     if (target_consulting_num != 0 && ConsultingHistory.length != 0) {
         // 중복 없는 카테고리 배열 생성
