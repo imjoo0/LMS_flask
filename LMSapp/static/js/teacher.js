@@ -626,6 +626,7 @@ async function student_consulting(student_id) {
     } catch (error){
         alert('Error occurred while retrieving data.');
     }
+    console.log(data)
     if(data[consulting_list].length != 0){
         let total_ban_unlearned_consulting = 0
         $.each(consultingStudentData, function (index, consulting) {
