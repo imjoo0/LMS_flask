@@ -1094,6 +1094,7 @@ async function get_consulting_history() {
                 consulting.origin = student_info.origin
                 consulting.ban_name = student_info.classname
                 let title = consulting.contents
+                console.log(consulting)
                 if(consulting['id'].includes('history_')){
                     title = consulting.title
                 }else{
