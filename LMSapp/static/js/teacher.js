@@ -1074,6 +1074,9 @@ async function get_consulting_history() {
             data: {},
         });
         ConsultingHistory = response['all_consulting_history']
+        ConsultingHistory.forEach((elem) => {
+            elem.id = 'history_'+elem.id
+        });
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
@@ -1091,8 +1094,12 @@ async function get_consulting_history() {
                 consulting.origin = student_info.origin
                 consulting.ban_name = student_info.classname
                 let title = consulting.contents
-                if (consulting.category_id < 100) {
-                    title = consulting.week_code + '주간 ' + consulting.category
+                if(consulting.id.includes('history_')){
+                    title = consulting.title
+                }else{
+                    if (consulting.category_id < 100) {
+                        title = consulting.week_code + '주간 ' + consulting.category
+                    }
                 }
                 dataHtml += `
                     <td class="col-2"> ${consulting.category}</td>
