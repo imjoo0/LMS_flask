@@ -1113,8 +1113,8 @@ async function get_consulting_history() {
         // 중복 없는 카테고리 배열 생성
         let category_set = new Set(target_list.map(c => c.category));
         let history_category_set = new Set(ConsultingHistory.map(c => c.category))
-        category_set.push(history_category_set)
-        let category_list = [...category_set];
+        let combinedSet = new Set([...category_set, ...history_category_set]);
+        let category_list = [...combinedSet];
         console.log(category_set)
         var idxHtml = `<option value="none">전체</option>`;
         $.each(category_list, function (idx, val) {
