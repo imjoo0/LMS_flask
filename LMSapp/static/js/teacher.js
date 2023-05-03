@@ -1093,23 +1093,29 @@ async function get_consulting_history() {
                 consulting.student_name = student_info.name + '( ' + student_info.nick_name + ' )'
                 consulting.origin = student_info.origin
                 consulting.ban_name = student_info.classname
-                let title = consulting.contents
-                console.log(consulting.id)
                 if(typeof consulting.id === 'string'){
-                    title = consulting.title
-                }else{
-                    if (consulting.category_id < 100) {
-                        title = consulting.week_code + '주간 ' + consulting.category
-                    }
-                }
-                dataHtml += `
-                    <td class="col-2"> ${consulting.category}</td>
-                    <td class="col-2">${title}</td>
+                    dataHtml += `
+                    <td class="col-2"> (이전 상담 기록) ${make_nullcate(consulting.category)}</td>
+                    <td class="col-2">${make_nullcate(consulting.title)}</td>
                     <td class="col-2">${make_date(consulting.created_at)}</td>
                     <td class="col-2"> ${consulting.ban_name}</td>
                     <td class="col-2"> ${consulting.student_name}</td>
                     <td class="col-1"> ${consulting.origin}</td>
-                    <td class="col-1" onclick ="get_consulting_history_detail(${consulting.id})"> 🔍 </td>`;
+                    <td class="col-1" onclick ="get_consulting_history_detail('${consulting.id}')"> 🔍 </td>`;
+                }else{
+                    let title = consulting.contents
+                    if (consulting.category_id < 100) {
+                        title = consulting.week_code + '주간 ' + consulting.category
+                    }
+                    dataHtml += `
+                    <td class="col-2"> ${consulting.category}</td>
+                    <td class="col-2">${consulting.title}</td>
+                    <td class="col-2">${make_date(consulting.created_at)}</td>
+                    <td class="col-2"> ${consulting.ban_name}</td>
+                    <td class="col-2"> ${consulting.student_name}</td>
+                    <td class="col-1"> ${consulting.origin}</td>
+                    <td class="col-1" onclick ="get_consulting_history_detail('${consulting.id}')"> 🔍 </td>`;
+                }
             });
             $('#consulting_history_student_list').html(dataHtml);
         }
