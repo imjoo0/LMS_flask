@@ -367,7 +367,6 @@ async function get_student(ban_id) {
             $('#ban_student_info').html(temp_consulting_history_student_list);
         }
     }
-
     Studentcontainer = $('#ban_student_list_pagination')
     Targetdata = consultingStudentData.filter((e) => {
         return e.ban_id === ban_id;
@@ -595,38 +594,20 @@ async function student_consulting(student_id) {
     $('#ban_student_list_bansel_box').hide()
     $('#make_plus_consulting').hide()
     $('#student_consulting_datebox').show();
+    let container = $('#studentlist_pagination')
+    data = consultingStudentData.filter((e) => {
+        return e.student_id == student_id && e.consulting_list.length != 0;
+    })[0]
     $('.mo_inloading').show()
     $('.monot_inloading').hide()
-    let container = $('#studentlist_pagination')
-    data = Targetdata.filter(e =>e.student_id == student_id)[0]
-    $('#ban_student_listModalLabelt').html(`${data['student_name']} 원생 상담일지`)
-    $('#studentlist_info_box').html(`
-    <th class="col-3">${data.student_name}</th>
-    <th class="col-3">${data.student_origin}</th>
-    <th class="col-3">생년월일 : ${data.student_birthday}</th>
-    <th class="col-3">📞${data.student_mobileno}</th>
-    `);
-    try {
-        const response = await $.ajax({
-            type: "GET",
-            url: "/teacher/get_student_history/"+student_id,
-            dataType: 'json',
-            data: {},
-        });
-        ConsultingHistory = response['all_consulting_history']
-        ConsultingHistoryGrouped = ConsultingHistory.reduce((acc, item) => {
-            item.created_at = make_date(item.created_at)
-            if (!acc[item.created_at]) {
-                acc[item.created_at] = [];
-            }
-            acc[item.created_at].push(item);
-            return acc;
-        }, []);
-        ConsultingHistoryGroupedCategory = Object.keys(ConsultingHistoryGrouped)
-    } catch (error){
-        alert('Error occurred while retrieving data.');
-    }
-    if(data['consulting_list']){
+    if(data){
+        $('#ban_student_listModalLabelt').html(`${data['student_name']} 원생 상담일지`)
+        $('#studentlist_info_box').html(`
+        <th class="col-3">${data.student_name}</th>
+        <th class="col-3">${data.student_origin}</th>
+        <th class="col-3">생년월일 : ${data.student_birthday}</th>
+        <th class="col-3">📞${data.student_mobileno}</th>
+        `);
         let total_ban_unlearned_consulting = 0
         $.each(consultingStudentData, function (index, consulting) {
             total_ban_unlearned_consulting += consulting.consulting_list.filter(u => u.category_id < 100 && u.ban_id == data.ban_id).length
@@ -637,6 +618,9 @@ async function student_consulting(student_id) {
         // 미학습 상담 
         let unlearned_consulting_num = data['consulting_list'].length > 0 ? data['consulting_list'].filter(c => c.category_id < 100) : 0
     
+        let history_consulting = ConsultingHistory.filter(h=>h.student_id == student_id)
+        let history_consulting_num = history_consulting.length
+
         if (target_consulting_num != 0){
             DateconsultingGrouped = target_consulting.reduce((acc, item) => {
                 if (!acc[item.created_at]) {
@@ -674,28 +658,47 @@ async function student_consulting(student_id) {
                             <td class="col-4" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="show_consulting_history_box('${key}')">📝</td>
                         `
                     });
+                    temp_consulting_write_box +=`<div id=consultinghistorydatebox></div>`
                     $('#studentlist_consulting_info_box').html(temp_consulting_write_box)
                 }
             })
         }
-    }
-    if(ConsultingHistory.length != 0){
-        console.log(ConsultingHistory)
-        console.log(ConsultingHistoryGrouped)
-        // temp_consulting_write_box +=`<th class="col-4 tagtagtitle">과거 상담 진행 날짜</th>
-        // <th class="col-4 tagtagtitle">진행 한 상담 건</th>
-        // <th class="col-4 tagtagtitle">상세 보기</th>`
-        // $.each(ConsultingHistoryGroupedCategory,function(index,key){
-        //     let target_consultings = ConsultingHistoryGroupedCategory[key]
-        //     let cate_consultings_num = target_consultings.length
-        //     temp_consulting_write_box += `
-        //         <td class="col-4">${key}</td>
-        //         <td class="col-4">${cate_consultings_num}건</td>
-        //         <td class="col-4" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="show_consulting_history_box('${key}')">📝</td>
-        //     `
-        // });
-    }
-    else{
+        if (history_consulting_num != 0){
+            DatehistoryGrouped = history_consulting.reduce((acc, item) => {
+                item.created_at = make_date(item.created_at)
+                if (!acc[item.created_at]) {
+                    acc[item.created_at] = [];
+                }
+                acc[item.created_at].push(item);
+                return acc;
+            }, []);
+            DatehistoryGroupedCategory = Object.keys(DatehistoryGrouped)
+            let idx = 0;
+            let temp_consulting_history_box = `
+                <th class="col-4 tagtagtitle">이전 진행 상담 날짜</th>
+                <th class="col-4 tagtagtitle">진행 한 상담 건</th>
+                <th class="col-4 tagtagtitle">상세 보기</th>`;
+            container.pagination({
+                dataSource: DatehistoryGroupedCategory,
+                prevText: '이전',
+                nextText: '다음',
+                pageClassName: 'float-end',
+                pageSize: 5,
+                callback: function (DatehistoryGroupedCategory, pagination) {
+                    $.each(DatehistoryGroupedCategory, function (index, key) {
+                        let target_consultings = DateconsultingGrouped[key]
+                        let cate_consultings_num = target_consultings.length
+                        temp_consulting_history_box += `
+                            <td class="col-4">${key}</td>
+                            <td class="col-4">${cate_consultings_num}건</td>
+                            <td class="col-4" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="show_consulting_history_box('${key}')">📝</td>
+                        `
+                    });
+                    $('#consultinghistorydatebox').html(temp_consulting_history_box)
+                }
+            })
+        }
+    }else{
         $('#studentlist_consulting_info_box').html('<p>진행 상담 내역이 없습니다.* 원생 목록에서 자체 상담을 진행해주세요 </p>')
     }
     $('.mo_inloading').hide()
