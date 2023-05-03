@@ -62,7 +62,7 @@ let make_priority = function(priority) {
     else return '긴급업무⚡';
 }
 let answer_rate =  function(answer, all) {
-    if(Object.is(answer/all, NaN)) return 0;
+    if(Object.is(answer/all, NaN)||Object.is(answer/all, Infinity)) return 0;
     else return answer/all*100;
 }
 let make_semester=function(semester){
