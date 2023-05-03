@@ -672,7 +672,7 @@ async function student_consulting(student_id) {
                         <td class="col-4" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="show_consulting_history_box('${key}')">📝</td>
                     `
                 });
-                temp_consulting_write_box += `<th class="col-12 tagtagtitle">과거 진행 상담 건</th>`
+                temp_consulting_write_box += `<th class="col-8 tagtagtitle">과거 진행 상담 건</th><th class="col-4 tagtagtitle">상세보기</th>`
                 $.each(ConsultingHistoryGroupedCategory, function (index, key) {
                     let target_consultings = ConsultingHistoryGrouped[key]
                     let cate_consultings_num = target_consultings.length
@@ -686,7 +686,7 @@ async function student_consulting(student_id) {
             }
         })
     }else if(target_consulting.length == 0 && ConsultingHistory.length != 0){
-        let temp_consulting_write_box = `<th class="col-12 tagtagtitle">과거 진행 상담 건</th>`
+        let temp_consulting_write_box = `<th class="col-8 tagtagtitle">과거 진행 상담 건</th><th class="col-4 tagtagtitle">상세보기</th>`
         $.each(ConsultingHistoryGroupedCategory, function (index, key) {
             let target_consultings = ConsultingHistoryGrouped[key]
             let cate_consultings_num = target_consultings.length
