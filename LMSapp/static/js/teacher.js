@@ -619,8 +619,6 @@ async function student_consulting(student_id) {
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
-    console.log(ConsultingHistory)
-    
     $('.mo_inloading').show()
     $('.monot_inloading').hide()
     if(data){
