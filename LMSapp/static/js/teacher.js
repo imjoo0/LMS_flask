@@ -1095,13 +1095,13 @@ async function get_consulting_history() {
                 consulting.ban_name = student_info.classname
                 let title = consulting.contents
                 console.log(consulting.id)
-                // if(consulting['id'].includes('history_')){
-                //     title = consulting.title
-                // }else{
-                //     if (consulting.category_id < 100) {
-                //         title = consulting.week_code + '주간 ' + consulting.category
-                //     }
-                // }
+                if(consulting.id.includes('history_')){
+                    title = consulting.title
+                }else{
+                    if (consulting.category_id < 100) {
+                        title = consulting.week_code + '주간 ' + consulting.category
+                    }
+                }
                 dataHtml += `
                     <td class="col-2"> ${consulting.category}</td>
                     <td class="col-2">${title}</td>
