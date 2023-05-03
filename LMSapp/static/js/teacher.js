@@ -600,7 +600,7 @@ async function student_consulting(student_id) {
     try {
         const response = await $.ajax({
             type: "GET",
-            url: "/teacher/get_consulting_history/"+student_id,
+            url: "/teacher/get_student_history/"+student_id,
             dataType: 'json',
             data: {},
         });
