@@ -44,6 +44,12 @@ let make_date = function(d){
     const date = new Date(d)
     return date.getFullYear()+'-'+(date.getMonth()+ 1).toString().padStart(2, '0')+'-'+date.getDate().toString().padStart(2, '0')
 }
+let make_nullcate = function(d){
+    if(d==null){
+        return '➖'
+    }
+    return d;
+}
 let missed_date = function(d){
     const date = new Date(d)
     const standard = new Date('1111-01-01')

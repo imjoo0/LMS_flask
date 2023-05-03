@@ -832,7 +832,7 @@ async function show_consulting_history_beforebox(date_key) {
     }, []);
     let consultingGroupedCategory = Object.keys(consultingGrouped)
     const color_pallete = ['green', 'purple', 'yellow', 'red', 'blue', 'orange', 'cyan', 'white']
-    let temp_consulting_contents_box = `<a class="btn-two cyan small">원생리포트</a>`;
+    let temp_consulting_contents_box = '';
     $.each(consultingGroupedCategory, function (index, key) {
         let target_consultings = consultingGrouped[key]
         let cate_consultings_num = target_consultings.length
@@ -847,11 +847,11 @@ async function show_consulting_history_beforebox(date_key) {
             <p mt-lg-4 mt-5>✅<strong>${category}</strong></br><strong>
             <div class="modal-body-select-container">
                 <span class="modal-body-select-label">상담 제목</span>
-                <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50" placeholder="${title}">
+                <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50" placeholder="${make_nullcate(title)}">
             </div>
             <div class="modal-body-select-container">
                 <span class="modal-body-select-label">제공한 가이드</span>
-                <textarea class="modal-body" type="text" rows="5" cols="25" placeholder="${contents}"></textarea> 
+                <textarea class="modal-body" type="text" rows="5" cols="25" placeholder="${make_nullcate(contents)}"></textarea> 
             </div>
             `;
             temp_consulting_write_box += `<p>수정날짜 : ${make_date(history_created)}</p> `;
