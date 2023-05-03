@@ -1497,9 +1497,11 @@ async function get_question_list() {
                 var dataHtml = '';
                 $.each(questionAnswerdata, function (index, item) {
                     let done_code = ''
-                    if (item.answer == 0) { 
+                    console.log(item)
+                    console.log(typeof item.answer)
+                    if (item.answer == 0 || item.answer=='0') { 
                         done_code = '미응답' 
-                    }else {
+                    }else{
                          done_code = item.answer_data.created_at + '에 응답' 
                     }
                     dataHtml += `
