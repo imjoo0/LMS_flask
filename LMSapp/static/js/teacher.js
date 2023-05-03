@@ -630,7 +630,7 @@ async function student_consulting(student_id) {
     $.each(consultingStudentData, function (index, consulting) {
         total_ban_unlearned_consulting += consulting.consulting_list.filter(u => u.category_id < 100 && u.ban_id == data.ban_id).length
     });
-    let target_consulting = myconsulting_num > 0 ? data['consulting_list'].filter(c => c.done == 1) : 0
+    let target_consulting = myconsulting_num > 0 ? data['consulting_list'].filter(c => c.done == 1) : []
     console.log(data['consulting_list'])
      // 미학습 상담 
     let unlearned_consulting_num =  myconsulting_num > 0 ? data['consulting_list'].filter(c => c.category_id < 100) : 0  
