@@ -1109,12 +1109,12 @@ async function get_consulting_history() {
                     }
                     dataHtml += `
                     <td class="col-2"> ${consulting.category}</td>
-                    <td class="col-2">${consulting.title}</td>
+                    <td class="col-2">${title}</td>
                     <td class="col-2">${make_date(consulting.created_at)}</td>
                     <td class="col-2"> ${consulting.ban_name}</td>
                     <td class="col-2"> ${consulting.student_name}</td>
                     <td class="col-1"> ${consulting.origin}</td>
-                    <td class="col-1" onclick ="get_consulting_history_detail('${consulting.id}')"> 🔍 </td>`;
+                    <td class="col-1" onclick ="get_consulting_history_detail(${consulting.id})"> 🔍 </td>`;
                 }
             });
             $('#consulting_history_student_list').html(dataHtml);
