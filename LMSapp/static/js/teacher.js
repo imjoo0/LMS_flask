@@ -679,7 +679,7 @@ async function student_consulting(student_id) {
                     temp_consulting_write_box += `
                         <td class="col-4">${key}</td>
                         <td class="col-4">${cate_consultings_num}건</td>
-                        <td class="col-4" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="show_consulting_history_box('${key}')">📝</td>
+                        <td class="col-4" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="show_consulting_history_beforebox('${key}')">📝</td>
                     `
                 });
                 $('#studentlist_consulting_info_box').html(temp_consulting_write_box)
@@ -693,7 +693,7 @@ async function student_consulting(student_id) {
             temp_consulting_write_box += `
                 <td class="col-4">${key}</td>
                 <td class="col-4">${cate_consultings_num}건</td>
-                <td class="col-4" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="show_consulting_history_box('${key}')">📝</td>
+                <td class="col-4" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="show_consulting_history_beforebox('${key}')">📝</td>
             `
         });
         $('#studentlist_consulting_info_box').html(temp_consulting_write_box)
@@ -809,6 +809,55 @@ async function show_consulting_history_box(date_key) {
             style="margin-right:5px">수정</button>
     </div>
     `;
+    $('#consulting_write_box').html(temp_consulting_write_box);
+    $('#consulting_contents_box_cate').html(temp_consulting_contents_box)
+    $('.mo_inloading').hide()
+    $('.monot_inloading').show()
+}
+async function show_consulting_history_beforebox(date_key) {
+    $('#consultinghistoryModalLabelt').html(`${make_date(date_key)}날짜 상담일지`)
+    $('.mo_inloading').show()
+    $('.monot_inloading').hide()
+
+    $('#student_info_box').html('');
+    $('#student_consulting_info_box').html('')
+    let temp_consulting_write_box = ''
+    let target_consulting = ConsultingHistoryGrouped[date_key]
+    let consultingGrouped = target_consulting.reduce((acc, item) => {
+        if (!acc[item.category]) {
+            acc[item.category] = [];
+        }
+        acc[item.category].push(item);
+        return acc;
+    }, []);
+    let consultingGroupedCategory = Object.keys(consultingGrouped)
+    const color_pallete = ['green', 'purple', 'yellow', 'red', 'blue', 'orange', 'cyan', 'white']
+    let temp_consulting_contents_box = `<a class="btn-two cyan small">원생리포트</a>`;
+    $.each(consultingGroupedCategory, function (index, key) {
+        let target_consultings = consultingGrouped[key]
+        let cate_consultings_num = target_consultings.length
+        temp_consulting_write_box += `<hr class='hr-dotted'/><h3 id="target_${key}" style="margin-bottom:1.2rem;">${key} ${cate_consultings_num}건</h3>`
+        for (i = 0; i < cate_consultings_num; i++) {
+            let target = target_consultings[i]
+            let category = target['category']
+            let title = target['title']
+            let contents = target['contents']
+            let history_created = target['updated_at']
+            temp_consulting_write_box += `
+            <p mt-lg-4 mt-5>✅<strong>${category}</strong></br><strong>
+            <div class="modal-body-select-container">
+                <span class="modal-body-select-label">상담 제목</span>
+                <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50" placeholder="${title}">
+            </div>
+            <div class="modal-body-select-container">
+                <span class="modal-body-select-label">제공한 가이드</span>
+                <textarea class="modal-body" type="text" rows="5" cols="25" placeholder="${contents}"></textarea> 
+            </div>
+            `;
+            temp_consulting_write_box += `<p>수정날짜 : ${make_date(history_created)}</p> `;
+        }
+        temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" href="#target_${key}" onclick="get_consulting_history_by_cate(event)">${key} ${cate_consultings_num}건</a>`;
+    });
     $('#consulting_write_box').html(temp_consulting_write_box);
     $('#consulting_contents_box_cate').html(temp_consulting_contents_box)
     $('.mo_inloading').hide()
