@@ -1169,11 +1169,11 @@ async function get_consulting_history_detail(c_id) {
         <button type="button" class="btn btn-back" onclick="get_consulting_history()">원생 목록으로 돌아가기🔙 </button>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">(과거 데이터 상담) 종류</span>
-            <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50" placeholder="✅ ${consulting_history.category}">
+            <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50" placeholder="${consulting_history.category}">
         </div>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">제목 </span>
-            <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50" placeholder=" ✅ ${make_nullcate(consulting_history.title)}">
+            <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50" placeholder="${make_nullcate(consulting_history.title)}">
         </div>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">제공한 가이드</span>
