@@ -595,10 +595,10 @@ async function student_consulting(student_id) {
     $('#ban_student_list_bansel_box').hide()
     $('#make_plus_consulting').hide()
     $('#student_consulting_datebox').show();
+    $('.mo_inloading').show()
+    $('.monot_inloading').hide()
     let container = $('#studentlist_pagination')
-    console.log(Targetdata)
-    data = Targetdata.filter(e =>e.student_id == student_id)
-    console.log(data)
+    data = Targetdata.filter(e =>e.student_id == student_id)[0]
     try {
         const response = await $.ajax({
             type: "GET",
@@ -619,16 +619,14 @@ async function student_consulting(student_id) {
     } catch (error){
         alert('Error occurred while retrieving data.');
     }
-    $('.mo_inloading').show()
-    $('.monot_inloading').hide()
+    $('#ban_student_listModalLabelt').html(`${data['student_name']} 원생 상담일지`)
+    $('#studentlist_info_box').html(`
+    <th class="col-3">${data.student_name}</th>
+    <th class="col-3">${data.student_origin}</th>
+    <th class="col-3">생년월일 : ${data.student_birthday}</th>
+    <th class="col-3">📞${data.student_mobileno}</th>
+    `);
     if(data){
-        $('#ban_student_listModalLabelt').html(`${data['student_name']} 원생 상담일지`)
-        $('#studentlist_info_box').html(`
-        <th class="col-3">${data.student_name}</th>
-        <th class="col-3">${data.student_origin}</th>
-        <th class="col-3">생년월일 : ${data.student_birthday}</th>
-        <th class="col-3">📞${data.student_mobileno}</th>
-        `);
         let total_ban_unlearned_consulting = 0
         $.each(consultingStudentData, function (index, consulting) {
             total_ban_unlearned_consulting += consulting.consulting_list.filter(u => u.category_id < 100 && u.ban_id == data.ban_id).length
