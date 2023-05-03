@@ -659,7 +659,8 @@ async function student_consulting(student_id) {
                     $('#studentlist_consulting_info_box').html(temp_consulting_write_box)
                 }
             })
-        }else{
+        }
+    }else{
         $('#studentlist_consulting_info_box').html('<p>진행 상담 내역이 없습니다.* 원생 목록에서 자체 상담을 진행해주세요 </p>')
     }
     $('.mo_inloading').hide()
