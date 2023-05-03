@@ -1094,7 +1094,7 @@ async function get_consulting_history() {
                 consulting.origin = student_info.origin
                 consulting.ban_name = student_info.classname
                 let title = consulting.contents
-                if(consulting.id.includes('history_')){
+                if(consulting['id'].includes('history_')){
                     title = consulting.title
                 }else{
                     if (consulting.category_id < 100) {
