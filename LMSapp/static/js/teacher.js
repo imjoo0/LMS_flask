@@ -47,7 +47,7 @@ async function get_data(){
             temp_ban_option += `<option value=${elem.register_no}>${elem.name} (${semester}월 학기)</option>`;
             let switch_minus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.ban_id == elem.register_no).length : 0;
             let switch_plus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.switch_ban_id == elem.register_no).length : 0;
-            let now_student_num = elem.first_student_num - switch_minus_num + switch_plus_num - elem.out_student_num
+            let now_student_num = elem.first_student_num - elem.out_student_num
             // let outstudent = response['outstudent'].length > 0 ? response['outstudent'].filter(a=> a.ban_id === register_no).length : 0;
             let ban_unlearned = UnlearnedConsultingsNum > 0 ? UnlearnedConsultingsData.filter(consulting => consulting.ban_id === elem.register_no) : 0;
             let ban_unlearned_num = ban_unlearned.length;
