@@ -599,6 +599,13 @@ async function student_consulting(student_id) {
     $('.monot_inloading').hide()
     let container = $('#studentlist_pagination')
     data = Targetdata.filter(e =>e.student_id == student_id)[0]
+    $('#ban_student_listModalLabelt').html(`${data['student_name']} 원생 상담일지`)
+    $('#studentlist_info_box').html(`
+    <th class="col-3">${data.student_name}</th>
+    <th class="col-3">${data.student_origin}</th>
+    <th class="col-3">생년월일 : ${data.student_birthday}</th>
+    <th class="col-3">📞${data.student_mobileno}</th>
+    `);
     try {
         const response = await $.ajax({
             type: "GET",
@@ -619,14 +626,7 @@ async function student_consulting(student_id) {
     } catch (error){
         alert('Error occurred while retrieving data.');
     }
-    $('#ban_student_listModalLabelt').html(`${data['student_name']} 원생 상담일지`)
-    $('#studentlist_info_box').html(`
-    <th class="col-3">${data.student_name}</th>
-    <th class="col-3">${data.student_origin}</th>
-    <th class="col-3">생년월일 : ${data.student_birthday}</th>
-    <th class="col-3">📞${data.student_mobileno}</th>
-    `);
-    if(data){
+    if(data.consultingList.length != 0){
         let total_ban_unlearned_consulting = 0
         $.each(consultingStudentData, function (index, consulting) {
             total_ban_unlearned_consulting += consulting.consulting_list.filter(u => u.category_id < 100 && u.ban_id == data.ban_id).length
@@ -674,23 +674,28 @@ async function student_consulting(student_id) {
                             <td class="col-4" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="show_consulting_history_box('${key}')">📝</td>
                         `
                     });
-                    temp_consulting_write_box +=`<th class="col-4 tagtagtitle">과거 상담 진행 날짜</th>
-                    <th class="col-4 tagtagtitle">진행 한 상담 건</th>
-                    <th class="col-4 tagtagtitle">상세 보기</th>`
-                    $.each(ConsultingHistoryGroupedCategory,function(index,key){
-                        let target_consultings = ConsultingHistoryGroupedCategory[key]
-                        let cate_consultings_num = target_consultings.length
-                        temp_consulting_write_box += `
-                            <td class="col-4">${key}</td>
-                            <td class="col-4">${cate_consultings_num}건</td>
-                            <td class="col-4" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="show_consulting_history_box('${key}')">📝</td>
-                        `
-                    });
                     $('#studentlist_consulting_info_box').html(temp_consulting_write_box)
                 }
             })
         }
-    }else{
+    }
+    if(ConsultingHistory.length != 0){
+        console.log(ConsultingHistory)
+        console.log(ConsultingHistoryGrouped)
+        // temp_consulting_write_box +=`<th class="col-4 tagtagtitle">과거 상담 진행 날짜</th>
+        // <th class="col-4 tagtagtitle">진행 한 상담 건</th>
+        // <th class="col-4 tagtagtitle">상세 보기</th>`
+        // $.each(ConsultingHistoryGroupedCategory,function(index,key){
+        //     let target_consultings = ConsultingHistoryGroupedCategory[key]
+        //     let cate_consultings_num = target_consultings.length
+        //     temp_consulting_write_box += `
+        //         <td class="col-4">${key}</td>
+        //         <td class="col-4">${cate_consultings_num}건</td>
+        //         <td class="col-4" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="show_consulting_history_box('${key}')">📝</td>
+        //     `
+        // });
+    }
+    else{
         $('#studentlist_consulting_info_box').html('<p>진행 상담 내역이 없습니다.* 원생 목록에서 자체 상담을 진행해주세요 </p>')
     }
     $('.mo_inloading').hide()
