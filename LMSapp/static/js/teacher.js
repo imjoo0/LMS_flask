@@ -598,7 +598,7 @@ async function student_consulting(student_id) {
     $('.mo_inloading').show()
     $('.monot_inloading').hide()
     let container = $('#studentlist_pagination')
-    data = Targetdata.filter(e =>e.student_id == student_id)[0]
+    data = consultingStudentData.filter(e =>e.student_id == student_id)[0]
     $('#ban_student_listModalLabelt').html(`${data['student_name']} 원생 상담일지`)
     $('#studentlist_info_box').html(`
     <th class="col-3">${data.student_name}</th>
@@ -626,9 +626,9 @@ async function student_consulting(student_id) {
     } catch (error){
         alert('Error occurred while retrieving data.');
     }
-    if(data){
+    if(data[consulting_list]){
         let total_ban_unlearned_consulting = 0
-        $.each(data, function (index, consulting) {
+        $.each(data[consulting_list], function (index, consulting) {
             total_ban_unlearned_consulting += consulting.consulting_list.filter(u => u.category_id < 100 && u.ban_id == data.ban_id).length
         });
     
