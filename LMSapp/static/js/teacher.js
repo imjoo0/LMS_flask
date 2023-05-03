@@ -596,9 +596,10 @@ async function student_consulting(student_id) {
     $('#make_plus_consulting').hide()
     $('#student_consulting_datebox').show();
     let container = $('#studentlist_pagination')
-    data = consultingStudentData.filter((e) => {
+    data = Targetdata.filter((e) => {
         return e.student_id == student_id && e.consulting_list.length != 0;
     })[0]
+    console.log(data)
     try {
         const response = await $.ajax({
             type: "GET",
@@ -616,7 +617,7 @@ async function student_consulting(student_id) {
             return acc;
         }, []);
         ConsultingHistoryGroupedCategory = Object.keys(ConsultingHistoryGrouped)
-    } catch (error) {
+    } catch (error){
         alert('Error occurred while retrieving data.');
     }
     $('.mo_inloading').show()
