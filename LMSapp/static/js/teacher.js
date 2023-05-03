@@ -1496,8 +1496,12 @@ async function get_question_list() {
             callback: function (questionAnswerdata, pagination) {
                 var dataHtml = '';
                 $.each(questionAnswerdata, function (index, item) {
-                    if (item.answer == 0) { done_code = '미응답' }
-                    else { done_code = item.answer_data.create_date + '에 응답' }
+                    let done_code = ''
+                    if (item.answer == 0) { 
+                        done_code = '미응답' 
+                    }else {
+                         done_code = item.answer_data.created_at + '에 응답' 
+                    }
                     dataHtml += `
                     <td class="col-2">${q_category(item.category)}</td>
                     <td class="col-5">${item.title}</td>
