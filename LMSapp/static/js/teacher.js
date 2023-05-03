@@ -598,6 +598,7 @@ async function student_consulting(student_id) {
     data = consultingStudentData.filter((e) => {
         return e.student_id == student_id && e.consulting_list.length != 0;
     })[0]
+    console.log(data)
     $('#ban_student_listModalLabelt').html(`${data['student_name']} 원생 상담일지`)
     
 
