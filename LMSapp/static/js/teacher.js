@@ -1095,7 +1095,7 @@ async function get_consulting_history() {
                 consulting.ban_name = student_info.classname
                 let title = consulting.contents
                 console.log(consulting.id)
-                if(consulting.id.includes('history_')){
+                if(typeof consulting.id === 'string'){
                     title = consulting.title
                 }else{
                     if (consulting.category_id < 100) {
