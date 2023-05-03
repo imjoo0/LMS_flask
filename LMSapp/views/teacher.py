@@ -43,8 +43,6 @@ def get_data():
     switchstudent = []
     outstudent = []
     my_students = callapi.purple_ban(session['user_id'], 'get_mystudents')
-    all_consulting_history =  callapi.purple_ban(session['user_id'], 'get_mystudents_history')
-
     if len(ban_data) != 0:
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00',port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
         try:
@@ -67,8 +65,14 @@ def get_data():
             print('err')
         finally:
             db.close()
-        return jsonify({'switchstudent': switchstudent,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'outstudent':outstudent,'ban_data':ban_data,'all_consulting_history':all_consulting_history})
+        return jsonify({'switchstudent': switchstudent,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'outstudent':outstudent,'ban_data':ban_data})
     return jsonify({'ban_data':'없음'})
+
+# consulting_history
+@bp.route('/get_consulting_history', methods=['GET'])
+def get_consulting_history():
+    all_consulting_history =  callapi.purple_ban(session['user_id'], 'get_mystudents_history')
+    return jsonify({'all_consulting_history':all_consulting_history})
 
 # 문의 리스트 / 문의 작성    
 @bp.route('/question', methods=['GET', 'POST'])

@@ -34,7 +34,6 @@ async function get_data(){
         allStudentData = response['my_students']
         allConsultingData = response['all_consulting']
         switchstudentData = response['switchstudent']
-        allConsultingHistory = response['all_consulting_history']
 
         myStudentData = allStudentData.filter(s => s.category_id != 2)
         allconsultingsNum = allConsultingData.length
@@ -231,7 +230,6 @@ async function get_data(){
         // 상담 목록 
         let result = myStudentData.reduce((acc, student) => {
             const consultingList = allConsultingData.filter(c => c.student_id === student.register_no);
-            const consultingHistoryList = allConsultingHistory.filter(h=>h.student_id === student.register_no);
             const unlearned_num = consultingList.filter(u=>u.category_id < 100).length;
             if (consultingList.length > 0) {
                 const todoconsulting = consultingList.filter(c => c.done == 0)
@@ -261,7 +259,6 @@ async function get_data(){
                         'deadline': make_date(deadline.deadline),
                         'missed': missed_date(missed.missed),
                         'consulting_list': consultingList,
-                        'consulting_history':consultingHistoryList,
                         'unlearned_num':unlearned_num
                     });
                 } else {
@@ -279,7 +276,6 @@ async function get_data(){
                         'deadline': make_date('3000-01-01'),
                         'missed': missed_date('1111-01-01'),
                         'consulting_list': consultingList,
-                        'consulting_history':consultingHistoryList,
                         'unlearned_num':unlearned_num
                     });
                 }
@@ -298,7 +294,6 @@ async function get_data(){
                     'deadline': make_date('3000-01-01'),
                     'missed': missed_date('1111-01-01'),
                     'consulting_list': [],
-                    'consulting_history':consultingHistoryList,
                     'unlearned_num':unlearned_num
                 });
             }
@@ -601,7 +596,7 @@ async function student_consulting(student_id) {
     $('#student_consulting_datebox').show();
     let container = $('#studentlist_pagination')
     data = consultingStudentData.filter((e) => {
-        return e.student_id == student_id && (e.consulting_list.length != 0 || e.consulting_history.length != 0);
+        return e.student_id == student_id && e.consulting_list.length != 0;
     })[0]
     $('#ban_student_listModalLabelt').html(`${data['student_name']} 원생 상담일지`)
     
@@ -621,7 +616,6 @@ async function student_consulting(student_id) {
     });
 
     let target_consulting = data['consulting_list'].length > 0 ? data['consulting_list'].filter(c => c.done == 1) : 0;
-    target_consulting.push(data['consulting_history'])
     let target_consulting_num = target_consulting.length;
     // 미학습 상담 
     let unlearned_consulting_num = data['consulting_list'].length > 0 ? data['consulting_list'].filter(c => c.category_id < 100) : 0
