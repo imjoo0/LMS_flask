@@ -596,9 +596,10 @@ async function student_consulting(student_id) {
     $('#make_plus_consulting').hide()
     $('#student_consulting_datebox').show();
     let container = $('#studentlist_pagination')
+    console.log(Targetdata)
     data = Targetdata.filter((e) => {
         return e.student_id == student_id && e.consulting_list.length != 0;
-    })[0]
+    })
     console.log(data)
     try {
         const response = await $.ajax({
