@@ -1480,6 +1480,7 @@ async function get_question_list() {
             $('.t_notinloading').show()
         })
     }
+    console.log(questionAnswerdata)
     let container = $('#question_pagination')
     $('.Tinloading').hide()
     $('.t_notinloading').show()
