@@ -69,9 +69,9 @@ def get_data():
     return jsonify({'ban_data':'없음'})
 
 # consulting_history
-@bp.route('/get_consulting_history', methods=['GET'])
-def get_consulting_history():
-    all_consulting_history =  callapi.purple_ban(session['user_id'], 'get_mystudents_history')
+@bp.route('/get_student_history/<int:s_id>', methods=['GET'])
+def get_student_history(s_id):
+    all_consulting_history =  callapi.purple_ban(s_id, 'get_student_history')
     return jsonify({'all_consulting_history':all_consulting_history})
 
 # 문의 리스트 / 문의 작성    
