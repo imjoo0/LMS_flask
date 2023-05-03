@@ -329,6 +329,18 @@ async function get_student(ban_id) {
     $('#ban_student_list_bansel_box').show()
     $('#make_plus_consulting').hide();
     $('#student_consulting_datebox').hide();
+    try {
+        const response = await $.ajax({
+            type: "GET",
+            url: "/teacher/get_consulting_history",
+            dataType: 'json',
+            data: {},
+        });
+        ConsultingHistory = response['all_consulting_history']
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
+    
     StudentpaginationOptions = {
         prevText: '이전',
         nextText: '다음',
@@ -520,6 +532,8 @@ async function get_consulting_student(done_code) {
         Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': filteredData }));
     });
 
+
+
 }
 function sort_consultingoption(sortBy) {
     console.log(consulting_targetdata)
@@ -598,18 +612,6 @@ async function student_consulting(student_id) {
     data = consultingStudentData.filter((e) => {
         return e.student_id == student_id && e.consulting_list.length != 0;
     })[0]
-    try {
-        const response = await $.ajax({
-            type: "GET",
-            url: "/teacher/get_consulting_history",
-            dataType: 'json',
-            data: {},
-        });
-        ConsultingHistory = response['all_consulting_history']
-    } catch (error) {
-        alert('Error occurred while retrieving data.');
-    }
-    console.log(ConsultingHistory)
     $('.mo_inloading').show()
     $('.monot_inloading').hide()
     if(data){
