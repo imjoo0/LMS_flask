@@ -626,9 +626,9 @@ async function student_consulting(student_id) {
     } catch (error){
         alert('Error occurred while retrieving data.');
     }
-    if(data[consulting_list]){
+    if(data['consulting_list'].length!=0){
         let total_ban_unlearned_consulting = 0
-        $.each(data[consulting_list], function (index, consulting) {
+        $.each(data['consulting_list'], function (index, consulting) {
             total_ban_unlearned_consulting += consulting.consulting_list.filter(u => u.category_id < 100 && u.ban_id == data.ban_id).length
         });
     
