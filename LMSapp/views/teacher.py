@@ -72,6 +72,7 @@ def get_data():
 @bp.route('/get_mystudents_history', methods=['GET'])
 def get_mystudents_history():
     all_consulting_history =  callapi.purple_ban(session['user_id'], 'get_mystudents_history')
+    print(all_consulting_history)
     return jsonify({'all_consulting_history':all_consulting_history})
 @bp.route('/get_student_history/<int:s_id>', methods=['GET'])
 def get_student_history(s_id):
