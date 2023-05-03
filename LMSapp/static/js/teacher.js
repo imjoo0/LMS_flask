@@ -1162,9 +1162,11 @@ async function get_consulting_history_detail(c_id) {
     $('#consulting_history_bansel_box').hide()
     $('#consulting_history_box').hide()
     $('#consulting_history_box_detail').show()
+    let temp_his = ''
     if(typeof c_id === 'string'){
-        consulting_history = ConsultingHistory.filter(c => c.id == c_id)[0]
-        let temp_his = `
+        let consulting_history = ConsultingHistory.filter(c => c.id == c_id)[0]
+        console.log(consulting_history)
+        temp_his = `
         <button type="button" class="btn btn-back" onclick="get_consulting_history()">원생 목록으로 돌아가기🔙 </button>
         <p class="mt-lg-4 mt-5">(과거 데이터 상담)✅ ${consulting_history.category}</p><p class="mt-lg-4 mt-5">✅ ${consulting_history.title}</p>
         <div class="modal-body-select-container">
@@ -1176,14 +1178,13 @@ async function get_consulting_history_detail(c_id) {
             <p>${make_date(consulting_history.updated_at)}</p>
         </div>
         `;
-        $('#consulting_history_box_detail').html(temp_his);
     }else{
-        consulting_history = allConsultingData.filter(c => c.id == c_id)[0]
+        let consulting_history = allConsultingData.filter(c => c.id == c_id)[0]
         let category = `${consulting_history.category}`
         if (consulting_history.category_id < 100) {
             category = `${consulting_history.week_code}주간 ${consulting_history.category} 상담  검사 날짜: <strong>${make_date(consulting_history.startdate)}</strong>`
         }
-        let temp_his = `
+        temp_his = `
         <button type="button" class="btn btn-back" onclick="get_consulting_history()">원생 목록으로 돌아가기🔙 </button>
         <p class="mt-lg-4 mt-5">✅ ${category}</p>
         <p mt-lg-4 mt-5>✅ ${consulting_history.contents}</p>
@@ -1206,8 +1207,8 @@ async function get_consulting_history_detail(c_id) {
             style="margin-right:5px">수정</button>
         </div>
         `;
-        $('#consulting_history_box_detail').html(temp_his);
     }
+    $('#consulting_history_box_detail').html(temp_his);
 }
 
 async function sort_consulting_history(category) {
