@@ -1200,40 +1200,50 @@ async function get_request_consulting() {
     $('.mo_inloading').show()
     $('.not_inloading').hide()
     $('#consulting_list_search_input').off('keyup');
-    if (!studentsData && !consultingData) {
-        await get_all_students()
+    if(!consultingData) {
         await get_all_consulting().then(() => {
-            $('.mo_inloading').hide()
-            $('.not_inloading').show()
+            // requeConsultings = consultingData.filter(c =>(c.category_id != 110 && c.category_id>100))
+            target_list = consultingData.length > 0 ? consultingData : [];
+            target_list = target_list.concat(ConsultingHistory)
+            let target_consulting_num = target_list.length;
+            if (target_consulting_num != 0 && ConsultingHistory.length != 0) {
+                // 중복 없는 카테고리 배열 생성
+                let category_set = new Set(target_list.map(c => c.category));
+                // let history_category_set = new Set(ConsultingHistory.map(c => c.category))
+                // let combinedSet = new Set([...category_set, ...history_category_set]);
+                let category_list = [...category_set];
+                console.log(category_set)
+                var idxHtml = `<option value="none">전체</option>`;
+                $.each(category_list, function (idx, val) {
+                    idxHtml += `<option value="${val}">${val}</option>`
+                })
+                $('#history_cate').html(idxHtml);
+            }else{
+                $('#h_title_msg').show()
+                $('#request_consulting_listbox').hide()
+            }   
         });
-    }else if (!studentsData && consultingData) {
-        await get_all_students().then(() => {
-            $('.mo_inloading').hide()
-            $('.not_inloading').show()
-        });
-    }else if (studentsData && !consultingData) {
-        await get_all_consulting().then(() => {
-            $('.mo_inloading').hide()
-            $('.not_inloading').show()
-        });
+    }else{
+        target_list = consultingData.length > 0 ? consultingData : [];
+        target_list = target_list.concat(ConsultingHistory)
+        let target_consulting_num = target_list.length;
+        if (target_consulting_num != 0 && ConsultingHistory.length != 0) {
+            // 중복 없는 카테고리 배열 생성
+            let category_set = new Set(target_list.map(c => c.category));
+            // let history_category_set = new Set(ConsultingHistory.map(c => c.category))
+            // let combinedSet = new Set([...category_set, ...history_category_set]);
+            let category_list = [...category_set];
+            console.log(category_set)
+            var idxHtml = `<option value="none">전체</option>`;
+            $.each(category_list, function (idx, val) {
+                idxHtml += `<option value="${val}">${val}</option>`
+            })
+            $('#history_cate').html(idxHtml);
+        }else{
+            $('#h_title_msg').show()
+            $('#request_consulting_listbox').hide()
+        }
     }
-    $('.mo_inloading').hide()
-    $('.not_inloading').show()
-    target_list = consultingData.length > 0 ? consultingData : [];
-    target_list = target_list.concat(consultingHistoryData)
-    let target_consulting_num = target_list.length;
-    if (target_consulting_num != 0) {
-        // 중복 없는 카테고리 배열 생성
-        let category_set = new Set(target_list.map(c => c.category));
-        let category_list = [...category_set];
-        console.log(category_set)
-        var idxHtml = `<option value="none">전체</option>`;
-        $.each(category_list, function (idx, val) {
-            idxHtml += `<option value="${val}">${val}</option>`
-        })
-        $('#history_cate').html(idxHtml);
-    }
-    let container = $('#consulting-pagination')
     let paginationOptions = {
         prevText: '이전',
         nextText: '다음',
@@ -1241,10 +1251,11 @@ async function get_request_consulting() {
         callback: function (data, pagination) {
             var dataHtml = '';
             $.each(data, function (index, consulting) {
-                student_info = allStudentData.filter(s => s.register_no == consulting.student_id)[0]
-                consulting.student_name = student_info.name + '( ' + student_info.nick_name + ' )'
-                consulting.origin = student_info.origin
-                consulting.ban_name = student_info.classname
+                ban_info = banData.filter(b => b.ban_id == consulting.ban_id)[0]
+                // consulting.student_name = student_info.name + '( ' + student_info.nick_name + ' )'
+                // consulting.origin = student_info.origin
+                consulting.ban_name = ban_info.name
+                consulting.teacher_name = ban_info.teacher_engname +  '( ' + ban_info.teacher_engname + ' )'
                 if(typeof consulting.id === 'string'){
                     dataHtml += `
                     <td class="col-1">이전 상담 기록</td>
@@ -1252,7 +1263,7 @@ async function get_request_consulting() {
                     <td class="col-2">${make_nullcate(consulting.category)}</td>
                     <td class="col-2">${make_nullcate(consulting.title)}</td>
                     <td class="col-1">${consulting.ban_name}</td>
-                    <td class="col-2">${consulting.student_name}</td>
+                    <td class="col-2">${consulting.teacher_name}</td>
                     <td class="col-1" onclick ="get_consultingban('${consulting.id}')"> 🔍 </td>`;
                 }else{
                     let title = consulting.contents
@@ -1265,7 +1276,7 @@ async function get_request_consulting() {
                     <td class="col-2">${consulting.category}</td>
                     <td class="col-2">${consulting.title}</td>
                     <td class="col-1">${consulting.ban_name}</td>
-                    <td class="col-2">${consulting.student_name}</td>
+                    <td class="col-2">${consulting.teacher_name}</td>
                     <td class="col-1" onclick ="get_consultingban(${consulting.id})"> 🔍 </td>`;
                 }
             });
@@ -1281,7 +1292,7 @@ async function get_request_consulting() {
 
             // 검색 조건과 검색어를 모두 만족하는 데이터를 필터링함
             const filteredData = target_list.filter(function (d) {
-                return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1)) &&
+                return ((d.hasOwnProperty('teacher_name') && d.teacher_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1)) &&
                     (selectedCategory == 'none' || d.category == selectedCategory);
             });
 
@@ -1297,6 +1308,8 @@ async function get_request_consulting() {
         $('#h_title_msg').show()
         $('#request_consulting_listbox').hide()
     }
+    $('.mo_inloading').hide()
+    $('.not_inloading').show()
     $('#request_consulting_listbox').show()
     $('#request_consultingban_listbox').hide()  
 }
