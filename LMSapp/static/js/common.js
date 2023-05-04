@@ -141,7 +141,7 @@ async function get_all_ban() {
             elem.hold_student_num = Number(elem.hold_student_num)
             elem.first_student_num = elem.student_num +elem.out_student_num + elem.hold_student_num
             elem.total_out_num  = elem.out_student_num + elem.hold_student_num
-            elem.out_num_per = answer_rate(elem.total_out_num,elem.first_student_num).toFixed(2)
+            elem.out_num_per = answer_rate(elem.total_out_num,elem.first_student_num).toFixed(0)
             totalOutnum += elem.out_student_num
             totalHoldnum += elem.hold_student_num
             // elem.switch_minus_num = switchstudentData.filter(a => a.ban_id == elem.ban_id).length
@@ -149,10 +149,10 @@ async function get_all_ban() {
         });
         console.log(banData)
 
-        // banData = response['all_ban'].map((item) => 
-        // {
-        //     return {...item,out_num_per:Number(answer_rate(item.out_student_num,totalOutnum).toFixed(0))}
-        // })
+        banData = response['all_ban'].map((item) => 
+        {
+            return {...item,total_out_num_per:Number(answer_rate(item.out_student_num,totalOutnum).toFixed(2))}
+        })
         // banData.sort((a, b) =>{
         //     if (b.out_num_per !== a.out_num_per) {
         //         return b.out_num_per - a.out_num_per; // out_num_per 큰 순으로 정렬
@@ -403,10 +403,10 @@ function semesterShow(semester) {
                 <td class="col-2">${teacher_name}</td>
                 <td class="col-1">${item.first_student_num}</td>
                 <td class="col-1">${item.student_num}</td>
-                <td class="col-1">${item.out_student_num}</td>
+                <td class="col-1">${item.out_student_num}(<strong>${item.out_num_per}%</strong>)</td>
                 <td class="col-1">${item.hold_student_num}</td>
                 <td class="col-2"> 총: ${item.total_out_num}명 ( 퇴소 : ${item.out_student_num} / 보류 : ${item.hold_student_num} )</td>
-                <td class="col-1"><strong> ${item.out_num_per}</strong></td>
+                <td class="col-1"><strong>${item.total_out_num_per}%</strong></td>
                 <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${item.teacher_id})"><span class="cursor-pointer">👉</span></td>;`;
             });
             $('#semester_banlist').html(temp_semester_banlist)
@@ -479,9 +479,9 @@ function sort_data(sort_op){
             $('#ban_sort').html('반 ( 이름순 정렬👉 )')
             $('#teacher_sort').html('선생님 ( 이름 순 정렬👉 )')    
             $('#unlearned_sort').html('배정 원생 수 ( 많은 순 정렬👉 )')     
-            $('#out_sort').html('<strong>퇴소율 ( 높은 순 정렬👇 )</strong>')  
+            $('#out_sort').html('<strong>전체 퇴소율 ( 높은 순 정렬👇 )</strong>')  
             resultData.sort(function (a, b) {
-                return b.out_num_per - a.out_num_per;
+                return b.total_out_num_per - a.total_out_num_per;
             });             
             break;
     }
