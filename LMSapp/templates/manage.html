@@ -253,14 +253,20 @@
             </div>
             <div class="modal-body">
                 <div id="request_consulting_listbox">
-                    <div class="my-4 d-flex flex-wrap justify-content-end align-items-center">
-                        <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 상담 카테고리 선택</span></div>
-                        <div class="col-md-4 col-sm-6 col-12">
-                            <select id="category-select" onchange="sort_consulting(this.value)" class="form-select form-select-sm w-100" aria-label="Default select example">
-                                <optgroup id="consulting-option">
-                                </optgroup>
-                            </select>
-                        </div>
+                    <h3 class="h_title" id="h_title_msg">상담요청 내역이 없습니다! 😂</h3>
+                    <div id="consulting_history_box">
+                        <div class="my-4 d-flex flex-wrap justify-content-end align-items-center" id="consulting_history_bansel_box">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 상담 카테고리 선택</span></div>
+                            <div class="col-md-4 col-sm-6 col-12">
+                                <select id="history_cate" onchange="sort_consulting_history(this.value)"
+                                    class="form-select form-select w-100" aria-label="Default select example">
+        
+                                </select>
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0" style="margin-left:50%;margin-top: 10px;"><span>📌 원생 / 반 검색</span></div>
+                            <div class="col-md-4 col-sm-6 col-12">
+                                <input type="text" id="consulting_list_search_input" placeholder="원생 이름 혹은 원번, 반 이름으로 검색" style="width:100%;height:2em;margin-top:10px;">
+                            </div>
                     </div>
                     <div class="d-flex justify-content-start align-items-start flex-column">
                         <div class="mo_inloading" class="loader loader--style2 text-center" title="1">
@@ -273,11 +279,23 @@
                         <table class="table text-center not_inloading" id="consulting_task_list">
                             <thead>
                                 <tr class="row">
+                                    <th class="col-3" id="out_sort" onclick="sort_data('out_sort')">진행 ( 진행순 정렬👉 )</th>
+                                    <th class="col-3" id="teacher_sort" onclick="sort_data('teacher_sort')">마감일 ( 마감일 정렬👉 )</th>
+                                    <th class="col-3" id="ban_sort" onclick="sort_data('ban_sort')">반 ( 이름순 정렬👉 )</th>
+                                    <th class="col-3" id="unlearned_sort" onclick="sort_data('unlearned_sort')">원생 ( 이름 순 정렬👉 )</th>
+                                </tr>
+                                <tr class="row">
+                                    <th class="col-8">상담</th>
+                                    <th class="col-4">진행 상황</th>
+                                </tr>
+                                <tr class="row">
                                     <th class="col-1">진행</th>
                                     <th class="col-3">시작일 ~ 마감일</th>
                                     <th class="col-2">종류</th>
-                                    <th class="col-5">내용</th>
-                                    <th class="col-1">진행 상황</th>
+                                    <th class="col-2">제목</th>
+                                    <th class="col-1">반</th>
+                                    <th class="col-2">원생</th>
+                                    <th class="col-1">상세보기</th>
                                 </tr>
                             </thead>
                             <tbody>
