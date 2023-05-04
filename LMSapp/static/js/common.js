@@ -233,6 +233,7 @@ async function get_total_data() {
             $('#inloading').show()
             $('#semester_pagination').hide()
             await get_all_ban().then(()=>{
+                console.log(banData)
                 total_student_num = banData[0].total_student_num
                 switchstudent_num = switchstudentData.length
                 // 학기 별 원생
