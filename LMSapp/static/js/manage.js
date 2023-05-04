@@ -1238,6 +1238,7 @@ async function get_request_consulting() {
             $('#request_consulting_listbox').hide()
         }
     }
+    let container = $('#consulting-pagination')
     let paginationOptions = {
         prevText: '이전',
         nextText: '다음',
