@@ -134,20 +134,21 @@ async function get_all_ban() {
         });
         totalOutnum = 0;
         totalHoldnum = 0
-        switchstudentData = response['switchstudent']
+        // switchstudentData = response['switchstudent']
         response['all_ban'].forEach((elem) => {
             elem.out_student_num = Number(elem.out_student_num)
             elem.hold_student_num = Number(elem.hold_student_num)
+            elem.first_student_num = item.student_num +item.out_student_num + item.hold_student_num
             totalOutnum += elem.out_student_num
             totalHoldnum += elem.hold_student_num
-            elem.switch_minus_num = switchstudentData.filter(a => a.ban_id == elem.ban_id).length
-            elem.switch_plus_num = switchstudentData.filter(a => a.switch_ban_id == elem.ban_id).length
+            // elem.switch_minus_num = switchstudentData.filter(a => a.ban_id == elem.ban_id).length
+            // elem.switch_plus_num = switchstudentData.filter(a => a.switch_ban_id == elem.ban_id).length
         });
 
-        banData = response['all_ban'].map((item) => 
-        {
-            return {...item,out_num_per:Number(answer_rate(item.out_student_num,totalOutnum).toFixed(0))}
-        })
+        // banData = response['all_ban'].map((item) => 
+        // {
+        //     return {...item,out_num_per:Number(answer_rate(item.out_student_num,totalOutnum).toFixed(0))}
+        // })
         // banData.sort((a, b) =>{
         //     if (b.out_num_per !== a.out_num_per) {
         //         return b.out_num_per - a.out_num_per; // out_num_per 큰 순으로 정렬
@@ -393,16 +394,16 @@ function semesterShow(semester) {
             var temp_semester_banlist = '';
             $.each(data, function (index, item) {
                 let teacher_name = item.teacher_engname + '( ' + item.teacher_name +' )'
-                // let total_out_count = item.out_student_num + item.switch_minus_num
+                let total_out_num = item.out_student_num + item.hold_student_num
                 temp_semester_banlist += `
-                <td class="col-1">${item.name}</td>
+                <td class="col-2">${item.name}</td>
                 <td class="col-2">${teacher_name}</td>
-                <td class="col-1">${item.student_num +item.out_student_num +item.switch_minus_num - item.switch_plus_num}</td>
+                <td class="col-1">${item.first_student_num}</td>
                 <td class="col-1">${item.student_num - item.out_student_num - item.hold_student_num}</td>
+                <td class="col-1">${item.out_student_num}</td>
                 <td class="col-1">${item.hold_student_num}</td>
-                <td class="col-2">${item.switch_plus_num}</td>
-                <td class="col-2"> 총: ${item.out_student_num + item.switch_minus_num + item.hold_student_num}명 ( 퇴소 : ${item.out_student_num} / 이반 : ${item.switch_minus_num} / 보류 : ${item.hold_student_num} )</td>
-                <td class="col-1"><strong> ${item.out_num_per} %</strong></td>
+                <td class="col-2"> 총: ${total_out_num}명 ( 퇴소 : ${item.out_student_num} / 보류 : ${item.hold_student_num} )</td>
+                <td class="col-1"><strong> ${answer_rate(total_out_num,item.first_student_num)} %</strong></td>
                 <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${item.teacher_id})"><span class="cursor-pointer">👉</span></td>;`;
             });
             $('#semester_banlist').html(temp_semester_banlist)
