@@ -193,6 +193,9 @@ async function get_all_consulting() {
         });
         consultingData = response['consulting']
         consultingHistoryData = response['consulting_history']
+        consultingHistoryData.forEach((elem) => {
+            elem.id = 'history_'+elem.id
+        });
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
