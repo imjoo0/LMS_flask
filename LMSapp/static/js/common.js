@@ -146,6 +146,7 @@ async function get_all_ban() {
             // elem.switch_minus_num = switchstudentData.filter(a => a.ban_id == elem.ban_id).length
             // elem.switch_plus_num = switchstudentData.filter(a => a.switch_ban_id == elem.ban_id).length
         });
+        console.log(banData)
 
         // banData = response['all_ban'].map((item) => 
         // {
