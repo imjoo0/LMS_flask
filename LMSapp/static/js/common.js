@@ -135,7 +135,7 @@ async function get_all_ban() {
         totalOutnum = 0;
         totalHoldnum = 0
         // switchstudentData = response['switchstudent']
-        response['all_ban'].forEach((elem) => {
+        banData = response['all_ban'].forEach((elem) => {
             elem.out_student_num = Number(elem.out_student_num)
             elem.hold_student_num = Number(elem.hold_student_num)
             elem.first_student_num = item.student_num +item.out_student_num + item.hold_student_num
