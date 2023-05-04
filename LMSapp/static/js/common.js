@@ -235,7 +235,7 @@ async function get_total_data() {
             await get_all_ban().then(()=>{
                 console.log(banData)
                 total_student_num = banData[0].total_student_num
-                switchstudent_num = switchstudentData.length
+                // switchstudent_num = switchstudentData.length
                 // 학기 별 원생
                 onesemester = total_student_num != 0 ? banData.filter(e => e.semester == 1) : 0
                 fivesemester = total_student_num != 0 ? banData.filter(e => e.semester == 2) : 0
