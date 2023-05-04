@@ -402,7 +402,7 @@ function semesterShow(semester) {
                 <td class="col-2">${item.name}</td>
                 <td class="col-2">${teacher_name}</td>
                 <td class="col-1">${item.first_student_num}</td>
-                <td class="col-1">${item.student_num - item.out_student_num - item.hold_student_num}</td>
+                <td class="col-1">${item.student_num}</td>
                 <td class="col-1">${item.out_student_num}</td>
                 <td class="col-1">${item.hold_student_num}</td>
                 <td class="col-2"> 총: ${item.total_out_num}명 ( 퇴소 : ${item.out_student_num} / 보류 : ${item.hold_student_num} )</td>
