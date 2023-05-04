@@ -139,8 +139,8 @@ async function get_all_ban() {
         banData.forEach((elem) => {
             elem.out_student_num = Number(elem.out_student_num)
             elem.hold_student_num = Number(elem.hold_student_num)
-            elem.first_student_num = item.student_num +item.out_student_num + item.hold_student_num
-            elem.total_out_num  = item.out_student_num + item.hold_student_num
+            elem.first_student_num = elem.student_num +elem.out_student_num + elem.hold_student_num
+            elem.total_out_num  = elem.out_student_num + elem.hold_student_num
             elem.out_num_per = answer_rate(elem.total_out_num,elem.first_student_num).toFixed(2)
             totalOutnum += elem.out_student_num
             totalHoldnum += elem.hold_student_num
