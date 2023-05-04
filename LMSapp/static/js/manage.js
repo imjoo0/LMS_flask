@@ -1203,21 +1203,21 @@ async function get_request_consulting() {
     if (!studentsData && !consultingData) {
         await get_all_students()
         await get_all_consulting().then(() => {
-            $('.cs_inloading').hide()
+            $('.mo_inloading').hide()
             $('.not_inloading').show()
         });
     }else if (!studentsData && consultingData) {
         await get_all_students().then(() => {
-            $('.cs_inloading').hide()
+            $('.mo_inloading').hide()
             $('.not_inloading').show()
         });
     }else if (studentsData && !consultingData) {
         await get_all_consulting().then(() => {
-            $('.cs_inloading').hide()
+            $('.mo_inloading').hide()
             $('.not_inloading').show()
         });
     }
-    $('.cs_inloading').hide()
+    $('.mo_inloading').hide()
     $('.not_inloading').show()
     target_list = consultingData.length > 0 ? consultingData : [];
     target_list = target_list.concat(ConsultingHistory)
@@ -1299,8 +1299,6 @@ async function get_request_consulting() {
         $('#h_title_msg').show()
         $('#request_consulting_listbox').hide()
     }
-    $('.mo_inloading').hide()
-    $('.not_inloading').show()
     $('#request_consulting_listbox').show()
     $('#request_consultingban_listbox').hide()  
 }
