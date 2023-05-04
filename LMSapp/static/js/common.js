@@ -243,6 +243,7 @@ async function get_total_data() {
         
                 // 학기별 원생수 및 퇴소 원생 수 
                 onesemester_total = onesemester[0].semester_student_num
+                console.log(onesemester)
                 oneoutnum = onesemester.reduce((acc, item) => acc + item.out_student_num, 0);
                 console.log(oneoutnum)
                 fivesemester_total = fivesemester[0].semester_student_num
