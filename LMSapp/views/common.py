@@ -42,7 +42,7 @@ def save_attachment(file, q_id):
 def get_ban():
     if request.method == 'GET':
         all_ban = callapi.purple_allinfo('get_all_ban')
-        consulting = []
+        # consulting = []
         switchstudent = []
         
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
@@ -51,8 +51,8 @@ def get_ban():
                 cur.execute("SELECT ban_id,switch_ban_id,teacher_id,student_id FROM switchstudent;")
                 switchstudent = cur.fetchall()
 
-                cur.execute(f"SELECT consulting.id, consulting.teacher_id,consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id AS category_id, consulting.week_code, consultingcategory.name AS category, consulting.contents, DATE_FORMAT(consulting.startdate, '%Y-%m-%d') AS startdate, DATE_FORMAT(consulting.deadline, '%Y-%m-%d') AS deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result, (SELECT COUNT(*) FROM consulting WHERE (category_id < 100 && consulting.startdate <= curdate())) AS total_unlearned_consulting FROM consulting LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id;")
-                consulting = cur.fetchall()
+                # cur.execute(f"SELECT consulting.id, consulting.teacher_id,consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id AS category_id, consulting.week_code, consultingcategory.name AS category, consulting.contents, DATE_FORMAT(consulting.startdate, '%Y-%m-%d') AS startdate, DATE_FORMAT(consulting.deadline, '%Y-%m-%d') AS deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result, (SELECT COUNT(*) FROM consulting WHERE (category_id < 100 && consulting.startdate <= curdate())) AS total_unlearned_consulting FROM consulting LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id;")
+                # consulting = cur.fetchall()
         except:
                 print('err')
         finally:
@@ -75,7 +75,7 @@ def get_all_students():
 def get_all_consulting():
     if request.method == 'GET':
         consulting = []
-        
+        consulting_history = callapi.purple_allinfo('get_all_consulting_history') 
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
@@ -86,7 +86,7 @@ def get_all_consulting():
                 print('err')
         finally:
                 db.close()        
-        return jsonify({'consulting':consulting})
+        return jsonify({'consulting':consulting,'consulting_history':consulting_history})
        
 @bp.route("/task", methods=['GET'])
 def get_all_task():

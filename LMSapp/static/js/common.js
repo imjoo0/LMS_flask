@@ -1,5 +1,5 @@
 // 전역변수로 api에서 불러온 정보를 저장 
-let switchstudentData,outstudentData,banData,totalOutnum,totalHoldnum,studentsData,reportsData, consultingData,consultingcateData, taskData,taskcateData,questionData,answerData,attachData;
+let switchstudentData,outstudentData,banData,totalOutnum,totalHoldnum,studentsData,reportsData, consultingData,consultingHistoryData,consultingcateData, taskData,taskcateData,questionData,answerData,attachData;
 const today = new Date().setHours(0, 0, 0, 0);
 const todayyoil = new Date().getDay()
 
@@ -82,14 +82,14 @@ let make_semester=function(semester){
         return semester
     }
 }
-let make_IsG3 = function(ban_name){
-    if(ban_name.toLowerCase().includes('meteor') || ban_name.toLowerCase().includes('nebula')){
-        IsG3 = true
-    }else{
-        IsG3 = false
-    }
-    return IsG3
-}
+// let make_IsG3 = function(ban_name){
+//     if(ban_name.toLowerCase().includes('meteor') || ban_name.toLowerCase().includes('nebula')){
+//         IsG3 = true
+//     }else{
+//         IsG3 = false
+//     }
+//     return IsG3
+// }
 function q_category(category) {
     if (category == 0 || category == '0' ) {
         c ='일반문의'
@@ -134,11 +134,8 @@ async function get_all_ban() {
         });
         totalOutnum = 0;
         totalHoldnum = 0
-        consultingData = response['consulting']
-        let unlearned_total = consultingData.filter(c=>c.category_id<100)
         switchstudentData = response['switchstudent']
         response['all_ban'].forEach((elem) => {
-            elem.unlearned_num = answer_rate(unlearned_total.filter(c=>c.ban_id == elem.ban_id).length,unlearned_total.length).toFixed(2)
             elem.out_student_num = Number(elem.out_student_num)
             elem.hold_student_num = Number(elem.hold_student_num)
             totalOutnum += elem.out_student_num
@@ -151,13 +148,13 @@ async function get_all_ban() {
         {
             return {...item,out_num_per:Number(answer_rate(item.out_student_num,totalOutnum).toFixed(0))}
         })
-        banData.sort((a, b) =>{
-            if (b.out_num_per !== a.out_num_per) {
-                return b.out_num_per - a.out_num_per; // out_num_per 큰 순으로 정렬
-            }else{
-                return b.student_num - a.student_num; // students.length가 큰 순으로 정렬
-            }
-        })
+        // banData.sort((a, b) =>{
+        //     if (b.out_num_per !== a.out_num_per) {
+        //         return b.out_num_per - a.out_num_per; // out_num_per 큰 순으로 정렬
+        //     }else{
+        //         return b.student_num - a.student_num; // students.length가 큰 순으로 정렬
+        //     }
+        // })
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
@@ -195,6 +192,7 @@ async function get_all_consulting() {
             data: {},
         });
         consultingData = response['consulting']
+        consultingHistoryData = response['consulting_history']
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
@@ -228,7 +226,6 @@ async function get_total_data() {
             $('#semester_pagination').hide()
             await get_all_ban().then(()=>{
                 total_student_num = banData[0].total_student_num
-                // outstudent_num = outstudentData.length; 필요 없어진 부분 
                 switchstudent_num = switchstudentData.length
                 // 학기 별 원생
                 onesemester = total_student_num != 0 ? banData.filter(e => e.semester == 1) : 0
@@ -393,15 +390,15 @@ function semesterShow(semester) {
             var temp_semester_banlist = '';
             $.each(data, function (index, item) {
                 let teacher_name = item.teacher_engname + '( ' + item.teacher_name +' )'
-                let total_out_count = item.out_student_num + item.switch_minus_num
+                // let total_out_count = item.out_student_num + item.switch_minus_num
                 temp_semester_banlist += `
                 <td class="col-1">${item.name}</td>
                 <td class="col-2">${teacher_name}</td>
-                <td class="col-1">${item.unlearned_num} %</td>
-                <td class="col-1">${item.student_num - total_out_count + item.switch_plus_num}</td>
-                <td class="col-1">${item.student_num}</td>
+                <td class="col-1">${item.student_num +item.out_student_num +item.switch_minus_num - item.switch_plus_num}</td>
+                <td class="col-1">${item.student_num - item.out_student_num - item.hold_student_num}</td>
+                <td class="col-1">${item.hold_student_num}</td>
                 <td class="col-2">${item.switch_plus_num}</td>
-                <td class="col-2"> 총: ${total_out_count}명 ( 퇴소 : ${item.out_student_num} / 이반 : ${item.switch_minus_num} / 보류 : ${item.hold_student_num} )</td>
+                <td class="col-2"> 총: ${item.out_student_num + item.switch_minus_num + item.hold_student_num}명 ( 퇴소 : ${item.out_student_num} / 이반 : ${item.switch_minus_num} / 보류 : ${item.hold_student_num} )</td>
                 <td class="col-1"><strong> ${item.out_num_per} %</strong></td>
                 <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="getTeacherInfo(${item.teacher_id})"><span class="cursor-pointer">👉</span></td>;`;
             });

@@ -1196,14 +1196,15 @@ function post_consulting_request() {
 async function get_request_consulting() {
     $('#request_consultingban_listbox').hide();
     $('#request_consulting_listbox').show();
-    $('#my_consulting_requestModalLabel').html('요청한 상담 목록');
+    $('#my_consulting_requestModalLabel').html('전체 상담 목록');
     $('.mo_inloading').show()
     $('.not_inloading').hide()
     let requeConsultings = []
     if (!consultingData) {
         await get_all_consulting().then(() => {
-            requeConsultings = consultingData.filter(c =>(c.category_id != 110 && c.category_id>100))
-            if (requeConsultings.length > 0) {
+            // requeConsultings = consultingData.filter(c =>(c.category_id != 110 && c.category_id>100))
+            console.log(consultingData)
+            if (consultingData.length > 0) {
                 const consultingGrouped = requeConsultings.reduce((acc, item) => {
                     const v = `${item.category}_${item.contents}_${item.startdate}_${item.deadline}`;
                     if (!acc[v]) {
