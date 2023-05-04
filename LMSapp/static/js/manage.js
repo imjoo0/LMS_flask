@@ -1202,17 +1202,13 @@ async function get_request_consulting() {
     $('#consulting_list_search_input').off('keyup');
     if(!consultingData) {
         await get_all_consulting().then(() => {
-            // requeConsultings = consultingData.filter(c =>(c.category_id != 110 && c.category_id>100))
             target_list = consultingData.length > 0 ? consultingData : [];
-            target_list = target_list.concat(ConsultingHistory)
+            target_list = target_list.concat(consultingHistoryData)
             let target_consulting_num = target_list.length;
-            if (target_consulting_num != 0 && ConsultingHistory.length != 0) {
+            if (target_consulting_num != 0 ) {
                 // 중복 없는 카테고리 배열 생성
                 let category_set = new Set(target_list.map(c => c.category));
-                // let history_category_set = new Set(ConsultingHistory.map(c => c.category))
-                // let combinedSet = new Set([...category_set, ...history_category_set]);
                 let category_list = [...category_set];
-                console.log(category_set)
                 var idxHtml = `<option value="none">전체</option>`;
                 $.each(category_list, function (idx, val) {
                     idxHtml += `<option value="${val}">${val}</option>`
@@ -1225,13 +1221,11 @@ async function get_request_consulting() {
         });
     }else{
         target_list = consultingData.length > 0 ? consultingData : [];
-        target_list = target_list.concat(ConsultingHistory)
+        target_list = target_list.concat(consultingHistoryData)
         let target_consulting_num = target_list.length;
-        if (target_consulting_num != 0 && ConsultingHistory.length != 0) {
+        if (target_consulting_num != 0 ) {
             // 중복 없는 카테고리 배열 생성
             let category_set = new Set(target_list.map(c => c.category));
-            // let history_category_set = new Set(ConsultingHistory.map(c => c.category))
-            // let combinedSet = new Set([...category_set, ...history_category_set]);
             let category_list = [...category_set];
             console.log(category_set)
             var idxHtml = `<option value="none">전체</option>`;
