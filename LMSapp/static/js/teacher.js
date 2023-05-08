@@ -1118,27 +1118,21 @@ async function get_consulting_history() {
         }
     }
 
-    let target_list = allConsultingData.filter(c => c.done != 0).concat(ConsultingHistory)
+    const target_list = allConsultingData.filter(c => c.done != 0).concat(ConsultingHistory)
     const updateSearchResult = function () {
         let filteredData = target_list;
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
-        filteredData = target_list.filter(function (d) {
-            return (
-              (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) ||
-              (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1) ||
-              (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1)
-            ) && (selectedCategory == 'none' && searchInput =="");
-        });
-        
-          // 필터링된 데이터를 정렬합니다.
-        // filteredData.sort(function (a, b) {
-        //     // 여기에 원하는 정렬 기준을 적용합니다.
-        //     // 예시: 제목 오름차순으로 정렬
-        //     return a.title.localeCompare(b.title);
-        // });
+        if(selectedCategory == 'none' && searchInput ==""){
+            filteredData = target_list.filter(function (d) {
+                return (
+                  (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) ||
+                  (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1) ||
+                  (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1)
+                );
+            });
+        }
         console.log(filteredData)
-        
         container.pagination('destroy');
         container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
     };
