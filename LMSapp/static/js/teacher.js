@@ -122,6 +122,7 @@ async function get_data(){
         $('#my_ban_list').html(temp_ban_option)
     
         let consulting_done = allconsultingsNum != 0 ? allConsultingData.filter(consulting => consulting.done === 1).length : 0
+        console.log(mytasksData)
         let total_task = mytasksData.length
         let task_done = total_task > 0 ? mytasksData.filter(task => task.done != 0 && new Date(task.created_at).setHours(0, 0, 0, 0) === today).length : 0;
         let task_notdone = total_task - task_done;
