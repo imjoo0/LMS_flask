@@ -362,10 +362,16 @@ async function get_total_data() {
                         }
                     }
                 });
-                semesterShow(3);
-                $('#inloading').hide();
-                $('#semester_pagination').show();
-                $('#target_ban_info_body').show();
+                let worker = new Worker("../static/js/students_worker.js");
+                worker.onmessage = function(event) {
+                    studentsData = event.data['students'];
+                    if(studentsData){
+                        semesterShow(3);
+                        $('#inloading').hide();
+                        $('#semester_pagination').show();
+                        $('#target_ban_info_body').show();
+                    }
+                };
             })
         }
     }catch(error){
