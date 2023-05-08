@@ -1117,27 +1117,32 @@ async function get_consulting_history() {
             $('#consulting_history_student_list').html(dataHtml);
         }
     }
+    target_list = allConsultingData.length > 0 ? allConsultingData.filter(c => c.done != 0) : 0;
+    target_list = target_list.concat(ConsultingHistory)
+    let target_consulting_num = target_list.length;
+    
     const updateSearchResult = function () {
         // 현재 검색 조건에서 선택된 값을 가져옴
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
         console.log(selectedCategory)
         console.log(searchInput)
+        const filteredData = target_list
         if(selectedCategory=="none" && searchInput==""){
-            console.log('hello')
+            filteredData = target_list
+        }else{
+            // 검색 조건과 검색어를 모두 만족하는 데이터를 필터링함
+            filteredData = target_list.filter(function (d) {
+                return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1)) &&
+                    (selectedCategory == 'none' || d.category == selectedCategory);
+            });
         }
-        // 검색 조건과 검색어를 모두 만족하는 데이터를 필터링함
-        const filteredData = target_list.filter(function (d) {
-            return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1)) &&
-                (selectedCategory == 'none' || d.category == selectedCategory);
-        });
+        
         // 필터링된 데이터를 화면에 출력함
         container.pagination('destroy');
         container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
     };
-    target_list = allConsultingData.length > 0 ? allConsultingData.filter(c => c.done != 0) : 0;
-    target_list = target_list.concat(ConsultingHistory)
-    let target_consulting_num = target_list.length;
+
     if (target_consulting_num != 0) {
         // 중복 없는 카테고리 배열 생성
         let category_set = new Set(target_list.map(c => c.category));
