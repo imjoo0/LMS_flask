@@ -1122,7 +1122,9 @@ async function get_consulting_history() {
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
 
-        console.log(searchInput)
+        if(!selectedCategory && !searchInput){
+            console.log('hello')
+        }
         // 검색 조건과 검색어를 모두 만족하는 데이터를 필터링함
         const filteredData = target_list.filter(function (d) {
             return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1)) &&
