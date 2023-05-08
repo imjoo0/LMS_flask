@@ -1119,24 +1119,25 @@ async function get_consulting_history() {
     }
     target_list = allConsultingData.filter(c => c.done != 0).concat(ConsultingHistory)
     let filteredData = target_list;
+    console.log(target_list)
     const updateSearchResult = function () {
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
         if(selectedCategory != 'none' || searchInput !=""){
-            filteredData.filter(function (d) {
+            filteredData = target_list.filter(function (d) {
                 return (
                   (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) ||
                   (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1) ||
                   (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1)
                 );
             });
-        }else{
+        }else {
             filteredData = target_list; // 검색 조건이 없을 때는 전체 데이터로 설정
         }
+        console.log(filteredData)
         container.pagination('destroy');
         container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
     };
-
     if (target_list.length > 0) {
         let category_set = new Set(target_list.map(c => c.category));
         let category_list = [...category_set];
