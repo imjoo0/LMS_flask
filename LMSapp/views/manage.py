@@ -53,7 +53,8 @@ def answer(id):
 @bp.route('/q_kind/<int:id>', methods=['POST'])
 def q_kind(id):
     if request.method == 'POST':
-        q_kind = request.form['q_kind']
+        q_kind = request.form['question_kind']
+        print(q_kind)
         target_question = Question.query.get_or_404(id)
         target_question.category = q_kind
         db.session.commit()

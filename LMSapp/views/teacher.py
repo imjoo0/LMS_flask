@@ -138,19 +138,19 @@ def question():
         files = request.files.getlist('file-upload')
         if question_category == '일반':
             # 영교부에서 재택T 문의 관리 하는 시놀로지 채팅 방 token 값 받아야 함. 
-            # Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
+            Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
             category = 0
             new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         elif question_category == '기술': 
-            # Synologytoken = '"iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg"'
+            Synologytoken = '"iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg"'
             category = 4
             new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         elif question_category == '내근': 
-            # Synologytoken = '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"'
+            Synologytoken = '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"'
             category = 5
             new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         else:
-            # Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
+            Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
             history_id = request.form['consulting_history']
             if question_category == '퇴소':
                 category = 1
@@ -162,12 +162,11 @@ def question():
         db.session.commit()
         for file in files:
             common.save_attachment(file, new_question.id)
-        # requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
+        requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
         try:
-            # response = requests.get(requestURI)
-            # response.raise_for_status()
-            # print(f"statusCode: {response.status_code}")
-            print('test')
+            response = requests.get(requestURI)
+            response.raise_for_status()
+            print(f"statusCode: {response.status_code}")
         except requests.exceptions.RequestException as e:
             print("시놀로지 전송 실패")
             print(e)

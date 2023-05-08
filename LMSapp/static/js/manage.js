@@ -741,6 +741,7 @@ function post_answer(q_id, category) {
             }
         });
     }else{
+        console.log(q_kind)
         $.ajax({
             type: "POST",
             url: "/manage/q_kind/" + q_id,
