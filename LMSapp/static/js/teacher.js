@@ -1134,11 +1134,10 @@ async function get_consulting_history() {
                 return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1)) &&
                     (selectedCategory == 'none' || d.category == selectedCategory);
             });
+            // 필터링된 데이터를 화면에 출력함
+            container.pagination('destroy');
+            container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
         }
-        
-        // 필터링된 데이터를 화면에 출력함
-        container.pagination('destroy');
-        container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
     };
 
     if (target_consulting_num != 0) {
