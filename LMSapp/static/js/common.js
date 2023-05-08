@@ -176,7 +176,6 @@ async function get_all_students() {
         alert('Error occurred while retrieving data.');
     }
 }
-
 async function get_student_reports() {
     try{
         const response = await $.ajax({
@@ -363,6 +362,13 @@ async function get_total_data() {
                         }
                     }
                 });
+                let worker = new Worker("students_worker.js");
+                worker.onmessage = function(event) {
+                    studentsData = event.data['students'];
+                    // 데이터를 사용하여 필요한 작업을 수행
+                    // 예: 화면 업데이트, 데이터 처리 등
+                };
+                worker.postMessage({});
                 semesterShow(3);
                 $('#inloading').hide();
                 $('#semester_pagination').show();
@@ -425,6 +431,7 @@ function semesterShow(semester) {
         SemesterContainer.pagination(Object.assign(ResultpaginationOptions, { 'dataSource': filteredData }));
     });
 
+    console.log(studentsData)
 }
 
 function sort_data(sort_op){
