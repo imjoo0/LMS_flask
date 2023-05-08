@@ -124,7 +124,7 @@ async function get_data(){
         let consulting_done = allconsultingsNum != 0 ? allConsultingData.filter(consulting => consulting.done === 1).length : 0
         let total_task = mytasksData.length
         console.log(mytasksData)
-        let task_done = total_task > 0 ? mytasksData.filter(task => new Date(task.created_at).setHours(0, 0, 0, 0) === today) : 0;
+        let task_done = total_task > 0 ? mytasksData.filter(task => new Date(task.created_at).toDateString() === new Date().toDateString()) : 0;
         for(i=0;i<mytasksData.length;i++){
             console.log(typeof mytasksData[i].created_at)
             console.log(new Date(mytasksData[i].created_at).setHours(0, 0, 0, 0))
