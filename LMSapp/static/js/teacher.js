@@ -1123,7 +1123,7 @@ async function get_consulting_history() {
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
         if(selectedCategory != 'none' || searchInput !=""){
-            filteredData = target_list.filter(function (d) {
+            filteredData = filteredData.filter(function (d) {
                 return (
                   (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) ||
                   (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1) ||
@@ -1146,11 +1146,9 @@ async function get_consulting_history() {
           idxHtml += `<option value="${val}">${val}</option>`;
         });
         $('#history_cate').html(idxHtml);
-      
         $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
         container.pagination(Object.assign(CpaginationOptions, { 'dataSource': target_list }));
     }
-
 }
 // 문의 내용 상세보기
 async function get_consulting_history_detail(c_id) {
@@ -1211,6 +1209,16 @@ async function get_consulting_history_detail(c_id) {
     }
     $('#consulting_history_box_detail').html(temp_his);
 }
+// async function sort_consulting_history(category) {
+//     if (category == "none") {
+//         return get_consulting_history()
+//     }
+//     let container = $('#consulting_history_student_list_pagination')
+//     const data = target_list.filter((e) => {
+//         return e.category == category;
+//     })
+//     container.pagination(Object.assign(CpaginationOptions, { 'dataSource': data }));
+// }
 // 부재중 처리
 async function missed_consulting(c_length) {
     const csrf = $('#csrf_token').val();
