@@ -1124,7 +1124,7 @@ async function get_consulting_history() {
             console.log(filteredData)
             filteredData = filteredData.filter(function (d) {
                 return (
-                  (d.hasOwnProperty('category') && d.category.toLowerCase().indexOf(selectedCategory) !== -1) ||
+                  (d.hasOwnProperty('category') && d.category.indexOf(selectedCategory) !== -1) ||
                   (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) ||
                   (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1) ||
                   (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1)
