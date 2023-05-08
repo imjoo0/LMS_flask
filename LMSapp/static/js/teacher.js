@@ -1119,9 +1119,9 @@ async function get_consulting_history() {
     }
 
     const target_list = allConsultingData.filter(c => c.done != 0).concat(ConsultingHistory)
+    let filteredData = target_list;
+    console.log(target_list)
     const updateSearchResult = function () {
-        let filteredData = target_list;
-        console.log(target_list)
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
         if(selectedCategory != 'none' || searchInput !=""){
@@ -1132,11 +1132,13 @@ async function get_consulting_history() {
                   (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1)
                 );
             });
-            console.log(filteredData)
-            container.pagination('destroy');
-            container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
+        }else{
+            filteredData = target_list; // 검색 조건이 없을 때는 전체 데이터로 설정
         }
+        container.pagination('destroy');
+        container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
     };
+    
     if (target_list.length > 0) {
         let category_set = new Set(target_list.map(c => c.category));
         let category_list = [...category_set];
