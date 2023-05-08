@@ -1122,7 +1122,6 @@ async function get_consulting_history() {
     let filteredData = target_list;
     
     const updateSearchResult = function () {
-        // 현재 검색 조건에서 선택된 값을 가져옴
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
         filteredData = target_list.filter(function (d) {
@@ -1134,11 +1133,11 @@ async function get_consulting_history() {
         });
         
           // 필터링된 데이터를 정렬합니다.
-        filteredData.sort(function (a, b) {
-            // 여기에 원하는 정렬 기준을 적용합니다.
-            // 예시: 제목 오름차순으로 정렬
-            return a.title.localeCompare(b.title);
-        });
+        // filteredData.sort(function (a, b) {
+        //     // 여기에 원하는 정렬 기준을 적용합니다.
+        //     // 예시: 제목 오름차순으로 정렬
+        //     return a.title.localeCompare(b.title);
+        // });
         
         container.pagination('destroy');
         container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
