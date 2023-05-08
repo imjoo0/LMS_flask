@@ -46,11 +46,6 @@ $(document).ready(function () {
         $('.nav-link').removeClass('active');
         $(this).addClass('active');
     })
-    if ( !!window.Worker ) {
-        alert('웹 워커를 지원하는 브라우저입니다.');
-    } else {
-        alert( '웹 워커를 지원하지 않는 브라우저입니다.' );
-    }
 })
 $(window).on('load', async function () {
     try {

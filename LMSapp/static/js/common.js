@@ -362,7 +362,7 @@ async function get_total_data() {
                         }
                     }
                 });
-                let worker = new Worker("students_worker.js");
+                let worker = new Worker("../static/js/students_worker.js");
                 worker.onmessage = function(event) {
                     studentsData = event.data['students'];
                     // 데이터를 사용하여 필요한 작업을 수행
