@@ -147,18 +147,15 @@ async function get_all_ban() {
             // elem.switch_minus_num = switchstudentData.filter(a => a.ban_id == elem.ban_id).length
             // elem.switch_plus_num = switchstudentData.filter(a => a.switch_ban_id == elem.ban_id).length
         });
-
         banData = response['all_ban'].map((item) => 
         {
             return {...item,total_out_num_per:Number(answer_rate(item.out_student_num,totalOutnum).toFixed(2))}
         })
-        // banData.sort((a, b) =>{
-        //     if (b.out_num_per !== a.out_num_per) {
-        //         return b.out_num_per - a.out_num_per; // out_num_per 큰 순으로 정렬
-        //     }else{
-        //         return b.student_num - a.student_num; // students.length가 큰 순으로 정렬
-        //     }
-        // })
+
+        let worker = new Worker("../static/js/students_worker.js");
+        worker.onmessage = function(event) {
+            studentsData = event.data.studentsData;
+        };
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
@@ -218,10 +215,6 @@ async function get_all_task() {
 
 // 전체 반 정보(차트) 가져오는 함수 
 async function get_total_data() {
-    let worker = new Worker("../static/js/students_worker.js");
-    worker.onmessage = function(event) {
-        studentsData = event.data.studentsData;
-    };
     $('#semester').hide();
     $('#detailban').show();
     $('#qubox').hide()
@@ -426,7 +419,6 @@ function semesterShow(semester) {
         SemesterContainer.pagination(Object.assign(ResultpaginationOptions, { 'dataSource': filteredData }));
     });
 }
-
 function sort_data(sort_op){
     switch (sort_op) {
         case "ban_sort":
