@@ -229,6 +229,17 @@ async function get_soquestion_detail(q_id, done_code) {
         <p>${q_category(question_detail_data.category)}</p>
     </div>
     <div class="modal-body-select-container">
+        <span class="modal-body-select-label">문의 종류 변경하기</span>
+        <select id="question_kind" class="modal-body-select">
+            <option value="none" selected>문의 종류 변경 하지 않기</option>
+            <option value=0>일반 문의</option>
+            <option value=5>내근티처 문의</option>
+            <option value=4>기술지원 문의</option>
+            <option value=2>이반 요청</option>
+            <option value=1>퇴소 요청</option>
+        </select>
+    </div>
+    <div class="modal-body-select-container">
         <span class="modal-body-select-label">제목</span>
         <p>${question_detail_data.title}</p>
     </div>
@@ -643,6 +654,8 @@ async function get_question_detail(q_id, done_code) {
             <option value=0>일반 문의</option>
             <option value=5>내근티처 문의</option>
             <option value=4>기술지원 문의</option>
+            <option value=2>이반 요청</option>
+            <option value=1>퇴소 요청</option>
         </select>
     </div>
     <div class="modal-body-select-container">
