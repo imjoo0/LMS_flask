@@ -378,7 +378,7 @@ let worker = new Worker("../static/js/students_worker.js");
 //         
 //     }
 // };
-studentsData = worker.postMessage();
+studentsData = worker.postMessage({});
 console.log(studentsData)
 function semesterShow(semester) {
     $('#ban_search_input').off('keyup');
