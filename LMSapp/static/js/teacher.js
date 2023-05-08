@@ -1128,7 +1128,7 @@ async function get_consulting_history() {
               (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) ||
               (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1) ||
               (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1)
-            ) && (selectedCategory == 'none' || searchInput =="");
+            ) && (selectedCategory == 'none' && searchInput =="");
         });
         
           // 필터링된 데이터를 정렬합니다.
