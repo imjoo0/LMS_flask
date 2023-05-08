@@ -1120,7 +1120,6 @@ async function get_consulting_history() {
 
     let target_list = allConsultingData.filter(c => c.done != 0).concat(ConsultingHistory)
     let filteredData = target_list;
-    
     const updateSearchResult = function () {
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
@@ -1142,7 +1141,7 @@ async function get_consulting_history() {
         container.pagination('destroy');
         container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
     };
-
+    console.log(filteredData)
     if (target_list.length > 0) {
         // 중복 없는 카테고리 배열 생성
         let category_set = new Set(target_list.map(c => c.category));
