@@ -1072,7 +1072,7 @@ async function get_consulting_history() {
         ConsultingHistory.forEach((elem) => {
             elem.id = 'history_'+elem.id
         });
-    } catch (error) {
+    }catch(error) {
         alert('Error occurred while retrieving data.');
     }
     let container = $('#consulting_history_student_list_pagination')
@@ -1115,14 +1115,14 @@ async function get_consulting_history() {
             $('#consulting_history_student_list').html(dataHtml);
         }
     }
-    const target_list = allConsultingData.filter(c => c.done != 0).concat(ConsultingHistory)
+    const target_list = allConsultingData.filter(c => c.done == 1).concat(ConsultingHistory)
     let filteredData = target_list.slice();
     const updateSearchResult = function () {
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
         if(selectedCategory != 'none' || searchInput !=""){
             console.log(filteredData)
-            filteredData = filteredData.filter(function (d) {
+            filteredData = target_list.filter(function (d) {
                 return (
                   (d.hasOwnProperty('category') && d.category == selectedCategory) ||
                   (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) ||
