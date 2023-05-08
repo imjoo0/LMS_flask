@@ -1131,6 +1131,7 @@ async function get_consulting_history() {
                   (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1)
                 );
             });
+            console.log(filteredData)
         }else {
             filteredData = target_list; // 검색 조건이 없을 때는 전체 데이터로 설정
         }
