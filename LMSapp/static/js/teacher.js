@@ -773,7 +773,6 @@ async function show_consulting_history_box(date_key) {
             let deadline = make_date(target['deadline'])
             let history_created = target['created_at']
             if (target['category_id'] < 100) {
-                category = target['week_code'] + '주간  ' + category
                 temp_consulting_write_box += `
                 <p class="mt-lg-4 mt-5">✅${category} 검사 날짜: <strong> ${make_date(target['startdate'])}</strong></p>
                 `;
@@ -1001,7 +1000,6 @@ async function get_consulting(student_id) {
                 let deadline = make_date(target['deadline'])
                 let history_created = target['created_at']
                 if (target['category_id'] < 100) {
-                    category = target['week_code'] + '주간  ' + category
                     temp_consulting_write_box += `
                     <p class="mt-lg-4 mt-5">✅${category} 검사 날짜: <strong> ${make_date(target['startdate'])}</strong></p>
                     `;
@@ -1102,7 +1100,7 @@ async function get_consulting_history() {
                 }else{
                     let title = consulting.contents
                     if (consulting.category_id < 100) {
-                        title = consulting.week_code + '주간 ' + consulting.category
+                        title = consulting.category
                     }
                     dataHtml += `
                     <td class="col-2"> ${consulting.category}</td>
@@ -1118,12 +1116,12 @@ async function get_consulting_history() {
         }
     }
     const target_list = allConsultingData.filter(c => c.done != 0).concat(ConsultingHistory)
+    let filteredData = target_list.slice();
     const updateSearchResult = function () {
-        let filteredData = target_list.slice();
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
         if(selectedCategory != 'none' || searchInput !=""){
-            filteredData = filteredData.filter(function (d) {
+            filteredData = target_list.filter(function (d) {
                 return (
                   (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) ||
                   (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1) ||
@@ -1132,7 +1130,7 @@ async function get_consulting_history() {
             });
             console.log(filteredData)
         }else {
-            filteredData = target_list.slice(); // 검색 조건이 없을 때는 전체 데이터로 설정
+            filteredData = target_list; // 검색 조건이 없을 때는 전체 데이터로 설정
         }
         console.log(filteredData)
         container.pagination('destroy');
@@ -1181,7 +1179,7 @@ async function get_consulting_history_detail(c_id) {
         let consulting_history = allConsultingData.filter(c => c.id == c_id)[0]
         let category = `${consulting_history.category}`
         if (consulting_history.category_id < 100) {
-            category = `${consulting_history.week_code}주간 ${consulting_history.category} 상담  검사 날짜: <strong>${make_date(consulting_history.startdate)}</strong>`
+            category = `${consulting_history.category} 상담  검사 날짜: <strong>${make_date(consulting_history.startdate)}</strong>`
         }
         temp_his = `
         <button type="button" class="btn btn-back" onclick="get_consulting_history()">원생 목록으로 돌아가기🔙 </button>
@@ -1435,7 +1433,7 @@ function attach_consulting_history(student_id) {
         $.each(consultinglist, function (index, consulting) {
             let category = ''
             if (consulting.category_id < 100) {
-                category = `${consulting.week_code}주간 ${consulting.category}상담`
+                category = `${consulting.category}상담`
             } else {
                 category = `${consulting.category} ${consulting.contents}`
             }
@@ -1557,7 +1555,7 @@ async function get_question_detail(q_id) {
         consulting_history = allConsultingData.filter(c => c.id == questiondata.consluting)[0]
         let category = ''
         if (consulting_history.category_id < 100) {
-            category = `${consulting_history.week_code}주간 ${consulting_history.category}상담`
+            category = `${consulting_history.category}상담`
         } else {
             category = `${consulting_history.category} ${consulting_history.contents}`
         }
