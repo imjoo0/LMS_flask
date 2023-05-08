@@ -1121,7 +1121,8 @@ async function get_consulting_history() {
         // 현재 검색 조건에서 선택된 값을 가져옴
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
-
+        console.log(selectedCategory)
+        console.log(searchInput)
         if(!selectedCategory && !searchInput){
             console.log('hello')
         }
