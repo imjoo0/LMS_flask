@@ -1123,7 +1123,7 @@ async function get_consulting_history() {
         let filteredData = target_list;
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
-        if(selectedCategory == 'none' && searchInput ==""){
+        if(selectedCategory != 'none' && searchInput !=""){
             filteredData = target_list.filter(function (d) {
                 return (
                   (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) ||
