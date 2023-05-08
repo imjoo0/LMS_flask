@@ -177,8 +177,8 @@ def task(tb_id):
     if request.method =='POST':
         # tb_id = 완료한 taskban의 id
         target_taskban = TaskBan.query.get_or_404(tb_id)
-        target_taskban.done = 1
         target_taskban.created_at = Today
+        target_taskban.done = 1
         try:
             db.session.commit()
             return jsonify({'result': '완료'})

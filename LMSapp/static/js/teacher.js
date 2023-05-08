@@ -122,9 +122,8 @@ async function get_data(){
         $('#my_ban_list').html(temp_ban_option)
     
         let consulting_done = allconsultingsNum != 0 ? allConsultingData.filter(consulting => consulting.done === 1).length : 0
-        console.log(mytasksData)
         let total_task = mytasksData.length
-        let task_done = total_task > 0 ? mytasksData.filter(task => task.done != 0 && new Date(task.created_at).setHours(0, 0, 0, 0) === today).length : 0;
+        let task_done = total_task > 0 ? mytasksData.filter(task => task.done == 1 && new Date(task.created_at).setHours(0, 0, 0, 0) === today).length : 0;
         let task_notdone = total_task - task_done;
         let temp_report = ''
         if (total_task == 0){
@@ -523,7 +522,6 @@ async function get_consulting_student(done_code) {
 
 }
 function sort_consultingoption(sortBy) {
-    console.log(consulting_targetdata)
     switch (sortBy) {
         case "ban_desc":
         $('#ban_name_sort').html('<strong>반 이름순 정렬👇</strong>')
@@ -632,12 +630,10 @@ async function student_consulting(student_id) {
         total_ban_unlearned_consulting += consulting.consulting_list.filter(u => u.category_id < 100 && u.ban_id == data.ban_id).length
     });
     let target_consulting = myconsulting_num > 0 ? data['consulting_list'].filter(c => c.done == 1) : []
-    console.log(data['consulting_list'])
      // 미학습 상담 
     let unlearned_consulting_num =  myconsulting_num > 0 ? data['consulting_list'].filter(c => c.category_id < 100) : 0  
 
     if (target_consulting.length != 0 && ConsultingHistory.length!=0){
-        console.log(target_consulting)
         DateconsultingGrouped = target_consulting.reduce((acc, item) => {
             if (!acc[item.created_at]) {
                 acc[item.created_at] = [];
@@ -1000,9 +996,7 @@ async function get_consulting(student_id) {
                 let target = target_consultings[i]
                 let category = target['category']
                 let consulting_id = target['id']
-                console.log(target['contents'])
                 let contents = target['contents'].replace(/\n/g, '</br>');
-                console.log(contents)
                 let consulting_missed = missed_date(target['missed'])
                 let deadline = make_date(target['deadline'])
                 let history_created = target['created_at']
@@ -1126,13 +1120,10 @@ async function get_consulting_history() {
     target_list = allConsultingData.length > 0 ? allConsultingData.filter(c => c.done != 0) : 0;
     target_list = target_list.concat(ConsultingHistory)
     let target_consulting_num = target_list.length;
-    if (target_consulting_num != 0 && ConsultingHistory.length != 0) {
+    if (target_consulting_num != 0) {
         // 중복 없는 카테고리 배열 생성
         let category_set = new Set(target_list.map(c => c.category));
-        // let history_category_set = new Set(ConsultingHistory.map(c => c.category))
-        // let combinedSet = new Set([...category_set, ...history_category_set]);
         let category_list = [...category_set];
-        console.log(category_set)
         var idxHtml = `<option value="none">전체</option>`;
         $.each(category_list, function (idx, val) {
             idxHtml += `<option value="${val}">${val}</option>`
@@ -1483,7 +1474,6 @@ async function get_question_list() {
             $('.t_notinloading').show()
         })
     }
-    console.log(questionAnswerdata)
     let container = $('#question_pagination')
     $('.Tinloading').hide()
     $('.t_notinloading').show()
