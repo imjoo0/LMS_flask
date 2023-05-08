@@ -630,7 +630,6 @@ async function get_question_detail(q_id, done_code) {
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
     student_data = studentsData.filter(s => s.student_id == question_detail_data.student_id)[0]
     attach = attachData.filter(a => a.question_id == q_id)
-    console.log(student_data)
     // 문의 상세 내용 
     let temp_question_list = `
     <div class="modal-body-select-container">
@@ -741,7 +740,6 @@ function post_answer(q_id, category) {
             }
         });
     }else{
-        console.log(q_kind)
         $.ajax({
             type: "POST",
             url: "/manage/q_kind/" + q_id,
@@ -1052,7 +1050,6 @@ async function ban_change(btid) {
         // ban_id _ teacher_id _ name 
 
         selectedbanSData = studentsData.filter(a => a.ban_id == value[0])
-        console.log(studentsData)
         let temp_target_student = `<option value="${btid}_-1_전체 학생 대상 진행">✔️${value[2]}반 전체 학생 대상 진행</option>`;
         selectedbanSData.forEach(student_data => {
             temp_target_student += `<option value="${btid}_${student_data.student_id}_${student_data.student_name}"> ${student_data.student_name} ( ${student_data.student_engname} )</option>`;
@@ -1149,7 +1146,6 @@ function post_consulting_request() {
                 totalstudent_ban_id = Number(v[0])
                 totalstudent_teacher_id = Number(v[1])
                 target_student_selections = studentsData.filter(a => a.ban_id == totalstudent_ban_id)
-                console.log(target_student_selections)
                 target_student_selections.forEach(value => {
                     const promise = $.ajax({
                         type: "POST",
@@ -1259,7 +1255,6 @@ async function get_request_consulting() {
             // 중복 없는 카테고리 배열 생성
             let category_set = new Set(target_list.map(c => c.category));
             let category_list = [...category_set];
-            console.log(category_set)
             var idxHtml = `<option value="none">전체</option>`;
             $.each(category_list, function (idx, val) {
                 idxHtml += `<option value="${val}">${val}</option>`
@@ -1310,7 +1305,6 @@ async function get_request_consulting() {
             $('#tr-row').html(dataHtml);
         }
     }
-    console.log(target_list)
     if(target_list.length > 0){
         const updateSearchResult = function () {
             // 현재 검색 조건에서 선택된 값을 가져옴
@@ -1591,16 +1585,7 @@ async function sort_task(value) {
 }
 
 // 과거 코드
-async function update_consulting(idx) {
-    await $.ajax({
-        url: '/manage/api/update_consulting',
-        type: 'get',
-        data: { 'text': 'good' },
-        success: function (data) {
-            console.log(data)
-        }
-    })
-}
+
 
 
 // function get_taskban(task_id) {
