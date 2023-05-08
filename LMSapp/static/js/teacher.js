@@ -1117,7 +1117,7 @@ async function get_consulting_history() {
             $('#consulting_history_student_list').html(dataHtml);
         }
     }
-    target_list = allConsultingData.filter(c => c.done != 0).concat(ConsultingHistory)
+    const target_list = allConsultingData.filter(c => c.done != 0).concat(ConsultingHistory)
     let filteredData = target_list.slice();
     const updateSearchResult = function () {
         const selectedCategory = $('#history_cate').val();
@@ -1210,17 +1210,6 @@ async function get_consulting_history_detail(c_id) {
         `;
     }
     $('#consulting_history_box_detail').html(temp_his);
-}
-
-async function sort_consulting_history(category) {
-    if (category == "none") {
-        return get_consulting_history()
-    }
-    let container = $('#consulting_history_student_list_pagination')
-    const data = target_list.filter((e) => {
-        return e.category == category;
-    })
-    container.pagination(Object.assign(CpaginationOptions, { 'dataSource': data }));
 }
 // 부재중 처리
 async function missed_consulting(c_length) {
