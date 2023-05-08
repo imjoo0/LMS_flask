@@ -1123,7 +1123,7 @@ async function get_consulting_history() {
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
         console.log(selectedCategory)
         console.log(searchInput)
-        if(!selectedCategory && !searchInput){
+        if(selectedCategory=="none" && searchInput==""){
             console.log('hello')
         }
         // 검색 조건과 검색어를 모두 만족하는 데이터를 필터링함
