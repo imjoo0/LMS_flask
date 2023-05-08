@@ -999,7 +999,7 @@ async function get_consulting(student_id) {
                 let target = target_consultings[i]
                 let category = target['category']
                 let consulting_id = target['id']
-                let contents = target['contents'].replace(/\\n/g, '\n');
+                let contents = target['contents'].replace(/\\n/g, '</br>');
                 console.log(contents)
                 let consulting_missed = missed_date(target['missed'])
                 let deadline = make_date(target['deadline'])
