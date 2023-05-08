@@ -367,11 +367,11 @@ async function get_total_data() {
                     studentsData = event.data['students'];
                     if(studentsData){
                         semesterShow(3);
-                        $('#inloading').hide();
-                        $('#semester_pagination').show();
-                        $('#target_ban_info_body').show();
                     }
                 };
+                $('#inloading').hide();
+                $('#semester_pagination').show();
+                $('#target_ban_info_body').show();
             })
         }
     }catch(error){
