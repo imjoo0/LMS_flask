@@ -147,7 +147,6 @@ async function get_all_ban() {
             // elem.switch_minus_num = switchstudentData.filter(a => a.ban_id == elem.ban_id).length
             // elem.switch_plus_num = switchstudentData.filter(a => a.switch_ban_id == elem.ban_id).length
         });
-        console.log(banData)
 
         banData = response['all_ban'].map((item) => 
         {
@@ -232,7 +231,6 @@ async function get_total_data() {
             $('#inloading').show()
             $('#semester_pagination').hide()
             await get_all_ban().then(()=>{
-                console.log(banData)
                 total_student_num = Number(banData[0].total_student_num)
                 // switchstudent_num = switchstudentData.length
                 // 학기 별 원생
@@ -579,11 +577,8 @@ async function getTeacherInfo(t_id){
         $('#profile_data').html(temp_profile_data);
         let TconsultingData = null 
         TconsultingData =  consultingData.filter(c=>c.teacher_id == t_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
-        console.log(TconsultingData)
         let TTaskData =  null
         TTaskData = taskData.filter(t=>t.teacher_id == t_id)
-        console.log(TTaskData)
-
         
         // 선생님의 미학습 데이터 
         let TunlearnedData = null
