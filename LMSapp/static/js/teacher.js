@@ -1142,7 +1142,6 @@ async function get_consulting_history() {
         container.pagination('destroy');
         container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
     };
-    console.log(filteredData)
     if (target_list.length > 0) {
         let category_set = new Set(target_list.map(c => c.category));
         let category_list = [...category_set];
