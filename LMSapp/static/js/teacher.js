@@ -1132,10 +1132,10 @@ async function get_consulting_history() {
                   (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1)
                 );
             });
+            console.log(filteredData)
+            container.pagination('destroy');
+            container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
         }
-        console.log(filteredData)
-        container.pagination('destroy');
-        container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
     };
     if (target_list.length > 0) {
         let category_set = new Set(target_list.map(c => c.category));
