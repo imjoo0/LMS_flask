@@ -125,6 +125,9 @@ async function get_data(){
         let total_task = mytasksData.length
         console.log(mytasksData)
         let task_done = total_task > 0 ? mytasksData.filter(task => new Date(task.created_at).setHours(0, 0, 0, 0) == today) : 0;
+        for(i=0;i<mytasksData.length;i++){
+            console.log(mytasksData[i].created_at)
+        }
         console.log(task_done)
         let task_notdone = total_task - task_done;
         let temp_report = ''
