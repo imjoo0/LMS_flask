@@ -1143,19 +1143,16 @@ async function get_consulting_history() {
     };
     console.log(filteredData)
     if (target_list.length > 0) {
-        // 중복 없는 카테고리 배열 생성
         let category_set = new Set(target_list.map(c => c.category));
         let category_list = [...category_set];
         var idxHtml = `<option value="none">전체</option>`;
         $.each(category_list, function (idx, val) {
-            idxHtml += `<option value="${val}">${val}</option>`
-        })
+          idxHtml += `<option value="${val}">${val}</option>`;
+        });
         $('#history_cate').html(idxHtml);
-        // 검색 조건이 변경될 때마다 검색 결과 업데이트하는 함수
-        // 검색 조건 변경 시 검색 결과를 업데이트함
+      
         $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
-        // 최초 페이지 로드 시 전체 데이터로 페이지네이션을 설정함
-        container.pagination(Object.assign(CpaginationOptions, { 'dataSource': target_list }));
+        container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
     }
 
 }
