@@ -1184,7 +1184,7 @@ async function get_consulting_history_detail(c_id) {
             category = `${consulting_history.category} 상담  검사 날짜: <strong>${make_date(consulting_history.startdate)}</strong>`
         }
         temp_his = `
-        <button type="button" class="btn btn-back" onclick="get_consulting_history()">원생 목록으로 돌아가기🔙 </button>
+        <button type="button" class="btn btn-back" onclick="get_consulting_history()">상담 목록으로 돌아가기🔙 </button>
         <p class="mt-lg-4 mt-5">✅ ${category}</p>
         <p mt-lg-4 mt-5>✅ ${consulting_history.contents}</p>
         <div class="modal-body-select-container">
