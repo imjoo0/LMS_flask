@@ -362,14 +362,6 @@ async function get_total_data() {
                         }
                     }
                 });
-                let worker = new Worker("../static/js/students_worker.js");
-                worker.onmessage = function(event) {
-                    studentsData = event.data['students'];
-                    // 데이터를 사용하여 필요한 작업을 수행
-                    // 예: 화면 업데이트, 데이터 처리 등
-                    
-                    console.log(studentsData)
-                };
                 semesterShow(3);
                 $('#inloading').hide();
                 $('#semester_pagination').show();
@@ -527,41 +519,41 @@ async function getTeacherInfo(t_id){
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
-        // }else if (consultingData && !studentsData && taskData) {
-        //     await get_all_students().then(() => {
-        //         $('.mo_inloading').hide()
-        //         $('.monot_inloading').show()
-        //     });
+        }else if (consultingData && !studentsData && taskData) {
+            await get_all_students().then(() => {
+                $('.mo_inloading').hide()
+                $('.monot_inloading').show()
+            });
         }else if (consultingData && studentsData && !taskData) {
             await get_all_task().then(() => {
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
-        // }else if (!consultingData && !studentsData && taskData) {
-        //     await get_all_students()
-        //     await get_all_consulting().then(() => {
-        //         $('.mo_inloading').hide()
-        //         $('.monot_inloading').show()
-        //     });
+        }else if (!consultingData && !studentsData && taskData) {
+            await get_all_students()
+            await get_all_consulting().then(() => {
+                $('.mo_inloading').hide()
+                $('.monot_inloading').show()
+            });
         }else if (!consultingData && studentsData && !taskData) {
             await get_all_task()
             await get_all_consulting().then(() => {
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
-        // }else if (consultingData && !studentsData && !taskData) {
-        //     await get_all_students()
-        //     await get_all_task().then(() => {
-        //         $('.mo_inloading').hide()
-        //         $('.monot_inloading').show()
-        //     });
-        // }else if (!consultingData && !studentsData && !taskData) {
-        //     await get_all_students()
-        //     await get_all_consulting()
-        //     await get_all_task().then(() => {
-        //         $('.mo_inloading').hide()
-        //         $('.monot_inloading').show()
-        //     });
+        }else if (consultingData && !studentsData && !taskData) {
+            await get_all_students()
+            await get_all_task().then(() => {
+                $('.mo_inloading').hide()
+                $('.monot_inloading').show()
+            });
+        }else if (!consultingData && !studentsData && !taskData) {
+            await get_all_students()
+            await get_all_consulting()
+            await get_all_task().then(() => {
+                $('.mo_inloading').hide()
+                $('.monot_inloading').show()
+            });
         }
         $('.mo_inloading').hide()
         $('.monot_inloading').show()

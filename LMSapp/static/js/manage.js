@@ -46,6 +46,10 @@ $(document).ready(function () {
         $('.nav-link').removeClass('active');
         $(this).addClass('active');
     })
+    let worker = new Worker("../static/js/students_worker.js");
+    worker.onmessage = function(event) {
+        studentsData = event.data['students'];
+    };
 })
 $(window).on('load', async function () {
     try {
