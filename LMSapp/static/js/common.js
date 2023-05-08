@@ -377,6 +377,7 @@ worker.onmessage = function(event) {
         semesterShow(3);
     }
 };
+worker.postMessage({});
 function semesterShow(semester) {
     $('#ban_search_input').off('keyup');
     $('#semester').show();
