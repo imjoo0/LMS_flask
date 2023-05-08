@@ -1170,7 +1170,7 @@ async function get_consulting_history_detail(c_id) {
         </div>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">제공한 가이드</span>
-            <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50" placeholder="${consulting_history.contents}">
+            <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50" placeholder="${consulting_history.contents.replace(/\n/g, '</br>')}">
         </div>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">상담 일시</span>
@@ -1186,7 +1186,7 @@ async function get_consulting_history_detail(c_id) {
         temp_his = `
         <button type="button" class="btn btn-back" onclick="get_consulting_history()">상담 목록으로 돌아가기🔙 </button>
         <p class="mt-lg-4 mt-5">✅ ${category}</p>
-        <p mt-lg-4 mt-5>✅ ${consulting_history.contents}</p>
+        <p mt-lg-4 mt-5>✅ ${consulting_history.contents.replace(/\n/g, '</br>')}</p>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">상담 사유</span>
             <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason${c_id}" placeholder="${consulting_history.reason}">
