@@ -1117,8 +1117,7 @@ async function get_consulting_history() {
             $('#consulting_history_student_list').html(dataHtml);
         }
     }
-
-    const target_list = allConsultingData.filter(c => c.done != 0).concat(ConsultingHistory)
+    target_list = allConsultingData.filter(c => c.done != 0).concat(ConsultingHistory)
     let filteredData = target_list;
     const updateSearchResult = function () {
         const selectedCategory = $('#history_cate').val();
