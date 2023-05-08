@@ -1130,27 +1130,26 @@ async function get_consulting_history() {
         })
         $('#history_cate').html(idxHtml);
         // 검색 조건이 변경될 때마다 검색 결과 업데이트하는 함수
-        const updateSearchResult = function () {
-            // 현재 검색 조건에서 선택된 값을 가져옴
-            const selectedCategory = $('#history_cate').val();
-            const searchInput = $('#consulting_list_search_input').val().toLowerCase();
-
-            // 검색 조건과 검색어를 모두 만족하는 데이터를 필터링함
-            const filteredData = target_list.filter(function (d) {
-                return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1)) &&
-                    (selectedCategory == 'none' || d.category == selectedCategory);
-            });
-
-            // 필터링된 데이터를 화면에 출력함
-            container.pagination('destroy');
-            container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
-        };
-        // 검색 조건 변경 시 검색 결과를 업데이트함
-        $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
-
-        // 최초 페이지 로드 시 전체 데이터로 페이지네이션을 설정함
-        container.pagination(Object.assign(CpaginationOptions, { 'dataSource': target_list }));
     }
+    const updateSearchResult = function () {
+        // 현재 검색 조건에서 선택된 값을 가져옴
+        const selectedCategory = $('#history_cate').val();
+        const searchInput = $('#consulting_list_search_input').val().toLowerCase();
+
+        // 검색 조건과 검색어를 모두 만족하는 데이터를 필터링함
+        const filteredData = target_list.filter(function (d) {
+            return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1)) &&
+                (selectedCategory == 'none' || d.category == selectedCategory);
+        });
+        // 필터링된 데이터를 화면에 출력함
+        container.pagination('destroy');
+        container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
+    };
+    // 검색 조건 변경 시 검색 결과를 업데이트함
+    $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
+    // 최초 페이지 로드 시 전체 데이터로 페이지네이션을 설정함
+    container.pagination(Object.assign(CpaginationOptions, { 'dataSource': target_list }));
+
 }
 // 문의 내용 상세보기
 async function get_consulting_history_detail(c_id) {
