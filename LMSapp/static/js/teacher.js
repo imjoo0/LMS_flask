@@ -1145,10 +1145,11 @@ async function get_consulting_history() {
             container.pagination('destroy');
             container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
         };
-
-        container.pagination(Object.assign(CpaginationOptions, { 'dataSource': target_list }));
         // 검색 조건 변경 시 검색 결과를 업데이트함
         $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
+
+        // 최초 페이지 로드 시 전체 데이터로 페이지네이션을 설정함
+        container.pagination(Object.assign(CpaginationOptions, { 'dataSource': target_list }));
     }
 }
 // 문의 내용 상세보기
