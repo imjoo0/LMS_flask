@@ -360,6 +360,7 @@ async function get_total_data() {
                         }
                     }
                 });
+                semesterShow(3);
                 $('#inloading').hide();
                 $('#semester_pagination').show();
                 $('#target_ban_info_body').show();
@@ -371,13 +372,14 @@ async function get_total_data() {
 }
 
 let worker = new Worker("../static/js/students_worker.js");
-worker.onmessage = function(event) {
-    studentsData = event.data['students'];
-    if(studentsData){
-        semesterShow(3);
-    }
-};
-worker.postMessage({});
+// worker.onmessage = function(event) {
+//     studentsData = event.data['students'];
+//     if(studentsData){
+//         
+//     }
+// };
+studentsData = worker.postMessage();
+console.log(studentsData)
 function semesterShow(semester) {
     $('#ban_search_input').off('keyup');
     $('#semester').show();
