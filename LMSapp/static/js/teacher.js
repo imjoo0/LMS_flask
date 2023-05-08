@@ -1118,16 +1118,17 @@ async function get_consulting_history() {
     const target_list = allConsultingData.filter(c => c.done == 1).concat(ConsultingHistory)
     // let filteredData = target_list.slice();
     const updateSearchResult = function () {
+        let copy_data = target_list.slice();
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
         if(selectedCategory != 'none' && searchInput ==""){
-            const data = target_list.filter((e) => {
+            copy_data = copy_data.filter((e) => {
                 return e.category == selectedCategory;
             })
             container.pagination('destroy');
-            container.pagination(Object.assign(CpaginationOptions, { 'dataSource': data }));
+            container.pagination(Object.assign(CpaginationOptions, { 'dataSource': copy_data }));
         }else if(selectedCategory != 'none' && searchInput !=""){
-            const data = target_list.filter(function (d) {
+            copy_data = copy_data.filter(function (d) {
                 return (
                   (d.category == selectedCategory) &&
                   (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) ||
@@ -1136,9 +1137,9 @@ async function get_consulting_history() {
                 );
             })
             container.pagination('destroy');
-            container.pagination(Object.assign(CpaginationOptions, { 'dataSource': data }));
+            container.pagination(Object.assign(CpaginationOptions, { 'dataSource': copy_data }));
         }else if(selectedCategory == 'none' && searchInput !=""){
-            const data = target_list.filter(function (d) {
+            copy_data = copy_data.filter(function (d) {
                 return (
                   (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) ||
                   (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1) ||
@@ -1146,7 +1147,7 @@ async function get_consulting_history() {
                 );
             })
             container.pagination('destroy');
-            container.pagination(Object.assign(CpaginationOptions, { 'dataSource': data }));
+            container.pagination(Object.assign(CpaginationOptions, { 'dataSource': copy_data }));
         }else{
             container.pagination('destroy');
             container.pagination(Object.assign(CpaginationOptions, { 'dataSource': target_list }));
