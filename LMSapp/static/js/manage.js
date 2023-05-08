@@ -638,6 +638,15 @@ async function get_question_detail(q_id, done_code) {
         <p>${q_category(question_detail_data.category)}</p>
     </div>
     <div class="modal-body-select-container">
+        <span class="modal-body-select-label">문의 종류 변경하기</span>
+        <select id="question_kind" class="modal-body-select">
+            <option value="none" selected>문의 종류 변경 하지 않기</option>
+            <option value=0>일반 문의</option>
+            <option value=5>내근티처 문의</option>
+            <option value=4>기술지원 문의</option>
+        </select>
+    </div>
+    <div class="modal-body-select-container">
         <span class="modal-body-select-label">제목</span>
         <p>${question_detail_data.title}</p>
     </div>
@@ -702,33 +711,55 @@ async function get_question_detail(q_id, done_code) {
 }
 // 본원 답변 기능 
 function post_answer(q_id, category) {
-    answer_title = $('#answer_title').val()
-    answer_contents = $('#answer_contents').val()
-    o_ban_id = 0
-    if(category == 2) {
-        o_ban_id = Number($('#o_ban_id2').val().split('_')[0])
-    }else if(category == 3 || category == 1){
-        o_ban_id = $('#o_ban_id').val()
-    }
-    $.ajax({
-        type: "POST",
-        url: "/manage/answer/" + q_id,
-        data: {
-            answer_title: answer_title,
-            answer_contents: answer_contents,
-            o_ban_id: o_ban_id
-        },
-        success: function (response) {
-            {
-                if(response['result'] == '문의 답변 저장 완료'){
-                    alert(response["result"])
-                    window.location.reload()
-                }else{
-                    alert('문의 답변 저장 실패')
+    let q_kind = $('#question_kind').val()
+    if(q_kind == 'none'){
+        answer_title = $('#answer_title').val()
+        answer_contents = $('#answer_contents').val()
+        o_ban_id = 0
+        if(category == 2) {
+            o_ban_id = Number($('#o_ban_id2').val().split('_')[0])
+        }else if(category == 3 || category == 1){
+            o_ban_id = $('#o_ban_id').val()
+        }
+        $.ajax({
+            type: "POST",
+            url: "/manage/answer/" + q_id,
+            data: {
+                answer_title: answer_title,
+                answer_contents: answer_contents,
+                o_ban_id: o_ban_id
+            },
+            success: function (response) {
+                {
+                    if(response['result'] == '문의 답변 저장 완료'){
+                        alert(response["result"])
+                        window.location.reload()
+                    }else{
+                        alert('문의 답변 저장 실패')
+                    }
                 }
             }
-        }
-    });
+        });
+    }else{
+        $.ajax({
+            type: "POST",
+            url: "/manage/q_kind/" + q_id,
+            data: {
+                question_kind: q_kind
+            },
+            success: function (response) {
+                {
+                    if(response['result'] == '문의 종류 수정 완료'){
+                        alert(response["result"])
+                        window.location.reload()
+                    }else{
+                        alert('문의 종류 수정 실패')
+                    }
+                }
+            }
+        });
+    }
+    
 }
 
 // 미학습 (학습관리)

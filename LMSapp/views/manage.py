@@ -48,7 +48,17 @@ def answer(id):
             # db.session.commit()
         db.session.commit()
         return jsonify({'result': '문의 답변 저장 완료'})
-    
+
+# 본원 답변 종류 바꾸기 
+@bp.route('/q_kind/<int:id>', methods=['POST'])
+def q_kind(id):
+    if request.method == 'POST':
+        q_kind = request.form['q_kind']
+        target_question = Question.query.get_or_404(id)
+        target_question.category = q_kind
+        db.session.commit()
+        return jsonify({'result': '문의 종류 수정 완료'})
+      
 # 이반 퇴소 
 @bp.route("/qa", methods=['GET'])
 def get_sodata():
