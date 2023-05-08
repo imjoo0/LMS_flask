@@ -527,41 +527,41 @@ async function getTeacherInfo(t_id){
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
-        }else if (consultingData && !studentsData && taskData) {
-            await get_all_students().then(() => {
-                $('.mo_inloading').hide()
-                $('.monot_inloading').show()
-            });
+        // }else if (consultingData && !studentsData && taskData) {
+        //     await get_all_students().then(() => {
+        //         $('.mo_inloading').hide()
+        //         $('.monot_inloading').show()
+        //     });
         }else if (consultingData && studentsData && !taskData) {
             await get_all_task().then(() => {
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
-        }else if (!consultingData && !studentsData && taskData) {
-            await get_all_students()
-            await get_all_consulting().then(() => {
-                $('.mo_inloading').hide()
-                $('.monot_inloading').show()
-            });
+        // }else if (!consultingData && !studentsData && taskData) {
+        //     await get_all_students()
+        //     await get_all_consulting().then(() => {
+        //         $('.mo_inloading').hide()
+        //         $('.monot_inloading').show()
+        //     });
         }else if (!consultingData && studentsData && !taskData) {
             await get_all_task()
             await get_all_consulting().then(() => {
                 $('.mo_inloading').hide()
                 $('.monot_inloading').show()
             });
-        }else if (consultingData && !studentsData && !taskData) {
-            await get_all_students()
-            await get_all_task().then(() => {
-                $('.mo_inloading').hide()
-                $('.monot_inloading').show()
-            });
-        }else if (!consultingData && !studentsData && !taskData) {
-            await get_all_students()
-            await get_all_consulting()
-            await get_all_task().then(() => {
-                $('.mo_inloading').hide()
-                $('.monot_inloading').show()
-            });
+        // }else if (consultingData && !studentsData && !taskData) {
+        //     await get_all_students()
+        //     await get_all_task().then(() => {
+        //         $('.mo_inloading').hide()
+        //         $('.monot_inloading').show()
+        //     });
+        // }else if (!consultingData && !studentsData && !taskData) {
+        //     await get_all_students()
+        //     await get_all_consulting()
+        //     await get_all_task().then(() => {
+        //         $('.mo_inloading').hide()
+        //         $('.monot_inloading').show()
+        //     });
         }
         $('.mo_inloading').hide()
         $('.monot_inloading').show()
