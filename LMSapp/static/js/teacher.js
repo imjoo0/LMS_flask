@@ -126,7 +126,7 @@ async function get_data(){
         console.log(mytasksData)
         let task_done = total_task > 0 ? mytasksData.filter(task => new Date(task.created_at).setHours(0, 0, 0, 0) == today) : 0;
         for(i=0;i<mytasksData.length;i++){
-            console.log(mytasksData[i].created_at)
+            console.log(typeof mytasksData[i].created_at)
             console.log(new Date(mytasksData[i].created_at).setHours(0, 0, 0, 0))
             console.log(today)
         }
