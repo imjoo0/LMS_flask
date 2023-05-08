@@ -1121,8 +1121,10 @@ async function get_consulting_history() {
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
         if(selectedCategory != 'none' || searchInput !=""){
-            filteredData = target_list.filter(function (d) {
+            console.log(filteredData)
+            filteredData = filteredData.filter(function (d) {
                 return (
+                  (d.hasOwnProperty('category') && d.category.toLowerCase().indexOf(selectedCategory) !== -1) ||
                   (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) ||
                   (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1) ||
                   (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1)
