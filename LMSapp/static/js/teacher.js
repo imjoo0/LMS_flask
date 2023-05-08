@@ -1159,7 +1159,7 @@ async function get_consulting_history_detail(c_id) {
     if(typeof c_id === 'string'){
         let consulting_history = ConsultingHistory.filter(c => c.id == c_id)[0]
         temp_his = `
-        <button type="button" class="btn btn-back" onclick="get_consulting_history()">원생 목록으로 돌아가기🔙 </button>
+        <button type="button" class="btn btn-back" onclick="get_consulting_history()">상담 목록으로 돌아가기🔙 </button>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">(과거 데이터 상담) 종류</span>
             <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50" placeholder="${consulting_history.category}">
