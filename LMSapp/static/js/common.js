@@ -372,12 +372,15 @@ async function get_total_data() {
 }
 
 let worker = new Worker("../static/js/students_worker.js");
-// worker.onmessage = function(event) {
-//     studentsData = event.data['students'];
-//     if(studentsData){
-//         
-//     }
-// };
+worker.onmessage = function(event) {
+    studentsData = event.data;
+    console.log(event)
+    console.log(event.data)
+    console.log(evnet.students)
+    if(studentsData){
+        
+    }
+};
 studentsData = worker.postMessage({});
 console.log(studentsData)
 function semesterShow(semester) {
