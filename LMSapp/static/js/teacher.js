@@ -1015,7 +1015,7 @@ async function get_consulting(student_id) {
                 temp_consulting_write_box += `
                 <input type="hidden" id="target_consulting_id${idx}" value="${consulting_id}" style="display: block;" />
                 <p mt-lg-4 mt-5>✅<strong>${category}</strong></br><strong>➖상담 마감일:
-                    ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br></br>${contents}</br></p>
+                ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br></br>${contents}</p>
                 <div class="modal-body-select-container">
                     <span class="modal-body-select-label">상담 사유</span>
                     <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason${consulting_id}" placeholder="${history_reason}">
