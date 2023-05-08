@@ -1120,10 +1120,10 @@ async function get_consulting_history() {
     target_list = allConsultingData.filter(c => c.done != 0).concat(ConsultingHistory)
     let filteredData = target_list;
     const updateSearchResult = function () {
-        console.log(target_list)
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
         if(selectedCategory != 'none' || searchInput !=""){
+            console.log(target_list)
             filteredData = target_list.filter(function (d) {
                 return (
                   (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) ||
