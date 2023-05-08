@@ -367,8 +367,9 @@ async function get_total_data() {
                     studentsData = event.data['students'];
                     // 데이터를 사용하여 필요한 작업을 수행
                     // 예: 화면 업데이트, 데이터 처리 등
+                    
+                    console.log(studentsData)
                 };
-                worker.postMessage({});
                 semesterShow(3);
                 $('#inloading').hide();
                 $('#semester_pagination').show();
@@ -430,8 +431,6 @@ function semesterShow(semester) {
         SemesterContainer.pagination('destroy');
         SemesterContainer.pagination(Object.assign(ResultpaginationOptions, { 'dataSource': filteredData }));
     });
-
-    console.log(studentsData)
 }
 
 function sort_data(sort_op){
