@@ -164,14 +164,16 @@ async function get_all_ban() {
     }
 }
 async function get_all_students() {
-    return new Promise((resolve, reject) => {
-        worker.onmessage = function(event) {
-            resolve(event.data['students']);
-        };
-        worker.onerror = function(error) {
-            reject(error);
-        };
-    });
+    try{
+        const response = await $.ajax({
+            url: '/common/all_students',
+            type: 'GET',
+            data: {},
+        });
+        studentsData = response['students']
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
 }
 async function get_student_reports() {
     try{
@@ -358,13 +360,6 @@ async function get_total_data() {
                         }
                     }
                 });
-                let worker = new Worker("../static/js/students_worker.js");
-                worker.onmessage = function(event) {
-                    studentsData = event.data['students'];
-                    if(studentsData){
-                        semesterShow(3);
-                    }
-                };
                 $('#inloading').hide();
                 $('#semester_pagination').show();
                 $('#target_ban_info_body').show();
@@ -374,6 +369,14 @@ async function get_total_data() {
         alert('Error occurred while retrieving data.');
     }
 }
+
+let worker = new Worker("../static/js/students_worker.js");
+worker.onmessage = function(event) {
+    studentsData = event.data['students'];
+    if(studentsData){
+        semesterShow(3);
+    }
+};
 function semesterShow(semester) {
     $('#ban_search_input').off('keyup');
     $('#semester').show();
