@@ -218,6 +218,10 @@ async function get_all_task() {
 
 // 전체 반 정보(차트) 가져오는 함수 
 async function get_total_data() {
+    let worker = new Worker("../static/js/students_worker.js");
+    worker.onmessage = function(event) {
+        studentsData = event.data.studentsData;
+    };
     $('#semester').hide();
     $('#detailban').show();
     $('#qubox').hide()
@@ -370,19 +374,6 @@ async function get_total_data() {
         alert('Error occurred while retrieving data.');
     }
 }
-
-let worker = new Worker("../static/js/students_worker.js");
-worker.onmessage = function(event) {
-    studentsData = event.data;
-    console.log(event)
-    console.log(event.data)
-    console.log(evnet.students)
-    if(studentsData){
-        
-    }
-};
-studentsData = worker.postMessage({});
-console.log(studentsData)
 function semesterShow(semester) {
     $('#ban_search_input').off('keyup');
     $('#semester').show();
