@@ -1124,7 +1124,6 @@ async function get_consulting_history() {
             const data = target_list.filter((e) => {
                 return e.category == selectedCategory;
             })
-            console.log(data)
             container.pagination('destroy');
             container.pagination(Object.assign(CpaginationOptions, { 'dataSource': data }));
         }else if(selectedCategory != 'none' && searchInput !=""){
@@ -1136,7 +1135,6 @@ async function get_consulting_history() {
                   (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1)
                 );
             })
-            console.log(data)
             container.pagination('destroy');
             container.pagination(Object.assign(CpaginationOptions, { 'dataSource': data }));
         }else if(selectedCategory == 'none' && searchInput !=""){
@@ -1147,11 +1145,9 @@ async function get_consulting_history() {
                   (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1)
                 );
             })
-            console.log(data)
             container.pagination('destroy');
             container.pagination(Object.assign(CpaginationOptions, { 'dataSource': data }));
         }else{
-            console.log(target_list)
             container.pagination('destroy');
             container.pagination(Object.assign(CpaginationOptions, { 'dataSource': target_list }));
         }
