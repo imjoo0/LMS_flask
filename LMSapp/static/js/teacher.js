@@ -1116,18 +1116,18 @@ async function get_consulting_history() {
         }
     }
     const target_list = allConsultingData.filter(c => c.done == 1).concat(ConsultingHistory)
-    let filteredData = target_list.slice();
+    // let filteredData = target_list.slice();
     const updateSearchResult = function () {
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
         if(selectedCategory != 'none' && searchInput ==""){
-            filteredData = target_list.filter((e) => {
+            const data = target_list.filter((e) => {
                 return e.category == selectedCategory;
             })
             container.pagination('destroy');
-            container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
+            container.pagination(Object.assign(CpaginationOptions, { 'dataSource': data }));
         }else if(selectedCategory != 'none' && searchInput !=""){
-            filteredData = target_list.filter(function (d) {
+            const data = target_list.filter(function (d) {
                 return (
                   (d.category == selectedCategory) &&
                   (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) ||
@@ -1136,9 +1136,9 @@ async function get_consulting_history() {
                 );
             })
             container.pagination('destroy');
-            container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
+            container.pagination(Object.assign(CpaginationOptions, { 'dataSource': data }));
         }else if(selectedCategory == 'none' && searchInput !=""){
-            filteredData = target_list.filter(function (d) {
+            const data = target_list.filter(function (d) {
                 return (
                   (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) ||
                   (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1) ||
@@ -1146,10 +1146,10 @@ async function get_consulting_history() {
                 );
             })
             container.pagination('destroy');
-            container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
+            container.pagination(Object.assign(CpaginationOptions, { 'dataSource': data }));
         }else{
             container.pagination('destroy');
-            container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
+            container.pagination(Object.assign(CpaginationOptions, { 'dataSource': target_list }));
         }
     };
     if (target_list.length > 0) {
