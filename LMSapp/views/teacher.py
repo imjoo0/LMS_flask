@@ -162,11 +162,12 @@ def question():
         db.session.commit()
         for file in files:
             common.save_attachment(file, new_question.id)
-        requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
+        # requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
         try:
-            response = requests.get(requestURI)
-            response.raise_for_status()
-            print(f"statusCode: {response.status_code}")
+            # response = requests.get(requestURI)
+            # response.raise_for_status()
+            # print(f"statusCode: {response.status_code}")
+            print('test')
         except requests.exceptions.RequestException as e:
             print("시놀로지 전송 실패")
             print(e)
