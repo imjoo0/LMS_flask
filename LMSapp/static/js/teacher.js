@@ -1137,6 +1137,7 @@ async function get_consulting_history() {
         //     // 예시: 제목 오름차순으로 정렬
         //     return a.title.localeCompare(b.title);
         // });
+        console.log(filteredData)
         
         container.pagination('destroy');
         container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
