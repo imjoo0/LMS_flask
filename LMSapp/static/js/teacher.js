@@ -1125,9 +1125,10 @@ async function get_consulting_history() {
         // 현재 검색 조건에서 선택된 값을 가져옴
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
+        let filteredData = target_list
         if(selectedCategory!="none" && searchInput!=""){
             // 검색 조건과 검색어를 모두 만족하는 데이터를 필터링함
-            const filteredData = target_list.filter(function (d) {
+            filteredData = target_list.filter(function (d) {
                 return ((d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1)) &&
                     (selectedCategory == 'none' || d.category == selectedCategory);
             });
