@@ -1118,8 +1118,8 @@ async function get_consulting_history() {
         }
     }
     const target_list = allConsultingData.filter(c => c.done != 0).concat(ConsultingHistory)
-    let filteredData = target_list.slice();
     const updateSearchResult = function () {
+        let filteredData = target_list.slice();
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
         if(selectedCategory != 'none' || searchInput !=""){
@@ -1132,7 +1132,7 @@ async function get_consulting_history() {
             });
             console.log(filteredData)
         }else {
-            filteredData = target_list; // 검색 조건이 없을 때는 전체 데이터로 설정
+            filteredData = target_list.slice(); // 검색 조건이 없을 때는 전체 데이터로 설정
         }
         console.log(filteredData)
         container.pagination('destroy');
