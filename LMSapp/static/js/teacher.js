@@ -1127,7 +1127,7 @@ async function get_consulting_history() {
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
         console.log(selectedCategory)
         console.log(searchInput)
-        const filteredData = target_list
+        let filteredData = target_list
         if(selectedCategory=="none" && searchInput==""){
             filteredData = target_list
         }else{
