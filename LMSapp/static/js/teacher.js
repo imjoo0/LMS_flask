@@ -1119,8 +1119,8 @@ async function get_consulting_history() {
     }
 
     let target_list = allConsultingData.filter(c => c.done != 0).concat(ConsultingHistory)
-    let filteredData = target_list;
     const updateSearchResult = function () {
+        let filteredData = target_list;
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
         filteredData = target_list.filter(function (d) {
@@ -1153,7 +1153,7 @@ async function get_consulting_history() {
         $('#history_cate').html(idxHtml);
       
         $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
-        container.pagination(Object.assign(CpaginationOptions, { 'dataSource': filteredData }));
+        container.pagination(Object.assign(CpaginationOptions, { 'dataSource': target_list }));
     }
 
 }
