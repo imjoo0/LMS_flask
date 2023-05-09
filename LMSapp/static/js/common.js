@@ -198,7 +198,6 @@ async function get_all_task() {
 
 // 전체 반 정보(차트) 가져오는 함수 
 async function get_total_data() {
-    studentsData = await get_all_students();
     $('#semester').hide();
     $('#detailban').show();
     $('#qubox').hide()
@@ -341,11 +340,12 @@ async function get_total_data() {
                         }
                     }
                 });
-                semesterShow(3);
                 $('#inloading').hide();
                 $('#semester_pagination').show();
                 $('#target_ban_info_body').show();
             })
+        studentsData = await get_all_students();
+        semesterShow(3);
         }
     }catch(error){
         alert('Error occurred while retrieving data.');
