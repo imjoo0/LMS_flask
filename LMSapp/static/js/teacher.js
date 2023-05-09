@@ -126,10 +126,10 @@ async function get_data(){
         $('#my_ban_list').html(temp_ban_option)
         console.log(mytasksData)
        
-        let total_task = mytasksData.length
-        let task_done = total_task > 0 ? mytasksData.filter(task => task.done == 1 && new Date(task.created_at).setHours(0, 0, 0, 0) === today).length : 0;
-        let task_notdone = total_task > 0 ? mytasksData.filter(task => task.done == 0).length : 0;
+        let task_done = mytasksData.length > 0 ? mytasksData.filter(task => task.done == 1 && new Date(task.created_at).setHours(0, 0, 0, 0) === today).length : 0;
+        let task_notdone = mytasksData.length > 0 ? mytasksData.filter(task => task.done == 0).length : 0;
         total_task = task_done + task_notdone
+        console.log(mytasksData)
         let temp_report = ''
         if (total_task == 0){
             temp_report += `
