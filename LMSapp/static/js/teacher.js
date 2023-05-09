@@ -125,7 +125,7 @@ async function get_data(){
         // 본원 문의 ban선택 옵션 같이 붙이기 
         $('#my_ban_list').html(temp_ban_option)
         // console.log(mytasksData)
-        let consulting_done = allconsultingsNum != 0 ? allConsultingData.filter(consulting => consulting.done === 1).length : 0
+       
         let total_task = mytasksData.length
         let task_done = total_task > 0 ? mytasksData.filter(task => task.done == 1 && new Date(task.created_at).setHours(0, 0, 0, 0) === today).length : 0;
         let task_notdone = total_task > 0 ? mytasksData.filter(task => task.done == 0).length : 0;
@@ -225,10 +225,18 @@ async function get_data(){
             $('#cate_menu').html(temp_cate_menu);
     
         }
-        temp_report += `
-        <td class="col-3"> ${consulting_done}/${allconsultingsNum} </td>
-        <td class="col-3"> ( ${answer_rate(consulting_done, allconsultingsNum).toFixed(0)}% ) </td>
-        `;
+        if(allconsultingsNum != 0){
+            let consulting_done = allConsultingData.filter(consulting => consulting.done === 1).length
+            temp_report += `
+            <td class="col-3"> ${consulting_done}/${allconsultingsNum} </td>
+            <td class="col-3"> ( ${answer_rate(consulting_done, allconsultingsNum).toFixed(0)}% ) </td>
+            `;
+        }else{
+            temp_report += `
+            <td class="col-3">오늘의 상담이 없습니다</td>
+            <td class="col-3">➖</td>
+            `;
+        }
         $('#classreport').html(temp_report)
         
         // 상담 목록 
