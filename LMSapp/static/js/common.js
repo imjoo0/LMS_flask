@@ -580,7 +580,7 @@ async function getTeacherInfo(t_id) {
                 os += ban_data.out_student_num
                 hs += ban_data.hold_student_num
                 unlearned = TunlearnedData.filter(c => c.ban_id == ban_data.ban_id).length
-                console.log(bandata)
+                console.log(ban_data)
                 temp_baninfo += `
                 <tr class="row">
                     <td class="col-2">${ban_data.name}</td>
