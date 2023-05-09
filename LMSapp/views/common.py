@@ -75,7 +75,7 @@ def get_all_students():
 def get_all_consulting():
     if request.method == 'GET':
         consulting = []
-        consulting_history = callapi.purple_allinfo('get_all_consulting_history') 
+        # consulting_history = callapi.purple_allinfo('get_all_consulting_history') 
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
@@ -86,7 +86,7 @@ def get_all_consulting():
                 print('err')
         finally:
                 db.close()        
-        return jsonify({'consulting':consulting,'consulting_history':consulting_history})
+        return jsonify({'consulting':consulting})
        
 @bp.route("/task", methods=['GET'])
 def get_all_task():
