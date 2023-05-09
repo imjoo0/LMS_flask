@@ -153,8 +153,6 @@ async function get_all_ban() {
 }
 async function getChunkedStudentsData(teacherID) {
     let studentsWorker = new Worker("../static/js/students_worker.js");
-    let consultingWorker = new Worker("../static/js/consultings_worker.js");
-    let taskWorker = new Worker("../static/js/tasks_worker.js");
 
     const studentsPromise = new Promise((resolve) => {
       studentsWorker.onmessage = function (event) {
@@ -164,14 +162,15 @@ async function getChunkedStudentsData(teacherID) {
       };
     });
   
-    const consultingPromise = new Promise((resolve) => {
-      consultingWorker.onmessage = function (event) {
-        const consultingData = event.data.consulting;
-        const filteredData = consultingData.filter((consulting) => consulting.teacher_id === teacherID);
-        resolve(filteredData);
-      };
-    });
-
+    studentsWorker.postMessage('fetchStudentsData');
+  
+    const studentsData = await Promise.all(studentsPromise);
+  
+    return studentsData;
+}
+async function getChunkedTasksData(teacherID) {
+    let taskWorker = new Worker("../static/js/tasks_worker.js");
+  
     const taskPromise = new Promise((resolve) => {
         taskWorker.onmessage = function (event) {
           const taskData = event.data.task;
@@ -179,22 +178,28 @@ async function getChunkedStudentsData(teacherID) {
           resolve(filteredData);
         };
       });
-  
-    studentsWorker.postMessage('fetchStudentsData');
-    consultingWorker.postMessage('fetchConsultingData');
     taskWorker.postMessage('fetchTaskData');
   
-    const [studentsData, consultingData, taskData] = await Promise.all([studentsPromise, consultingPromise, taskPromise]);
+    const taskData = await Promise.all(taskPromise);
   
-    const data = {
-      studentsData: studentsData,
-      consultingData: consultingData,
-      taskData: taskData
-    };
+    return taskData;
+} 
+async function getChunkedConsultingsData(teacherID) {
+    let consultingWorker = new Worker("../static/js/consultings_worker.js");
   
-    return data;
-}
+    const consultingPromise = new Promise((resolve) => {
+      consultingWorker.onmessage = function (event) {
+        const consultingData = event.data.consulting;
+        const filteredData = consultingData.filter((consulting) => consulting.teacher_id === teacherID);
+        resolve(filteredData);
+      };
+    });
+    consultingWorker.postMessage('fetchConsultingData');
   
+    const consultingData = await Promise.all(consultingPromise);
+  
+    return consultingData;
+}  
   
 
 // async function processStudentsDataByBanId(teacherID) {
@@ -528,8 +533,8 @@ async function getTeacherInfo(t_id) {
         $('.mo_inloading').show()
         $('.monot_inloading').hide()
         try {
-            const chunkedTeacherData = await getChunkedStudentsData(t_id);
-            const TconsultingData = chunkedTeacherData.consultingData.filter(c => c.teacher_id == t_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
+            const chunkedConsultingData = await getChunkedConsultingsData(t_id);
+            const TconsultingData = chunkedConsultingData.filter(c => c.teacher_id == t_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
             
             let TunlearnedData = TconsultingData.filter(c => c.category_id < 100)
             let unlearned_ttc = null
@@ -638,7 +643,8 @@ async function getTeacherInfo(t_id) {
             $('#totalreport-row').html(temp_html)
     
             // 미학습 데이터 처리 로직
-            const TTaskData = chunkedTeacherData.taskData.filter(t => t.teacher_id == t_id);
+            const chunkedTaskData = await getChunkedTasksData(t_id);
+            const TTaskData = cchunkedTaskData.filter(t => t.teacher_id == t_id);
             let TtasktodayData = null
             TtasktodayData = TTaskData.filter(t => (new Date(t.startdate).setHours(0, 0, 0, 0) <= today && today < new Date(t.deadline).setHours(0, 0, 0, 0)) && ((t.cycle == 0 && t.created_at == null) || (t.cycle == 0 && new Date(t.created_at).setHours(0, 0, 0, 0) == today) || (t.cycle == todayyoil)))
             let today_done = null
@@ -657,8 +663,8 @@ async function getTeacherInfo(t_id) {
             $('#consulting_chart').html(`<td class="col-4">${ttd} / ${TconsultaskData.length}건</td><td class="col-4">${answer_rate(ttd, TconsultaskData.length).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(TconsultaskData.filter(c => c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
     
             // 표시 및 페이징 로직
-
-            const Tstudent = chunkedTeacherData.studentsData.filter((student) => student.teacher_id === t_id);
+            const chunkedStudentData = await getChunkedStudentsData(t_id);
+            const Tstudent = chunkedStudentData.filter((student) => student.teacher_id === t_id);
 
             Tstudent.forEach((elem) => {
                 elem.unlearned = TunlearnedData.filter(a => a.student_id == elem.student_id).length
