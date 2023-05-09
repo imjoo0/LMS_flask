@@ -187,18 +187,13 @@ async function getChunkedTasksData(teacherID) {
 async function getChunkedConsultingsData(teacherID) {
     let consultingWorker = new Worker("../static/js/consultings_worker.js");
   
-    const consultingPromise = new Promise((resolve) => {
-      consultingWorker.onmessage = function (event) {
-        const consultingData = event.data.consulting;
-        const filteredData = consultingData.filter((consulting) => consulting.teacher_id === teacherID);
-        resolve(filteredData);
-      };
-    });
-    consultingWorker.postMessage('fetchConsultingData');
-  
-    const consultingData = await Promise.all(consultingPromise);
-  
-    return consultingData;
+    return new Promise((resolve) => {
+        consultingWorker.onmessage = function(event) {
+            const consultingData = event.data.consulting;
+            const filteredData = consultingData.filter((consulting) => consulting.teacher_id === teacherID);
+            resolve(filteredData);
+        };
+      });
 }  
   
 
