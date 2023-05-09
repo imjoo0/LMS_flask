@@ -50,8 +50,8 @@ async function get_data(){
             let now_student_num = elem.first_student_num - elem.out_student_num
             // let outstudent = response['outstudent'].length > 0 ? response['outstudent'].filter(a=> a.ban_id === register_no).length : 0;
             let ban_unlearned = UnlearnedConsultingsNum > 0 ? UnlearnedConsultingsData.filter(consulting => consulting.ban_id === elem.register_no) : 0;
-            let ban_unlearned_num = ban_unlearned.length;
-
+            let ban_unlearned_num = ban_unlearned != 0 ? ban_unlearned.length : 0;
+            
             let temp_ban_chart = `
             <div class="d-flex justify-content-start align-items-start flex-column w-100 my-2">
                 <h5 class="mb-3">📌  ${elem.name} (${semester}월 학기)</h5>
@@ -77,7 +77,7 @@ async function get_data(){
                                     <ul>
                                     `;
             
-            if(ban_unlearned != 0 ){
+            if(ban_unlearned_num != 0 ){
                 let unlearned_cate = [...new Set(ban_unlearned.map(item => item.category))];
                 unlearned_cate.forEach((category) => {
                     let num = ban_unlearned.filter(u=>u.category == category).length
@@ -124,7 +124,7 @@ async function get_data(){
         });
         // 본원 문의 ban선택 옵션 같이 붙이기 
         $('#my_ban_list').html(temp_ban_option)
-    
+        console.log(mytasksData)
         let consulting_done = allconsultingsNum != 0 ? allConsultingData.filter(consulting => consulting.done === 1).length : 0
         let total_task = mytasksData.length
         let task_done = total_task > 0 ? mytasksData.filter(task => task.done == 1 && new Date(task.created_at).setHours(0, 0, 0, 0) === today).length : 0;
