@@ -606,7 +606,7 @@ async function getTeacherInfo(t_id) {
             <th class="col-2">미학습</th>
             </tr>`
             let total_student_num = 0
-            let now_student_num = 0
+            // let now_student_num = 0
             let os = 0
             let hs = 0
             info.forEach(ban_data => {
@@ -614,12 +614,12 @@ async function getTeacherInfo(t_id) {
                 os += ban_data.out_student_num
                 hs += ban_data.hold_student_num
                 unlearned = TunlearnedData.filter(c => c.ban_id == ban_data.ban_id).length
-    
+                console.log(bandata)
                 temp_baninfo += `
                 <tr class="row">
                     <td class="col-2">${ban_data.name}</td>
                     <td class="col-1">${make_semester(ban_data.semester)}학기</td>
-                    <td class="col-1">${now_student}명</td>
+                    <td class="col-1">${ban_data.student_num}명</td>
                     <td class="col-2">${ban_data.out_student_num}건</td>
                     <td class="col-2">( ${ban_data.out_num_per}% )</td>
                     <td class="col-2">${ban_data.hold_student_num}</td>
