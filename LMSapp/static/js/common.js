@@ -580,7 +580,6 @@ async function getTeacherInfo(t_id) {
                 os += ban_data.out_student_num
                 hs += ban_data.hold_student_num
                 unlearned = TunlearnedData.filter(c => c.ban_id == ban_data.ban_id).length
-                console.log(ban_data)
                 temp_baninfo += `
                 <tr class="row">
                     <td class="col-2">${ban_data.name}</td>
@@ -631,18 +630,20 @@ async function getTeacherInfo(t_id) {
             }
             let ctx = document.getElementById('total-chart-element').getContext('2d');
             let TeacherChart = new Chart(ctx, config).update()
-            console.log(TunlearnedData)
-            console.log(Tstudent)
+
+            let everyunlearned = unlearned_ttc==0?0:TunlearnedData[0].total_unlearned_consulting;
             // 미학습 발생
-            $('#ucomcom').html(`<td class="col-6">총 ${unlearned_ttc}건 </td><td class="col-6"><strong> ${answer_rate(unlearned_ttc, TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% </strong></td>`);
+            $('#ucomcom').html(`<td class="col-6">총 ${unlearned_ttc}건 </td><td class="col-6"><strong> ${answer_rate(unlearned_ttc,everyunlearned).toFixed(2)}% </strong></td>`);
             let temp_html = `<th class="col-12"><details>
-            <summary>총 미학습  ${unlearned_ttc}건 <strong> 발생율: ${answer_rate(unlearned_ttc, TunlearnedData[0].total_unlearned_consulting).toFixed(2)}% 상세보기 </strong></summary>
+            <summary>총 미학습  ${unlearned_ttc}건 <strong> 발생율: ${answer_rate(unlearned_ttc,everyunlearned).toFixed(2)}% 상세보기 </strong></summary>
             <ul>`
-            let unlearned_cate = [...new Set(TunlearnedData.map(item => item.category))];
-            unlearned_cate.forEach((category) => {
-                let num = TunlearnedData.filter(u => u.category == category).length
-                temp_html += `<li>${category} : ${num}건 ( 선생님 미학습 발생 중 ${answer_rate(num, unlearned_ttc).toFixed(0)}%)</li>`
-            })
+            if(unlearned_ttc != 0){
+                let unlearned_cate = [...new Set(TunlearnedData.map(item => item.category))];
+                unlearned_cate.forEach((category) => {
+                    let num = TunlearnedData.filter(u => u.category == category).length
+                    temp_html += `<li>${category} : ${num}건 ( 선생님 미학습 발생 중 ${answer_rate(num, unlearned_ttc).toFixed(0)}%)</li>`
+                })  
+            }
             temp_html += `
                     </ul>
                 </details>
