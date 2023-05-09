@@ -75,7 +75,8 @@ async function get_data(){
                                 <details>
                                     <summary>총 미학습 ${ban_unlearned_num}건  (${answer_rate(ban_unlearned_num, UnlearnedConsultingsNum).toFixed(0)}%)</summary>
                                     <ul>
-                                    `
+                                    `;
+            console.log(ban_unlearned)
             if(ban_unlearned_num != 0 ){
                 let unlearned_cate = [...new Set(ban_unlearned.map(item => item.category))];
                 unlearned_cate.forEach((category) => {
