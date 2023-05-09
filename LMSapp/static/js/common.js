@@ -14,8 +14,9 @@ let make_reject_code = function (rc) {
         return '⭕ 진행';
     }
 }
-let make_answer_code = function (rc) {
-    if (rc == 0) {
+
+let make_answer_code = function(rc){
+    if( rc == 0){
         return '❌ 반려';
     } else {
         return '⭕ 승인';
@@ -141,49 +142,15 @@ async function get_all_ban() {
         banData = response['all_ban'].map((item) => {
             return { ...item, total_out_num_per: Number(answer_rate(item.out_student_num, totalOutnum).toFixed(2)) }
         })
+
+        let worker = new Worker("../static/js/students_worker.js");
+        worker.onmessage = function(event) {
+            studentsData = event.data.studentsData;
+        };
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
 }
-
-// async function get_all_students() {
-//     let worker = new Worker("../static/js/students_worker.js");
-//     return new Promise((resolve) => {
-//         worker.onmessage = function(event) {
-//             const studentsData = event.data.studentsData;
-//             resolve(studentsData);
-//         };
-//     });
-// }
-// async function get_all_task() {
-//     try {
-//         const response = await $.ajax({
-//             url: '/common/task',
-//             type: 'GET',
-//             data: {},
-//         });
-//         taskData = response['task']
-//     } catch (error) {
-//         alert('Error occurred while retrieving data.');
-//     }
-// }
-// async function get_all_consulting() {
-//     try {
-//         const response = await $.ajax({
-//             url: '/common/consulting',
-//             type: 'GET',
-//             data: {},
-//         });
-//         consultingData = response['consulting']
-//         consultingHistoryData = response['consulting_history']
-//         consultingHistoryData.forEach((elem) => {
-//             elem.id = 'history_'+elem.id
-//         });
-//     } catch (error) {
-//         alert('Error occurred while retrieving data.');
-//     }
-// }
-
 async function getChunkedStudentsData(teacherID) {
     let studentsWorker = new Worker("../static/js/students_worker.js");
     let consultingWorker = new Worker("../static/js/consultings_worker.js");
@@ -409,12 +376,11 @@ async function get_total_data() {
                         }
                     }
                 });
+                semesterShow(3);
                 $('#inloading').hide();
                 $('#semester_pagination').show();
                 $('#target_ban_info_body').show();
             })
-            studentsData = await get_all_students();
-            semesterShow(3);
         }
     } catch (error) {
         alert('Error occurred while retrieving data.');
@@ -897,29 +863,4 @@ async function delete_question(q_id) {
 }
 
 
-// 댓글 기능 
-// function post_comment(q_id, is_coco) {
-//     let comment_contents = ''
-//     if (is_coco == 0) {
-//         comment_contents = $('#comment_contents').val()
-//     } else {
-//         comment_contents = $(`#comment_contents${is_coco}`).val()
-//     }
-//     if ((comment_contents.length == 0)) {
-//         alert('댓글 내용을 입력해주세요')
-//     }
-//     $.ajax({
-//         type: "POST",
-//         url: '/common/comment/' + q_id + '/' + is_coco,
-//         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
-//         data: {
-//             comment_contents: comment_contents,
-//         },
-//         success: function (response) {
-//             {
-//                 alert(response["result"])
-//                 get_question_detail(q_id)
-//             }
-//         }
-//     })
-// }
+
