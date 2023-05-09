@@ -82,14 +82,6 @@ let make_semester=function(semester){
         return semester
     }
 }
-// let make_IsG3 = function(ban_name){
-//     if(ban_name.toLowerCase().includes('meteor') || ban_name.toLowerCase().includes('nebula')){
-//         IsG3 = true
-//     }else{
-//         IsG3 = false
-//     }
-//     return IsG3
-// }
 function q_category(category) {
     if (category == 0 || category == '0' ) {
         c ='일반문의'

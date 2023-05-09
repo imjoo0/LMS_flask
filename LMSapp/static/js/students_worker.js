@@ -7,3 +7,4 @@ onmessage = async function() {
         console.log(error);
     }
 }
+
