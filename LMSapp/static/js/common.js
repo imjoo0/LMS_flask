@@ -14,7 +14,6 @@ let make_reject_code = function(rc){
         return '⭕ 진행';
     }
 }
-
 let make_answer_code = function(rc){
     if( rc == 0){
         return '❌ 반려';
@@ -143,26 +142,18 @@ async function get_all_ban() {
         {
             return {...item,total_out_num_per:Number(answer_rate(item.out_student_num,totalOutnum).toFixed(2))}
         })
-
-        let worker = new Worker("../static/js/students_worker.js");
-        worker.onmessage = function(event) {
-            studentsData = event.data.studentsData;
-        };
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
 }
 async function get_all_students() {
-    try{
-        const response = await $.ajax({
-            url: '/common/all_students',
-            type: 'GET',
-            data: {},
-        });
-        studentsData = response['students']
-    } catch (error) {
-        alert('Error occurred while retrieving data.');
-    }
+    let worker = new Worker("../static/js/students_worker.js");
+    return new Promise((resolve) => {
+        worker.onmessage = function(event) {
+            const studentsData = event.data.studentsData;
+            resolve(studentsData);
+        };
+    });
 }
 async function get_student_reports() {
     try{
@@ -207,6 +198,7 @@ async function get_all_task() {
 
 // 전체 반 정보(차트) 가져오는 함수 
 async function get_total_data() {
+    studentsData = await get_all_students();
     $('#semester').hide();
     $('#detailban').show();
     $('#qubox').hide()
