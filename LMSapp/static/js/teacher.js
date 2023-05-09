@@ -76,15 +76,18 @@ async function get_data(){
                                     <summary>총 미학습 ${ban_unlearned_num}건  (${answer_rate(ban_unlearned_num, UnlearnedConsultingsNum).toFixed(0)}%)</summary>
                                     <ul>
                                     `
-            let unlearned_cate = [...new Set(ban_unlearned.map(item => item.category))];
-            unlearned_cate.forEach((category) => {
-                let num = ban_unlearned.filter(u=>u.category == category).length
-                temp_ban_chart += `
-                <li>
-                ${category} : ${num}건(${answer_rate(num, ban_unlearned_num).toFixed(0)}%)
-                </li>
-                `
-            })
+            if(ban_unlearned_num != 0 ){
+                let unlearned_cate = [...new Set(ban_unlearned.map(item => item.category))];
+                unlearned_cate.forEach((category) => {
+                    let num = ban_unlearned.filter(u=>u.category == category).length
+                    temp_ban_chart += `
+                    <li>
+                    ${category} : ${num}건(${answer_rate(num, ban_unlearned_num).toFixed(0)}%)
+                    </li>
+                    `
+                })
+            }
+            
             temp_ban_chart += `
                         </ul>
                     </details>
