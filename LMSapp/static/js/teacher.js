@@ -124,11 +124,12 @@ async function get_data(){
         });
         // 본원 문의 ban선택 옵션 같이 붙이기 
         $('#my_ban_list').html(temp_ban_option)
-        console.log(mytasksData)
+        // console.log(mytasksData)
         let consulting_done = allconsultingsNum != 0 ? allConsultingData.filter(consulting => consulting.done === 1).length : 0
         let total_task = mytasksData.length
         let task_done = total_task > 0 ? mytasksData.filter(task => task.done == 1 && new Date(task.created_at).setHours(0, 0, 0, 0) === today).length : 0;
-        let task_notdone = total_task - task_done;
+        let task_notdone = total_task > 0 ? mytasksData.filter(task => task.done == 0).length : 0;
+        total_task = task_done + task_notdone
         let temp_report = ''
         if (total_task == 0){
             temp_report += `
