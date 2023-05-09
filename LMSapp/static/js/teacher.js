@@ -126,12 +126,10 @@ async function get_data(){
         $('#my_ban_list').html(temp_ban_option)
         console.log(mytasksData)
        
-        let task_done = mytasksData.length > 0 ? mytasksData.filter(task => task.done == 1 && new Date(task.created_at).setHours(0, 0, 0, 0) === today).length : 0;
-        let task_notdone = mytasksData.length > 0 ? mytasksData.filter(task => task.done == 0).length : 0;
-        total_task = task_done + task_notdone
-        console.log(mytasksData)
+        let total_task = mytasksData.length > 0 ? mytasksData.filter(task => (task.done == 1 && new Date(task.created_at).setHours(0, 0, 0, 0) === today)||(task.done == 0)) : 0;
+        let total_task_num = total_task != 0 ? total_task.length : 0;
         let temp_report = ''
-        if (total_task == 0){
+        if (total_task_num == 0){
             temp_report += `
             <td class="col-3">오늘의 업무가 없습니다</td>
             <td class="col-3">➖</td>
@@ -140,9 +138,12 @@ async function get_data(){
             $('#task_title').html('오늘의 업무 0건');
             $('#cate_menu').html('<p>오늘의 업무가 없습니다</p>');
             $('#task_button').hide();
-        } else {
+        }else{
+            let task_done = total_task.filter(task => task.done == 1 && new Date(task.created_at).setHours(0, 0, 0, 0) === today).length;
+            let task_notdone = total_task.filter(task => task.done == 0).length;
+
             temp_report += `
-            <td class="col-3"> ${task_done}/${total_task} </td>
+            <td class="col-3"> ${task_done}/${total_task_num} </td>
             <td class="col-3"> ( ${answer_rate(task_done, total_task).toFixed(0)}% ) </td>
             `;
     
@@ -155,7 +156,7 @@ async function get_data(){
             }
             // 오늘의 업무 뿌려주기 
             // 오늘의 업무 중복 카테고리로 묶기 
-            const categoryGrouped = mytasksData.reduce((acc, item) => {
+            const categoryGrouped = total_task.reduce((acc, item) => {
                 if (!acc[item.category]) {
                     acc[item.category] = [];
                 }
