@@ -529,25 +529,12 @@ async function getTeacherInfo(t_id) {
         $('.monot_inloading').hide()
         try {
             const chunkedTeacherData = await getChunkedStudentsData(t_id);
-            const Tstudent = chunkedTeacherData.studentsData.filter((student) => student.teacher_id === t_id);
             const TconsultingData = chunkedTeacherData.consultingData.filter(c => c.teacher_id == t_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
-            const TTaskData = chunkedTeacherData.taskData.filter(t => t.teacher_id == t_id);
-
+            
             let TunlearnedData = TconsultingData.filter(c => c.category_id < 100)
             let unlearned_ttc = null
             unlearned_ttc = TunlearnedData.length
-            // 미학습 데이터 처리 로직
-            Tstudent.forEach((elem) => {
-                elem.unlearned = TunlearnedData.filter(a => a.student_id == elem.student_id).length
-                elem.up = answer_rate(elem.unlearned, TunlearnedData.length).toFixed(0)
-            });
-            // Tstudent.sort((a, b) => {
-            //     if (b.up !== a.up) {
-            //         return b.up - a.up;
-            //     } else {
-            //         return b.unlearned - a.unlearned; // students.length가 큰 순으로 정렬
-            //     }
-            // });
+
             let temp_profile_data = `
                 <tbody  style="width:100%;">
                     <tr class="row tagtagtitle">
@@ -650,6 +637,8 @@ async function getTeacherInfo(t_id) {
             </th>`
             $('#totalreport-row').html(temp_html)
     
+            // 미학습 데이터 처리 로직
+            const TTaskData = chunkedTeacherData.taskData.filter(t => t.teacher_id == t_id);
             let TtasktodayData = null
             TtasktodayData = TTaskData.filter(t => (new Date(t.startdate).setHours(0, 0, 0, 0) <= today && today < new Date(t.deadline).setHours(0, 0, 0, 0)) && ((t.cycle == 0 && t.created_at == null) || (t.cycle == 0 && new Date(t.created_at).setHours(0, 0, 0, 0) == today) || (t.cycle == todayyoil)))
             let today_done = null
@@ -668,6 +657,20 @@ async function getTeacherInfo(t_id) {
             $('#consulting_chart').html(`<td class="col-4">${ttd} / ${TconsultaskData.length}건</td><td class="col-4">${answer_rate(ttd, TconsultaskData.length).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(TconsultaskData.filter(c => c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
     
             // 표시 및 페이징 로직
+
+            const Tstudent = chunkedTeacherData.studentsData.filter((student) => student.teacher_id === t_id);
+
+            Tstudent.forEach((elem) => {
+                elem.unlearned = TunlearnedData.filter(a => a.student_id == elem.student_id).length
+                elem.up = answer_rate(elem.unlearned, TunlearnedData.length).toFixed(0)
+            });
+            // Tstudent.sort((a, b) => {
+            //     if (b.up !== a.up) {
+            //         return b.up - a.up;
+            //     } else {
+            //         return b.unlearned - a.unlearned; // students.length가 큰 순으로 정렬
+            //     }
+            // });
             $('#displayCount').html(`관리 중인 원생 수: ${Tstudent.length}명`)
             var paginationOptions = {
                 prevText: '이전',
