@@ -42,7 +42,7 @@ def home(user):
         print(user.category)
         if user.category == 1 :
             return redirect(url_for('manage.home'))
-        elif user.cateogry == 0:
+        elif user.category == 0:
             return redirect(url_for('admin.home'))
         else:
             return redirect(url_for('teacher.home'))
@@ -63,7 +63,7 @@ def sign_in():
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
         if result.category == 1 :
             return redirect(url_for('manage.home'))
-        elif result.cateogry == 0:
+        elif result.category == 0:
             return redirect(url_for('admin.home'))
         else:
             return redirect(url_for('teacher.home'))
