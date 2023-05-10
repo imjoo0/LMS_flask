@@ -60,9 +60,9 @@ def sign_in():
             'id':result.id
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-        return jsonify({'result': 'success', 'token': token})
+        return redirect('/main')
     else:
-        return jsonify({'result':'fail', 'msg': 'id, pw 를 확인해주세요'})
+        return redirect('/login')
 
 
 # 로그아웃 API
