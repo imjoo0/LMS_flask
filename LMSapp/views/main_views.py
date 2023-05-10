@@ -47,7 +47,7 @@ def home(user):
             return redirect(url_for('teacher.home'))
 
 
-@bp.route('/login/', methods=['POST'])
+@bp.route('/login', methods=['POST'])
 def sign_in():
     user_id = request.form.get('user_id')
     user_pw = request.form.get('user_pw')
