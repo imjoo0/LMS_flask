@@ -61,7 +61,7 @@ def sign_in():
             'id':result.id
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-        return redirect('/main')
+        return redirect(url_for('user.home'))
     else:
         return redirect('/login')
 
