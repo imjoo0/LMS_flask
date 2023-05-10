@@ -341,6 +341,10 @@ async function get_soquestion_detail(q_id, done_code) {
             <p>${answer_data.content}</p>
         </div>
         <div class="modal-body-select-container">
+            <span class="modal-body-select-label">답변자</span>
+            <p>${make_nullcate(answer_data.writer)}</p>
+        </div>
+        <div class="modal-body-select-container">
             <span class="modal-body-select-label">응답일</span>
             <p>${make_date(answer_data.created_at)}</p>
         </div>
