@@ -74,10 +74,3 @@ def create_app():
     app.register_blueprint(common.bp)
 
     return app
-
-# flask db init < 데이터베이스초기화 : flask db init 명령은 데이터베이스를 관리하는 초기 파일들을 다음처럼 migrations 디렉터리에 자동으로 생성 ( 명령은 최초 한 번만 수행 )
-# 앞으로 모델을 추가하거나 변경할 때는 flask db migrate 명령과 flask db upgrade 명령만 사용
-# flask db migrate : 모델을 새로 생성하거나 변경할 때 사용 (실행하면 작업파일이 생성된다.)
-# flask db upgrade : 모델의 변경 내용을 실제 데이터베이스에 적용할 때 사용 (위에서 생성된 작업파일을 실행하여 데이터베이스를 변경한다.)
-
-
