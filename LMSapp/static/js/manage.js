@@ -1627,6 +1627,38 @@ async function get_task(){
                taskGroupedresult = Object.entries(taskGrouped).map(([v, items]) => {
                     return { [v]: items };
                 });
+                let container = $('#task-pagination')
+                var category_list = []
+                container.pagination({
+                    dataSource: taskGroupedresult,
+                    prevText: '이전',
+                    nextText: '다음',
+                    pageSize: 10,
+                    callback: function (taskGroupedresult, pagination) {
+                        var idxHtml = `<option value="none">전체</option>`;
+                        var dataHtml = '';
+                        $.each(taskGroupedresult, function (index, task) {
+                            let key = Object.keys(task)[0]
+                            let task_info = key.split('_')
+                            category_list.push(task_info[0])
+                            dataHtml += `
+                                <td class="col-1"> ${make_duedate(task_info[2],task_info[3])}</td>
+                                <td class="col-3">"${task_info[2]}" ~ </br>"${task_info[3]}"</td>
+                                <td class="col-1">${make_priority(task_info[5])}</td>
+                                <td class="col-1">${make_cycle(task_info[4])}</td>
+                                <td class="col-2">${task_info[0]} 업무</td>
+                                <td class="col-3">${task_info[1]}</td>
+                                <td class="col-1" onclick ="get_taskban('${key}')"> 🔍 </td>`;
+                        });
+                        category_set = new Set(category_list)
+                        category_list = [...category_set]
+                        $.each(category_list, function (idx, val) {
+                            idxHtml += `<option value="${val}">${val}</option>`
+                        })
+                        $('#task-option').html(idxHtml);
+                        $('#task-tr').html(dataHtml);
+                    }
+                })
             }
             $('#taskModalLabel').html('요청한 업무 목록');
             $('#for_task_list').show()
@@ -1652,6 +1684,38 @@ async function get_task(){
                 return { [v]: items };
             });
         }
+        let container = $('#task-pagination')
+        var category_list = []
+        container.pagination({
+            dataSource: taskGroupedresult,
+            prevText: '이전',
+            nextText: '다음',
+            pageSize: 10,
+            callback: function (taskGroupedresult, pagination) {
+                var idxHtml = `<option value="none">전체</option>`;
+                var dataHtml = '';
+                $.each(taskGroupedresult, function (index, task) {
+                    let key = Object.keys(task)[0]
+                    let task_info = key.split('_')
+                    category_list.push(task_info[0])
+                    dataHtml += `
+                        <td class="col-1"> ${make_duedate(task_info[2],task_info[3])}</td>
+                        <td class="col-3">"${task_info[2]}" ~ </br>"${task_info[3]}"</td>
+                        <td class="col-1">${make_priority(task_info[5])}</td>
+                        <td class="col-1">${make_cycle(task_info[4])}</td>
+                        <td class="col-2">${task_info[0]} 업무</td>
+                        <td class="col-3">${task_info[1]}</td>
+                        <td class="col-1" onclick ="get_taskban('${key}')"> 🔍 </td>`;
+                });
+                category_set = new Set(category_list)
+                category_list = [...category_set]
+                $.each(category_list, function (idx, val) {
+                    idxHtml += `<option value="${val}">${val}</option>`
+                })
+                $('#task-option').html(idxHtml);
+                $('#task-tr').html(dataHtml);
+            }
+        })
         $('.mo_inloading').hide()
         $('.not_inloading').show()
         $('#requ_task_list').show()
@@ -1659,38 +1723,6 @@ async function get_task(){
         $('#for_taskban_list').hide()
         $('#taskModalLabel').html('요청한 업무 목록');
     }
-    let container = $('#task-pagination')
-    var category_list = []
-    container.pagination({
-        dataSource: taskGroupedresult,
-        prevText: '이전',
-        nextText: '다음',
-        pageSize: 10,
-        callback: function (taskGroupedresult, pagination) {
-            var idxHtml = `<option value="none">전체</option>`;
-            var dataHtml = '';
-            $.each(taskGroupedresult, function (index, task) {
-                let key = Object.keys(task)[0]
-                let task_info = key.split('_')
-                category_list.push(task_info[0])
-                dataHtml += `
-                    <td class="col-1"> ${make_duedate(task_info[2],task_info[3])}</td>
-                    <td class="col-3">"${task_info[2]}" ~ </br>"${task_info[3]}"</td>
-                    <td class="col-1">${make_priority(task_info[5])}</td>
-                    <td class="col-1">${make_cycle(task_info[4])}</td>
-                    <td class="col-2">${task_info[0]} 업무</td>
-                    <td class="col-3">${task_info[1]}</td>
-                    <td class="col-1" onclick ="get_taskban('${key}')"> 🔍 </td>`;
-            });
-            category_set = new Set(category_list)
-            category_list = [...category_set]
-            $.each(category_list, function (idx, val) {
-                idxHtml += `<option value="${val}">${val}</option>`
-            })
-            $('#task-option').html(idxHtml);
-            $('#task-tr').html(dataHtml);
-        }
-    })
 }
 function get_taskban(key){
     $('#taskreqban_search_input').off('keyup');
