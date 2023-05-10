@@ -605,8 +605,7 @@ async function getTeacherInfo(t_id){
         $('#mybaninfo').html(temp_baninfo);
         
         let temp_teacher_info_student_num = `
-            <span>초기 배정:${ total_student_num }</span><br>
-            <span>관리중:${ now_student_num }</span><br>
+            <span>관리중:${ total_student_num }</span><br>
             <span>* 보류:${ hs }</span><br>
             <span>* 퇴소:${ os }</span>
         `
