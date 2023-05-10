@@ -1,54 +1,85 @@
 from flask import Blueprint,render_template, jsonify, request,redirect,url_for
-
+from functools import wraps
+import jwt
+import hashlib
+import datetime
 bp = Blueprint('main', __name__, url_prefix='/')
-#  "main"은 블루프린트의 "별칭"이다. 이 별칭은 나중에 자주 사용할 url_for 함수에서 사용된다. 그리고 url_prefix는 라우팅 함수의 애너테이션 URL 앞에 기본으로 붙일 접두어 URL을 의미한다. 
-#  예를 들어 main_views.py 파일의 URL 프리픽스에 url_prefix='/' 대신 url_prefix='/main'이라고 입력했다면 hello_pybo 함수를 호출하는 URL은 localhost:5000/이 아니라 localhost:5000/main/이 된다.
 
 # 로그인 
 from flask import session  # 세션
-from LMSapp.forms import LoginForm
 from LMSapp.views import *
 import callapi
 import config
+from LMSapp.models import *
 
 SECRET_KEY = config.SECRET_KEY
 
+def authrize(f):
+    @wraps(f)
+    def decorated_function(*args, **kws):
+        if not 'mytoken' in request.cookies:
+            return render_template('login.html')
+        try:
+            token = request.cookies['mytoken']
+            user = jwt.decode(token,SECRET_KEY, algorithms=['HS256'])
+            return f(user, *args, **kws)
+        except jwt.ExpiredSignatureError or jwt.exceptions.DecodeError:
+            return render_template('login.html')
+
+    return decorated_function
 
 @bp.route('/')
-def mainpage():
-    user = session.get('user_id', None)
-    # user_category = session.get('user_category', None)
-    # if user == None:
-    #     return redirect('login')
-    # elif user != None and user_category == 1:
-    #     return redirect(url_for('learn_manage'))
-    # elif user != None and user_category == 2:
-    #     return redirect(url_for('manager'))
-    # return render_template('perform.html',user=user)
-    if user == None:
-        return redirect('login')
-    else:
-        if user == 'T0001':
+@authrize
+def login(user):
+    if user is not None:
+        return redirect(url_for('user.home'))
+    return render_template('login.html')
+
+@bp.route('/main')
+@authrize
+def home(user):
+    if user is not None:
+        if user.category == 1 :
             return redirect(url_for('manage.home'))
-        elif user == 'admin2':
+        elif user.cateogry == 0:
             return redirect(url_for('admin.home'))
         else:
             return redirect(url_for('teacher.home'))
 
 
-@bp.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        session['user_id'] = form.data.get('user_id')
-        teacher_info = callapi.purple_info(session['user_id'],'get_teacher_info')
-        session['user_registerno'] = teacher_info['register_no']
-        return redirect('/')  # 성공하면 home.html로
-    return render_template('login.html', form=form)
+@bp.route('/login', methods=['POST'])
+def sign_in():
+    user_id = request.form.get('user_id')
+    user_pw = request.form.get('user_pw')
+    hashed_pw = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
+    result = User.query.filter(User.user_id == user_id).all()
+    print(result)
+    if result is not None:
+        payload = {
+            'user_id' : result.user_id,
+            'id':result.id,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=9000000)
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
+        return redirect('/main')
+    else:
+        return redirect('/login')
 
 
 # 로그아웃 API
 @bp.route("/logout", methods=['GET'])
 def logout():
-    session.pop('user_id', None)
-    return redirect('/')
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        return jsonify({
+            'result': 'success',
+            'token': jwt.encode(payload, SECRET_KEY, algorithm='HS256'),
+            'msg': '로그아웃 성공'
+        })
+    except jwt.ExpiredSignatureError or jwt.exceptions.DecodeError:
+        return jsonify({
+            'result': 'fail',
+            'msg': '로그아웃 실패'
+        })
