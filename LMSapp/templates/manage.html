@@ -895,7 +895,7 @@
                     <div class="manage-user-detail-deco"></div>
                     <div class="user-name">
                         <div class="d-flex justify-content-center align-items-center flex-column">
-                            <span>{{ user['engname'] }}님 안녕하세요.</span>
+                            <span>{{ user.engname }}님 안녕하세요.</span>
                             <div class="mt-2">
                                 <a href="#" class="me-1" data-bs-toggle="modal" data-bs-target="#sign-out">
                                     <i class="fas fa-sign-out-alt text-danger fa-lg fs-6"></i>
@@ -909,11 +909,11 @@
                     <div class="user-contact">
                         <div class="mt-2">
                             <i class="fa-regular fa-envelope"></i>
-                            <span>&nbsp;&nbsp;{{ user['email'] }}</span>
+                            <span>&nbsp;&nbsp;{{ user.email }}</span>
                         </div>
                         <div class="mt-3">
                             <i class="fa-solid fa-mobile-screen-button"></i>
-                            <span>&nbsp;&nbsp;{{ user['mobileno'] }}</span>
+                            <span>&nbsp;&nbsp;{{ user.mobileno }}</span>
                         </div>
                         <div class="mt-3">
                             <i class="fa-solid fa-briefcase"></i>
