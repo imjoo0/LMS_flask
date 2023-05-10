@@ -52,19 +52,17 @@ def sign_in():
     user_id = request.form.get('user_id')
     user_pw = request.form.get('user_pw')
     hashed_pw = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
-    result = User.query.filter(User.user_id == user_id).first()
+    result = User.query.filter(User.user_id == user_id and User.user_pw == user_pw).first()
     print(result)
     if result is not None:
         payload = {
             'user_id' : result.user_id,
-            'id':result.id,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=9000000)
+            'id':result.id
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-
-        return redirect('/main')
+        return jsonify({'result': 'success', 'token': token})
     else:
-        return redirect('/login')
+        return jsonify({'result':'fail', 'msg': 'id, pw 를 확인해주세요'})
 
 
 # 로그아웃 API
