@@ -15,7 +15,9 @@ bp = Blueprint('manage', __name__, url_prefix='/manage')
 @bp.route("/", methods=['GET'])
 def home():
     if request.method == 'GET':
-        user = callapi.purple_info(session['user_id'],'get_teacher_info')        
+        user = User.query.filter(User.user_id == session['user_id'])        
+        print(user)
+        print(user.mobileno)
         return render_template('manage.html', user=user,)
 
 # 본원 답변 기능
