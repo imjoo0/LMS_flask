@@ -16,6 +16,18 @@ today_yoil = current_time.weekday() + 1
 
 standard = datetime.strptime('11110101',"%Y%m%d").date()
 
+class User(db.Model):
+    __tablename__ = 'user'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.String(50), nullable=False)
+    user_pw = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
+    eng_name = db.Column(db.String(255), nullable=False)
+    mobileno = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(50), nullable=False)
+    
 class Question(db.Model):
     __tablename__ = 'question'
     
