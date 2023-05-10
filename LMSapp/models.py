@@ -23,10 +23,10 @@ class User(db.Model):
     category = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.String(50), nullable=False)
     user_pw = db.Column(db.String(50), nullable=False)
-    name = db.Column(db.String(50), nullable=False)
-    eng_name = db.Column(db.String(255), nullable=False)
-    mobileno = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(50))
+    eng_name = db.Column(db.String(255))
+    mobileno = db.Column(db.String(50))
+    email = db.Column(db.String(50))
     
 class Question(db.Model):
     __tablename__ = 'question'
