@@ -52,7 +52,7 @@ def sign_in():
     user_id = request.form.get('user_id')
     user_pw = request.form.get('user_pw')
     hashed_pw = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
-    result = User.query.filter(User.user_id == user_id).all()
+    result = User.query.filter(User.user_id == user_id).first()[0]
     print(result)
     if result is not None:
         payload = {
