@@ -170,7 +170,7 @@ def question():
         except requests.exceptions.RequestException as e:
             print("시놀로지 전송 실패")
             print(e)
-        return redirect('/')
+        return redirect('/teacher')
 # 오늘 해야 할 업무 완료 저장 
 @bp.route("/task/<int:tb_id>", methods=['POST'])
 def task(tb_id):
