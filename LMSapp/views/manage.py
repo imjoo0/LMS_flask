@@ -62,16 +62,16 @@ def q_kind(id):
             payloadText += '\n 일반 문의로 변경된 문의입니다 '
         elif(q_kind == 4):
             Synologytoken = '"iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg"'
-            payloadText  += '\n 기술 문의로 변경된 문의입니다 '
+            payloadText  = '\n 기술 문의로 변경된 문의입니다 '
         elif(q_kind == 5):
             Synologytoken = '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"'
-            payloadText  += '\n 내근티처 문의로 변경된 문의입니다 '
+            payloadText  = '\n 내근티처 문의로 변경된 문의입니다 '
         else:
             Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
             if(q_kind == 1):
-                payloadText  += '\n 이반 요청으로 변경된 문의입니다 '
+                payloadText  = '\n 이반 요청으로 변경된 문의입니다 '
             elif(q_kind==2):
-                payloadText  += '\n 퇴소 요청으로 변경된 문의입니다 '
+                payloadText  = '\n 퇴소 요청으로 변경된 문의입니다 '
         
         target_question.category = q_kind
         db.session.commit()
