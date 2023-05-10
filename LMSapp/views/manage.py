@@ -56,22 +56,22 @@ def q_kind(id):
         URI = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
         q_kind = request.form['question_kind']
         target_question = Question.query.get_or_404(id)
-        payloadText  = '제목:'+ target_question.title +'\n'+target_question.contents
+        payloadText = ''
         if(q_kind == 0):
             Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
-            payloadText += '\n 일반 문의로 변경된 문의입니다 '
+            payloadText  = '일반 문의로 변경된 문의가 있습니다 \n 제목:'+ target_question.title +'\n'+target_question.contents
         elif(q_kind == 4):
             Synologytoken = '"iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg"'
-            payloadText  = '\n 기술 문의로 변경된 문의입니다 '
+            payloadText  = '기술 문의로 변경된 문의가 있습니다 \n 제목:'+ target_question.title +'\n'+target_question.contents
         elif(q_kind == 5):
             Synologytoken = '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"'
-            payloadText  = '\n 내근티처 문의로 변경된 문의입니다 '
+            payloadText  = '내근티처 문의로 변경된 문의가 있습니다 \n 제목:'+ target_question.title +'\n'+target_question.contents
         else:
             Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
             if(q_kind == 1):
-                payloadText  = '\n 이반 요청으로 변경된 문의입니다 '
+                payloadText  = '이반 요청으로 변경된 문의가 있습니다 \n 제목:'+ target_question.title +'\n'+target_question.contents
             elif(q_kind==2):
-                payloadText  = '\n 퇴소 요청으로 변경된 문의입니다 '
+                payloadText  = '퇴소 요청으로 변경된 문의가 있습니다 \n 제목:'+ target_question.title +'\n'+target_question.contents
         
         target_question.category = q_kind
         db.session.commit()
@@ -79,10 +79,11 @@ def q_kind(id):
         try:
             response = requests.get(requestURI)
             response.raise_for_status()
+            print(f"statusCode: {response.status_code}")
         except requests.exceptions.RequestException as e:
             print("시놀로지 전송 실패")
             print(e)
-    return jsonify({'result': '문의 종류 수정 완료'})
+        return jsonify({'result': '문의 종류 수정 완료'})
       
 # 이반 퇴소 
 @bp.route("/qa", methods=['GET'])
