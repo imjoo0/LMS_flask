@@ -80,6 +80,7 @@ class Answer(db.Model):
     content = db.Column(db.Text(), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False)
     reject_code = db.Column(db.Integer,nullable=True) # 1이면 반려 
+    writer_id = db.Column(db.Integer)
     # 관계설정 
     question = db.relationship("Question", backref="qanswer")
 

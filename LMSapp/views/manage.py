@@ -36,7 +36,7 @@ def answer(id):
         headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
         http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
 
-        new_answer = Answer(content=answer_contents,title=answer_title,created_at=Today,reject_code=int(o_ban_id),question_id = id)
+        new_answer = Answer(content=answer_contents,title=answer_title,created_at=Today,reject_code=int(o_ban_id),question_id = id,writer_id = session['user_registerno'])
         db.session.add(new_answer)
         if target_question.category == 2 and o_ban_id != 0 :    
             new_switch_student = SwitchStudent(ban_id = target_question.ban_id,switch_ban_id=o_ban_id,teacher_id = target_question.teacher_id,student_id=target_question.student_id,created_at=Today)
@@ -85,7 +85,6 @@ def q_kind(id):
             print(e)
         return jsonify({'result': '문의 종류 수정 완료'})
       
-# 이반 퇴소 
 @bp.route("/qa", methods=['GET'])
 def get_sodata():
     if request.method == 'GET':
@@ -98,7 +97,7 @@ def get_sodata():
                 cur.execute('select * from question')
                 question = cur.fetchall()
 
-                cur.execute('SELECT answer.title,answer.content,answer.created_at,answer.reject_code,answer.question_id FROM LMS.answer left join question on answer.question_id =question.id')
+                cur.execute('SELECT user.eng_name as writer, answer.title,answer.content,answer.created_at,answer.reject_code,answer.question_id FROM LMS.answer left join question on answer.question_id =question.id left join user on user.id = answer.writer_id;')
                 answer = cur.fetchall()
 
                 cur.execute('select question_id,file_name,id from attachment')
@@ -174,8 +173,6 @@ def uldata():
         else:
             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})    
     
-
-
 @bp.route("/consulting_category", methods=['GET'])
 def get_all_consulting_category():
     if request.method == 'GET':
@@ -453,22 +450,4 @@ def get_select_student(b_id):
         students = callapi.purple_info(b_id,'get_students')
         return jsonify({'students': students})        
 
-@bp.route("/insert_question", methods=['GET'])
-def insert_question():
-    if request.method == 'GET':
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                #cur.execute(f'delete from task where id={id}')
-                #db.commit()
-                result['status'] = 200
-                result['text'] = id
-        except Exception as e:
-            print(e)
-            result['status'] = 401
-            result['text'] = str(e)
-        finally:
-            db.close()
-
-        return result
 
