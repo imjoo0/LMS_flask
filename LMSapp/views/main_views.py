@@ -54,13 +54,15 @@ def sign_in():
     user_pw = request.form.get('user_pw')
     hashed_pw = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
     result = User.query.filter(User.user_id == user_id and User.user_pw == user_pw).first()
-    print(result)
+    
     if result is not None:
         payload = {
             'user_id' : result.user_id,
             'id':result.id
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        session['user_id'] = result.user_id,
+        session['user_registerno'] = result.id
         if result.category == 1 :
             return redirect(url_for('manage.home'))
         elif result.category == 0:

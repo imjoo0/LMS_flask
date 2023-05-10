@@ -1,53 +1,91 @@
 {% extends 'index.html' %}
-    {% block title %}
-    로그인
-    {% endblock %}
-    {% block topnav %}
-        {% if user %}
-        {{ user.name }}님 환영합니다.
-        {% else %}
-        로그인이 필요합니다.
-        {% endif %}
-    {% endblock %}
-    {% block style %}
-    <link rel="stylesheet" href="../static/style/login.css">
-    {% endblock %}
+{% block title %}
+로그인
+{% endblock %}
+{% block topnav %}
+{% if user %}
+{{ user.name }}님 환영합니다.
+{% else %}
+로그인이 필요합니다.
+{% endif %}
+{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="../static/style/login.css">
+{% endblock %}
 
-    {% block content %}
-    {% autoescape off %}
+{% block content %}
+{% autoescape off %}
+<script>
+    function sign_in() {
+        user_id = $('#user_id').val();
+        password = $('#user_pw').val();
+        $.ajax({
+            type: 'POST',
+            url: '/login',
+            data: {
+                user_id: user_id,
+                user_pw: password
+            },
+            contentType: 'application/json',
+            success: function (response) {
+                if (response['result'] == 'success') {
+                    $.cookie('mytoken', response['token'], { path: '/' });
+                    window.location.replace('/main')
+                } else {
+                    var child = document.querySelector(".append_st");
+                    if (child.hasChildNodes()) {
+                        child.removeChild(child.childNodes[0]);
+                    }
+                    var creat_sentence = document.createElement('p');
+                    var creat_text = document.createTextNode(response['msg']);
+                    creat_sentence.appendChild(creat_text);
+                    creat_sentence.classList.add('creatst');
+                    child.appendChild(creat_sentence);
+                }
+            }
+        });
+    }
 
-        <div class="row d-flex justify-content-center align-items-center w-100">
-            <div class="col-lg-7 col-md-10">
-                <div class="form-container">
-                    <div class="form-icon">
-                        <img src="../static/style/images/purple_logo_05.png" style="width:50%;height: 50%;margin-top: 15%;">
-                        <!-- <i class="fa fa-user-circle"></i> -->
-                        <!-- <span class="signup"><a href="">Don't have account? Signup</a></span> -->
-                    </div>
-                    <form class="form-horizontal" action="/login" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
-                        <h3 class="title mb-5">Login</h3>
-                        <div class="form-group">
-                            <span class="input-icon"><i class="fa fa-circle-user"></i></span>
-                            <input class="form-control"id="user_id" name="user_id" placeholder="아이디를 입력해주세요">
-                        </div>
-                        <div class="form-group">
-                            <span class="input-icon"><i class="fa fa-lock"></i></span>          
-                            <input class="form-control" type="password" name="user_pw" placeholder="비밀번호를 입력해주세요">
-                        </div>
-                        <button type="submit" class="btn signin">Login</button>
-                        <!-- <span class="forgot-pass"><a href="#">Forgot Username/Password?</a></span> -->
-                    </form>            
+    $('.form-container').keyup('keyup', function (event) {
+        if (event.keyCode === 13) {
+            $('#btn_login').click();
+        }
+
+    });
+</script>
+
+<div class="row d-flex justify-content-center align-items-center w-100">
+    <div class="col-lg-7 col-md-10">
+        <div class="form-container">
+            <div class="form-icon">
+                <img src="../static/style/images/purple_logo_05.png" style="width:50%;height: 50%;margin-top: 15%;">
+                <!-- <i class="fa fa-user-circle"></i> -->
+                <!-- <span class="signup"><a href="">Don't have account? Signup</a></span> -->
+            </div>
+            <div class="form-horizontal">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
+                <h3 class="title mb-5">Login</h3>
+                <div class="form-group">
+                    <span class="input-icon"><i class="fa fa-circle-user"></i></span>
+                    <input class="form-control" id="user_id" placeholder="아이디를 입력해주세요">
                 </div>
+                <div class="form-group">
+                    <span class="input-icon"><i class="fa fa-lock"></i></span>
+                    <input class="form-control" type="password" placeholder="비밀번호를 입력해주세요">
+                </div>
+                <button onclick="sign_in()" class="btn signin">Login</button>
+                <!-- <span class="forgot-pass"><a href="#">Forgot Username/Password?</a></span> -->
             </div>
         </div>
-    
+    </div>
+</div>
 
-    {% endautoescape %}
-    {% endblock %}
 
-    {% block jspart %}
-    <script type="text/javascript" src="../static/js/login.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-    {% endblock %}
+{% endautoescape %}
+{% endblock %}
+
+{% block jspart %}
+<script type="text/javascript" src="../static/js/login.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+{% endblock %}
