@@ -569,18 +569,17 @@ async function getTeacherInfo(t_id){
         unlearned_ttc = TunlearnedData.length
 
         let temp_baninfo = `<tr class="row">
-        <th class="col-2">반이름</th>
-        <th class="col-1">학기</th>
-        <th class="col-1">원생 수</th>
-        <th class="col-2">퇴소 ( 퇴소율 )</th>
-        <th class="col-1">보류</th>
-        <th class="col-3">이반</th>
-        <th class="col-2">미학습</th>
+            <th class="col-2">반이름</th>
+            <th class="col-1">학기</th>
+            <th class="col-1">원생 수</th>
+            <th class="col-2">퇴소</th>
+            <th class="col-2">퇴소율</th>
+            <th class="col-2">보류</th>
+            <th class="col-2">미학습</th>
         </tr>`
         let total_student_num = 0
         let now_student_num = 0
         let os = 0
-        let ss = 0
         let hs = 0
         info.forEach(ban_data => {
             let now_student = ban_data.student_num-ban_data.out_student_num-ban_data.switch_minus_num+ban_data.switch_plus_num
@@ -588,7 +587,6 @@ async function getTeacherInfo(t_id){
             total_student_num += ban_data.student_num
             now_student_num += now_student
             os += ban_data.out_student_num
-            ss += ban_data.switch_minus_num
             hs += ban_data.hold_student_num
             unlearned = TunlearnedData.filter(c=>c.ban_id == ban_data.ban_id).length
             
@@ -596,10 +594,10 @@ async function getTeacherInfo(t_id){
             <tr class="row">
                 <td class="col-2">${ban_data.name}</td>
                 <td class="col-1">${make_semester(ban_data.semester)}학기</td>
-                <td class="col-1">${now_student}명</td>
-                <td class="col-2">${ban_data.out_student_num}건 ( ${ban_data.out_num_per}% )</td>
-                <td class="col-1">${ban_data.hold_student_num}</td>
-                <td class="col-3">유입+ : ${ban_data.switch_plus_num}건 이반- : ${ban_data.switch_minus_num}건</td>
+                <td class="col-1">${ban_data.student_num}명</td>
+                <td class="col-2">${ban_data.out_student_num}건</td>
+                <td class="col-2">( ${ban_data.out_num_per}% )</td>
+                <td class="col-2">${ban_data.hold_student_num}</td>
                 <td class="col-2">${unlearned}건</td>
             </tr>
             `;
@@ -609,7 +607,6 @@ async function getTeacherInfo(t_id){
         let temp_teacher_info_student_num = `
             <span>초기 배정:${ total_student_num }</span><br>
             <span>관리중:${ now_student_num }</span><br>
-            <span>* 이반:${ ss }</span><br>
             <span>* 보류:${ hs }</span><br>
             <span>* 퇴소:${ os }</span>
         `
@@ -617,11 +614,11 @@ async function getTeacherInfo(t_id){
         var config = {
             type: 'doughnut',
             data: {
-            labels: ['관리중', '이반', '보류', '퇴소'],
+            labels: ['관리중', '보류', '퇴소'],
             datasets: [
                 {
-                data: [total_student_num, ss, hs, os],
-                backgroundColor: ['#B39CD0', '#ffd400', '#F23966', '#C24F77'],
+                data: [total_student_num, hs, os],
+                backgroundColor: ['#B39CD0', '#F23966', '#C24F77'],
                 hoverOffset: 4,
                 },
             ],
