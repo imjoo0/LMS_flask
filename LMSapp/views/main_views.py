@@ -61,7 +61,12 @@ def sign_in():
             'id':result.id
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-        return redirect(url_for('user.home'))
+        if result.category == 1 :
+            return redirect(url_for('manage.home'))
+        elif result.cateogry == 0:
+            return redirect(url_for('admin.home'))
+        else:
+            return redirect(url_for('teacher.home'))
     else:
         return redirect('/login')
 
