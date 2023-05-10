@@ -4,10 +4,10 @@ function sign_in() {
     password = $('#user_pw').val();
     $.ajax({
         type: 'POST',
-        url: '/login',
+        url: 'login',
         data: {
-            'user_id': user_id,
-            'user_pw': password
+            user_id: user_id,
+            user_pw: password
         },
         success: function (response) {
             if (response['result'] == 'success') {
