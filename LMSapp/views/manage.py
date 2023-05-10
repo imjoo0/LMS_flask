@@ -376,7 +376,7 @@ def make_task():
                 new_task = TaskBan(ban_id=target['ban_id'],teacher_id=target['teacher_id'], task_id=task.id ,done=0)
                 db.session.add(new_task)
                 db.session.commit()
-        return redirect('/')
+        return redirect('/manage')
 
 # 상담 요청  
 @bp.route("/request_consulting", methods=['GET'])
