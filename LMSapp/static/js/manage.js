@@ -1246,14 +1246,8 @@ async function get_request_consulting(){
     $('#my_consulting_requestModalLabel').html('요청한 상담 목록');
     $('.mo_inloading').show()
     $('.not_inloading').hide()
-    function renderConsultingsData(data) {
-        // 데이터를 사용자에게 표시하는 로직
-        // var idxHtml = `<option value="none">전체</option>`;
-        var dataHtml = '';
-        
-    }
-    const container = $('#consulting-pagination');
-    const ConsultingpaginationOptions = {
+    let container = $('#consulting-pagination');
+    let ConsultingpaginationOptions = {
         prevText: '이전',
         nextText: '다음',
         callback: function (data, pagination) {
@@ -1297,36 +1291,8 @@ async function get_request_consulting(){
     container.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': consultingData,'pageSize':10}))   
     $('.mo_inloading').hide();
     $('.not_inloading').show();
-    // var category_list = []
-    // container.pagination({
-    //     dataSource: consultingGroupedresult,
-    //     prevText: '이전',
-    //     nextText: '다음',
-    //     pageSize: 10,
-    //     callback: function (consultingGroupedresult, pagination) {
-    //         var idxHtml = `<option value="none">전체</option>`;
-    //         var dataHtml = '';
-    //         $.each(consultingGroupedresult, function (index, consulting) {
-    //             let key = Object.keys(consulting)[0]
-    //             let consulting_info = key.split('_')
-    //             category_list.push(consulting_info[0])
-    //             dataHtml += `
-    //                 <td class="col-1"> ${make_duedate(consulting_info[2], consulting_info[3])}</td>
-    //                 <td class="col-3">"${consulting_info[2]}" ~ "${consulting_info[3]}"</td>
-    //                 <td class="col-2">${consulting_info[0]}</td>
-    //                 <td class="col-5"> ${consulting_info[1]}</td>
-    //                 <td class="col-1" onclick ="get_consultingban('${key}')"> 🔍 </td>`;
-    //         });
-    //         category_set = new Set(category_list)
-    //         category_list = [...category_set]
-    //         $.each(category_list, function (idx, val) {
-    //             idxHtml += `<option value="${val}">${val}</option>`
-    //         })
-    //         $('#consulting-option').html(idxHtml);
-    //         $('#tr-row').html(dataHtml);
-    //     }
-    // })
 }
+
 function get_consultingban(key) {
     $('#consultingreqban_search_input').off('keyup');
     cinfo = key.split('_')
