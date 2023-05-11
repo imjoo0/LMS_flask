@@ -1248,7 +1248,12 @@ async function get_request_consulting(){
     $('.not_inloading').hide()
     let requeConsultings = []
     if (!consultingData && !studentsData) {
-        await getChunkedConsultingStudentsData()
+        await getChunkedConsultingStudentsData().then(() => {
+            $('.mo_inloading').hide()
+            $('.not_inloading').show()
+            $('#request_consulting_listbox').show()
+            $('#request_consultingban_listbox').hide()
+        })
     }else{
         requeConsultings = consultingData.filter(c => (c.category_id != 110 && c.category_id>100))
         if (requeConsultings.length > 0) {
@@ -1268,11 +1273,6 @@ async function get_request_consulting(){
             });
         }
     }
-
-    $('.mo_inloading').hide()
-    $('.not_inloading').show()
-    $('#request_consulting_listbox').show()
-    $('#request_consultingban_listbox').hide()
     // var category_list = []
     // container.pagination({
     //     dataSource: consultingGroupedresult,

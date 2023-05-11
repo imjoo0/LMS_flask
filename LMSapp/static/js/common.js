@@ -142,15 +142,6 @@ async function get_all_ban() {
         banData = response['all_ban'].map((item) => {
             return { ...item, total_out_num_per: Number(answer_rate(item.out_student_num, totalOutnum).toFixed(2)) }
         })
-
-        let studentsWorker = new Worker("../static/js/students_worker.js");
-        studentsWorker.onmessage = function(event) {
-            studentsData = event.data.students;
-        };
-        let consultingWorker = new Worker("../static/js/students_worker.js");
-        consultingWorker.onmessage = function(event) {
-            consultingData = event.data.consulting;
-        };
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
