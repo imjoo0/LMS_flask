@@ -1243,7 +1243,7 @@ function post_consulting_request() {
 // student와 consulting 데이터 가져오기 
 async function getChunkedConsultingStudentsData() {
     let studentsWorker = new Worker("../static/js/students_worker.js");
-    let consultingWorker = new Worker("../static/js/consulting_worker.js");
+    let consultingWorker = new Worker("../static/js/consultings_worker.js");
   
     const studentsPromise = new Promise((resolve) => {
       studentsWorker.onmessage = function (event) {
