@@ -157,37 +157,6 @@ async function getStudentsData() {
         };
     });
 }
-
-async function getConsultingsData(){
-    let consultingWorker = new Worker("../static/js/consultings_worker.js");  
-    const consultingPromise = new Promise((resolve) => {
-        consultingWorker.onmessage = function(event) {
-            consultingData = event.data.consulting;
-            const chunkedConsultingData = chunkArray(consultingData, 10);
-            resolve(chunkedConsultingData);
-        };
-    });
-    consultingWorker.postMessage('fetchConsultingData');
-    const consultingSData = await consultingPromise
-    // const chunkedConsultingsData = chunkArray(consultingSData, 10);
-
-    console.log(consultingSData)
-
-    let container = $('#consulting-pagination')
-    const paginationOptions = {
-        dataSource: consultingSData,
-        prevText: '이전',
-        nextText: '다음',
-        pageSize: 10,
-        callback: function (data, pagination) {
-            console.log(data)
-          const renderedData = data[0]; // Since pageSize is 1, we only need the first element
-          renderConsultingsData(renderedData);
-        }
-    };
-    
-    container.pagination(paginationOptions);
-}  
 function chunkArray(array, chunkSize) {
     const result = [];
     for (let i = 0; i < array.length; i += chunkSize) {
@@ -195,27 +164,7 @@ function chunkArray(array, chunkSize) {
     }
     return result;
 }
-function renderConsultingsData(data) {
-    // 데이터를 사용자에게 표시하는 로직
-    // var idxHtml = `<option value="none">전체</option>`;
-    var dataHtml = '';
-    $.each(data, function (index, consulting) {
-        // student_info = studentsData.filter(s=>s.student_id == consulting.student_id)[0]
-        dataHtml += `
-        <td class="col-2">"${make_date(consulting.startdate)}" ~ "${make_date(consulting.deadline)}"</td>
-        <td class="col-1">${consulting.category}</td>
-        <td class="col-2">${consulting.contents}</td>
-        <td class="col-1">반 이름</td>
-        <td class="col-1">${consulting.teacher_name}</td>
-        <td class="col-1">${consulting.teacher_mobileno}</td>
-        <td class="col-1">원생 이름</td>
-        <td class="col-1">원번</td>
-        <td class="col-1">${make_reject_code(consulting.done)}</td>
-        <td class="col-1" onclick="get_consultingban(${consulting.id})"> 🔍 </td>`;
-    });
-    // $('#consulting-option').html(idxHtml);
-    $('#tr-row').html(dataHtml);
-}
+
 // teacher_id 기준으로 쪼개서 가져오기 
 async function getChunkedStudentsData(teacherID) {
     let studentsWorker = new Worker("../static/js/students_worker.js");
