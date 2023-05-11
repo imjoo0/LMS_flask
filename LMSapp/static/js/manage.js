@@ -1250,30 +1250,30 @@ async function get_request_consulting(){
         // 데이터를 사용자에게 표시하는 로직
         // var idxHtml = `<option value="none">전체</option>`;
         var dataHtml = '';
-        $.each(data, function (index, consulting) {
-            // student_info = studentsData.filter(s=>s.student_id == consulting.student_id)[0]
-            dataHtml += `
-            <td class="col-2">"${make_date(consulting.startdate)}" ~ "${make_date(consulting.deadline)}"</td>
-            <td class="col-1">${consulting.category}</td>
-            <td class="col-2">${consulting.contents}</td>
-            <td class="col-1">반 이름</td>
-            <td class="col-1">${consulting.teacher_name}</td>
-            <td class="col-1">${consulting.teacher_mobileno}</td>
-            <td class="col-1">원생 이름</td>
-            <td class="col-1">원번</td>
-            <td class="col-1">${make_reject_code(consulting.done)}</td>
-            <td class="col-1" onclick="get_consultingban(${consulting.id})"> 🔍 </td>`;
-        });
-        // $('#consulting-option').html(idxHtml);
-        $('#tr-row').html(dataHtml);
+        
     }
-    let container = $('#consulting-pagination');
-    const paginationOptions = {
+    const container = $('#consulting-pagination');
+    const ConsultingpaginationOptions = {
         prevText: '이전',
         nextText: '다음',
         callback: function (data, pagination) {
             const renderedData = data[0]; // 페이지 사이즈가 1이므로 첫 번째 요소만 필요합니다
-            renderConsultingsData(renderedData);
+            $.each(data, function (index, renderedData) {
+                // student_info = studentsData.filter(s=>s.student_id == consulting.student_id)[0]
+                dataHtml += `
+                <td class="col-2">"${make_date(renderedData.startdate)}" ~ "${make_date(renderedData.deadline)}"</td>
+                <td class="col-1">${renderedData.category}</td>
+                <td class="col-2">${renderedData.contents}</td>
+                <td class="col-1">반 이름</td>
+                <td class="col-1">${renderedData.teacher_name}</td>
+                <td class="col-1">${renderedData.teacher_mobileno}</td>
+                <td class="col-1">원생 이름</td>
+                <td class="col-1">원번</td>
+                <td class="col-1">${make_reject_code(renderedData.done)}</td>
+                <td class="col-1" onclick="get_consultingban(${renderedData.id})"> 🔍 </td>`;
+            });
+            // $('#consulting-option').html(idxHtml);
+            $('#tr-row').html(dataHtml);
         }
     };
     if (!consultingData) {
@@ -1287,15 +1287,14 @@ async function get_request_consulting(){
             // console.log(chunkedConsultingData)
             // 최초 10개의 데이터를 화면에 표시합니다.
             if (consultingData.length <= 10) {
-                container.pagination(Object.assign(paginationOptions, { 'dataSource': consultingData,'pageSize':consultingData.length }))   
+                container.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': consultingData,'pageSize':consultingData.length }))   
                 $('.mo_inloading').hide();
                 $('.not_inloading').show();
             }
 
         };
     }
-    container.pagination(Object.assign(paginationOptions, { 'dataSource': consultingData,'pageSize':10}))   
-    container.pagination(paginationOptions);
+    container.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': consultingData,'pageSize':10}))   
     $('.mo_inloading').hide();
     $('.not_inloading').show();
     // var category_list = []
