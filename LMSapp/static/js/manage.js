@@ -1181,7 +1181,7 @@ function post_consulting_request() {
                 target_student_selections.forEach(value => {
                     const promise = $.ajax({
                         type: "POST",
-                        url: '/manage/consulting/' + totalstudent_ban_id + '/' + totalstudent_teacher_id + '/' + value['student_id'],
+                        url: '/manage/consulting/' + totalstudent_ban_id + '/' + totalstudent_teacher_id + '/' + value['student_id']+ '/' + value['student_engname']+ '/' +value['origin'],
                         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
                         data: {
                             consulting_category: consulting_category,
@@ -1199,9 +1199,10 @@ function post_consulting_request() {
         if (indivi_student_selections.length != 0) {
             indivi_student_selections.forEach(value => {
                 v = String(value).split('_')
+                s_info = studentsData.filter(a => a.student_id ==  Number(v[3]))[0]
                 const promise = $.ajax({
                     type: "POST",
-                    url: '/manage/consulting/' + v[0] + '/' + v[1] + '/' + v[3],
+                    url: '/manage/consulting/' + v[0] + '/' + v[1] + '/' + v[3]+ '/' + s_info['student_engname']+ '/' +s_info['origin'],
                     // data: JSON.stringify(jsonData), // String -> json 형태로 변환
                     data: {
                         consulting_category: consulting_category,
