@@ -158,6 +158,22 @@ async function get_all_students() {
         alert('Error occurred while retrieving data.');
     }
 }
+async function get_all_consulting() {
+    try {
+        const response = await $.ajax({
+            url: '/common/consulting',
+            type: 'GET',
+            data: {},
+        });
+        consultingData = response['consulting']
+        consultingHistoryData = response['consulting_history']
+        consultingHistoryData.forEach((elem) => {
+            elem.id = 'history_'+elem.id
+        });
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
+}
 async function getStudentsData() {
     let studentsWorker = new Worker("../static/js/students_worker.js");
   
@@ -165,6 +181,16 @@ async function getStudentsData() {
         studentsWorker.onmessage = function(event) {
             studentsData = event.data.students;
             resolve(studentsData);
+        };
+    });
+} 
+async function getConsultingsData() {
+    let consultingsWorker = new Worker("../static/js/consultings_worker.js");
+  
+    return new Promise((resolve) => {
+        consultingsWorker.onmessage = function(event) {
+            consultingData = event.data.consulting;
+            resolve(consultingData);
         };
     });
 } 
@@ -222,6 +248,7 @@ async function get_student_reports() {
 // 전체 반 정보(차트) 가져오는 함수 
 async function get_total_data() {
     getStudentsData()
+    getConsultingsData()
     $('#semester').hide();
     $('#detailban').show();
     $('#qubox').hide()
