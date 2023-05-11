@@ -1251,9 +1251,8 @@ async function get_request_consulting(){
         prevText: '이전',
         nextText: '다음',
         callback: function (data, pagination) {
-            const renderedData = data[0]; // 페이지 사이즈가 1이므로 첫 번째 요소만 필요합니다
-            $.each(data, function (index, renderedData) {
-                // student_info = studentsData.filter(s=>s.student_id == consulting.student_id)[0]
+            $.each(data, function (index, data) {
+                const renderedData = data[0]; // 페이지 사이즈가 1이므로 첫 번째 요소만 필요합니다
                 dataHtml += `
                 <td class="col-2">"${make_date(renderedData.startdate)}" ~ "${make_date(renderedData.deadline)}"</td>
                 <td class="col-1">${renderedData.category}</td>
