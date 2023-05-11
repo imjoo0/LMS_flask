@@ -177,7 +177,6 @@ async function getChunkedConsultingStudentsData() {
     const [studentsData, consultingData] = await Promise.all([studentsPromise, consultingPromise]);
   
     // 데이터 처리 로직 작성
-    console.log(consultingData)
     const filteredData = consultingData.filter((consulting) => {
       return studentsData.some((student) => student.student_id === consulting.student_id);
     });
@@ -186,32 +185,23 @@ async function getChunkedConsultingStudentsData() {
   
     for (const chunk of chunkedConsultingsData) {
       renderConsultingsData(chunk);
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // 1초간 대기
     }
   
-    let container = $('#consulting-pagination')
+    let container = $('#consulting-pagination');
     const paginationOptions = {
-        dataSource: chunkedConsultingsData,
-        prevText: '이전',
-        nextText: '다음',
-        pageSize: 1,
-        callback: function (data, pagination) {
-          const renderedData = data[0]; // Since pageSize is 1, we only need the first element
-          renderConsultingsData(renderedData);
-        }
+      dataSource: chunkedConsultingsData,
+      prevText: '이전',
+      nextText: '다음',
+      pageSize: 1,
+      callback: function (data, pagination) {
+        const renderedData = data[0]; // Since pageSize is 1, we only need the first element
+        renderConsultingsData(renderedData);
+      }
     };
-
-    container.pagination(paginationOptions);
-
-    return data;
-}
   
-function chunkArray(array, chunkSize) {
-    const result = [];
-    for (let i = 0; i < array.length; i += chunkSize) {
-      result.push(array.slice(i, i + chunkSize));
-    }
-    return result;
+    container.pagination(paginationOptions);
+  
+    return data;
 }
   
 function renderConsultingsData(data) {
