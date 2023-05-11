@@ -1245,6 +1245,7 @@ async function get_request_consulting(){
         var dataHtml = '';
         $.each(data, function (index, consulting) {
             student_info = studentsData.filter(s=>s.student_id == consulting.student_id)[0]
+            console.log(student_info)
             dataHtml += `
             <td class="col-2">"${make_date(consulting.startdate)}" ~ "${make_date(consulting.deadline)}"</td>
             <td class="col-1">${consulting.category}</td>
