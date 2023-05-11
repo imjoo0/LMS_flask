@@ -1078,15 +1078,8 @@ async function request_consulting() {
 
 $('#consulting_target_aban').change(function () {
     var selectedValues = $(this).val()[0];
-    if(!(selectedValues.includes('_'))){
-        selectedStudentList = []
-        if (selectedStudentList.indexOf(selectedValues) === -1) {
-            selectedStudentList.push(selectedValues);
-        }
-    }else{
-        if(selectedStudentList.indexOf(selectedValues) === -1 && !(selectedStudentList[0].includes('_'))) {
-            selectedStudentList.push(selectedValues);
-        }
+    if (selectedStudentList.indexOf(selectedValues) === -1) {
+        selectedStudentList.push(selectedValues);
     }
     return show_selections();
 });
@@ -1124,16 +1117,16 @@ function show_selections() {
                 <td class="col-2" onclick="delete_selected_student(${i})">❌</td>`;
             }
         }else{
-            var value = Number(selectedStudentList[i])
-            if(value==0){
+            var value = selectedStudentList[i]
+            if(value==0 || value =='0'){
                 selectedOptions += `<td class="col-10">전체 반 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})">❌</td>`
-            }else if(value==1){
+            }else if(value==1 || value =='1'){
                 selectedOptions += `<td class="col-10">PLUS/ALPHA반 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})">❌</td>`
-            }else if(value==2){
+            }else if(value==2 || value =='2'){
                 selectedOptions += `<td class="col-10">NF/Inter반 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})">❌</td>`
-            }else if(value==3){
+            }else if(value==3 || value =='3'){
                 selectedOptions += `<td class="col-10">16기 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})">❌</td>`
-            }else if(value==4){
+            }else if(value==4 || value =='4'){
                 selectedOptions += `<td class="col-10">17기 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})">❌</td>`
             }else{
                 selectedOptions += `<td class="col-10">18기 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})">❌</td>`
@@ -1155,8 +1148,30 @@ function post_consulting_request() {
     consulting_deadline = $('#consulting_deadline').val()
     // 다중 선택 대상 선택일 경우  )
     if (selectedStudentList.length != 0) {
+        let total_ban_selections = selectedStudentList.filter(value=>!(value.includes('_')))
+        console.log(total_ban_selections)
         let total_student_selections = selectedStudentList.filter(value => value.includes('-1'));
+        console.log(total_student_selections)
         const totalPromises = [];
+
+        // 전체 반 대상 
+        if (total_ban_selections.length != 0) {
+            total_ban_selections.forEach(value => {
+                v = Number(value)
+                const promise = $.ajax({
+                    type: "POST",
+                    url: '/manage/consulting/all_ban/' + v,
+                    // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+                    data: {
+                        consulting_category: consulting_category,
+                        consulting_contents: consulting_contents,
+                        consulting_date: consulting_date,
+                        consulting_deadline: consulting_deadline
+                    }
+                })
+                totalPromises.push(promise);
+            })
+        }
         // 전체 학생 대상 인 경우
         if (total_student_selections.length != 0) {
             total_student_selections.forEach(value => {
@@ -1181,7 +1196,7 @@ function post_consulting_request() {
             })
         }
         // 개별 학생 대상 인 경우  
-        let indivi_student_selections = selectedStudentList.filter(value => !(value.includes('-1')));
+        let indivi_student_selections = selectedStudentList.filter(value => (value.includes('_')) && !(value.includes('-1')));
         if (indivi_student_selections.length != 0) {
             indivi_student_selections.forEach(value => {
                 v = String(value).split('_')
@@ -1211,28 +1226,6 @@ function post_consulting_request() {
                 window.location.reload();
             } else {
                 alert('상담 요청 실패');
-            }
-        })
-    } else {
-        // b_type에 따라 전체 학생, 플러스/알파반, NF/Inter반으로 구분하여 API 호출
-        b_type = $('#consulting_target_aban').val()[0]
-        $.ajax({
-            type: "POST",
-            url: '/manage/consulting/all_ban/' + b_type,
-            // data: JSON.stringify(jsonData), // String -> json 형태로 변환
-            data: {
-                consulting_category: consulting_category,
-                consulting_contents: consulting_contents,
-                consulting_date: consulting_date,
-                consulting_deadline: consulting_deadline
-            },
-            success: function (response) {
-                if (response['result'] != 'success') {
-                    alert('상담 요청 실패')
-                } else {
-                    alert('해당 반 전체에 상담요청 완료')
-                    window.location.reload()
-                }
             }
         })
     }
