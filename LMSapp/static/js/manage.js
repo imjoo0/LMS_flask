@@ -1244,8 +1244,6 @@ async function get_request_consulting(){
     $('#request_consultingban_listbox').hide();
     $('#request_consulting_listbox').show();
     $('#my_consulting_requestModalLabel').html('요청한 상담 목록');
-    $('.mo_inloading').show()
-    $('.not_inloading').hide()
     let requeConsultings = []
     function renderConsultingsData(data) {
         // 데이터를 사용자에게 표시하는 로직
@@ -1268,7 +1266,9 @@ async function get_request_consulting(){
         // $('#consulting-option').html(idxHtml);
         $('#tr-row').html(dataHtml);
     }
-    if (!consultingData) {
+    if (!consultingData){
+        $('.mo_inloading').show()
+        $('.not_inloading').hide()
         let consultingWorker = new Worker("../static/js/consultings_worker.js");  
         consultingWorker.postMessage('fetchConsultingData');
 
