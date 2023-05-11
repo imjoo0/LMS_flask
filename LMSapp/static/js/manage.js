@@ -1066,6 +1066,8 @@ async function request_consulting() {
     $('#consulting_target_student').html(temp_student_option)
 
     $('#consultingban_search_input').on('keyup', function () {
+        $('#consulting_target_ban').show()
+        $('#consulting_target_student').hide()
         let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
         var searchInput = $(this).val().toLowerCase();
         var filteredData = banData.filter(function (data) {
@@ -1079,7 +1081,9 @@ async function request_consulting() {
     });
 
     $('#consultingstudent_search_input').on('keyup', function () {
-        let temp_ban_option = '<option value=0 selected>원생을 선택해주세요</option>';
+        $('#consulting_target_ban').hide()
+        $('#consulting_target_student').show()
+        let temp_student_option = '<option value=0 selected>원생을 선택해주세요</option>';
         var searchInput = $(this).val().toLowerCase();
         var filteredData = studentsData.filter(function (data) {
             return (data.hasOwnProperty('student_name') && data.student_name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('student_engname') && data.student_engname.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('origin') && data.origin.toLowerCase().indexOf(searchInput) !== -1);
