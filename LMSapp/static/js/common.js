@@ -153,47 +153,34 @@ async function get_all_ban() {
 }
 async function getChunkedStudentsData(teacherID) {
     let studentsWorker = new Worker("../static/js/students_worker.js");
-
-    const studentsPromise = new Promise((resolve) => {
-      studentsWorker.onmessage = function (event) {
-        const studentsData = event.data.students;
-        const filteredData = studentsData.filter((student) => student.teacher_id === teacherID);
-        resolve(filteredData);
-      };
+    return new Promise((resolve) => {
+        studentsWorker.onmessage = function(event) {
+            studentsData = event.data.students;
+            const filteredData = studentsData.filter((student) => student.teacher_id === teacherID);
+            resolve(filteredData);
+        };
     });
-  
-    studentsWorker.postMessage('fetchStudentsData');
-  
-    const studentsData = await Promise.all(studentsPromise);
-  
-    return studentsData;
 }
 async function getChunkedTasksData(teacherID) {
     let taskWorker = new Worker("../static/js/tasks_worker.js");
-  
-    const taskPromise = new Promise((resolve) => {
-        taskWorker.onmessage = function (event) {
-          const taskData = event.data.task;
-          const filteredData = taskData.filter((task) => task.teacher_id === teacherID);
-          resolve(filteredData);
+    return new Promise((resolve) => {
+        taskWorker.onmessage = function(event) {
+            taskData = event.data.task;
+            const filteredData = taskData.filter((task) => task.teacher_id === teacherID);
+            resolve(filteredData);
         };
-      });
-    taskWorker.postMessage('fetchTaskData');
-  
-    const taskData = await Promise.all(taskPromise);
-  
-    return taskData;
+    });
 } 
 async function getChunkedConsultingsData(teacherID) {
     let consultingWorker = new Worker("../static/js/consultings_worker.js");
   
     return new Promise((resolve) => {
         consultingWorker.onmessage = function(event) {
-            const consultingData = event.data.consulting;
+            consultingData = event.data.consulting;
             const filteredData = consultingData.filter((consulting) => consulting.teacher_id === teacherID);
             resolve(filteredData);
         };
-      });
+    });
 }  
   
 
@@ -528,9 +515,11 @@ async function getTeacherInfo(t_id) {
         $('.mo_inloading').show()
         $('.monot_inloading').hide()
         try {
-            const chunkedConsultingData = await getChunkedConsultingsData(t_id);
+            const chunkedConsultingData = consultingData
+            if (!consultingData){
+                chunkedConsultingData = await getChunkedConsultingsData(t_id);
+            }
             const TconsultingData = chunkedConsultingData.filter(c => c.teacher_id == t_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
-            
             let TunlearnedData = TconsultingData.filter(c => c.category_id < 100)
             let unlearned_ttc = null
             unlearned_ttc = TunlearnedData.length
