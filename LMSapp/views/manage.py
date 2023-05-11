@@ -183,7 +183,7 @@ def get_all_consulting_category():
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute(f"SELECT * FROM consultingcategory WHERE id > 100 && id != 110;")
+                cur.execute(f"SELECT * FROM consultingcategory WHERE id > 100 && id != 110 && id != 111;")
                 consulting_category = cur.fetchall()
 
         except:
@@ -386,7 +386,7 @@ def request_consulting():
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute("select consultingcategory.id, consultingcategory.name from consultingcategory where consultingcategory.id > 100 and consultingcategory.id != 110 and consultingcategory.id != 111;")
+                cur.execute("select consultingcategory.id, consultingcategory.name from consultingcategory where consultingcategory.id > 100 and consultingcategory.id != 110;")
                 all_consulting_category = cur.fetchall()
         except Exception as e:
             print(e)
