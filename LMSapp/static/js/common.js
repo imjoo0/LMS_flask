@@ -248,7 +248,6 @@ async function get_student_reports() {
 // 전체 반 정보(차트) 가져오는 함수 
 async function get_total_data() {
     getStudentsData()
-    getConsultingsData()
     $('#semester').hide();
     $('#detailban').show();
     $('#qubox').hide()
