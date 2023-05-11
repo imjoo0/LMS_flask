@@ -193,11 +193,11 @@
                     </div>
                 </div>
                 <div class="notice_message mt-4">
-                    <p class="mb-2" style="padding: 0 12px">👇 상담을 진행할 반을 선택해주세요
+                    <p class="mb-2" style="padding: 0 12px">👇 상담을 진행할 반 혹은 원생을 선택 해주세요
                     <input class="not_inloading" type="text" id="consultingban_search_input" placeholder="반 혹은 선생님으로 검색">
                     </p>
                     <div class="plus_under_contents" style="padding: 0 12px;">
-                        <select class="border rounded-0 form-control form-control-sm" onchange="ban_change(this.value)" multiple id="consulting_target_aban">
+                        <select class="border rounded-0 form-control form-control-sm" multiple id="consulting_target_aban" style="height: 300px;">
                             <optgroup label="전체 반 선택">
                                 <option value=0>전체 반 대상 진행</option>
                                 <option value=1>PLUS/ALPHA반 대상 진행</option>
@@ -206,20 +206,22 @@
                                 <option value=4>17기 대상 진행</option>
                                 <option value=5>18기 대상 진행</option>
                             </optgroup>
-                            <optgroup id="consulting_target_ban" label="개별 반 선택" multiple>
+                            <optgroup id="consulting_target_ban" label="반 선택" multiple>
+                            </optgroup>
+                            <optgroup id="consulting_target_student" label="원생 선택" multiple>
                             </optgroup>
                         </select>
                     </div>
                 </div>
-                <div class="notice_message mt-4" id="select_student">
+                <!-- <div class="notice_message mt-4" id="select_student">
                     <p class="mb-2" style="padding: 0 12px;">👇 상담을 진행할 원생을 선택해주세요
                     <input class="not_inloading" type="text" id="consultingstudent_search_input" placeholder="원생이름 혹은 원번으로 검색"></p>
                     <div class="plus_under_contents" style="padding: 0 12px;">
-                        <select class="border rounded-0 form-control form-control-sm" id="consulting_target_students" multiple>
+                        <select class="border rounded-0 form-control form-control-sm" id="consulting_target_students" multiple style="height: 300px;">
 
                         </select>
                     </div>
-                </div>
+                </div> -->
                 <div class="notice_message" >
                     <table class="table text-center" >
                         <tbody style="width:100%;">

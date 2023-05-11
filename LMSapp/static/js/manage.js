@@ -1041,10 +1041,18 @@ async function request_consulting() {
 
     let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
     banData.forEach(ban_data => {
-        let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}`;
+        let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}_-1_전체 학생 대상 진행`;
         temp_ban_option += `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
     });
     $('#consulting_target_ban').html(temp_ban_option)
+
+    let temp_student_option = '<option value=0 selected>원생을 선택해주세요</option>';
+    studentsData.forEach(student_data => {
+        let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}_${student_data.student_id}_${student_data.student_name}`; // btid
+
+        temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin} )</option>`;
+    });
+    $('#consulting_target_student').html(temp_ban_option)
 
     $('#consultingban_search_input').on('keyup', function () {
         let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
