@@ -11,7 +11,7 @@ let make_reject_code = function (rc) {
     if (rc == 0) {
         return '❌ 미진행';
     } else {
-        return '⭕ 진행';
+        return '⭕ 진행 완료';
     }
 }
 
@@ -151,6 +151,7 @@ async function get_all_ban() {
         alert('Error occurred while retrieving data.');
     }
 }
+// teacher_id 기준으로 쪼개서 가져오기 
 async function getChunkedStudentsData(teacherID) {
     let studentsWorker = new Worker("../static/js/students_worker.js");
     return new Promise((resolve) => {
@@ -161,29 +162,6 @@ async function getChunkedStudentsData(teacherID) {
         };
     });
 }
-// async function processStudentsDataByTeacherid(teacherID) {
-//     const chunkedStudentsData = await getChunkedStudentsData(teacherID);
-
-//     // 첫 번째 청크를 가져와서 사용자에게 표시
-//     const firstChunk = chunkedStudentsData.slice(0, 10);
-//     renderStudentsData(firstChunk);
-
-//     // 나머지 청크를 백그라운드에서 처리
-//     const remainingChunks = chunkedStudentsData.slice(10);
-
-//     for (const chunk of remainingChunks) {
-//         // 처리 로직 적용
-//         processChunk(chunk);
-//     }
-// }
-// function renderStudentsData(data) {
-//     // 데이터를 사용자에게 표시하는 로직
-
-// }
-// function processChunk(chunk) {
-//     // 데이터 청크를 처리하는 로직
-// }
-
 async function getChunkedTasksData(teacherID) {
     let taskWorker = new Worker("../static/js/tasks_worker.js");
     return new Promise((resolve) => {
@@ -195,8 +173,7 @@ async function getChunkedTasksData(teacherID) {
     });
 } 
 async function getChunkedConsultingsData(teacherID) {
-    let consultingWorker = new Worker("../static/js/consultings_worker.js");
-  
+    let consultingWorker = new Worker("../static/js/consultings_worker.js");  
     return new Promise((resolve) => {
         consultingWorker.onmessage = function(event) {
             consultingData = event.data.consulting;
