@@ -1251,19 +1251,18 @@ async function get_request_consulting(){
         prevText: '이전',
         nextText: '다음',
         callback: function (data, pagination) {
-            $.each(data, function (index, data) {
-                const renderedData = data[0]; // 페이지 사이즈가 1이므로 첫 번째 요소만 필요합니다
+            $.each(data, function (index, consulting) {
                 dataHtml += `
-                <td class="col-2">"${make_date(renderedData.startdate)}" ~ "${make_date(renderedData.deadline)}"</td>
-                <td class="col-1">${renderedData.category}</td>
-                <td class="col-2">${renderedData.contents}</td>
+                <td class="col-2">"${make_date(consulting.startdate)}" ~ "${make_date(consulting.deadline)}"</td>
+                <td class="col-1">${consulting.category}</td>
+                <td class="col-2">${consulting.contents}</td>
                 <td class="col-1">반 이름</td>
-                <td class="col-1">${renderedData.teacher_name}</td>
-                <td class="col-1">${renderedData.teacher_mobileno}</td>
+                <td class="col-1">${consulting.teacher_name}</td>
+                <td class="col-1">${consulting.teacher_mobileno}</td>
                 <td class="col-1">원생 이름</td>
                 <td class="col-1">원번</td>
-                <td class="col-1">${make_reject_code(renderedData.done)}</td>
-                <td class="col-1" onclick="get_consultingban(${renderedData.id})"> 🔍 </td>`;
+                <td class="col-1">${make_reject_code(consulting.done)}</td>
+                <td class="col-1" onclick="get_consultingban(${consulting.id})"> 🔍 </td>`;
             });
             // $('#consulting-option').html(idxHtml);
             $('#tr-row').html(dataHtml);
