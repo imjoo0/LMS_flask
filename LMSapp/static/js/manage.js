@@ -1084,7 +1084,7 @@ $('#consulting_target_aban').change(function () {
             selectedStudentList.push(selectedValues);
         }
     }else{
-        if (selectedStudentList.indexOf(selectedValues) === -1) {
+        if(selectedStudentList.indexOf(selectedValues) === -1 && !(selectedStudentList[0].includes('_'))) {
             selectedStudentList.push(selectedValues);
         }
     }
