@@ -168,7 +168,7 @@ async function getConsultingsData(){
         };
     });
     consultingWorker.postMessage('fetchConsultingData');
-    const consultingSData = consultingPromise
+    const consultingSData = await consultingPromise
     // const chunkedConsultingsData = chunkArray(consultingSData, 10);
     
     for (const chunk of consultingSData) {
