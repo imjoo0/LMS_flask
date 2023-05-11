@@ -1247,14 +1247,14 @@ async function getChunkedConsultingStudentsData() {
   
     const studentsPromise = new Promise((resolve) => {
       studentsWorker.onmessage = function (event) {
-        const studentsData = event.data.studentsData;
+        const studentsData = event.data.students;
         resolve(studentsData);
       };
     });
   
     const consultingPromise = new Promise((resolve) => {
       consultingWorker.onmessage = function (event) {
-        const consultingData = event.data.consultingData;
+        const consultingData = event.data.consulting;
         resolve(consultingData);
       };
     });
