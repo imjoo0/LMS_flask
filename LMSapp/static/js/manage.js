@@ -1268,6 +1268,14 @@ async function get_request_consulting(){
         $('#tr-row').html(dataHtml);
     }
     let container = $('#consulting-pagination');
+    const paginationOptions = {
+        prevText: '이전',
+        nextText: '다음',
+        callback: function (data, pagination) {
+            const renderedData = data[0]; // 페이지 사이즈가 1이므로 첫 번째 요소만 필요합니다
+            renderConsultingsData(renderedData);
+        }
+    };
     if (!consultingData) {
         let consultingWorker = new Worker("../static/js/consultings_worker.js");  
         let consultingData = [];
@@ -1277,40 +1285,19 @@ async function get_request_consulting(){
             consultingData.push(...newData)
             // const chunkedConsultingData = chunkArray(consultingData, 10);
             // console.log(chunkedConsultingData)
+            // 최초 10개의 데이터를 화면에 표시합니다.
             if (consultingData.length <= 10) {
-                renderConsultingsData(consultingData); // 최초 10개의 데이터를 화면에 표시합니다.
+                container.pagination(Object.assign(paginationOptions, { 'dataSource': consultingData,'pageSize':consultingData.length }))   
                 $('.mo_inloading').hide();
                 $('.not_inloading').show();
             }
-            const paginationOptions = {
-                dataSource: consultingData,
-                prevText: '이전',
-                nextText: '다음',
-                pageSize: 10,
-                callback: function (data, pagination) {
-                    const renderedData = data[0]; // 페이지 사이즈가 1이므로 첫 번째 요소만 필요합니다
-                    renderConsultingsData(renderedData);
-                }
-            };
-            container.pagination(paginationOptions);
-            $('.mo_inloading').hide();
-            $('.not_inloading').show();
+
         };
-    }else{
-        const paginationOptions = {
-            dataSource: consultingData,
-            prevText: '이전',
-            nextText: '다음',
-            pageSize: 10,
-            callback: function (data, pagination) {
-                const renderedData = data[0]; // 페이지 사이즈가 1이므로 첫 번째 요소만 필요합니다
-                renderConsultingsData(renderedData);
-            }
-        };
-        container.pagination(paginationOptions);
-        $('.mo_inloading').hide();
-        $('.not_inloading').show();
     }
+    container.pagination(Object.assign(paginationOptions, { 'dataSource': consultingData,'pageSize':10}))   
+    container.pagination(paginationOptions);
+    $('.mo_inloading').hide();
+    $('.not_inloading').show();
     // var category_list = []
     // container.pagination({
     //     dataSource: consultingGroupedresult,
