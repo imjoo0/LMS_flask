@@ -1234,104 +1234,155 @@ async function get_request_consulting(){
     $('#request_consultingban_listbox').hide();
     $('#request_consulting_listbox').show();
     $('#my_consulting_requestModalLabel').html('요청한 상담 목록');
+    // $('.mo_inloading').show()
+    // $('.not_inloading').hide()
+    // function renderConsultingsData(data) {
+    //     // 데이터를 사용자에게 표시하는 로직
+    //     // var idxHtml = `<option value="none">전체</option>`;
+    //     var dataHtml = '';
+    //     $.each(data, function (index, consulting) {
+    //         student_info = studentsData.filter(s=>s.student_id == consulting.student_id)[0]
+    //         dataHtml += `
+    //         <td class="col-2">"${make_date(consulting.startdate)}" ~ "${make_date(consulting.deadline)}"</td>
+    //         <td class="col-1">${consulting.category}</td>
+    //         <td class="col-2">${consulting.contents}</td>
+    //         <td class="col-1">${student_info.ban_name}</td>
+    //         <td class="col-1">${consulting.teacher_name}</td>
+    //         <td class="col-1">${consulting.teacher_mobileno}</td>
+    //         <td class="col-1">${student_info.student_name} (${student_info.student_engname})</td>
+    //         <td class="col-1">${student_info.origin}</td>
+    //         <td class="col-1">${make_reject_code(consulting.done)}</td>
+    //         <td class="col-1" onclick="get_consultingban(${consulting.id})"> 🔍 </td>`;
+    //     });
+    //     // $('#consulting-option').html(idxHtml);
+    //     $('#tr-row').html(dataHtml);
+    // }
+    // let container = $('#consulting-pagination');
+    // if (!consultingData) {
+    //     let consultingWorker = new Worker("../static/js/consultings_worker.js");  
+    //     consultingWorker.postMessage('fetchConsultingData');
+    //     if(!studentsData){
+    //         await get_all_students().then(()=>{
+    //             consultingWorker.onmessage = function(event) {
+    //                 const consultingData = event.data.consulting;
+    //                 const chunkedConsultingData = chunkArray(consultingData, 10);
+    //                 const paginationOptions = {
+    //                     dataSource: chunkedConsultingData,
+    //                     prevText: '이전',
+    //                     nextText: '다음',
+    //                     pageSize: 10,
+    //                     callback: function (data, pagination) {
+    //                         const renderedData = data[0]; // 페이지 사이즈가 1이므로 첫 번째 요소만 필요합니다
+    //                         renderConsultingsData(renderedData);
+    //                     }
+    //                 };
+    //                 container.pagination(paginationOptions);
+    //                 $('.mo_inloading').hide();
+    //                 $('.not_inloading').show();
+    //             };
+    //         })
+    //     }
+    // }else{
+    //     if(!studentsData){
+    //         await get_all_students()
+    //     }
+    //     const paginationOptions = {
+    //         dataSource: consultingData,
+    //         prevText: '이전',
+    //         nextText: '다음',
+    //         pageSize: 10,
+    //         callback: function (data, pagination) {
+    //             const renderedData = data[0]; // 페이지 사이즈가 1이므로 첫 번째 요소만 필요합니다
+    //             renderConsultingsData(renderedData);
+    //         }
+    //     };
+
+    //     container.pagination(paginationOptions);
+
+    //     $('.mo_inloading').hide();
+    //     $('.not_inloading').show();
+    // }
     $('.mo_inloading').show()
     $('.not_inloading').hide()
-    function renderConsultingsData(data) {
-        // 데이터를 사용자에게 표시하는 로직
-        // var idxHtml = `<option value="none">전체</option>`;
-        var dataHtml = '';
-        $.each(data, function (index, consulting) {
-            student_info = studentsData.filter(s=>s.student_id == consulting.student_id)[0]
-            dataHtml += `
-            <td class="col-2">"${make_date(consulting.startdate)}" ~ "${make_date(consulting.deadline)}"</td>
-            <td class="col-1">${consulting.category}</td>
-            <td class="col-2">${consulting.contents}</td>
-            <td class="col-1">${student_info.ban_name}</td>
-            <td class="col-1">${consulting.teacher_name}</td>
-            <td class="col-1">${consulting.teacher_mobileno}</td>
-            <td class="col-1">${student_info.student_name} (${student_info.student_engname})</td>
-            <td class="col-1">${student_info.origin}</td>
-            <td class="col-1">${make_reject_code(consulting.done)}</td>
-            <td class="col-1" onclick="get_consultingban(${consulting.id})"> 🔍 </td>`;
-        });
-        // $('#consulting-option').html(idxHtml);
-        $('#tr-row').html(dataHtml);
-    }
-    let container = $('#consulting-pagination');
+    let requeConsultings = []
     if (!consultingData) {
-        let consultingWorker = new Worker("../static/js/consultings_worker.js");  
-        consultingWorker.postMessage('fetchConsultingData');
-        if(!studentsData){
-            await get_all_students().then(()=>{
-                consultingWorker.onmessage = function(event) {
-                    const consultingData = event.data.consulting;
-                    const chunkedConsultingData = chunkArray(consultingData, 10);
-                    console.log(chunkedConsultingData)
-                    const paginationOptions = {
-                        dataSource: chunkedConsultingData,
-                        prevText: '이전',
-                        nextText: '다음',
-                        pageSize: 10,
-                        callback: function (data, pagination) {
-                            const renderedData = data[0]; // 페이지 사이즈가 1이므로 첫 번째 요소만 필요합니다
-                            renderConsultingsData(renderedData);
-                        }
-                    };
-                    container.pagination(paginationOptions);
-                    $('.mo_inloading').hide();
-                    $('.not_inloading').show();
-                };
-            })
-        }
-    }else{
-        if(!studentsData){
-            await get_all_students()
-        }
-        const paginationOptions = {
-            dataSource: consultingData,
-            prevText: '이전',
-            nextText: '다음',
-            pageSize: 10,
-            callback: function (data, pagination) {
-                const renderedData = data[0]; // 페이지 사이즈가 1이므로 첫 번째 요소만 필요합니다
-                renderConsultingsData(renderedData);
+        await get_all_consulting().then(() => {
+            requeConsultings = consultingData.filter(c =>(c.category_id != 110 && c.category_id>100))
+            if (requeConsultings.length > 0) {
+                const consultingGrouped = requeConsultings.reduce((acc, item) => {
+                    const v = `${item.category}_${item.contents}_${item.startdate}_${item.deadline}`;
+                    if (!acc[v]) {
+                        acc[v] = [];
+                    }
+                    acc[v].push(
+                        { 'ban_id': item.ban_id, 'done': item.done }
+                    );
+                    return acc;
+                }, {});
+                // 결과를 객체의 배열로 변환 -> 상담 별 배열 
+                consultingGroupedresult = Object.entries(consultingGrouped).map(([v, items]) => {
+                    return { [v]: items };
+                });
             }
-        };
-
-        container.pagination(paginationOptions);
-
-        $('.mo_inloading').hide();
-        $('.not_inloading').show();
+            $('.mo_inloading').hide()
+            $('.not_inloading').show()
+            $('#request_consulting_listbox').show()
+            $('#request_consultingban_listbox').hide()
+        });
+    } else {
+        requeConsultings = consultingData.filter(c => (c.category_id != 110 && c.category_id>100))
+        if (requeConsultings.length > 0) {
+            const consultingGrouped = requeConsultings.reduce((acc, item) => {
+                const v = `${item.category}_${item.contents}_${item.startdate}_${item.deadline}`;
+                if (!acc[v]) {
+                    acc[v] = [];
+                }
+                acc[v].push(
+                    { 'ban_id': item.ban_id, 'done': item.done }
+                );
+                return acc;
+            }, {});
+            // 결과를 객체의 배열로 변환 -> 상담 별 배열 
+            consultingGroupedresult = Object.entries(consultingGrouped).map(([v, items]) => {
+                return { [v]: items };
+            });
+        }
+        $('.mo_inloading').hide()
+        $('.not_inloading').show()
+        $('#request_consulting_listbox').show()
+        $('#request_consultingban_listbox').hide()
     }
-    // var category_list = []
-    // container.pagination({
-    //     dataSource: consultingGroupedresult,
-    //     prevText: '이전',
-    //     nextText: '다음',
-    //     pageSize: 10,
-    //     callback: function (consultingGroupedresult, pagination) {
-    //         var idxHtml = `<option value="none">전체</option>`;
-    //         var dataHtml = '';
-    //         $.each(consultingGroupedresult, function (index, consulting) {
-    //             let key = Object.keys(consulting)[0]
-    //             let consulting_info = key.split('_')
-    //             category_list.push(consulting_info[0])
-    //             dataHtml += `
-    //                 <td class="col-1"> ${make_duedate(consulting_info[2], consulting_info[3])}</td>
-    //                 <td class="col-3">"${consulting_info[2]}" ~ "${consulting_info[3]}"</td>
-    //                 <td class="col-2">${consulting_info[0]}</td>
-    //                 <td class="col-5"> ${consulting_info[1]}</td>
-    //                 <td class="col-1" onclick ="get_consultingban('${key}')"> 🔍 </td>`;
-    //         });
-    //         category_set = new Set(category_list)
-    //         category_list = [...category_set]
-    //         $.each(category_list, function (idx, val) {
-    //             idxHtml += `<option value="${val}">${val}</option>`
-    //         })
-    //         $('#consulting-option').html(idxHtml);
-    //         $('#tr-row').html(dataHtml);
-    //     }
-    // })
+    let container = $('#consulting-pagination')
+
+    var category_list = []
+    container.pagination({
+        dataSource: consultingGroupedresult,
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 10,
+        callback: function (consultingGroupedresult, pagination) {
+            var idxHtml = `<option value="none">전체</option>`;
+            var dataHtml = '';
+            $.each(consultingGroupedresult, function (index, consulting) {
+                let key = Object.keys(consulting)[0]
+                let consulting_info = key.split('_')
+                category_list.push(consulting_info[0])
+                dataHtml += `
+                    <td class="col-1"> ${make_duedate(consulting_info[2], consulting_info[3])}</td>
+                    <td class="col-3">"${consulting_info[2]}" ~ "${consulting_info[3]}"</td>
+                    <td class="col-2">${consulting_info[0]}</td>
+                    <td class="col-5"> ${consulting_info[1]}</td>
+                    <td class="col-1" onclick ="get_consultingban('${key}')"> 🔍 </td>`;
+            });
+            category_set = new Set(category_list)
+            category_list = [...category_set]
+            $.each(category_list, function (idx, val) {
+                idxHtml += `<option value="${val}">${val}</option>`
+            })
+            $('#consulting-option').html(idxHtml);
+            $('#tr-row').html(dataHtml);
+        }
+    })
 }
 function get_consultingban(key) {
     $('#consultingreqban_search_input').off('keyup');
