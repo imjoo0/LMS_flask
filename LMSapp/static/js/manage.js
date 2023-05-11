@@ -1274,21 +1274,11 @@ async function getChunkedConsultingStudentsData() {
     for (const chunk of chunkedConsultingsData) {
       renderConsultingsData(chunk);
     }
-}
   
-function chunkArray(array, chunkSize) {
-    const result = [];
-    for (let i = 0; i < array.length; i += chunkSize) {
-      result.push(array.slice(i, i + chunkSize));
-    }
-    return result;
-}
-  
-function renderConsultingsData(data) {
-    console.log(data)
+    console.log(chunkedConsultingsData)
     let container = $('#consulting-pagination')
     const paginationOptions = {
-        dataSource: data,
+        dataSource: chunkedConsultingsData,
         prevText: '이전',
         nextText: '다음',
         pageSize: 10,
@@ -1300,7 +1290,17 @@ function renderConsultingsData(data) {
     };
 
     container.pagination(paginationOptions);
-
+}
+  
+function chunkArray(array, chunkSize) {
+    const result = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      result.push(array.slice(i, i + chunkSize));
+    }
+    return result;
+}
+  
+function renderConsultingsData(data) {
     // 데이터를 사용자에게 표시하는 로직
     // var idxHtml = `<option value="none">전체</option>`;
     var dataHtml = '';
