@@ -182,31 +182,6 @@ async function getChunkedConsultingsData(teacherID) {
         };
     });
 }  
-  
-
-// async function processStudentsDataByBanId(teacherID) {
-//     const chunkedStudentsData = await getChunkedStudentsData(teacherID);
-
-//     // 첫 번째 청크를 가져와서 사용자에게 표시
-//     const firstChunk = chunkedStudentsData.slice(0, 100);
-//     renderStudentsData(firstChunk);
-
-//     // 나머지 청크를 백그라운드에서 처리
-//     const remainingChunks = chunkedStudentsData.slice(100);
-
-//     for (const chunk of remainingChunks) {
-//         // 처리 로직 적용
-//         processChunk(chunk);
-//     }
-// }
-
-// function renderStudentsData(data) {
-//     // 데이터를 사용자에게 표시하는 로직
-// }
-
-// function processChunk(chunk) {
-//     // 데이터 청크를 처리하는 로직
-// }
 async function get_student_reports() {
     try {
         const response = await $.ajax({
@@ -517,8 +492,8 @@ async function getTeacherInfo(t_id) {
         try {
             const chunkedConsultingData = consultingData
             if (!consultingData){
-                console.log('consulting이 없는 경우만 실행한다.')
                 chunkedConsultingData = await getChunkedConsultingsData(t_id);
+                console.log('consulting이 없는 경우만 실행한다.')
             }
             const TconsultingData = chunkedConsultingData.filter(c => c.teacher_id == t_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
             let TunlearnedData = TconsultingData.filter(c => c.category_id < 100)
