@@ -867,3 +867,12 @@ input::placeholder {
     border : 0px;
     border-top: 5px dotted #663399;
   }
+
+  .modal-xl{
+    max-width: 3000px;
+  }
+  @media (min-width: 1200px){
+    .modal-xl {
+      max-width: 1140px;
+  }
+  }
