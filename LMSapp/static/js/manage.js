@@ -1253,7 +1253,7 @@ async function getChunkedConsultingStudentsData() {
 
     studentConsultingWorker.postMessage('fetchStudentsConsultingData');
   
-    const combinedData = await Promise.all(studentConsultingPromise)
+    const combinedData = await studentConsultingPromise
     const chunkedConsultingsData = chunkArray(combinedData, 10);
   
     for (const chunk of chunkedConsultingsData) {
