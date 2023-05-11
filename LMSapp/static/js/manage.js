@@ -1327,8 +1327,8 @@ async function get_request_consulting(){
     $('#request_consultingban_listbox').hide();
     $('#request_consulting_listbox').show();
     $('#my_consulting_requestModalLabel').html('요청한 상담 목록');
-    $('.mo_inloading').show()
-    $('.not_inloading').hide()
+    // $('.mo_inloading').show()
+    // $('.not_inloading').hide()
     let requeConsultings = []
     if (!consultingData && !studentsData) {
         await getChunkedConsultingStudentsData()
@@ -1352,8 +1352,8 @@ async function get_request_consulting(){
         }
     }
 
-    $('.mo_inloading').hide()
-    $('.not_inloading').show()
+    // $('.mo_inloading').hide()
+    // $('.not_inloading').show()
     $('#request_consulting_listbox').show()
     $('#request_consultingban_listbox').hide()
     // var category_list = []

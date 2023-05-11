@@ -9,9 +9,9 @@ function openPopup(url) {
 }
 let make_reject_code = function (rc) {
     if (rc == 0) {
-        return '❌';
+        return '❌ 미완료';
     } else {
-        return '⭕';
+        return '⭕ 완료';
     }
 }
 
