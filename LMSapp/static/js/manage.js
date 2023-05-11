@@ -1247,14 +1247,14 @@ async function getChunkedConsultingStudentsData() {
   
     const studentsPromise = new Promise((resolve) => {
       studentsWorker.onmessage = function (event) {
-        const studentsData = event.data.studentsData;
+        studentsData = event.data.studentsData;
         resolve(studentsData);
       };
     });
   
     const consultingPromise = new Promise((resolve) => {
       consultingWorker.onmessage = function (event) {
-        const consultingData = event.data.consultingData;
+        consultingData = event.data.consultingData;
         resolve(consultingData);
       };
     });
@@ -1265,6 +1265,7 @@ async function getChunkedConsultingStudentsData() {
     const [studentsData, consultingData] = await Promise.all([studentsPromise, consultingPromise]);
   
     // 데이터 처리 로직 작성
+    console.log(consultingData)
     const filteredData = consultingData.filter((consulting) => {
       return studentsData.some((student) => student.student_id === consulting.student_id);
     });
