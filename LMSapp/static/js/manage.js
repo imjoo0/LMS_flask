@@ -1268,14 +1268,13 @@ async function get_request_consulting(){
         $('#tr-row').html(dataHtml);
     }
     let container = $('#consulting-pagination');
-    const chunkedConsultingData = consultingData
     if (!consultingData) {
         let consultingWorker = new Worker("../static/js/consultings_worker.js");  
         consultingWorker.postMessage('fetchConsultingData');
 
         consultingWorker.onmessage = function(event) {
             const consultingData = event.data.consulting;
-            chunkedConsultingData = chunkArray(consultingData, 10);
+            const chunkedConsultingData = chunkArray(consultingData, 10);
             console.log(chunkedConsultingData)
             const paginationOptions = {
                 dataSource: chunkedConsultingData,
@@ -1295,7 +1294,7 @@ async function get_request_consulting(){
         };
     }else{
         const paginationOptions = {
-            dataSource: chunkedConsultingData,
+            dataSource: consultingData,
             prevText: '이전',
             nextText: '다음',
             pageSize: 10,
