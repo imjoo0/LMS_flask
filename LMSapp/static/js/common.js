@@ -163,22 +163,23 @@ async function getConsultingsData(){
     const consultingPromise = new Promise((resolve) => {
         consultingWorker.onmessage = function(event) {
             consultingData = event.data.consulting;
-            resolve(consultingData);
+            const chunkedConsultingData = chunkArray(consultingData, 10);
+            resolve(chunkedConsultingData);
         };
     });
     consultingWorker.postMessage('fetchConsultingData');
     const consultingSData = consultingPromise
-    const chunkedConsultingsData = chunkArray(consultingSData, 10);
+    // const chunkedConsultingsData = chunkArray(consultingSData, 10);
     
-    for (const chunk of chunkedConsultingsData) {
+    for (const chunk of consultingSData) {
         renderConsultingsData(chunk);
     }
 
-    console.log(chunkedConsultingsData)
+    console.log(consultingSData)
 
     let container = $('#consulting-pagination')
     const paginationOptions = {
-        dataSource: chunkedConsultingsData,
+        dataSource: consultingSData,
         prevText: '이전',
         nextText: '다음',
         pageSize: 10,
@@ -203,16 +204,16 @@ function renderConsultingsData(data) {
     // var idxHtml = `<option value="none">전체</option>`;
     var dataHtml = '';
     $.each(data, function (index, consulting) {
-        student_info = studentsData.filter(s=>s.student_id == consulting.student_id)[0]
+        // student_info = studentsData.filter(s=>s.student_id == consulting.student_id)[0]
         dataHtml += `
         <td class="col-2">"${make_date(consulting.startdate)}" ~ "${make_date(consulting.deadline)}"</td>
         <td class="col-1">${consulting.category}</td>
         <td class="col-2">${consulting.contents}</td>
-        <td class="col-1">${student_info.ban_name}</td>
+        <td class="col-1">반 이름</td>
         <td class="col-1">${consulting.teacher_name}</td>
         <td class="col-1">${consulting.teacher_mobileno}</td>
-        <td class="col-1">${student_info.name}</td>
-        <td class="col-1">${student_info.origin}</td>
+        <td class="col-1">원생 이름</td>
+        <td class="col-1">원번</td>
         <td class="col-1">${make_reject_code(consulting.done)}</td>
         <td class="col-1" onclick="get_consultingban(${consulting.id})"> 🔍 </td>`;
     });
@@ -417,12 +418,6 @@ async function get_total_data() {
     }
 }
 function semesterShow(semester) {
-    let studentWorker = new Worker("../static/js/students_worker.js");
-    studentWorker.onmessage = function(event) {
-        studentsData = event.data.students; // Retrieve the data sent by the web worker
-        // Use the studentsData as needed
-      };
-    studentWorker.postMessage('fetchStudentsData');
     $('#ban_search_input').off('keyup');
     $('#semester').show();
     if (semester == 0) {
