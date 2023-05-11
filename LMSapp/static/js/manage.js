@@ -1236,24 +1236,21 @@ async function get_request_consulting(){
     $('#my_consulting_requestModalLabel').html('요청한 상담 목록');
     $('.mo_inloading').show()
     $('.not_inloading').hide()
-    if (!studentsData) {
-        await get_all_students()
-    }
     function renderConsultingsData(data) {
         // 데이터를 사용자에게 표시하는 로직
         // var idxHtml = `<option value="none">전체</option>`;
         var dataHtml = '';
         $.each(data, function (index, consulting) {
-            student_info = studentsData.filter(s=>s.student_id == consulting.student_id)[0]
+            // student_info = studentsData.filter(s=>s.student_id == consulting.student_id)[0]
             dataHtml += `
             <td class="col-2">"${make_date(consulting.startdate)}" ~ "${make_date(consulting.deadline)}"</td>
             <td class="col-1">${consulting.category}</td>
             <td class="col-2">${consulting.contents}</td>
-            <td class="col-1">${student_info.ban_name}</td>
+            <td class="col-1">임시 반 이름</td>
             <td class="col-1">${consulting.teacher_name}</td>
             <td class="col-1">${consulting.teacher_mobileno}</td>
-            <td class="col-1">${student_info.student_name} (${student_info.student_engname})</td>
-            <td class="col-1">${student_info.origin}</td>
+            <td class="col-1">임시 원생이름</td>
+            <td class="col-1">임시 원번</td>
             <td class="col-1">${make_reject_code(consulting.done)}</td>
             <td class="col-1" onclick="get_consultingban(${consulting.id})"> 🔍 </td>`;
         });
