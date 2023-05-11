@@ -238,7 +238,7 @@ function renderConsultingsData(data) {
         <td class="col-1">${make_reject_code(consulting.done)}</td>
         <td class="col-1" onclick="get_consultingban(${consulting.id})"> 🔍 </td>`;
     });
-    $('#consulting-option').html(idxHtml);
+    // $('#consulting-option').html(idxHtml);
     $('#tr-row').html(dataHtml);
 }
 
