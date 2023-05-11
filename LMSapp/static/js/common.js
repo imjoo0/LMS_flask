@@ -147,6 +147,78 @@ async function get_all_ban() {
     }
 }
 
+async function getStudentsData() {
+    let studentsWorker = new Worker("../static/js/students_worker.js");
+  
+    return new Promise((resolve) => {
+        studentsWorker.onmessage = function(event) {
+            studentsData = event.data.students;
+            resolve(studentsData);
+        };
+    });
+}
+
+async function getChunkedConsultingData(){
+    let consultingWorker = new Worker("../static/js/consultings_worker.js");  
+    const consultingPromise = new Promise((resolve) => {
+        consultingWorker.onmessage = function(event) {
+            consultingData = event.data.consulting;
+            resolve(consultingData);
+        };
+    });
+    consultingWorker.postMessage('fetchConsultingData');
+    const consultingSData = consultingPromise
+    const chunkedConsultingsData = chunkArray(consultingSData, 10);
+    
+    for (const chunk of chunkedConsultingsData) {
+        renderConsultingsData(chunk);
+    }
+
+    console.log(chunkedConsultingsData)
+
+    let container = $('#consulting-pagination')
+    const paginationOptions = {
+        dataSource: chunkedConsultingsData,
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 10,
+        callback: function (data, pagination) {
+            console.log(data)
+          const renderedData = data[0]; // Since pageSize is 1, we only need the first element
+          renderConsultingsData(renderedData);
+        }
+    };
+    
+    container.pagination(paginationOptions);
+}  
+function chunkArray(array, chunkSize) {
+    const result = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      result.push(array.slice(i, i + chunkSize));
+    }
+    return result;
+}
+function renderConsultingsData(data) {
+    // 데이터를 사용자에게 표시하는 로직
+    // var idxHtml = `<option value="none">전체</option>`;
+    var dataHtml = '';
+    $.each(data, function (index, consulting) {
+        student_info = studentsData.filter(s=>s.student_id == consulting.student_id)[0]
+        dataHtml += `
+        <td class="col-2">"${make_date(consulting.startdate)}" ~ "${make_date(consulting.deadline)}"</td>
+        <td class="col-1">${consulting.category}</td>
+        <td class="col-2">${consulting.contents}</td>
+        <td class="col-1">${student_info.ban_name}</td>
+        <td class="col-1">${consulting.teacher_name}</td>
+        <td class="col-1">${consulting.teacher_mobileno}</td>
+        <td class="col-1">${student_info.name}</td>
+        <td class="col-1">${student_info.origin}</td>
+        <td class="col-1">${make_reject_code(consulting.done)}</td>
+        <td class="col-1" onclick="get_consultingban(${consulting.id})"> 🔍 </td>`;
+    });
+    // $('#consulting-option').html(idxHtml);
+    $('#tr-row').html(dataHtml);
+}
 // teacher_id 기준으로 쪼개서 가져오기 
 async function getChunkedStudentsData(teacherID) {
     let studentsWorker = new Worker("../static/js/students_worker.js");
