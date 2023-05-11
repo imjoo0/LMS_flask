@@ -1240,6 +1240,91 @@ function post_consulting_request() {
     }
 }
 
+// student와 consulting 데이터 가져오기 
+async function getChunkedConsultingStudentsData() {
+    let studentsWorker = new Worker("../static/js/students_worker.js");
+    let consultingWorker = new Worker("../static/js/consultings_worker.js");
+  
+    const studentsPromise = new Promise((resolve) => {
+      studentsWorker.onmessage = function (event) {
+        const studentsData = event.data.students;
+        resolve(studentsData);
+      };
+    });
+  
+    const consultingPromise = new Promise((resolve) => {
+      consultingWorker.onmessage = function (event) {
+        const consultingData = event.data.consulting;
+        resolve(consultingData);
+      };
+    });
+  
+    studentsWorker.postMessage('fetchStudentsData');
+    consultingWorker.postMessage('fetchConsultingData');
+  
+    const [studentsData, consultingData] = await Promise.all([studentsPromise, consultingPromise]);
+  
+    // 데이터 처리 로직 작성
+    console.log(consultingData)
+    const filteredData = consultingData.filter((consulting) => {
+      return studentsData.some((student) => student.student_id === consulting.student_id);
+    });
+  
+    const chunkedConsultingsData = chunkArray(filteredData, 10);
+  
+    for (const chunk of chunkedConsultingsData) {
+      renderConsultingsData(chunk);
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // 1초간 대기
+    }
+  
+    let container = $('#consulting-pagination')
+    const paginationOptions = {
+        dataSource: chunkedConsultingsData,
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 1,
+        callback: function (data, pagination) {
+          const renderedData = data[0]; // Since pageSize is 1, we only need the first element
+          renderConsultingsData(renderedData);
+        }
+    };
+
+    container.pagination(paginationOptions);
+
+    return data;
+}
+  
+function chunkArray(array, chunkSize) {
+    const result = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      result.push(array.slice(i, i + chunkSize));
+    }
+    return result;
+}
+  
+function renderConsultingsData(data) {
+    // 데이터를 사용자에게 표시하는 로직
+    // var idxHtml = `<option value="none">전체</option>`;
+    var dataHtml = '';
+    $.each(data, function (index, consulting) {
+    //   let key = Object.keys(consulting)[0]
+    //   let consulting_info = key.split('_')
+    //   category_list.push(consulting_info[0])
+      dataHtml += `
+        <td class="col-1">"${make_date(consulting.startdate)}" ~ "${make_date(consulting.deadline)}"</td>
+        <td class="col-2">${consulting.category}</td>
+        <td class="col-3">${consulting.contents}</td>
+        <td class="col-1">여긴 student의 반 이름</td>
+        <td class="col-1">${consulting.teacher_name}</td>
+        <td class="col-1">${consulting.teacher_mobileno}</td>
+        <td class="col-1">여긴 student 이름</td>
+        <td class="col-1">여긴 student 원번</td>
+        <td class="col-1">${make_reject_code(consulting.done)}</td>
+        <td class="col-1" onclick="get_consultingban(${consulting.id})"> 🔍 </td>`;
+    });
+    // $('#consulting-option').html(idxHtml);
+    $('#tr-row').html(dataHtml);
+}
 async function get_request_consulting(){
     $('#request_consultingban_listbox').hide();
     $('#request_consulting_listbox').show();
@@ -1248,12 +1333,7 @@ async function get_request_consulting(){
     $('.not_inloading').hide()
     let requeConsultings = []
     if (!consultingData && !studentsData) {
-        await getChunkedConsultingStudentsData().then(() => {
-            $('.mo_inloading').hide()
-            $('.not_inloading').show()
-            $('#request_consulting_listbox').show()
-            $('#request_consultingban_listbox').hide()
-        })
+        await getChunkedConsultingStudentsData()
     }else{
         requeConsultings = consultingData.filter(c => (c.category_id != 110 && c.category_id>100))
         if (requeConsultings.length > 0) {
@@ -1273,6 +1353,11 @@ async function get_request_consulting(){
             });
         }
     }
+
+    $('.mo_inloading').hide()
+    $('.not_inloading').show()
+    $('#request_consulting_listbox').show()
+    $('#request_consultingban_listbox').hide()
     // var category_list = []
     // container.pagination({
     //     dataSource: consultingGroupedresult,
