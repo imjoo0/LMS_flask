@@ -143,9 +143,13 @@ async function get_all_ban() {
             return { ...item, total_out_num_per: Number(answer_rate(item.out_student_num, totalOutnum).toFixed(2)) }
         })
 
-        let worker = new Worker("../static/js/students_worker.js");
-        worker.onmessage = function(event) {
-            studentsData = event.data.studentsData;
+        let studentsWorker = new Worker("../static/js/students_worker.js");
+        studentsWorker.onmessage = function(event) {
+            studentsData = event.data.students;
+        };
+        let consultingWorker = new Worker("../static/js/students_worker.js");
+        consultingWorker.onmessage = function(event) {
+            consultingData = event.data.consulting;
         };
     } catch (error) {
         alert('Error occurred while retrieving data.');
@@ -177,6 +181,7 @@ async function getChunkedConsultingStudentsData() {
     const [studentsData, consultingData] = await Promise.all([studentsPromise, consultingPromise]);
   
     // 데이터 처리 로직 작성
+    console.log(consultingData)
     const filteredData = consultingData.filter((consulting) => {
       return studentsData.some((student) => student.student_id === consulting.student_id);
     });
@@ -185,23 +190,32 @@ async function getChunkedConsultingStudentsData() {
   
     for (const chunk of chunkedConsultingsData) {
       renderConsultingsData(chunk);
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // 1초간 대기
     }
   
-    let container = $('#consulting-pagination');
+    let container = $('#consulting-pagination')
     const paginationOptions = {
-      dataSource: chunkedConsultingsData,
-      prevText: '이전',
-      nextText: '다음',
-      pageSize: 1,
-      callback: function (data, pagination) {
-        const renderedData = data[0]; // Since pageSize is 1, we only need the first element
-        renderConsultingsData(renderedData);
-      }
+        dataSource: chunkedConsultingsData,
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 1,
+        callback: function (data, pagination) {
+          const renderedData = data[0]; // Since pageSize is 1, we only need the first element
+          renderConsultingsData(renderedData);
+        }
     };
-  
+
     container.pagination(paginationOptions);
-  
+
     return data;
+}
+  
+function chunkArray(array, chunkSize) {
+    const result = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      result.push(array.slice(i, i + chunkSize));
+    }
+    return result;
 }
   
 function renderConsultingsData(data) {
