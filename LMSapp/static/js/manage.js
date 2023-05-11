@@ -1236,15 +1236,6 @@ async function get_request_consulting(){
     $('#my_consulting_requestModalLabel').html('요청한 상담 목록');
     $('.mo_inloading').show()
     $('.not_inloading').hide()
-    if (!studentsData && !consultingData) {
-        await get_all_students()
-        await get_all_consulting()
-    }
-    else if (studentsData && !consultingData) {
-        await get_all_consulting()
-    }else if (!studentsData && consultingData) {
-        await get_all_students()
-    }
     function renderConsultingsData(data) {
         // 데이터를 사용자에게 표시하는 로직
         // var idxHtml = `<option value="none">전체</option>`;
@@ -1267,47 +1258,38 @@ async function get_request_consulting(){
         // $('#consulting-option').html(idxHtml);
         $('#tr-row').html(dataHtml);
     }
+
     let container = $('#consulting-pagination');
-    const paginationOptions = {
-        dataSource: consultingData,
-        prevText: '이전',
-        nextText: '다음',
-        pageSize: 10,
-        callback: function (data, pagination) {
-            const renderedData = data[0]; // 페이지 사이즈가 1이므로 첫 번째 요소만 필요합니다
-            renderConsultingsData(renderedData);
-        }
-    };
-
-    container.pagination(paginationOptions);
-
-    $('.mo_inloading').hide();
-    $('.not_inloading').show();
-}
-    // if (!consultingData) {
-    //     let consultingWorker = new Worker("../static/js/consultings_worker.js");  
-    //     consultingWorker.postMessage('fetchConsultingData');
-
-    //     consultingWorker.onmessage = function(event) {
-    //         const consultingData = event.data.consulting;
-    //         const chunkedConsultingData = chunkArray(consultingData, 10);
-    //         console.log(chunkedConsultingData)
-    //         const paginationOptions = {
-    //             dataSource: chunkedConsultingData,
-    //             prevText: '이전',
-    //             nextText: '다음',
-    //             pageSize: 10,
-    //             callback: function (data, pagination) {
-    //                 const renderedData = data[0]; // 페이지 사이즈가 1이므로 첫 번째 요소만 필요합니다
-    //                 renderConsultingsData(renderedData);
-    //             }
-    //         };
+    if (!studentsData) {
+        await get_all_students().then(()=>{
+            if(!consultingData) {
+                let consultingWorker = new Worker("../static/js/consultings_worker.js");  
+                consultingWorker.postMessage('fetchConsultingData');
+        
+                consultingWorker.onmessage = function(event) {
+                    const consultingData = event.data.consulting;
+                    const chunkedConsultingData = chunkArray(consultingData, 10);
+                    console.log(chunkedConsultingData)
+                    const paginationOptions = {
+                        dataSource: chunkedConsultingData,
+                        prevText: '이전',
+                        nextText: '다음',
+                        pageSize: 10,
+                        callback: function (data, pagination) {
+                            const renderedData = data[0]; // 페이지 사이즈가 1이므로 첫 번째 요소만 필요합니다
+                            renderConsultingsData(renderedData);
+                        }
+                    };
+            
+                    container.pagination(paginationOptions);
+            
+                    $('.mo_inloading').hide();
+                    $('.not_inloading').show();
+                };
+            }
+        })
+    }
     
-    //         container.pagination(paginationOptions);
-    
-    //         $('.mo_inloading').hide();
-    //         $('.not_inloading').show();
-    //     };
     // }else{
     //     const paginationOptions = {
     //         dataSource: consultingData,
@@ -1354,7 +1336,7 @@ async function get_request_consulting(){
     //         $('#tr-row').html(dataHtml);
     //     }
     // })
-// }
+}
 function get_consultingban(key) {
     $('#consultingreqban_search_input').off('keyup');
     cinfo = key.split('_')
