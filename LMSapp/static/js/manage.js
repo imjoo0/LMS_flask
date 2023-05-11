@@ -1309,9 +1309,9 @@ function renderConsultingsData(data) {
     //   let consulting_info = key.split('_')
     //   category_list.push(consulting_info[0])
       dataHtml += `
-        <td class="col-1">"${make_date(consulting.startdate)}" ~ "${make_date(consulting.deadline)}"</td>
-        <td class="col-2">${consulting.category}</td>
-        <td class="col-3">${consulting.contents}</td>
+        <td class="col-2">"${make_date(consulting.startdate)}" ~ "${make_date(consulting.deadline)}"</td>
+        <td class="col-1">${consulting.category}</td>
+        <td class="col-2">${consulting.contents}</td>
         <td class="col-1">여긴 student의 반 이름</td>
         <td class="col-1">${consulting.teacher_name}</td>
         <td class="col-1">${consulting.teacher_mobileno}</td>
