@@ -1015,12 +1015,12 @@ async function request_consulting() {
             $('.monot_inloading').show()
         });
     } else if (consultingcateData && !studentsData) {
-        await get_all_students().then(() => {
+        await getStudentsData().then(() => {
             $('.mo_inloading').hide()
             $('.monot_inloading').show()
         });
     } else if (!consultingcateData && !studentsData) {
-        await get_all_students()
+        await getStudentsData()
         await get_all_consultingcate().then(() => {
             $('.mo_inloading').hide()
             $('.monot_inloading').show()
@@ -1410,7 +1410,7 @@ async function sort_consulting(value) {
                 if (key.includes(value) || value == "none") {
                     let consulting_info = key.split('_')
                     dataHtml += `
-                    <td class="col-1"> ${make_duedate(consulting_info[2], consulting_info[3])}</td>
+                    <td class="col-1">${make_duedate(consulting_info[2], consulting_info[3])}</td>
                     <td class="col-3">${consulting_info[2]} ~ ${consulting_info[3]}</td>
                     <td class="col-2">${consulting_info[0]}</td>
                     <td class="col-5"> ${consulting_info[1]}</td>
