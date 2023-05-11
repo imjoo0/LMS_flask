@@ -1018,6 +1018,9 @@ async function request_consulting() {
     }
     console.log(banData)
     console.log(studentsData)
+    let mergedData = mergedData(banData,studentsData)
+    console.log(mergedData.length)
+    console.log(mergedData)
     $('.mo_inloading').hide()
     $('.monot_inloading').show()
 
