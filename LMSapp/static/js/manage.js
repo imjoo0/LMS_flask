@@ -1078,7 +1078,7 @@ async function request_consulting() {
 
 $('#consulting_target_aban').change(function () {
     var selectedValues = $(this).val()[0];
-    if(!selectedStudentList[i].includes('_')){
+    if(!(selectedValues.includes('_'))){
         selectedStudentList = []
         if (selectedStudentList.indexOf(selectedValues) === -1) {
             selectedStudentList.push(selectedValues);
