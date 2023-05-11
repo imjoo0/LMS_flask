@@ -159,14 +159,14 @@ async function getChunkedConsultingStudentsData() {
   
     const studentsPromise = new Promise((resolve) => {
       studentsWorker.onmessage = function (event) {
-        studentsData = event.data.studentsData;
+        const studentsData = event.data.studentsData;
         resolve(studentsData);
       };
     });
   
     const consultingPromise = new Promise((resolve) => {
       consultingWorker.onmessage = function (event) {
-        consultingData = event.data.consultingData;
+        const consultingData = event.data.consultingData;
         resolve(consultingData);
       };
     });
