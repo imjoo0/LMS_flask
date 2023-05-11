@@ -1270,20 +1270,14 @@ async function get_request_consulting(){
     let container = $('#consulting-pagination');
     if (!consultingData) {
         let consultingWorker = new Worker("../static/js/consultings_worker.js");  
-        let consultingData = [];
+        consultingWorker.postMessage('fetchConsultingData');
 
         consultingWorker.onmessage = function(event) {
-            const newData = event.data.consulting;
-            consultingData.push(...newData)
-            // const chunkedConsultingData = chunkArray(consultingData, 10);
-            // console.log(chunkedConsultingData)
-            if (consultingData.length <= 10) {
-                renderConsultingsData(consultingData); // 최초 10개의 데이터를 화면에 표시합니다.
-            $('.mo_inloading').hide();
-            $('.not_inloading').show();
-            }
+            const consultingData = event.data.consulting;
+            const chunkedConsultingData = chunkArray(consultingData, 10);
+            console.log(chunkedConsultingData)
             const paginationOptions = {
-                dataSource: consultingData,
+                dataSource: chunkedConsultingData,
                 prevText: '이전',
                 nextText: '다음',
                 pageSize: 10,
@@ -1294,6 +1288,7 @@ async function get_request_consulting(){
             };
     
             container.pagination(paginationOptions);
+    
             $('.mo_inloading').hide();
             $('.not_inloading').show();
         };
@@ -1308,7 +1303,9 @@ async function get_request_consulting(){
                 renderConsultingsData(renderedData);
             }
         };
+
         container.pagination(paginationOptions);
+
         $('.mo_inloading').hide();
         $('.not_inloading').show();
     }
