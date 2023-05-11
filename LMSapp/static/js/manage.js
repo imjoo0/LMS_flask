@@ -1242,23 +1242,37 @@ function post_consulting_request() {
 
 // student와 consulting 데이터 가져오기 
 async function getChunkedConsultingStudentsData() {
-    let studentConsultingWorker = new Worker("../static/js/consulting_student_worker.js");
-
-    const studentConsultingPromise = new Promise((resolve) => {
-        studentConsultingWorker.onmessage = function (event) {
-        const combinedData = event.combinedData;
-        resolve(combinedData);
+    let studentsWorker = new Worker("../static/js/students_worker.js");
+    let consultingWorker = new Worker("../static/js/consultings_worker.js");
+  
+    const studentsPromise = new Promise((resolve) => {
+      studentsWorker.onmessage = function (event) {
+        const studentsData = event.data.studentsData;
+        resolve(studentsData);
       };
     });
-
-    studentConsultingWorker.postMessage('fetchStudentsConsultingData');
   
-    const combinedData = await studentConsultingPromise
-    const chunkedConsultingsData = chunkArray(combinedData, 10);
+    const consultingPromise = new Promise((resolve) => {
+      consultingWorker.onmessage = function (event) {
+        const consultingData = event.data.consultingData;
+        resolve(consultingData);
+      };
+    });
+  
+    studentsWorker.postMessage('fetchStudentsData');
+    consultingWorker.postMessage('fetchConsultingData');
+  
+    const [studentsData, consultingData] = await Promise.all([studentsPromise, consultingPromise]);
+  
+    // 데이터 처리 로직 작성
+    const filteredData = consultingData.filter((consulting) => {
+      return studentsData.some((student) => student.student_id === consulting.student_id);
+    });
+  
+    const chunkedConsultingsData = chunkArray(filteredData, 10);
   
     for (const chunk of chunkedConsultingsData) {
       renderConsultingsData(chunk);
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // 1초간 대기
     }
   
     console.log(chunkedConsultingsData)
