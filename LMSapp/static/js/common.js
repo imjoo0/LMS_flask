@@ -143,10 +143,10 @@ async function get_all_ban() {
             return { ...item, total_out_num_per: Number(answer_rate(item.out_student_num, totalOutnum).toFixed(2)) }
         })
 
-        // let worker = new Worker("../static/js/students_worker.js");
-        // worker.onmessage = function(event) {
-        //     studentsData = event.data.studentsData;
-        // };
+        let worker = new Worker("../static/js/students_worker.js");
+        worker.onmessage = function(event) {
+            studentsData = event.data.studentsData;
+        };
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
@@ -159,14 +159,14 @@ async function getChunkedConsultingStudentsData() {
   
     const studentsPromise = new Promise((resolve) => {
       studentsWorker.onmessage = function (event) {
-        const studentsData = event.data.studentsData;
+        const studentsData = event.data.students;
         resolve(studentsData);
       };
     });
   
     const consultingPromise = new Promise((resolve) => {
       consultingWorker.onmessage = function (event) {
-        const consultingData = event.data.consultingData;
+        const consultingData = event.data.consulting;
         resolve(consultingData);
       };
     });
