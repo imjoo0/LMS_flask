@@ -1018,7 +1018,7 @@ async function request_consulting() {
     }
     console.log(banData)
     console.log(studentsData)
-    const mergedData = studentData.flatMap(studentItem => {
+    const mergedData = studentsData.flatMap(studentItem => {
         const banId = studentItem.ban_id;
         const matchingBans = banData.filter(banItem => banItem.name === studentItem.ban_name);
     
