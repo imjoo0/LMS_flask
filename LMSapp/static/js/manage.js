@@ -1069,14 +1069,14 @@ async function request_consulting() {
     $('#consultingstudent_search_input').on('keyup', function () {
         let temp_ban_option = '<option value=0 selected>원생을 선택해주세요</option>';
         var searchInput = $(this).val().toLowerCase();
-        var filteredData = student_data.filter(function (data) {
+        var filteredData = studentsData.filter(function (data) {
             return (data.hasOwnProperty('student_name') && data.student_name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('student_engname') && data.student_engname.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('origin') && data.origin.toLowerCase().indexOf(searchInput) !== -1);
         });
-        filteredData.forEach(ban_data => {
+        filteredData.forEach(student_data => {
             let value = `${student_data.ban_id}_${student_data.teacher_id}_${student_data.ban_name}_${student_data.student_id}_${student_data.student_name}`; // btid
             temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin} )</option>`;
             });
-        $('#consulting_target_student').html(temp_ban_option)
+        $('#consulting_target_student').html(temp_student_option)
     });
 
 }
