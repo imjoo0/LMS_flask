@@ -1102,11 +1102,35 @@ function show_selections() {
     console.log(selectedStudentList)
     for (i = 0; i < selectedStudentList.length; i++) {
         // bid+tid+bname+sid+sname
-        var value = selectedStudentList[i].split('_')
-        selectedOptions += `
-        <td class="col-4">${value[2]}</td>
-        <td class="col-6">${value[4]}</td>
-        <td class="col-2" onclick="delete_selected_student(${i})">❌</td>`;
+        if(selectedStudentList[i].includes('_')){
+            var value = selectedStudentList[i].split('_')
+            if(value.length > 3){
+                selectedOptions += `
+                <td class="col-4">${value[2]}</td>
+                <td class="col-6">${value[4]}</td>
+                <td class="col-2" onclick="delete_selected_student(${i})">❌</td>`;
+            }else{
+                selectedOptions += `
+                <td class="col-4">${value[2]}</td>
+                <td class="col-6">전체 원생 대상 진행</td>
+                <td class="col-2" onclick="delete_selected_student(${i})">❌</td>`;
+            }
+        }else{
+            var value = Number(selectedStudentList[i])
+            if(value==0){
+                selectedOptions += `<td class="col-10">전체 반 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})">❌</td>`
+            }else if(value==1){
+                selectedOptions += `<td class="col-10">PLUS/ALPHA반 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})">❌</td>`
+            }else if(value==2){
+                selectedOptions += `<td class="col-10">NF/Inter반 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})">❌</td>`
+            }else if(value==3){
+                selectedOptions += `<td class="col-10">16기 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})">❌</td>`
+            }else if(value==4){
+                selectedOptions += `<td class="col-10">17기 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})">❌</td>`
+            }else{
+                selectedOptions += `<td class="col-10">18기 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})">❌</td>`
+            }
+        }
         $('#result_tbox').html(selectedOptions);
     }
 }
