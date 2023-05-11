@@ -418,7 +418,11 @@ async function get_total_data() {
 }
 function semesterShow(semester) {
     let studentWorker = new Worker("../static/js/students_worker.js");
-    studentsData = studentWorker.postMessage('fetchConsultingData');
+    studentWorker.onmessage = function(event) {
+        studentsData = event.data.students; // Retrieve the data sent by the web worker
+        // Use the studentsData as needed
+      };
+    studentWorker.postMessage('fetchStudentsData');
     $('#ban_search_input').off('keyup');
     $('#semester').show();
     if (semester == 0) {

@@ -1246,8 +1246,6 @@ async function get_request_consulting(){
     $('.mo_inloading').show()
     $('.not_inloading').hide()
     let requeConsultings = []
-    let studentWorker = new Worker("../static/js/students_worker.js");
-    studentsData = studentWorker.postMessage('fetchConsultingData');
 
     if (!consultingData) {
         await getConsultingsData()
