@@ -1009,22 +1009,15 @@ async function request_consulting() {
     $('.mo_inloading').show()
     $('.monot_inloading').hide()
     if (!consultingcateData && studentsData) {
-        await get_all_consultingcate().then(() => {
-            $('.mo_inloading').hide()
-            $('.monot_inloading').show()
-        });
+        await get_all_consultingcate()
     } else if (consultingcateData && !studentsData) {
-        await get_all_students().then(() => {
-            $('.mo_inloading').hide()
-            $('.monot_inloading').show()
-        });
+        await get_all_students()
     } else if (!consultingcateData && !studentsData) {
         await get_all_students()
-        await get_all_consultingcate().then(() => {
-            $('.mo_inloading').hide()
-            $('.monot_inloading').show()
-        });
+        await get_all_consultingcate()
     }
+    console.log(banData)
+    console.log(studentsData)
     $('.mo_inloading').hide()
     $('.monot_inloading').show()
 
