@@ -1304,86 +1304,62 @@ async function get_request_consulting(){
     // }
     $('.mo_inloading').show()
     $('.not_inloading').hide()
-    let requeConsultings = []
     if (!consultingData) {
-        await get_all_consulting().then(() => {
-            requeConsultings = consultingData.filter(c =>(c.category_id != 110 && c.category_id>100))
-            if (requeConsultings.length > 0) {
-                const consultingGrouped = requeConsultings.reduce((acc, item) => {
-                    const v = `${item.category}_${item.contents}_${item.startdate}_${item.deadline}`;
-                    if (!acc[v]) {
-                        acc[v] = [];
-                    }
-                    acc[v].push(
-                        { 'ban_id': item.ban_id, 'done': item.done }
-                    );
-                    return acc;
-                }, {});
-                // 결과를 객체의 배열로 변환 -> 상담 별 배열 
-                consultingGroupedresult = Object.entries(consultingGrouped).map(([v, items]) => {
-                    return { [v]: items };
-                });
+        await get_all_consulting()
+    } 
+    $('.mo_inloading').hide()
+    $('.not_inloading').show()
+    $('#request_consulting_listbox').show()
+    $('#request_consultingban_listbox').hide()
+    if (consultingData.length > 0) {
+        const consultingGrouped = consultingData.reduce((acc, item) => {
+            const v = `${item.category}_${item.contents}_${item.startdate}_${item.deadline}`;
+            if (!acc[v]) {
+                acc[v] = [];
             }
-            $('.mo_inloading').hide()
-            $('.not_inloading').show()
-            $('#request_consulting_listbox').show()
-            $('#request_consultingban_listbox').hide()
+            acc[v].push(
+                { 'ban_id': item.ban_id, 'done': item.done }
+            );
+            return acc;
+        }, {});
+        // 결과를 객체의 배열로 변환 -> 상담 별 배열 
+        consultingGroupedresult = Object.entries(consultingGrouped).map(([v, items]) => {
+            return { [v]: items };
         });
-    } else {
-        requeConsultings = consultingData.filter(c => (c.category_id != 110 && c.category_id>100))
-        if (requeConsultings.length > 0) {
-            const consultingGrouped = requeConsultings.reduce((acc, item) => {
-                const v = `${item.category}_${item.contents}_${item.startdate}_${item.deadline}`;
-                if (!acc[v]) {
-                    acc[v] = [];
-                }
-                acc[v].push(
-                    { 'ban_id': item.ban_id, 'done': item.done }
-                );
-                return acc;
-            }, {});
-            // 결과를 객체의 배열로 변환 -> 상담 별 배열 
-            consultingGroupedresult = Object.entries(consultingGrouped).map(([v, items]) => {
-                return { [v]: items };
-            });
-        }
-        $('.mo_inloading').hide()
-        $('.not_inloading').show()
-        $('#request_consulting_listbox').show()
-        $('#request_consultingban_listbox').hide()
-    }
-    let container = $('#consulting-pagination')
+        let container = $('#consulting-pagination')
 
-    var category_list = []
-    container.pagination({
-        dataSource: consultingGroupedresult,
-        prevText: '이전',
-        nextText: '다음',
-        pageSize: 10,
-        callback: function (consultingGroupedresult, pagination) {
-            var idxHtml = `<option value="none">전체</option>`;
-            var dataHtml = '';
-            $.each(consultingGroupedresult, function (index, consulting) {
-                let key = Object.keys(consulting)[0]
-                let consulting_info = key.split('_')
-                category_list.push(consulting_info[0])
-                dataHtml += `
-                    <td class="col-1"> ${make_duedate(consulting_info[2], consulting_info[3])}</td>
-                    <td class="col-3">"${consulting_info[2]}" ~ "${consulting_info[3]}"</td>
-                    <td class="col-2">${consulting_info[0]}</td>
-                    <td class="col-5"> ${consulting_info[1]}</td>
-                    <td class="col-1" onclick ="get_consultingban('${key}')"> 🔍 </td>`;
-            });
-            category_set = new Set(category_list)
-            category_list = [...category_set]
-            $.each(category_list, function (idx, val) {
-                idxHtml += `<option value="${val}">${val}</option>`
-            })
-            $('#consulting-option').html(idxHtml);
-            $('#tr-row').html(dataHtml);
-        }
-    })
+        var category_list = []
+        container.pagination({
+            dataSource: consultingGroupedresult,
+            prevText: '이전',
+            nextText: '다음',
+            pageSize: 10,
+            callback: function (consultingGroupedresult, pagination) {
+                var idxHtml = `<option value="none">전체</option>`;
+                var dataHtml = '';
+                $.each(consultingGroupedresult, function (index, consulting) {
+                    let key = Object.keys(consulting)[0]
+                    let consulting_info = key.split('_')
+                    category_list.push(consulting_info[0])
+                    dataHtml += `
+                        <td class="col-1"> ${make_duedate(consulting_info[2], consulting_info[3])}</td>
+                        <td class="col-3">"${consulting_info[2]}" ~ "${consulting_info[3]}"</td>
+                        <td class="col-2">${consulting_info[0]}</td>
+                        <td class="col-5"> ${consulting_info[1]}</td>
+                        <td class="col-1" onclick ="get_consultingban('${key}')"> 🔍 </td>`;
+                });
+                category_set = new Set(category_list)
+                category_list = [...category_set]
+                $.each(category_list, function (idx, val) {
+                    idxHtml += `<option value="${val}">${val}</option>`
+                })
+                $('#consulting-option').html(idxHtml);
+                $('#tr-row').html(dataHtml);
+            }
+        })
+    }
 }
+    
 function get_consultingban(key) {
     $('#consultingreqban_search_input').off('keyup');
     cinfo = key.split('_')
