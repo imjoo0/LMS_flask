@@ -1078,9 +1078,15 @@ async function request_consulting() {
 
 $('#consulting_target_aban').change(function () {
     var selectedValues = $(this).val()[0];
-    console.log(selectedValues)
-    if (selectedStudentList.indexOf(selectedValues) === -1) {
-        selectedStudentList.push(selectedValues);
+    if(!selectedStudentList[i].includes('_')){
+        selectedStudentList = []
+        if (selectedStudentList.indexOf(selectedValues) === -1) {
+            selectedStudentList.push(selectedValues);
+        }
+    }else{
+        if (selectedStudentList.indexOf(selectedValues) === -1) {
+            selectedStudentList.push(selectedValues);
+        }
     }
     return show_selections();
 });
