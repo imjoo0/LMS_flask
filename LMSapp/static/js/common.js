@@ -146,7 +146,18 @@ async function get_all_ban() {
         alert('Error occurred while retrieving data.');
     }
 }
-
+async function get_all_students() {
+    try{
+        const response = await $.ajax({
+            url: '/common/all_students',
+            type: 'GET',
+            data: {},
+        });
+        studentsData = response['students']
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
+}
 async function getStudentsData() {
     let studentsWorker = new Worker("../static/js/students_worker.js");
   
