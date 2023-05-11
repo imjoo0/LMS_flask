@@ -158,7 +158,7 @@ async function getStudentsData() {
     });
 }
 
-async function getChunkedConsultingData(){
+async function getConsultingsData(){
     let consultingWorker = new Worker("../static/js/consultings_worker.js");  
     const consultingPromise = new Promise((resolve) => {
         consultingWorker.onmessage = function(event) {
@@ -273,7 +273,7 @@ async function get_total_data() {
     $('#ulbox').hide()
     $('#target_ban_info_body').hide()
     try {
-        if (!banData) {
+        if(!banData){
             $('#inloading').show()
             $('#semester_pagination').hide()
             await get_all_ban().then(() => {
@@ -417,6 +417,8 @@ async function get_total_data() {
     }
 }
 function semesterShow(semester) {
+    let studentWorker = new Worker("../static/js/students_worker.js");
+    studentsData = studentWorker.postMessage('fetchConsultingData');
     $('#ban_search_input').off('keyup');
     $('#semester').show();
     if (semester == 0) {

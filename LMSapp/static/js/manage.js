@@ -1246,10 +1246,11 @@ async function get_request_consulting(){
     $('.mo_inloading').show()
     $('.not_inloading').hide()
     let requeConsultings = []
-    if (!consultingData && !studentsData) {
-        await getStudentsData().then(()=>{
-            getChunkedConsultingData()
-        })
+    let studentWorker = new Worker("../static/js/students_worker.js");
+    studentsData = studentWorker.postMessage('fetchConsultingData');
+
+    if (!consultingData) {
+        await getConsultingsData()
     }else{
         requeConsultings = consultingData.filter(c => (c.category_id != 110 && c.category_id>100))
         if (requeConsultings.length > 0) {
