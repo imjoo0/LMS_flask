@@ -143,10 +143,10 @@ async function get_all_ban() {
             return { ...item, total_out_num_per: Number(answer_rate(item.out_student_num, totalOutnum).toFixed(2)) }
         })
 
-        let worker = new Worker("../static/js/students_worker.js");
-        worker.onmessage = function(event) {
-            studentsData = event.data.studentsData;
-        };
+        // let worker = new Worker("../static/js/students_worker.js");
+        // worker.onmessage = function(event) {
+        //     studentsData = event.data.studentsData;
+        // };
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
