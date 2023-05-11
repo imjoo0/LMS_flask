@@ -1052,7 +1052,7 @@ async function request_consulting() {
 
         temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin} )</option>`;
     });
-    $('#consulting_target_student').html(temp_ban_option)
+    $('#consulting_target_student').html(temp_student_option)
 
     $('#consultingban_search_input').on('keyup', function () {
         let temp_ban_option = '<option value=0 selected>반을 선택해주세요</option>';
