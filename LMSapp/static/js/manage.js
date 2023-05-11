@@ -1018,7 +1018,23 @@ async function request_consulting() {
     }
     console.log(banData)
     console.log(studentsData)
-    let mergedData = mergedData(banData,studentsData)
+    const mergedData = studentData.flatMap(studentItem => {
+        const banId = studentItem.ban_id;
+        const matchingBans = banData.filter(banItem => banItem.name === studentItem.ban_name);
+    
+        return matchingBans.map(banItem => ({
+          ban_id: banId,
+          teacher_name: banItem.teacher_name,
+          teacher_engname: banItem.teacher_engname,
+          ban_name: banItem.name,
+          origin: studentItem.origin,
+          student_engname: studentItem.student_engname,
+          student_id: studentItem.student_id,
+          student_name: studentItem.student_name,
+          teacher_id: banItem.teacher_id
+        }));
+    });
+    
     console.log(mergedData.length)
     console.log(mergedData)
     $('.mo_inloading').hide()
