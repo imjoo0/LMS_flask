@@ -517,6 +517,7 @@ async function getTeacherInfo(t_id) {
         try {
             const chunkedConsultingData = consultingData
             if (!consultingData){
+                console.log('consulting이 없는 경우만 실행한다.')
                 chunkedConsultingData = await getChunkedConsultingsData(t_id);
             }
             const TconsultingData = chunkedConsultingData.filter(c => c.teacher_id == t_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
