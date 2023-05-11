@@ -1048,7 +1048,7 @@ async function request_consulting() {
 
     let temp_student_option = '<option value=0 selected>원생을 선택해주세요</option>';
     studentsData.forEach(student_data => {
-        let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}_${student_data.student_id}_${student_data.student_name}`; // btid
+        let value = `${student_data.ban_id}_${student_data.teacher_id}_${student_data.ban_name}_${student_data.student_id}_${student_data.student_name}`; // btid
 
         temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin} )</option>`;
     });
