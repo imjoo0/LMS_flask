@@ -1096,58 +1096,7 @@ async function request_consulting() {
     });
 
 }
-async function ban_change(btid) {
-    // 다중 반 처리
-    if (btid.includes('_')) {
-        $('#select_student').show()
-        $('#consulting_msg').html('👇 개별 반 대상 진행합니다 (대상 학생을 확인해 주세요)')
-        value = btid.split('_')
-        // ban_id _ teacher_id _ name 
-
-        selectedbanSData = studentsData.filter(a => a.ban_id == value[0])
-        let temp_target_student = `<option value="${btid}_-1_전체 학생 대상 진행">✔️${value[2]}반 전체 학생 대상 진행</option>`;
-        selectedbanSData.forEach(student_data => {
-            temp_target_student += `<option value="${btid}_${student_data.student_id}_${student_data.student_name}"> ${student_data.student_name} ( ${student_data.student_engname} )</option>`;
-        });
-        $('#consulting_target_students').html(temp_target_student)
-
-        $('#consultingstudent_search_input').on('keyup', function () {
-            let temp_target_student = `<option value="${btid}_-1_전체 학생 대상 진행">✔️${value[2]}반 전체 학생 대상 진행</option>`;
-            var searchInput = $(this).val().toLowerCase();
-            var filteredData = selectedbanSData.filter(function (data) {
-                return (data.hasOwnProperty('student_name') && data.student_name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('origin') && data.origin.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('student_engname') && data.student_engname.toLowerCase().indexOf(searchInput) !== -1);
-            });
-            filteredData.forEach(student_data => {
-                temp_target_student += `<option value="${btid}_${student_data.student_id}_${student_data.student_name}"> ${student_data.student_name} ( ${student_data.student_engname} )</option>`;
-            });
-            $('#consulting_target_students').html(temp_target_student)
-        });
-
-    } else {
-        $('#select_student').hide()
-        $('#result_tbox').empty()
-        if (btid == 0) {
-            // 전체 반 대상 진행 일 경우 처리 
-            $('#consulting_msg').html('👉 전체 반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
-        } else if (btid == 1) {
-            // plus alpha 처리
-            $('#consulting_msg').html('👉 PLUS/ALPHA반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
-        } else if (btid == 2) {
-            // nf 노블 처리 
-            $('#consulting_msg').html('👉 NF/Inter반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
-        }else if (btid == 3) {
-            // nf 노블 처리 
-            $('#consulting_msg').html('👉 16기 반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
-        }else if (btid == 4) {
-            // nf 노블 처리 
-            $('#consulting_msg').html('👉 17기 반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
-        }else if (btid == 5) {
-            // nf 노블 처리 
-            $('#consulting_msg').html('👉 18기 반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
-        }
-    }
-}
-$('#consulting_target_students').change(function () {
+$('#consulting_target_aban').change(function () {
     var selectedValues = $(this).val()[0];
     if (selectedStudentList.indexOf(selectedValues) === -1) {
         selectedStudentList.push(selectedValues);
