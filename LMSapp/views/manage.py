@@ -337,7 +337,8 @@ def make_task():
         #  업무 내용 저장
         received_task = request.form['task_contents']
         #  업무을 진행할 시작일 저장
-        received_task_startdate = request.form['task_date']
+        received_task_startdate = datetime.datetime.strptime(request.form['task_date'], "%Y-%m-%d").date()
+
         #  업무을 마무리할 마감일 저장
         received_task_deadline = request.form['task_deadline']
         # 업무 우선순위
@@ -427,7 +428,8 @@ def request_ban_student(b_id,t_id,b_name):
         #  상담 내용 저장
         received_consulting_contents = request.form['consulting_contents']
         #  상담을 진행할 시작일 저장
-        received_consulting_startdate = request.form['consulting_date']
+        received_consulting_startdate = datetime.datetime.strptime( request.form['consulting_date'], "%Y-%m-%d").date()
+
         #  상담을 마무리할 마감일 저장
         received_consulting_deadline = request.form['consulting_deadline']
         targets = callapi.purple_info(b_id,'get_student_simple')
@@ -458,7 +460,7 @@ def request_indivi_student(b_id,t_id,s_id,origin,s_name):
         #  상담 내용 저장
         received_consulting_contents = request.form['consulting_contents']
         #  상담을 진행할 시작일 저장
-        received_consulting_startdate = request.form['consulting_date']
+        received_consulting_startdate = datetime.datetime.strptime( request.form['consulting_date'], "%Y-%m-%d").date()
         #  상담을 마무리할 마감일 저장
         received_consulting_deadline = request.form['consulting_deadline']
         new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=s_id,contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
@@ -486,7 +488,7 @@ def request_all_ban(b_type):
         #  상담 내용 저장
         received_consulting_contents = request.form['consulting_contents']
         #  상담을 진행할 시작일 저장
-        received_consulting_startdate = request.form['consulting_date']
+        received_consulting_startdate = datetime.datetime.strptime( request.form['consulting_date'], "%Y-%m-%d").date()
         #  상담을 마무리할 마감일 저장
         received_consulting_deadline = request.form['consulting_deadline']
         # 전체 반 대상 진행 일 경우 처리
