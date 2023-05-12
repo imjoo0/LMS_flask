@@ -229,8 +229,12 @@ def plus_consulting(student_id,b_id,t_id):
     received_reason = request.form['consulting_reason']
     # 제공 가이드
     received_solution = request.form['consulting_solution']
+    # 원생 정보
+    student_name = request.form['student_name']
+    student_engname = request.form['student_engname']
+    origin = request.form['origin']
     # 상담생성 
-    newconsulting =  Consulting(teacher_id=t_id,ban_id=b_id,category_id=110,student_id=student_id,contents=received_contents,startdate=Today,deadline=Today,done=1,missed=standard,reason=received_reason,solution=received_solution,created_at=Today)
+    newconsulting =  Consulting(teacher_id=t_id,ban_id=b_id,category_id=110,student_id=student_id,student_name=student_name,student_engname=student_engname,origin=origin,contents=received_contents,startdate=Today,deadline=Today,done=1,missed=standard,reason=received_reason,solution=received_solution,created_at=Today)
     db.session.add(newconsulting)
     db.session.commit()
     return{'result':'추가 상담 저장 완료'}

@@ -454,14 +454,18 @@ function plusconsulting(value, b_id) {
     $('#plusconsulting_button_box').html(temp_button)
 }
 function plusconsulting_history(student_id, b_id, t_id) {
-    consulting_contents = $('#plus_consulting_contents').val()
-    consulting_reason = $('#plus_consulting_reason').val()
-    consulting_solution = $('#plus_consulting_solution').val()
+    const student_info = allStudentData.filter(student_id)[0]
+    const consulting_contents = $('#plus_consulting_contents').val()
+    const consulting_reason = $('#plus_consulting_reason').val()
+    const consulting_solution = $('#plus_consulting_solution').val()
     $.ajax({
         type: "POST",
         url: '/teacher/plus_consulting/' + student_id + '/' + b_id + '/' + t_id,
         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
         data: {
+            student_name : student_info['student_name'],
+            student_engname : student_info['student_engname'],
+            origin : student_info['origin'],
             consulting_contents: consulting_contents,
             consulting_reason: consulting_reason,
             consulting_solution: consulting_solution
