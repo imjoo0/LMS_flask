@@ -432,7 +432,7 @@ def request_ban_student(b_id,t_id,b_name):
         received_consulting_deadline = request.form['consulting_deadline']
         targets = callapi.purple_info(b_id,'get_student_simple')
         for target in targets:
-            new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=target['s_id'],contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
+            new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=target['s_id'],student_name=target['student_name'],student_engname=target['student_engname'],origin=target['origin'],contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
             db.session.add(new_consulting)
             db.session.commit()
 
@@ -461,7 +461,7 @@ def request_indivi_student(b_id,t_id,s_id,origin,s_name):
         received_consulting_startdate = datetime.datetime.strptime( request.form['consulting_date'], "%Y-%m-%d").date()
         #  상담을 마무리할 마감일 저장
         received_consulting_deadline = request.form['consulting_deadline']
-        new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=s_id,contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
+        new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=s_id,student_name=s_name,origin=origin,contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
         db.session.add(new_consulting)
         db.session.commit()
 
@@ -511,18 +511,13 @@ def request_all_ban(b_type):
             info.mobileno = target['mobileno']
             info.mobileno = target['ban_name']
             info_key = (info['mobileno'], info['ban_name'])  # 중복 체크를 위한 키
-            new_consulting = Consulting(ban_id=target['ban_id'],teacher_id=target['teacher_id'], category_id=received_consulting_category, student_id=target['student_id'],contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
+            new_consulting = Consulting(ban_id=target['ban_id'],teacher_id=target['teacher_id'], category_id=received_consulting_category, student_id=target['student_id'],student_name=target['student_name'],student_engname=target['student_engname'],origin=target['origin'],contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
             db.session.add(new_consulting)
             db.session.commit()
             # 동일한 데이터가 이미 존재하는 경우 스킵
             if info_key in existing_info:
                 continue
-
             existing_info.add(info_key)  # 새로운 데이터를 추가
-
-            new_consulting = Consulting(ban_id=target['ban_id'], teacher_id=target['teacher_id'], category_id=received_consulting_category, student_id=target['student_id'], contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline, done=0, missed='1111-01-01')
-            db.session.add(new_consulting)
-            db.session.commit()
             ban_info.append(info)
         
         for ban in ban_info:
