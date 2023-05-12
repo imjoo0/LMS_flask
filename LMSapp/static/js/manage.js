@@ -1200,7 +1200,6 @@ function post_consulting_request() {
                 totalstudent_ban_id = Number(v[0])
                 totalstudent_teacher_id = Number(v[1])
                 const ban_name_value = v[2];
-                console.log(url)
                 const promise = $.ajax({
                     type: "POST",
                     url:`/manage/consulting/ban/${totalstudent_ban_id}/${totalstudent_teacher_id}/${encodeURIComponent(ban_name_value)}/`,
