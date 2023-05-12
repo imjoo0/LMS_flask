@@ -1328,7 +1328,7 @@ function sort_consultingoption(sortBy) {
     );
 }
 
-function get_consultingban(key) {
+function get_consultingdetail(consulting_id) {
     $('#consultingreqban_search_input').off('keyup');
     cinfo = key.split('_')
     $('#my_consulting_requestModalLabel').html(cinfo[0] + ' :  " ' + cinfo[1] + '" 상담을 진행중인 반 목록');

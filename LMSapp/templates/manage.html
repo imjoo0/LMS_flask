@@ -342,15 +342,18 @@
             </div>
             <div class="modal-body">
                 <div id="request_consulting_listbox">
-                    <!-- <div class="my-4 d-flex flex-wrap justify-content-end align-items-center">
+                    <div class="my-4 d-flex flex-wrap justify-content-end align-items-center" id="consulting_history_bansel_box">
                         <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 상담 카테고리 선택</span></div>
                         <div class="col-md-4 col-sm-6 col-12">
-                            <select id="category-select" onchange="sort_consulting(this.value)" class="form-select form-select-sm w-100" aria-label="Default select example">
-                                <optgroup id="consulting-option">
-                                </optgroup>
+                            <select id="history_cate" class="form-select form-select w-100" aria-label="Default select example">
+    
                             </select>
                         </div>
-                    </div> -->
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0" style="margin-left:50%;margin-top: 10px;"><span>📌 원생 / 반 / 선생님 이름으로 검색</span></div>
+                        <div class="col-md-4 col-sm-6 col-12">
+                            <input type="text" id="consulting_list_search_input" placeholder="원생 이름 혹은 원번, 반 이름으로 검색" style="width:100%;height:2em;margin-top:10px;">
+                        </div>
+                    </div>
                     <div class="d-flex justify-content-start align-items-start flex-column">
                         <div class="mo_inloading" class="loader loader--style2 text-center" title="1">
                             <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
