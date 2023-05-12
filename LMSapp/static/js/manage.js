@@ -1376,7 +1376,7 @@ function get_consultingdetail(consulting_id) {
     const teacher_ban_info = banData.filter(b=>b.ban_id == consulting_history.ban_id)[0]
     $('#my_consulting_requestModalLabel').html(`${teacher_ban_info.name}반 ${teacher_ban_info.teacher_name}( ${teacher_ban_info.teacher_engname} )T의 ${consulting_history.category}상담`);
 
-    temp_his = `
+    let temp_his = `
         <button type="button" class="btn btn-back" onclick="get_request_consulting()">상담 목록으로 돌아가기🔙 </button>
         <p class="mt-lg-4 mt-5">원생 : ${consulting_history.student_engname} ( ${consulting_history.student_name} )</p>
         <p class="mt-lg-4 mt-5">원번 : ${consulting_history.origin}</p>
