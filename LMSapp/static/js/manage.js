@@ -1374,9 +1374,9 @@ function sort_consultingoption(sortBy) {
 function get_consultingdetail(consulting_id) {
     $('#request_consulting_listbox').hide()
     $('#request_consultingban_listbox').show()
-    consulting_history = consultingData.filter(c=>c.id == consulting_id)[0]
-    teacher_ban_info = banData.filter(b=>b.ban_id == consulting_history.ban_id)[0]
-    $('#my_consulting_requestModalLabel').html(`${teacher_ban_info.name}반 ${teacher_ban_info.teacher_name}( ${teacher_ban_info.teacher_engname} )T의 ${target_consulting_info.category}상담`);
+    const consulting_history = consultingData.filter(c=>c.id == consulting_id)[0]
+    const teacher_ban_info = banData.filter(b=>b.ban_id == consulting_history.ban_id)[0]
+    $('#my_consulting_requestModalLabel').html(`${teacher_ban_info.name}반 ${teacher_ban_info.teacher_name}( ${teacher_ban_info.teacher_engname} )T의 ${consulting_history.category}상담`);
 
     temp_his = `
         <button type="button" class="btn btn-back" onclick="get_request_consulting()">상담 목록으로 돌아가기🔙 </button>
