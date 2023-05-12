@@ -1253,8 +1253,8 @@ async function get_request_consulting(){
             $.each(data, function (index, consulting) {
                 const ban_name = banData.filter(b=>b.ban_id == consulting.ban_id)[0].name
                 let contents = consulting.contents;
-                if (contents.length > 100) {
-                    contents = contents.substring(0, 100) + '...';
+                if (contents.length > 50) {
+                    contents = contents.substring(0, 50) + '...';
                 }
                 dataHtml += `
                 <td class="col-2">"${make_date(consulting.startdate)}" ~ "${make_date(consulting.deadline)}"</td>
