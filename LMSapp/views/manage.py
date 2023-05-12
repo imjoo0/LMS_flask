@@ -412,7 +412,7 @@ def request_consulting():
         return jsonify({'all_consulting_category':all_consulting_category})
     
 # 전체 반 원생 상담 요청 저장
-@bp.route("/consulting/ban/<int:b_id>/<int:t_id>/<string:b_name>", methods=['POST'])
+@bp.route("/consulting/ban/<int:b_id>/<int:t_id>/<string:b_name>/", methods=['POST'])
 def request_ban_student(b_id,t_id,b_name):
     if request.method == 'POST':
         post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'

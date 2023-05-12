@@ -1202,7 +1202,7 @@ function post_consulting_request() {
                 const ban_name_value = v[2].replace(/%20/g, ' ');
                 const promise = $.ajax({
                     type: "POST",
-                    url: '/manage/consulting/ban/' + totalstudent_ban_id + '/' + totalstudent_teacher_id + '/' + ban_name_value,
+                    url: '/manage/consulting/ban/' + totalstudent_ban_id + '/' + totalstudent_teacher_id + '/' + ban_name_value + '/' ,
                     // data: JSON.stringify(jsonData), // String -> json 형태로 변환
                     data: {
                         consulting_category: consulting_category,
