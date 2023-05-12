@@ -1237,12 +1237,46 @@ async function get_request_consulting(){
     $('#request_consultingban_listbox').hide();
     $('#request_consulting_listbox').show();
     $('#my_consulting_requestModalLabel').html('요청한 상담 목록');
+    $('#consulting_list_search_input').off('keyup');
     $('.mo_inloading').show()
     $('.not_inloading').hide()
     if (!consultingData) {
         await get_all_consulting()
     }
-    
+    const updateSearchResult = function () {
+        let copy_data = consultingData.slice();
+        const selectedCategory = $('#history_cate').val();
+        const searchInput = $('#consulting_list_search_input').val().toLowerCase();
+        if(selectedCategory != 'none' && searchInput ==""){
+            copy_data = copy_data.filter((e) => {
+                return e.category == selectedCategory;
+            })
+            Consultingcontainer.pagination('destroy');
+            Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': copy_data }));
+        }else if(selectedCategory != 'none' && searchInput !=""){
+            copy_data = copy_data.filter(function (d) {
+                return (
+                  (d.category == selectedCategory) &&
+                  (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) ||
+                  (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1)
+                );
+            })
+            Consultingcontainer.pagination('destroy');
+            Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': copy_data }));
+        }else if(selectedCategory == 'none' && searchInput !=""){
+            copy_data = copy_data.filter(function (d) {
+                return (
+                  (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) ||
+                  (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1)
+                );
+            })
+            Consultingcontainer.pagination('destroy');
+            Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': copy_data }));
+        }else{
+            Consultingcontainer.pagination('destroy');
+            Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': copy_data }));
+        }
+    };
     Consultingcontainer = $('#consulting-pagination');
     ConsultingpaginationOptions = {
         prevText: '이전',
@@ -1272,8 +1306,17 @@ async function get_request_consulting(){
             $('#tr-row').html(dataHtml);
         }
     };
-    Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': consultingData }))
 
+    let category_set = new Set(consultingData.map(c => c.category));
+        let category_list = [...category_set];
+        var idxHtml = `<option value="none">전체</option>`;
+        $.each(category_list, function (idx, val) {
+          idxHtml += `<option value="${val}">${val}</option>`;
+        });
+    $('#history_cate').html(idxHtml);
+    $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
+
+    Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': consultingData }))
     $('.mo_inloading').hide();
     $('.not_inloading').show();
 }
