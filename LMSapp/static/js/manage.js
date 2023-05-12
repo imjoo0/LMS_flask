@@ -1382,6 +1382,16 @@ function get_consultingdetail(consulting_id) {
         <p class="mt-lg-4 mt-5">원번 : ${consulting_history.origin}</p>
         <p class="mt-lg-4 mt-5">✅ ${consulting_history.category}</p>
         <p mt-lg-4 mt-5>✅ ${consulting_history.contents.replace(/\n/g, '</br>')}</p>
+    `;
+    if(consulting_history.done == 0){
+        temp_his += `
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">상담 사유</span>
+            <p>미진행</p>
+        </div>
+        `
+    }else{
+        temp_his += `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">상담 사유</span>
             <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason" placeholder="${consulting_history.reason}">
@@ -1395,7 +1405,8 @@ function get_consultingdetail(consulting_id) {
             <span class="modal-body-select-label">상담 일시</span>
             <p>${make_date(consulting_history.created_at)}</p>
         </div>
-    `;
+        `
+    }
     console.log(temp_his)
     $('#consulting_history_contents_box').html(temp_his)
 
