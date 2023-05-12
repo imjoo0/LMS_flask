@@ -506,7 +506,7 @@ def request_all_ban(b_type):
         ban_info = []
         existing_info = set()
         for target in targets:
-            print(target['mobileno'])
+            print(target)
             info = {}
             info['mobileno'] = target['mobileno']
             info['ban_name'] = target['ban_name']
