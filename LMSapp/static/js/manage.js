@@ -1372,59 +1372,29 @@ function sort_consultingoption(sortBy) {
 }
 
 function get_consultingdetail(consulting_id) {
-    $('#consultingreqban_search_input').off('keyup');
-    cinfo = key.split('_')
-    $('#my_consulting_requestModalLabel').html(cinfo[0] + ' :  " ' + cinfo[1] + '" 상담을 진행중인 반 목록');
     $('#request_consulting_listbox').hide()
     $('#request_consultingban_listbox').show()
-    const target_bans = [];
-    // 각 ban_id마다 반복
-    const ban_ids = [...new Set(consultingGroupedresult.filter(c => c[key])[0][key].map(item => item.ban_id))]; // 중복 제거
-    ban_ids.forEach(ban_id => {
-        const baninfo = banData.filter(b => b.ban_id == ban_id)[0]
-        const ban_name = baninfo.name
-        const teacher_name = baninfo.teacher_name
-        const teacher_engname = baninfo.teacher_engname
-        const teacher_mobileno = baninfo.teacher_mobileno
-        const teacher_email = baninfo.teacher_email
-        // done_num, not_done_num, total_num 계산
-        const done_num = consultingGroupedresult.filter(c => c[key])[0][key].filter(item => item.ban_id === ban_id && item.done === 1).length;
-        const total_num = consultingGroupedresult.filter(c => c[key])[0][key].filter(item => item.ban_id === ban_id && item.done === 0).length + done_num;
-
-        // 결과 객체를 배열에 추가
-        target_bans.push({ ban_id, ban_name, teacher_name, teacher_engname, teacher_mobileno, total_num, teacher_email, done_num, });
-    });
-
-    var paginationOptions = {
-        prevText: '이전',
-        nextText: '다음',
-        pageSize: 5,
-        pageClassName: 'float-end',
-        callback: function (data, pagination) {
-            var dataHtml = '';
-            $.each(data, function (index, item) {
-                dataHtml += `
-                    <td class="col-2">${item.ban_name}</td>
-                    <td class="col-2">${item.teacher_name}( ${item.teacher_engname} )</td>
-                    <td class="col-2">${item.teacher_mobileno}</td>
-                    <td class="col-2">${item.teacher_email}</td>
-                    <td class="col-3">${item.done_num}/${item.total_num} <strong> (${answer_rate(item.done_num, item.total_num).toFixed(0)}%)</strong></td>
-                    <td class="col-1"><button class="modal-tbody-btn" onclick="delete_consulting('${cinfo[1]}',${item.ban_id})">🗑️</button></td>`;
-            });
-            $('#consultingbandone').html(dataHtml);
-        }
-    };
-    var container = $('#consultingban_pagination');
-    container.pagination(Object.assign(paginationOptions, { 'dataSource': target_bans }))
-
-    $('#consultingreqban_search_input').on('keyup', function () {
-        var searchInput = $(this).val().toLowerCase();
-        var filteredData = target_bans.filter(function (data) {
-            return data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1 || data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1 || data.hasOwnProperty('teacher_engname') && data.teacher_engname.toLowerCase().indexOf(searchInput) !== -1;
-        });
-        container.pagination('destroy');
-        container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
-    });
+    consulting_history = consultingData.filter(c=>c.id == consulting_id)[0]
+    teacher_ban_info = banData.filter(b=>b.ban_id == target_consulting_info.ban_id)[0]
+    temp_his = `
+        <button type="button" class="btn btn-back" onclick="get_request_consulting()">상담 목록으로 돌아가기🔙 </button>
+        <p class="mt-lg-4 mt-5">✅ ${consulting_history.category}</p>
+        <p mt-lg-4 mt-5>✅ ${consulting_history.contents.replace(/\n/g, '</br>')}</p>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">상담 사유</span>
+            <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason${c_id}" placeholder="${consulting_history.reason}">
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">제공한 가이드</span>
+            <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"
+                id="consulting_solution${c_id}" placeholder="${consulting_history.solution}">
+        </div>
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">상담 일시</span>
+            <p>${make_date(consulting_history.created_at)}</p>
+        </div>
+    `;
+    $('request_consultingban_listbox').html(temp_his)
 
 }
 
