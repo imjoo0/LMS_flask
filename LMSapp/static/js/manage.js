@@ -1200,7 +1200,8 @@ function post_consulting_request() {
                 totalstudent_ban_id = Number(v[0])
                 totalstudent_teacher_id = Number(v[1])
                 // const ban_name_value = v[2].replace(/%20/g, ' ');
-                var url = encodeURI('/manage/consulting/ban/' + totalstudent_ban_id + '/' + totalstudent_teacher_id + '/' + v[2] + '/')
+                var url = '/manage/consulting/ban/' + totalstudent_ban_id + '/' + totalstudent_teacher_id + '/' + v[2] + '/';
+                url = decodeURIComponent(url.replace(/\+/g, ' '));
                 const promise = $.ajax({
                     type: "POST",
                     url: url ,
