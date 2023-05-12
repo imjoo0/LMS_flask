@@ -1386,7 +1386,7 @@ function get_consultingdetail(consulting_id) {
     if(consulting_history.done == 0){
         temp_his += `
         <div class="modal-body-select-container">
-            <span class="modal-body-select-label">상담 사유</span>
+            <span class="modal-body-select-label">상담</span>
             <p>미진행</p>
         </div>
         `
