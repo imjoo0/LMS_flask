@@ -506,7 +506,6 @@ def request_all_ban(b_type):
         ban_info = []
         existing_info = set()
         for target in targets:
-            print(target)
             info = {}
             info['mobileno'] = target['mobileno']
             info['ban_name'] = target['ban_name']
@@ -521,7 +520,6 @@ def request_all_ban(b_type):
             ban_info.append(info)
         
         for ban in ban_info:
-            print(ban)
             if(received_consulting_startdate < Today and(ban['mobileno'] != "입력 바랍니다" or ban['mobileno'] != "000-0000-0000")):
                 data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
                         'templateCode': "consulting_cs",
