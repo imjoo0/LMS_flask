@@ -454,7 +454,7 @@ function plusconsulting(value, b_id) {
     $('#plusconsulting_button_box').html(temp_button)
 }
 function plusconsulting_history(student_id, b_id, t_id) {
-    const student_info = allStudentData.filter(student_id)[0]
+    const student_info = allStudentData.filter(a=>a.student_id == student_id)[0]
     const consulting_contents = $('#plus_consulting_contents').val()
     const consulting_reason = $('#plus_consulting_reason').val()
     const consulting_solution = $('#plus_consulting_solution').val()
