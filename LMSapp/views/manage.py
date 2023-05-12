@@ -24,22 +24,20 @@ def home():
 @bp.route('/answer/<int:id>/<int:done_code>', methods=['POST'])
 def answer(id,done_code):
     if request.method == 'POST':
-        post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
         answer_title = request.form['answer_title']
         answer_contents = request.form['answer_contents']
         o_ban_id = request.form['o_ban_id']
-
-        data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
-                  'templateCode': "work_cs_answer",
-                  'recipientList': [{'recipientNo':target_question.mobileno, 'templateParameter': { '답변내용':answer_contents}, }, ], }
-        
-        headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
-        http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
         if(done_code == 0):
+            post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
             target_question = Question.query.get_or_404(id)
             target_question.answer = 1
             new_answer = Answer(content=answer_contents,title=answer_title,created_at=Today,reject_code=int(o_ban_id),question_id = id,writer_id = session['user_registerno'])
             db.session.add(new_answer)
+            data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
+                'templateCode': "work_cs_answer",
+                'recipientList': [{'recipientNo':target_question.mobileno, 'templateParameter': { '답변내용':answer_contents}, }, ], }
+            headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
+            http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
         else:
             target_answer = Answer.query.get_or_404(id)
             target_answer.title = answer_title
