@@ -1397,7 +1397,7 @@ function get_consultingdetail(consulting_id) {
         </div>
     `;
     console.log(temp_his)
-    $('consulting_history_contents_box').html(temp_his)
+    $('#consulting_history_contents_box').html(temp_his)
 
     $('#request_consulting_listbox').hide()
     $('#request_consultingban_listbox').show()
