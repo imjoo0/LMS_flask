@@ -509,8 +509,8 @@ def request_all_ban(b_type):
         print(targets)
         for target in targets:
             info = {}
-            info.mobileno = target['mobileno']
-            info.mobileno = target['ban_name']
+            info.mobileno = target.mobileno
+            info.mobileno = target.ban_name
             info_key = (info['mobileno'], info['ban_name'])  # 중복 체크를 위한 키
             new_consulting = Consulting(ban_id=target['ban_id'],teacher_id=target['teacher_id'], category_id=received_consulting_category, student_id=target['student_id'],student_name=target['student_name'],student_engname=target['student_engname'],origin=target['origin'],contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
             db.session.add(new_consulting)
