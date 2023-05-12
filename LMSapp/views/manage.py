@@ -410,7 +410,35 @@ def request_consulting():
             db.close()
 
         return jsonify({'all_consulting_category':all_consulting_category})
-# 상담 요청 저장
+    
+# 전체 반 원생 상담 요청 저장
+@bp.route("/consulting/ban/<int:b_id>/<int:t_id>/<string:b_name>", methods=['POST'])
+def request_ban_student(b_id,t_id,b_name):
+    if request.method == 'POST':
+        post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
+        #  상담 카테고리 저장
+        received_consulting_category = request.form['consulting_category']
+        #  상담 내용 저장
+        received_consulting_contents = request.form['consulting_contents']
+        #  상담을 진행할 시작일 저장
+        received_consulting_startdate = request.form['consulting_date']
+        #  상담을 마무리할 마감일 저장
+        received_consulting_deadline = request.form['consulting_deadline']
+
+        new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=s_id,contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
+        db.session.add(new_consulting)
+        db.session.commit()
+
+        teacher_mobile_no = User.query.filter(User.id == t_id).first().mobileno
+        data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
+        'templateCode': "consulting_cs",
+        'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '원번':b_name+'반', '원생이름': '전체 원생 대상', '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], }
+        headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
+        http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
+
+        return jsonify({'result':'success'})    
+
+# 개별 원생 상담 요청 저장
 @bp.route("/consulting/<int:b_id>/<int:t_id>/<int:s_id>/<string:s_name>/<string:origin>", methods=['POST'])
 def request_indivi_student(b_id,t_id,s_id,origin,s_name):
     if request.method == 'POST':
@@ -423,7 +451,7 @@ def request_indivi_student(b_id,t_id,s_id,origin,s_name):
         received_consulting_startdate = request.form['consulting_date']
         #  상담을 마무리할 마감일 저장
         received_consulting_deadline = request.form['consulting_deadline']
-
+        targets = callapi.purple_allinfo('get_all_ban_student_simple')
         new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=s_id,contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
         db.session.add(new_consulting)
         db.session.commit()
@@ -466,14 +494,32 @@ def request_all_ban(b_type):
             targets = callapi.purple_allinfo('get_seventeen_ban')
         elif b_type == 5:
             targets = callapi.purple_allinfo('get_eightteen_ban')
+        ban_info = []
+        existing_info = set()
         for target in targets:
+            info = {}
+            info.mobileno = target['mobileno']
+            info.mobileno = target['ban_name']
+            info_key = (info['mobileno'], info['ban_name'])  # 중복 체크를 위한 키
             new_consulting = Consulting(ban_id=target['ban_id'],teacher_id=target['teacher_id'], category_id=received_consulting_category, student_id=target['student_id'],contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
             db.session.add(new_consulting)
             db.session.commit()
+            # 동일한 데이터가 이미 존재하는 경우 스킵
+            if info_key in existing_info:
+                continue
 
+            existing_info.add(info_key)  # 새로운 데이터를 추가
+
+            new_consulting = Consulting(ban_id=target['ban_id'], teacher_id=target['teacher_id'], category_id=received_consulting_category, student_id=target['student_id'], contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline, done=0, missed='1111-01-01')
+            db.session.add(new_consulting)
+            db.session.commit()
+            ban_info.append(info)
+        
+        for ban in ban_info:
+            print(ban)
             data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
                     'templateCode': "consulting_cs",
-                    'recipientList': [{'recipientNo':target['mobileno'], 'templateParameter': { '원번':target['ban_name']+'반', '원생이름': '전체 원생 대상', '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], }
+                    'recipientList': [{'recipientNo':ban['mobileno'], 'templateParameter': { '원번':ban['ban_name']+'반', '원생이름': '전체 원생 대상', '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], }
             headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
             http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
         

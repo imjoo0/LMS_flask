@@ -1172,26 +1172,45 @@ function post_consulting_request() {
             })
         }
         // 전체 학생 대상 인 경우
+        // if (total_student_selections.length != 0) {
+        //     total_student_selections.forEach(value => {
+        //         v = value.split('_')
+        //         totalstudent_ban_id = Number(v[0])
+        //         totalstudent_teacher_id = Number(v[1])
+        //         target_student_selections = studentsData.filter(a => a.ban_id == totalstudent_ban_id)
+        //         target_student_selections.forEach(value => {
+        //             const promise = $.ajax({
+        //                 type: "POST",
+        //                 url: '/manage/consulting/' + totalstudent_ban_id + '/' + totalstudent_teacher_id + '/' + value['student_id']+ '/' + value['student_engname']+ '/' +value['origin'],
+        //                 // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+        //                 data: {
+        //                     consulting_category: consulting_category,
+        //                     consulting_contents: consulting_contents,
+        //                     consulting_date: consulting_date,
+        //                     consulting_deadline: consulting_deadline
+        //                 }
+        //             })
+        //             totalPromises.push(promise);
+        //         })
+        //     })
+        // }
         if (total_student_selections.length != 0) {
             total_student_selections.forEach(value => {
                 v = value.split('_')
                 totalstudent_ban_id = Number(v[0])
                 totalstudent_teacher_id = Number(v[1])
-                target_student_selections = studentsData.filter(a => a.ban_id == totalstudent_ban_id)
-                target_student_selections.forEach(value => {
-                    const promise = $.ajax({
-                        type: "POST",
-                        url: '/manage/consulting/' + totalstudent_ban_id + '/' + totalstudent_teacher_id + '/' + value['student_id']+ '/' + value['student_engname']+ '/' +value['origin'],
-                        // data: JSON.stringify(jsonData), // String -> json 형태로 변환
-                        data: {
-                            consulting_category: consulting_category,
-                            consulting_contents: consulting_contents,
-                            consulting_date: consulting_date,
-                            consulting_deadline: consulting_deadline
-                        }
-                    })
-                    totalPromises.push(promise);
+                const promise = $.ajax({
+                    type: "POST",
+                    url: '/manage/consulting/ban/' + totalstudent_ban_id + '/' + totalstudent_teacher_id + '/' + v[2],
+                    // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+                    data: {
+                        consulting_category: consulting_category,
+                        consulting_contents: consulting_contents,
+                        consulting_date: consulting_date,
+                        consulting_deadline: consulting_deadline
+                    }
                 })
+                totalPromises.push(promise);
             })
         }
         // 개별 학생 대상 인 경우  
