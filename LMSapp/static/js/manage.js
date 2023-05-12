@@ -1233,6 +1233,7 @@ function post_consulting_request() {
                 totalPromises.push(promise);
             })
         }
+        console.log(totalPromises)
         Promise.all(totalPromises).then((responses) => {
             let isSuccess = true;
             responses.forEach(response => {
