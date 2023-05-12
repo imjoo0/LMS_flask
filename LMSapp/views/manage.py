@@ -428,7 +428,7 @@ def request_ban_student(b_id,t_id,b_name):
         received_consulting_startdate = request.form['consulting_date']
         #  상담을 마무리할 마감일 저장
         received_consulting_deadline = request.form['consulting_deadline']
-        targets = callapi.purple_allinfo('get_student_simple')
+        targets = callapi.purple_info(b_id,'get_student_simple')
         print(targets)
         for target in targets:
             print(target)
