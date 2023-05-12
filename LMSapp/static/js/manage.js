@@ -1257,45 +1257,41 @@ async function get_request_consulting(){
     $('#my_consulting_requestModalLabel').html('요청한 상담 목록');
     $('.mo_inloading').show()
     $('.not_inloading').hide()
-    try {
-        if (!consultingData) {
-            await get_all_consulting()
-        }
-        
-        const container = $('#consulting-pagination');
-        const paginationOptions = {
-            prevText: '이전',
-            nextText: '다음',
-            pageSize: 10,
-            callback: function (data, pagination) {
-                const renderedData = data[0]; // 페이지 사이즈가 1이므로 첫 번째 요소만 필요합니다
-                var dataHtml = '';
-                $.each(data, function (index, consulting) {
-                    console.log(banData)
-                    const ban_name = banData.filter(b=>b.ban_id == consulting.ban_id)[0].ban_name
-                    dataHtml += `
-                    <td class="col-2">"${make_date(consulting.startdate)}" ~ "${make_date(consulting.deadline)}"</td>
-                    <td class="col-1">${consulting.category}</td>
-                    <td class="col-2">${consulting.contents}</td>
-                    <td class="col-1">${ban_name}</td>
-                    <td class="col-1">${consulting.teacher_name}</td>
-                    <td class="col-1">${consulting.teacher_mobileno}</td>
-                    <td class="col-1">${consulting.student_name} (${consulting.student_engname})</td>
-                    <td class="col-1">${consulting.origin}</td>
-                    <td class="col-1">${make_reject_code(consulting.done)}</td>
-                    <td class="col-1" onclick="get_consultingban(${consulting.id})"> 🔍 </td>`;
-                });
-                // $('#consulting-option').html(idxHtml);
-                $('#tr-row').html(dataHtml);
-            }
-        };
-        container.pagination(Object.assign(paginationOptions, { 'dataSource': consultingData }))
-
-        $('.mo_inloading').hide();
-        $('.not_inloading').show();
-    }catch (error) {
-        alert('Error occurred while retrieving data.');
+    if (!consultingData) {
+        await get_all_consulting()
     }
+    
+    const container = $('#consulting-pagination');
+    const paginationOptions = {
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 10,
+        callback: function (data, pagination) {
+            const renderedData = data[0]; // 페이지 사이즈가 1이므로 첫 번째 요소만 필요합니다
+            var dataHtml = '';
+            $.each(data, function (index, consulting) {
+                console.log(banData)
+                const ban_name = banData.filter(b=>b.ban_id == consulting.ban_id)[0].ban_name
+                dataHtml += `
+                <td class="col-2">"${make_date(consulting.startdate)}" ~ "${make_date(consulting.deadline)}"</td>
+                <td class="col-1">${consulting.category}</td>
+                <td class="col-2">${consulting.contents}</td>
+                <td class="col-1">${ban_name}</td>
+                <td class="col-1">${consulting.teacher_name}</td>
+                <td class="col-1">${consulting.teacher_mobileno}</td>
+                <td class="col-1">${consulting.student_name} (${consulting.student_engname})</td>
+                <td class="col-1">${consulting.origin}</td>
+                <td class="col-1">${make_reject_code(consulting.done)}</td>
+                <td class="col-1" onclick="get_consultingban(${consulting.id})"> 🔍 </td>`;
+            });
+            // $('#consulting-option').html(idxHtml);
+            $('#tr-row').html(dataHtml);
+        }
+    };
+    container.pagination(Object.assign(paginationOptions, { 'dataSource': consultingData }))
+
+    $('.mo_inloading').hide();
+    $('.not_inloading').show();
     
     
 }

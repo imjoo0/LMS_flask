@@ -159,29 +159,16 @@ async function get_all_students() {
     }
 }
 async function get_all_consulting() {
-    return new Promise((resolve) => {
-        const response = $.ajax({
+    try {
+        const response = await $.ajax({
             url: '/common/consulting',
             type: 'GET',
             data: {},
         });
         consultingData = response['consulting']
-        resolve(consultingData);
-    });
-    // try {
-    //     const response = await $.ajax({
-    //         url: '/common/consulting',
-    //         type: 'GET',
-    //         data: {},
-    //     });
-    //     consultingData = response['consulting']
-    //     consultingHistoryData = response['consulting_history']
-    //     consultingHistoryData.forEach((elem) => {
-    //         elem.id = 'history_'+elem.id
-    //     });
-    // } catch (error) {
-    //     alert('Error occurred while retrieving data.');
-    // }
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
 }
 async function getStudentsData() {
     let studentsWorker = new Worker("../static/js/students_worker.js");
