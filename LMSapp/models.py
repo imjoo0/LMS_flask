@@ -120,6 +120,7 @@ class Consulting(db.Model):
     student_id = db.Column(db.Integer,nullable=True)
     origin = db.Column(db.String(100), nullable=True)
     student_name = db.Column(db.String(255), nullable=True)
+    student_engname = db.Column(db.String(255), nullable=True)
     title = db.Column(db.String(255), nullable=True)
     contents = db.Column(db.Text)
     startdate = db.Column(db.DateTime)
