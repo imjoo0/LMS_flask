@@ -1199,7 +1199,7 @@ function post_consulting_request() {
                 v = value.split('_')
                 totalstudent_ban_id = Number(v[0])
                 totalstudent_teacher_id = Number(v[1])
-                const ban_name_value = encodeURIComponent(v[2]);
+                const ban_name_value = String(v[2]);
                 const promise = $.ajax({
                     type: "POST",
                     url: '/manage/consulting/ban/' + totalstudent_ban_id + '/' + totalstudent_teacher_id + '/' + ban_name_value,
