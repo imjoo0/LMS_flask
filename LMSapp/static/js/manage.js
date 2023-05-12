@@ -309,36 +309,38 @@ async function get_soquestion_detail(q_id, done_code) {
     $('#consulting_history_attach').show()
 
     // 응답 처리 
+    if (question_detail_data.category == 2) {
+        let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
+        banData.forEach(ban_data => {
+            let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}`;
+            let selectmsg = `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
+            temp_o_ban_id += selectmsg
+        });
+        $('#o_ban_id2').html(temp_o_ban_id)
+        $('#manage_answer_2').show()
+        $('#manage_answer_3').hide()
+    }else{
+        $('#manage_answer_2').hide()
+        $('#manage_answer_3').show()
+    }
     if(done_code == 0) {
         $('#teacher_answer').hide()
         $('#manage_answer').show()
         $('#manage_answer_1').show()
-        if (question_detail_data.category == 2) {
-            let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
-            banData.forEach(ban_data => {
-                let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}`;
-                let selectmsg = `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
-                temp_o_ban_id += selectmsg
-            });
-            $('#o_ban_id2').html(temp_o_ban_id)
-            $('#manage_answer_2').show()
-            $('#manage_answer_3').hide()
-        } else {
-            $('#manage_answer_2').hide()
-            $('#manage_answer_3').show()
-        }
-        $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category})">저장</button>`);
+        $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category},${0})">저장</button>`);
     }else{
         $('#manage_answer').hide()
         answer_data = answerData.filter(a => a.question_id == q_id)[0]
         let temp_answer_list = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">답변 제목</span>
-            <p>${answer_data.title}</p>
+            <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"
+            id="answer_title_modi" placeholder="${answer_data.title}">
         </div>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">답변 내용</span>
-            <p>${answer_data.content}</p>
+            <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"
+            id="answer_content_modi" placeholder="${answer_data.content}">
         </div>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">답변자</span>
@@ -355,6 +357,7 @@ async function get_soquestion_detail(q_id, done_code) {
         `;
         $('#teacher_answer').html(temp_answer_list);
         $('#teacher_answer').show()
+        $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category},${1})">수정</button>`);
     }
 }
 // 일반 문의 
@@ -703,18 +706,20 @@ async function get_question_detail(q_id, done_code) {
         $('#manage_answer_1').show()
         $('#manage_answer_2').hide()
         $('#manage_answer_3').hide()
-        $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category})">저장</button>`);
+        $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category},${0})">저장</button>`);
     } else {
         $('#manage_answer').hide()
         answer_data = answerData.filter(a => a.question_id == q_id)[0]
         let temp_answer_list = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">답변 제목</span>
-            <p>${answer_data.title}</p>
+            <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"
+            id="answer_title_modi" placeholder="${answer_data.title}">
         </div>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">답변 내용</span>
-            <p>${answer_data.content}</p>
+            <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"
+            id="answer_content_modi" placeholder="${answer_data.content}">
         </div>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">답변자</span>
@@ -725,16 +730,24 @@ async function get_question_detail(q_id, done_code) {
             <p>${make_date(answer_data.created_at)}</p>
         </div>`;
         $('#teacher_answer').html(temp_answer_list);
+        $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category},${1})">수정</button>`);
         $('#teacher_answer').show()
     }
 
 }
 // 본원 답변 기능 
-function post_answer(q_id, category) {
+function post_answer(q_id, category,done_code) {
     let q_kind = $('#question_kind').val()
     if(q_kind == 'none'){
-        answer_title = $('#answer_title').val()
-        answer_contents = $('#answer_contents').val()
+        if(done_code == 0){
+            // 저장의 경우 
+            answer_title = $('#answer_title').val()
+            answer_contents = $('#answer_contents').val()
+        }else{
+            // 수정의 경우
+            answer_title = $('#answer_title_modi').val()
+            answer_contents = $('#answer_content_modi').val()
+        }
         o_ban_id = 0
         if(category == 2) {
             o_ban_id = Number($('#o_ban_id2').val().split('_')[0])
