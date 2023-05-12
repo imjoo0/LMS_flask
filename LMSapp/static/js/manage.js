@@ -1199,10 +1199,10 @@ function post_consulting_request() {
                 v = value.split('_')
                 totalstudent_ban_id = Number(v[0])
                 totalstudent_teacher_id = Number(v[1])
-                const ban_name_value = v[2];
+                const ban_name_value = v[2].replace(/%20/g, ' ');
                 const promise = $.ajax({
                     type: "POST",
-                    url:`/manage/consulting/ban/${totalstudent_ban_id}/${totalstudent_teacher_id}/${decodeURIComponent(ban_name_value.replace(/\+/g, ' '))}/`,
+                    url:`/manage/consulting/ban/${totalstudent_ban_id}/${totalstudent_teacher_id}/${ban_name_value}/`,
                     // data: JSON.stringify(jsonData), // String -> json 형태로 변환
                     data: {
                         consulting_category: consulting_category,
