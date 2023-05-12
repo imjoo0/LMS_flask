@@ -1286,7 +1286,7 @@ async function update_student_info(){
             console.log(s_info)
             $.ajax({
                 type: "POST",
-                url: '/manage/update_consulting/' + consulting.id + '/',
+                url: '/manage/update_consulting/' + value.id + '/',
                 // data: JSON.stringify(jsonData), // String -> json 형태로 변환
                 data: {
                     student_name : s_info['student_name'],
