@@ -1259,7 +1259,7 @@ async function get_request_consulting(){
     $('.not_inloading').hide()
     try {
         if (!consultingData) {
-            await getConsultingsData()
+            await get_all_consulting()
         }
         
         const container = $('#consulting-pagination');
