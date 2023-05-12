@@ -427,7 +427,7 @@ def request_ban_student(b_id,t_id,b_name):
         targets = callapi.purple_allinfo('get_student_simple')
         for target in targets:
             print(target)
-            print(type(target['s_id']))
+            print(target['s_id'])
             new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=target['s_id'],contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
         db.session.add(new_consulting)
         db.session.commit()
