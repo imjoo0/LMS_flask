@@ -362,6 +362,7 @@ def make_task():
 
                 teacher_mobile_no = User.query.filter(User.id == teacher_id).first().mobileno
                 if(received_task_startdate < Today and (teacher_mobile_no != "입력 바랍니다" or teacher_mobile_no != "000-0000-0000")):
+                    print('보내짐')
                     data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
                         'templateCode': "task_cs",
                         'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '반 이름':task_data[2], '업무내용': received_task, '마감기한': received_task_deadline}, }, ], }
