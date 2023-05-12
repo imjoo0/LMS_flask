@@ -1053,7 +1053,7 @@ async function request_consulting() {
             return (data.hasOwnProperty('name') && data.name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('teacher_engname') && data.teacher_engname.toLowerCase().indexOf(searchInput) !== -1);
         });
         filteredData.forEach(ban_data => {
-            let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}`;
+            let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}_-1_전체 학생 대상 진행`;
             temp_ban_option += `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
         });
         $('#consulting_target_ban').html(temp_ban_option)
@@ -1086,18 +1086,18 @@ $('#consulting_target_aban').change(function () {
 
 function show_selections() {
     $('#result_tbox').empty()
-    // for (i = selectedStudentList.length - 1; i >= 0; i--) {
-    //     // 전체 반이 선택된 경우 
-    //     if (String(selectedStudentList[i]).includes('-1')) {
-    //         // 같은 반 친구들 교집합을 저장 
-    //         let total_student_selections = selectedStudentList.filter(value => ((String(value).split('_')[0] == selectedStudentList[i].split('_')[0]) && (!(value.includes('-1')))));
-    //         if (total_student_selections.length != 0) {
-    //             total_student_selections.forEach(value => {
-    //                 selectedStudentList.splice(selectedStudentList.indexOf(value), 1);
-    //             })
-    //         }
-    //     }
-    // }
+    for (i = selectedStudentList.length - 1; i >= 0; i--) {
+        // 전체 반이 선택된 경우 
+        if (String(selectedStudentList[i]).includes('-1')) {
+            // 같은 반 친구들 교집합을 저장 
+            let total_student_selections = selectedStudentList.filter(value => ((String(value).split('_')[0] == selectedStudentList[i].split('_')[0]) && (!(value.includes('-1')))));
+            if (total_student_selections.length != 0) {
+                total_student_selections.forEach(value => {
+                    selectedStudentList.splice(selectedStudentList.indexOf(value), 1);
+                })
+            }
+        }
+    }
     var selectedOptions = ''
     console.log(selectedStudentList)
     for (i = 0; i < selectedStudentList.length; i++) {
