@@ -506,8 +506,8 @@ def request_all_ban(b_type):
             targets = callapi.purple_allinfo('get_eightteen_ban')
         ban_info = []
         existing_info = set()
-        print(targets)
         for target in targets:
+            print(target)
             info = {}
             info.mobileno = target.mobileno
             info.mobileno = target.ban_name
