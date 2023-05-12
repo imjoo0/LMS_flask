@@ -1282,6 +1282,7 @@ async function update_student_info(){
     let indivi_student_selections = selectedStudentList.filter(value => (value.includes('_')) && !(value.includes('-1')));
     if (indivi_student_selections.length != 0) {
         consultingData.forEach(value => {
+            console.log(value)
             s_info = studentsData.filter(a => a.student_id ==  value.stuent_id)[0]
             console.log(s_info)
             $.ajax({
