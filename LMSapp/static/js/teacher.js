@@ -455,7 +455,7 @@ function plusconsulting(value, b_id) {
 }
 function plusconsulting_history(student_id, b_id, t_id) {
     console.log(allStudentData)
-    const student_info = allStudentData.filter(a=>a.student_id == student_id)[0]
+    const student_info = allStudentData.filter(a=>a.register_no == student_id)[0]
     console.log(student_info)
     const consulting_contents = $('#plus_consulting_contents').val()
     const consulting_reason = $('#plus_consulting_reason').val()
@@ -465,8 +465,8 @@ function plusconsulting_history(student_id, b_id, t_id) {
         url: '/teacher/plus_consulting/' + student_id + '/' + b_id + '/' + t_id,
         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
         data: {
-            student_name : student_info['student_name'],
-            student_engname : student_info['student_engname'],
+            student_name : student_info['name'],
+            student_engname : student_info['nick_name'],
             origin : student_info['origin'],
             consulting_contents: consulting_contents,
             consulting_reason: consulting_reason,
