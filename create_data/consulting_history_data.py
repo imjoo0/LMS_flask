@@ -19,7 +19,7 @@ with SSHTunnelForwarder(
         with db.cursor() as cur:
             # cur.execute("select class.name_numeric") 
             cur.execute('''
-            SELECT student.id AS student_id, class.id AS ban_id, staff.id AS teacher_id,
+            SELECT student.id AS student_id,student.first_name as 'student_name',student.nick_name as 'student_engname',student.register_no as 'origin',class.id AS ban_id, staff.id AS teacher_id,
             student_documents.remarks AS solution, student_documents.updated_at AS created_at,
             CONCAT(student_document_cate.cate_name, ' ', student_documents.title) AS contents
             FROM staff
@@ -53,8 +53,8 @@ try:
     with db.cursor() as cur:
         print('데이터 저장 진행 중 ')
 
-        sql = "insert into consulting(student_id, ban_id,teacher_id, contents, category_id, done, solution, created_at, missed)" \
-              " values (%(student_id)s,%(ban_id)s,%(teacher_id)s, %(contents)s, 111, 1, %(solution)s, %(created_at)s, '11110101');"
+        sql = "insert into consulting(student_id,student_name,student_engname,origin, ban_id,teacher_id, contents, category_id, done, solution, created_at, missed)" \
+              " values (%(student_id)s,%(student_name)s,%(student_engname)s,%(origin)s,%(ban_id)s,%(teacher_id)s, %(contents)s, 111, 1, %(solution)s, %(created_at)s, '11110101');"
 
         cur.executemany(sql, data_list)
 
