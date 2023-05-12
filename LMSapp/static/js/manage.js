@@ -1283,36 +1283,42 @@ function sort_consultingoption(sortBy) {
             $('#student_name_sort').html('<strong>원생 이름순 정렬👇</strong>')    
             $('#deadline_sort').html('마감일 정렬👉')    
             $('#consulting_sort').html('미진행 정렬👉')        
-        consultingData.sort(function (a, b) {
-            var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
-            var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
-            if (nameA < nameB) {
-                return -1;
-            }
-            if (nameA > nameB) {
-                return 1;
-            }
-            return 0;
-        });
-        break;
+            consultingData.sort(function (a, b) {
+                var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+                var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });
+            break;
     
         case "deadline_desc":
             $('#student_name_sort').html('원생 이름순 정렬👉')    
             $('#deadline_sort').html('<strong>마감일 정렬👇</strong>')    
             $('#consulting_sort').html('미진행 정렬👉')        
-        consultingData.sort(function (a, b) {
-            return new Date(a.deadline) - new Date(b.deadline);
-        });
-        break;
+            consultingData.sort(function (a, b) {
+                return new Date(a.deadline) - new Date(b.deadline);
+            });
+            break;
     
         case "consulting_desc":
             $('#student_name_sort').html('원생 이름순 정렬👉')    
             $('#deadline_sort').html('마감일 정렬👉')    
             $('#consulting_sort').html('<strong>미진행 정렬👇</strong>') 
-        consultingData.sort(function (a, b) {
-            return a.consulting_done - b.consulting_done;
-        });
-        break;
+            consultingData.sort(function (a, b) {
+                if (a.consulting_done === 0 && b.consulting_done === 1) {
+                    return -1;
+                }
+                if (a.consulting_done === 1 && b.consulting_done === 0) {
+                    return 1;
+                }
+                return 0;
+            });
+            break;
     }
   
     // 데이터 정렬 후 페이지네이션 다시 설정
