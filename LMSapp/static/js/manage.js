@@ -1310,17 +1310,13 @@ function sort_consultingoption(sortBy) {
             $('#deadline_sort').html('마감일 정렬👉')    
             $('#consulting_sort').html('<strong>미진행 정렬👇</strong>') 
             consultingData.sort(function (a, b) {
-                if (a.consulting_done === 0 && b.consulting_done === 1) {
+                if (a.done === 0 && b.done === 1) {
                     return -1;
                 }
-                if (a.consulting_done === 1 && b.consulting_done === 0) {
+                if (a.done === 1 && b.done === 0) {
                     return 1;
                 }
-                if(a.consulting_done === 0 && b.consulting_done === 0){
-                    return -1;
-                }else{
-                    return 0;
-                }
+                return 0;
             });
             break;
     }
