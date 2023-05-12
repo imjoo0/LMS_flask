@@ -1372,8 +1372,6 @@ function sort_consultingoption(sortBy) {
 }
 
 function get_consultingdetail(consulting_id) {
-    $('#request_consulting_listbox').hide()
-    $('#request_consultingban_listbox').show()
     const consulting_history = consultingData.filter(c=>c.id == consulting_id)[0]
     const teacher_ban_info = banData.filter(b=>b.ban_id == consulting_history.ban_id)[0]
     $('#my_consulting_requestModalLabel').html(`${teacher_ban_info.name}반 ${teacher_ban_info.teacher_name}( ${teacher_ban_info.teacher_engname} )T의 ${consulting_history.category}상담`);
@@ -1398,8 +1396,11 @@ function get_consultingdetail(consulting_id) {
             <p>${make_date(consulting_history.created_at)}</p>
         </div>
     `;
+    console.log(temp_his)
     $('request_consultingban_listbox').html(temp_his)
 
+    $('#request_consulting_listbox').hide()
+    $('#request_consultingban_listbox').show()
 }
 
 async function sort_consulting(value) {
