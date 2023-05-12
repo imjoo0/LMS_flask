@@ -1257,7 +1257,7 @@ async function get_request_consulting(){
                     contents = contents.substring(0, 40) + ' ▪️▪️▪️ ';
                 }
                 dataHtml += `
-                <td class="col-2">"${make_date(consulting.startdate)}" ~ "${make_date(consulting.deadline)}"</td>
+                <td class="col-2">"${make_date(consulting.startdate)}" ~ <strong>"${make_date(consulting.deadline)}"</strong></td>
                 <td class="col-1">${consulting.category}</td>
                 <td class="col-2">${contents}</td>
                 <td class="col-1">${consulting.ban_name}</td>
@@ -1266,7 +1266,7 @@ async function get_request_consulting(){
                 <td class="col-1">${make_nullcate(consulting.student_name)} (${make_nullcate(consulting.student_engname)})</td>
                 <td class="col-1">${consulting.origin}</td>
                 <td class="col-1">${make_reject_code(consulting.done)}</td>
-                <td class="col-1" onclick="get_consultingban(${consulting.id})"> 🔍 </td>`;
+                <td class="col-1" onclick="get_consultingdetail(${consulting.id})"> 🔍 </td>`;
             });
             // $('#consulting-option').html(idxHtml);
             $('#tr-row').html(dataHtml);
@@ -1283,7 +1283,7 @@ function sort_consultingoption(sortBy) {
             $('#student_name_sort').html('<strong>원생 이름순 정렬👇</strong>')    
             $('#deadline_sort').html('마감일 정렬👉')    
             $('#consulting_sort').html('미진행 정렬👉')        
-            consultingData.sort(function (a, b) {
+            consultingData = consultingData.sort(function (a, b) {
                 var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
                 var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
                 if (nameA < nameB) {
@@ -1300,7 +1300,7 @@ function sort_consultingoption(sortBy) {
             $('#student_name_sort').html('원생 이름순 정렬👉')    
             $('#deadline_sort').html('<strong>마감일 정렬👇</strong>')    
             $('#consulting_sort').html('미진행 정렬👉')        
-            consultingData.sort(function (a, b) {
+            consultingData = consultingData.sort(function (a, b) {
                 return new Date(a.deadline) - new Date(b.deadline);
             });
             break;
@@ -1309,7 +1309,7 @@ function sort_consultingoption(sortBy) {
             $('#student_name_sort').html('원생 이름순 정렬👉')    
             $('#deadline_sort').html('마감일 정렬👉')    
             $('#consulting_sort').html('<strong>미진행 정렬👇</strong>') 
-            consultingData.sort(function (a, b) {
+            consultingData = consultingData.sort(function (a, b) {
                 if (a.consulting_done === 0 && b.consulting_done === 1) {
                     return -1;
                 }
