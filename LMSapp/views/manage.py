@@ -442,7 +442,9 @@ def request_ban_student(b_id,t_id,b_name):
             db.session.commit()
 
         teacher_mobile_no = User.query.filter(User.id == t_id).first().mobileno
+        print(teacher_mobile_no)
         if(received_consulting_startdate < Today and (teacher_mobile_no != "입력 바랍니다" or teacher_mobile_no != "000-0000-0000")):
+            print("찍혀랏")
             data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
             'templateCode': "consulting_cs",
             'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '원번':b_name+'반', '원생이름': '전체 원생 대상', '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], }
