@@ -1262,7 +1262,6 @@ async function get_request_consulting(){
         // var idxHtml = `<option value="none">전체</option>`;
         var dataHtml = '';
         $.each(data, function (index, consulting) {
-            student_info = studentsData.filter(s=>s.student_id == consulting.student_id)[0]
             dataHtml += `
             <td class="col-2">"${make_date(consulting.startdate)}" ~ "${make_date(consulting.deadline)}"</td>
             <td class="col-1">${consulting.category}</td>
