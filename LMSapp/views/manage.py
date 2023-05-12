@@ -7,6 +7,7 @@ import callapi
 import pymysql
 from LMSapp.views import common
 import requests
+from urllib.parse import unquote
 
 bp = Blueprint('manage', __name__, url_prefix='/manage')
 
@@ -434,6 +435,8 @@ def request_ban_student(b_id,t_id,b_name):
 
         teacher_mobile_no = User.query.filter(User.id == t_id).first().mobileno
         if(teacher_mobile_no != "입력 바랍니다" or teacher_mobile_no != "000-0000-0000"):
+            # URL 디코딩을 수행하여 공백 문자열을 공백으로 변환
+            b_name = unquote(b_name)
             data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
             'templateCode': "consulting_cs",
             'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '원번':b_name+'반', '원생이름': '전체 원생 대상', '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], }
