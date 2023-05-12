@@ -449,7 +449,7 @@ def request_ban_student(b_id,t_id,b_name):
         return jsonify({'result':'success'})    
 
 # 개별 원생 상담 요청 저장
-@bp.route("/consulting/<int:b_id>/<int:t_id>/<int:s_id>/<string:s_name>/<string:origin>", methods=['POST'])
+@bp.route("/consulting/<int:b_id>/<int:t_id>/<int:s_id>/", methods=['POST'])
 def request_indivi_student(b_id,t_id,s_id,origin,s_name):
     if request.method == 'POST':
         post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
@@ -461,7 +461,11 @@ def request_indivi_student(b_id,t_id,s_id,origin,s_name):
         received_consulting_startdate = datetime.datetime.strptime( request.form['consulting_date'], "%Y-%m-%d").date()
         #  상담을 마무리할 마감일 저장
         received_consulting_deadline = request.form['consulting_deadline']
-        new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=s_id,student_name=s_name,origin=origin,contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
+        # 원생 정보
+        student_name = request.form['student_name']
+        student_engname = request.form['student_engname']
+        origin = request.form['origin']
+        new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=s_id,student_name=student_name,student_engname=student_engname,origin=origin,contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
         db.session.add(new_consulting)
         db.session.commit()
 
@@ -528,7 +532,23 @@ def request_all_ban(b_type):
                 http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
         
         return jsonify({'result':'success'})    
-    
+
+
+@bp.route("/update_consulting/<int:cid>/", methods=['POST'])
+def update_student_info(c_id):
+    if request.method == 'POST':
+        target = Consulting.query.get_or_404(c_id)
+        # 원생 정보
+        student_name = request.form['student_name']
+        student_engname = request.form['student_engname']
+        origin = request.form['origin']
+
+        target.student_name = student_name
+        target.student_engname = student_engname
+        target.origin = origin
+        db.session.commit()
+  
+
 @bp.route("/ban_student/<int:b_id>", methods=['GET'])
 def get_select_student(b_id):
     if request.method == 'GET':

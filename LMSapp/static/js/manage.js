@@ -1171,29 +1171,7 @@ function post_consulting_request() {
                 totalPromises.push(promise);
             })
         }
-        // 전체 학생 대상 인 경우
-        // if (total_student_selections.length != 0) {
-        //     total_student_selections.forEach(value => {
-        //         v = value.split('_')
-        //         totalstudent_ban_id = Number(v[0])
-        //         totalstudent_teacher_id = Number(v[1])
-        //         target_student_selections = studentsData.filter(a => a.ban_id == totalstudent_ban_id)
-        //         target_student_selections.forEach(value => {
-        //             const promise = $.ajax({
-        //                 type: "POST",
-        //                 url: '/manage/consulting/' + totalstudent_ban_id + '/' + totalstudent_teacher_id + '/' + value['student_id']+ '/' + value['student_engname']+ '/' +value['origin'],
-        //                 // data: JSON.stringify(jsonData), // String -> json 형태로 변환
-        //                 data: {
-        //                     consulting_category: consulting_category,
-        //                     consulting_contents: consulting_contents,
-        //                     consulting_date: consulting_date,
-        //                     consulting_deadline: consulting_deadline
-        //                 }
-        //             })
-        //             totalPromises.push(promise);
-        //         })
-        //     })
-        // }
+        // 전체 학생 대상
         if (total_student_selections.length != 0) {
             total_student_selections.forEach(value => {
                 v = value.split('_')
@@ -1219,11 +1197,15 @@ function post_consulting_request() {
             indivi_student_selections.forEach(value => {
                 v = String(value).split('_')
                 s_info = studentsData.filter(a => a.student_id ==  Number(v[3]))[0]
+                console.log(s_info)
                 const promise = $.ajax({
                     type: "POST",
-                    url: '/manage/consulting/' + v[0] + '/' + v[1] + '/' + v[3]+ '/' + s_info['student_engname']+ '/' +s_info['origin'],
+                    url: '/manage/consulting/' + v[0] + '/' + v[1] + '/' + v[3]+ '/',
                     // data: JSON.stringify(jsonData), // String -> json 형태로 변환
                     data: {
+                        student_name : s_info['student_name'],
+                        student_engname : s_info['student_engname'],
+                        origin : s_info['origin'],
                         consulting_category: consulting_category,
                         consulting_contents: consulting_contents,
                         consulting_date: consulting_date,
@@ -1293,7 +1275,34 @@ async function get_request_consulting(){
     
     
 }
+
+async function update_student_info(){
     
+    await get_all_consulting()
+    await get_all_students()
+
+    let indivi_student_selections = selectedStudentList.filter(value => (value.includes('_')) && !(value.includes('-1')));
+    if (indivi_student_selections.length != 0) {
+        consultingData.forEach(value => {
+            s_info = studentsData.filter(a => a.student_id ==  value.stuent_id)[0]
+            console.log(s_info)
+                $.ajax({
+                type: "POST",
+                url: '/manage/update_consulting/' + consulting.id + '/',
+                // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+                data: {
+                    student_name : s_info['student_name'],
+                    student_engname : s_info['student_engname'],
+                    origin : s_info['origin']
+                }
+            })
+        })
+    }
+
+    
+    
+}
+
 function get_consultingban(key) {
     $('#consultingreqban_search_input').off('keyup');
     cinfo = key.split('_')
