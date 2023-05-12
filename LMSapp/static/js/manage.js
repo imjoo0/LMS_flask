@@ -1275,7 +1275,7 @@ async function get_request_consulting(){
                 <td class="col-1">${consulting.category}</td>
                 <td class="col-2">${consulting.contents}</td>
                 <td class="col-1">${ban_name}</td>
-                <td class="col-1">${consulting.teacher_name}</td>
+                <td class="col-1">${consulting.teacher_name} (${consulting.teacher_engname})</td>
                 <td class="col-1">${consulting.teacher_mobileno}</td>
                 <td class="col-1">${consulting.student_name} (${consulting.student_engname})</td>
                 <td class="col-1">${consulting.origin}</td>
