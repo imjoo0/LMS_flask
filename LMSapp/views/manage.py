@@ -533,24 +533,6 @@ def request_all_ban(b_type):
         
         return jsonify({'result':'success'})    
 
-
-@bp.route("/update_consulting/<int:cid>/", methods=['POST'])
-def update_student_info(c_id):
-    if request.method == 'POST':
-        target = Consulting.query.get_or_404(c_id)
-        # 원생 정보
-        student_name = request.form['student_name']
-        student_engname = request.form['student_engname']
-        origin = request.form['origin']
-
-        target.student_name = student_name
-        target.student_engname = student_engname
-        target.origin = origin
-        db.session.commit()
-
-        return jsonify({'result': '성공'}) 
-  
-
 @bp.route("/ban_student/<int:b_id>", methods=['GET'])
 def get_select_student(b_id):
     if request.method == 'GET':

@@ -1276,42 +1276,6 @@ async function get_request_consulting(){
     
 }
 
-async function update_student_info(){
-    await get_all_students()
-
-    let indivi_student_selections = selectedStudentList.filter(value => (value.includes('_')) && !(value.includes('-1')));
-    if (indivi_student_selections.length != 0) {
-        consultingData.forEach(value => {
-            console.log(value)
-            s_info = studentsData.filter(a => a.student_id ==  value.stuent_id)[0]
-            console.log(s_info)
-            $.ajax({
-                type: "POST",
-                url: '/manage/update_consulting/' + value.id + '/',
-                // data: JSON.stringify(jsonData), // String -> json 형태로 변환
-                data: {
-                    student_name : s_info['student_name'],
-                    student_engname : s_info['student_engname'],
-                    origin : s_info['origin']
-                },
-                success: function (response) {
-                    {
-                        if(response['result'] == '성공'){
-                            alert(response["result"])
-                            window.location.reload()
-                        }else{
-                            alert('문의 답변 저장 실패')
-                        }
-                    }
-                } 
-            })
-        })
-    }
-
-    
-    
-}
-
 function get_consultingban(key) {
     $('#consultingreqban_search_input').off('keyup');
     cinfo = key.split('_')
