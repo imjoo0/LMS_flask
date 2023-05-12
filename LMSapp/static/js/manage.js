@@ -744,17 +744,24 @@ function post_answer(q_id, category,done_code) {
             // 저장의 경우 
             answer_title = $('#answer_title').val()
             answer_contents = $('#answer_contents').val()
+            o_ban_id = 0
+            if(category == 2) {
+                o_ban_id = Number($('#o_ban_id2').val().split('_')[0])
+            }else if(category == 3 || category == 1){
+                o_ban_id = $('#o_ban_id').val()
+            }
         }else{
             // 수정의 경우
             answer_title = $('#answer_title_modi').val()
             answer_contents = $('#answer_content_modi').val()
+            o_ban_id = 0
+            if(category == 2) {
+                o_ban_id = Number($('#o_ban_id2').val().split('_')[0])
+            }else if(category == 3 || category == 1){
+                o_ban_id = $('#o_ban_id').val()
+            }
         }
-        o_ban_id = 0
-        if(category == 2) {
-            o_ban_id = Number($('#o_ban_id2').val().split('_')[0])
-        }else if(category == 3 || category == 1){
-            o_ban_id = $('#o_ban_id').val()
-        }
+        
         $.ajax({
             type: "POST",
             url: "/manage/answer/" + q_id +'/'+ done_code,
