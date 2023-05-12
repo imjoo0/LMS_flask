@@ -547,6 +547,8 @@ def update_student_info(c_id):
         target.student_engname = student_engname
         target.origin = origin
         db.session.commit()
+
+        return jsonify({'result': '성공'}) 
   
 
 @bp.route("/ban_student/<int:b_id>", methods=['GET'])
