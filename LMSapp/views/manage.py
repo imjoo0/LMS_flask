@@ -361,11 +361,12 @@ def make_task():
                 db.session.commit()
 
                 teacher_mobile_no = User.query.filter(User.id == teacher_id).first().mobileno
-                data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
-                    'templateCode': "task_cs",
-                    'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '반 이름':task_data[2], '업무내용': received_task, '마감기한': received_task_deadline}, }, ], }
-                headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
-                http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
+                if(received_task_startdate < Today and (teacher_mobile_no != "입력 바랍니다" or teacher_mobile_no != "000-0000-0000")):
+                    data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
+                        'templateCode': "task_cs",
+                        'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '반 이름':task_data[2], '업무내용': received_task, '마감기한': received_task_deadline}, }, ], }
+                    headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
+                    http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
 
         # 전체 반이 선택 된 경우
         else:
@@ -387,12 +388,12 @@ def make_task():
                 new_task = TaskBan(ban_id=target['ban_id'],teacher_id=target['teacher_id'], task_id=task.id ,done=0)
                 db.session.add(new_task)
                 db.session.commit()
-
-                data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
-                    'templateCode': "task_cs",
-                    'recipientList': [{'recipientNo':target['mobileno'], 'templateParameter': { '반 이름':target['ban_name'], '업무내용': received_task, '마감기한': received_task_deadline}, }, ], }
-                headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
-                http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
+                if(received_task_startdate < Today and (target['mobileno'] != "입력 바랍니다" or target['mobileno'] != "000-0000-0000")):
+                    data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
+                        'templateCode': "task_cs",
+                        'recipientList': [{'recipientNo':target['mobileno'], 'templateParameter': { '반 이름':target['ban_name'], '업무내용': received_task, '마감기한': received_task_deadline}, }, ], }
+                    headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
+                    http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
         return redirect('/manage')
 
 # 상담 요청  
@@ -433,11 +434,11 @@ def request_ban_student(b_id,t_id,b_name):
         for target in targets:
             print(target)
             new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=target['s_id'],contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
-        db.session.add(new_consulting)
-        db.session.commit()
+            db.session.add(new_consulting)
+            db.session.commit()
 
         teacher_mobile_no = User.query.filter(User.id == t_id).first().mobileno
-        if(teacher_mobile_no != "입력 바랍니다" or teacher_mobile_no != "000-0000-0000"):
+        if(received_consulting_startdate < Today and (teacher_mobile_no != "입력 바랍니다" or teacher_mobile_no != "000-0000-0000")):
             data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
             'templateCode': "consulting_cs",
             'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '원번':b_name+'반', '원생이름': '전체 원생 대상', '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], }
@@ -464,7 +465,7 @@ def request_indivi_student(b_id,t_id,s_id,origin,s_name):
         db.session.commit()
 
         teacher_mobile_no = User.query.filter(User.id == t_id).first().mobileno
-        if(teacher_mobile_no != "입력 바랍니다" or teacher_mobile_no != "000-0000-0000"):
+        if(received_consulting_startdate < Today and (teacher_mobile_no != "입력 바랍니다" or teacher_mobile_no != "000-0000-0000")):
             data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
             'templateCode': "consulting_cs",
             'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '원번':origin, '원생이름': s_name, '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], }
@@ -525,8 +526,7 @@ def request_all_ban(b_type):
         
         for ban in ban_info:
             print(ban)
-            
-            if(ban['mobileno'] != "입력 바랍니다" or ban['mobileno'] != "000-0000-0000"):
+            if(received_consulting_startdate < Today and(ban['mobileno'] != "입력 바랍니다" or ban['mobileno'] != "000-0000-0000")):
                 data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
                         'templateCode': "consulting_cs",
                         'recipientList': [{'recipientNo':ban['mobileno'], 'templateParameter': { '원번':ban['ban_name']+'반', '원생이름': '전체 원생 대상', '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], }
