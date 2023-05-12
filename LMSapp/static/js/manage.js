@@ -1252,10 +1252,14 @@ async function get_request_consulting(){
             var dataHtml = '';
             $.each(data, function (index, consulting) {
                 const ban_name = banData.filter(b=>b.ban_id == consulting.ban_id)[0].name
+                let contents = consulting.contents;
+                if (contents.length > 100) {
+                    contents = contents.substring(0, 100) + '...';
+                }
                 dataHtml += `
                 <td class="col-2">"${make_date(consulting.startdate)}" ~ "${make_date(consulting.deadline)}"</td>
                 <td class="col-1">${consulting.category}</td>
-                <td class="col-2">${consulting.contents}</td>
+                <td class="col-2">${contents}</td>
                 <td class="col-1">${ban_name}</td>
                 <td class="col-1">${consulting.teacher_name} (${consulting.teacher_engname})</td>
                 <td class="col-1">${consulting.teacher_mobileno}</td>
