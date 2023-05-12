@@ -757,7 +757,7 @@ function post_answer(q_id, category,done_code) {
         }
         $.ajax({
             type: "POST",
-            url: "/manage/answer/" + q_id,
+            url: "/manage/answer/" + q_id +'/'+ done_code,
             data: {
                 answer_title: answer_title,
                 answer_contents: answer_contents,
