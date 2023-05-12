@@ -1261,9 +1261,9 @@ async function get_request_consulting(){
                 <td class="col-1">${consulting.category}</td>
                 <td class="col-2">${contents}</td>
                 <td class="col-1">${consulting.ban_name}</td>
-                <td class="col-1">${consulting.teacher_name} (${consulting.teacher_engname})</td>
+                <td class="col-1">${make_nullcate(consulting.teacher_name)} (${make_nullcate(consulting.teacher_engname)})</td>
                 <td class="col-1">${consulting.teacher_mobileno}</td>
-                <td class="col-1">${consulting.student_name} (${consulting.student_engname})</td>
+                <td class="col-1">${make_nullcate(consulting.student_name)} (${make_nullcate(consulting.student_engname)})</td>
                 <td class="col-1">${consulting.origin}</td>
                 <td class="col-1">${make_reject_code(consulting.done)}</td>
                 <td class="col-1" onclick="get_consultingban(${consulting.id})"> 🔍 </td>`;
