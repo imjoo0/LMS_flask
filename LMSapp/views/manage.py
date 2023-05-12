@@ -480,7 +480,6 @@ def request_indivi_student(b_id,t_id,s_id,origin,s_name):
 def request_all_ban(b_type):
     if request.method == 'POST':
         post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
-
         #  상담 카테고리 저장
         received_consulting_category = request.form['consulting_category']
         #  상담 내용 저장
