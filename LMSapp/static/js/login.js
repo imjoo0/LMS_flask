@@ -8,7 +8,7 @@ $.ajaxSetup({
 function sign_in() {
     user_id = $('#user_id').val();
     password = $('#user_pw').val();
-    $('.append_st').hide()
+    $('#login_msg_title').html('Login')
     $.ajax({
         type: 'POST',
         url: '/login',
@@ -22,7 +22,7 @@ function sign_in() {
                 $.cookie('mytoken', response['token'], { path: '/' });
                 window.location.replace('/main')
             }else{
-                $('.append_st').show()
+                $('#login_msg_title').html('아이디 패스워드를 확인해 주세요')
             }
         }
     });
