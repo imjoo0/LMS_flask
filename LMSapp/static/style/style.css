@@ -867,3 +867,8 @@ input::placeholder {
     border : 0px;
     border-top: 5px dotted #663399;
   }
+
+  .error_msg_alert{
+    color:red; text-align:center;
+    display:none;
+  }
