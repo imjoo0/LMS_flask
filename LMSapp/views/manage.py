@@ -9,20 +9,23 @@ from LMSapp.views import common
 import requests
 from urllib.parse import unquote
 import datetime
+from views.main_views import authrize
 
 bp = Blueprint('manage', __name__, url_prefix='/manage')
 
 # 관리부서 메인 페이지
 # 테스트 계정 id : T0001 pw동일
 @bp.route("/", methods=['GET'])
-def home():
+@authrize
+def home(u):
     if request.method == 'GET':
-        user = User.query.filter(User.user_id == user['user_id']).first()        
+        user = User.query.filter(User.user_id == u['user_id']).first()        
         return render_template('manage.html', user=user,)
 
 # 본원 답변 기능
 @bp.route('/answer/<int:id>/<int:done_code>', methods=['POST'])
-def answer(id,done_code):
+@authrize
+def answer(u,id,done_code):
     if request.method == 'POST':
         answer_title = request.form['answer_title']
         answer_contents = request.form['answer_contents']
@@ -32,7 +35,7 @@ def answer(id,done_code):
 
         if(done_code == 0):
             post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
-            new_answer = Answer(content=answer_contents,title=answer_title,created_at=Today,reject_code=int(o_ban_id),question_id = id,writer_id = session['user_registerno'])
+            new_answer = Answer(content=answer_contents,title=answer_title,created_at=Today,reject_code=int(o_ban_id),question_id = id,writer_id = u['id'])
             db.session.add(new_answer)
             data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
                 'templateCode': "work_cs_answer",
