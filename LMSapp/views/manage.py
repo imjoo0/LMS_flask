@@ -337,7 +337,6 @@ def request_task():
 @bp.route("/task", methods=['POST'])
 def make_task():
     if request.method == 'POST':
-        post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
         #  업무 카테고리 저장
         received_category = request.form['task_category']
         #  업무 내용 저장
@@ -369,7 +368,7 @@ def make_task():
 
                 teacher_mobile_no = User.query.filter(User.id == teacher_id).first().mobileno
                 if(received_task_startdate < Today and (teacher_mobile_no != "입력 바랍니다" or teacher_mobile_no != "000-0000-0000")):
-                    print('보내짐')
+                    post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
                     data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
                         'templateCode': "task_cs",
                         'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '반 이름':task_data[2], '업무내용': received_task, '마감기한': received_task_deadline}, }, ], }
@@ -397,6 +396,7 @@ def make_task():
                 db.session.add(new_task)
                 db.session.commit()
                 if(received_task_startdate < Today and (target['mobileno'] != "입력 바랍니다" or target['mobileno'] != "000-0000-0000")):
+                    post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
                     data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
                         'templateCode': "task_cs",
                         'recipientList': [{'recipientNo':target['mobileno'], 'templateParameter': { '반 이름':target['ban_name'], '업무내용': received_task, '마감기한': received_task_deadline}, }, ], }
@@ -427,7 +427,6 @@ def request_ban_student(b_id,t_id,b_name):
     if request.method == 'POST':
         # URL 디코딩을 수행하여 공백 문자열을 공백으로 변환
         b_name = unquote(b_name)
-        post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
         #  상담 카테고리 저장
         received_consulting_category = request.form['consulting_category']
         #  상담 내용 저장
@@ -446,7 +445,7 @@ def request_ban_student(b_id,t_id,b_name):
         teacher_mobile_no = User.query.filter(User.id == t_id).first().mobileno
         print(teacher_mobile_no)
         if(received_consulting_startdate < Today and (teacher_mobile_no != "입력 바랍니다" or teacher_mobile_no != "000-0000-0000")):
-            print("찍혀랏")
+            post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
             data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
             'templateCode': "consulting_cs",
             'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '원번':b_name, '원생이름': '전체 원생 대상', '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], }
@@ -478,6 +477,7 @@ def request_indivi_student(b_id,t_id,s_id,origin,s_name):
 
         teacher_mobile_no = User.query.filter(User.id == t_id).first().mobileno
         if(received_consulting_startdate < Today and (teacher_mobile_no != "입력 바랍니다" or teacher_mobile_no != "000-0000-0000")):
+            post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
             data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
             'templateCode': "consulting_cs",
             'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '원번':origin, '원생이름': s_name, '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], }
@@ -490,7 +490,6 @@ def request_indivi_student(b_id,t_id,s_id,origin,s_name):
 @bp.route("/consulting/all_ban/<int:b_type>", methods=['POST'])
 def request_all_ban(b_type):
     if request.method == 'POST':
-        post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
         #  상담 카테고리 저장
         received_consulting_category = request.form['consulting_category']
         #  상담 내용 저장
@@ -532,6 +531,7 @@ def request_all_ban(b_type):
         
         for ban in ban_info:
             if(received_consulting_startdate < Today and(ban['mobileno'] != "입력 바랍니다" or ban['mobileno'] != "000-0000-0000")):
+                post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
                 data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
                         'templateCode': "consulting_cs",
                         'recipientList': [{'recipientNo':ban['mobileno'], 'templateParameter': { '원번':ban['ban_name'], '원생이름': '전체 원생 대상', '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], }
