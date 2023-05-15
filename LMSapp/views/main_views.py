@@ -58,17 +58,13 @@ def sign_in():
     if result is not None:
         payload = {
             'user_id' : result.user_id,
-            'id':result.id
+            'id':result.id,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=80000)
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-        session['user_id'] = result.user_id,
-        session['user_registerno'] = result.id
-        if result.category == 1 :
-            return redirect(url_for('manage.home'))
-        elif result.category == 0:
-            return redirect(url_for('admin.home'))
-        else:
-            return redirect(url_for('teacher.home'))
+        # session['user_id'] = result.user_id,
+        # session['user_registerno'] = result.id
+        return jsonify({'result': 'success', 'token': token})
     else:
         return redirect('/login')
 
