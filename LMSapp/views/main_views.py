@@ -73,18 +73,16 @@ def sign_in():
 # 로그아웃 API
 @bp.route("/logout", methods=['GET'])
 def logout():
-    session.pop('user_id', None)
-    return redirect('/')
-    # token_receive = request.cookies.get('mytoken')
-    # try:
-    #     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-    #     return jsonify({
-    #         'result': 'success',
-    #         'token': jwt.encode(payload, SECRET_KEY, algorithm='HS256'),
-    #         'msg': '로그아웃 성공'
-    #     })
-    # except jwt.ExpiredSignatureError or jwt.exceptions.DecodeError:
-    #     return jsonify({
-    #         'result': 'fail',
-    #         'msg': '로그아웃 실패'
-    #     })
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        return jsonify({
+            'result': 'success',
+            'token': jwt.encode(payload, SECRET_KEY, algorithm='HS256'),
+            'msg': '로그아웃 성공'
+        })
+    except jwt.ExpiredSignatureError or jwt.exceptions.DecodeError:
+        return jsonify({
+            'result': 'fail',
+            'msg': '로그아웃 실패'
+        })

@@ -17,7 +17,7 @@ bp = Blueprint('manage', __name__, url_prefix='/manage')
 @bp.route("/", methods=['GET'])
 def home():
     if request.method == 'GET':
-        user = User.query.filter(User.user_id == session['user_id']).first()        
+        user = User.query.filter(User.user_id == user['user_id']).first()        
         return render_template('manage.html', user=user,)
 
 # 본원 답변 기능
