@@ -49,8 +49,9 @@ def home(user):
 
 @bp.route('/login', methods=['POST'])
 def sign_in():
-    user_id = request.form.get('user_id')
-    user_pw = request.form.get('user_pw')
+    data = request.get_json()
+    user_id = data.get('user_id')
+    user_pw = data.get('user_pw')
     # hashed_pw = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
     print(user_id)
     print(user_pw)

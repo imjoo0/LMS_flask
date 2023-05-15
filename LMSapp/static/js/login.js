@@ -17,7 +17,7 @@ function sign_in() {
             user_id: user_id,
             user_pw: password
         }),
-        contentType: 'application/x-www-form-urlencoded',
+        contentType: 'application/json',
         success: function (response) {
             if (response['result'] == 'success') {
                 $.cookie('mytoken', response['token'], { path: '/' });
