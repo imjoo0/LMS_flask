@@ -1,3 +1,11 @@
+var csrf_token = "{{ csrf_token() }}";
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrf_token);
+            }
+        }
+    });
 function sign_in() {
     user_id = $('#user_id').val();
     password = $('#user_pw').val();
