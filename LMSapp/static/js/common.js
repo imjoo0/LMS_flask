@@ -4,7 +4,10 @@ const today = new Date().setHours(0, 0, 0, 0);
 const todayyoil = new Date().getDay()
 
 // 
-console.log(document.cookie)
+function deleteCookie(name) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    console.log(document.cookie)
+}
 function logout() {
     $.ajax({
         type: "GET",
@@ -12,11 +15,10 @@ function logout() {
         data: {},
         success: function (response) {
             if (response['result'] === 'success') {
-                $.removeCookie('mytoken', response['token'])
-                alert(response['msg'])
+                deleteCookie('mytoken');
+                console.log(document.cookie)
                 window.location.href = '/';
             } else {
-                alert(response['msg'])
                 window.location.href = '/';
             }
         }
