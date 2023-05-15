@@ -2,7 +2,7 @@ from flask import Blueprint,render_template, jsonify, request,redirect,url_for
 from functools import wraps
 import jwt
 import hashlib
-import datetime
+from datetime import datetime
 bp = Blueprint('main', __name__, url_prefix='/')
 
 # 로그인 
@@ -61,7 +61,7 @@ def sign_in():
             'user_id' : result.user_id,
             'id':result.id,
             'category':result.category,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=6000)    
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=82800) #23시간 후 만료     
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
         # session['user_id'] = result.user_id,
