@@ -8,6 +8,8 @@ $.ajaxSetup({
 function sign_in() {
     user_id = $('#user_id').val();
     password = $('#user_pw').val();
+    console.log(user_id)
+    console.log(password)
     $.ajax({
         type: 'POST',
         url: '/login',
