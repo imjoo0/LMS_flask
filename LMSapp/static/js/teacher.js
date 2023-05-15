@@ -1549,14 +1549,6 @@ async function get_question_detail(q_id) {
     $('#question_pagination').hide()
     $('#questiondetail').show()
     questiondata = questionAnswerdata.filter(q => q.id == q_id)[0]
-    console.log(mybansData)
-    if(questiondata.student_id != 0){
-        ban_student_data = allStudentData.filter(s => s.register_no == questiondata.student_id)[0]
-    }else{
-        ban_student_data = mybansData.filter(b=>b.ban_id == questiondata.ban_id)[0]
-    }
-    console.log(ban_student_data)
-    
     let temp_question_list = `
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">문의 종류</span>
@@ -1573,11 +1565,24 @@ async function get_question_detail(q_id) {
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">작성일</span>
         <p>${questiondata.create_date}</p>
-    </div>
-    <div class="modal-body-select-container">
-        <span class="modal-body-select-label">대상 반 | 학생</span>
-        <p>${ban_student_data.classname} ➖ ${ban_student_data.name} (${ban_student_data.nick_name}:${ban_student_data.origin})</p>
-    </div>
+    </div>`
+    console.log(mybansData)
+    if(questiondata.student_id != 0){
+        ban_student_data = allStudentData.filter(s => s.register_no == questiondata.student_id)[0]
+        temp_question_list+=`
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">대상 반 | 학생</span>
+            <p>${ban_student_data.classname} ➖ ${ban_student_data.name} (${ban_student_data.nick_name}:${ban_student_data.origin})</p>
+        </div>`
+    }else{
+        ban_student_data = mybansData.filter(b=>b.register_no == questiondata.ban_id)[0]
+        temp_question_list+=`
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">대상 반 | 학생</span>
+            <p>${ban_student_data.name} ➖ "특정 원생 선택하지 않음"</p>
+        </div>`
+    }
+    temp_question_list+=`
     <div class="modal-body-select-container">
     <span class="modal-body-select-label">첨부파일</span>
     <div class="make_col">
