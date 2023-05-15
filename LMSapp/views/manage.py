@@ -491,7 +491,7 @@ def request_indivi_student(b_id,t_id,s_id):
             post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
             data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
             'templateCode': "consulting_cs",
-            'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '원번':origin, '원생이름': s_name, '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], }
+            'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '원번':origin, '원생이름': student_name, '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], }
             headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
             http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
 
