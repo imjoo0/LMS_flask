@@ -1386,7 +1386,7 @@ function change_question_kind(str) {
         let question_html = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">대상 원생</span>
-            <select id="student_list" class="modal-body-select" onchange="attach_consulting_history(this.value)">
+            <select id="student_list_so" class="modal-body-select" onchange="attach_consulting_history(this.value)">
                 <option value="none" selected>대상 원생을 선택 해 주세요</option>
             </select>
         </div>
@@ -1429,6 +1429,7 @@ function get_ban_student(ban_id) {
             <option value="${student.student_id}"> ${student.student_name} *${student.student_origin}</option>
             `;
             $('#student_list').html(temp_target_student)
+            $('#student_list_so').html(temp_target_student)
         });
 
         // $('#student_list').html(temp_target_student).selectmenu({
@@ -1495,7 +1496,7 @@ function question_save(){
     console.log(file_upload)
     const my_ban_list = $('#my_ban_list').val()
     if(q_kind == 1 || q_kind == 2 ){
-        const student_list = $('#student_list').val()
+        const student_list = $('#student_list_so').val()
         const h_select_box = $('#h_select_box').val()
         if(my_ban_list == "none" || student_list == "none" || h_select_box == "none" ){
             $('#error_msg_bansel').show()
@@ -1534,6 +1535,7 @@ function question_save(){
         if(my_ban_list == "none"){
             $('#error_msg_bansel').show()
         }else{
+            const student_list = $('#student_list').val()
             $.ajax({
                 type: "POST",
                 url: '/teacher/question',
