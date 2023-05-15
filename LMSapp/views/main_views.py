@@ -31,7 +31,14 @@ def authrize(f):
 @authrize
 def login(user):
     if user is not None:
-        return redirect(url_for('main.home'))
+        if user['category'] == 1 or '1' :
+            print('여기 찍히니')
+            return redirect(url_for('manage.home'))
+        elif user['category'] == 0 or '0':
+            return redirect(url_for('admin.home'))
+        else:
+            print('여기 찍히니')
+            return redirect(url_for('teacher.home'))
     return render_template('login.html')
 
 @bp.route('/main')
@@ -40,10 +47,12 @@ def home(user):
     if user is not None:
         print(user['category'])
         if user['category'] == 1 or '1' :
+            print('여기 찍히니')
             return redirect(url_for('manage.home'))
         elif user['category'] == 0 or '0':
             return redirect(url_for('admin.home'))
         else:
+            print('여기 찍히니')
             return redirect(url_for('teacher.home'))
 
 
