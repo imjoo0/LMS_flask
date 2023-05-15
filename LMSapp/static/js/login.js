@@ -8,8 +8,7 @@ $.ajaxSetup({
 function sign_in() {
     user_id = $('#user_id').val();
     password = $('#user_pw').val();
-    console.log(user_id)
-    console.log(password)
+    $('.append_st').hide()
     $.ajax({
         type: 'POST',
         url: '/login',
@@ -23,15 +22,7 @@ function sign_in() {
                 $.cookie('mytoken', response['token'], { path: '/' });
                 window.location.replace('/main')
             }else{
-                var child = document.querySelector(".append_st");
-                if (child.hasChildNodes()) {
-                    child.removeChild(child.childNodes[0]);
-                }
-                var creat_sentence = document.createElement('p');
-                var creat_text = document.createTextNode(response['msg']);
-                creat_sentence.appendChild(creat_text);
-                creat_sentence.classList.add('creatst');
-                child.appendChild(creat_sentence);
+                $('.append_st').show()
             }
         }
     });
