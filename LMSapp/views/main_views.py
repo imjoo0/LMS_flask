@@ -39,6 +39,7 @@ def login(user):
 @authrize
 def home(user):
     if user is not None:
+        print(user)
         if user.category == 1 :
             return redirect(url_for('manage.home'))
         elif user.category == 0:
@@ -65,7 +66,7 @@ def sign_in():
         # session['user_registerno'] = result.id
         return jsonify({'result': 'success', 'token': token})
     else:
-        return redirect('/login')
+        return jsonify({'result':'fail', 'msg': 'id, pw 를 확인해주세요'})
 
 
 # 로그아웃 API
