@@ -2,7 +2,6 @@ from flask import Blueprint,render_template, jsonify, request,redirect,url_for
 from functools import wraps
 import jwt
 import hashlib
-import datetime
 bp = Blueprint('main', __name__, url_prefix='/')
 
 # 로그인 
