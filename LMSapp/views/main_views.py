@@ -38,7 +38,7 @@ def login(user):
 @authrize
 def home(user):
     if user is not None:
-        print(user)
+        print(user['category'])
         if user['category'] == 1 or '1' :
             return redirect(url_for('manage.home'))
         elif user['category'] == 0 or '0':
