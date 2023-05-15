@@ -32,7 +32,7 @@ def authrize(f):
 @authrize
 def login(user):
     if user is not None:
-        return redirect(url_for('user.home'))
+        return redirect(url_for('main.home'))
     return render_template('login.html')
 
 @bp.route('/main')
@@ -49,8 +49,10 @@ def home(user):
 
 @bp.route('/login', methods=['POST'])
 def sign_in():
-    user_id = request.form.get('user_id')
-    user_pw = request.form.get('user_pw')
+    print('찍히나?')
+    user_id = request.form['user_id']
+    user_pw = request.form['user_pw']
+    print(user_id)
     hashed_pw = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
     result = User.query.filter(User.user_id == user_id and User.user_pw == user_pw).first()
     
