@@ -12,10 +12,10 @@ function sign_in() {
     $.ajax({
         type: 'POST',
         url: '/login',
-        data: {
+        data: JSON.stringify({
             user_id: user_id,
             user_pw: password
-        },
+        }),
         contentType: 'application/json',
         success: function (response) {
             if (response['result'] == 'success') {
