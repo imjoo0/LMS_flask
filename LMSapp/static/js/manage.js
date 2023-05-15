@@ -773,7 +773,7 @@ function post_answer(q_id, category,done_code) {
             success: function (response) {
                 {
                     if(response['result'] == '문의 답변 저장 완료'){
-                        alert(response["result"])
+                        alert("문의 답변 완료")
                         window.location.reload()
                     }else{
                         alert('문의 답변 저장 실패')

@@ -27,10 +27,11 @@ def answer(id,done_code):
         answer_title = request.form['answer_title']
         answer_contents = request.form['answer_contents']
         o_ban_id = request.form['o_ban_id']
+        target_question = Question.query.get_or_404(id)
+        target_question.answer = 1
+
         if(done_code == 0):
             post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
-            target_question = Question.query.get_or_404(id)
-            target_question.answer = 1
             new_answer = Answer(content=answer_contents,title=answer_title,created_at=Today,reject_code=int(o_ban_id),question_id = id,writer_id = session['user_registerno'])
             db.session.add(new_answer)
             data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
@@ -39,9 +40,12 @@ def answer(id,done_code):
             headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
             http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
         else:
-            target_answer = Answer.query.get_or_404(id)
-            target_answer.title = answer_title
-            target_answer.content = answer_contents
+            target_answer = Answer.query.filter(Answer.question_id == id).first()
+            if(answer_title != '' or None):
+                print(answer_title)
+                target_answer.title = answer_title
+            if(answer_contents != '' or None):
+                target_answer.content = answer_contents
             target_answer.created_at = Today
             target_answer.reject_code = int(o_ban_id)
             target_answer.question_id = id
