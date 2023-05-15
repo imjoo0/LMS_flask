@@ -8,6 +8,7 @@ from flask import Blueprint, render_template, jsonify, request, redirect, url_fo
 from datetime import datetime, timedelta, date
 # file-upload 로 자동 바꿈 방지 모듈
 from LMSapp.views import common
+from LMSapp.views.main_views import authrize
 import requests 
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 
@@ -29,20 +30,22 @@ standard = datetime.strptime('11110101', "%Y%m%d").date()
 
 
 @bp.route("/", methods=['GET'])
-def home():
+@authrize
+def home(u):
     if request.method == 'GET':
-        teacher_info = callapi.purple_info(session['user_id'], 'get_teacher_info')
+        teacher_info = callapi.purple_info(u['user_id'], 'get_teacher_info')
         return render_template('teacher.html', user=teacher_info)
     
 # 차트 관련
 @bp.route('/get_data', methods=['GET'])
-def get_data():
+@authrize
+def get_data(u):
     all_consulting = []
     all_task = []
-    ban_data = callapi.purple_ban(session['user_id'], 'get_mybans')
+    ban_data = callapi.purple_ban(u['user_id'], 'get_mybans')
     switchstudent = []
     outstudent = []
-    my_students = callapi.purple_ban(session['user_id'], 'get_mystudents')
+    my_students = callapi.purple_ban(u['user_id'], 'get_mystudents')
     if len(ban_data) != 0:
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00',port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
         try:
@@ -53,13 +56,12 @@ def get_data():
 
                 # 업무
                 cur.execute("select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id left join taskcategory on task.category_id = taskcategory.id where ( (task.category_id = 11) or ( (task.cycle = %s) or (task.cycle = 0) ) ) and ( task.startdate <= %s and %s <= task.deadline ) and taskban.teacher_id=%s;", (today_yoil, Today, Today,ban_data[0]['id'],))
-                # cur.execute("select taskban.id,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id where (task.cycle = %s or task.cycle = %s) and task.startdate <= %s and %s <= task.deadline and taskban.teacher_id=%s;", (today_yoil, 0, Today, Today, session['user_registerno'],))
                 all_task = cur.fetchall()
                 
-                cur.execute("SELECT ban_id, id, student_id FROM switchstudent WHERE teacher_id = %s GROUP BY ban_id, id, student_id;", (session['user_registerno'],))
+                cur.execute("SELECT ban_id, id, student_id FROM switchstudent WHERE teacher_id = %s GROUP BY ban_id, id, student_id;", (u['id'],))
                 switchstudent = cur.fetchall()
 
-                cur.execute("SELECT ban_id, id, student_id FROM outstudent WHERE teacher_id = %s GROUP BY ban_id, id, student_id;", (session['user_registerno'],))
+                cur.execute("SELECT ban_id, id, student_id FROM outstudent WHERE teacher_id = %s GROUP BY ban_id, id, student_id;", (u['id'],))
                 outstudent = cur.fetchall()
         except:
             print('err')
@@ -70,8 +72,9 @@ def get_data():
 
 # consulting_history
 @bp.route('/get_mystudents_history', methods=['GET'])
-def get_mystudents_history():
-    all_consulting_history =  callapi.purple_info(session['user_id'], 'get_mystudents_history')
+@authrize
+def get_mystudents_history(u):
+    all_consulting_history =  callapi.purple_info(u['user_id'], 'get_mystudents_history')
     return jsonify({'all_consulting_history':all_consulting_history})
 
 @bp.route('/get_student_history/<int:s_id>', methods=['GET'])
@@ -81,10 +84,11 @@ def get_student_history(s_id):
 
 # 문의 리스트 / 문의 작성    
 @bp.route('/question', methods=['GET', 'POST'])
-def question():
+@authrize
+def question(u):
     if request.method == 'GET':
         data = []
-        my_questions = Question.query.filter(Question.teacher_id == session['user_registerno']).all()
+        my_questions = Question.query.filter(Question.teacher_id == u['id']).all()
         for q in my_questions:
             qdata = {}
             qdata['id'] = q.id
@@ -125,7 +129,7 @@ def question():
         question_category = request.form['question_category']
         title = request.form['question_title']
         contents = request.form['question_contents']
-        teacher = session['user_registerno']
+        teacher = u['id']
         ban_id = request.form['ban_id']
         student_id = request.form['target_student']
         teacher_mobileno = request.form.get('teacher_mobileno', None)

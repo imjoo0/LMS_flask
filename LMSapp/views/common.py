@@ -7,6 +7,7 @@ import callapi
 import pymysql
 import zipfile
 from flask import session
+from LMSapp.views.main_views import authrize
 
 bp = Blueprint('common', __name__, url_prefix='/common')
 file_upload = FileUpload()
@@ -142,7 +143,8 @@ def del_question(id):
     
 # 댓글 작성 / 조회 
 @bp.route('/comment/<int:id>/<int:is_coco>', methods=['GET','POST'])
-def comment(id,is_coco):
+@authrize
+def comment(u,id,is_coco):
     if request.method == 'GET':
         q = Comment.query.filter(Comment.question_id == id).all()
         teacher_info = callapi.purple_info(q.teacher_id,'get_teacher_info_by_id')
@@ -177,7 +179,7 @@ def comment(id,is_coco):
     elif request.method == 'POST':
         # target_question = Question.query.get_or_404(id)
         comment_contents = request.form['comment_contents'] 
-        new_comment = Comment(contents=comment_contents,user_id=session['user_registerno'],question_id=id,created_at=Today,parent_id=is_coco)
+        new_comment = Comment(contents=comment_contents,user_id=u['id'],question_id=id,created_at=Today,parent_id=is_coco)
         db.session.add(new_comment)
         db.session.commit()
         return jsonify({'result': '댓글 작성 완료'})
