@@ -58,8 +58,7 @@ def sign_in():
     if result is not None:
         payload = {
             'user_id' : result.user_id,
-            'id':result.id,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=80000)
+            'id':result.id
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
         # session['user_id'] = result.user_id,
