@@ -10,7 +10,7 @@ from LMSapp.views import *
 import callapi
 import config
 from LMSapp.models import *
-
+import datetime
 SECRET_KEY = config.SECRET_KEY
 
 def authrize(f):
@@ -60,7 +60,7 @@ def sign_in():
             'user_id' : result.user_id,
             'id':result.id,
             'category':result.category,
-            'exp': datetime.utcnow() + datetime.timedelta(seconds=82800) #23시간 후 만료     
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=82800) #23시간 후 만료     
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
         # session['user_id'] = result.user_id,
