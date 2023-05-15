@@ -1184,7 +1184,6 @@ async function get_consulting_history() {
         container.pagination(Object.assign(CpaginationOptions, { 'dataSource': target_list }));
     }
 }
-// 문의 내용 상세보기
 async function get_consulting_history_detail(c_id) {
     $('#consulting_history_bansel_box').hide()
     $('#consulting_history_box').hide()
