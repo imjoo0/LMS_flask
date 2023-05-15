@@ -51,27 +51,29 @@ def home(user):
 def sign_in():
     user_id = request.form.get('user_id')
     user_pw = request.form.get('user_pw')
-    hashed_pw = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
+    # hashed_pw = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
     print(user_id)
-    print(hashed_pw)
+    print(user_pw)
+    print('이게 안찍히네')
+    # print(hashed_pw)
     # result = User.query.filter(User.user_id == user_id and User.user_pw == user_pw).first()
     
-    if result is not None:
-        payload = {
-            'user_id' : result.user_id,
-            'id':result.id
-        }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-        session['user_id'] = result.user_id,
-        session['user_registerno'] = result.id
-        if result.category == 1 :
-            return redirect(url_for('manage.home'))
-        elif result.category == 0:
-            return redirect(url_for('admin.home'))
-        else:
-            return redirect(url_for('teacher.home'))
-    else:
-        return redirect('/login')
+    # if result is not None:
+    #     payload = {
+    #         'user_id' : result.user_id,
+    #         'id':result.id
+    #     }
+    #     token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+    #     session['user_id'] = result.user_id,
+    #     session['user_registerno'] = result.id
+    #     if result.category == 1 :
+    #         return redirect(url_for('manage.home'))
+    #     elif result.category == 0:
+    #         return redirect(url_for('admin.home'))
+    #     else:
+    #         return redirect(url_for('teacher.home'))
+    # else:
+    #     return redirect('/login')
 
 
 # 로그아웃 API
