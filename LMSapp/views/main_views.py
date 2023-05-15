@@ -51,9 +51,10 @@ def home(user):
 def sign_in():
     user_id = request.form.get('user_id')
     user_pw = request.form.get('user_pw')
-    print(user_id)
     hashed_pw = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
-    result = User.query.filter(User.user_id == user_id and User.user_pw == user_pw).first()
+    print(user_id)
+    print(hashed_pw)
+    # result = User.query.filter(User.user_id == user_id and User.user_pw == user_pw).first()
     
     if result is not None:
         payload = {
