@@ -40,9 +40,9 @@ def login(user):
 def home(user):
     if user is not None:
         print(user)
-        if user.category == 1 :
+        if user['category'] == 1 or '1' :
             return redirect(url_for('manage.home'))
-        elif user.category == 0:
+        elif user['category'] == 0 or '0':
             return redirect(url_for('admin.home'))
         else:
             return redirect(url_for('teacher.home'))
@@ -60,7 +60,7 @@ def sign_in():
         payload = {
             'user_id' : result.user_id,
             'id':result.id,
-            'category':result.category
+            'category':result.category,
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
         # session['user_id'] = result.user_id,
