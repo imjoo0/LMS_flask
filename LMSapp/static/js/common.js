@@ -4,6 +4,9 @@ const today = new Date().setHours(0, 0, 0, 0);
 const todayyoil = new Date().getDay()
 
 // 
+function deleteCookie(name) {
+    document.cookie = name + '=; expires='+new Date(0).toUTCString()+'path=/;';
+}
 console.log(document.cookie)
 function logout() {
     $.ajax({
@@ -12,7 +15,7 @@ function logout() {
         data: {},
         success: function (response) {
             if (response['result'] === 'success') {
-                $.removeCookie('mytoken', response['token'])
+                deleteCookie('mytoken');
                 alert(response['msg'])
                 window.location.href = '/';
             } else {

@@ -444,6 +444,10 @@ def request_ban_student(b_id,t_id,b_name):
         #  상담을 마무리할 마감일 저장
         received_consulting_deadline = request.form['consulting_deadline']
         targets = callapi.purple_info(b_id,'get_student_simple')
+        print(b_name)
+        print(received_consulting_category)
+        print(received_consulting_contents)
+        print(received_consulting_startdate)
         for target in targets:
             new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=target['s_id'],student_name=target['student_name'],student_engname=target['student_engname'],origin=target['origin'],contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
             db.session.add(new_consulting)
@@ -463,7 +467,7 @@ def request_ban_student(b_id,t_id,b_name):
 
 # 개별 원생 상담 요청 저장
 @bp.route("/consulting/<int:b_id>/<int:t_id>/<int:s_id>/", methods=['POST'])
-def request_indivi_student(b_id,t_id,s_id,origin,s_name):
+def request_indivi_student(b_id,t_id,s_id):
     if request.method == 'POST':
         post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
         #  상담 카테고리 저장
@@ -487,7 +491,7 @@ def request_indivi_student(b_id,t_id,s_id,origin,s_name):
             post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
             data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
             'templateCode': "consulting_cs",
-            'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '원번':origin, '원생이름': s_name, '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], }
+            'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '원번':origin, '원생이름': student_name, '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], }
             headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
             http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
 
