@@ -6,10 +6,10 @@ import json
 import callapi
 import pymysql
 from LMSapp.views import common
+from LMSapp.views.main_views import authrize
 import requests
 from urllib.parse import unquote
 import datetime
-from views.main_views import authrize
 
 bp = Blueprint('manage', __name__, url_prefix='/manage')
 
