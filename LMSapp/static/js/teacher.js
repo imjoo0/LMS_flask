@@ -1408,7 +1408,7 @@ function get_ban_student(ban_id) {
         let temp_target_student = '<option value="none" selected>반 원생이 없습니다.</option>';
         $('#student_list').html(temp_target_student)
     } else {
-        let temp_target_student = '<option value="none" selected>대상 원생을 선택해주세요</option>';
+        let temp_target_student = '<option value=0 selected>특정 원생 선택하지 않기</option>';
         // ㄱㄴㄷㄹ 순 정렬 
         data.sort(function (a, b) {
             var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
@@ -1550,7 +1550,14 @@ async function get_question_detail(q_id) {
     $('#question_pagination').hide()
     $('#questiondetail').show()
     questiondata = questionAnswerdata.filter(q => q.id == q_id)[0]
-    ban_student_data = allStudentData.filter(s => s.register_no == questiondata.student_id)[0]
+    console.log(mybansData)
+    if(questiondata.student_id != 0){
+        ban_student_data = allStudentData.filter(s => s.register_no == questiondata.student_id)[0]
+    }else{
+        ban_student_data = mybansData.filter(b=>b.ban_id == questiondata.ban_id)[0]
+    }
+    console.log(ban_student_data)
+    
     let temp_question_list = `
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">문의 종류</span>
