@@ -444,6 +444,10 @@ def request_ban_student(b_id,t_id,b_name):
         #  상담을 마무리할 마감일 저장
         received_consulting_deadline = request.form['consulting_deadline']
         targets = callapi.purple_info(b_id,'get_student_simple')
+        print(b_name)
+        print(received_consulting_category)
+        print(received_consulting_contents)
+        print(received_consulting_startdate)
         for target in targets:
             new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=target['s_id'],student_name=target['student_name'],student_engname=target['student_engname'],origin=target['origin'],contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
             db.session.add(new_consulting)
