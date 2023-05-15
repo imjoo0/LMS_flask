@@ -31,7 +31,11 @@ def authrize(f):
 @authrize
 def login(user):
     if user is not None:
+<<<<<<< HEAD
+        return redirect('/manage')
+=======
         return redirect(url_for('main.home'))
+>>>>>>> fe09d1424ba9354edf972b84b3405c54a78eef10
     return render_template('login.html')
 
 @bp.route('/main')
