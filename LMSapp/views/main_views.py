@@ -49,9 +49,8 @@ def home(user):
 
 @bp.route('/login', methods=['POST'])
 def sign_in():
-    print('Wl')
-    user_id = request.form['user_id']
-    user_pw = request.form['user_pw']
+    user_id = request.form.get('user_id')
+    user_pw = request.form.get('user_pw')
     print(user_id)
     hashed_pw = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
     result = User.query.filter(User.user_id == user_id and User.user_pw == user_pw).first()
