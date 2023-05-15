@@ -6,7 +6,7 @@ const todayyoil = new Date().getDay()
 function logout() {
     $.ajax({
         type: "GET",
-        url: "/api/logout",
+        url: "/logout",
         data: {},
         success: function (response) {
             if (response['result'] === 'success') {
