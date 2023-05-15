@@ -1401,10 +1401,6 @@ function change_question_kind(str) {
     }
 }
 function get_ban_student(ban_id) {
-    if($('#my_ban_list').val() == "none"){
-        $('#error_msg_bansel').show()
-    }
-    $('#error_msg_bansel').hide()
     const data = consultingStudentData.filter((e) => {
         return e.ban_id == ban_id;
     })
@@ -1460,30 +1456,22 @@ function attach_consulting_history(student_id) {
     }
     $('#h_select_box').html(temp_h_select)
 }
-function get_consulting_change() {
-    if($('#h_select_box').val() == "none"){
-        $('#error_msg_consel').show()
-    }
-    $('#error_msg_consel').hide()
-}
 // 문의 저장 
-function question_save(){
+function question_save(event){
+    event.preventDefault();
     if($('#question_kind').val() == "이반"||$('#question_kind').val() == "퇴소"){
         if($('#my_ban_list').val() == "none" || $('#h_select_box').val() == "none"){
-            event.preventDefault();
             $('#error_msg_bansel').show()
             $('#error_msg_consel').show()
             return;
         }
     }else{
         if($('#my_ban_list').val() == "none"){
-            event.preventDefault();
             $('#error_msg_bansel').show()
             $('#error_msg_consel').hide()
             return;
         }
     }
-
 }
 
 // 문의 리스트
