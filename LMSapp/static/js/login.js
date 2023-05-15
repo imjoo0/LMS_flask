@@ -22,7 +22,7 @@ function sign_in() {
             if (response['result'] == 'success') {
                 $.cookie('mytoken', response['token'], { path: '/' });
                 window.location.replace('/main')
-            } else {
+            }else{
                 var child = document.querySelector(".append_st");
                 if (child.hasChildNodes()) {
                     child.removeChild(child.childNodes[0]);

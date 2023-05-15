@@ -11,6 +11,7 @@ import callapi
 import config
 from LMSapp.models import *
 import datetime
+from sqlalchemy import and_
 SECRET_KEY = config.SECRET_KEY
 
 def authrize(f):
@@ -53,7 +54,7 @@ def sign_in():
     user_id = data.get('user_id')
     user_pw = data.get('user_pw')
     hashed_pw = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
-    result = User.query.filter(User.user_id == user_id and User.user_pw == hashed_pw).first()
+    result = User.query.filter_by(user_id=user_id, user_pw=hashed_pw).first()
     print(result)
     if result is not None:
         payload = {
