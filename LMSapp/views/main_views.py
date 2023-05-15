@@ -56,7 +56,7 @@ def sign_in():
     user_pw = data.get('user_pw')
     hashed_pw = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
     result = User.query.filter(User.user_id == user_id and User.user_pw == hashed_pw).first()
-    
+    print(result)
     if result is not None:
         payload = {
             'user_id' : result.user_id,
