@@ -39,10 +39,10 @@ def login(user):
 def home(user):
     if user is not None:
         print(type(user['category']))
-        if( user['category'] == 1 or '1' ):
+        if user['category'] == 1 or user['category'] == '1':
             print('여기 1찍히니')
             return redirect(url_for('manage.home'))
-        elif( user['category'] == 0 or '0' ):
+        elif user['category'] == 0 or user['category'] == '0':
             return redirect(url_for('admin.home'))
         else:
             print('여기 2찍히니')
