@@ -53,11 +53,11 @@
                         <select id="question_kind" class="modal-body-select" name="question_category"
                             onchange="change_question_kind(this.value)">
                             <option value="none" selected>문의 종류를 선택해주세요</option>
-                            <option value="일반">일반 문의</option>
-                            <option value="내근">내근티처 문의</option>
-                            <option value="기술">기술지원 문의</option>
-                            <option value="이반">이반 승인 요청</option>
-                            <option value="퇴소">퇴소 승인 요청</option>
+                            <option value=0>일반 문의</option>
+                            <option value=5>내근티처 문의</option>
+                            <option value=4>기술지원 문의</option>
+                            <option value=2>이반 승인 요청</option>
+                            <option value=1>퇴소 승인 요청</option>
                         </select>
                     </div>
                     <div id="question_topurple">
@@ -74,26 +74,26 @@
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">문의 제목</span>
                             <input class="modal-body-select modal-body-select-100" type="text" size="50"
-                                name="question_title">
+                                id="question_title">
                         </div>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">문의 내용</span>
                             <textarea id="question_contents" class="modal-body-select modal-body-select-100" type="text"
-                                rows="5" cols="25" name="question_contents"></textarea>
+                                rows="5" cols="25"></textarea>
                         </div>
                         <div class="modal-body-select-container"style="display:none">
                             <span class="modal-body-select-label" >선생님 핸드폰 번호</span>
                             <input class="modal-body-select modal-body-select-100" type="text" 
-                                   name="teacher_mobileno" value="{{ user['mobileno'] }}" placeholder="{{user['mobileno'] }}">
+                                   id="teacher_mobileno" value="{{ user['mobileno'] }}" placeholder="{{user['mobileno'] }}">
                             <input class="modal-body-select modal-body-select-100" type="text" 
-                            name="teacher_name" value="{{ user['name'] }}" placeholder="{{user['name'] }}">
+                            id="teacher_name" value="{{ user['name'] }}" placeholder="{{user['name'] }}">
                             <input class="modal-body-select modal-body-select-100" type="text" 
-                            name="teacher_engname" value="{{ user['engname'] }}" placeholder="{{user['engname'] }}">
+                            id="teacher_engname" value="{{ user['engname'] }}" placeholder="{{user['engname'] }}">
                         </div>
                         <div class="modal-body-select-container">
                             <span class="modal-body-select-label">첨부 파일</span>
                             <!-- <input type="file" name="file-upload" multiple> -->
-                            <input type="file" id="file-upload" class="py-sm-0 py-3" name="file-upload" multiple>
+                            <input type="file" id="file-upload" class="py-sm-0 py-3" multiple>
                         </div>
                         <div class="d-flex justify-content-center mt-4 mb-2">
                             <button class="btn btn-success" type="submit" onclick="question_save()">저장</button>
