@@ -5,9 +5,9 @@ const todayyoil = new Date().getDay()
 
 // 
 function deleteCookie(name) {
-    document.cookie = name + '=; expires='+new Date(0).toUTCString()+'path=/;';
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    console.log(document.cookie)
 }
-console.log(document.cookie)
 function logout() {
     $.ajax({
         type: "GET",
@@ -16,10 +16,9 @@ function logout() {
         success: function (response) {
             if (response['result'] === 'success') {
                 deleteCookie('mytoken');
-                alert(response['msg'])
+                console.log(document.cookie)
                 window.location.href = '/';
             } else {
-                alert(response['msg'])
                 window.location.href = '/';
             }
         }
