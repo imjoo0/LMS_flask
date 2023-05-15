@@ -3,6 +3,24 @@ let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, stude
 const today = new Date().setHours(0, 0, 0, 0);
 const todayyoil = new Date().getDay()
 
+function logout() {
+    $.ajax({
+        type: "GET",
+        url: "/api/logout",
+        data: {},
+        success: function (response) {
+            if (response['result'] === 'success') {
+                $.removeCookie('mytoken', response['token'])
+                alert(response['msg'])
+                window.location.href = '/';
+            } else {
+                alert(response['msg'])
+                window.location.href = '/';
+            }
+        }
+    })
+}
+
 function openPopup(url) {
     var popup = window.open('', 'popup', 'width=800,height=600');
     popup.document.write('<html><body><iframe src="' + url + '" width="100%" height="100%" frameborder="0"></iframe></body></html>');
