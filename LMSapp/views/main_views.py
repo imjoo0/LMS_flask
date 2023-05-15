@@ -61,6 +61,7 @@ def sign_in():
             'user_id' : result.user_id,
             'id':result.id,
             'category':result.category,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=6000)    
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
         # session['user_id'] = result.user_id,
