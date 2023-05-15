@@ -463,7 +463,7 @@ def request_ban_student(b_id,t_id,b_name):
 
 # 개별 원생 상담 요청 저장
 @bp.route("/consulting/<int:b_id>/<int:t_id>/<int:s_id>/", methods=['POST'])
-def request_indivi_student(b_id,t_id,s_id,origin,s_name):
+def request_indivi_student(b_id,t_id,s_id):
     if request.method == 'POST':
         post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
         #  상담 카테고리 저장
