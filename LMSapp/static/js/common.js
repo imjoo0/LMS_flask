@@ -3,6 +3,8 @@ let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, stude
 const today = new Date().setHours(0, 0, 0, 0);
 const todayyoil = new Date().getDay()
 
+// 
+console.log(document.cookie)
 function logout() {
     $.ajax({
         type: "GET",
