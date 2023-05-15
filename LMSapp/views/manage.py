@@ -52,7 +52,7 @@ def answer(u,id,done_code):
             target_answer.created_at = Today
             target_answer.reject_code = int(o_ban_id)
             target_answer.question_id = id
-            target_answer.writer_id = session['user_registerno']
+            target_answer.writer_id = u['id']
 
         if target_question.category == 2 and o_ban_id != 0 :    
             new_switch_student = SwitchStudent(ban_id = target_question.ban_id,switch_ban_id=o_ban_id,teacher_id = target_question.teacher_id,student_id=target_question.student_id,created_at=Today)
