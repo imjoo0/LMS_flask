@@ -609,6 +609,7 @@ async function student_consulting(student_id) {
     $('.mo_inloading').show()
     $('.monot_inloading').hide()
     let container = $('#studentlist_pagination')
+    
     data = Targetdata.filter(e => e.student_id == student_id)[0]
     myconsulting_num = data['consulting_list'].length;
     $('#ban_student_listModalLabelt').html(`${data['student_name']} 원생 상담일지`)
@@ -626,6 +627,7 @@ async function student_consulting(student_id) {
      // 미학습 상담 
     let unlearned_consulting_num =  myconsulting_num > 0 ? data['consulting_list'].filter(c => c.category_id < 100) : 0  
 
+    console.log(data)
     if (target_consulting.length != 0 ){
         DateconsultingGrouped = target_consulting.reduce((acc, item) => {
             if (!acc[item.created_at]) {
@@ -646,24 +648,24 @@ async function student_consulting(student_id) {
             <th class="col-4 tagtagtitle">진행 날짜</th>
             <th class="col-4 tagtagtitle">진행 한 상담 건</th>
             <th class="col-4 tagtagtitle">상세 보기 및 수정</th>`;
-        container.pagination({
-            dataSource: DateconsultingGroupedCategory,
-            prevText: '이전',
-            nextText: '다음',
-            pageClassName: 'float-end',
-            pageSize: 5,
-            callback: function (DateconsultingGroupedCategory, pagination) {
-                $.each(DateconsultingGroupedCategory, function (index, key) {
-                    let target_consultings = DateconsultingGrouped[key]
-                    let cate_consultings_num = target_consultings.length
-                    temp_consulting_write_box += `
-                        <td class="col-4">${make_date(key)}</td>
-                        <td class="col-4">${cate_consultings_num}건</td>
-                        <td class="col-4" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="show_consulting_history_box('${key}')">📝</td>
-                    `
-                });
-            }
-        })
+            container.pagination({
+                dataSource: DateconsultingGroupedCategory,
+                prevText: '이전',
+                nextText: '다음',
+                pageClassName: 'float-end',
+                pageSize: 5,
+                callback: function (DateconsultingGroupedCategory, pagination) {
+                    $.each(DateconsultingGroupedCategory, function (index, key) {
+                        let target_consultings = DateconsultingGrouped[key]
+                        let cate_consultings_num = target_consultings.length
+                        temp_consulting_write_box += `
+                            <td class="col-4">${make_date(key)}</td>
+                            <td class="col-4">${cate_consultings_num}건</td>
+                            <td class="col-4" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="show_consulting_history_box('${key}')">📝</td>
+                        `
+                    });
+                }
+            })
     }else{
         $('#studentlist_consulting_info_box').html('<p>진행 상담 내역이 없습니다.* 원생 목록에서 자체 상담을 진행해주세요 </p>')
     }
