@@ -340,11 +340,6 @@ async function get_soquestion_detail(q_id, done_code) {
         answer_data = answerData.filter(a => a.question_id == q_id)[0]
         let temp_answer_list = `
         <div class="modal-body-select-container">
-            <span class="modal-body-select-label">답변 제목</span>
-            <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"
-            id="answer_title_modi" placeholder="${answer_data.title}">
-        </div>
-        <div class="modal-body-select-container">
             <span class="modal-body-select-label">답변 내용</span>
             <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"
             id="answer_content_modi" placeholder="${answer_data.content}">
@@ -744,11 +739,6 @@ async function get_question_detail(q_id, done_code) {
         answer_data = answerData.filter(a => a.question_id == q_id)[0]
         let temp_answer_list = `
         <div class="modal-body-select-container">
-            <span class="modal-body-select-label">답변 제목</span>
-            <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"
-            id="answer_title_modi" placeholder="${answer_data.title}">
-        </div>
-        <div class="modal-body-select-container">
             <span class="modal-body-select-label">답변 내용</span>
             <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"
             id="answer_content_modi" placeholder="${answer_data.content}">
@@ -773,7 +763,6 @@ function post_answer(q_id, category,done_code) {
     if(q_kind == 'none'){
         if(done_code == 0){
             // 저장의 경우 
-            answer_title = $('#answer_title').val()
             answer_contents = $('#answer_contents').val()
             o_ban_id = 0
             if(category == 2) {
@@ -783,7 +772,6 @@ function post_answer(q_id, category,done_code) {
             }
         }else{
             // 수정의 경우
-            answer_title = $('#answer_title_modi').val()
             answer_contents = $('#answer_content_modi').val()
             o_ban_id = 0
             if(category == 2) {
@@ -797,7 +785,6 @@ function post_answer(q_id, category,done_code) {
             type: "POST",
             url: "/manage/answer/" + q_id +'/'+ done_code,
             data: {
-                answer_title: answer_title,
                 answer_contents: answer_contents,
                 o_ban_id: o_ban_id
             },

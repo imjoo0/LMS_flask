@@ -27,7 +27,7 @@ def home(u):
 @authrize
 def answer(u,id,done_code):
     if request.method == 'POST':
-        answer_title = request.form['answer_title']
+        # answer_title = request.form['answer_title']
         answer_contents = request.form['answer_contents']
         o_ban_id = request.form['o_ban_id']
         target_question = Question.query.get_or_404(id)
@@ -35,7 +35,7 @@ def answer(u,id,done_code):
 
         if(done_code == 0):
             post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
-            new_answer = Answer(content=answer_contents,title=answer_title,created_at=Today,reject_code=int(o_ban_id),question_id = id,writer_id = u['id'])
+            new_answer = Answer(content=answer_contents,created_at=Today,reject_code=int(o_ban_id),question_id = id,writer_id = u['id'])
             db.session.add(new_answer)
             data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
                 'templateCode': "work_cs_answer",
@@ -44,9 +44,7 @@ def answer(u,id,done_code):
             http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
         else:
             target_answer = Answer.query.filter(Answer.question_id == id).first()
-            if(answer_title != '' or answer_title != None):
-                target_answer.title = answer_title
-            if(answer_contents != '' or answer_title != None):
+            if(answer_contents != '' or answer_contents != None):
                 target_answer.content = answer_contents
             target_answer.created_at = Today
             target_answer.reject_code = int(o_ban_id)
@@ -443,17 +441,12 @@ def request_ban_student(b_id,t_id,b_name):
         #  상담을 마무리할 마감일 저장
         received_consulting_deadline = request.form['consulting_deadline']
         targets = callapi.purple_info(b_id,'get_student_simple')
-        print(b_name)
-        print(received_consulting_category)
-        print(received_consulting_contents)
-        print(received_consulting_startdate)
         for target in targets:
             new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=target['s_id'],student_name=target['student_name'],student_engname=target['student_engname'],origin=target['origin'],contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
             db.session.add(new_consulting)
             db.session.commit()
 
         teacher_mobile_no = User.query.filter(User.id == t_id).first().mobileno
-        print(teacher_mobile_no)
         if(received_consulting_startdate < Today and (teacher_mobile_no != "입력 바랍니다" or teacher_mobile_no != "000-0000-0000")):
             post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
             data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",

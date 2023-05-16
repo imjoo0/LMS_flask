@@ -47,22 +47,6 @@ def save_attachment(file, q_id):
         db.session.rollback()
         return str(e)  # 에러 메시지 반환
 
-
-# def save_attachment(file, q_id):
-#     attachment = Attachments(
-#         file_name=secure_filename(file.filename.replace('\0', '')),
-#         mime_type=file.mimetype,
-#         data = file.stream.read(),
-#         question_id = q_id
-#     )
-#     db.session.add(attachment)
-#     db.session.commit()
-
-# @bp.route('/uploads/<int:id>')
-# def upload_file(id):
-#     file = request.files['file-upload']
-#     save_attachment(file,id)
-
 # 통계 자료
 @bp.route("/all_ban", methods=['GET'])
 def get_ban():

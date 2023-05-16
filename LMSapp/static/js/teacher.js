@@ -35,7 +35,7 @@ async function get_data(){
         allConsultingData = response['all_consulting']
         switchstudentData = response['switchstudent']
 
-        myStudentData = allStudentData.filter(s => s.category_id != 2)
+        myStudentData = allStudentData.filter(s => s.category_id != 2 && s.category_id != 8)
         allconsultingsNum = allConsultingData.length
         UnlearnedConsultingsData = allconsultingsNum > 0 ? allConsultingData.filter(consulting => consulting.category_id < 100) : 0;
         UnlearnedConsultingsNum = UnlearnedConsultingsData.length
