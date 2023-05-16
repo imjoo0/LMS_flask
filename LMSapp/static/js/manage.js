@@ -1392,7 +1392,7 @@ function sort_consultingoption(sortBy) {
             });
             break;
         
-        case "startdate_sort":
+        case "startdate_desc":
             $('#student_name_sort').html('원생 이름순 정렬👉')    
             $('#deadline_sort').html('마감일 정렬👉') 
             $('#startdate_sort').html('<strong>최근순 정렬👇</strong>')        
