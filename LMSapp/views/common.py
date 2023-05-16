@@ -27,7 +27,7 @@ from werkzeug.utils import secure_filename
 
 def save_attachment(file, q_id):
     try:
-        file_name = secure_filename(file.filename.replace('\0', ''))
+        file_name = secure_filename(file.filename.replace('\0', ''), filename_charset='UTF-8')
         mime_type = file.mimetype
         data = file.stream.read()
 
