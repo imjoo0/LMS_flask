@@ -10,8 +10,6 @@ from datetime import datetime, timedelta, date
 from LMSapp.views import common
 from LMSapp.views.main_views import authrize
 import requests 
-
-from werkzeug.utils import secure_filename
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 
 
@@ -157,32 +155,19 @@ def question(u):
             new_question = Question(consulting_history=history_id, category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         
         db.session.add(new_question)
-        # common.save_attachment(file, new_question.id)
+        db.session.commit()
         files = request.files.getlist('file_upload')
         for file in files:
-            file_name = secure_filename(file.filename.replace('\0', '').replace(' ', '_'), filename_charset='UTF-8')
-            print(file_name)
-            mime_type = file.mimetype
-            data = file.stream.read()
-
-            attachment = Attachments(
-                file_name=file_name,
-                mime_type=mime_type,
-                data=data,
-                question_id=new_question.id
-            )
-
-            db.session.add(attachment)
-        db.session.commit()
-
+            common.save_attachment(file, new_question.id)
         # requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
-        # try:
+        try:
             # response = requests.get(requestURI)
             # response.raise_for_status()
             # print(f"statusCode: {response.status_code}")
-        # except requests.exceptions.RequestException as e:
-        #     print("시놀로지 전송 실패")
-        #     print(e)
+            print('시놀로지 했다쳐')
+        except requests.exceptions.RequestException as e:
+            print("시놀로지 전송 실패")
+            print(e)
         return jsonify({'result': '완료'})
 
 # 오늘 해야 할 업무 완료 저장 

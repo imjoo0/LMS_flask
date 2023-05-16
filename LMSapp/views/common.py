@@ -23,7 +23,7 @@ standard = datetime.strptime('11110101',"%Y%m%d").date()
 
 def save_attachment(file, q_id):
     try:
-        file_name = secure_filename(file.filename.replace('\0', '').replace(' ', '_'), filename_charset='UTF-8')
+        file_name = secure_filename(file.filename.replace('\0', '').replace(' ', '_'))
         print(file_name)
         mime_type = file.mimetype
         data = file.stream.read()
