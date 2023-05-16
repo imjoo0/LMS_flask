@@ -1366,7 +1366,8 @@ function sort_consultingoption(sortBy) {
     switch (sortBy) {
         case "name_desc":
             $('#student_name_sort').html('<strong>원생 이름순 정렬👇</strong>')    
-            $('#deadline_sort').html('마감일 정렬👉')    
+            $('#deadline_sort').html('마감일 정렬👉')
+            $('#startdate_sort').html('최근순 정렬👉')         
             $('#consulting_sort').html('미진행 정렬👉')        
             consultingData.sort(function (a, b) {
                 var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
@@ -1383,16 +1384,28 @@ function sort_consultingoption(sortBy) {
     
         case "deadline_desc":
             $('#student_name_sort').html('원생 이름순 정렬👉')    
-            $('#deadline_sort').html('<strong>마감일 정렬👇</strong>')    
+            $('#deadline_sort').html('<strong>마감일 정렬👇</strong>')
+            $('#startdate_sort').html('최근순 정렬👉')     
             $('#consulting_sort').html('미진행 정렬👉')        
             consultingData.sort(function (a, b) {
                 return new Date(a.deadline) - new Date(b.deadline);
+            });
+            break;
+        
+        case "startdate_sort":
+            $('#student_name_sort').html('원생 이름순 정렬👉')    
+            $('#deadline_sort').html('마감일 정렬👉') 
+            $('#startdate_sort').html('<strong>최근순 정렬👇</strong>')        
+            $('#consulting_sort').html('미진행 정렬👉')        
+            consultingData.sort(function (a, b) {
+                return new Date(b.startdate) - new Date(a.startdate);
             });
             break;
     
         case "consulting_desc":
             $('#student_name_sort').html('원생 이름순 정렬👉')    
             $('#deadline_sort').html('마감일 정렬👉')    
+            $('#startdate_sort').html('최근순 정렬👉')
             $('#consulting_sort').html('<strong>미진행 정렬👇</strong>') 
             consultingData.sort(function (a, b) {
                 if (a.done === 0 && b.done === 1) {
