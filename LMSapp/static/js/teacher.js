@@ -1475,7 +1475,6 @@ function question_save(){
     const files = fileInput.files;
     const files_length = files.length;
     if(files_length > 3){
-        alert('파일 업로드 갯수는 최대 3개 입니다 😅')
         $('#error_msg_filesel').show()
         return;
     }
