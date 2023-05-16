@@ -1482,9 +1482,9 @@ async function get_question_list() {
                     }
                     dataHtml += `
                     <td class="col-2">${q_category(item.category)}</td>
-                    <td class="col-5">${item.title}</td>
+                    <td class="col-4">${item.title}</td>
                     <td class="col-3"> ${done_code} </td>
-                    <td class="col-1"> ${make_date(item.create_date)} </td>
+                    <td class="col-2"> ${make_date(item.create_date)} </td>
                     <td class="col-1" onclick="get_question_detail(${item.id})"> <span class="cursor-pointer">🔍</span> </td>
                     `;
                 });

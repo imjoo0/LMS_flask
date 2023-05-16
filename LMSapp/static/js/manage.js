@@ -145,7 +145,7 @@ function so_paginating(done_code) {
             var paginationOptions = {
                 prevText: '이전',
                 nextText: '다음',
-                pageSize: 5,
+                pageSize: 10,
                 pageClassName: 'float-end',
                 callback: function (data, pagination) {
                     var dataHtml = '';
@@ -170,12 +170,18 @@ function so_paginating(done_code) {
 
             var container = $('#so_pagination');
 
+            qdata.sort(function (a, b) {
+                return new Date(b.create_date) - new Date(a.create_date);
+            });
             container.pagination(Object.assign(paginationOptions, { 'dataSource': qdata }))
 
             $('#so_search_input').on('keyup', function () {
                 var searchInput = $(this).val().toLowerCase();
                 var filteredData = qdata.filter(function (data) {
                     return (data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1);
+                });
+                filteredData.sort(function (a, b) {
+                    return new Date(b.create_date) - new Date(a.create_date);
                 });
                 container.pagination('destroy');
                 container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
@@ -404,7 +410,7 @@ function paginating(done_code) {
             var paginationOptions = {
                 prevText: '이전',
                 nextText: '다음',
-                pageSize: 5,
+                pageSize: 10,
                 pageClassName: 'float-end',
                 callback: function (data, pagination) {
                     var dataHtml = '';
@@ -426,12 +432,18 @@ function paginating(done_code) {
                 }
             };
             var container = $('#pagination');
+            qdata.sort(function (a, b) {
+                return new Date(b.create_date) - new Date(a.create_date);
+            });
             container.pagination(Object.assign(paginationOptions, { 'dataSource': qdata }));
 
             $('#cs_search_input').on('keyup', function () {
                 var searchInput = $(this).val().toLowerCase();
                 var filteredData = qdata.filter(function (data) {
                     return data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1 || (data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1);
+                });
+                filteredData.sort(function (a, b) {
+                    return new Date(b.create_date) - new Date(a.create_date);
                 });
                 container.pagination('destroy');
                 container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
@@ -494,7 +506,7 @@ function Tpaginating(done_code) {
             var paginationOptions = {
                 prevText: '이전',
                 nextText: '다음',
-                pageSize: 5,
+                pageSize: 10,
                 pageClassName: 'float-end',
                 callback: function (data, pagination) {
                     var dataHtml = '';
@@ -515,13 +527,19 @@ function Tpaginating(done_code) {
                     $('#Talim_tr').html(dataHtml);
                 }
             };
-            var container = $('#pagination');
+            var container = $('#Tpagination');
+            qdata.sort(function (a, b) {
+                return new Date(b.create_date) - new Date(a.create_date);
+            });
             container.pagination(Object.assign(paginationOptions, { 'dataSource': qdata }));
 
             $('#Tcs_search_input').on('keyup', function () {
                 var searchInput = $(this).val().toLowerCase();
                 var filteredData = qdata.filter(function (data) {
                     return (data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1);
+                });
+                filteredData.sort(function (a, b) {
+                    return new Date(b.create_date) - new Date(a.create_date);
                 });
                 container.pagination('destroy');
                 container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
@@ -584,7 +602,7 @@ function inTpaginating(done_code) {
             var paginationOptions = {
                 prevText: '이전',
                 nextText: '다음',
-                pageSize: 5,
+                pageSize: 10,
                 pageClassName: 'float-end',
                 callback: function (data, pagination) {
                     var dataHtml = '';
@@ -606,12 +624,18 @@ function inTpaginating(done_code) {
                 }
             };
             var container = $('#inTpagination');
+            qdata.sort(function (a, b) {
+                return new Date(b.create_date) - new Date(a.create_date);
+            });
             container.pagination(Object.assign(paginationOptions, { 'dataSource': qdata }));
 
             $('#inTcs_search_input').on('keyup', function () {
                 var searchInput = $(this).val().toLowerCase();
                 var filteredData = qdata.filter(function (data) {
                     return data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1 || (data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1);
+                });
+                filteredData.sort(function (a, b) {
+                    return new Date(b.create_date) - new Date(a.create_date);
                 });
                 container.pagination('destroy');
                 container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
@@ -1596,7 +1620,7 @@ function get_taskban(key){
     var paginationOptions = {
         prevText: '이전',
         nextText: '다음',
-        pageSize: 5,
+        pageSize: 10,
         pageClassName: 'float-end',
         callback: function (data, pagination) {
             var dataHtml = '';
