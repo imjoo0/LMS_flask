@@ -995,22 +995,7 @@ async function get_consulting_history() {
     $('#consulting_history_box').show()
     $('#consulting_history_box_detail').hide()
     $('#consulting_list_search_input').off('keyup');
-    // try {
-    //     const response = await $.ajax({
-    //         type: "GET",
-    //         url: "/teacher/get_mystudents_history",
-    //         dataType: 'json',
-    //         data: {},
-    //     });
-    //     ConsultingHistory = response['all_consulting_history']
-    //     ConsultingHistory.forEach((elem) => {
-    //         elem.id = 'history_'+elem.id
-    //     });
-    // }catch(error) {
-    //     alert('Error occurred while retrieving data.');
-    // }
     let container = $('#consulting_history_student_list_pagination')
-    // var category_list = []
     CpaginationOptions = {
         prevText: '이전',
         nextText: '다음',
@@ -1040,7 +1025,6 @@ async function get_consulting_history() {
         }
     }
     const target_list = allConsultingData.filter(c => c.done == 1)
-    // let filteredData = target_list.slice();
     const updateSearchResult = function () {
         let copy_data = target_list.slice();
         const selectedCategory = $('#history_cate').val();
@@ -1478,6 +1462,15 @@ async function get_question_list() {
     if (questionAnswerdata.length > 0) {
         $('#questionlist').show()
         $('#question_pagination').show()
+        questionAnswerdata.sort(function (a, b) {
+            if (a.answer === 0 && b.answer === 1) {
+                return -1;
+            }
+            if (a.answer === 1 && b.answer === 0) {
+                return 1;
+            }
+            return 0;
+        });
         container.pagination({
             dataSource: questionAnswerdata,
             prevText: '이전',
