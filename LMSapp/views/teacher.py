@@ -158,11 +158,10 @@ def question(u):
         
         db.session.add(new_question)
         db.session.commit()
-        files = request.files.getlist('file_upload')
-        print(files)
-        for file in files:
-            # common.save_attachment(file, new_question.id)
-            try:
+        # common.save_attachment(file, new_question.id)
+        try:
+            files = request.files.getlist('file_upload')
+            for file in files:
                 file_name = secure_filename(file.filename.replace('\0', '').replace(' ', '_'), filename_charset='UTF-8')
                 print(file_name)
                 mime_type = file.mimetype
@@ -180,19 +179,18 @@ def question(u):
 
                 return True  # 성공적으로 저장된 경우 True 반환
 
-            except Exception as e:
-                # 파일 저장 실패 처리
-                db.session.rollback()
-                return str(e)  # 에러 메시지 반환
+        except Exception as e:
+            # 파일 저장 실패 처리
+            db.session.rollback()
+            return str(e)  # 에러 메시지 반환
         # requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
-        try:
+        # try:
             # response = requests.get(requestURI)
             # response.raise_for_status()
             # print(f"statusCode: {response.status_code}")
-            print('시놀로지 했다쳐')
-        except requests.exceptions.RequestException as e:
-            print("시놀로지 전송 실패")
-            print(e)
+        # except requests.exceptions.RequestException as e:
+        #     print("시놀로지 전송 실패")
+        #     print(e)
         return jsonify({'result': '완료'})
 
 # 오늘 해야 할 업무 완료 저장 
