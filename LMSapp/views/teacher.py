@@ -136,7 +136,6 @@ def question(u):
         teacher_name = request.form.get('teacher_name', None)
         teacher_engname = request.form.get('teacher_engname', None)
         create_date = datetime.now().date()
-        print(files)
         payloadText  = teacher_name+'( '+ teacher_engname +' )님으로 부터 문의가 등록되었습니다 \n 제목:'+ title +'\n'+contents
         # 첨부 파일 처리
         if category == 0:
@@ -157,6 +156,7 @@ def question(u):
         db.session.add(new_question)
         db.session.commit()
         files = request.files.getlist('file_upload')
+        print(files)
         for file in files:
             common.save_attachment(file, new_question.id)
         # requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
