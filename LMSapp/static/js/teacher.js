@@ -1009,7 +1009,6 @@ async function get_consulting_history() {
                 consulting.student_name = student_info.name + '( ' + student_info.nick_name + ' )'
                 consulting.origin = student_info.origin
                 consulting.ban_name = student_info.classname
-                console.log(consulting)
                 let title = consulting.contents
                 if (consulting.category_id < 100) {
                     title = consulting.category
@@ -1073,7 +1072,7 @@ async function get_consulting_history() {
         $('#history_cate').html(idxHtml);
         $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
         target_list.sort(function (a, b) {
-            return new Date(b.create_at) - new Date(a.create_at);
+            return new Date(b.created_at) - new Date(a.created_at);
         });
         container.pagination(Object.assign(CpaginationOptions, { 'dataSource': target_list }));
     }
