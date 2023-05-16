@@ -491,7 +491,7 @@ async function get_consulting_student(done_code) {
     ConsultingpaginationOptions = {
         prevText: '이전',
         nextText: '다음',
-        pageSize: 5,
+        pageSize: 10,
         pageClassName: 'float-end',
         callback: function (data, pagination) {
             $('#consulting_student_list').show();
@@ -653,7 +653,7 @@ async function student_consulting(student_id) {
                 prevText: '이전',
                 nextText: '다음',
                 pageClassName: 'float-end',
-                pageSize: 5,
+                pageSize: 10,
                 callback: function (DateconsultingGroupedCategory, pagination) {
                     $.each(DateconsultingGroupedCategory, function (index, key) {
                         let target_consultings = DateconsultingGrouped[key]
@@ -844,7 +844,7 @@ async function student_consulting_history(student_id) {
                 prevText: '이전',
                 nextText: '다음',
                 pageClassName: 'float-end',
-                pageSize: 5,
+                pageSize: 10,
                 callback: function (DateconsultingGroupedCategory, pagination) {
                     var dataHtml = '';
                     $.each(DateconsultingGroupedCategory, function (index, key) {
@@ -999,7 +999,7 @@ async function get_consulting_history() {
     CpaginationOptions = {
         prevText: '이전',
         nextText: '다음',
-        pageSize: 5,
+        pageSize: 10,
         callback: function (data, pagination) {
             var dataHtml = '';
             $.each(data, function (index, consulting) {
@@ -1470,7 +1470,7 @@ async function get_question_list() {
             prevText: '이전',
             nextText: '다음',
             pageClassName: 'float-end',
-            pageSize: 5,
+            pageSize: 10,
             callback: function (questionAnswerdata, pagination) {
                 var dataHtml = '';
                 $.each(questionAnswerdata, function (index, item) {
