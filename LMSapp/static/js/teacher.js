@@ -1379,6 +1379,8 @@ function change_question_kind(str) {
             <span class="modal-body-select-label">대상 원생</span>
             <select id="student_list" class="modal-body-select" name="target_student">
                 <option value=0 selected>특정 원생 선택하지 않기</option>
+                <optgroup class="selstulist" label="원생 선택" multiple>
+                </optgroup>
             </select>
         </div>
         `;
@@ -1390,6 +1392,8 @@ function change_question_kind(str) {
             <span class="modal-body-select-label">대상 원생</span>
             <select id="student_list_so" class="modal-body-select" onchange="attach_consulting_history(this.value)">
                 <option value="none" selected>대상 원생을 선택 해 주세요</option>
+                <optgroup class="selstulist" label="원생 선택" multiple>
+                </optgroup>
             </select>
         </div>
         <p class="error_msg_alert" id="error_msg_stusel"> 🔻 대상 원생 선택은 필수 입니다 </p>
@@ -1431,8 +1435,7 @@ function get_ban_student(ban_id) {
             <option value="${student.student_id}"> ${student.student_name} *${student.student_origin}</option>
             `;
         });
-        $('#student_list').append(temp_target_student)
-        $('#student_list_so').append(temp_target_student)
+        $('.selstulist').html(temp_target_student)
 
         // $('#student_list').html(temp_target_student).selectmenu({
         //     width: "70%", // select box의 너비 설정
