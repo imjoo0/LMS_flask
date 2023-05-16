@@ -281,6 +281,7 @@ async function get_soquestion_detail(q_id, done_code) {
     $('#teacher_question').html(temp_question_list);
     // 상담 일지 처리 
     let consulting_history = consultingData.filter(c => c.id == question_detail_data.consulting_history)
+    console.log(consulting_history)
     let temp_his = ''
     if (consulting_history.length != 0) {
         let category = ''
