@@ -664,6 +664,7 @@ async function student_consulting(student_id) {
                             <td class="col-4" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="show_consulting_history_box('${key}')">📝</td>
                         `
                     });
+                    $('#studentlist_consulting_info_box').html(temp_consulting_write_box)
                 }
             })
     }else{
