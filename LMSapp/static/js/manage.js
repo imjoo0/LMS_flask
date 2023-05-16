@@ -647,8 +647,7 @@ async function get_question_detail(q_id, done_code) {
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
-    student_data = studentsData.filter(s => s.student_id == question_detail_data.student_id)[0]
-    attach = attachData.filter(a => a.question_id == q_id)
+
     // 문의 상세 내용 
     let temp_question_list = `
     <div class="modal-body-select-container">
@@ -683,13 +682,21 @@ async function get_question_detail(q_id, done_code) {
         <p>${question_detail_data.ban_name} ➖ 담임 T : ${question_detail_data.teacher_name} </p>
     </div>
     <div class="modal-body-select-container">
-        <span class="modal-body-select-label">학생</span>
-        <p>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin} )</p>
-    </div>
+        <span class="modal-body-select-label">학생</span>`
+    
+    if(question_detail_data.student_id != 0){
+        student_data = studentsData.filter(s => s.student_id == question_detail_data.student_id)[0]
+        temp_question_list += `<p>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin} )</p>`
+    }
+    else{
+        temp_question_list += `<p>특정 원생 선택 없음</p>`
+    }
+    temp_question_list += `</div>
     <div class="modal-body-select-container">
     <span class="modal-body-select-label">첨부파일</span>
     <div class="make_col">
     `
+    attach = attachData.filter(a => a.question_id == q_id)
     if(attach.length != 0){
         attach.forEach((a)=>{
             temp_question_list +=`<a href="/common/downloadfile/question/${q_id}/attachment/${a.id}" download="${a.file_name}">${a.file_name}</a>`
