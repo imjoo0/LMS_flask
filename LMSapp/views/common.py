@@ -5,8 +5,6 @@ from flask_file_upload import FileUpload
 from io import BytesIO
 import callapi
 import pymysql
-import zipfile
-from flask import session
 from LMSapp.views.main_views import authrize
 
 bp = Blueprint('common', __name__, url_prefix='/common')
@@ -23,11 +21,9 @@ today_yoil = current_time.weekday() + 1
 
 standard = datetime.strptime('11110101',"%Y%m%d").date()
 
-from werkzeug.utils import secure_filename
-
 def save_attachment(file, q_id):
     try:
-        file_name = secure_filename(file.filename.replace('\0', ''))
+        file_name = secure_filename(file.filename.replace('\0', '').replace(' ', '_'), filename_charset='UTF-8')
         mime_type = file.mimetype
         data = file.stream.read()
 
