@@ -1489,6 +1489,7 @@ function question_save(){
         formData.append('file_upload', files[i]);
     }
 
+    console.log(files)
     const q_kind = $('#question_kind').val()
     const question_title = $('#question_title').val()
     const question_contents = $('#question_contents').val()
@@ -1528,8 +1529,12 @@ function question_save(){
                 contentType: false,
                 success: function (response) {
                     {
-                        alert(response["result"])
-                        window.location.reload()
+                        if(response["result"]=="완료"){
+                            alert("문의 저장 완료")
+                            window.location.reload()
+                        }else{
+                            alert("문의 저장에 실패했습니다")
+                        }
                     }
                 }
             })
@@ -1550,8 +1555,12 @@ function question_save(){
                 contentType: false,
                 success: function (response) {
                     {
-                        alert(response["result"])
-                        window.location.reload()
+                        if(response["result"]=="완료"){
+                            alert("문의 저장 완료")
+                            window.location.reload()
+                        }else{
+                            alert("문의 저장에 실패했습니다")
+                        }
                     }
                 }
             })
@@ -1648,7 +1657,6 @@ async function get_question_detail(q_id) {
         <span class="modal-body-select-label">작성일</span>
         <p>${questiondata.create_date}</p>
     </div>`
-    console.log(mybansData)
     if(questiondata.student_id != 0){
         ban_student_data = allStudentData.filter(s => s.register_no == questiondata.student_id)[0]
         temp_question_list+=`

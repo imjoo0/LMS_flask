@@ -38,6 +38,7 @@ def save_attachment(file, q_id):
             question_id=q_id
         )
 
+        print(attachment)
         db.session.add(attachment)
         db.session.commit()
 
