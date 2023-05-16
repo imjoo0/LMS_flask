@@ -159,6 +159,7 @@ def question(u):
         db.session.add(new_question)
         db.session.commit()
         files = request.files.getlist('file_upload')
+        print(files)
         for file in files:
             # common.save_attachment(file, new_question.id)
             try:
