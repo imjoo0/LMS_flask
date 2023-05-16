@@ -44,10 +44,9 @@ def answer(u,id,done_code):
             http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
         else:
             target_answer = Answer.query.filter(Answer.question_id == id).first()
-            if(answer_title != '' or None):
-                print(answer_title)
+            if(answer_title != '' or answer_title != None):
                 target_answer.title = answer_title
-            if(answer_contents != '' or None):
+            if(answer_contents != '' or answer_title != None):
                 target_answer.content = answer_contents
             target_answer.created_at = Today
             target_answer.reject_code = int(o_ban_id)
