@@ -1483,13 +1483,12 @@ function attach_consulting_history(student_id) {
 function question_save(){
     // 파일 저장 처리 
     const formData = new FormData();
-
-    
     const fileInput = document.getElementById('file-upload');
     const files = fileInput.files;
     const files_length = files.length;
     if(files_length > 3){
         alert('파일 업로드 갯수는 최대 3개 입니다 😅')
+        $('#error_msg_filesel').show()
         return;
     }
     for (let i = 0; i < files_length; i++) {
