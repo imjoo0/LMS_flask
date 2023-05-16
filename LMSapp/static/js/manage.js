@@ -227,7 +227,6 @@ async function get_soquestion_detail(q_id, done_code) {
     $('#manage_answer').hide()
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
     student_data = studentsData.filter(s => s.student_id == question_detail_data.student_id)[0]
-    console.log(studentsData)
     attach = attachData.filter(a => a.question_id == q_id)
     // 문의 상세 내용 
     let temp_question_list = `
@@ -280,6 +279,7 @@ async function get_soquestion_detail(q_id, done_code) {
     temp_question_list += `</div></div>`
     $('#teacher_question').html(temp_question_list);
     // 상담 일지 처리 
+    console.log(question_detail_data)
     let consulting_history = consultingData.filter(c => c.id == question_detail_data.consulting_history)
     console.log(consulting_history)
     let temp_his = ''
