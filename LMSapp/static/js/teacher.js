@@ -1592,10 +1592,6 @@ async function get_question_detail(q_id) {
     } else {
         temp_answer_list = `
         <div class="modal-body-select-container">
-        <span class="modal-body-select-label">응답제목</span>
-        <p>${questiondata.answer_data.title}</p>
-        </div>
-        <div class="modal-body-select-container">
         <span class="modal-body-select-label">응답</span>
         <p>${questiondata.answer_data.content}</p>
         </div>
