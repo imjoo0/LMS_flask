@@ -1463,13 +1463,7 @@ async function get_question_list() {
         $('#questionlist').show()
         $('#question_pagination').show()
         questionAnswerdata.sort(function (a, b) {
-            if (a.answer === 0 && b.answer === 1) {
-                return -1;
-            }
-            if (a.answer === 1 && b.answer === 0) {
-                return 1;
-            }
-            return 0;
+            return new Date(b.create_date) - new Date(a.create_date);
         });
         container.pagination({
             dataSource: questionAnswerdata,
