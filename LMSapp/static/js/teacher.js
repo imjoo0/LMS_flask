@@ -627,7 +627,7 @@ async function student_consulting(student_id) {
      // 미학습 상담 
     let unlearned_consulting_num =  myconsulting_num > 0 ? data['consulting_list'].filter(c => c.category_id < 100) : 0  
 
-    console.log(data)
+    console.log(target_consulting)
     if (target_consulting.length != 0 ){
         DateconsultingGrouped = target_consulting.reduce((acc, item) => {
             if (!acc[item.created_at]) {
