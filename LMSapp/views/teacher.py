@@ -10,6 +10,8 @@ from datetime import datetime, timedelta, date
 from LMSapp.views import common
 from LMSapp.views.main_views import authrize
 import requests 
+
+from werkzeug.utils import secure_filename
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 
 
@@ -158,7 +160,29 @@ def question(u):
         db.session.commit()
         files = request.files.getlist('file_upload')
         for file in files:
-            common.save_attachment(file, new_question.id)
+            # common.save_attachment(file, new_question.id)
+            try:
+                file_name = secure_filename(file.filename.replace('\0', '').replace(' ', '_'), filename_charset='UTF-8')
+                print(file_name)
+                mime_type = file.mimetype
+                data = file.stream.read()
+
+                attachment = Attachments(
+                    file_name=file_name,
+                    mime_type=mime_type,
+                    data=data,
+                    question_id=new_question.id
+                )
+
+                db.session.add(attachment)
+                db.session.commit()
+
+                return True  # 성공적으로 저장된 경우 True 반환
+
+            except Exception as e:
+                # 파일 저장 실패 처리
+                db.session.rollback()
+                return str(e)  # 에러 메시지 반환
         # requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
         try:
             # response = requests.get(requestURI)
