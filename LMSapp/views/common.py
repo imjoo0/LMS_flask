@@ -2,11 +2,10 @@ from flask import Blueprint,render_template, jsonify, request,redirect,url_for,f
 # file-upload 로 자동 바꿈 방지 모듈 
 from werkzeug.utils import secure_filename
 from flask_file_upload import FileUpload
+import unicodedata
 from io import BytesIO
 import callapi
 import pymysql
-import zipfile
-from flask import session
 from LMSapp.views.main_views import authrize
 
 bp = Blueprint('common', __name__, url_prefix='/common')
@@ -24,14 +23,40 @@ today_yoil = current_time.weekday() + 1
 standard = datetime.strptime('11110101',"%Y%m%d").date()
 
 def save_attachment(file, q_id):
-    attachment = Attachments(
-        file_name=secure_filename(file.filename.replace('\0', '')),
-        mime_type=file.mimetype,
-        data=file.read(),
-        question_id = q_id
-    )
-    db.session.add(attachment)
-    db.session.commit()
+    try:
+        # 파일명을 유니코드 NFC로 정규화
+        normalized_filename = unicodedata.normalize('NFC', file.filename)
+        file_name = secure_filename(normalized_filename.replace('\0', '').replace(' ', '_'))
+        mime_type = file.mimetype
+        data = file.stream.read()
+
+        attachment = Attachments(
+            file_name=file_name,
+            mime_type=mime_type,
+            data=data,
+            question_id=q_id
+        )
+
+        db.session.add(attachment)
+        db.session.commit()
+
+        return True  # 성공적으로 저장된 경우 True 반환
+
+    except Exception as e:
+        # 파일 저장 실패 처리
+        db.session.rollback()
+        return str(e)  # 에러 메시지 반환
+
+
+# def save_attachment(file, q_id):
+#     attachment = Attachments(
+#         file_name=secure_filename(file.filename.replace('\0', '')),
+#         mime_type=file.mimetype,
+#         data = file.stream.read(),
+#         question_id = q_id
+#     )
+#     db.session.add(attachment)
+#     db.session.commit()
 
 # @bp.route('/uploads/<int:id>')
 # def upload_file(id):

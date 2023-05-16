@@ -126,55 +126,49 @@ def question(u):
         #         '내근티처': '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"',
         #         '개발관리': '"iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg"',
         # }
-        question_category = request.form['question_category']
+        category = int(request.form['question_category'])
         title = request.form['question_title']
         contents = request.form['question_contents']
         teacher = u['id']
-        ban_id = request.form['ban_id']
-        student_id = request.form['target_student']
+        ban_id = request.form['my_ban_list']
+        student_id = request.form['student_list']
         teacher_mobileno = request.form.get('teacher_mobileno', None)
         teacher_name = request.form.get('teacher_name', None)
         teacher_engname = request.form.get('teacher_engname', None)
         create_date = datetime.now().date()
-        
-        payloadText  = teacher_name+'( '+ teacher_engname +' )님으로 부터 ' + question_category + '문의가 등록되었습니다 \n 제목:'+ title +'\n'+contents
+        payloadText  = teacher_name+'( '+ teacher_engname +' )님으로 부터 문의가 등록되었습니다 \n 제목:'+ title +'\n'+contents
         # 첨부 파일 처리
-        files = request.files.getlist('file-upload')
-        if question_category == '일반':
+        if category == 0:
             # 영교부에서 재택T 문의 관리 하는 시놀로지 채팅 방 token 값 받아야 함. 
             Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
-            category = 0
             new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
-        elif question_category == '기술': 
+        elif category == 4: 
             Synologytoken = '"iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg"'
-            category = 4
             new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
-        elif question_category == '내근': 
+        elif category ==5: 
             Synologytoken = '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"'
-            category = 5
             new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         else:
             Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
-            history_id = request.form['consulting_history']
-            if question_category == '퇴소':
-                category = 1
-            elif question_category == '이반':
-                category = 2
+            history_id = request.form['h_select_box']
             new_question = Question(consulting_history=history_id, category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         
         db.session.add(new_question)
         db.session.commit()
+        files = request.files.getlist('file_upload')
         for file in files:
             common.save_attachment(file, new_question.id)
-        requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
+        # requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
         try:
-            response = requests.get(requestURI)
-            response.raise_for_status()
-            print(f"statusCode: {response.status_code}")
+            # response = requests.get(requestURI)
+            # response.raise_for_status()
+            # print(f"statusCode: {response.status_code}")
+            print('시놀로지 했다쳐')
         except requests.exceptions.RequestException as e:
             print("시놀로지 전송 실패")
             print(e)
-        return redirect('/teacher')
+        return jsonify({'result': '완료'})
+
 # 오늘 해야 할 업무 완료 저장 
 @bp.route("/task/<int:tb_id>", methods=['POST'])
 def task(tb_id):

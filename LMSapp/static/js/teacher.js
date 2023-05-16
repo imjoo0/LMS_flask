@@ -454,9 +454,7 @@ function plusconsulting(value, b_id) {
     $('#plusconsulting_button_box').html(temp_button)
 }
 function plusconsulting_history(student_id, b_id, t_id) {
-    console.log(allStudentData)
     const student_info = allStudentData.filter(a=>a.register_no == student_id)[0]
-    console.log(student_info)
     const consulting_contents = $('#plus_consulting_contents').val()
     const consulting_reason = $('#plus_consulting_reason').val()
     const consulting_solution = $('#plus_consulting_solution').val()
@@ -1184,7 +1182,6 @@ async function get_consulting_history() {
         container.pagination(Object.assign(CpaginationOptions, { 'dataSource': target_list }));
     }
 }
-// 문의 내용 상세보기
 async function get_consulting_history_detail(c_id) {
     $('#consulting_history_bansel_box').hide()
     $('#consulting_history_box').hide()
@@ -1243,16 +1240,6 @@ async function get_consulting_history_detail(c_id) {
     }
     $('#consulting_history_box_detail').html(temp_his);
 }
-// async function sort_consulting_history(category) {
-//     if (category == "none") {
-//         return get_consulting_history()
-//     }
-//     let container = $('#consulting_history_student_list_pagination')
-//     const data = target_list.filter((e) => {
-//         return e.category == category;
-//     })
-//     container.pagination(Object.assign(CpaginationOptions, { 'dataSource': data }));
-// }
 // 부재중 처리
 async function missed_consulting(c_length) {
     const csrf = $('#csrf_token').val();
@@ -1370,13 +1357,18 @@ function update_done(target) {
 
 // 본원 문의 기능 
 function change_question_kind(str) {
+    $('#student_list').empty()
+    $('#student_list_so').empty()
     if (str == "none") {
         $('#question_topurple').hide()
-    } else if (str == "일반" || str == "기술" || str == "내근") {
+    } else if (str == 0 || str == 4 || str == 5) {
         let question_html = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">대상 원생</span>
             <select id="student_list" class="modal-body-select" name="target_student">
+                <option value=0 selected>특정 원생 선택하지 않기</option>
+                <optgroup class="selstulist" label="원생 선택" multiple>
+                </optgroup>
             </select>
         </div>
         `;
@@ -1386,15 +1378,19 @@ function change_question_kind(str) {
         let question_html = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">대상 원생</span>
-            <select id="student_list" class="modal-body-select" name="target_student"
-                onchange="attach_consulting_history(this.value)">
+            <select id="student_list_so" class="modal-body-select" onchange="attach_consulting_history(this.value)">
+                <option value="none" selected>대상 원생을 선택 해 주세요</option>
+                <optgroup class="selstulist" label="원생 선택" multiple>
+                </optgroup>
             </select>
         </div>
+        <p class="error_msg_alert" id="error_msg_stusel"> 🔻 대상 원생 선택은 필수 입니다 </p>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">상담 내용</span>
             <select class="modal-body-select" name="consulting_history" id="h_select_box">
             </select>
         </div>
+        <p class="error_msg_alert" id="error_msg_consel"> 🔻 상담일지 첨부는 필수 입니다 </p>
         `;
         $('#question_box').html(question_html);
         $('#question_topurple').show()
@@ -1408,7 +1404,7 @@ function get_ban_student(ban_id) {
         let temp_target_student = '<option value="none" selected>반 원생이 없습니다.</option>';
         $('#student_list').html(temp_target_student)
     } else {
-        let temp_target_student = '<option value="none" selected>대상 원생을 선택해주세요</option>';
+        let temp_target_student = '';
         // ㄱㄴㄷㄹ 순 정렬 
         data.sort(function (a, b) {
             var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
@@ -1426,32 +1422,14 @@ function get_ban_student(ban_id) {
             temp_target_student += `
             <option value="${student.student_id}"> ${student.student_name} *${student.student_origin}</option>
             `;
-            $('#student_list').html(temp_target_student)
         });
+        $('.selstulist').html(temp_target_student)
 
-        // $('#student_list').html(temp_target_student).selectmenu({
-        //     width: "70%", // select box의 너비 설정
-        //     // 검색 기능 활성화
-        //     create: function(event, ui) {
-        //       var widget = $(this).selectmenu('widget');
-        //       var input = $('<input>').appendTo(widget).on('input', function() {
-        //         var options = $(this).closest('.ui-selectmenu-menu').find('.ui-menu-item');
-        //         var searchString = $(this).val().toLowerCase();
-        //         options.each(function() {
-        //           var text = $(this).text().toLowerCase();
-        //           if (text.indexOf(searchString) === -1) {
-        //             $(this).hide();
-        //           } else {
-        //             $(this).show();
-        //           }
-        //         });
-        //       });
-        //     },
-        //     // select box의 option 설정
-        //     change: function(event, ui) {
-        //       console.log(ui.item.value); // 선택된 항목의 값
-        //     }
-        //   }).selectmenu('refresh');
+        if(ban_id == "none"){
+            $('#error_msg_bansel').show()
+        }else{
+            $('#error_msg_bansel').hide()
+        }
     }
 }
 // 상담일지 첨부 
@@ -1464,7 +1442,7 @@ function attach_consulting_history(student_id) {
     if (consultinglist.length <= 0) {
         alert('상담을 우선 진행해주세요  원생목록 👉 해당 원생 상담추가');
         temp_h_select = '<option value="none" selected>상담을 우선 진행해주세요  원생목록 👉 해당 원생 상담추가</option>'
-    } else {
+    }else{
         temp_h_select = '<option value="none" selected>상담을 선택해주세요</option>'
         $.each(consultinglist, function (index, consulting) {
             let category = ''
@@ -1479,7 +1457,111 @@ function attach_consulting_history(student_id) {
         });
     }
     $('#h_select_box').html(temp_h_select)
+
+    if( student_id == "none"){
+        $('#error_msg_stusel').show()
+    }else{
+        $('#error_msg_bansel').hide()
+        $('#error_msg_stusel').hide()
+    }
+
 }
+
+// 문의 저장 
+function question_save(){
+    // 파일 저장 처리 
+    const formData = new FormData();
+    const fileInput = document.getElementById('file-upload');
+    const files = fileInput.files;
+    const files_length = files.length;
+    if(files_length > 3){
+        $('#error_msg_filesel').show()
+        return;
+    }
+    console.log(files)
+    for (let i = 0; i < files_length; i++) {
+        formData.append('file_upload', files[i]);
+    }
+    const q_kind = $('#question_kind').val()
+    const question_title = $('#question_title').val()
+    const question_contents = $('#question_contents').val()
+    const teacher_mobileno = $('#teacher_mobileno').val()
+    const teacher_name = $('#teacher_name').val()
+    const teacher_engname = $('#teacher_engname').val()
+    const my_ban_list = $('#my_ban_list').val()
+    
+    
+    formData.append('question_category', q_kind);
+    formData.append('question_title', question_title);
+    formData.append('question_contents', question_contents);
+    formData.append('teacher_mobileno', teacher_mobileno);
+    formData.append('teacher_name', teacher_name);
+    formData.append('teacher_engname', teacher_engname);
+    formData.append('my_ban_list', my_ban_list);
+    
+    if(q_kind == 1 || q_kind == 2 ){
+        const student_list = $('#student_list_so').val()
+        const h_select_box = $('#h_select_box').val()
+        if(my_ban_list == "none" || student_list == "none" || h_select_box == "none" ){
+            $('#error_msg_bansel').show()
+            $('#error_msg_stusel').show()
+            $('#error_msg_consel').show()
+        }else{
+            formData.append('student_list', student_list);
+            formData.append('h_select_box', h_select_box);
+            $('#error_msg_bansel').hide()
+            $('#error_msg_stusel').hide()
+            $('#error_msg_consel').hide()
+            $.ajax({
+                type: "POST",
+                url: '/teacher/question',
+                // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+                data:formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    {
+                        if(response["result"]=="완료"){
+                            alert("문의 저장 완료")
+                            window.location.reload()
+                        }else{
+                            alert("문의 저장에 실패했습니다")
+                        }
+                    }
+                }
+            })
+
+        } 
+    }else{
+        if(my_ban_list == "none"){
+            $('#error_msg_bansel').show()
+        }else{
+            const student_list = $('#student_list').val()
+            formData.append('student_list', student_list);
+            $.ajax({
+                type: "POST",
+                url: '/teacher/question',
+                // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+                data:formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    {
+                        if(response["result"]=="완료"){
+                            alert("문의 저장 완료")
+                            window.location.reload()
+                        }else{
+                            alert("문의 저장에 실패했습니다")
+                        }
+                    }
+                }
+            })
+
+        } 
+
+    }
+}
+
 // 문의 리스트
 async function get_teacher_question() {
     try {
@@ -1550,7 +1632,6 @@ async function get_question_detail(q_id) {
     $('#question_pagination').hide()
     $('#questiondetail').show()
     questiondata = questionAnswerdata.filter(q => q.id == q_id)[0]
-    ban_student_data = allStudentData.filter(s => s.register_no == questiondata.student_id)[0]
     let temp_question_list = `
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">문의 종류</span>
@@ -1567,11 +1648,23 @@ async function get_question_detail(q_id) {
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">작성일</span>
         <p>${questiondata.create_date}</p>
-    </div>
-    <div class="modal-body-select-container">
-        <span class="modal-body-select-label">대상 반 | 학생</span>
-        <p>${ban_student_data.classname} ➖ ${ban_student_data.name} (${ban_student_data.nick_name}:${ban_student_data.origin})</p>
-    </div>
+    </div>`
+    if(questiondata.student_id != 0){
+        ban_student_data = allStudentData.filter(s => s.register_no == questiondata.student_id)[0]
+        temp_question_list+=`
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">대상 반 | 학생</span>
+            <p>${ban_student_data.classname} ➖ ${ban_student_data.name} (${ban_student_data.nick_name}:${ban_student_data.origin})</p>
+        </div>`
+    }else{
+        ban_student_data = mybansData.filter(b=>b.register_no == questiondata.ban_id)[0]
+        temp_question_list+=`
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">대상 반 | 학생</span>
+            <p>${ban_student_data.name} ➖ "특정 원생 선택하지 않음"</p>
+        </div>`
+    }
+    temp_question_list+=`
     <div class="modal-body-select-container">
     <span class="modal-body-select-label">첨부파일</span>
     <div class="make_col">
@@ -1580,6 +1673,8 @@ async function get_question_detail(q_id) {
         questiondata.attach.forEach((a)=>{
             temp_question_list += `<a href="/common/downloadfile/question/${q_id}/attachment/${a.id}" download="${a.file_name}">${a.file_name}</a>`;
         })
+    }else{
+        temp_question_list +='➖'
     }
     temp_question_list += `</div></div>`;
     $('#teacher_question').html(temp_question_list);
