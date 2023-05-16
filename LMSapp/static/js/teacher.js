@@ -1369,6 +1369,8 @@ function update_done(target) {
 
 // 본원 문의 기능 
 function change_question_kind(str) {
+    $('#student_list').empty()
+    $('#student_list_so').empty()
     if (str == "none") {
         $('#question_topurple').hide()
     } else if (str == 0 || str == 4 || str == 5) {
@@ -1428,9 +1430,9 @@ function get_ban_student(ban_id) {
             temp_target_student += `
             <option value="${student.student_id}"> ${student.student_name} *${student.student_origin}</option>
             `;
-            $('#student_list').html(temp_target_student)
-            $('#student_list_so').html(temp_target_student)
         });
+        $('#student_list').append(temp_target_student)
+        $('#student_list_so').append(temp_target_student)
 
         // $('#student_list').html(temp_target_student).selectmenu({
         //     width: "70%", // select box의 너비 설정
