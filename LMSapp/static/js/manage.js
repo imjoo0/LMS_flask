@@ -1326,7 +1326,7 @@ async function get_request_consulting(){
             $.each(data, function (index, consulting) {
                 consulting.ban_name = banData.filter(b=>b.ban_id == consulting.ban_id)[0].name
                 let contents = consulting.contents;
-                if (contents.length > 50) {
+                if(contents && contents.length > 50) {
                     contents = contents.substring(0, 40) + ' ▪️▪️▪️ ';
                 }
                 dataHtml += `
