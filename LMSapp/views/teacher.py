@@ -157,32 +157,24 @@ def question(u):
             new_question = Question(consulting_history=history_id, category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         
         db.session.add(new_question)
-        db.session.commit()
         # common.save_attachment(file, new_question.id)
-        try:
-            files = request.files.getlist('file_upload')
-            for file in files:
-                file_name = secure_filename(file.filename.replace('\0', '').replace(' ', '_'), filename_charset='UTF-8')
-                print(file_name)
-                mime_type = file.mimetype
-                data = file.stream.read()
+        files = request.files.getlist('file_upload')
+        for file in files:
+            file_name = secure_filename(file.filename.replace('\0', '').replace(' ', '_'), filename_charset='UTF-8')
+            print(file_name)
+            mime_type = file.mimetype
+            data = file.stream.read()
 
-                attachment = Attachments(
-                    file_name=file_name,
-                    mime_type=mime_type,
-                    data=data,
-                    question_id=new_question.id
-                )
+            attachment = Attachments(
+                file_name=file_name,
+                mime_type=mime_type,
+                data=data,
+                question_id=new_question.id
+            )
 
-                db.session.add(attachment)
-                db.session.commit()
+            db.session.add(attachment)
+        db.session.commit()
 
-                return True  # 성공적으로 저장된 경우 True 반환
-
-        except Exception as e:
-            # 파일 저장 실패 처리
-            db.session.rollback()
-            return str(e)  # 에러 메시지 반환
         # requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
         # try:
             # response = requests.get(requestURI)
