@@ -107,6 +107,7 @@ def question(u):
                 qdata['answer_data']['content']=q.qa.content
                 qdata['answer_data']['reject_code']=q.qa.reject_code
                 qdata['answer_data']['created_at']=q.qa.created_at.strftime('%Y-%m-%d')
+            print(q.attachments)
             if (q.attachments is None):
                 qdata['attach'] = "없음"
             else:
