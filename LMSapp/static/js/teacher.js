@@ -1482,14 +1482,19 @@ function attach_consulting_history(student_id) {
 // 문의 저장 
 function question_save(){
     // 파일 저장 처리 
+    const formData = new FormData();
+
+    
     const fileInput = document.getElementById('file-upload');
     const files = fileInput.files;
-    const formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
+    const files_length = files.length;
+    if(files_length > 3){
+        alert('파일 업로드 갯수는 최대 3개 입니다 😅')
+        return;
+    }
+    for (let i = 0; i < files_length; i++) {
         formData.append('file_upload', files[i]);
     }
-
-    console.log(files)
     const q_kind = $('#question_kind').val()
     const question_title = $('#question_title').val()
     const question_contents = $('#question_contents').val()
