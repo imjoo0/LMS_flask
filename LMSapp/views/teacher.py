@@ -71,16 +71,16 @@ def get_data(u):
     return jsonify({'ban_data':'없음'})
 
 # consulting_history
-@bp.route('/get_mystudents_history', methods=['GET'])
-@authrize
-def get_mystudents_history(u):
-    all_consulting_history =  callapi.purple_info(u['user_id'], 'get_mystudents_history')
-    return jsonify({'all_consulting_history':all_consulting_history})
+# @bp.route('/get_mystudents_history', methods=['GET'])
+# @authrize
+# def get_mystudents_history(u):
+#     all_consulting_history =  callapi.purple_info(u['user_id'], 'get_mystudents_history')
+#     return jsonify({'all_consulting_history':all_consulting_history})
 
-@bp.route('/get_student_history/<int:s_id>', methods=['GET'])
-def get_student_history(s_id):
-    all_consulting_history =  callapi.purple_ban(s_id, 'get_student_history')
-    return jsonify({'all_consulting_history':all_consulting_history})
+# @bp.route('/get_student_history/<int:s_id>', methods=['GET'])
+# def get_student_history(s_id):
+#     all_consulting_history =  callapi.purple_ban(s_id, 'get_student_history')
+#     return jsonify({'all_consulting_history':all_consulting_history})
 
 # 문의 리스트 / 문의 작성    
 @bp.route('/question', methods=['GET', 'POST'])
@@ -120,7 +120,7 @@ def question(u):
             data.append(qdata)
         return data
     elif request.method == 'POST':
-        URI = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
+        # URI = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
         # groupToken = {
         #         '행정파트': '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"',
         #         '내근티처': '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"',
@@ -159,14 +159,14 @@ def question(u):
         for file in files:
             common.save_attachment(file, new_question.id)
         # requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
-        try:
-            # response = requests.get(requestURI)
-            # response.raise_for_status()
-            # print(f"statusCode: {response.status_code}")
-            print('시놀로지 했다쳐')
-        except requests.exceptions.RequestException as e:
-            print("시놀로지 전송 실패")
-            print(e)
+        # try:
+        #     response = requests.get(requestURI)
+        #     response.raise_for_status()
+        #     print(f"statusCode: {response.status_code}")
+        #     # print('시놀로지 했다쳐')
+        # except requests.exceptions.RequestException as e:
+        #     print("시놀로지 전송 실패")
+        #     print(e)
         return jsonify({'result': '완료'})
 
 # 오늘 해야 할 업무 완료 저장 

@@ -324,10 +324,6 @@ async function get_data(){
     // }
 }
 function go_back() {
-    // 문의 관련 
-    $('#questiondetail').hide();
-    $('#questionlist').show();
-    $('#question_pagination').show()
     // 원생 리스트 관련 
     $('#ban_student_list_box').show();
     $('#ban_student_list_bansel_box').show()
@@ -613,26 +609,26 @@ async function student_consulting(student_id) {
     $('.mo_inloading').show()
     $('.monot_inloading').hide()
     let container = $('#studentlist_pagination')
-    try {
-        const response = await $.ajax({
-            type: "GET",
-            url: "/teacher/get_student_history/"+student_id,
-            dataType: 'json',
-            data: {},
-        });
-        ConsultingHistory = response['all_consulting_history']
-        ConsultingHistoryGrouped = ConsultingHistory.reduce((acc, item) => {
-            item.created_at = make_date(item.created_at)
-            if (!acc[item.created_at]) {
-                acc[item.created_at] = [];
-            }
-            acc[item.created_at].push(item);
-            return acc;
-        }, []);
-        ConsultingHistoryGroupedCategory = Object.keys(ConsultingHistoryGrouped)
-    } catch (error) {
-        alert('Error occurred while retrieving data.');
-    }
+    // try {
+    //     const response = await $.ajax({
+    //         type: "GET",
+    //         url: "/teacher/get_student_history/"+student_id,
+    //         dataType: 'json',
+    //         data: {},
+    //     });
+    //     ConsultingHistory = response['all_consulting_history']
+    //     ConsultingHistoryGrouped = ConsultingHistory.reduce((acc, item) => {
+    //         item.created_at = make_date(item.created_at)
+    //         if (!acc[item.created_at]) {
+    //             acc[item.created_at] = [];
+    //         }
+    //         acc[item.created_at].push(item);
+    //         return acc;
+    //     }, []);
+    //     ConsultingHistoryGroupedCategory = Object.keys(ConsultingHistoryGrouped)
+    // } catch (error) {
+    //     alert('Error occurred while retrieving data.');
+    // }
     data = Targetdata.filter(e => e.student_id == student_id)[0]
     myconsulting_num = data['consulting_list'].length;
     $('#ban_student_listModalLabelt').html(`${data['student_name']} 원생 상담일지`)
@@ -1078,20 +1074,20 @@ async function get_consulting_history() {
     $('#consulting_history_box').show()
     $('#consulting_history_box_detail').hide()
     $('#consulting_list_search_input').off('keyup');
-    try {
-        const response = await $.ajax({
-            type: "GET",
-            url: "/teacher/get_mystudents_history",
-            dataType: 'json',
-            data: {},
-        });
-        ConsultingHistory = response['all_consulting_history']
-        ConsultingHistory.forEach((elem) => {
-            elem.id = 'history_'+elem.id
-        });
-    }catch(error) {
-        alert('Error occurred while retrieving data.');
-    }
+    // try {
+    //     const response = await $.ajax({
+    //         type: "GET",
+    //         url: "/teacher/get_mystudents_history",
+    //         dataType: 'json',
+    //         data: {},
+    //     });
+    //     ConsultingHistory = response['all_consulting_history']
+    //     ConsultingHistory.forEach((elem) => {
+    //         elem.id = 'history_'+elem.id
+    //     });
+    // }catch(error) {
+    //     alert('Error occurred while retrieving data.');
+    // }
     let container = $('#consulting_history_student_list_pagination')
     // var category_list = []
     CpaginationOptions = {
