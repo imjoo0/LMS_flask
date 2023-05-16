@@ -1240,16 +1240,6 @@ async function get_consulting_history_detail(c_id) {
     }
     $('#consulting_history_box_detail').html(temp_his);
 }
-// async function sort_consulting_history(category) {
-//     if (category == "none") {
-//         return get_consulting_history()
-//     }
-//     let container = $('#consulting_history_student_list_pagination')
-//     const data = target_list.filter((e) => {
-//         return e.category == category;
-//     })
-//     container.pagination(Object.assign(CpaginationOptions, { 'dataSource': data }));
-// }
 // 부재중 처리
 async function missed_consulting(c_length) {
     const csrf = $('#csrf_token').val();
@@ -1489,6 +1479,7 @@ function question_save(){
         $('#error_msg_filesel').show()
         return;
     }
+    console.log(files)
     for (let i = 0; i < files_length; i++) {
         formData.append('file_upload', files[i]);
     }
