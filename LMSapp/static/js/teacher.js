@@ -1101,34 +1101,24 @@ async function get_consulting_history() {
                 consulting.student_name = student_info.name + '( ' + student_info.nick_name + ' )'
                 consulting.origin = student_info.origin
                 consulting.ban_name = student_info.classname
-                if(typeof consulting.id === 'string'){
-                    dataHtml += `
-                    <td class="col-2"> (이전 상담 기록) ${make_nullcate(consulting.category)}</td>
-                    <td class="col-2">${make_nullcate(consulting.title)}</td>
-                    <td class="col-2">${make_date(consulting.created_at)}</td>
-                    <td class="col-2"> ${consulting.ban_name}</td>
-                    <td class="col-2"> ${consulting.student_name}</td>
-                    <td class="col-1"> ${consulting.origin}</td>
-                    <td class="col-1" onclick ="get_consulting_history_detail('${consulting.id}')"> 🔍 </td>`;
-                }else{
-                    let title = consulting.contents
-                    if (consulting.category_id < 100) {
-                        title = consulting.category
-                    }
-                    dataHtml += `
-                    <td class="col-2"> ${consulting.category}</td>
-                    <td class="col-2">${title}</td>
-                    <td class="col-2">${make_date(consulting.created_at)}</td>
-                    <td class="col-2"> ${consulting.ban_name}</td>
-                    <td class="col-2"> ${consulting.student_name}</td>
-                    <td class="col-1"> ${consulting.origin}</td>
-                    <td class="col-1" onclick ="get_consulting_history_detail(${consulting.id})"> 🔍 </td>`;
+                console.log(consulting)
+                let title = consulting.contents
+                if (consulting.category_id < 100) {
+                    title = consulting.category
                 }
+                dataHtml += `
+                <td class="col-2"> ${consulting.category}</td>
+                <td class="col-2">${title}</td>
+                <td class="col-2">${make_date(consulting.created_at)}</td>
+                <td class="col-2"> ${consulting.ban_name}</td>
+                <td class="col-2"> ${consulting.student_name}</td>
+                <td class="col-1"> ${consulting.origin}</td>
+                <td class="col-1" onclick ="get_consulting_history_detail(${consulting.id})"> 🔍 </td>`;
             });
             $('#consulting_history_student_list').html(dataHtml);
         }
     }
-    const target_list = allConsultingData.filter(c => c.done == 1).concat(ConsultingHistory)
+    const target_list = allConsultingData.filter(c => c.done == 1)
     // let filteredData = target_list.slice();
     const updateSearchResult = function () {
         let copy_data = target_list.slice();
@@ -1183,57 +1173,34 @@ async function get_consulting_history_detail(c_id) {
     $('#consulting_history_box').hide()
     $('#consulting_history_box_detail').show()
     let temp_his = ''
-    if(typeof c_id === 'string'){
-        let consulting_history = ConsultingHistory.filter(c => c.id == c_id)[0]
-        temp_his = `
-        <button type="button" class="btn btn-back" onclick="get_consulting_history()">상담 목록으로 돌아가기🔙 </button>
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">(과거 데이터 상담) 종류</span>
-            <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50" placeholder="${consulting_history.category}">
-        </div>
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">제목 </span>
-            <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50" placeholder="${make_nullcate(consulting_history.title)}">
-        </div>
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">제공한 가이드</span>
-            <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50" placeholder="${consulting_history.contents.replace(/\n/g, '</br>')}">
-        </div>
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">상담 일시</span>
-            <p>${make_date(consulting_history.updated_at)}</p>
-        </div>
-        `;
-    }else{
-        let consulting_history = allConsultingData.filter(c => c.id == c_id)[0]
-        let category = `${consulting_history.category}`
-        if (consulting_history.category_id < 100) {
-            category = `${consulting_history.category} 상담  검사 날짜: <strong>${make_date(consulting_history.startdate)}</strong>`
-        }
-        temp_his = `
-        <button type="button" class="btn btn-back" onclick="get_consulting_history()">상담 목록으로 돌아가기🔙 </button>
-        <p class="mt-lg-4 mt-5">✅ ${category}</p>
-        <p mt-lg-4 mt-5>✅ ${consulting_history.contents.replace(/\n/g, '</br>')}</p>
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">상담 사유</span>
-            <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason${c_id}" placeholder="${consulting_history.reason}">
-        </div>
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">제공한 가이드</span>
-            <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"
-                id="consulting_solution${c_id}" placeholder="${consulting_history.solution}">
-        </div>
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">상담 일시</span>
-            <p>${make_date(consulting_history.created_at)}</p>
-        </div>
-        <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
-            <button class="btn btn-dark"
-                onclick="post_one_consulting(${c_id},${1})"
-            style="margin-right:5px">수정</button>
-        </div>
-        `;
+    let consulting_history = allConsultingData.filter(c => c.id == c_id)[0]
+    let category = `${consulting_history.category}`
+    if (consulting_history.category_id < 100) {
+        category = `${consulting_history.category} 상담  검사 날짜: <strong>${make_date(consulting_history.startdate)}</strong>`
     }
+    temp_his = `
+    <button type="button" class="btn btn-back" onclick="get_consulting_history()">상담 목록으로 돌아가기🔙 </button>
+    <p class="mt-lg-4 mt-5">✅ ${category}</p>
+    <p mt-lg-4 mt-5>✅ ${consulting_history.contents.replace(/\n/g, '</br>')}</p>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">상담 사유</span>
+        <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason${c_id}" placeholder="${consulting_history.reason}">
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">제공한 가이드</span>
+        <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"
+            id="consulting_solution${c_id}" placeholder="${consulting_history.solution}">
+    </div>
+    <div class="modal-body-select-container">
+        <span class="modal-body-select-label">상담 일시</span>
+        <p>${make_date(consulting_history.created_at)}</p>
+    </div>
+    <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
+        <button class="btn btn-dark"
+            onclick="post_one_consulting(${c_id},${1})"
+        style="margin-right:5px">수정</button>
+    </div>
+    `;
     $('#consulting_history_box_detail').html(temp_his);
 }
 // 부재중 처리
