@@ -2,6 +2,7 @@ from flask import Blueprint,render_template, jsonify, request,redirect,url_for,f
 # file-upload 로 자동 바꿈 방지 모듈 
 from werkzeug.utils import secure_filename
 from flask_file_upload import FileUpload
+import unicodedata
 from io import BytesIO
 import callapi
 import pymysql
@@ -23,8 +24,9 @@ standard = datetime.strptime('11110101',"%Y%m%d").date()
 
 def save_attachment(file, q_id):
     try:
-        file_name = secure_filename(file.filename.replace('\0', '').replace(' ', '_'))
-        print(file_name)
+        # 파일명을 유니코드 NFC로 정규화
+        normalized_filename = unicodedata.normalize('NFC', file.filename)
+        file_name = secure_filename(normalized_filename.replace('\0', '').replace(' ', '_'))
         mime_type = file.mimetype
         data = file.stream.read()
 
