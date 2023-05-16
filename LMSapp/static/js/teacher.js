@@ -1437,29 +1437,11 @@ function get_ban_student(ban_id) {
         });
         $('.selstulist').html(temp_target_student)
 
-        // $('#student_list').html(temp_target_student).selectmenu({
-        //     width: "70%", // select box의 너비 설정
-        //     // 검색 기능 활성화
-        //     create: function(event, ui) {
-        //       var widget = $(this).selectmenu('widget');
-        //       var input = $('<input>').appendTo(widget).on('input', function() {
-        //         var options = $(this).closest('.ui-selectmenu-menu').find('.ui-menu-item');
-        //         var searchString = $(this).val().toLowerCase();
-        //         options.each(function() {
-        //           var text = $(this).text().toLowerCase();
-        //           if (text.indexOf(searchString) === -1) {
-        //             $(this).hide();
-        //           } else {
-        //             $(this).show();
-        //           }
-        //         });
-        //       });
-        //     },
-        //     // select box의 option 설정
-        //     change: function(event, ui) {
-        //       console.log(ui.item.value); // 선택된 항목의 값
-        //     }
-        //   }).selectmenu('refresh');
+        if(ban_id == "none"){
+            $('#error_msg_bansel').show()
+        }else{
+            $('#error_msg_bansel').hide()
+        }
     }
 }
 // 상담일지 첨부 
@@ -1472,7 +1454,7 @@ function attach_consulting_history(student_id) {
     if (consultinglist.length <= 0) {
         alert('상담을 우선 진행해주세요  원생목록 👉 해당 원생 상담추가');
         temp_h_select = '<option value="none" selected>상담을 우선 진행해주세요  원생목록 👉 해당 원생 상담추가</option>'
-    } else {
+    }else{
         temp_h_select = '<option value="none" selected>상담을 선택해주세요</option>'
         $.each(consultinglist, function (index, consulting) {
             let category = ''
@@ -1487,19 +1469,43 @@ function attach_consulting_history(student_id) {
         });
     }
     $('#h_select_box').html(temp_h_select)
+
+    if( student_id == "none"){
+        $('#error_msg_stusel').show()
+    }else{
+        $('#error_msg_bansel').hide()
+        $('#error_msg_stusel').hide()
+    }
+
 }
 
 // 문의 저장 
 function question_save(){
+    // 파일 저장 처리 
+    const fileInput = document.getElementById('file-upload');
+    const files = fileInput.files;
+    const formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+        formData.append('file_upload', files[i]);
+    }
+
     const q_kind = $('#question_kind').val()
     const question_title = $('#question_title').val()
     const question_contents = $('#question_contents').val()
     const teacher_mobileno = $('#teacher_mobileno').val()
     const teacher_name = $('#teacher_name').val()
     const teacher_engname = $('#teacher_engname').val()
-    const file_upload = $('#file-upload').val()
-    console.log(file_upload)
     const my_ban_list = $('#my_ban_list').val()
+    
+    
+    formData.append('question_category', q_kind);
+    formData.append('question_title', question_title);
+    formData.append('question_contents', question_contents);
+    formData.append('teacher_mobileno', teacher_mobileno);
+    formData.append('teacher_name', teacher_name);
+    formData.append('teacher_engname', teacher_engname);
+    formData.append('my_ban_list', my_ban_list);
+    
     if(q_kind == 1 || q_kind == 2 ){
         const student_list = $('#student_list_so').val()
         const h_select_box = $('#h_select_box').val()
@@ -1508,6 +1514,8 @@ function question_save(){
             $('#error_msg_stusel').show()
             $('#error_msg_consel').show()
         }else{
+            formData.append('student_list', student_list);
+            formData.append('h_select_box', h_select_box);
             $('#error_msg_bansel').hide()
             $('#error_msg_stusel').hide()
             $('#error_msg_consel').hide()
@@ -1515,18 +1523,9 @@ function question_save(){
                 type: "POST",
                 url: '/teacher/question',
                 // data: JSON.stringify(jsonData), // String -> json 형태로 변환
-                data: {
-                    question_category : q_kind,
-                    question_title: question_title,
-                    question_contents: question_contents,
-                    teacher_mobileno: teacher_mobileno,
-                    teacher_name: teacher_name,
-                    teacher_engname: teacher_engname,
-                    file_upload: file_upload,
-                    my_ban_list: my_ban_list,
-                    student_list: student_list,
-                    h_select_box: h_select_box
-                },
+                data:formData,
+                processData: false,
+                contentType: false,
                 success: function (response) {
                     {
                         alert(response["result"])
@@ -1541,21 +1540,14 @@ function question_save(){
             $('#error_msg_bansel').show()
         }else{
             const student_list = $('#student_list').val()
+            formData.append('student_list', student_list);
             $.ajax({
                 type: "POST",
                 url: '/teacher/question',
                 // data: JSON.stringify(jsonData), // String -> json 형태로 변환
-                data: {
-                    question_category : q_kind,
-                    question_title: question_title,
-                    question_contents: question_contents,
-                    teacher_mobileno: teacher_mobileno,
-                    teacher_name: teacher_name,
-                    teacher_engname: teacher_engname,
-                    student_list: student_list,
-                    file_upload: file_upload,
-                    my_ban_list: my_ban_list,
-                },
+                data:formData,
+                processData: false,
+                contentType: false,
                 success: function (response) {
                     {
                         alert(response["result"])

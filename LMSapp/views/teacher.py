@@ -126,7 +126,7 @@ def question(u):
         #         '내근티처': '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"',
         #         '개발관리': '"iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg"',
         # }
-        category = request.form['question_category']
+        category = int(request.form['question_category'])
         title = request.form['question_title']
         contents = request.form['question_contents']
         teacher = u['id']
@@ -159,11 +159,12 @@ def question(u):
         files = request.files.getlist('file_upload')
         for file in files:
             common.save_attachment(file, new_question.id)
-        requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
+        # requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
         try:
-            response = requests.get(requestURI)
-            response.raise_for_status()
-            print(f"statusCode: {response.status_code}")
+            # response = requests.get(requestURI)
+            # response.raise_for_status()
+            # print(f"statusCode: {response.status_code}")
+            print('시놀로지 했다쳐')
         except requests.exceptions.RequestException as e:
             print("시놀로지 전송 실패")
             print(e)
