@@ -1356,7 +1356,7 @@ async function get_request_consulting(){
     $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
 
     consultingData.sort(function (a, b) {
-        return new Date(b.created_at) - new Date(a.created_at);
+        return new Date(b.startdate) - new Date(a.startdate);
     });
     Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': consultingData }))
     $('.mo_inloading').hide();
