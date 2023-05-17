@@ -229,11 +229,14 @@ async function get_soquestion_detail(q_id, done_code) {
         <span class="modal-body-select-label">대상 반</span>
         <p>${question_detail_data.ban_name} ➖ 담임 T : ${question_detail_data.teacher_name} </p>
     </div>`
-    temp_question_list += `
-    <div class="modal-body-select-container">
-        <span class="modal-body-select-label">학생</span>
-        <p>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin} )</p>
-    </div>
+    if(student_data){
+        temp_question_list += `
+        <div class="modal-body-select-container">
+            <span class="modal-body-select-label">학생</span>
+            <p>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin} )</p>
+        </div>`
+    }
+    temp_question_list +=`
     <div class="modal-body-select-container">
     <span class="modal-body-select-label">첨부파일</span>
     <div class="make_col">
