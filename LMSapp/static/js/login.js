@@ -41,11 +41,7 @@ function find_my_id(){
 
     $.ajax({
         type: "GET",
-        url: "/find_user",
-        data: {
-            teacher_kor_name: teacher_kor_name,
-            teacher_eng_name: teacher_eng_name
-        },
+        url: "/find_user/"+teacher_kor_name+"/"+teacher_eng_name,
         success: function (response) {
             {
                 $('#my_id_box').show()
