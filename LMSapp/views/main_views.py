@@ -11,7 +11,7 @@ import callapi
 import config
 from LMSapp.models import *
 import datetime
-from sqlalchemy import and_
+from sqlalchemy import and_,or_
 SECRET_KEY = config.SECRET_KEY
 
 def authrize(f):
@@ -92,12 +92,16 @@ def find_user(teacher_kor_name,teacher_eng_name):
     print(teacher_kor_name)
     print(teacher_eng_name)
     # teacher_info = callapi.find_user(teacher_kor_name,teacher_eng_name)
-    teacher_info = User.query.filter(and_(User.name == teacher_kor_name, User.eng_name == teacher_eng_name)).first()
-    if(teacher_info):
-        result = {}
-        result['user_id']=teacher_info.user_id
-        result['mobileno']=teacher_info.mobileno
-        result['email']=teacher_info.email
+    teacher_info = User.query.filter(or_(User.name == teacher_kor_name, User.eng_name == teacher_eng_name)).all()
+    if(len(teacher_info > 0)):
+        result = []
+        for teacher in teacher_info:
+            if(teacher):
+                t_result = {}
+                t_result['user_id']=teacher.user_id
+                t_result['mobileno']=teacher.mobileno
+                t_result['email']=teacher.email
+                result.append(t_result)    
         return jsonify({'teacher_info': result})
     else:
         return jsonify({'teacher_info': 'nodata'})
