@@ -61,7 +61,7 @@ function find_my_id(){
                     let temp_result =''
                     for(i=0;i<result.length;i++){
                         temp_result += `
-                        <div class="col-sm-3 mb-sm-0 mb-2"><span>✅ ${i+1}번 후보</span></div>
+                        <p>✅ ${i+1}번 후보</p>
                         <div class="col-sm-3 mb-sm-0 mb-2"><span>✅ 아이디</span></div>
                         <div class="col-sm-9">
                             <p>${result[i].user_id}</p>
