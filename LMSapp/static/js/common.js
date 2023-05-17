@@ -563,7 +563,6 @@ function sort_data(sort_op) {
 function download_banlist(){
     var con_val = confirm('반 리스트를 다운로드 하시겠습니까?')
     if(con_val){
-    <   script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
         var doc = new jsPDF();
         var tableData = [];
         // HTML 요소를 선택하고 PDF로 변환합니다.
