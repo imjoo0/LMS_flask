@@ -564,13 +564,24 @@ function download_banlist(){
     var con_val = confirm('반 리스트를 다운로드 하시겠습니까?')
     if(con_val){
         var doc = new jsPDF();
+        var tableData = [];
         // HTML 요소를 선택하고 PDF로 변환합니다.
-        doc.html(document.body, {
-            callback: function (pdf) {
-            // PDF 파일을 저장합니다.
-            pdf.save('semester_list.pdf');
-            }
+        $('#semester_banlist tr').each(function(row, element) {
+            var rowData = [];
+            $(element).find('td').each(function(col, cell) {
+                rowData.push($(cell).text());
+            });
+            tableData.push(rowData);
         });
+
+        // 테이블을 PDF에 추가하기
+        doc.autoTable({
+            head: [['반', '선생님', '관리 원생 수', '학생 수', '퇴소 율', '보류 학생 수', '퇴소 정보', '전체 퇴소율', '상세 정보']],
+            body: tableData,
+        });
+
+        // PDF 파일을 저장합니다.
+        doc.save('semester_list.pdf');
     }
 }
 async function getTeacherInfo(t_id) {
