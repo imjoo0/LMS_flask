@@ -36,8 +36,8 @@ $('.form-container').keyup('keyup', function (event) {
 });
 
 function find_my_id(){
-    const teacher_kor_name = $('#teacher_kor_name').val()
-    const teacher_eng_name = $('#teacher_eng_name').val()
+    let teacher_kor_name = $('#teacher_kor_name').val()
+    let teacher_eng_name = $('#teacher_eng_name').val()
     if(teacher_kor_name=""){
         teacher_kor_name = "입력없음"
     }
