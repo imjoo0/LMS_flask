@@ -87,7 +87,7 @@ def logout():
             'msg': '로그아웃 실패'
         })
 
-@bp.route('/find_user', methods=['GET'])
+@bp.route('/find_user', methods=['POST'])
 def find_user():
     # 상담 제목
     data = request.get_json()
