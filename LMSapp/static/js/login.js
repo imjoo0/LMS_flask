@@ -38,7 +38,12 @@ $('.form-container').keyup('keyup', function (event) {
 function find_my_id(){
     const teacher_kor_name = $('#teacher_kor_name').val()
     const teacher_eng_name = $('#teacher_eng_name').val()
-
+    if(teacher_kor_name=""){
+        teacher_kor_name = "입력없음"
+    }
+    if(teacher_eng_name=""){
+        teacher_eng_name = "입력없음"
+    }
     $.ajax({
         type: "GET",
         url: "/find_user/"+teacher_kor_name+"/"+teacher_eng_name,
