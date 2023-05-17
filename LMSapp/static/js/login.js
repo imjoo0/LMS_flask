@@ -36,8 +36,9 @@ $('.form-container').keyup('keyup', function (event) {
 });
 
 function find_my_id(){
-    $('#teacher_kor_name').val()
-    $('#teacher_eng_name').val()
+    const teacher_kor_name = $('#teacher_kor_name').val()
+    const teacher_eng_name = $('#teacher_eng_name').val()
+
     $.ajax({
         type: "GET",
         url: "/find_user",
