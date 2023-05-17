@@ -92,11 +92,12 @@ def find_user(teacher_kor_name,teacher_eng_name):
     print(teacher_kor_name)
     print(teacher_eng_name)
     # teacher_info = callapi.find_user(teacher_kor_name,teacher_eng_name)
-    teacher_info = User.query.filter(and_(User.name == teacher_kor_name, User.eng_name == teacher_eng_name)).all()
-    result = []
+    teacher_info = User.query.filter(and_(User.name == teacher_kor_name, User.eng_name == teacher_eng_name)).first()
     if(len(teacher_info) > 0):
-        for teacher in teacher_info:
-            result.append(teacher.user_id)
+        result = {}
+        result['user_id']=teacher_info.user_id
+        result['mobileno']=teacher_info.mobileno
+        result['email']=teacher_info.email
         return jsonify({'teacher_info': result})
     else:
         return jsonify({'teacher_info': 'nodata'})

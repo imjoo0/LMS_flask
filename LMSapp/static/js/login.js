@@ -45,11 +45,16 @@ function find_my_id(){
         success: function (response) {
             {
                 $('#my_id_box').show()
-                if(response['teacher_info'] == 'nodata'){
-                    $('#my_id').html('사용자 정보가 없습니다')
+                result = response['teacher_info']
+                if(result == 'nodata'){
+                    $('#my_id_box').hide()
+                    $('#register_request_box').show()
                 }else{
-                    console.log(response['teacher_info'])
-                    $('#my_id').html('사용자 정보는 누구누구')
+                    $('#my_id').html(`${result.user_id}`)
+                    $('#my_mobileno').html(`${result.mobileno}`)
+                    $('#my_email').html(`${result.email}`)
+                    $('#my_id_box').show()
+                    $('#register_request_box').hide()
                 }
             }
         }
