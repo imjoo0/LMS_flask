@@ -146,6 +146,9 @@ def download_attachment(q_id, att_id):
 def del_question(id):
     if request.method == 'POST':
         target_question = Question.query.get_or_404(id)
+        if(target_question.answer == 1):
+            target_answer = Answer.query.filter(Answer.question_id == id).first()
+            db.session.delete(target_answer)
         db.session.delete(target_question)
         db.session.commit()
         return jsonify('삭제 완료')

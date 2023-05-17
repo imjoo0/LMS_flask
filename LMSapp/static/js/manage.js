@@ -194,6 +194,7 @@ async function get_soquestion_detail(q_id, done_code) {
     $('#manage_answer').hide()
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
     student_data = studentsData.filter(s => s.student_id == question_detail_data.student_id)[0]
+    console.log(student_data)
     attach = attachData.filter(a => a.question_id == q_id)
     // 문의 상세 내용 
     let temp_question_list = `
@@ -593,7 +594,7 @@ function inTpaginating(done_code) {
                         <td class="col-1">${item.ban_name}</td>
                         <td class="col-2">${item.teacher_name}</td>
                         <td class="col-2">${item.title}</td>
-                        <td class="col-3">${item.contents}</td>
+                        <td class="col-3">${contents}</td>
                         <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</td>
                         <td class="col-1" onclick="delete_question(${item.id})">❌</td>
                     `;
