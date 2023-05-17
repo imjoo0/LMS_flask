@@ -60,6 +60,36 @@
       </div>
     </div>
   </div>
+  <div class="modal fade" id="put_my" tabindex="-1" aria-labelledby="RequestConsultingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="RequestConsultingModalLabel">
+                  패스워드 변경
+                </h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input id="csrf_token" type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
+                <div class="row w-100 mt-3"><div class="col-sm-3 mb-sm-0 mb-2"><span>📌 패스워드</span></div>
+                    <div class="col-sm-9">
+                        <input class="form-control form-control-sm" type="text" id="new_password1" placeholder="패스워드를 입력해주세요">
+                    </div>
+                </div>
+                <div class="row w-100 mt-3"><div class="col-sm-3 mb-sm-0 mb-2"><span>📌 패스워드 확인</span></div>
+                <div class="col-sm-9">
+                    <input class="form-control form-control-sm" type="text" id="new_password2" placeholder="패스워드를 한번 더 입력해주세요">
+                </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" onclick="put_user()">패스워드 변경</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
   <div class="items">
     <!-- 네비게이션 -->
     <header>

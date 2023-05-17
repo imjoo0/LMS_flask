@@ -24,6 +24,67 @@ function logout() {
     })
 }
 
+function put_user(){
+    let new_id = $('#new_id').val()
+    let new_kor_name = $('#new_kor_name').val()
+    let new_eng_name = $('#new_eng_name').val()
+    let new_pw1 = $('#new_pw1').val()
+    let new_pw2 = $('#new_pw2').val()
+    let new_mobileno = $('#new_mobileno').val()
+    let new_email = $('#new_email').val()
+    if(new_id=="" ||new_kor_name==""||new_eng_name=="" ||new_pw1==""||new_pw2=="" ||new_mobileno==""||new_email==""){
+        alert('정보를 모두 입력해주세요')
+        return;
+    }
+    if(new_pw1 != new_pw2){
+        alert('비밀번호가 동일하지 않습니다')
+        return;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/find_user/"+new_kor_name+"/"+new_eng_name,
+        data: {
+            new_id : new_id,
+            new_pw : new_pw1,
+            new_mobileno : new_mobileno,
+            new_email : new_email
+        },
+        success: function (response) {
+            {
+                result = response['teacher_info']
+                if(result == 'nodata'){
+                    $('#my_id_box').hide()
+                    $('#register_request_box').show()
+                    alert('본원에 등록된 정보가 없습니다-본원에 문의하세요')
+                }else if(result == 'dup'){
+                    $('#my_id_box').hide()
+                    $('#register_request_box').show()
+                    alert('중복되는 아이디가 있습니다')
+                }else{
+                    let temp_result = `
+                        <p>👉 내 정보</p>
+                        <div class="col-sm-3 mb-sm-0 mb-2"><span>✅ 아이디</span></div>
+                        <div class="col-sm-9">
+                            <p>${new_id}</p>
+                        </div>
+                        <div class="col-sm-3 mb-sm-0 mb-2"><span>✅ 연락처</span></div>
+                        <div class="col-sm-9">
+                            <p>${new_mobileno}</p>
+                        </div>
+                        <div class="col-sm-3 mb-sm-0 mb-2"><span>✅ 이메일</span></div>
+                        <div class="col-sm-9">
+                            <p>${new_email}</p>
+                        </div>
+                        `
+                    $('#my_id_box').html(temp_result)
+                    $('#my_id_box').show()
+                    $('#register_request_box').hide()
+                    alert('등록이 완료되었습니다')
+                }
+            }
+        }
+    });
+}
 function openPopup(url) {
     var popup = window.open('', 'popup', 'width=800,height=600');
     popup.document.write('<html><body><iframe src="' + url + '" width="100%" height="100%" frameborder="0"></iframe></body></html>');
