@@ -121,7 +121,7 @@ function so_paginating(done_code) {
                             contents = contents.substring(0, 30) + ' ▪️▪️▪️ ';
                         }
                         dataHtml += `
-                        <td class="col-1">${item.create_date}</td>
+                        <td class="col-1">${make_date(item.create_date)}</td>
                         <td class="col-1">${category}</td>
                         <td class="col-1">${item.ban_name}</td>
                         <td class="col-2">${item.teacher_name}</td>
@@ -386,7 +386,7 @@ function paginating(done_code) {
                             contents = contents.substring(0, 30) + ' ▪️▪️▪️ ';
                         }
                         dataHtml += `
-                        <td class="col-1">${item.create_date}</td>
+                        <td class="col-1">${make_date(item.create_date)}</td>
                         <td class="col-1">일반문의</td>
                         <td class="col-1">${item.ban_name}</td>
                         <td class="col-2">${item.teacher_name}</td>
@@ -487,7 +487,7 @@ function Tpaginating(done_code) {
                             contents = contents.substring(0, 30) + ' ▪️▪️▪️ ';
                         }
                         dataHtml += `
-                        <td class="col-1">${item.create_date}</td>
+                        <td class="col-1">${make_date(item.create_date)}</td>
                         <td class="col-1">기술지원문의</td>
                         <td class="col-1">${item.ban_name}</td>
                         <td class="col-2">${item.teacher_name}</td>
@@ -588,7 +588,7 @@ function inTpaginating(done_code) {
                             contents = contents.substring(0, 30) + ' ▪️▪️▪️ ';
                         }
                         dataHtml += `
-                        <td class="col-1">${item.create_date}</td>
+                        <td class="col-1">${make_date(item.create_date)}</td>
                         <td class="col-1">내근티처 문의</td>
                         <td class="col-1">${item.ban_name}</td>
                         <td class="col-2">${item.teacher_name}</td>
