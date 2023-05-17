@@ -89,6 +89,8 @@ def logout():
 
 @bp.route('/find_user/<string:teacher_kor_name>/<string:teacher_eng_name>', methods=['GET'])
 def find_user(teacher_kor_name,teacher_eng_name):
+    print(teacher_kor_name)
+    print(teacher_eng_name)
     # teacher_info = callapi.find_user(teacher_kor_name,teacher_eng_name)
     teacher_info = User.query.filter(and_(User.name == teacher_kor_name, User.eng_name == teacher_eng_name)).all()
     print(teacher_info)
