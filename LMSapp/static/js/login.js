@@ -38,6 +38,8 @@ $('.form-container').keyup('keyup', function (event) {
 function find_my_id(){
     let teacher_kor_name = $('#teacher_kor_name').val()
     let teacher_eng_name = $('#teacher_eng_name').val()
+    console.log(teacher_kor_name)
+    console.log(teacher_eng_name)
     if(teacher_kor_name=""){
         teacher_kor_name = "입력없음"
     }
