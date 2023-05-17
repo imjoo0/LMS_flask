@@ -506,7 +506,7 @@ function semesterShow(semester) {
     // <th class="col-3" id="tout_sort" onclick="${sort_data('tout_sort')}">반 퇴소율 ( 반 퇴소율 높은 순 정렬👉 )</th>
     // <th class="col-3" id="out_sort" onclick="${sort_data('out_sort')}">전체 퇴소율 ( 퇴소율 높은 순 정렬👉 )</th>
     // `);
-    const resultData = null;
+    // const resultData = null;
     if (semester == 0) {
         $('#semester_s').html('9월 학기');
         resultData = ninesemester;
