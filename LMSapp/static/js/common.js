@@ -309,7 +309,7 @@ async function get_total_data() {
                             <td>${total_student_num}명</td>
                             <td>${total_student_num - totalOutnum}명</td>
                             <td>${totalOutnum}명(${answer_rate(totalOutnum, total_student_num).toFixed(2)}%)</td>
-                            <td><span class='cursor-pointer fs-4' onclick="semesterShow(${3}">📜</span></td>
+                            <td><span class='cursor-pointer fs-4' onclick="semesterShow(${3})">📜</span></td>
                         </tr>
                         <tr>
                             <th class="need">1월 학기</th>
