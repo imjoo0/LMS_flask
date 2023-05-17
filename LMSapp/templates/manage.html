@@ -875,7 +875,12 @@
                             <input class="not_inloading search_input_box" type="text" id="ban_search_input" placeholder="반 혹은 선생님으로 검색">
                             <table id="semester" class="table text-center mt-5" style="width:100%;">
                                 <thead>
-                                    <tr class="row" id="data_sort_div">
+                                    <tr class="row">
+                                        <th class="col-2" id="ban_sort" onclick="sort_data('ban_sort')">반 ( 이름순 정렬👉 )</th>
+                                        <th class="col-2" id="teacher_sort" onclick="sort_data('teacher_sort')">선생님 ( 이름 순 정렬👉 )</th>
+                                        <th class="col-2" id="unlearned_sort" onclick="sort_data('unlearned_sort')">관리 원생 수 ( 많은 순 정렬👉 )</th>
+                                        <th class="col-3" id="tout_sort" onclick="sort_data('tout_sort')">반 퇴소율 ( 반 퇴소율 높은 순 정렬👉 )</th>
+                                        <th class="col-3" id="out_sort" onclick="sort_data('out_sort')">전체 퇴소율 ( 퇴소율 높은 순 정렬👉 )</th>
                                     </tr>
                                     <tr class="row">
                                         <th class="col-2" id="semester_s">학기</th>
