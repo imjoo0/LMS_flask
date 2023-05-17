@@ -93,7 +93,7 @@ def find_user(teacher_kor_name,teacher_eng_name):
     print(teacher_eng_name)
     # teacher_info = callapi.find_user(teacher_kor_name,teacher_eng_name)
     teacher_info = User.query.filter(and_(User.name == teacher_kor_name, User.eng_name == teacher_eng_name)).first()
-    if(len(teacher_info) > 0):
+    if(teacher_info):
         result = {}
         result['user_id']=teacher_info.user_id
         result['mobileno']=teacher_info.mobileno
