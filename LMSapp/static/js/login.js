@@ -42,16 +42,19 @@ function find_my_id(){
     $.ajax({
         type: "GET",
         url: "/find_user",
-        data: {
+        data: JSON.stringify({
             teacher_kor_name: teacher_kor_name,
             teacher_eng_name: teacher_eng_name
-        },
+        }),
+        contentType: 'application/json',
         success: function (response) {
             {
+                $('#my_id_box').show()
                 if(response['teacher_info'] == 'nodata'){
                     $('#my_id').html('사용자 정보가 없습니다')
                     // window.location.reload()
                 }else{
+                    
                     alert('문의 답변 저장 실패')
                 }
             }
