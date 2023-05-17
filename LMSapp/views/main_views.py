@@ -106,21 +106,25 @@ def find_user(teacher_kor_name,teacher_eng_name):
     else:
         teacher_info = callapi.find_user(teacher_kor_name,teacher_eng_name)
         print(teacher_info)
-        if(len(teacher_info) == 1):
-            print(teacher_info[0])
-            new_id = request.form['new_id']
-            new_pw = request.form['new_pw']
-            new_mobileno = request.form['new_mobileno']
-            new_email = request.form['new_email']
-            hashed_password = hashlib.sha256(new_pw.encode('utf-8')).hexdigest()
-
-            if(User.query.filter(User.user_id == new_id).first() is not None):
-                return jsonify({'teacher_info': 'dup'})
-            else:
-                # new_user = User()
-                return jsonify({'teacher_info': 'success'})
-        else:
+        if(teacher_info == False):
             return jsonify({'teacher_info': 'nodata'})
+        else:
+            if(len(teacher_info) == 1):
+                print(teacher_info[0])
+                new_id = request.form['new_id']
+                new_pw = request.form['new_pw']
+                new_mobileno = request.form['new_mobileno']
+                new_email = request.form['new_email']
+                hashed_password = hashlib.sha256(new_pw.encode('utf-8')).hexdigest()
+
+                if(User.query.filter(User.user_id == new_id).first() is not None):
+                    return jsonify({'teacher_info': 'dup'})
+                else:
+                    # new_user = User()
+                    return jsonify({'teacher_info': 'success'})
+            else:
+                return jsonify({'teacher_info': 'nodata'})
+            
     # if form.validate_on_submit():
     #     session['user_id'] = form.data.get('user_id')
     #     session['user_registerno'] = teacher_info['register_no']
