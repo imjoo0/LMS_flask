@@ -106,7 +106,8 @@ def find_user(teacher_kor_name,teacher_eng_name):
     else:
         teacher_info = callapi.find_user(teacher_kor_name,teacher_eng_name)
         print(teacher_info)
-        if(len(teacher_info) > 0):
+        if(len(teacher_info) == 1):
+            print(teacher_info[0])
             new_id = request.form['new_id']
             new_pw = request.form['new_pw']
             new_mobileno = request.form['new_mobileno']
