@@ -47,10 +47,9 @@ function find_my_id(){
                 $('#my_id_box').show()
                 if(response['teacher_info'] == 'nodata'){
                     $('#my_id').html('사용자 정보가 없습니다')
-                    // window.location.reload()
                 }else{
-                    
-                    alert('문의 답변 저장 실패')
+                    console.log(response['teacher_info'])
+                    $('#my_id').html('사용자 정보는 누구누구')
                 }
             }
         }

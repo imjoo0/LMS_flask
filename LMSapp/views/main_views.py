@@ -93,9 +93,11 @@ def find_user(teacher_kor_name,teacher_eng_name):
     print(teacher_eng_name)
     # teacher_info = callapi.find_user(teacher_kor_name,teacher_eng_name)
     teacher_info = User.query.filter(and_(User.name == teacher_kor_name, User.eng_name == teacher_eng_name)).all()
-    print(teacher_info)
+    result = []
     if(len(teacher_info) > 0):
-        return jsonify({'teacher_info': teacher_info})
+        for teacher in teacher_info:
+            result.append(teacher.user_id)
+        return jsonify({'teacher_info': result})
     else:
         return jsonify({'teacher_info': 'nodata'})
     # if form.validate_on_submit():
