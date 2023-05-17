@@ -3,7 +3,6 @@ let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, stude
 const today = new Date().setHours(0, 0, 0, 0);
 const todayyoil = new Date().getDay()
 
-// 
 function deleteCookie(name) {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     console.log(document.cookie)
@@ -192,6 +191,18 @@ async function get_all_consulting() {
         alert('Error occurred while retrieving data.');
     }
 }
+async function get_all_task() {
+    try {
+        const response = await $.ajax({
+            url: '/common/task',
+            type: 'GET',
+            data: {},
+        });
+        taskData = response['task']
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
+}
 async function getStudentsData() {
     let studentsWorker = new Worker("../static/js/students_worker.js");
   
@@ -309,7 +320,8 @@ async function get_total_data() {
                             <td>${total_student_num}명</td>
                             <td>${total_student_num - totalOutnum}명</td>
                             <td>${totalOutnum}명(${answer_rate(totalOutnum, total_student_num).toFixed(2)}%)</td>
-                            <td><span class='cursor-pointer fs-4' onclick="semesterShow(${3})">📜</span></td>
+                            <td><span class='cursor-pointer fs-4' onclick="semesterShow(${3})">📜</span>
+                            <span class='cursor-pointer fs-4' onclick="download_banlist(${3})">⬇️</span></td>
                         </tr>
                         <tr>
                             <th class="need">1월 학기</th>
