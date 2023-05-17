@@ -227,7 +227,6 @@ async function get_soquestion_detail(q_id, done_code) {
     $('#manage_answer').hide()
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
     student_data = studentsData.filter(s => s.student_id == question_detail_data.student_id)[0]
-    console.log(studentsData)
     attach = attachData.filter(a => a.question_id == q_id)
     // 문의 상세 내용 
     let temp_question_list = `
@@ -280,7 +279,9 @@ async function get_soquestion_detail(q_id, done_code) {
     temp_question_list += `</div></div>`
     $('#teacher_question').html(temp_question_list);
     // 상담 일지 처리 
+    console.log(question_detail_data)
     let consulting_history = consultingData.filter(c => c.id == question_detail_data.consulting_history)
+    console.log(consulting_history)
     let temp_his = ''
     if (consulting_history.length != 0) {
         let category = ''
@@ -831,18 +832,7 @@ async function uldata() {
     let container = $('#ul_pagination')
     $('.cs_inloading').show()
     $('.not_inloading').hide()
-    if (!studentsData && !consultingData) {
-        await get_all_students()
-        await get_all_consulting().then(() => {
-            $('.cs_inloading').hide()
-            $('.not_inloading').show()
-        });
-    } else if (!studentsData && consultingData) {
-        await get_all_students().then(() => {
-            $('.cs_inloading').hide()
-            $('.not_inloading').show()
-        });
-    } else if (studentsData && !consultingData) {
+    if (!consultingData) {
         await get_all_consulting().then(() => {
             $('.cs_inloading').hide()
             $('.not_inloading').show()
@@ -850,37 +840,37 @@ async function uldata() {
     }
     $('.cs_inloading').hide()
     $('.not_inloading').show()
-    all_uc_consulting = consultingData[0].total_unlearned_consulting
-    studentsData.forEach((elem) => {
-        elem.unlearned = consultingData.filter(a => a.student_id == elem.student_id && a.category_id < 100).length
-        elem.up = answer_rate(elem.unlearned, all_uc_consulting).toFixed(2)
-    });
-    studentsData.sort((a, b) => {
-        if (b.up !== a.up) {
-            return b.up - a.up;
-        } else {
-            return b.unlearned - a.unlearned; // students.length가 큰 순으로 정렬
-        }
-    });
+    // all_uc_consulting = consultingData[0].total_unlearned_consulting
+    // studentsData.forEach((elem) => {
+    //     elem.unlearned = consultingData.filter(a => a.student_id == elem.student_id && a.category_id < 100).length
+    //     elem.up = answer_rate(elem.unlearned, all_uc_consulting).toFixed(2)
+    // });
+    // studentsData.sort((a, b) => {
+    //     if (b.up !== a.up) {
+    //         return b.up - a.up;
+    //     } else {
+    //         return b.unlearned - a.unlearned; // students.length가 큰 순으로 정렬
+    //     }
+    // });
 
-    if (studentsData.length == 0) {
-        let no_data_title = `<h1> ${response.text} </h1>`
-        $('#ultitle').html(no_data_title);
-        $('#ul_data_box').hide()
-        $('#ul_pagination').hide()
-        return
-    }
+    // if (studentsData.length == 0) {
+    //     let no_data_title = `<h1> ${response.text} </h1>`
+    //     $('#ultitle').html(no_data_title);
+    //     $('#ul_data_box').hide()
+    //     $('#ul_pagination').hide()
+    //     return
+    // }
     $('#ultitle').empty();
     $('#ul_data_box').show()
     $('#ul_pagination').show()
     container.pagination({
-        dataSource: studentsData,
+        dataSource: consultingData,
         prevText: '이전',
         nextText: '다음',
         pageSize: 10,
-        callback: function (studentsData, pagination) {
+        callback: function (consultingData, pagination) {
             var dataHtml = '';
-            $.each(studentsData, function (index, student) {
+            $.each(consultingData, function (index, student) {
                 consultings = consultingData.filter(c => c.category_id < 100 && c.student_id == student.student_id)
                 unlearned_ixl = make_nodata(consultings.filter(a => a.category_id == 1).length)
                 unlearned_reading = make_nodata(consultings.filter(a => a.category_id == 4).length)
@@ -1326,7 +1316,7 @@ async function get_request_consulting(){
             $.each(data, function (index, consulting) {
                 consulting.ban_name = banData.filter(b=>b.ban_id == consulting.ban_id)[0].name
                 let contents = consulting.contents;
-                if (contents.length > 50) {
+                if(contents && contents.length > 50) {
                     contents = contents.substring(0, 40) + ' ▪️▪️▪️ ';
                 }
                 dataHtml += `
@@ -1355,6 +1345,9 @@ async function get_request_consulting(){
     $('#history_cate').html(idxHtml);
     $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
 
+    consultingData.sort(function (a, b) {
+        return new Date(b.startdate) - new Date(a.startdate);
+    });
     Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': consultingData }))
     $('.mo_inloading').hide();
     $('.not_inloading').show();
@@ -1363,7 +1356,8 @@ function sort_consultingoption(sortBy) {
     switch (sortBy) {
         case "name_desc":
             $('#student_name_sort').html('<strong>원생 이름순 정렬👇</strong>')    
-            $('#deadline_sort').html('마감일 정렬👉')    
+            $('#deadline_sort').html('마감일 정렬👉')
+            $('#startdate_sort').html('최근순 정렬👉')         
             $('#consulting_sort').html('미진행 정렬👉')        
             consultingData.sort(function (a, b) {
                 var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
@@ -1380,16 +1374,28 @@ function sort_consultingoption(sortBy) {
     
         case "deadline_desc":
             $('#student_name_sort').html('원생 이름순 정렬👉')    
-            $('#deadline_sort').html('<strong>마감일 정렬👇</strong>')    
+            $('#deadline_sort').html('<strong>마감일 정렬👇</strong>')
+            $('#startdate_sort').html('최근순 정렬👉')     
             $('#consulting_sort').html('미진행 정렬👉')        
             consultingData.sort(function (a, b) {
                 return new Date(a.deadline) - new Date(b.deadline);
+            });
+            break;
+        
+        case "startdate_desc":
+            $('#student_name_sort').html('원생 이름순 정렬👉')    
+            $('#deadline_sort').html('마감일 정렬👉') 
+            $('#startdate_sort').html('<strong>최근순 정렬👇</strong>')        
+            $('#consulting_sort').html('미진행 정렬👉')        
+            consultingData.sort(function (a, b) {
+                return new Date(b.startdate) - new Date(a.startdate);
             });
             break;
     
         case "consulting_desc":
             $('#student_name_sort').html('원생 이름순 정렬👉')    
             $('#deadline_sort').html('마감일 정렬👉')    
+            $('#startdate_sort').html('최근순 정렬👉')
             $('#consulting_sort').html('<strong>미진행 정렬👇</strong>') 
             consultingData.sort(function (a, b) {
                 if (a.done === 0 && b.done === 1) {

@@ -92,7 +92,6 @@ def question(u):
             if (q.answer != 0 and q.qa is not None):
                 qdata['answer_data'] = {}
                 qdata['answer_data']['id']=q.qa.id
-                qdata['answer_data']['title']=q.qa.title
                 qdata['answer_data']['content']=q.qa.content
                 qdata['answer_data']['reject_code']=q.qa.reject_code
                 qdata['answer_data']['created_at']=q.qa.created_at.strftime('%Y-%m-%d')

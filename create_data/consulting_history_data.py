@@ -53,8 +53,8 @@ try:
     with db.cursor() as cur:
         print('데이터 저장 진행 중 ')
 
-        sql = "insert into consulting(student_id,student_name,student_engname,origin, ban_id,teacher_id, contents,startdate, category_id, done, solution, created_at, missed)" \
-              " values (%(student_id)s,%(student_name)s,%(student_engname)s,%(origin)s,%(ban_id)s,%(teacher_id)s, %(contents)s,'20200101',111, 1, %(solution)s, %(created_at)s, '11110101');"
+        sql = "insert into consulting(student_id,student_name,student_engname,origin, ban_id,teacher_id, contents,startdate,deadline, category_id, done, solution, created_at, missed)" \
+              " values (%(student_id)s,%(student_name)s,%(student_engname)s,%(origin)s,%(ban_id)s,%(teacher_id)s, %(contents)s,'20200101','20300101',111, 1, %(solution)s, %(created_at)s, '11110101');"
 
         cur.executemany(sql, data_list)
 

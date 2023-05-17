@@ -627,7 +627,6 @@ async function student_consulting(student_id) {
      // 미학습 상담 
     let unlearned_consulting_num =  myconsulting_num > 0 ? data['consulting_list'].filter(c => c.category_id < 100) : 0  
 
-    console.log(target_consulting)
     if (target_consulting.length != 0 ){
         DateconsultingGrouped = target_consulting.reduce((acc, item) => {
             if (!acc[item.created_at]) {
@@ -637,13 +636,16 @@ async function student_consulting(student_id) {
             return acc;
         }, []);
         DateconsultingGroupedCategory = Object.keys(DateconsultingGrouped)
+        DateconsultingGroupedCategory.sort(function (a, b) {
+            return new Date(b) - new Date(a);
+        });
         let temp_consulting_write_box = `
             <th class="col-3">진행 한 상담</th>
             <th class="col-3">${data.ban_name}반 총 미학습</th>
             <th class="col-6">${data.student_name}원생의 미학습</th>
             <td class="col-3">총 ${make_nodata(target_consulting.length)}</td>
             <td class="col-3">${make_nodata(total_ban_unlearned_consulting)}</td>
-            <td class="col-4">진행한 상담 : ${make_nodata(unlearned_consulting_num.filter(c => c.done == 1).length)}</td>
+            <td class="col-4">진행한 미학습 상담 : ${make_nodata(unlearned_consulting_num.filter(c => c.done == 1).length)}</td>
             <td class="col-2"><strong>미학습 율 : ${answer_rate(unlearned_consulting_num.length, total_ban_unlearned_consulting).toFixed(0)}%</strong></td>
             <th class="col-4 tagtagtitle">진행 날짜</th>
             <th class="col-4 tagtagtitle">진행 한 상담 건</th>
@@ -1007,7 +1009,6 @@ async function get_consulting_history() {
                 consulting.student_name = student_info.name + '( ' + student_info.nick_name + ' )'
                 consulting.origin = student_info.origin
                 consulting.ban_name = student_info.classname
-                console.log(consulting)
                 let title = consulting.contents
                 if (consulting.category_id < 100) {
                     title = consulting.category
@@ -1070,6 +1071,9 @@ async function get_consulting_history() {
         });
         $('#history_cate').html(idxHtml);
         $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
+        target_list.sort(function (a, b) {
+            return new Date(b.created_at) - new Date(a.created_at);
+        });
         container.pagination(Object.assign(CpaginationOptions, { 'dataSource': target_list }));
     }
 }
@@ -1592,10 +1596,6 @@ async function get_question_detail(q_id) {
     } else {
         temp_answer_list = `
         <div class="modal-body-select-container">
-        <span class="modal-body-select-label">응답제목</span>
-        <p>${questiondata.answer_data.title}</p>
-        </div>
-        <div class="modal-body-select-container">
         <span class="modal-body-select-label">응답</span>
         <p>${questiondata.answer_data.content}</p>
         </div>
@@ -1603,7 +1603,7 @@ async function get_question_detail(q_id) {
             <span class="modal-body-select-label">응답일</span>
             <p>${questiondata.answer_data.created_at}</p>
         </div>`;
-        if (questiondata.category != 0 && questiondata.category != 4) {
+        if (questiondata.category == 1 || questiondata.category == 2) {
             temp_answer_list += `<div class="modal-body-select-container">
            <span class="modal-body-select-label">처리</span>
            <p>${make_answer_code(questiondata.answer_data.reject_code)}</p>
