@@ -832,18 +832,7 @@ async function uldata() {
     let container = $('#ul_pagination')
     $('.cs_inloading').show()
     $('.not_inloading').hide()
-    if (!studentsData && !consultingData) {
-        await get_all_students()
-        await get_all_consulting().then(() => {
-            $('.cs_inloading').hide()
-            $('.not_inloading').show()
-        });
-    } else if (!studentsData && consultingData) {
-        await get_all_students().then(() => {
-            $('.cs_inloading').hide()
-            $('.not_inloading').show()
-        });
-    } else if (studentsData && !consultingData) {
+    if (!consultingData) {
         await get_all_consulting().then(() => {
             $('.cs_inloading').hide()
             $('.not_inloading').show()
@@ -851,37 +840,37 @@ async function uldata() {
     }
     $('.cs_inloading').hide()
     $('.not_inloading').show()
-    all_uc_consulting = consultingData[0].total_unlearned_consulting
-    studentsData.forEach((elem) => {
-        elem.unlearned = consultingData.filter(a => a.student_id == elem.student_id && a.category_id < 100).length
-        elem.up = answer_rate(elem.unlearned, all_uc_consulting).toFixed(2)
-    });
-    studentsData.sort((a, b) => {
-        if (b.up !== a.up) {
-            return b.up - a.up;
-        } else {
-            return b.unlearned - a.unlearned; // students.length가 큰 순으로 정렬
-        }
-    });
+    // all_uc_consulting = consultingData[0].total_unlearned_consulting
+    // studentsData.forEach((elem) => {
+    //     elem.unlearned = consultingData.filter(a => a.student_id == elem.student_id && a.category_id < 100).length
+    //     elem.up = answer_rate(elem.unlearned, all_uc_consulting).toFixed(2)
+    // });
+    // studentsData.sort((a, b) => {
+    //     if (b.up !== a.up) {
+    //         return b.up - a.up;
+    //     } else {
+    //         return b.unlearned - a.unlearned; // students.length가 큰 순으로 정렬
+    //     }
+    // });
 
-    if (studentsData.length == 0) {
-        let no_data_title = `<h1> ${response.text} </h1>`
-        $('#ultitle').html(no_data_title);
-        $('#ul_data_box').hide()
-        $('#ul_pagination').hide()
-        return
-    }
+    // if (studentsData.length == 0) {
+    //     let no_data_title = `<h1> ${response.text} </h1>`
+    //     $('#ultitle').html(no_data_title);
+    //     $('#ul_data_box').hide()
+    //     $('#ul_pagination').hide()
+    //     return
+    // }
     $('#ultitle').empty();
     $('#ul_data_box').show()
     $('#ul_pagination').show()
     container.pagination({
-        dataSource: studentsData,
+        dataSource: consultingData,
         prevText: '이전',
         nextText: '다음',
         pageSize: 10,
-        callback: function (studentsData, pagination) {
+        callback: function (consultingData, pagination) {
             var dataHtml = '';
-            $.each(studentsData, function (index, student) {
+            $.each(consultingData, function (index, student) {
                 consultings = consultingData.filter(c => c.category_id < 100 && c.student_id == student.student_id)
                 unlearned_ixl = make_nodata(consultings.filter(a => a.category_id == 1).length)
                 unlearned_reading = make_nodata(consultings.filter(a => a.category_id == 4).length)
