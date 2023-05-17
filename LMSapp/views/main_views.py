@@ -87,24 +87,39 @@ def logout():
             'msg': '로그아웃 실패'
         })
 
-@bp.route('/find_user/<string:teacher_kor_name>/<string:teacher_eng_name>', methods=['GET'])
+@bp.route('/find_user/<string:teacher_kor_name>/<string:teacher_eng_name>', methods=['GET','POST'])
 def find_user(teacher_kor_name,teacher_eng_name):
-    print(teacher_kor_name)
-    print(teacher_eng_name)
-    # teacher_info = callapi.find_user(teacher_kor_name,teacher_eng_name)
-    teacher_info = User.query.filter(or_(User.name == teacher_kor_name, User.eng_name == teacher_eng_name)).all()
-    if(len(teacher_info) > 0):
-        result = []
-        for teacher in teacher_info:
-            if(teacher):
-                t_result = {}
-                t_result['user_id']=teacher.user_id
-                t_result['mobileno']=teacher.mobileno
-                t_result['email']=teacher.email
-                result.append(t_result)    
-        return jsonify({'teacher_info': result})
+    if request.method == 'GET':
+        teacher_info = User.query.filter(or_(User.name == teacher_kor_name, User.eng_name == teacher_eng_name)).all()
+        if(len(teacher_info) > 0):
+            result = []
+            for teacher in teacher_info:
+                if(teacher):
+                    t_result = {}
+                    t_result['user_id']=teacher.user_id
+                    t_result['mobileno']=teacher.mobileno
+                    t_result['email']=teacher.email
+                    result.append(t_result)    
+            return jsonify({'teacher_info': result})
+        else:
+            return jsonify({'teacher_info': 'nodata'})
     else:
-        return jsonify({'teacher_info': 'nodata'})
+        teacher_info = callapi.find_user(teacher_kor_name,teacher_eng_name)
+        print(teacher_info)
+        if(len(teacher_info) > 0):
+            new_id = request.form['new_id']
+            new_pw = request.form['new_pw']
+            new_mobileno = request.form['new_mobileno']
+            new_email = request.form['new_email']
+            hashed_password = hashlib.sha256(new_pw.encode('utf-8')).hexdigest()
+
+            if(User.query.filter(User.user_id == new_id).first() is not None):
+                return jsonify({'teacher_info': 'dup'})
+            else:
+                # new_user = User()
+                return jsonify({'teacher_info': 'success'})
+        else:
+            return jsonify({'teacher_info': 'nodata'})
     # if form.validate_on_submit():
     #     session['user_id'] = form.data.get('user_id')
     #     session['user_registerno'] = teacher_info['register_no']
