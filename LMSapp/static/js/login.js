@@ -42,11 +42,10 @@ function find_my_id(){
     $.ajax({
         type: "GET",
         url: "/find_user",
-        data: JSON.stringify({
+        data: {
             teacher_kor_name: teacher_kor_name,
             teacher_eng_name: teacher_eng_name
-        }),
-        contentType: 'application/json',
+        },
         success: function (response) {
             {
                 $('#my_id_box').show()
