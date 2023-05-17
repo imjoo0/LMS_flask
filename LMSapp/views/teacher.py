@@ -124,7 +124,7 @@ def question(u):
         teacher_name = request.form.get('teacher_name', None)
         teacher_engname = request.form.get('teacher_engname', None)
         create_date = datetime.now().date()
-        payloadText  = teacher_name+'( '+ teacher_engname +' )님으로 부터' 
+        payloadText  = teacher_name+'( '+ teacher_engname +' )님으로 부터 ' 
         # 첨부 파일 처리
         if category == 0:
             # 영교부에서 재택T 문의 관리 하는 시놀로지 채팅 방 token 값 받아야 함. 
