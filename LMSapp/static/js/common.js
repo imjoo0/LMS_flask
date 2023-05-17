@@ -500,11 +500,11 @@ function semesterShow(semester) {
         );
     }
     $('#data_sort_div').html(`
-    <th class="col-2" id="ban_sort" onclick="${sort_data('ban_sort')}">반 ( 이름순 정렬👉 )</th>
-    <th class="col-2" id="teacher_sort" onclick="${sort_data('teacher_sort')}">선생님 ( 이름 순 정렬👉 )</th>
-    <th class="col-2" id="unlearned_sort" onclick="${sort_data('unlearned_sort')}">관리 원생 수 ( 많은 순 정렬👉 )</th>
-    <th class="col-3" id="tout_sort" onclick="${sort_data('tout_sort')}">반 퇴소율 ( 반 퇴소율 높은 순 정렬👉 )</th>
-    <th class="col-3" id="out_sort" onclick="${sort_data('out_sort')}">전체 퇴소율 ( 퇴소율 높은 순 정렬👉 )</th>
+    <th class="col-2" id="ban_sort" onclick="sort_data('ban_sort')">반 ( 이름순 정렬👉 )</th>
+    <th class="col-2" id="teacher_sort" onclick="sort_data('teacher_sort')">선생님 ( 이름 순 정렬👉 )</th>
+    <th class="col-2" id="unlearned_sort" onclick="sort_data('unlearned_sort')">관리 원생 수 ( 많은 순 정렬👉 )</th>
+    <th class="col-3" id="tout_sort" onclick="sort_data('tout_sort')">반 퇴소율 ( 반 퇴소율 높은 순 정렬👉 )</th>
+    <th class="col-3" id="out_sort" onclick="sort_data('out_sort')">전체 퇴소율 ( 퇴소율 높은 순 정렬👉 )</th>
     `);
     let resultData = null;
     if (semester == 0) {
