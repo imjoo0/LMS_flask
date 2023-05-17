@@ -90,10 +90,9 @@ def logout():
 @bp.route('/find_user', methods=['GET'])
 def find_user():
     # 상담 제목
-    data = request.get_json()
-    teacher_kor_name = data.get('teacher_kor_name')
+    teacher_kor_name = request.form['teacher_kor_name']
     # 상담 사유
-    teacher_eng_name = data.get('teacher_eng_name')
+    teacher_eng_name = request.form['teacher_eng_name']
     # teacher_info = callapi.find_user(teacher_kor_name,teacher_eng_name)
     teacher_info = User.query.filter(and_(User.name == teacher_kor_name, User.eng_name == teacher_eng_name)).all()
     print(teacher_info)
