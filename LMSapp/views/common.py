@@ -7,7 +7,7 @@ from io import BytesIO
 import callapi
 import pymysql
 from LMSapp.views.main_views import authrize
-
+import hashlib
 bp = Blueprint('common', __name__, url_prefix='/common')
 file_upload = FileUpload()
 
@@ -46,6 +46,18 @@ def save_attachment(file, q_id):
         # 파일 저장 실패 처리
         db.session.rollback()
         return str(e)  # 에러 메시지 반환
+
+# 비번 변경
+# 오늘 해야 할 업무 완료 저장 
+@bp.route("/put_user", methods=['POST'])
+@authrize
+def put_user(u):
+    new_pw = request.form['new_pw']
+    hashed_password = hashlib.sha256(new_pw.encode('utf-8')).hexdigest()
+    target_user = User.query.get_or_404(u['id'])
+    target_user.user_pw = hashed_password
+    db.session.commit()
+    return jsonify({'result': 'success'})
 
 # 통계 자료
 @bp.route("/all_ban", methods=['GET'])
