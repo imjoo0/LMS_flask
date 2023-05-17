@@ -3,7 +3,6 @@ let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, stude
 const today = new Date().setHours(0, 0, 0, 0);
 const todayyoil = new Date().getDay()
 
-// 
 function deleteCookie(name) {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     console.log(document.cookie)
@@ -188,6 +187,18 @@ async function get_all_consulting() {
             data: {},
         });
         consultingData = response['consulting']
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
+}
+async function get_all_task() {
+    try {
+        const response = await $.ajax({
+            url: '/common/task',
+            type: 'GET',
+            data: {},
+        });
+        taskData = response['task']
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
