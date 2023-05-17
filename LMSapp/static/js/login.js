@@ -46,6 +46,8 @@ function find_my_id(){
     if(teacher_eng_name=""){
         teacher_eng_name = "입력없음"
     }
+    console.log(teacher_kor_name)
+    console.log(teacher_eng_name)
     $.ajax({
         type: "GET",
         url: "/find_user/"+teacher_kor_name+"/"+teacher_eng_name,
