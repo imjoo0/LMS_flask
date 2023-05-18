@@ -34,6 +34,12 @@ $('.form-container').keyup('keyup', function (event) {
     }
 
 });
+$('.enter_key').keyup('keyup', function (event) {
+    if (event.keyCode === 13) {
+        $('#btn_login').click();
+    }
+
+});
 
 function find_my_id(){
     let teacher_kor_name = $('#teacher_kor_name').val()
