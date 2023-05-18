@@ -160,6 +160,7 @@ function select_teacher_info(teacher_id){
         type: "POST",
         url: "/find_user/"+teacher_kor_name+"/"+teacher_eng_name,
         data: {
+            teacher_id:teacher_id,
         },
         success: function (response) {
             {

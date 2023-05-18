@@ -117,7 +117,7 @@ def find_user(teacher_kor_name,teacher_eng_name):
 @bp.route('/find_purple_user/<string:teacher_kor_name>/<string:teacher_eng_name>', methods=['GET'])
 def find_purple_user(teacher_kor_name,teacher_eng_name):
     if request.method == 'GET':
-        teacher_info = callapi.find_user(teacher_kor_name,teacher_eng_name)
+        teacher_info = callapi.find_user(teacher_eng_name,teacher_kor_name)
         print(teacher_info)
         if(teacher_info == False):
             return jsonify({'teacher_info': 'nodata'})
