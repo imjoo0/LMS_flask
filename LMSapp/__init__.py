@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 # 파일 업로드
 from flask_file_upload.file_upload import FileUpload
 
-import config
+# import config
 import pymysql
 from flask_wtf.csrf import CSRFProtect  # csrf
 
@@ -48,7 +48,7 @@ def update_database():
 
 def create_app():
     app = Flask(__name__,static_folder="static")
-    app.config.from_object(config) # config.py 파일에 작성한 항목을 읽기 위해
+    app.config.from_envvar('APP_CONFIG_FILE') # config.py 파일에 작성한 항목을 읽기 위해
     
     # orm
     db.init_app(app)
