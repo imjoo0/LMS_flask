@@ -5,6 +5,16 @@ $.ajaxSetup({
         }
     }
 });
+let make_part = function (c) {
+    console.log(c)
+    if (c == 1 || c == '1') {
+        return '관리부서';
+    } else if (c == 2 || c == '2'){
+        return '담임 T';
+    } else{
+        return '최고 관리자';
+    }
+}
 function sign_in() {
     user_id = $('#user_id').val();
     password = $('#user_pw').val();
@@ -59,6 +69,12 @@ function find_my_id(){
                 }else{
                     let temp_result =''
                     for(i=0;i<result.length;i++){
+                        let category = '담임T'
+                        if (result[i].category == 1 || result[i].category == '1') {
+                            category = '관리부서';
+                        }else if (result[i].category == 3 || result[i].category == '3'){
+                            category = '최고 관리자';
+                        }
                         temp_result += `
                         <p>👉 ${i+1}번 후보</p>
                         <div class="col-sm-3 mb-sm-0 mb-2"><span>✅ 아이디</span></div>
@@ -67,7 +83,7 @@ function find_my_id(){
                         </div>
                         <div class="col-sm-3 mb-sm-0 mb-2"><span>✅ 이메일</span></div>
                         <div class="col-sm-9">
-                            <p>${make_part(result[i].category)}</p>
+                            <p>${category}</p>
                         </div>
                         <div class="col-sm-3 mb-sm-0 mb-2"><span>✅ 연락처</span></div>
                         <div class="col-sm-9">
