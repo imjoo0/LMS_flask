@@ -58,7 +58,7 @@ function find_my_id(){
                     if(con_val){
                         $.ajax({
                             type: "GET",
-                            url: "/find_purple_user/"+teacher_kor_name+"/"+teacher_eng_name,
+                            url: "/find_purple_user/"+teacher_kor_name+"/"+teacher_eng_name+"/",
                             success: function (response) {
                                 {
                                     result = response['teacher_info']

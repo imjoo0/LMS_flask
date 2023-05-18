@@ -114,7 +114,7 @@ def find_user(teacher_kor_name,teacher_eng_name):
         # return jsonify({'teacher_info': 'success'})
 
 
-@bp.route('/find_purple_user/<string:teacher_kor_name>/<string:teacher_eng_name>', methods=['GET'])
+@bp.route('/find_purple_user/<string:teacher_kor_name>/<string:teacher_eng_name>/', methods=['GET'])
 def find_purple_user(teacher_kor_name,teacher_eng_name):
     if request.method == 'GET':
         print(teacher_eng_name)
