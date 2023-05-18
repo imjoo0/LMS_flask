@@ -68,7 +68,7 @@ function find_my_id(){
                         </div>
                         <div class="col-sm-3 mb-sm-0 mb-2"><span>✅ 이메일</span></div>
                         <div class="col-sm-9">
-                            <p>${make_part(result[i].category)}</p>
+                            <p>${make_part(Number(result[i].category))}</p>
                         </div>
                         <div class="col-sm-3 mb-sm-0 mb-2"><span>✅ 연락처</span></div>
                         <div class="col-sm-9">
