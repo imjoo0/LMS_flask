@@ -55,7 +55,7 @@ def find_user(teacher_kor_name,teacher_eng_name):
     if(len(result)>0):
         return result
     else:
-        return False
+        return result
 # # 밑에 다 지워도 된다. 
 # def get_teacher_info(teacher_id):
 #     result = requests.post(config.api + 'get_teacher_info', headers=headers, data=json.dumps({'data':{'id': teacher_id}}))
