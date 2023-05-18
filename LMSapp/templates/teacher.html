@@ -34,6 +34,27 @@
 <script type="text/javascript">
     axios.defaults.headers.common["X-CSRFToken"] = "{{ csrf_token() }}";
 </script>
+<!-- student_report -->
+<div class="modal fade" id="student_report" tabindex="-1" aria-labelledby="student_reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="student_reportModalLabel">
+                    <img src="https://purpleacademy.net/free_project/public/image/head-office-question-btn.png"
+                        style="width: 30px;">&nbsp;&nbsp;원생 리포트
+                </h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body py-4 px-5">
+                <div enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- 본원에 문의 남기기 -->
 <div class="modal fade" id="question" tabindex="-1" aria-labelledby="questionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
