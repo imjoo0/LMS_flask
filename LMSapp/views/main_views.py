@@ -119,13 +119,9 @@ def find_purple_user(teacher_kor_name,teacher_eng_name):
     if request.method == 'GET':
         print(teacher_eng_name)
         print(teacher_kor_name)
-        teacher_info = callapi.find_user(teacher_eng_name,teacher_kor_name)
+        teacher_info = callapi.find_user(teacher_kor_name,teacher_eng_name)
         print(teacher_info)
         if(teacher_info == False):
             return jsonify({'teacher_info': 'nodata'})
         else:
-            print(teacher_info)
-            for teacher in teacher_info:
-                if(teacher):
-                    print(teacher)
             return jsonify({'teacher_info': teacher_info})
