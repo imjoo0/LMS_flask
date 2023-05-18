@@ -1,5 +1,5 @@
-from LMSapp import create_app,scheduler
+from LMSapp import create_app,scheduler,config
 
 if __name__ == '__main__':
     scheduler.start()
-    create_app().run('0.0.0.0', port=2305, debug=True)
+    create_app().run('0.0.0.0', port=config.PORT, debug=True)
