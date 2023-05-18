@@ -107,29 +107,23 @@ def find_user(teacher_kor_name,teacher_eng_name):
         else:
             return jsonify({'teacher_info': 'nodata'})
     else:
+        teacher_id = request.form['teacher_id']
+        new_user = User(id=teacher_id,name=teacher_kor_name,eng_name=teacher_eng_name)
+        print(new_user)
+        
+        # return jsonify({'teacher_info': 'success'})
+
+
+@bp.route('/find_purple_user/<string:teacher_kor_name>/<string:teacher_eng_name>', methods=['GET'])
+def find_purple_user(teacher_kor_name,teacher_eng_name):
+    if request.method == 'GET':
         teacher_info = callapi.find_user(teacher_kor_name,teacher_eng_name)
         print(teacher_info)
         if(teacher_info == False):
             return jsonify({'teacher_info': 'nodata'})
         else:
-            if(len(teacher_info) == 1):
-                print(teacher_info[0])
-                new_id = request.form['new_id']
-                new_pw = request.form['new_pw']
-                new_mobileno = request.form['new_mobileno']
-                new_email = request.form['new_email']
-                hashed_password = hashlib.sha256(new_pw.encode('utf-8')).hexdigest()
-
-                if(User.query.filter(User.user_id == new_id).first() is not None):
-                    return jsonify({'teacher_info': 'dup'})
-                else:
-                    # new_user = User()
-                    return jsonify({'teacher_info': 'success'})
-            else:
-                return jsonify({'teacher_info': 'nodata'})
-            
-    # if form.validate_on_submit():
-    #     session['user_id'] = form.data.get('user_id')
-    #     session['user_registerno'] = teacher_info['register_no']
-    #     return redirect('/')  # 성공하면 home.html로
-    # return render_template('login.html', form=form)
+            print(teacher_info)
+            for teacher in teacher_info:
+                if(teacher):
+                    print(teacher)
+            return jsonify({'teacher_info': teacher_info})
