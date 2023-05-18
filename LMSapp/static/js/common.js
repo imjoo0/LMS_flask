@@ -589,6 +589,7 @@ function download_banlist(){
         var doc = new jsPDF();
         var tableData = [];
         // HTML 요소를 선택하고 PDF로 변환합니다.
+        console.log($('#semester_banlist tr'))
         $('#semester_banlist tr').each(function(row, element) {
             var rowData = [];
             console.log(element)
