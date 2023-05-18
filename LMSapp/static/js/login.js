@@ -5,16 +5,6 @@ $.ajaxSetup({
         }
     }
 });
-let make_part = function (c) {
-    console.log(c)
-    if (c == 1 || c == '1') {
-        return '관리부서';
-    } else if (c == 2 || c == '2'){
-        return '담임 T';
-    } else{
-        return '최고 관리자';
-    }
-}
 function sign_in() {
     user_id = $('#user_id').val();
     password = $('#user_pw').val();
@@ -47,7 +37,12 @@ $('.form-container').keyup('keyup', function (event) {
 function find_my_id(){
     let teacher_kor_name = $('#teacher_kor_name').val()
     let teacher_eng_name = $('#teacher_eng_name').val()
-
+    $('.enter_key').keyup('keyup', function (event) {
+        if (event.keyCode === 13) {
+            $('#findidenter').click();
+        }
+    
+    });
     
     if(teacher_kor_name==""){
         teacher_kor_name = "입력없음"
@@ -69,12 +64,6 @@ function find_my_id(){
                 }else{
                     let temp_result =''
                     for(i=0;i<result.length;i++){
-                        let category = '담임T'
-                        if (result[i].category == 1 || result[i].category == '1') {
-                            category = '관리부서';
-                        }else if (result[i].category == 3 || result[i].category == '3'){
-                            category = '최고 관리자';
-                        }
                         temp_result += `
                         <p>👉 ${i+1}번 후보</p>
                         <div class="col-sm-3 mb-sm-0 mb-2"><span>✅ 아이디</span></div>
@@ -83,7 +72,7 @@ function find_my_id(){
                         </div>
                         <div class="col-sm-3 mb-sm-0 mb-2"><span>✅ 이메일</span></div>
                         <div class="col-sm-9">
-                            <p>${category}</p>
+                            <p>${make_part(result[i].category)}</p>
                         </div>
                         <div class="col-sm-3 mb-sm-0 mb-2"><span>✅ 연락처</span></div>
                         <div class="col-sm-9">
@@ -103,12 +92,7 @@ function find_my_id(){
         }
     });
 }
-$('.enter_key').keyup('keyup', function (event) {
-    if (event.keyCode === 13) {
-        $('#findidenter').click();
-    }
 
-});
 function regi_my_id(){
     let new_id = $('#new_id').val()
     let new_kor_name = $('#new_kor_name').val()

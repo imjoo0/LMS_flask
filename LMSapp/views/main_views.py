@@ -99,6 +99,7 @@ def find_user(teacher_kor_name,teacher_eng_name):
                     t_result['user_id']=teacher.user_id
                     t_result['mobileno']=teacher.mobileno
                     t_result['email']=teacher.email
+                    t_result['category']=teacher.category
                     result.append(t_result)    
             return jsonify({'teacher_info': result})
         else:

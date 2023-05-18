@@ -58,6 +58,15 @@ let make_reject_code = function (rc) {
         return '⭕ 완료';
     }
 }
+let make_part = function (c) {
+    if (c == 1 || c == '1') {
+        return '관리부서';
+    } else if (c == 2 || c == '2'){
+        return '담임 T';
+    } else{
+        return '최고 관리자';
+    }
+}
 let make_answer_code = function(rc){
     if( rc == 0){
         return '❌ 반려';
