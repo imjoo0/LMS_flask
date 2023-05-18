@@ -88,6 +88,7 @@ def q_kind(id):
             elif(q_kind==2):
                 payloadText  += '퇴소 요청 \n 제목:`'+ target_question.title +'`\n```'+target_question.contents
         payloadText += '```'
+        print(payloadText)
         requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
         try:
             response = requests.get(requestURI)
