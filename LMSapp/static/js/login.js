@@ -59,6 +59,10 @@ function find_my_id(){
                     for(i=0;i<result.length;i++){
                         temp_result += `
                         <p>👉 ${i+1}번 후보</p>
+                        <div class="col-sm-3 mb-sm-0 mb-2"><span>✅ 이름</span></div>
+                        <div class="col-sm-9">
+                            <p>${make_nullcate(result[i].name)} (${make_nullcate(result[i].eng_name)})</p>
+                        </div>
                         <div class="col-sm-3 mb-sm-0 mb-2"><span>✅ 아이디</span></div>
                         <div class="col-sm-9">
                             <p>${result[i].user_id}</p>

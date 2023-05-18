@@ -96,6 +96,8 @@ def find_user(teacher_kor_name,teacher_eng_name):
             for teacher in teacher_info:
                 if(teacher):
                     t_result = {}
+                    t_result['name']=teacher.name
+                    t_result['eng_name']=teacher.eng_name
                     t_result['user_id']=teacher.user_id
                     t_result['mobileno']=teacher.mobileno
                     t_result['email']=teacher.email
