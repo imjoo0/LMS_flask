@@ -36,14 +36,7 @@ $('.form-container').keyup('keyup', function (event) {
 });
 function find_my_id(){
     let teacher_kor_name = $('#teacher_kor_name').val()
-    let teacher_eng_name = $('#teacher_eng_name').val()
-    $('.enter_key').keyup('keyup', function (event) {
-        if (event.keyCode === 13) {
-            $('#findidenter').click();
-        }
-    
-    });
-    
+    let teacher_eng_name = $('#teacher_eng_name').val()    
     if(teacher_kor_name==""){
         teacher_kor_name = "입력없음"
     }
@@ -92,7 +85,11 @@ function find_my_id(){
         }
     });
 }
-
+$('.enter_key').keyup('keyup', function (event) {
+    if (event.keyCode === 13) {
+        $('#findidenter').click();
+    }
+});
 function regi_my_id(){
     let new_id = $('#new_id').val()
     let new_kor_name = $('#new_kor_name').val()
