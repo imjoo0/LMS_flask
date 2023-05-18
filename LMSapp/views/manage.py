@@ -71,7 +71,7 @@ def q_kind(id):
         target_question = Question.query.get_or_404(id)
         target_question.category = q_kind
         db.session.commit()
-        payloadText = '변경된 문의가 있습니다: '
+        payloadText = '변경된 문의가 있습니다➡️ '
         if(q_kind == 0):
             Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
             payloadText  += '일반 문의 \n 제목:`'+ target_question.title +'`\n```'+target_question.contents

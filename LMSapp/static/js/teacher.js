@@ -921,7 +921,7 @@ async function get_consulting(student_id) {
         }, []);
         consultingGroupedCategory = Object.keys(consultingGrouped)
         const color_pallete = ['green', 'purple', 'yellow', 'red', 'blue', 'orange', 'cyan', 'white']
-        let temp_consulting_contents_box = `<a class="btn-two cyan small">원생리포트</a>`;
+        let temp_consulting_contents_box = `<a class="btn-two cyan small" data-bs-toggle="modal" data-bs-target="#student_report" onclick="student_report(${student_id})">원생리포트</a>`;
         let idx = 0;
         $.each(consultingGroupedCategory, function (index, key) {
             let target_consultings = consultingGrouped[key]
