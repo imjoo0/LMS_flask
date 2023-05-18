@@ -34,18 +34,16 @@ $('.form-container').keyup('keyup', function (event) {
     }
 
 });
-$('.enter_key').keyup('keyup', function (event) {
-    if (event.keyCode === 13) {
-        $('#btn_login').click();
-    }
-
-});
-
 function find_my_id(){
     let teacher_kor_name = $('#teacher_kor_name').val()
     let teacher_eng_name = $('#teacher_eng_name').val()
-    console.log(teacher_kor_name)
-    console.log(teacher_eng_name)
+    $('.enter_key').keyup('keyup', function (event) {
+        if (event.keyCode === 13) {
+            $('#findidenter').click();
+        }
+    
+    });
+    
     if(teacher_kor_name==""){
         teacher_kor_name = "입력없음"
     }
@@ -74,7 +72,7 @@ function find_my_id(){
                         </div>
                         <div class="col-sm-3 mb-sm-0 mb-2"><span>✅ 이메일</span></div>
                         <div class="col-sm-9">
-                            <p>${make_part((result[i].category))}</p>
+                            <p>${make_part(result[i].category)}</p>
                         </div>
                         <div class="col-sm-3 mb-sm-0 mb-2"><span>✅ 연락처</span></div>
                         <div class="col-sm-9">
