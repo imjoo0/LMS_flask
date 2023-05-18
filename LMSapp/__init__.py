@@ -74,7 +74,3 @@ def create_app():
     app.register_blueprint(common.bp)
 
     return app
-
-if __name__ == '__main__':
-    scheduler.start()
-    create_app().run(host='0.0.0.0')
