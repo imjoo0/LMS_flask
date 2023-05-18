@@ -314,8 +314,8 @@ async function get_soquestion_detail(q_id, done_code) {
         let temp_answer_list = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">답변 내용</span>
-            <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"
-            id="answer_content_modi" placeholder="${answer_data.content}">
+            <textarea class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" rows="15" cols="25"
+            id="answer_content_modi" placeholder="${answer_data.content}"></textarea> 
         </div>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">답변자</span>
@@ -728,8 +728,8 @@ async function get_question_detail(q_id, done_code) {
         let temp_answer_list = `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">답변 내용</span>
-            <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"
-            id="answer_content_modi" placeholder="${answer_data.content}">
+            <textarea class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" rows="15" cols="25"
+            id="answer_content_modi" placeholder="${answer_data.content}"></textarea> 
         </div>
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">답변자</span>
