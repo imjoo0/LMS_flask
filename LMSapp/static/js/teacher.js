@@ -29,7 +29,11 @@ async function get_mybans() {
         myConsultingsData = response['all_consulting']
         mytasksData = response['all_task']
         myStudentData = response['my_students']
-    } catch (error) {
+        console.log(mybansData)
+        console.log(myConsultingsData)
+        console.log(mytasksData)
+        console.log(myStudentData)
+    }catch(error) {
         alert('Error occurred while retrieving data.');
     } finally {
         setIsFetching(false);  // 호출 완료 후 변수 초기화
