@@ -9,17 +9,8 @@
 //     return str;
 // }
 $(window).on('load', async function () {
-    try{
-        response = await $.ajax({
-            type: "GET",
-            url: "/teacher/get_data",
-            dataType: 'json',
-            data: {}
-        })
-        get_data()
-    }catch{
-        console.log('err')
-    }
+    get_data()
+    getMyStudentsData()
 })
 async function get_mybans() {
     try {
@@ -45,7 +36,6 @@ async function getMyStudentsData() {
     });
 }
 async function get_data(){
-    getMyStudentsData()
     if(!banData){
         await get_mybans()
     }
