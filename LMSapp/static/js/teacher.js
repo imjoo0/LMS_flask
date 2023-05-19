@@ -18,7 +18,6 @@ $(window).on('load', async function () {
 })
 async function get_mybans() {
     setIsFetching(true);
-    console.log(getIsFetching())
     try {
         const response = await $.ajax({
             url: '/teacher/get_mybans',
