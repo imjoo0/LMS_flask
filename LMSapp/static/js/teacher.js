@@ -54,7 +54,7 @@ async function get_data(){
             let first_student = myStudentData.filter(s=>s.ban_id == elem.register_no)
             let first_student_num = first_student.length
             console.log(first_student_num)
-            let out_student_num = first_student_num != 0 ? first_student.filter(s=>s.categroy_id == 2 || s.categroy_id == 8).length : 0 
+            let out_student_num = first_student_num != 0 ? first_student.filter(s=>s.categroy_id == 2).length : 0 
             console.log(out_student_num)
             let hold_student_num = first_student_num != 0 ? first_student.filter(s=>s.categroy_id == 3).length : 0 
             let now_student_num = first_student_num - out_student_num - hold_student_num
