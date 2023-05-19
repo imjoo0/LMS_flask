@@ -17,7 +17,9 @@ $(window).on('load', async function () {
     // getMyStudentsData()
 })
 async function get_mybans() {
+    console.log('아닌가')
     setIsFetching(true);
+    console.log('이건가')
     try {
         const response = await $.ajax({
             url: '/teacher/get_mybans',
