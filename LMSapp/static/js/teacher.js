@@ -11,9 +11,9 @@
 import { getIsFetching, setIsFetching } from '../js/isFetching.js';
 
 $(window).on('load', async function () {
-    if(!getIsFetching()){
+    if(getIsFetching()){
         await get_mybans()
-        // get_data()
+        get_data()
     }
     // getMyStudentsData()
 })
