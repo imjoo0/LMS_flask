@@ -43,11 +43,7 @@ def get_mybans(u):
     all_task = []
     ban_data = callapi.purple_ban(u['user_id'], 'get_mybans_new')
     my_students = callapi.purple_ban(u['id'], 'get_mystudents_new')
-    print(ban_data)
-    print(my_students)
-    if(my_students == False):
-        my_students = []
-    if(ban_data):
+    if(my_students != False and ban_data !=False):
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00',port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
@@ -62,7 +58,6 @@ def get_mybans(u):
         finally:
             db.close()
         return jsonify({'ban_data':ban_data,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students})
-    return jsonify({'ban_data':'없음'})
 
 # @bp.route('/get_mystudents', methods=['GET'])
 # @authrize
