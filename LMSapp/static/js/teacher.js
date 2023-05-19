@@ -27,10 +27,10 @@ async function get_mybans() {
             type: 'GET',
             data: {},
         });
-        const mybansData = response['ban_data']
-        const myConsultingsData = response['all_consulting']
-        const mytasksData = response['all_task']
-        const myStudentData = response['my_students']
+        mybansData = response['ban_data']
+        myConsultingsData = response['all_consulting']
+        mytasksData = response['all_task']
+        myStudentData = response['my_students']
     } catch (error) {
         alert('Error occurred while retrieving data.');
     } finally {
@@ -53,7 +53,9 @@ async function get_data(){
             // let switch_plus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.switch_ban_id == elem.register_no).length : 0;
             let first_student = myStudentData.filter(s=>s.ban_id == elem.register_no)
             let first_student_num = first_student.length
+            console.log(first_student_num)
             let out_student_num = first_student_num != 0 ? first_student.filter(s=>s.categroy_id == 2 || s.categroy_id == 8).length : 0 
+            console.log(out_student_num)
             let hold_student_num = first_student_num != 0 ? first_student.filter(s=>s.categroy_id == 3).length : 0 
             let now_student_num = first_student_num - out_student_num - hold_student_num
             let ban_unlearned = UnlearnedConsultingsNum > 0 ? UnlearnedConsultingsData.filter(consulting => consulting.ban_id === elem.register_no) : 0;
