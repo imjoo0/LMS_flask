@@ -8,8 +8,8 @@
 //     }
 //     return str;
 // }
+let isFetchingBans = false; 
 $(window).on('load', async function () {
-    isFetchingBans = false; 
     if(!banData){
         await get_mybans()
         get_data()
