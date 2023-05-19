@@ -36,40 +36,36 @@ def home(u):
         teacher_info = callapi.purple_info(u['user_id'], 'get_teacher_info')
         return render_template('teacher.html', user=teacher_info)
     
-# 차트 관련
-@bp.route('/get_data', methods=['GET'])
+@bp.route('/get_mybans', methods=['GET'])
 @authrize
-def get_data(u):
+def get_mybans(u):
     all_consulting = []
     all_task = []
     ban_data = callapi.purple_ban(u['user_id'], 'get_mybans')
-    switchstudent = []
-    outstudent = []
-    my_students = callapi.purple_ban(u['user_id'], 'get_mystudents')
     if(ban_data):
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00',port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
                 # 상담
-                cur.execute("select consulting.id,consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate,consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result from consulting left join consultingcategory on consulting.category_id = consultingcategory.id where startdate <= %s and teacher_id=%s", (Today,ban_data[0]['id'],))
+                cur.execute("select consulting.student_id, consulting.origin, consulting.student_name, consulting.student_engname,consulting.id,consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate,consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result from consulting left join consultingcategory on consulting.category_id = consultingcategory.id where startdate <= %s and teacher_id=%s", (Today,u['id'],))
                 all_consulting = cur.fetchall()
-
                 # 업무
                 cur.execute("select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id left join taskcategory on task.category_id = taskcategory.id where ( (task.category_id = 11) or ( (task.cycle = %s) or (task.cycle = 0) ) ) and ( task.startdate <= %s and %s <= task.deadline ) and taskban.teacher_id=%s;", (today_yoil, Today, Today,ban_data[0]['id'],))
                 all_task = cur.fetchall()
-                
-                cur.execute("SELECT ban_id, id, student_id FROM switchstudent WHERE teacher_id = %s GROUP BY ban_id, id, student_id;", (u['id'],))
-                switchstudent = cur.fetchall()
-
-                cur.execute("SELECT ban_id, id, student_id FROM outstudent WHERE teacher_id = %s GROUP BY ban_id, id, student_id;", (u['id'],))
-                outstudent = cur.fetchall()
         except:
             print('err')
         finally:
             db.close()
-        return jsonify({'switchstudent': switchstudent,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'outstudent':outstudent,'ban_data':ban_data})
+        return jsonify({'ban_data':ban_data,'all_consulting':all_consulting,'all_task':all_task,})
     return jsonify({'ban_data':'없음'})
 
+@bp.route('/get_mystudents', methods=['GET'])
+@authrize
+def get_mystudents(u):
+    my_students = callapi.purple_ban(u['id'], 'get_mystudents_new')
+    if(my_students):
+        return jsonify({'my_students':my_students})
+    return jsonify({'my_students':'없음'})
 
 # 문의 리스트 / 문의 작성    
 @bp.route('/question', methods=['GET', 'POST'])
