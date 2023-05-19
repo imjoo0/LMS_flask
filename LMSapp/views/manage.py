@@ -62,6 +62,20 @@ def answer(u,id,done_code):
         db.session.commit()
         return jsonify({'result': '문의 답변 저장 완료'})
 
+def make_cate(id):
+    if(id == 0):
+        return '일반 문의'
+    elif(id == 4):
+        return '기술 문의'
+    elif(id == 5):
+        return '내근티처 문의'
+    elif(id == 1):
+        return '이반 요청'
+    elif(id == 2):
+        return '퇴소 요청'
+    else:
+        return '-'
+
 # 본원 답변 종류 바꾸기 
 @bp.route('/q_kind/<int:id>', methods=['POST'])
 def q_kind(id):
@@ -69,24 +83,25 @@ def q_kind(id):
         URI = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
         q_kind = int(request.form['question_kind'])
         target_question = Question.query.get_or_404(id)
+        before_kind = make_cate(target_question.category)
         target_question.category = q_kind
         db.session.commit()
-        payloadText = '변경된 문의가 있습니다➡️ '
+        payloadText = before_kind+'에서 ➡️ '
         if(q_kind == 0):
             Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
-            payloadText  += '일반 문의 \n 제목:`'+ target_question.title +'`\n```'+target_question.contents
+            payloadText  += '일반 문의로 변경된 문의가 있습니다 \n 제목:`'+ target_question.title +'`\n```'+target_question.contents
         elif(q_kind == 4):
             Synologytoken = '"iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg"'
-            payloadText  += '기술 문의 \n 제목:`'+ target_question.title +'`\n```'+target_question.contents
+            payloadText  += '기술 문의로 변경된 문의가 있습니다 \n 제목:`'+ target_question.title +'`\n```'+target_question.contents
         elif(q_kind == 5):
             Synologytoken = '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"'
-            payloadText  += '내근티처 문의 \n 제목:`'+ target_question.title +'`\n```'+target_question.contents
+            payloadText  += '내근티처 문의로 변경된 문의가 있습니다 \n 제목:`'+ target_question.title +'`\n```'+target_question.contents
         else:
             Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
             if(q_kind == 1):
-                payloadText  += '이반 요청 \n 제목:`'+ target_question.title +'`\n```'+target_question.contents
+                payloadText  += '이반 요청으로 변경된 문의가 있습니다 \n 제목:`'+ target_question.title +'`\n```'+target_question.contents
             elif(q_kind==2):
-                payloadText  += '퇴소 요청 \n 제목:`'+ target_question.title +'`\n```'+target_question.contents
+                payloadText  += '퇴소 요청으로 변경된 문의가 있습니다 \n 제목:`'+ target_question.title +'`\n```'+target_question.contents
         payloadText += '```'
         print(payloadText)
         requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
