@@ -39,6 +39,7 @@ async function get_data(){
     // if(!banData){
     //     await get_mybans()
     // }
+    console.log('몇번')
     allconsultingsNum = myConsultingsData.length
     UnlearnedConsultingsData = allconsultingsNum > 0 ? myConsultingsData.filter(consulting => consulting.category_id < 100) : 0;
     UnlearnedConsultingsNum = UnlearnedConsultingsData.length
