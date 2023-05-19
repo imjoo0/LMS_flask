@@ -12,33 +12,30 @@ import { getIsFetching, setIsFetching } from '../js/isFetching.js';
 
 $(window).on('load', async function () {
     if(!getIsFetching()){
-        await get_mybans()
-        get_data()
+        try {
+            setIsFetching(true);
+            const response = await $.ajax({
+                url: '/teacher/get_mybans',
+                type: 'GET',
+                data: {},
+            });
+            mybansData = response['ban_data']
+            console.log(mybansData)
+            myConsultingsData = response['all_consulting']
+            console.log(myConsultingsData)
+            mytasksData = response['all_task']
+            console.log(mytasksData)
+            myStudentData = response['my_students']
+            console.log(myStudentData)
+        }catch(error) {
+            alert('Error occurred while retrieving data.');
+        } finally {
+            setIsFetching(true);
+            get_data()
+        }
     }
     // getMyStudentsData()
 })
-async function get_mybans() {
-    setIsFetching(true);
-    try {
-        const response = await $.ajax({
-            url: '/teacher/get_mybans',
-            type: 'GET',
-            data: {},
-        });
-        mybansData = response['ban_data']
-        console.log(mybansData)
-        myConsultingsData = response['all_consulting']
-        console.log(myConsultingsData)
-        mytasksData = response['all_task']
-        console.log(mytasksData)
-        myStudentData = response['my_students']
-        console.log(myStudentData)
-    }catch(error) {
-        alert('Error occurred while retrieving data.');
-    } finally {
-        setIsFetching(true);
-    }
-}
 async function get_data(){
     $('#ban_chart_list').empty()
     if(mybansData == '없음'){
