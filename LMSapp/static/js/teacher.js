@@ -8,17 +8,19 @@
 //     }
 //     return str;
 // }
-import { getIsFetching, setIsFetching } from '../js/isFetching.js';
-
 $(window).on('load', async function () {
-    if(!getIsFetching()){
+    isFetchingBans = false; 
+    if(!banData){
         await get_mybans()
         get_data()
     }
     // getMyStudentsData()
 })
 async function get_mybans() {
-    setIsFetching(true);
+    if(isFetchingBans) {
+        return;  // 이미 호출 중인 경우 중복 호출 방지
+    }
+    isFetchingBans = true;
     try {
         const response = await $.ajax({
             url: '/teacher/get_mybans',
@@ -32,7 +34,7 @@ async function get_mybans() {
     } catch (error) {
         alert('Error occurred while retrieving data.');
     } finally {
-        setIsFetching(false);  // 호출 완료 후 변수 초기화
+        isFetchingBans = false;  // 호출 완료 후 변수 초기화
     }
 }
 async function get_data(){
@@ -382,7 +384,9 @@ async function get_student(ban_id) {
         }
     }
     Studentcontainer = $('#ban_student_list_pagination')
-    Targetdata = consultingStudentData.filter(e => e.ban_id === ban_id && e.category_id == 1)
+    Targetdata = consultingStudentData.filter((e) => {
+        return e.ban_id === ban_id ;
+    })
     $('#ban_student_listModalLabelt').html(`${Targetdata[0].ban_name}반 원생 목록`);
     Studentcontainer.pagination(Object.assign(StudentpaginationOptions, { 'dataSource': Targetdata }))
 
