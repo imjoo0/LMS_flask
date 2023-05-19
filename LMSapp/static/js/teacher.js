@@ -14,9 +14,6 @@ $(window).on('load', async function () {
         await get_mybans()
         get_data()
     }
-    if(!myStudentData){
-        getMyStudentsData()
-    }
     // getMyStudentsData()
 })
 async function get_mybans() {
