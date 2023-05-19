@@ -27,10 +27,10 @@ async function get_mybans() {
             type: 'GET',
             data: {},
         });
-        mybansData = response['ban_data']
-        myConsultingsData = response['all_consulting']
-        mytasksData = response['all_task']
-        myStudentData = response['my_students']
+        const mybansData = response['ban_data']
+        const myConsultingsData = response['all_consulting']
+        const mytasksData = response['all_task']
+        const myStudentData = response['my_students']
     } catch (error) {
         alert('Error occurred while retrieving data.');
     } finally {
