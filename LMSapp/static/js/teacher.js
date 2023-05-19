@@ -14,6 +14,9 @@ $(window).on('load', async function () {
         await get_mybans()
         get_data()
     }
+    if(!myStudentData){
+        getMyStudentsData()
+    }
     // getMyStudentsData()
 })
 async function get_mybans() {
@@ -46,7 +49,6 @@ async function getMyStudentsData() {
     });
 }
 async function get_data(){
-    console.log('몇번')
     allconsultingsNum = myConsultingsData.length
     UnlearnedConsultingsData = allconsultingsNum > 0 ? myConsultingsData.filter(consulting => consulting.category_id < 100) : 0;
     UnlearnedConsultingsNum = UnlearnedConsultingsData.length
