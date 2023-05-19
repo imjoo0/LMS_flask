@@ -1303,7 +1303,11 @@ async function get_request_consulting(){
             var dataHtml = '';
             $.each(data, function (index, consulting) {
                 console.log(consulting)
-                consulting.ban_name = banData.filter(b=>b.ban_id == consulting.ban_id)[0].name
+                data = banData.filter(b=>b.ban_id == consulting.ban_id)[0]
+                consulting.ban_name = '-'
+                if(data){
+                    consulting.ban_name = data.name    
+                }
                 let contents = consulting.contents;
                 if(contents && contents.length > 50) {
                     contents = contents.substring(0, 40) + ' ▪️▪️▪️ ';
