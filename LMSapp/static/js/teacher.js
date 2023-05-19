@@ -13,6 +13,7 @@ import { getIsFetching, setIsFetching } from '../js/isFetching.js';
 $(window).on('load', async function () {
     if(!getIsFetching()){
         await get_mybans()
+        get_data()
     }
     // getMyStudentsData()
 })
@@ -25,12 +26,12 @@ async function get_mybans() {
             data: {},
         });
         mybansData = response['ban_data']
-        myConsultingsData = response['all_consulting']
-        mytasksData = response['all_task']
-        myStudentData = response['my_students']
         console.log(mybansData)
+        myConsultingsData = response['all_consulting']
         console.log(myConsultingsData)
+        mytasksData = response['all_task']
         console.log(mytasksData)
+        myStudentData = response['my_students']
         console.log(myStudentData)
     }catch(error) {
         alert('Error occurred while retrieving data.');
@@ -321,7 +322,7 @@ async function get_data(){
             }, []);
             if (result.length > 0) {
                 consultingStudentData = result
-                // get_consulting_student(0)
+                get_consulting_student(0)
             } else {
                 $('#today_consulting_title').html($('#today_consulting_title').html() + '   0건');
                 $('#consulting_student_list').hide();
