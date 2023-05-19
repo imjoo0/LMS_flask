@@ -1294,6 +1294,7 @@ async function get_request_consulting(){
         }
     };
     Consultingcontainer = $('#consulting-pagination');
+    console.log(banData)
     ConsultingpaginationOptions = {
         prevText: '이전',
         nextText: '다음',
