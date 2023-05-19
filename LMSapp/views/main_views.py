@@ -87,10 +87,10 @@ def logout():
             'msg': '로그아웃 실패'
         })
 
-@bp.route('/find_user/<string:teacher_kor_name>/<string:teacher_eng_name>', methods=['GET','POST'])
-def find_user(teacher_kor_name,teacher_eng_name):
+@bp.route('/find_user/<string:teacher_name>', methods=['GET','POST'])
+def find_user(teacher_name):
     if request.method == 'GET':
-        teacher_info = User.query.filter(or_(User.name == teacher_kor_name, User.eng_name == teacher_eng_name)).all()
+        teacher_info = User.query.filter(or_(User.name == teacher_name, User.eng_name == teacher_name)).all()
         if(len(teacher_info) > 0):
             result = []
             for teacher in teacher_info:
@@ -108,18 +108,16 @@ def find_user(teacher_kor_name,teacher_eng_name):
             return jsonify({'teacher_info': 'nodata'})
     else:
         teacher_id = request.form['teacher_id']
-        new_user = User(id=teacher_id,name=teacher_kor_name,eng_name=teacher_eng_name)
+        new_user = User(id=teacher_id,name=teacher_name,eng_name=teacher_name)
         print(new_user)
         
         # return jsonify({'teacher_info': 'success'})
 
 
-@bp.route('/find_purple_user/<string:teacher_kor_name>/<string:teacher_eng_name>/', methods=['GET'])
-def find_purple_user(teacher_kor_name,teacher_eng_name):
+@bp.route('/find_purple_user/<string:teacher_name>', methods=['GET'])
+def find_purple_user(teacher_name):
     if request.method == 'GET':
-        print(teacher_eng_name)
-        print(teacher_kor_name)
-        teacher_info = callapi.find_user(teacher_kor_name,teacher_eng_name)
+        teacher_info = callapi.find_user(teacher_name)
         print(teacher_info)
         if(teacher_info == False):
             return jsonify({'teacher_info': 'nodata'})

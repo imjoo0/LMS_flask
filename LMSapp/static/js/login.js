@@ -35,19 +35,10 @@ $('.form-container').keyup('keyup', function (event) {
 
 });
 function find_my_id(){
-    let teacher_kor_name = $('#teacher_kor_name').val()
-    let teacher_eng_name = $('#teacher_eng_name').val()    
-    if(teacher_kor_name==""){
-        teacher_kor_name = "입력없음"
-    }
-    if(teacher_eng_name==""){
-        teacher_eng_name = "입력없음"
-    }
-    console.log(teacher_kor_name)
-    console.log(teacher_eng_name)
+    let teacher_name = $('#teacher_name').val()
     $.ajax({
         type: "GET",
-        url: "/find_user/"+teacher_kor_name+"/"+teacher_eng_name,
+        url: "/find_user/"+teacher_name,
         success: function (response) {
             {
                 result = response['teacher_info']
@@ -58,7 +49,7 @@ function find_my_id(){
                     if(con_val){
                         $.ajax({
                             type: "GET",
-                            url: "/find_purple_user/"+teacher_kor_name+"/"+teacher_eng_name+"/",
+                            url: "/find_purple_user/"+teacher_name,
                             success: function (response) {
                                 {
                                     result = response['teacher_info']

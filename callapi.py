@@ -49,8 +49,8 @@ def purple_allban(url):
 def get_user(teacher_id):
     return requests.post(config.api + 'get_teacher_info', headers=headers, data=json.dumps({'data':{'id': teacher_id}}))
 
-def find_user(teacher_kor_name,teacher_eng_name):
-    result = requests.post(config.api + 'find_teacher_info', headers=headers, data=json.dumps({'data':{'kor_name': teacher_kor_name,'eng_name':teacher_eng_name}}))
+def find_user(teacher_name):
+    result = requests.post(config.api + 'find_teacher_info', headers=headers, data=json.dumps({'data':{'teacher_name': teacher_name}}))
     result = result.json()
     print(result)
     if(len(result)>0):
