@@ -8,14 +8,19 @@
 //     }
 //     return str;
 // }
+let isFetchingBans = false; 
 $(window).on('load', async function () {
     if(!banData){
         await get_mybans()
+        get_data()
     }
-    get_data()
     // getMyStudentsData()
 })
 async function get_mybans() {
+    if (isFetchingBans) {
+        return;  // 이미 호출 중인 경우 중복 호출 방지
+    }
+    isFetchingBans = true;
     try {
         const response = await $.ajax({
             url: '/teacher/get_mybans',
@@ -27,6 +32,8 @@ async function get_mybans() {
         mytasksData = response['all_task']
     } catch (error) {
         alert('Error occurred while retrieving data.');
+    } finally {
+        isFetchingBans = false;  // 호출 완료 후 변수 초기화
     }
 }
 async function getMyStudentsData() {
