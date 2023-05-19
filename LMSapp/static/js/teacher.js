@@ -52,6 +52,7 @@ async function get_data(){
             // let switch_minus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.ban_id == elem.register_no).length : 0;
             // let switch_plus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.switch_ban_id == elem.register_no).length : 0;
             let first_student = myStudentData.filter(s=>s.ban_id == elem.register_no)
+            console.log(first_student)
             let first_student_num = first_student.length
             console.log(first_student_num)
             let out_student_num = first_student_num != 0 ? first_student.filter(s=>s.categroy_id == 2).length : 0 
