@@ -384,9 +384,7 @@ async function get_student(ban_id) {
         }
     }
     Studentcontainer = $('#ban_student_list_pagination')
-    Targetdata = consultingStudentData.filter((e) => {
-        return e.ban_id === ban_id && e.category_id == 1;
-    })
+    Targetdata = consultingStudentData.filter(e => e.ban_id === ban_id && e.category_id == 1)
     $('#ban_student_listModalLabelt').html(`${Targetdata[0].ban_name}반 원생 목록`);
     Studentcontainer.pagination(Object.assign(StudentpaginationOptions, { 'dataSource': Targetdata }))
 
