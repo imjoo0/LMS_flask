@@ -107,11 +107,11 @@ async function get_data(){
         new Chart($((`#total-chart-element${elem.register_no}`)), {
             type: 'doughnut',
             data: {
-                labels: ['관리중', '이반', '퇴소'],
+                labels: ['관리중', '보류', '퇴소'],
                 datasets: [
                     {
-                        data: [now_student_num, switch_minus_num, elem.out_student_num, elem.hold_student_num],
-                        backgroundColor: ['#B39CD0', '#ffd400', '#F23966','#C24F77'],
+                        data: [now_student_num, elem.hold_student_num, elem.out_student_num],
+                        backgroundColor: ['#B39CD0', '#ffd400', '#F23966'],
                         hoverOffset: 4,
                     },
                 ],
