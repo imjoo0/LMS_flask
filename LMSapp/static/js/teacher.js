@@ -11,16 +11,13 @@
 import { getIsFetching, setIsFetching } from '../js/isFetching.js';
 
 $(window).on('load', async function () {
-    if(!banData){
+    if(!getIsFetching()){
         await get_mybans()
         get_data()
     }
     // getMyStudentsData()
 })
 async function get_mybans() {
-    if(getIsFetching()) {
-        return;  // 이미 호출 중인 경우 중복 호출 방지
-    }
     setIsFetching(true);
     try {
         const response = await $.ajax({
