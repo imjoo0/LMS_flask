@@ -194,7 +194,6 @@ async function get_soquestion_detail(q_id, done_code) {
     $('#manage_answer').hide()
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
     student_data = studentsData.filter(s => s.student_id == question_detail_data.student_id)[0]
-    console.log(student_data)
     attach = attachData.filter(a => a.question_id == q_id)
     // 문의 상세 내용 
     let temp_question_list = `
@@ -251,9 +250,7 @@ async function get_soquestion_detail(q_id, done_code) {
     temp_question_list += `</div></div>`
     $('#teacher_question').html(temp_question_list);
     // 상담 일지 처리 
-    console.log(question_detail_data)
     let consulting_history = consultingData.filter(c => c.id == question_detail_data.consulting_history)
-    console.log(consulting_history)
     let temp_his = ''
     if (consulting_history.length != 0) {
         let category = ''
@@ -1115,7 +1112,6 @@ function show_selections() {
         }
     }
     var selectedOptions = ''
-    console.log(selectedStudentList)
     for (i = 0; i < selectedStudentList.length; i++) {
         // bid+tid+bname+sid+sname
         if(selectedStudentList[i].includes('_')){
@@ -1164,9 +1160,7 @@ function post_consulting_request() {
     // 다중 선택 대상 선택일 경우  )
     if (selectedStudentList.length != 0) {
         let total_ban_selections = selectedStudentList.filter(value=>!(value.includes('_')))
-        console.log(total_ban_selections)
         let total_student_selections = selectedStudentList.filter(value => value.includes('-1'));
-        console.log(total_student_selections)
         const totalPromises = [];
 
         // 전체 반 대상 
@@ -1213,7 +1207,6 @@ function post_consulting_request() {
             indivi_student_selections.forEach(value => {
                 v = String(value).split('_')
                 s_info = studentsData.filter(a => a.student_id ==  Number(v[3]))[0]
-                console.log(s_info)
                 const promise = $.ajax({
                     type: "POST",
                     url: '/manage/consulting/' + v[0] + '/' + v[1] + '/' + v[3]+ '/',
@@ -1231,7 +1224,6 @@ function post_consulting_request() {
                 totalPromises.push(promise);
             })
         }
-        console.log(totalPromises)
         Promise.all(totalPromises).then((responses) => {
             let isSuccess = true;
             responses.forEach(response => {
@@ -1294,7 +1286,6 @@ async function get_request_consulting(){
         }
     };
     Consultingcontainer = $('#consulting-pagination');
-    console.log(banData)
     ConsultingpaginationOptions = {
         prevText: '이전',
         nextText: '다음',
@@ -1302,7 +1293,6 @@ async function get_request_consulting(){
         callback: function (data, pagination) {
             var dataHtml = '';
             $.each(data, function (index, consulting) {
-                console.log(consulting)
                 data = banData.filter(b=>b.ban_id == consulting.ban_id)[0]
                 consulting.ban_name = '-'
                 if(data){
@@ -1445,7 +1435,6 @@ function get_consultingdetail(consulting_id) {
         </div>
         `
     }
-    console.log(temp_his)
     $('#consulting_history_contents_box').html(temp_his)
 
     $('#request_consulting_listbox').hide()
