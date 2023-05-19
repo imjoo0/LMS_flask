@@ -11,9 +11,8 @@
 import { getIsFetching, setIsFetching } from '../js/isFetching.js';
 
 $(window).on('load', async function () {
-    if(getIsFetching()){
+    if(!getIsFetching()){
         await get_mybans()
-        get_data()
     }
     // getMyStudentsData()
 })
@@ -36,7 +35,7 @@ async function get_mybans() {
     }catch(error) {
         alert('Error occurred while retrieving data.');
     } finally {
-        setIsFetching(false);  // 호출 완료 후 변수 초기화
+        setIsFetching(true);
     }
 }
 async function get_data(){
