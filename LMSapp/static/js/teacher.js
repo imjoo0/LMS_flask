@@ -8,7 +8,8 @@
 //     }
 //     return str;
 // }
-let isFetchingBans = false; 
+import { getIsFetching, setIsFetching } from '../js/isFetching.js';
+
 $(window).on('load', async function () {
     if(!banData){
         await get_mybans()
@@ -17,10 +18,10 @@ $(window).on('load', async function () {
     // getMyStudentsData()
 })
 async function get_mybans() {
-    if(isFetchingBans) {
+    if(getIsFetching()) {
         return;  // 이미 호출 중인 경우 중복 호출 방지
     }
-    isFetchingBans = true;
+    setIsFetching(true);
     try {
         const response = await $.ajax({
             url: '/teacher/get_mybans',
@@ -34,7 +35,7 @@ async function get_mybans() {
     } catch (error) {
         alert('Error occurred while retrieving data.');
     } finally {
-        isFetchingBans = false;  // 호출 완료 후 변수 초기화
+        setIsFetching(false);  // 호출 완료 후 변수 초기화
     }
 }
 async function get_data(){
