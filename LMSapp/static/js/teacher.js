@@ -321,7 +321,7 @@ async function get_data(){
             }, []);
             if (result.length > 0) {
                 consultingStudentData = result
-                get_consulting_student(0)
+                // get_consulting_student(0)
             } else {
                 $('#today_consulting_title').html($('#today_consulting_title').html() + '   0건');
                 $('#consulting_student_list').hide();
