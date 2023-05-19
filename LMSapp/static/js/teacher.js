@@ -33,20 +33,12 @@ async function get_mybans() {
         mybansData = response['ban_data']
         myConsultingsData = response['all_consulting']
         mytasksData = response['all_task']
+        myStudentData = response['my_students']
     } catch (error) {
         alert('Error occurred while retrieving data.');
     } finally {
         isFetchingBans = false;  // 호출 완료 후 변수 초기화
     }
-}
-async function getMyStudentsData() {
-    let studentsWorker = new Worker("../static/js/teacher_students_worker.js");
-    return new Promise((resolve) => {
-        studentsWorker.onmessage = function(event) {
-            myStudentData = event.data.my_students;
-            resolve(myStudentData);
-        };
-    });
 }
 async function get_data(){
     allconsultingsNum = myConsultingsData.length
