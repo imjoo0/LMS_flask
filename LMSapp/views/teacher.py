@@ -144,7 +144,7 @@ def question(u):
             payloadText += '이반 / 퇴소 요청이 등록되었습니다 \n' 
             history_id = request.form['h_select_box']
             new_question = Question(consulting_history=history_id, category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
-        payloadText += '제목: `'+ title +'`\n'+'```'+contents+'```'
+        payloadText += '제목: `'+ title +'`\n'+'```\n'+contents+'\n```'
         db.session.add(new_question)
         db.session.commit()
         files = request.files.getlist('file_upload')
