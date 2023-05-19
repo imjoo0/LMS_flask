@@ -36,9 +36,9 @@ async function getMyStudentsData() {
     });
 }
 async function get_data(){
-    if(!banData){
-        await get_mybans()
-    }
+    // if(!banData){
+    //     await get_mybans()
+    // }
     allconsultingsNum = myConsultingsData.length
     UnlearnedConsultingsData = allconsultingsNum > 0 ? myConsultingsData.filter(consulting => consulting.category_id < 100) : 0;
     UnlearnedConsultingsNum = UnlearnedConsultingsData.length
