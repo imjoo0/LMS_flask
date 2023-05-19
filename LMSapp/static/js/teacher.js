@@ -52,11 +52,10 @@ async function get_data(){
             // let switch_minus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.ban_id == elem.register_no).length : 0;
             // let switch_plus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.switch_ban_id == elem.register_no).length : 0;
             let first_student = myStudentData.filter(s=>s.ban_id == elem.register_no)
-            console.log(first_student)
-            elem.first_student_num = first_student.length
-            elem.out_student_num = elem.first_student_num != 0 ? first_student.filter(s=>s.categroy_id == 2 || s.categroy_id == 8).length : 0 
-            elem.hold_student_num = elem.first_student_num != 0 ? first_student.filter(s=>s.categroy_id == 3).length : 0 
-            elem.now_student_num = elem.first_student_num - elem.out_student_num - elem.hold_student_num
+            let first_student_num = first_student.length
+            let out_student_num = first_student_num != 0 ? first_student.filter(s=>s.categroy_id == 2 || s.categroy_id == 8).length : 0 
+            let hold_student_num = first_student_num != 0 ? first_student.filter(s=>s.categroy_id == 3).length : 0 
+            let now_student_num = first_student_num - out_student_num - hold_student_num
             let ban_unlearned = UnlearnedConsultingsNum > 0 ? UnlearnedConsultingsData.filter(consulting => consulting.ban_id === elem.register_no) : 0;
             let ban_unlearned_num = ban_unlearned != 0 ? ban_unlearned.length : 0;
             
@@ -67,9 +66,9 @@ async function get_data(){
                     <div class="chart-wrapper col-sm-5">
                         <canvas id="total-chart-element${elem.register_no}" class="total-chart-element p-sm-3 p-2"></canvas>
                         <div class ="chart-data-summary">
-                            <span>관리중:${elem.now_student_num}</span><br>
-                            <span>* 보류:${elem.hold_student_num}</span><br>
-                            <span>* 퇴소:${elem.out_student_num}</span>
+                            <span>관리중:${now_student_num}</span><br>
+                            <span>* 보류:${hold_student_num}</span><br>
+                            <span>* 퇴소:${out_student_num}</span>
                         </div>
                     </div>
                     <div class="col-sm-7 d-flex justify-content-center align-items-center">
@@ -115,7 +114,7 @@ async function get_data(){
                     labels: ['관리중', '보류', '퇴소'],
                     datasets: [
                         {
-                            data: [elem.now_student_num, elem.hold_student_num, elem.out_student_num],
+                            data: [now_student_num, hold_student_num, out_student_num],
                             backgroundColor: ['#B39CD0', '#ffd400', '#F23966'],
                             hoverOffset: 4,
                         },
