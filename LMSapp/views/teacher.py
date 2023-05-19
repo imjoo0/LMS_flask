@@ -41,7 +41,7 @@ def home(u):
 def get_mybans(u):
     all_consulting = []
     all_task = []
-    ban_data = callapi.purple_ban(u['user_id'], 'get_mybans')
+    ban_data = callapi.purple_ban(u['user_id'], 'get_mybans_new')
     my_students = callapi.purple_ban(u['id'], 'get_mystudents_new')
     if(my_students == False):
         my_students = []
