@@ -29,7 +29,7 @@ $(window).on('load', async function () {
             console.log(mytasksData);
             myStudentData = response.my_students;
             console.log(myStudentData);
-            get_data();
+            // get_data();
         } catch (error) {
             alert('Error occurred while retrieving data.');
         } finally {
