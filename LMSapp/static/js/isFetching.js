@@ -4,11 +4,11 @@ let all_consulting = null;
 let my_students = null;
 let all_task = null; 
 
-let isFetching = true;
+let isFetching = false;
 
 export async function get_data() {
-    if (isFetching) {
-        console.log('찍힘?')
+    if (!isFetching) { // IsFetching == false 일때 
+        isFetching = true;
         try{
             const response = await $.ajax({
                 url: '/teacher/get_mybans',
@@ -27,6 +27,8 @@ export async function get_data() {
         }
     }
 }
+// 모듈이 로드될 때 fetchData 함수 실행
+get_data();
 export function getBansData() {
     return ban_data;  // 다른 파일에서 해당 값을 불러올 수 있도록 반환하는 함수
 }
