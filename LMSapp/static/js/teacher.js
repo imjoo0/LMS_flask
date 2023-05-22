@@ -8,7 +8,7 @@
 //     }
 //     return str;
 // }
-import { getIsFetching, setIsFetching } from '../js/isFetching.js';
+// import { getIsFetching, setIsFetching } from '../js/isFetching.js';
 
 $(window).on('load', async function () {
     if(!getIsFetching()){
