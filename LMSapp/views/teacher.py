@@ -41,8 +41,8 @@ def home(u):
 def get_mybans(u):
     all_consulting = []
     all_task = []
-    ban_data = callapi.purple_ban(u['user_id'], 'get_mybans_new')
-    my_students = callapi.purple_ban(u['id'], 'get_mystudents_new')
+    ban_data = callapi.call_api(u['user_id'], 'get_mybans_new')
+    my_students = callapi.call_api(u['id'], 'get_mystudents_new')
     db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00',port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
     try:
         with db.cursor() as cur:
