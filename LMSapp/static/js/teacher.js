@@ -13,7 +13,7 @@ import { get_data, getBansData, getConsultingsData, getStudentsData, getTasksDat
 
 $(window).on('load', get_data);
 
-function get_data(){
+function home(){
     $('#ban_chart_list').empty()
     let BansData = getBansData()
     let ConsultingsData = getConsultingsData()
