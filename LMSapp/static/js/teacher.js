@@ -590,7 +590,34 @@ function sort_consultingoption(consulting_targetdata,sortBy) {
         });
         break;
     }
-  
+
+    
+    let Consultingcontainer = $('#consultingstudent_pagination')
+    let ConsultingpaginationOptions = {
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 10,
+        pageClassName: 'float-end',
+        callback: function (data, pagination) {
+            $('#consulting_student_list').show();
+            $('#consultingstudent_pagination').show();
+            var temp_consulting_contents_box = '';
+            $.each(data, function (index, consulting) {
+                // let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
+                temp_consulting_contents_box += `
+                <td class="col-2">${consulting.ban_name}</td>
+                <td class="col-2">${consulting.student_name}</br>${consulting.student_origin}</td>
+                <td class="col-2">${consulting.student_birthday}</td>
+                <td class="col-2">${consulting.student_mobileno}</td>
+                <td class="col-2">${consulting.deadline}</td>
+                <td class="col-1">${consulting.consulting_num}</td>
+                <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${consulting.student_id}')"><span class="cursor-pointer">📝</span></td> 
+                `;
+            });
+            $('#today_consulting_box').html(temp_consulting_contents_box);
+            $('#consulting_student_list').show();
+        }
+    };
     // 데이터 정렬 후 페이지네이션 다시 설정
     Consultingcontainer.pagination("destroy");
     Consultingcontainer.pagination(
