@@ -3,7 +3,7 @@ import pymysql
 import json
 from LMSapp.views import *
 from LMSapp.models import *
-from flask import session
+from flask import current_app, session
 from flask import Blueprint, render_template, jsonify, request, redirect, url_for, flash
 from datetime import datetime, timedelta, date
 # file-upload 로 자동 바꿈 방지 모듈
@@ -55,32 +55,33 @@ def get_new_consulting_data(consulting_id):
 @authrize
 def handle_database_notification(u):
     # 데이터베이스 연결 설정
-    db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
-    db.autocommit(True)
+    with current_app.app_context():
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
+        db.autocommit(True)
 
-    with db.cursor() as cur:
-        # 변경 이벤트 감지를 위한 SQL 알림 설정
-        cur.execute("LISTEN consulting_notification;")
-        cur.execute("LISTEN task_notification;")
-        while True:
-            db.poll()
-            while db.notifies:
-                notify = db.notifies.pop(0)
-                table_name = notify.channel.split('_')[0]  # 알림 채널에서 테이블 이름 추출
-                if table_name == 'consulting':
-                    # 변경 알림을 클라이언트에게 전송
-                    socketio.emit('consulting_change', {'message': 'Consulting data changed'}, broadcast=True)
-                    if notify.payload.get('teacher_id') == u['id']:
-                        # 변경된 데이터를 페이지로 전달
-                        new_consulting = get_new_consulting_data(notify.payload['consulting_id'])
-                        socketio.emit('new_consulting', {'data': new_consulting}, broadcast=True)
-                # elif table_name == 'task':
-                #     # 변경 알림을 클라이언트에게 전송
-                #     socketio.emit('task_change', {'message': 'Task data changed'}, broadcast=True)
-                #     if notify.payload.get('teacher_id') == u['id']:
-                #         # 변경된 데이터를 페이지로 전달
-                #         new_task = get_new_task_data(notify.payload['task_id'])
-                #         socketio.emit('new_task', {'data': new_task}, broadcast=True)
+        with db.cursor() as cur:
+            # 변경 이벤트 감지를 위한 SQL 알림 설정
+            cur.execute("LISTEN consulting_notification;")
+            cur.execute("LISTEN task_notification;")
+            while True:
+                db.poll()
+                while db.notifies:
+                    notify = db.notifies.pop(0)
+                    table_name = notify.channel.split('_')[0]  # 알림 채널에서 테이블 이름 추출
+                    if table_name == 'consulting':
+                        # 변경 알림을 클라이언트에게 전송
+                        socketio.emit('consulting_change', {'message': 'Consulting data changed'}, broadcast=True)
+                        if notify.payload.get('teacher_id') == u['id']:
+                            # 변경된 데이터를 페이지로 전달
+                            new_consulting = get_new_consulting_data(notify.payload['consulting_id'])
+                            socketio.emit('new_consulting', {'data': new_consulting}, broadcast=True)
+                    # elif table_name == 'task':
+                    #     # 변경 알림을 클라이언트에게 전송
+                    #     socketio.emit('task_change', {'message': 'Task data changed'}, broadcast=True)
+                    #     if notify.payload.get('teacher_id') == u['id']:
+                    #         # 변경된 데이터를 페이지로 전달
+                    #         new_task = get_new_task_data(notify.payload['task_id'])
+                    #         socketio.emit('new_task', {'data': new_task}, broadcast=True)
 
 
 # 데이터베이스 변경 이벤트 감지를 위한 스레드 시작
