@@ -14,7 +14,9 @@ $(window).on('load', async function () {
     if (!getIsFetching()) { // IsFetching == false 일때 
         try {
             setIsFetching(true);
+            console.log('찍?')
             await get_mybans()
+            console.log('찍찍?')
             get_data()
         } catch (error) {
             alert('Error occurred while retrieving data.');
