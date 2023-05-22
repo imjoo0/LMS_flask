@@ -8,6 +8,7 @@ let isFetching = false;
 
 export async function get_data() {
     if (!isFetching) { // IsFetching == false 일때 
+        console.log('찍힘?')
         try{
             isFetching = true;
             const response = await $.ajax({
