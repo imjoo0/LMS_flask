@@ -19,6 +19,7 @@ $(window).on('load', async function () {
                 type: 'GET',
                 data: {},
             });
+            console.log(response)
             mybansData = response['ban_data'];
             console.log(mybansData);
             myConsultingsData = response['all_consulting'];
