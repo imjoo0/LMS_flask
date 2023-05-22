@@ -4,13 +4,12 @@ let all_consulting = null;
 let my_students = null;
 let all_task = null; 
 
-let isFetching = false;
+let isFetching = true;
 
 export async function get_data() {
-    if (!isFetching) { // IsFetching == false 일때 
+    if (isFetching) {
         console.log('찍힘?')
         try{
-            isFetching = true;
             const response = await $.ajax({
                 url: '/teacher/get_mybans',
                 type: 'GET',
