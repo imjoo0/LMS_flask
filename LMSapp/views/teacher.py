@@ -10,6 +10,7 @@ from datetime import datetime, timedelta, date
 from LMSapp.views import common
 from LMSapp.views.main_views import authrize
 import requests 
+import sys
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 
 
@@ -53,10 +54,10 @@ def get_mybans(u):
             cur.execute("select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id left join taskcategory on task.category_id = taskcategory.id where ( (task.category_id = 11) or ( (task.cycle = %s) or (task.cycle = 0) ) ) and ( task.startdate <= %s and %s <= task.deadline ) and taskban.teacher_id=%s;", (today_yoil, Today, Today,u['id'],))
             all_task = cur.fetchall()
     except:
-        print('err')
+        print('err:', sys.exc_info())
     finally:
         db.close()
-    print(all_consulting)    
+    print(ban_data)
     return jsonify({'ban_data':ban_data,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students})
 
 # @bp.route('/get_mystudents', methods=['GET'])

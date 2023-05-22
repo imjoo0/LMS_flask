@@ -9,7 +9,9 @@
 //     return str;
 // }
 import { getIsFetching, setIsFetching } from '../js/isFetching.js';
+
 $(window).on('load', async function () {
+    console.log(getIsFetching())
     if (!getIsFetching()) { // IsFetching == false 일때 
         try {
             setIsFetching(true);
