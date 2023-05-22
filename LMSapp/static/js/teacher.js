@@ -8,37 +8,36 @@
 //     }
 //     return str;
 // }
-import { getIsFetching, setIsFetching } from '../js/isFetching.js';
+let isFetchingBans = false
 
 $(window).on('load', async function () {
-    if (!getIsFetching()) {
-        try {
-            setIsFetching(true);
-            await get_mybans()
-        } catch (error) {
-            alert('Error occurred while retrieving data.');
-        } finally {
-            setIsFetching(false);
-            get_data()
-        }
+    isFetchingBans = false; 
+    if(!banData){
+        await get_mybans()
+        get_data()
     }
-});
-async function get_mybans(){
-    const response = $.ajax({
-        url: '/teacher/get_mybans',
-        type: 'GET',
-        dataType:'json',
-        data: {},
-    });
-    console.log(response)
-    mybansData = response['ban_data'];
-    console.log(mybansData);
-    myConsultingsData = response['all_consulting'];
-    console.log(myConsultingsData);
-    mytasksData = response['all_task'];
-    console.log(mytasksData);
-    myStudentData = response['my_students'];
-    console.log(myStudentData);
+    // getMyStudentsData()
+})
+async function get_mybans() {
+    if(isFetchingBans) {
+        return;  // 이미 호출 중인 경우 중복 호출 방지
+    }
+    isFetchingBans = true;
+    try {
+        const response = await $.ajax({
+            url: '/teacher/get_mybans',
+            type: 'GET',
+            data: {},
+        });
+        mybansData = response['ban_data']
+        myConsultingsData = response['all_consulting']
+        mytasksData = response['all_task']
+        myStudentData = response['my_students']
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    } finally {
+        isFetchingBans = false;  // 호출 완료 후 변수 초기화
+    }
 }
 async function get_data(){
     $('#ban_chart_list').empty()
@@ -387,10 +386,12 @@ async function get_student(ban_id) {
         }
     }
     Studentcontainer = $('#ban_student_list_pagination')
-    Targetdata = consultingStudentData.filter(e => e.ban_id === ban_id && e.category_id == 1)
+    Targetdata = consultingStudentData.filter((e) => {
+        return e.ban_id === ban_id;
+    })
     $('#ban_student_listModalLabelt').html(`${Targetdata[0].ban_name}반 원생 목록`);
     Studentcontainer.pagination(Object.assign(StudentpaginationOptions, { 'dataSource': Targetdata }))
-
+    
     $('#student_list_search_input').on('keyup', function () {
         var searchInput = $(this).val().toLowerCase();
         var filteredData = Targetdata.filter(function (d) {
