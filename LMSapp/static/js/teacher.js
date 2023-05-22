@@ -11,11 +11,17 @@
 
 import { get_data, getBansData, getConsultingsData, getStudentsData, getTasksData } from '../js/isFetching.js';
 
-$(window).on('load', home);
+$(window).on('load', async function () {
+    try {
+        await get_data();
+        home()
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
+});
 
 function home(){
     $('#ban_chart_list').empty()
-    get_data()
     let BansData = getBansData()
     let ConsultingsData = getConsultingsData()
     console.log(BansData)
