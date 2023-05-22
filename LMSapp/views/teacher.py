@@ -59,6 +59,10 @@ def get_mybans(u):
             print('err')
         finally:
             db.close()
+        print(ban_data)
+        print(my_students)
+        print(all_task)
+        print(my_students)
         return jsonify({'ban_data':ban_data,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students})
     return jsonify({'ban_data':'없음'})
 
