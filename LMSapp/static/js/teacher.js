@@ -11,10 +11,11 @@
 
 import { get_data, getBansData, getConsultingsData, getStudentsData, getTasksData } from '../js/isFetching.js';
 
-$(window).on('load', get_data);
+$(window).on('load', home);
 
 function home(){
     $('#ban_chart_list').empty()
+    get_data()
     let BansData = getBansData()
     let ConsultingsData = getConsultingsData()
     if(BansData.length <= 0){
