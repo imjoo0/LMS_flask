@@ -13,7 +13,7 @@ import requests
 import sys
 
 # 양방향 연결 
-from . import socketio
+from LMSapp import socketio
 
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 
