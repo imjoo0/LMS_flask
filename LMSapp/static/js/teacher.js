@@ -17,17 +17,16 @@ $(window).on('load', async function () {
             const response = await $.ajax({
                 url: '/teacher/get_mybans',
                 type: 'GET',
-                dataType:'json',
                 data: {},
             });
             console.log(response)
-            mybansData = response['ban_data'];
+            mybansData = response.ban_data;
             console.log(mybansData);
-            myConsultingsData = response['all_consulting'];
+            myConsultingsData = response.all_consulting;
             console.log(myConsultingsData);
-            mytasksData = response['all_task'];
+            mytasksData = response.all_task;
             console.log(mytasksData);
-            myStudentData = response['my_students'];
+            myStudentData = response.my_students;
             console.log(myStudentData);
         } catch (error) {
             alert('Error occurred while retrieving data.');
