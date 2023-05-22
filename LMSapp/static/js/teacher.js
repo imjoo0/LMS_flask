@@ -8,37 +8,38 @@
 //     }
 //     return str;
 // }
-// import { getIsFetching, setIsFetching } from '../js/isFetching.js';
-let isFetching = false;
+import { getIsFetching, setIsFetching } from '../js/isFetching.js';
 
 $(window).on('load', async function () {
-    if (!isFetching) {
+    if (!getIsFetching()) {
         try {
-            // setIsFetching(true);
-            // isFetching = true;
-            const response = await $.ajax({
-                url: '/teacher/get_mybans',
-                type: 'GET',
-                dataType:'json',
-                data: {},
-            });
-            console.log(response)
-            mybansData = response['ban_data'];
-            console.log(mybansData);
-            myConsultingsData = response['all_consulting'];
-            console.log(myConsultingsData);
-            mytasksData = response['all_task'];
-            console.log(mytasksData);
-            myStudentData = response['my_students'];
-            console.log(myStudentData);
+            setIsFetching(true);
+            await get_mybans()
         } catch (error) {
             alert('Error occurred while retrieving data.');
         } finally {
-            isFetching = true;
-            // setIsFetching(false);
+            setIsFetching(false);
+            get_data()
         }
     }
 });
+async function get_mybans(){
+    const response = $.ajax({
+        url: '/teacher/get_mybans',
+        type: 'GET',
+        dataType:'json',
+        data: {},
+    });
+    console.log(response)
+    mybansData = response['ban_data'];
+    console.log(mybansData);
+    myConsultingsData = response['all_consulting'];
+    console.log(myConsultingsData);
+    mytasksData = response['all_task'];
+    console.log(mytasksData);
+    myStudentData = response['my_students'];
+    console.log(myStudentData);
+}
 async function get_data(){
     $('#ban_chart_list').empty()
     if(mybansData == '없음'){
