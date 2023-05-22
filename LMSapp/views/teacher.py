@@ -56,7 +56,7 @@ def get_new_consulting_data(consulting_id):
 def some_view_function(u):
     handle_database_notification(u['id'])
 
-def handle_database_notification(u):
+def handle_database_notification(user_id):
     # 데이터베이스 연결 설정
     with current_app.app_context():
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
@@ -74,7 +74,7 @@ def handle_database_notification(u):
                     if table_name == 'consulting':
                         # 변경 알림을 클라이언트에게 전송
                         socketio.emit('consulting_change', {'message': 'Consulting data changed'}, broadcast=True)
-                        if notify.payload.get('teacher_id') == u:
+                        if notify.payload.get('teacher_id') == user_id:
                             # 변경된 데이터를 페이지로 전달
                             new_consulting = get_new_consulting_data(notify.payload['consulting_id'])
                             socketio.emit('new_consulting', {'data': new_consulting}, broadcast=True)
