@@ -12,6 +12,7 @@
 import { getBansData, getConsultingsData, getStudentsData, getTasksData } from '../js/isFetching.js';
 
 $(window).on('load', async function () {
+    console.log(getBansData)
     if (getBansData() && getConsultingsData() && getStudentsData() && getTasksData()) {
         $('#ban_chart_list').empty()
         home();
