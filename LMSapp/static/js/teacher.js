@@ -22,7 +22,7 @@ worker.onmessage = function (event) {
     }
   };
   
- worker.postMessage('fetch_data');
+worker.postMessage('fetch_data');
 
 function home(){
     $('#ban_chart_list').empty()
