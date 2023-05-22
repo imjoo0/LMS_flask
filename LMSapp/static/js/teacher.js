@@ -23,6 +23,9 @@ $(window).on('load', async function () {
             console.log(response)
             console.log(response.ban_data)
             console.log(response.ban_data.length)
+            console.log("ban_data:");
+            response.ban_data.forEach(item => console.log(item));
+
             mybansData = response.ban_data;
             console.log(response.ban_data)
             console.log(mybansData);
