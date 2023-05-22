@@ -9,6 +9,16 @@
 //     return str;
 // }
 // import { getIsFetching, setIsFetching } from '../js/isFetching.js';
+// isFetching.js 파일
+let isFetching = false;
+
+export function getIsFetching() {
+  return isFetching;
+}
+
+export function setIsFetching(value) {
+  isFetching = value;
+}
 
 $(window).on('load', async function () {
     if(!getIsFetching()){
