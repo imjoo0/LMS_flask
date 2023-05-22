@@ -29,6 +29,7 @@ async function get_mybans() {
             data: {},
         });
         const mybansData = response['ban_data']
+        console.log(mybansData)
         const myConsultingsData = response['all_consulting']
         const mytasksData = response['all_task']
         const myStudentData = response['my_students']
