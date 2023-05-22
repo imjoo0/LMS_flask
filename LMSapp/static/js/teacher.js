@@ -43,12 +43,19 @@ async function get_mybans() {
             type: 'GET',
             data: {},
         });
+        console.log('찍?')
         mybansData = response['ban_data']
+        
+        console.log('찍찍?')
         myConsultingsData = response['all_consulting']
+        console.log('찍찍찍?')
         mytasksData = response['all_task']
+        console.log('찍찍찍찍?')
         myStudentData = response['my_students']
+        console.log('찍찍찍찍찍?')
         console.log(mybansData)
         console.log(myConsultingsData)
+        console.log('찍찍찍찍찍찍찍?')
     } catch (error) {
         alert('Error occurred while retrieving data.');
     } finally {
