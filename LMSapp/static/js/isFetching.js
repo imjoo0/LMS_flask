@@ -8,8 +8,8 @@ let isFetching = false;
 
 export async function get_data() {
     if (!isFetching) { // IsFetching == false 일때 
-        isFetching = true;
         try{
+            isFetching = true;
             const response = await $.ajax({
                 url: '/teacher/get_mybans',
                 type: 'GET',
