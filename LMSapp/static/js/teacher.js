@@ -11,7 +11,7 @@
 import { getIsFetching, setIsFetching } from '../js/isFetching.js';
 
 $(window).on('load', async function () {
-    if(getIsFetching()){
+    if (!getIsFetching()) {
         try {
             setIsFetching(true);
             const response = await $.ajax({
@@ -19,23 +19,22 @@ $(window).on('load', async function () {
                 type: 'GET',
                 data: {},
             });
-            mybansData = response['ban_data']
-            console.log(mybansData)
-            myConsultingsData = response['all_consulting']
-            console.log(myConsultingsData)
-            mytasksData = response['all_task']
-            console.log(mytasksData)
-            myStudentData = response['my_students']
-            console.log(myStudentData)
-        }catch(error) {
+            mybansData = response['ban_data'];
+            console.log(mybansData);
+            myConsultingsData = response['all_consulting'];
+            console.log(myConsultingsData);
+            mytasksData = response['all_task'];
+            console.log(mytasksData);
+            myStudentData = response['my_students'];
+            console.log(myStudentData);
+            get_data();
+        } catch (error) {
             alert('Error occurred while retrieving data.');
         } finally {
-            setIsFetching(true);
-            get_data()
+            setIsFetching(false);
         }
     }
-    // getMyStudentsData()
-})
+});
 async function get_data(){
     $('#ban_chart_list').empty()
     if(mybansData == '없음'){
