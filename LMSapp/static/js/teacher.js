@@ -18,6 +18,7 @@ $(window).on('load', async function () {
             await get_mybans()
             console.log('찍찍?')
             get_data()
+            console.log('찍찍찍?')
         } catch (error) {
             alert('Error occurred while retrieving data.');
         } finally {
