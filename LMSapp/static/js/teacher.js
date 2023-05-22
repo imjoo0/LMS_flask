@@ -10,6 +10,19 @@
 // }
 import { getIsFetching, setIsFetching } from '../js/isFetching.js';
 
+const socket  = io();
+socket.on('new_consulting', (data) => {
+    // 변경된 데이터를 페이지에 업데이트하거나 다른 동작 수행
+    console.log('Consulting data changed:', data);
+});
+// task_change 이벤트 수신
+socket.on('task_change', (data) => {
+    // 변경된 데이터 처리
+    const message = data.message;
+    // 변경된 데이터를 페이지에 업데이트하거나 다른 동작 수행
+    console.log('Task data changed:', message);
+});
+
 $(window).on('load', async function () {
     if (!getIsFetching()) { // IsFetching == false 일때 
         try{

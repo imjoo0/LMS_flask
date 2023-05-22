@@ -11,8 +11,11 @@ from LMSapp.views import common
 from LMSapp.views.main_views import authrize
 import requests 
 import sys
-bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 
+# 양방향 연결 
+from . import socketio
+
+bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 
 current_time = datetime.now()
 Today = current_time.date()
@@ -25,11 +28,70 @@ standard = datetime.strptime('11110101', "%Y%m%d").date()
     # SET A.done = 0
     # WHERE date_format(A.created_at, '%Y-%m-%d') < date_format(curdate(),'%Y-%m-%d') AND B.cycle < 6 AND A.done = 1
 # }
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected')
+    
+@socketio.on('disconnect')
+def handle_disconnect():
+    print('Client disconnected')
+
+def get_new_consulting_data(consulting_id):
+        # 데이터베이스에서 consulting_id에 해당하는 새로운 상담 데이터 조회
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute("select consulting.student_id, consulting.origin, consulting.student_name, consulting.student_engname,consulting.id,consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate,consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result from consulting left join consultingcategory on consulting.category_id = consultingcategory.id where startdate <= %s and id = %s", ((Today,consulting_id,)))
+                new_consulting = cur.fetchone()
+        except Exception as e:
+            print(e)
+        finally:
+            db.close()
+
+        return new_consulting
+
+@authrize
+def handle_database_notification(u):
+    # 데이터베이스 연결 설정
+    db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
+    db.autocommit(True)
+
+    with db.cursor() as cur:
+        # 변경 이벤트 감지를 위한 SQL 알림 설정
+        cur.execute("LISTEN consulting_notification;")
+        cur.execute("LISTEN task_notification;")
+        while True:
+            db.poll()
+            while db.notifies:
+                notify = db.notifies.pop(0)
+                table_name = notify.channel.split('_')[0]  # 알림 채널에서 테이블 이름 추출
+                if table_name == 'consulting':
+                    # 변경 알림을 클라이언트에게 전송
+                    socketio.emit('consulting_change', {'message': 'Consulting data changed'}, broadcast=True)
+                    if notify.payload.get('teacher_id') == u['id']:
+                        # 변경된 데이터를 페이지로 전달
+                        new_consulting = get_new_consulting_data(notify.payload['consulting_id'])
+                        socketio.emit('new_consulting', {'data': new_consulting}, broadcast=True)
+                elif table_name == 'task':
+                    # 변경 알림을 클라이언트에게 전송
+                    socketio.emit('task_change', {'message': 'Task data changed'}, broadcast=True)
+                    if notify.payload.get('teacher_id') == u['id']:
+                        # 변경된 데이터를 페이지로 전달
+                        new_task = get_new_task_data(notify.payload['task_id'])
+                        socketio.emit('new_task', {'data': new_task}, broadcast=True)
+
+
+# 데이터베이스 변경 이벤트 감지를 위한 스레드 시작
+import threading
+notification_thread = threading.Thread(target=handle_database_notification)
+notification_thread.start()
+
+# 데이터베이스 변경 이벤트 감지를 위한 스레드 시작
+import threading
+notification_thread = threading.Thread(target=handle_database_notification)
+notification_thread.start()
 
 # 선생님 메인 페이지
-# 테스트 계정 id : T1031 pw동일
-
-
 @bp.route("/", methods=['GET'])
 @authrize
 def home(u):

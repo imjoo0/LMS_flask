@@ -1,7 +1,8 @@
-from LMSapp import create_app,scheduler
+from LMSapp import create_app,scheduler,socketio
 
 if __name__ == '__main__':
     scheduler.start()
-    # create_app().run(host='0.0.0.0', debug=True)
-    create_app().run(host='0.0.0.0',port=2305, debug=True)
+    app = create_app()
+    # socketio.run(app,host='0.0.0.0', debug=True)
+    socketio.run(app,host='0.0.0.0',port=2305, debug=True)
 
