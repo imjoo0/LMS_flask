@@ -11,25 +11,11 @@
 import { getIsFetching, setIsFetching } from '../js/isFetching.js';
 
 $(window).on('load', async function () {
-    console.log(getIsFetching())
     if (!getIsFetching()) { // IsFetching == false 일때 
         try {
             setIsFetching(true);
-            console.log(getIsFetching())
-            const response = await $.ajax({
-                url: '/teacher/get_mybans',
-                type: 'GET',
-                data: {},
-            });
-            console.log(response)
-            mybansData = response.ban_data;
-            console.log(mybansData);
-            myConsultingsData = response.all_consulting;
-            console.log(myConsultingsData);
-            mytasksData = response.all_task;
-            console.log(mytasksData);
-            myStudentData = response.my_students;
-            console.log(myStudentData);
+            await get_mybans()
+            get_data()
         } catch (error) {
             alert('Error occurred while retrieving data.');
         } finally {
@@ -46,27 +32,29 @@ $(window).on('load', async function () {
 //     }
 //     // getMyStudentsData()
 // })
-// async function get_mybans() {
-//     if(isFetchingBans) {
-//         return;  // 이미 호출 중인 경우 중복 호출 방지
-//     }
-//     isFetchingBans = true;
-//     try {
-//         const response = await $.ajax({
-//             url: '/teacher/get_mybans',
-//             type: 'GET',
-//             data: {},
-//         });
-//         mybansData = response['ban_data']
-//         myConsultingsData = response['all_consulting']
-//         mytasksData = response['all_task']
-//         myStudentData = response['my_students']
-//     } catch (error) {
-//         alert('Error occurred while retrieving data.');
-//     } finally {
-//         isFetchingBans = false;  // 호출 완료 후 변수 초기화
-//     }
-// }
+async function get_mybans() {
+    if(getIsFetching()) {
+        return;  // 이미 호출 중인 경우 중복 호출 방지
+    }
+    setIsFetching(true);
+    try {
+        const response = await $.ajax({
+            url: '/teacher/get_mybans',
+            type: 'GET',
+            data: {},
+        });
+        mybansData = response['ban_data']
+        myConsultingsData = response['all_consulting']
+        mytasksData = response['all_task']
+        myStudentData = response['my_students']
+        console.log(mybansData)
+        console.log(myConsultingsData)
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    } finally {
+        isFetchingBans = false;  // 호출 완료 후 변수 초기화
+    }
+}
 // async function get_data(){
 //     $('#ban_chart_list').empty()
 //     if(mybansData == '없음'){
