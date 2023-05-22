@@ -11,7 +11,7 @@
 
 import { getBansData, getConsultingsData, getStudentsData, getTasksData } from '../js/isFetching.js';
 
-$(window).on('load', async function () {
+$(window).on('load', function () {
     home()
 });
 
