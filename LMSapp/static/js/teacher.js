@@ -38,12 +38,12 @@ async function get_data(response){
         let UnlearnedConsultingsData = allconsultingsNum > 0 ? response.all_consulting.filter(consulting => consulting.category_id < 100) : 0;
         let UnlearnedConsultingsNum = UnlearnedConsultingsData.length
         let temp_ban_option = '<option value="none" selected>반을 선택해주세요</option>';
-        mybansData.forEach((elem) => {
+        response.ban_data.forEach((elem) => {
             let semester = make_semester(elem.semester)
             temp_ban_option += `<option value=${elem.register_no}>${elem.name} (${semester}월 학기)</option>`;
             // let switch_minus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.ban_id == elem.register_no).length : 0;
             // let switch_plus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.switch_ban_id == elem.register_no).length : 0;
-            let first_student = myStudentData.filter(s=>s.ban_id == elem.register_no)
+            let first_student = response.my_students.filter(s=>s.ban_id == elem.register_no)
             let first_student_num = first_student.length
             let out_student_num = first_student_num != 0 ? first_student.filter(s=>s.category_id == 2 || s.category_id == 8).length : 0 
             let hold_student_num = first_student_num != 0 ? first_student.filter(s=>s.category_id == 3).length : 0 
@@ -124,7 +124,7 @@ async function get_data(response){
         // 본원 문의 ban선택 옵션 같이 붙이기 
         $('#my_ban_list').html(temp_ban_option)
         
-        let total_task = mytasksData.length > 0 ? mytasksData.filter(task => (task.done == 1 && new Date(task.created_at).setHours(0, 0, 0, 0) === today)||(task.done == 0)) : 0;
+        let total_task = response.all_task.length > 0 ? response.all_task.filter(task => (task.done == 1 && new Date(task.created_at).setHours(0, 0, 0, 0) === today)||(task.done == 0)) : 0;
         let total_task_num = total_task != 0 ? total_task.length : 0;
         let temp_report = ''
         if (total_task_num == 0){
@@ -161,7 +161,7 @@ async function get_data(response){
                 acc[item.category].push(item);
                 return acc;
             }, []);
-            taskGroupedCategory = Object.keys(categoryGrouped)
+            let taskGroupedCategory = Object.keys(categoryGrouped)
     
             // 결과를 객체의 배열로 변환
             // const categoryGroupedresult = Object.entries(categoryGrouped).map(([category, items]) => {
@@ -180,7 +180,7 @@ async function get_data(response){
                 </thead>
                 <tbody style="width:100%;">  
                 `;
-                target_tasks = categoryGrouped[category]
+                let target_tasks = categoryGrouped[category]
                 target_tasks.sort((a, b) => b.priority - a.priority);
                 const contentsGrouped = target_tasks.reduce((result, item) => {
                     const doc = {
@@ -225,7 +225,7 @@ async function get_data(response){
         
             }
             if(allconsultingsNum != 0){
-                let consulting_done = myConsultingsData.filter(consulting => consulting.done === 1).length
+                let consulting_done = response.all_consulting.filter(consulting => consulting.done === 1).length
                 temp_report += `
                 <td class="col-3"> ${consulting_done}/${allconsultingsNum} </td>
                 <td class="col-3"> ( ${answer_rate(consulting_done, allconsultingsNum).toFixed(0)}% ) </td>
@@ -239,8 +239,8 @@ async function get_data(response){
             $('#classreport').html(temp_report)
             
             // 상담 목록 
-            let result = myStudentData.reduce((acc, student) => {
-                const consultingList = myConsultingsData.filter(c => c.student_id === student.student_id);
+            let result = response.my_students.reduce((acc, student) => {
+                const consultingList = response.all_consulting.filter(c => c.student_id === student.student_id);
                 const unlearned_num = consultingList.filter(u=>u.category_id < 100).length;
                 if (consultingList.length > 0) {
                     const todoconsulting = consultingList.filter(c => c.done == 0)
