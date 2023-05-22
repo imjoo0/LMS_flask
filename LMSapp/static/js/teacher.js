@@ -18,6 +18,7 @@ function home(){
     get_data()
     let BansData = getBansData()
     let ConsultingsData = getConsultingsData()
+    console.log(BansData)
     if(BansData.length <= 0){
         alert('담당중인 반이 없습니다')
     }else{
