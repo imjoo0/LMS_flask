@@ -488,7 +488,7 @@ async function get_consulting_student(consultingStudentData,done_code) {
         }
     })
 
-    ConsultingpaginationOptions = {
+    let ConsultingpaginationOptions = {
         prevText: '이전',
         nextText: '다음',
         pageSize: 10,
