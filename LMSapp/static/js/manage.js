@@ -222,7 +222,7 @@ async function get_soquestion_detail(q_id, done_code) {
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">작성일</span>
-        <p>${make_date(question_detail_data.create_date)}</p>
+        <p>${question_detail_data.create_date}</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">대상 반</span>
@@ -232,7 +232,7 @@ async function get_soquestion_detail(q_id, done_code) {
         temp_question_list += `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">학생</span>
-            <p>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin} )</p>
+            <p>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin})</p>
         </div>`
     }
     temp_question_list +=`
@@ -679,7 +679,7 @@ async function get_question_detail(q_id, done_code) {
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">작성일</span>
-        <p>${make_date(question_detail_data.create_date)}</p>
+        <p>${question_detail_data.create_date}</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">대상 반</span>
@@ -690,7 +690,7 @@ async function get_question_detail(q_id, done_code) {
     
     if(question_detail_data.student_id != 0){
         student_data = studentsData.filter(s => s.student_id == question_detail_data.student_id)[0]
-        temp_question_list += `<p>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin} )</p>`
+        temp_question_list += `<p>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin})</p>`
     }
     else{
         temp_question_list += `<p>특정 원생 선택 없음</p>`

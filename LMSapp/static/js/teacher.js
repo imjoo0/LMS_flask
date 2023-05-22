@@ -9,11 +9,20 @@
 //     return str;
 // }
 
-import { getBansData, getConsultingsData, getStudentsData, getTasksData } from '../js/isFetching.js';
+// import { getBansData, getConsultingsData, getStudentsData, getTasksData } from '../js/isFetching.js';
+import Worker from '../js/isFetching.js';
+const worker = new Worker();
 
-$(window).on('load', function () {
-    home()
-});
+worker.onmessage = function (event) {
+    if (event.data === 'data_fetched') {
+      // 데이터를 가져온 후에 수행할 작업을 여기에 작성합니다.
+      // 예: UI 업데이트, 다른 함수 호출 등
+      // 데이터는 각각의 getter 함수를 통해 사용할 수 있습니다.
+      home();
+    }
+  };
+  
+ worker.postMessage('fetch_data');
 
 function home(){
     $('#ban_chart_list').empty()
