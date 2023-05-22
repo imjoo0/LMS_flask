@@ -8,50 +8,23 @@
 //     }
 //     return str;
 // }
-import { getIsFetching, setIsFetching } from '../js/isFetching.js';
 
-// const socket  = io();
-// socket.on('new_consulting', (data) => {
-//     // 변경된 데이터를 페이지에 업데이트하거나 다른 동작 수행
-//     console.log('Consulting data changed:', data);
-// });
-// // task_change 이벤트 수신
-// socket.on('task_change', (data) => {
-//     // 변경된 데이터 처리
-//     const message = data.message;
-//     // 변경된 데이터를 페이지에 업데이트하거나 다른 동작 수행
-//     console.log('Task data changed:', message);
-// });
+import { get_data, getBansData, getConsultingsData, getStudentsData, getTasksData } from '../js/isFetching.js';
 
-$(window).on('load', async function () {
-    if (!getIsFetching()) { // IsFetching == false 일때 
-        try{
-            setIsFetching(true);
-            const response = await $.ajax({
-                url: '/teacher/get_mybans',
-                type: 'GET',
-                dataType: 'json',
-                data: {},
-            });
-            get_data(response)
-        } catch (error) {
-            alert('Error occurred while retrieving data.');
-        } finally {
-            setIsFetching(false);
-        }
-    }
-});
+$(window).on('load', get_data);
 
-async function get_data(response){
+function get_data(){
     $('#ban_chart_list').empty()
-    if(response.ban_data.length <= 0){
+    let BansData = getBansData()
+    let ConsultingsData = getConsultingsData()
+    if(BansData.length <= 0){
         alert('담당중인 반이 없습니다')
     }else{
-        let allconsultingsNum = response.all_consulting.length
-        let UnlearnedConsultingsData = allconsultingsNum > 0 ? response.all_consulting.filter(consulting => consulting.category_id < 100) : 0;
+        let allconsultingsNum = ConsultingsData.length
+        let UnlearnedConsultingsData = allconsultingsNum > 0 ? ConsultingsData.filter(consulting => consulting.category_id < 100) : 0;
         let UnlearnedConsultingsNum = UnlearnedConsultingsData.length
         let temp_ban_option = '<option value="none" selected>반을 선택해주세요</option>';
-        response.ban_data.forEach((elem) => {
+        BansData.forEach((elem) => {
             let semester = make_semester(elem.semester)
             temp_ban_option += `<option value=${elem.register_no}>${elem.name} (${semester}월 학기)</option>`;
             // let switch_minus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.ban_id == elem.register_no).length : 0;
@@ -137,7 +110,8 @@ async function get_data(response){
         // 본원 문의 ban선택 옵션 같이 붙이기 
         $('#my_ban_list').html(temp_ban_option)
         
-        let total_task = response.all_task.length > 0 ? response.all_task.filter(task => (task.done == 1 && new Date(task.created_at).setHours(0, 0, 0, 0) === today)||(task.done == 0)) : 0;
+        let TasksData = getTasksData()
+        let total_task = TasksData.length > 0 ? TasksData.filter(task => (task.done == 1 && new Date(task.created_at).setHours(0, 0, 0, 0) === today)||(task.done == 0)) : 0;
         let total_task_num = total_task != 0 ? total_task.length : 0;
         let temp_report = ''
         if (total_task_num == 0){
