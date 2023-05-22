@@ -20,14 +20,14 @@ $(window).on('load', async function () {
                 dataType:'json',
                 data: {},
             });
-            console.log(response)
-            mybansData = response['ban_data'];
+            console.log(response);
+            mybansData = response.ban_data;
             console.log(mybansData);
-            myConsultingsData = response['all_consulting'];
+            myConsultingsData = response.all_consulting;
             console.log(myConsultingsData);
-            mytasksData = response['all_task'];
+            mytasksData = response.all_task;
             console.log(mytasksData);
-            myStudentData = response['my_students'];
+            myStudentData = response.my_students;
             console.log(myStudentData);
             get_data();
         } catch (error) {
