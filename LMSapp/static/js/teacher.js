@@ -8,12 +8,14 @@
 //     }
 //     return str;
 // }
-import { getIsFetching, setIsFetching } from '../js/isFetching.js';
+// import { getIsFetching, setIsFetching } from '../js/isFetching.js';
+let isFetching = false;
 
 $(window).on('load', async function () {
-    if (!getIsFetching()) {
+    if (!isFetching) {
         try {
-            setIsFetching(true);
+            // setIsFetching(true);
+            isFetching = true;
             const response = await $.ajax({
                 url: '/teacher/get_mybans',
                 type: 'GET',
@@ -29,11 +31,11 @@ $(window).on('load', async function () {
             console.log(mytasksData);
             myStudentData = response['my_students'];
             console.log(myStudentData);
-            // get_data();
         } catch (error) {
             alert('Error occurred while retrieving data.');
         } finally {
-            setIsFetching(false);
+            isFetching = false
+            // setIsFetching(false);
         }
     }
 });
