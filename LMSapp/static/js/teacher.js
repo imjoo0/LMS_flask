@@ -21,7 +21,10 @@ $(window).on('load', async function () {
                 data: {},
             });
             console.log(response)
+            console.log(response.ban_data)
+            console.log(response.ban_data.length)
             mybansData = response.ban_data;
+            console.log(response.ban_data)
             console.log(mybansData);
             myConsultingsData = response.all_consulting;
             console.log(myConsultingsData);
