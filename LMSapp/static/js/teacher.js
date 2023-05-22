@@ -15,7 +15,7 @@ $(window).on('load', async function () {
     if (!isFetching) {
         try {
             // setIsFetching(true);
-            isFetching = true;
+            // isFetching = true;
             const response = await $.ajax({
                 url: '/teacher/get_mybans',
                 type: 'GET',
@@ -34,7 +34,7 @@ $(window).on('load', async function () {
         } catch (error) {
             alert('Error occurred while retrieving data.');
         } finally {
-            isFetching = false
+            isFetching = true;
             // setIsFetching(false);
         }
     }
