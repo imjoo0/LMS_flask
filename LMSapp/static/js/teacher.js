@@ -17,6 +17,7 @@ $(window).on('load', async function () {
             const response = await $.ajax({
                 url: '/teacher/get_mybans',
                 type: 'GET',
+                dataType:'json',
                 data: {},
             });
             console.log(response)
