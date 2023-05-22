@@ -311,8 +311,8 @@ async function get_data(response){
                 return acc;
             }, []);
             if (result.length > 0) {
-                consultingStudentData = result
-                get_consulting_student(0)
+                const consultingStudentData = result
+                get_consulting_student(consultingStudentData,0)
             } else {
                 $('#today_consulting_title').html($('#today_consulting_title').html() + '   0건');
                 $('#consulting_student_list').hide();
@@ -475,7 +475,7 @@ function plusconsulting_history(student_id, b_id, t_id) {
     })
 }
 // 메인화면 상담
-async function get_consulting_student(done_code) {
+async function get_consulting_student(consultingStudentData,done_code) {
     $('#consultingstudent_search_input').off('keyup');
     Consultingcontainer = $('#consultingstudent_pagination')
     consulting_targetdata = consultingStudentData.filter((e) => {
