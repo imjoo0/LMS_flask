@@ -34,9 +34,9 @@ async function get_data(response){
     if(response.ban_data.length <= 0){
         alert('담당중인 반이 없습니다')
     }else{
-        allconsultingsNum = response.all_consulting.length
-        UnlearnedConsultingsData = allconsultingsNum > 0 ? response.all_consulting.filter(consulting => consulting.category_id < 100) : 0;
-        UnlearnedConsultingsNum = UnlearnedConsultingsData.length
+        let allconsultingsNum = response.all_consulting.length
+        let UnlearnedConsultingsData = allconsultingsNum > 0 ? response.all_consulting.filter(consulting => consulting.category_id < 100) : 0;
+        let UnlearnedConsultingsNum = UnlearnedConsultingsData.length
         let temp_ban_option = '<option value="none" selected>반을 선택해주세요</option>';
         mybansData.forEach((elem) => {
             let semester = make_semester(elem.semester)
