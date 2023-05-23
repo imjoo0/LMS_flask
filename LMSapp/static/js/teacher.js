@@ -252,7 +252,7 @@ $('#get_consulting_student').change(function(){
     let consulting_targetdata = makeConsultingListData('deadline_desc',done_code);
     draw_consulting(consulting_targetdata);
 })
-$('.col-2').click(function() {
+$('.sort_things').click(function() {
     var sortBy = $(this).attr('data-sort-by');
     let done_code = $('#get_consulting_student').val()
     let consulting_targetdata = makeConsultingListData(sortBy,done_code);
