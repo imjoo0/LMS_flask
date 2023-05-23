@@ -237,10 +237,7 @@ function home(){
             <td class="col-3">➖</td>
             `;
         }
-        $('#classreport').html(temp_report)
-            
-        // 상담 목록 
-        sort_consultingoption('deadline_desc')
+        $('#classreport').html(temp_report)            
     }
     
 }
