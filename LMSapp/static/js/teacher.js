@@ -242,22 +242,30 @@ function home(){
         $('#classreport').html(temp_report)
             
         // 상담 목록 
-        sort_consultingoption('deadline_desc',0);
+        let consulting_targetdata = makeConsultingListData('deadline_desc',0)
+        draw_consulting(consulting_targetdata);
+        
     }
-    
 }
 $('#get_consulting_student').change(function(){
     var done_code = $(this).val();
-    console.log(done_code)
+    let consulting_targetdata = makeConsultingListData('deadline_desc',done_code);
+    draw_consulting(consulting_targetdata);
     $('.col-2').click(function() {
         var sortBy = $(this).attr('data-sort-by');
-        console.log(sortBy)
-        sort_consultingoption(sortBy,done_code);
+        consulting_targetdata = makeConsultingListData(sortBy,done_code);
+        draw_consulting(consulting_targetdata);
     });
 })
-function sort_consultingoption(sortBy,done_code){
-    let consulting_targetdata = makeConsultingListData(sortBy,done_code)
+function draw_consulting(consulting_targetdata){
+    // let consulting_targetdata = makeConsultingListData(sortBy,done_code)
     console.log(consulting_targetdata)
+    if(consulting_targetdata.length == 0){
+        $('#consulting_student_list').hide()
+        $('#consultingstudent_pagination').hide()
+        $('#today_consulting_title').html('진행할 상담이 없습니다')
+        return;
+    }
     $('#consultingstudent_search_input').off('keyup');
     let Consultingcontainer = $('#consultingstudent_pagination')
     let ConsultingpaginationOptions = {
@@ -285,8 +293,6 @@ function sort_consultingoption(sortBy,done_code){
             $('#consulting_student_list').show();
         }
     };
-    
-
     // 데이터 정렬 후 페이지네이션 다시 설정
     // Consultingcontainer.pagination('destroy');
     Consultingcontainer.pagination(
