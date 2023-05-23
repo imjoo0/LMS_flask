@@ -46,6 +46,7 @@ export function getTasksData() {
 export function makeConsultingListData(){
     let result = my_students.reduce((acc, student) => {
         const consultingList = all_consulting.filter(c => c.student_id === student.student_id);
+        const new_cs_num = consultingList.filter(u=>u.category_id > 100 && u.category_id !=110).length;
         const unlearned_num = consultingList.filter(u=>u.category_id < 100).length;
         if (consultingList.length > 0) {
             const todoconsulting = consultingList.filter(c => c.done == 0)
@@ -75,7 +76,8 @@ export function makeConsultingListData(){
                     'deadline': make_date(deadline.deadline),
                     'missed': missed_date(missed.missed),
                     'consulting_list': consultingList,
-                    'unlearned_num':unlearned_num
+                    'unlearned_num':unlearned_num,
+                    'new_cs_num':new_cs_num
                 });
             } else {
                 acc.push({
@@ -92,7 +94,8 @@ export function makeConsultingListData(){
                     'deadline': make_date('3000-01-01'),
                     'missed': missed_date('1111-01-01'),
                     'consulting_list': consultingList,
-                    'unlearned_num':unlearned_num
+                    'unlearned_num':unlearned_num,
+                    'new_cs_num':new_cs_num
                 });
             }
         } else {
@@ -110,15 +113,16 @@ export function makeConsultingListData(){
                 'deadline': make_date('3000-01-01'),
                 'missed': missed_date('1111-01-01'),
                 'consulting_list': [],
-                'unlearned_num':unlearned_num
+                'unlearned_num':unlearned_num,
+                'new_cs_num':new_cs_num
             });
         }
         return acc;
     }, []);
+    result.sort(function (a, b) {
+        return b.new_cs_num - a.new_cs_num;
+    });
     return result;
-}
-export function get_consulting(student_id){
-    console.log(student_id)
 }
 export function draw_consulting(sortBy,done_code){
     let result = makeConsultingListData()
@@ -210,12 +214,13 @@ export function draw_consulting(sortBy,done_code){
             $.each(data, function (index, consulting) {
                 // let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
                 temp_consulting_contents_box += `
-                <td class="col-2">${consulting.ban_name}</td>
+                <td class="col-1">${consulting.ban_name}</td>
                 <td class="col-2">${consulting.student_name}</br>${consulting.student_origin}</td>
                 <td class="col-2">${consulting.student_birthday}</td>
                 <td class="col-2">${consulting.student_mobileno}</td>
                 <td class="col-2">${consulting.deadline}</td>
                 <td class="col-1">${consulting.consulting_num}</td>
+                <td class="col-1">${consulting.new_cs_num}</td>
                 <td class="col-1" id="show_consulting" data-bs-toggle="modal" data-bs-target="#consultinghistory" consulting-student-id="${consulting.student_id}"><span class="cursor-pointer">📝</span></td> 
                 `;
             });
