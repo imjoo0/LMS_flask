@@ -13,15 +13,15 @@ import { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData
 
 $(window).on('load', async function () {
     if (!getIsFetching()) { // IsFetching == false 일때 
-        // try {
+        try {
             setIsFetching(true);
             await getData()
             home()
-        // } catch (error) {
-        //     alert('Error occurred while retrieving data2.');
-        // } finally {
-        //     setIsFetching(false);
-        // }
+        } catch (error) {
+            alert('Error occurred while retrieving data2.');
+        } finally {
+            setIsFetching(false);
+        }
     }
 });
 
@@ -225,7 +225,7 @@ function home(){
         
             }
             if(allconsultingsNum != 0){
-                let consulting_done = response.all_consulting.filter(consulting => consulting.done === 1).length
+                let consulting_done = ConsultingsData.filter(consulting => consulting.done === 1).length
                 temp_report += `
                 <td class="col-3"> ${consulting_done}/${allconsultingsNum} </td>
                 <td class="col-3"> ( ${answer_rate(consulting_done, allconsultingsNum).toFixed(0)}% ) </td>
@@ -240,7 +240,7 @@ function home(){
             
             // 상담 목록 
             let result = StudentsData.reduce((acc, student) => {
-                const consultingList = response.all_consulting.filter(c => c.student_id === student.student_id);
+                const consultingList = ConsultingsData.filter(c => c.student_id === student.student_id);
                 const unlearned_num = consultingList.filter(u=>u.category_id < 100).length;
                 if (consultingList.length > 0) {
                     const todoconsulting = consultingList.filter(c => c.done == 0)
