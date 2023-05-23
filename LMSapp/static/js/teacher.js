@@ -13,21 +13,15 @@ import { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData
 
 $(window).on('load', async function () {
     if (!getIsFetching()) { // IsFetching == false 일때 
-        try {
+        // try {
             setIsFetching(true);
-            console.log(
-                '?'
-            )
             await getData()
-            console.log(
-                '???'
-            )
             home()
-        } catch (error) {
-            alert('Error occurred while retrieving data2.');
-        } finally {
-            setIsFetching(false);
-        }
+        // } catch (error) {
+        //     alert('Error occurred while retrieving data2.');
+        // } finally {
+        //     setIsFetching(false);
+        // }
     }
 });
 
