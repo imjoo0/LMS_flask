@@ -251,12 +251,13 @@ $('#get_consulting_student').change(function(){
     var done_code = $(this).val();
     let consulting_targetdata = makeConsultingListData('deadline_desc',done_code);
     draw_consulting(consulting_targetdata);
-    $('.col-2').click(function() {
-        var sortBy = $(this).attr('data-sort-by');
-        consulting_targetdata = makeConsultingListData(sortBy,done_code);
-        draw_consulting(consulting_targetdata);
-    });
 })
+$('.col-2').click(function() {
+    var sortBy = $(this).attr('data-sort-by');
+    let done_code = $('#get_consulting_student').val()
+    consulting_targetdata = makeConsultingListData(sortBy,done_code);
+    draw_consulting(consulting_targetdata);
+});
 function draw_consulting(consulting_targetdata){
     // let consulting_targetdata = makeConsultingListData(sortBy,done_code)
     console.log(consulting_targetdata)
