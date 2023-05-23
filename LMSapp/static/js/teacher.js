@@ -24,6 +24,13 @@ $(window).on('load', async function () {
         }
     }
 });
+$(document).ready(function() {
+    $('.col-2').click(function() {
+      var sortBy = $(this).attr('data-sort-by');
+      sort_consultingoption(sortBy);
+    });
+  });
+  
 async function get_consulting_student(done_code){
     return done_code
 }
