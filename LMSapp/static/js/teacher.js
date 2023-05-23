@@ -15,11 +15,14 @@ $(window).on('load', async function () {
     if (!getIsFetching()) { // IsFetching == false 일때 
         try {
             setIsFetching(true);
-            await getData()
-            home()
             console.log(
                 '?'
             )
+            await getData()
+            console.log(
+                '???'
+            )
+            home()
         } catch (error) {
             alert('Error occurred while retrieving data2.');
         } finally {
