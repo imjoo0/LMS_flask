@@ -279,6 +279,7 @@ async function get_consulting_student(done_code) {
 }
 function sort_consultingoption(sortBy,consulting_targetdata){
     console.log(sortBy)
+    console.log(consulting_targetdata)
     $('#consultingstudent_search_input').off('keyup');
     let Consultingcontainer = $('#consultingstudent_pagination')
     let ConsultingpaginationOptions = {
