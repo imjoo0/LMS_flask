@@ -251,6 +251,7 @@ $('#get_consulting_student').change(function(){
     console.log(done_code)
     $('.col-2').click(function() {
         var sortBy = $(this).attr('data-sort-by');
+        console.log(sortBy)
         sort_consultingoption(sortBy,done_code);
     });
 })
