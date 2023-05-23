@@ -9,10 +9,21 @@
 //     return str;
 // }
 
-import { getBansData, getConsultingsData, getStudentsData, getTasksData } from '../js/isFetching.js';
+import { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData, getStudentsData, getTasksData } from '../js/isFetching.js';
 
-$(window).on('load', function () {
-    home()
+$(window).on('load', async function () {
+    if (!getIsFetching()) { // IsFetching == false 일때 
+        try {
+            setIsFetching(true);
+            await getData()
+            home()
+            console.log('찍찍?')
+        } catch (error) {
+            alert('Error occurred while retrieving data.');
+        } finally {
+            setIsFetching(false);
+        }
+    }
 });
 
 function home(){
