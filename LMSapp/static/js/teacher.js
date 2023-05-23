@@ -248,6 +248,7 @@ function home(){
 }
 $('#get_consulting_student').change(function(){
     var done_code = $(this).val();
+    console.log(done_code)
     $('.col-2').click(function() {
         var sortBy = $(this).attr('data-sort-by');
         sort_consultingoption(sortBy,done_code);
