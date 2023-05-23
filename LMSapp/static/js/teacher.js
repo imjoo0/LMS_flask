@@ -240,46 +240,18 @@ function home(){
         $('#classreport').html(temp_report)
             
         // 상담 목록 
-        get_consulting_student(0)
+        sort_consultingoption('deadline_desc')
     }
     
 }
 // 메인화면 상담
-async function get_consulting_student(done_code) {
+function sort_consultingoption(sortBy){
+    let done_code = $('#consulting_kind').change(function(){
+        console.log($(this).val())
+        return $(this).val();
+    })
+    console.log(done_code)
     let consulting_targetdata = makeConsultingListData(done_code)
-    if (consulting_targetdata.length == 0) {
-        $('#today_consulting_title').html($('#today_consulting_title').html() + '   0건');
-        $('#consulting_student_list').hide();
-        $('#consultingstudent_pagination').hide();
-    }else{
-        $('#today_consulting_table').html(`
-        <thead>
-            <tr class="row">
-                <th class="col-2" onclick="sort_consultingoption('ban_desc',consulting_targetdata)" id="ban_name_sort">반 이름순 정렬👉</th>
-                <th class="col-6" onclick="sort_consultingoption('name_desc',consulting_targetdata)" id="student_name_sort">원생 이름순 정렬👉</th>
-                <th class="col-2" onclick="sort_consultingoption('deadline_desc',consulting_targetdata)" id="deadline_sort">마감일 정렬👉</th>
-                <th class="col-2" onclick="sort_consultingoption('consulting_desc',consulting_targetdata)" id="consulting_sort">상담 건 정렬👉</th>
-            </tr>
-            <tr class="row">
-                <th class="col-2">반</th>
-                <th class="col-2">이름</th>
-                <th class="col-2">생년월일</th>
-                <th class="col-2">연락처</th>
-                <th class="col-2">상담 마감일</th>
-                <th class="col-1">상담 수</th>
-                <th class="col-1">상담</th>
-            </tr>
-        </thead>
-        <tr class="row" id="today_consulting_box">
-
-        </tr>
-        `)
-        sort_consultingoption('deadline_desc',consulting_targetdata)
-    }
-}
-function sort_consultingoption(sortBy,consulting_targetdata){
-    console.log(sortBy)
-    console.log(consulting_targetdata)
     $('#consultingstudent_search_input').off('keyup');
     let Consultingcontainer = $('#consultingstudent_pagination')
     let ConsultingpaginationOptions = {
@@ -307,7 +279,6 @@ function sort_consultingoption(sortBy,consulting_targetdata){
             $('#consulting_student_list').show();
         }
     };
-    
     switch (sortBy) {
         case "ban_desc":
         $('#ban_name_sort').html('<strong>반 이름순 정렬👇</strong>')
@@ -366,6 +337,7 @@ function sort_consultingoption(sortBy,consulting_targetdata){
     }
 
     // 데이터 정렬 후 페이지네이션 다시 설정
+    Consultingcontainer.pagination('destroy');
     Consultingcontainer.pagination(
       Object.assign(ConsultingpaginationOptions, { dataSource: consulting_targetdata })
     );
