@@ -9,7 +9,8 @@
 //     return str;
 // }
 
-import { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData, getStudentsData, getTasksData, makeConsultingListData } from '../js/isFetching.js';
+import * as isFetching from '../js/isFetching.js';
+const { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData, getStudentsData, getTasksData, makeConsultingListData } = isFetching;
 
 $(window).on('load', async function () {
     if (!getIsFetching()) { // IsFetching == false 일때 
@@ -125,12 +126,13 @@ function sort_consultingoption(sortBy,done_code){
         Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': filteredData }));
     });
 }
-async function get_consulting_student(done_code){
+$('#get_consulting_student').change(function(){
+    var done_code = $(this).val();
     $('.col-2').click(function() {
         var sortBy = $(this).attr('data-sort-by');
         sort_consultingoption(sortBy,done_code);
     });
-}  
+})
 function home(){
     let BansData = getBansData()
     $('#ban_chart_list').empty()
