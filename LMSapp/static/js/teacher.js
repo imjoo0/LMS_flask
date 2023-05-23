@@ -255,12 +255,11 @@ $('#get_consulting_student').change(function(){
 $('.col-2').click(function() {
     var sortBy = $(this).attr('data-sort-by');
     let done_code = $('#get_consulting_student').val()
-    consulting_targetdata = makeConsultingListData(sortBy,done_code);
+    let consulting_targetdata = makeConsultingListData(sortBy,done_code);
     draw_consulting(consulting_targetdata);
 });
 function draw_consulting(consulting_targetdata){
     // let consulting_targetdata = makeConsultingListData(sortBy,done_code)
-    console.log(consulting_targetdata)
     if(consulting_targetdata.length == 0){
         $('#consulting_student_list').hide()
         $('#consultingstudent_pagination').hide()
@@ -308,6 +307,7 @@ function draw_consulting(consulting_targetdata){
         Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': filteredData }));
     });
 }
+
 function go_back() {
     // 원생 리스트 관련 
     $('#ban_student_list_box').show();
