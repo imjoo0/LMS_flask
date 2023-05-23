@@ -26,11 +26,11 @@ $(window).on('load', async function () {
 });
 
 function home(){
+    let BansData = getBansData()
     $('#ban_chart_list').empty()
     if(BansData.length <= 0){
         alert('담당중인 반이 없습니다')
     }else{
-        let BansData = getBansData()
         let ConsultingsData = getConsultingsData()
         let allconsultingsNum = ConsultingsData.length
         console.log(allconsultingsNum)
