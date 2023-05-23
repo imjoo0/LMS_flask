@@ -43,7 +43,7 @@ export function getStudentsData() {
 export function getTasksData() {
     return all_task;  // 다른 파일에서 해당 값을 불러올 수 있도록 반환하는 함수
 }
-export function makeConsultingListData(sortBy,done_code){
+export function makeConsultingListData(){
     let result = my_students.reduce((acc, student) => {
         const consultingList = all_consulting.filter(c => c.student_id === student.student_id);
         const unlearned_num = consultingList.filter(u=>u.category_id < 100).length;
@@ -115,6 +115,10 @@ export function makeConsultingListData(sortBy,done_code){
         }
         return acc;
     }, []);
+    return result;
+}
+export function draw_consulting(sortBy,done_code){
+    let result = makeConsultingListData()
 
     let consulting_targetdata = result.filter((e) => {
         if (done_code == 0) {
@@ -231,3 +235,6 @@ export function makeConsultingListData(sortBy,done_code){
     });
 }
 
+export function get_consulting(student_id){
+
+}

@@ -11,7 +11,7 @@
 
 // import * as isFetching from '../js/isFetching.js';
 // const { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData, getStudentsData, getTasksData, makeConsultingListData } = isFetching;
-import { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData, getStudentsData, getTasksData, makeConsultingListData } from '../js/isFetching.js';
+import { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData, getStudentsData, getTasksData, draw_consulting,get_consulting } from '../js/isFetching.js';
 
 $(window).on('load', async function () {
     if (!getIsFetching()) { // IsFetching == false 일때 
@@ -242,22 +242,18 @@ function home(){
         $('#classreport').html(temp_report)
             
         // 상담 목록 
-        makeConsultingListData('deadline_desc',0)
+        draw_consulting('deadline_desc',0)
     }
 }
 $('#get_consulting_student').change(function(){
     var done_code = $(this).val();
-    makeConsultingListData('deadline_desc',done_code);
+    draw_consulting('deadline_desc',done_code);
 })
 $('.sort_things').click(function() {
     var sortBy = $(this).attr('data-sort-by');
     let done_code = $('#get_consulting_student').val()
-    makeConsultingListData(sortBy,done_code);
+    draw_consulting(sortBy,done_code);
 });
-function draw_consulting(consulting_targetdata){
-    // makeConsultingListData(sortBy,done_code)
-    
-}
 // 상담일지 작성 
 async function get_consulting(student_id) {
     data = consultingStudentData.filter((e) => {
