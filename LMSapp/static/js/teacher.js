@@ -255,10 +255,10 @@ async function get_consulting_student(done_code) {
         $('#today_consulting_table').html(`
         <thead>
             <tr class="row">
-                <th class="col-2" onclick="${sort_consultingoption('ban_desc',consulting_targetdata)}" id="ban_name_sort">반 이름순 정렬👉</th>
-                <th class="col-6" onclick="${sort_consultingoption('name_desc',consulting_targetdata)}" id="student_name_sort">원생 이름순 정렬👉</th>
-                <th class="col-2" onclick="${sort_consultingoption('deadline_desc',consulting_targetdata)}" id="deadline_sort">마감일 정렬👉</th>
-                <th class="col-2" onclick="${sort_consultingoption('consulting_desc',consulting_targetdata)}" id="consulting_sort">상담 건 정렬👉</th>
+                <th class="col-2" onclick="sort_consultingoption('ban_desc',consulting_targetdata)" id="ban_name_sort">반 이름순 정렬👉</th>
+                <th class="col-6" onclick="sort_consultingoption('name_desc',consulting_targetdata)" id="student_name_sort">원생 이름순 정렬👉</th>
+                <th class="col-2" onclick="sort_consultingoption('deadline_desc',consulting_targetdata)" id="deadline_sort">마감일 정렬👉</th>
+                <th class="col-2" onclick="sort_consultingoption('consulting_desc',consulting_targetdata)" id="consulting_sort">상담 건 정렬👉</th>
             </tr>
             <tr class="row">
                 <th class="col-2">반</th>
