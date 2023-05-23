@@ -246,10 +246,7 @@ function home(){
 }
 // 메인화면 상담
 function sort_consultingoption(sortBy){
-    let done_code = $('#consulting_kind').change(function(){
-        console.log($(this).val())
-        return $(this).val();
-    })
+    let done_code = $('#consulting_kind').val()
     console.log(done_code)
     let consulting_targetdata = makeConsultingListData(done_code)
     $('#consultingstudent_search_input').off('keyup');
