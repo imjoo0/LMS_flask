@@ -9,8 +9,9 @@
 //     return str;
 // }
 
-import * as isFetching from '../js/isFetching.js';
-const { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData, getStudentsData, getTasksData, makeConsultingListData } = isFetching;
+// import * as isFetching from '../js/isFetching.js';
+// const { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData, getStudentsData, getTasksData, makeConsultingListData } = isFetching;
+import { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData, getStudentsData, getTasksData, makeConsultingListData } from '../js/isFetching.js';
 
 $(window).on('load', async function () {
     if (!getIsFetching()) { // IsFetching == false 일때 
@@ -27,7 +28,9 @@ $(window).on('load', async function () {
 });
 
 function sort_consultingoption(sortBy,done_code){
+    console.log('찍찍')
     let consulting_targetdata = makeConsultingListData(done_code)
+    console.log(consulting_targetdata)
     $('#consultingstudent_search_input').off('keyup');
     let Consultingcontainer = $('#consultingstudent_pagination')
     let ConsultingpaginationOptions = {
