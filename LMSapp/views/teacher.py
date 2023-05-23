@@ -22,6 +22,24 @@ Today = current_time.date()
 today_yoil = current_time.weekday() + 1
 standard = datetime.strptime('11110101', "%Y%m%d").date()
 
+# 복호화 fernet -( 상담용 프로그램 )
+from cryptography.fernet import Fernet
+
+def decrypt(data, key):
+    f = Fernet(key)
+    decrypted_data = f.decrypt(data)
+    return decrypted_data.decode('utf-8')
+
+encrypted_data = '암호화된 데이터'  # 복호화할 암호화된 데이터
+encryption_key = '암호화 키'  # 암호화에 사용된 키
+
+decrypted_data = decrypt(encrypted_data, encryption_key)
+output = {'decrypted_data': decrypted_data}
+json_output = json.dumps(output)
+
+print(json_output)
+
+
 # def task_cycle(){
     # UPDATE taskban A LEFT JOIN task B
     # ON A.task_id= B.id
@@ -147,7 +165,7 @@ def get_mystudents(u):
     try:
         with report_db.cursor() as cur:
             # 상담
-            cur.execute("SELECT * FROM purple_learning_counseling.ixl_program_class_list left join ixl_program_teacher_list on ixl_program_class_list.ID = ixl_program_teacher_list.ID where ID =%s", (u['user_id'],))
+            cur.execute("SELECT ixl_test_df.*,CONVERT(student_list_df.원번 USING utf8) as 'origin' FROM ixl_test_df left join student_list_df on ixl_test_df.student_id = student_list_df.student_id;")
             students_report = cur.fetchall()
     except:
         print('err:', sys.exc_info())
