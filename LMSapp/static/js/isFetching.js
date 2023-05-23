@@ -46,7 +46,7 @@ export function getTasksData() {
 export function makeConsultingListData(){
     let result = my_students.reduce((acc, student) => {
         const consultingList = all_consulting.filter(c => c.student_id === student.student_id);
-        const new_cs_num = consultingList.filter(u=>u.category_id > 100 && u.category_id !=110).length;
+        const new_cs_num = consultingList.filter(u=>u.category_id > 100 && u.category_id !=110 && u.done == 0).length;
         const unlearned_num = consultingList.filter(u=>u.category_id < 100).length;
         if (consultingList.length > 0) {
             const todoconsulting = consultingList.filter(c => c.done == 0)
@@ -214,9 +214,9 @@ export function draw_consulting(sortBy,done_code){
             $.each(data, function (index, consulting) {
                 // let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
                 temp_consulting_contents_box += `
-                <td class="col-1">${consulting.ban_name}</td>
+                <td class="col-2">${consulting.ban_name}</td>
                 <td class="col-2">${consulting.student_name}</br>${consulting.student_origin}</td>
-                <td class="col-2">${consulting.student_birthday}</td>
+                <td class="col-1">${consulting.student_birthday}</td>
                 <td class="col-2">${consulting.student_mobileno}</td>
                 <td class="col-2">${consulting.deadline}</td>
                 <td class="col-1">${consulting.consulting_num}</td>
