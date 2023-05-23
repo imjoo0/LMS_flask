@@ -9,7 +9,7 @@
 //     return str;
 // }
 
-import { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData, getStudentsData, getTasksData } from '../js/isFetching.js';
+import { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData, getStudentsData, getTasksData, makeConsultingListData } from '../js/isFetching.js';
 
 $(window).on('load', async function () {
     if (!getIsFetching()) { // IsFetching == false 일때 
@@ -240,85 +240,7 @@ function home(){
         $('#classreport').html(temp_report)
             
         // 상담 목록 
-        let result = StudentsData.reduce((acc, student) => {
-            const consultingList = ConsultingsData.filter(c => c.student_id === student.student_id);
-            const unlearned_num = consultingList.filter(u=>u.category_id < 100).length;
-            if (consultingList.length > 0) {
-                const todoconsulting = consultingList.filter(c => c.done == 0)
-                if (todoconsulting.length > 0) {
-                    const deadline = todoconsulting.reduce((prev, current) => {
-                        let prevDueDate = new Date(prev.deadline).setHours(0, 0, 0, 0);
-                        let currentDueDate = new Date(current.deadline).setHours(0, 0, 0, 0);
-                        return currentDueDate < prevDueDate ? current : prev;
-                    }, todoconsulting[0]);
-                    const missed = todoconsulting.reduce((prev, current) => {
-                        let prevDueDate = new Date(prev.missed).setHours(0, 0, 0, 0);
-                        let currentDueDate = new Date(current.missed).setHours(0, 0, 0, 0);
-                        return currentDueDate < prevDueDate ? prev : current;
-                    }, todoconsulting[0]);
-    
-                    acc.push({
-                        'teacher_id': student.id,
-                        'student_id': student.student_id,
-                        'student_origin': student.origin,
-                        'student_name': student.name + '(' + student.nick_name + ')',
-                        'student_mobileno': student.mobileno,
-                        'student_birthday': student.birthday,
-                        'ban_id': student.ban_id,
-                        'ban_name': student.classname,
-                        'consulting_num': todoconsulting.length,
-                        'done_consulting_num': consultingList.length - todoconsulting.length,
-                        'deadline': make_date(deadline.deadline),
-                        'missed': missed_date(missed.missed),
-                        'consulting_list': consultingList,
-                        'unlearned_num':unlearned_num
-                    });
-                } else {
-                    acc.push({
-                        'teacher_id': student.id,
-                        'student_id': student.student_id,
-                        'student_origin': student.origin,
-                        'student_name': student.name + '(' + student.nick_name + ')',
-                        'student_mobileno': student.mobileno,
-                        'student_birthday': student.birthday,
-                        'ban_id': student.ban_id,
-                        'ban_name': student.classname,
-                        'consulting_num': 0,
-                        'done_consulting_num': consultingList.length,
-                        'deadline': make_date('3000-01-01'),
-                        'missed': missed_date('1111-01-01'),
-                        'consulting_list': consultingList,
-                        'unlearned_num':unlearned_num
-                    });
-                }
-            } else {
-                acc.push({
-                    'teacher_id': student.id,
-                    'student_id': student.student_id,
-                    'student_origin': student.origin,
-                    'student_name': student.name + '(' + student.nick_name + ')',
-                    'student_mobileno': student.mobileno,
-                    'student_birthday': student.birthday,
-                    'ban_id': student.ban_id,
-                    'ban_name': student.classname,
-                    'consulting_num': 0,
-                    'done_consulting_num': 0,
-                    'deadline': make_date('3000-01-01'),
-                    'missed': missed_date('1111-01-01'),
-                    'consulting_list': [],
-                    'unlearned_num':unlearned_num
-                });
-            }
-            return acc;
-        }, []);
-        if (result.length > 0) {
-            const consultingStudentData = result
-            get_consulting_student(consultingStudentData,0)
-        } else {
-            $('#today_consulting_title').html($('#today_consulting_title').html() + '   0건');
-            $('#consulting_student_list').hide();
-            $('#consultingstudent_pagination').hide();
-        }
+        get_consulting_student(0)
     }
     
 }
@@ -476,19 +398,41 @@ function plusconsulting_history(student_id, b_id, t_id) {
     })
 }
 // 메인화면 상담
-async function get_consulting_student(consultingStudentData,done_code) {
+async function get_consulting_student(done_code) {
+    let consulting_targetdata = makeConsultingListData(done_code)
+    if (consulting_targetdata.length == 0) {
+        $('#today_consulting_title').html($('#today_consulting_title').html() + '   0건');
+        $('#consulting_student_list').hide();
+        $('#consultingstudent_pagination').hide();
+    }else{
+        $('#today_consulting_table').html(`
+        <thead>
+            <tr class="row">
+                <th class="col-2" onclick="${sort_consultingoption('ban_desc',done_code)}" id="ban_name_sort">반 이름순 정렬👉</th>
+                <th class="col-6" onclick="${sort_consultingoption('name_desc',done_code)}" id="student_name_sort">원생 이름순 정렬👉</th>
+                <th class="col-2" onclick="${sort_consultingoption('deadline_desc',done_code)}" id="deadline_sort">마감일 정렬👉</th>
+                <th class="col-2" onclick="${sort_consultingoption('consulting_desc',done_code)}" id="consulting_sort">상담 건 정렬👉</th>
+            </tr>
+            <tr class="row">
+                <th class="col-2">반</th>
+                <th class="col-2">이름</th>
+                <th class="col-2">생년월일</th>
+                <th class="col-2">연락처</th>
+                <th class="col-2">상담 마감일</th>
+                <th class="col-1">상담 수</th>
+                <th class="col-1">상담</th>
+            </tr>
+        </thead>
+        <tr class="row" id="today_consulting_box">
+
+        </tr>
+        `)
+        sort_consultingoption('deadline_desc',done_code)
+    }
+}
+function sort_consultingoption(sortBy,done_code){
     $('#consultingstudent_search_input').off('keyup');
     let Consultingcontainer = $('#consultingstudent_pagination')
-    let consulting_targetdata = consultingStudentData.filter((e) => {
-        if (done_code == 0) {
-            $('#today_consulting_title').html('상담 목록');
-            return e.missed != "오늘" && e.consulting_num != 0;
-        } else {
-            $('#today_consulting_title').html('오늘의 부재중 상담');
-            return e.missed == "오늘" && e.consulting_num != 0;
-        }
-    })
-
     let ConsultingpaginationOptions = {
         prevText: '이전',
         nextText: '다음',
@@ -514,27 +458,8 @@ async function get_consulting_student(consultingStudentData,done_code) {
             $('#consulting_student_list').show();
         }
     };
-
-    if (consulting_targetdata.length == 0) {
-        $('#today_consulting_title').html($('#today_consulting_title').html() + '   0건');
-        $('#consulting_student_list').hide();
-        $('#consultingstudent_pagination').hide();
-    }else{
-        Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': consulting_targetdata }))
-    }
-
-    $('#consultingstudent_search_input').on('keyup', function () {
-        var searchInput = $(this).val().toLowerCase();
-        var filteredData = consulting_targetdata.filter(function (d) {
-            return (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(searchInput) !== -1);
-        });
-        Consultingcontainer.pagination('destroy');
-        Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': filteredData }));
-    });
-
-    sort_consultingoption(consulting_targetdata,'deadline_desc')
-}
-function sort_consultingoption(consulting_targetdata,sortBy) {
+    let consulting_targetdata = makeConsultingListData(done_code)
+    
     switch (sortBy) {
         case "ban_desc":
         $('#ban_name_sort').html('<strong>반 이름순 정렬👇</strong>')
@@ -592,38 +517,19 @@ function sort_consultingoption(consulting_targetdata,sortBy) {
         break;
     }
 
-    
-    let Consultingcontainer = $('#consultingstudent_pagination')
-    let ConsultingpaginationOptions = {
-        prevText: '이전',
-        nextText: '다음',
-        pageSize: 10,
-        pageClassName: 'float-end',
-        callback: function (data, pagination) {
-            $('#consulting_student_list').show();
-            $('#consultingstudent_pagination').show();
-            var temp_consulting_contents_box = '';
-            $.each(data, function (index, consulting) {
-                // let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
-                temp_consulting_contents_box += `
-                <td class="col-2">${consulting.ban_name}</td>
-                <td class="col-2">${consulting.student_name}</br>${consulting.student_origin}</td>
-                <td class="col-2">${consulting.student_birthday}</td>
-                <td class="col-2">${consulting.student_mobileno}</td>
-                <td class="col-2">${consulting.deadline}</td>
-                <td class="col-1">${consulting.consulting_num}</td>
-                <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${consulting.student_id}')"><span class="cursor-pointer">📝</span></td> 
-                `;
-            });
-            $('#today_consulting_box').html(temp_consulting_contents_box);
-            $('#consulting_student_list').show();
-        }
-    };
     // 데이터 정렬 후 페이지네이션 다시 설정
     Consultingcontainer.pagination("destroy");
     Consultingcontainer.pagination(
       Object.assign(ConsultingpaginationOptions, { dataSource: consulting_targetdata })
     );
+    $('#consultingstudent_search_input').on('keyup', function () {
+        var searchInput = $(this).val().toLowerCase();
+        var filteredData = consulting_targetdata.filter(function (d) {
+            return (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(searchInput) !== -1);
+        });
+        Consultingcontainer.pagination('destroy');
+        Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': filteredData }));
+    });
 }
 
 // 상담기록 날짜별
