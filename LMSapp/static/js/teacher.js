@@ -348,7 +348,7 @@ function home(){
         $('#classreport').html(temp_report)
             
         // 상담 목록 
-        get_consulting_student(0)
+        sort_consultingoption('deadline_desc',0);
     }
     
 }
