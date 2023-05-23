@@ -12,7 +12,7 @@
 // import * as isFetching from '../js/isFetching.js';
 // const { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData, getStudentsData, getTasksData, makeConsultingListData } = isFetching;
 import { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData, getStudentsData, getTasksData, draw_consulting } from '../js/isFetching.js';
-const consultingHistoryWorker = new Worker('../js/consulting_history_worker.js');
+const consultingHistoryWorker = new Worker('../static/js/consulting_history_worker.js');
 consultingHistoryWorker.onmessage = function(event) {
     const students = event.data.my_students;
     const reports = event.data.students_report;
