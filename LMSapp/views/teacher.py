@@ -129,7 +129,7 @@ def get_mybans(u):
 
 @bp.route('/get_mystudents', methods=['GET'])
 @authrize
-def get_mybans(u):
+def get_mystudents(u):
     my_students = callapi.call_api(u['id'], 'get_mystudents_new')
     all_consulting = []
     students_report = []
