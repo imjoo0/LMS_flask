@@ -33,18 +33,16 @@ function home(){
     }else{
         let ConsultingsData = getConsultingsData()
         let allconsultingsNum = ConsultingsData.length
-        console.log(allconsultingsNum)
         let UnlearnedConsultingsData = allconsultingsNum > 0 ? ConsultingsData.filter(consulting => consulting.category_id < 100) : 0;
-        console.log(UnlearnedConsultingsData)
         let UnlearnedConsultingsNum = UnlearnedConsultingsData.length
-        console.log(UnlearnedConsultingsNum)
         let temp_ban_option = '<option value="none" selected>반을 선택해주세요</option>';
+        let StudentsData = getStudentsData()
         BansData.forEach((elem) => {
             let semester = make_semester(elem.semester)
             temp_ban_option += `<option value=${elem.register_no}>${elem.name} (${semester}월 학기)</option>`;
             // let switch_minus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.ban_id == elem.register_no).length : 0;
             // let switch_plus_num = switchstudentData.length > 0 ? switchstudentData.filter(a => a.switch_ban_id == elem.register_no).length : 0;
-            let first_student = response.my_students.filter(s=>s.ban_id == elem.register_no)
+            let first_student = StudentsData.filter(s=>s.ban_id == elem.register_no)
             let first_student_num = first_student.length
             let out_student_num = first_student_num != 0 ? first_student.filter(s=>s.category_id == 2 || s.category_id == 8).length : 0 
             let hold_student_num = first_student_num != 0 ? first_student.filter(s=>s.category_id == 3).length : 0 
@@ -241,7 +239,7 @@ function home(){
             $('#classreport').html(temp_report)
             
             // 상담 목록 
-            let result = response.my_students.reduce((acc, student) => {
+            let result = StudentsData.reduce((acc, student) => {
                 const consultingList = response.all_consulting.filter(c => c.student_id === student.student_id);
                 const unlearned_num = consultingList.filter(u=>u.category_id < 100).length;
                 if (consultingList.length > 0) {
