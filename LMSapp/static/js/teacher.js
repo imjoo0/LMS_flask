@@ -11,7 +11,7 @@
 
 // import * as isFetching from '../js/isFetching.js';
 // const { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData, getStudentsData, getTasksData, makeConsultingListData } = isFetching;
-import { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData, getStudentsData, getTasksData, draw_consulting, get_consulting } from '../js/isFetching.js';
+import { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData, getStudentsData, getTasksData, draw_consulting } from '../js/isFetching.js';
 
 $(window).on('load', async function () {
     if (!getIsFetching()) { // IsFetching == false 일때 
