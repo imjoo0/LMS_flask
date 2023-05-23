@@ -127,6 +127,34 @@ def get_mybans(u):
         db.close()
     return jsonify({'ban_data':ban_data,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students})
 
+@bp.route('/get_mystudents', methods=['GET'])
+@authrize
+def get_mybans(u):
+    my_students = callapi.call_api(u['id'], 'get_mystudents_new')
+    all_consulting = []
+    students_report = []
+    db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00',port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
+    try:
+        with db.cursor() as cur:
+            # 상담
+            cur.execute("select consulting.student_id, consulting.origin, consulting.student_name, consulting.student_engname,consulting.id,consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate,consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result from consulting left join consultingcategory on consulting.category_id = consultingcategory.id where startdate <= %s and teacher_id=%s", (Today,u['id'],))
+            all_consulting = cur.fetchall()
+    except:
+        print('err:', sys.exc_info())
+    finally:
+        db.close()
+    report_db = pymysql.connect(host='192.168.6.3', user='jung', password='wjdgus00',port=3306, database='purple_learning_counseling', cursorclass=pymysql.cursors.DictCursor)
+    try:
+        with report_db.cursor() as cur:
+            # 상담
+            cur.execute("SELECT * FROM purple_learning_counseling.ixl_program_class_list left join ixl_program_teacher_list on ixl_program_class_list.ID = ixl_program_teacher_list.ID where ID =%s", (u['user_id'],))
+            students_report = cur.fetchall()
+    except:
+        print('err:', sys.exc_info())
+    finally:
+        db.close()
+    return jsonify({'all_consulting':all_consulting,'my_students':my_students,'students_report':students_report})
+
 # @bp.route('/get_mystudents', methods=['GET'])
 # @authrize
 # def get_mystudents(u):
