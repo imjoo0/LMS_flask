@@ -16,10 +16,10 @@ $(window).on('load', async function () {
         try {
             setIsFetching(true);
             await getData()
+            home()
             console.log(
                 '?'
             )
-            home()
         } catch (error) {
             alert('Error occurred while retrieving data2.');
         } finally {
