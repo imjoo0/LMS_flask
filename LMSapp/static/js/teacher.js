@@ -17,7 +17,6 @@ $(window).on('load', async function () {
             setIsFetching(true);
             await getData()
             home()
-            console.log('찍찍?')
         } catch (error) {
             alert('Error occurred while retrieving data.');
         } finally {
@@ -28,12 +27,11 @@ $(window).on('load', async function () {
 
 function home(){
     $('#ban_chart_list').empty()
-    let BansData = getBansData()
-    let ConsultingsData = getConsultingsData()
-    console.log(BansData)
     if(BansData.length <= 0){
         alert('담당중인 반이 없습니다')
     }else{
+        let BansData = getBansData()
+        let ConsultingsData = getConsultingsData()
         let allconsultingsNum = ConsultingsData.length
         let UnlearnedConsultingsData = allconsultingsNum > 0 ? ConsultingsData.filter(consulting => consulting.category_id < 100) : 0;
         let UnlearnedConsultingsNum = UnlearnedConsultingsData.length
