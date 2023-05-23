@@ -518,7 +518,6 @@ function sort_consultingoption(sortBy,done_code){
     }
 
     // 데이터 정렬 후 페이지네이션 다시 설정
-    Consultingcontainer.pagination("destroy");
     Consultingcontainer.pagination(
       Object.assign(ConsultingpaginationOptions, { dataSource: consulting_targetdata })
     );
