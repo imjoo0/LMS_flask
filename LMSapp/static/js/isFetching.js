@@ -27,7 +27,7 @@ export async function getData() {
         my_students = response.my_students
         all_task = response.all_task
     } catch (error) {
-        alert('Error occurred while retrieving data.');
+        alert('Error occurred while retrieving data1.');
     }
 }
 

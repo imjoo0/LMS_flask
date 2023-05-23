@@ -18,7 +18,7 @@ $(window).on('load', async function () {
             await getData()
             home()
         } catch (error) {
-            alert('Error occurred while retrieving data.');
+            alert('Error occurred while retrieving data2.');
         } finally {
             setIsFetching(false);
         }
