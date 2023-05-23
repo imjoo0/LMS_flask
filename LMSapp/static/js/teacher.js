@@ -520,28 +520,6 @@ async function get_consulting_student(consultingStudentData,done_code) {
         $('#consulting_student_list').hide();
         $('#consultingstudent_pagination').hide();
     }else{
-        $('#today_consulting_table').html(`
-        <thead>
-            <tr class="row">
-                <th class="col-2" onclick="${sort_consultingoption('ban_desc')}" id="ban_name_sort">반 이름순 정렬👉</th>
-                <th class="col-6" onclick="${sort_consultingoption('name_desc')}" id="student_name_sort">원생 이름순 정렬👉</th>
-                <th class="col-2" onclick="${sort_consultingoption('deadline_desc')}" id="deadline_sort">마감일 정렬👉</th>
-                <th class="col-2" onclick="${sort_consultingoption('consulting_desc')}" id="consulting_sort">상담 건 정렬👉</th>
-            </tr>
-            <tr class="row">
-                <th class="col-2">반</th>
-                <th class="col-2">이름</th>
-                <th class="col-2">생년월일</th>
-                <th class="col-2">연락처</th>
-                <th class="col-2">상담 마감일</th>
-                <th class="col-1">상담 수</th>
-                <th class="col-1">상담</th>
-            </tr>
-        </thead>
-        <tr class="row" id="today_consulting_box">
-
-        </tr>
-        `)
         Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': consulting_targetdata }))
     }
 
@@ -613,6 +591,8 @@ function sort_consultingoption(consulting_targetdata,sortBy) {
         });
         break;
     }
+
+    
     let Consultingcontainer = $('#consultingstudent_pagination')
     let ConsultingpaginationOptions = {
         prevText: '이전',
