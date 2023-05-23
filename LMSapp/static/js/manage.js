@@ -1251,8 +1251,9 @@ async function get_request_consulting(){
     if (!consultingData) {
         await get_all_consulting()
     }
+    req_consultings = consultingData.filter(c=>c.category_id > 100)
     const updateSearchResult = function () {
-        let copy_data = consultingData.slice();
+        let copy_data = req_consultings.slice();
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
         if(selectedCategory != 'none' && searchInput ==""){
@@ -1319,7 +1320,7 @@ async function get_request_consulting(){
         }
     };
 
-    let category_set = new Set(consultingData.map(c => c.category));
+    let category_set = new Set(req_consultings.map(c => c.category));
         let category_list = [...category_set];
         var idxHtml = `<option value="none">전체</option>`;
         $.each(category_list, function (idx, val) {
@@ -1328,10 +1329,10 @@ async function get_request_consulting(){
     $('#history_cate').html(idxHtml);
     $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
 
-    consultingData.sort(function (a, b) {
+    req_consultings.sort(function (a, b) {
         return new Date(b.startdate) - new Date(a.startdate);
     });
-    Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': consultingData }))
+    Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': req_consultings }))
     $('.mo_inloading').hide();
     $('.not_inloading').show();
 }
@@ -1342,7 +1343,7 @@ function sort_consultingoption(sortBy) {
             $('#deadline_sort').html('마감일 정렬👉')
             $('#startdate_sort').html('최근순 정렬👉')         
             $('#consulting_sort').html('미진행 정렬👉')        
-            consultingData.sort(function (a, b) {
+            req_consultings.sort(function (a, b) {
                 var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
                 var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
                 if (nameA < nameB) {
@@ -1360,7 +1361,7 @@ function sort_consultingoption(sortBy) {
             $('#deadline_sort').html('<strong>마감일 정렬👇</strong>')
             $('#startdate_sort').html('최근순 정렬👉')     
             $('#consulting_sort').html('미진행 정렬👉')        
-            consultingData.sort(function (a, b) {
+            req_consultings.sort(function (a, b) {
                 return new Date(a.deadline) - new Date(b.deadline);
             });
             break;
@@ -1370,7 +1371,7 @@ function sort_consultingoption(sortBy) {
             $('#deadline_sort').html('마감일 정렬👉') 
             $('#startdate_sort').html('<strong>최근순 정렬👇</strong>')        
             $('#consulting_sort').html('미진행 정렬👉')        
-            consultingData.sort(function (a, b) {
+            req_consultings.sort(function (a, b) {
                 return new Date(b.startdate) - new Date(a.startdate);
             });
             break;
@@ -1380,7 +1381,7 @@ function sort_consultingoption(sortBy) {
             $('#deadline_sort').html('마감일 정렬👉')    
             $('#startdate_sort').html('최근순 정렬👉')
             $('#consulting_sort').html('<strong>미진행 정렬👇</strong>') 
-            consultingData.sort(function (a, b) {
+            req_consultings.sort(function (a, b) {
                 if (a.done === 0 && b.done === 1) {
                     return -1;
                 }
@@ -1395,12 +1396,12 @@ function sort_consultingoption(sortBy) {
     // 데이터 정렬 후 페이지네이션 다시 설정
     Consultingcontainer.pagination("destroy");
     Consultingcontainer.pagination(
-      Object.assign(ConsultingpaginationOptions, { dataSource: consultingData })
+      Object.assign(ConsultingpaginationOptions, { dataSource: req_consultings })
     );
 }
 
 function get_consultingdetail(consulting_id) {
-    const consulting_history = consultingData.filter(c=>c.id == consulting_id)[0]
+    const consulting_history = req_consultings.filter(c=>c.id == consulting_id)[0]
     const teacher_ban_info = banData.filter(b=>b.ban_id == consulting_history.ban_id)[0]
     $('#my_consulting_requestModalLabel').html(`${teacher_ban_info.name}반 ${teacher_ban_info.teacher_name}( ${teacher_ban_info.teacher_engname} )T의 ${consulting_history.category}상담`);
 
