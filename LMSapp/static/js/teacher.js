@@ -244,7 +244,138 @@ function home(){
     }
     
 }
+// 메인화면 상담
+async function get_consulting_student(done_code) {
+    let consulting_targetdata = makeConsultingListData(done_code)
+    if (consulting_targetdata.length == 0) {
+        $('#today_consulting_title').html($('#today_consulting_title').html() + '   0건');
+        $('#consulting_student_list').hide();
+        $('#consultingstudent_pagination').hide();
+    }else{
+        $('#today_consulting_table').html(`
+        <thead>
+            <tr class="row">
+                <th class="col-2" onclick="${sort_consultingoption('ban_desc',consulting_targetdata)}" id="ban_name_sort">반 이름순 정렬👉</th>
+                <th class="col-6" onclick="${sort_consultingoption('name_desc',consulting_targetdata)}" id="student_name_sort">원생 이름순 정렬👉</th>
+                <th class="col-2" onclick="${sort_consultingoption('deadline_desc',consulting_targetdata)}" id="deadline_sort">마감일 정렬👉</th>
+                <th class="col-2" onclick="${sort_consultingoption('consulting_desc',consulting_targetdata)}" id="consulting_sort">상담 건 정렬👉</th>
+            </tr>
+            <tr class="row">
+                <th class="col-2">반</th>
+                <th class="col-2">이름</th>
+                <th class="col-2">생년월일</th>
+                <th class="col-2">연락처</th>
+                <th class="col-2">상담 마감일</th>
+                <th class="col-1">상담 수</th>
+                <th class="col-1">상담</th>
+            </tr>
+        </thead>
+        <tr class="row" id="today_consulting_box">
 
+        </tr>
+        `)
+        sort_consultingoption('deadline_desc',consulting_targetdata)
+    }
+}
+function sort_consultingoption(sortBy,consulting_targetdata){
+    $('#consultingstudent_search_input').off('keyup');
+    let Consultingcontainer = $('#consultingstudent_pagination')
+    let ConsultingpaginationOptions = {
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 10,
+        pageClassName: 'float-end',
+        callback: function (data, pagination) {
+            $('#consulting_student_list').show();
+            $('#consultingstudent_pagination').show();
+            var temp_consulting_contents_box = '';
+            $.each(data, function (index, consulting) {
+                // let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
+                temp_consulting_contents_box += `
+                <td class="col-2">${consulting.ban_name}</td>
+                <td class="col-2">${consulting.student_name}</br>${consulting.student_origin}</td>
+                <td class="col-2">${consulting.student_birthday}</td>
+                <td class="col-2">${consulting.student_mobileno}</td>
+                <td class="col-2">${consulting.deadline}</td>
+                <td class="col-1">${consulting.consulting_num}</td>
+                <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${consulting.student_id}')"><span class="cursor-pointer">📝</span></td> 
+                `;
+            });
+            $('#today_consulting_box').html(temp_consulting_contents_box);
+            $('#consulting_student_list').show();
+        }
+    };
+    
+    switch (sortBy) {
+        case "ban_desc":
+        $('#ban_name_sort').html('<strong>반 이름순 정렬👇</strong>')
+        $('#student_name_sort').html('원생 이름순 정렬👉')    
+        $('#deadline_sort').html('마감일 정렬👉')    
+        $('#consulting_sort').html('상담 건 정렬👉')        
+        consulting_targetdata.sort(function (a, b) {
+            var nameA = a.ban_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+            var nameB = b.ban_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+            if (nameA < nameB) {
+                return -1;
+            }
+            if (nameA > nameB) {
+                return 1;
+            }
+            return 0;
+        });
+        break;
+        case "name_desc":
+            $('#ban_name_sort').html('반 이름순 정렬👉')
+            $('#student_name_sort').html('<strong>원생 이름순 정렬👇</strong>')    
+            $('#deadline_sort').html('마감일 정렬👉')    
+            $('#consulting_sort').html('상담 건 정렬👉')        
+        consulting_targetdata.sort(function (a, b) {
+            var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+            var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+            if (nameA < nameB) {
+                return -1;
+            }
+            if (nameA > nameB) {
+                return 1;
+            }
+            return 0;
+        });
+        break;
+    
+        case "deadline_desc":
+            $('#ban_name_sort').html('반 이름순 정렬👉')
+            $('#student_name_sort').html('원생 이름순 정렬👉')    
+            $('#deadline_sort').html('<strong>마감일 정렬👇</strong>')    
+            $('#consulting_sort').html('상담 건 정렬👉')        
+        consulting_targetdata.sort(function (a, b) {
+            return new Date(a.deadline) - new Date(b.deadline);
+        });
+        break;
+    
+        case "consulting_desc":
+            $('#ban_name_sort').html('반 이름순 정렬👉')
+            $('#student_name_sort').html('원생 이름순 정렬👉')    
+            $('#deadline_sort').html('마감일 정렬👉')    
+            $('#consulting_sort').html('<strong>상담 건 정렬👇</strong>') 
+        consulting_targetdata.sort(function (a, b) {
+            return b.consulting_num - a.consulting_num;
+        });
+        break;
+    }
+
+    // 데이터 정렬 후 페이지네이션 다시 설정
+    Consultingcontainer.pagination(
+      Object.assign(ConsultingpaginationOptions, { dataSource: consulting_targetdata })
+    );
+    $('#consultingstudent_search_input').on('keyup', function () {
+        var searchInput = $(this).val().toLowerCase();
+        var filteredData = consulting_targetdata.filter(function (d) {
+            return (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(searchInput) !== -1);
+        });
+        Consultingcontainer.pagination('destroy');
+        Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': filteredData }));
+    });
+}
 function go_back() {
     // 원생 리스트 관련 
     $('#ban_student_list_box').show();
@@ -397,139 +528,7 @@ function plusconsulting_history(student_id, b_id, t_id) {
         }
     })
 }
-// 메인화면 상담
-async function get_consulting_student(done_code) {
-    let consulting_targetdata = makeConsultingListData(done_code)
-    if (consulting_targetdata.length == 0) {
-        $('#today_consulting_title').html($('#today_consulting_title').html() + '   0건');
-        $('#consulting_student_list').hide();
-        $('#consultingstudent_pagination').hide();
-    }else{
-        $('#today_consulting_table').html(`
-        <thead>
-            <tr class="row">
-                <th class="col-2" onclick="${sort_consultingoption('ban_desc',done_code)}" id="ban_name_sort">반 이름순 정렬👉</th>
-                <th class="col-6" onclick="${sort_consultingoption('name_desc',done_code)}" id="student_name_sort">원생 이름순 정렬👉</th>
-                <th class="col-2" onclick="${sort_consultingoption('deadline_desc',done_code)}" id="deadline_sort">마감일 정렬👉</th>
-                <th class="col-2" onclick="${sort_consultingoption('consulting_desc',done_code)}" id="consulting_sort">상담 건 정렬👉</th>
-            </tr>
-            <tr class="row">
-                <th class="col-2">반</th>
-                <th class="col-2">이름</th>
-                <th class="col-2">생년월일</th>
-                <th class="col-2">연락처</th>
-                <th class="col-2">상담 마감일</th>
-                <th class="col-1">상담 수</th>
-                <th class="col-1">상담</th>
-            </tr>
-        </thead>
-        <tr class="row" id="today_consulting_box">
 
-        </tr>
-        `)
-        sort_consultingoption('deadline_desc',done_code)
-    }
-}
-function sort_consultingoption(sortBy,done_code){
-    $('#consultingstudent_search_input').off('keyup');
-    let Consultingcontainer = $('#consultingstudent_pagination')
-    let ConsultingpaginationOptions = {
-        prevText: '이전',
-        nextText: '다음',
-        pageSize: 10,
-        pageClassName: 'float-end',
-        callback: function (data, pagination) {
-            $('#consulting_student_list').show();
-            $('#consultingstudent_pagination').show();
-            var temp_consulting_contents_box = '';
-            $.each(data, function (index, consulting) {
-                // let value = `${consulting.ban_name}_${consulting.student_name}_${consulting.student_mobileno}_${consulting.student_id}`
-                temp_consulting_contents_box += `
-                <td class="col-2">${consulting.ban_name}</td>
-                <td class="col-2">${consulting.student_name}</br>${consulting.student_origin}</td>
-                <td class="col-2">${consulting.student_birthday}</td>
-                <td class="col-2">${consulting.student_mobileno}</td>
-                <td class="col-2">${consulting.deadline}</td>
-                <td class="col-1">${consulting.consulting_num}</td>
-                <td class="col-1" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${consulting.student_id}')"><span class="cursor-pointer">📝</span></td> 
-                `;
-            });
-            $('#today_consulting_box').html(temp_consulting_contents_box);
-            $('#consulting_student_list').show();
-        }
-    };
-    let consulting_targetdata = makeConsultingListData(done_code)
-    
-    switch (sortBy) {
-        case "ban_desc":
-        $('#ban_name_sort').html('<strong>반 이름순 정렬👇</strong>')
-        $('#student_name_sort').html('원생 이름순 정렬👉')    
-        $('#deadline_sort').html('마감일 정렬👉')    
-        $('#consulting_sort').html('상담 건 정렬👉')        
-        consulting_targetdata.sort(function (a, b) {
-            var nameA = a.ban_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
-            var nameB = b.ban_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
-            if (nameA < nameB) {
-                return -1;
-            }
-            if (nameA > nameB) {
-                return 1;
-            }
-            return 0;
-        });
-        break;
-        case "name_desc":
-            $('#ban_name_sort').html('반 이름순 정렬👉')
-            $('#student_name_sort').html('<strong>원생 이름순 정렬👇</strong>')    
-            $('#deadline_sort').html('마감일 정렬👉')    
-            $('#consulting_sort').html('상담 건 정렬👉')        
-        consulting_targetdata.sort(function (a, b) {
-            var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
-            var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
-            if (nameA < nameB) {
-                return -1;
-            }
-            if (nameA > nameB) {
-                return 1;
-            }
-            return 0;
-        });
-        break;
-    
-        case "deadline_desc":
-            $('#ban_name_sort').html('반 이름순 정렬👉')
-            $('#student_name_sort').html('원생 이름순 정렬👉')    
-            $('#deadline_sort').html('<strong>마감일 정렬👇</strong>')    
-            $('#consulting_sort').html('상담 건 정렬👉')        
-        consulting_targetdata.sort(function (a, b) {
-            return new Date(a.deadline) - new Date(b.deadline);
-        });
-        break;
-    
-        case "consulting_desc":
-            $('#ban_name_sort').html('반 이름순 정렬👉')
-            $('#student_name_sort').html('원생 이름순 정렬👉')    
-            $('#deadline_sort').html('마감일 정렬👉')    
-            $('#consulting_sort').html('<strong>상담 건 정렬👇</strong>') 
-        consulting_targetdata.sort(function (a, b) {
-            return b.consulting_num - a.consulting_num;
-        });
-        break;
-    }
-
-    // 데이터 정렬 후 페이지네이션 다시 설정
-    Consultingcontainer.pagination(
-      Object.assign(ConsultingpaginationOptions, { dataSource: consulting_targetdata })
-    );
-    $('#consultingstudent_search_input').on('keyup', function () {
-        var searchInput = $(this).val().toLowerCase();
-        var filteredData = consulting_targetdata.filter(function (d) {
-            return (d.hasOwnProperty('ban_name') && d.ban_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) || (d.hasOwnProperty('student_origin') && d.student_origin.toLowerCase().indexOf(searchInput) !== -1);
-        });
-        Consultingcontainer.pagination('destroy');
-        Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': filteredData }));
-    });
-}
 
 // 상담기록 날짜별
 async function student_consulting(student_id) {    
