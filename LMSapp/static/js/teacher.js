@@ -33,8 +33,11 @@ function home(){
         let BansData = getBansData()
         let ConsultingsData = getConsultingsData()
         let allconsultingsNum = ConsultingsData.length
+        console.log(allconsultingsNum)
         let UnlearnedConsultingsData = allconsultingsNum > 0 ? ConsultingsData.filter(consulting => consulting.category_id < 100) : 0;
+        console.log(UnlearnedConsultingsData)
         let UnlearnedConsultingsNum = UnlearnedConsultingsData.length
+        console.log(UnlearnedConsultingsNum)
         let temp_ban_option = '<option value="none" selected>반을 선택해주세요</option>';
         BansData.forEach((elem) => {
             let semester = make_semester(elem.semester)
