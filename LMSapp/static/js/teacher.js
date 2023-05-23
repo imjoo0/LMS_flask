@@ -263,7 +263,7 @@ function draw_consulting(consulting_targetdata){
     if(consulting_targetdata.length == 0){
         $('#consulting_student_list').hide()
         $('#consultingstudent_pagination').hide()
-        $('#today_consulting_title').html('진행할 상담이 없습니다')
+        $('#today_consulting_title').html('0건')
         return;
     }
     $('#consultingstudent_search_input').off('keyup');
