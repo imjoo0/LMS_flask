@@ -543,7 +543,7 @@
                         <h5 class="d-flex justify-content-center align-items-center m-0" id="today_consulting_title">
                             상담 목록
                         </h5>
-                        <select class="form-select text-center w-25" id="consulting_kind">
+                        <select class="form-select text-center w-25" onchange="get_consulting_student(this.value)">
                             <option value=0 selected>상담 목록</option>
                             <option value=1>오늘의 부재중 상담</option>
                         </select>

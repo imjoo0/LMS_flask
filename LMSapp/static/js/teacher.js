@@ -237,18 +237,23 @@ function home(){
             <td class="col-3">➖</td>
             `;
         }
-        $('#classreport').html(temp_report)            
+        $('#classreport').html(temp_report)
+            
+        // 상담 목록 
+        sort_consultingoption('deadline_desc')
     }
     
 }
-$('#consulting_kind').change(function sort_consultingoption(sortBy) {
-    // 선택된 값 가져오기
-    var done_code = $(this).val();
-    
-    // 값을 이용한 추가 동작 수행
-    console.log(done_code);
-    // 추가 동작 작성
+// 메인화면 상담
+async function get_consulting_student(done_code){
+    return done_code
+}
+function sort_consultingoption(sortBy){
+    let done_code = get_consulting_student()
     let consulting_targetdata = makeConsultingListData(done_code)
+    if(sortBy == 0){
+        let consulting_targetdata = makeConsultingListData(0)
+    }
     $('#consultingstudent_search_input').off('keyup');
     let Consultingcontainer = $('#consultingstudent_pagination')
     let ConsultingpaginationOptions = {
@@ -346,13 +351,7 @@ $('#consulting_kind').change(function sort_consultingoption(sortBy) {
         Consultingcontainer.pagination('destroy');
         Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': filteredData }));
     });
-  });
-// 메인화면 상담
-// function sort_consultingoption(sortBy){
-//     let done_code = $('#consulting_kind').val()
-//     console.log(done_code)
-    
-// }
+}
 function go_back() {
     // 원생 리스트 관련 
     $('#ban_student_list_box').show();
