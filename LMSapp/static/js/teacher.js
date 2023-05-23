@@ -263,9 +263,10 @@ function draw_consulting(consulting_targetdata){
     if(consulting_targetdata.length == 0){
         $('#consulting_student_list').hide()
         $('#consultingstudent_pagination').hide()
-        $('#today_consulting_title').html('0건')
+        $('#today_consulting_title').html('상담 : 0건')
         return;
     }
+    $('#today_consulting_title').html('상담 목록')
     $('#consultingstudent_search_input').off('keyup');
     let Consultingcontainer = $('#consultingstudent_pagination')
     let ConsultingpaginationOptions = {
