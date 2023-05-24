@@ -226,33 +226,33 @@ class IXL_DF(db.Model):
     date = db.Column(db.Text())
     class_id = db.Column(db.Integer)
 
-    def load_data(self):
-        # 데이터베이스 연결
-        conn = engine.connect()
+    # def load_data(self):
+    #     # 데이터베이스 연결
+    #     conn = engine.connect()
         
-        # 쿼리 실행
-        ixl_test_df = pd.read_sql('SELECT * FROM ixl_test_df', con=conn).fillna('')
-        ixl_summary_df = pd.read_sql('SELECT * FROM ixl_summary_df', con=conn).fillna('')
-        ixl_summary_df = ixl_summary_df.applymap(lambda x: int(x))
+    #     # 쿼리 실행
+    #     ixl_test_df = pd.read_sql('SELECT * FROM ixl_test_df', con=conn).fillna('')
+    #     ixl_summary_df = pd.read_sql('SELECT * FROM ixl_summary_df', con=conn).fillna('')
+    #     ixl_summary_df = ixl_summary_df.applymap(lambda x: int(x))
         
-        advancement_test_score_df = pd.read_sql('SELECT * FROM advancement_test_score_df', con=conn).fillna('')
-        ixl_classification_score_summary = pd.read_sql('SELECT * FROM ixl_classification_score_summary', con=conn)
-        ixl_problem_info = pd.read_sql('SELECT * FROM ixl_problem_info', con=conn).applymap(lambda x: self.decrypt(str(x)))
-        update_date = pd.read_sql('SELECT * FROM update_date', con=conn).applymap(lambda x: self.decrypt(str(x)))
-        student_list = pd.read_sql('SELECT * FROM student_list_df', con=conn).fillna('')
-        student_list['원번'] = student_list['원번'].apply(lambda x: self.decrypt(str(x)))
-        student_list['학생명'] = student_list['학생명'].apply(lambda x: self.decrypt(str(x)))
-        student_id_dictionary = dict(zip(student_list['원번'], student_list['student_id']))
-        temp_list_in_student_ = sorted(list(set(student_list['진행학기'])))
+    #     advancement_test_score_df = pd.read_sql('SELECT * FROM advancement_test_score_df', con=conn).fillna('')
+    #     ixl_classification_score_summary = pd.read_sql('SELECT * FROM ixl_classification_score_summary', con=conn)
+    #     ixl_problem_info = pd.read_sql('SELECT * FROM ixl_problem_info', con=conn).applymap(lambda x: self.decrypt(str(x)))
+    #     update_date = pd.read_sql('SELECT * FROM update_date', con=conn).applymap(lambda x: self.decrypt(str(x)))
+    #     student_list = pd.read_sql('SELECT * FROM student_list_df', con=conn).fillna('')
+    #     student_list['원번'] = student_list['원번'].apply(lambda x: self.decrypt(str(x)))
+    #     student_list['학생명'] = student_list['학생명'].apply(lambda x: self.decrypt(str(x)))
+    #     student_id_dictionary = dict(zip(student_list['원번'], student_list['student_id']))
+    #     temp_list_in_student_ = sorted(list(set(student_list['진행학기'])))
         
-        print(ixl_test_df)
-        # 데이터베이스 연결 종료
-        conn.close()
+    #     print(ixl_test_df)
+    #     # 데이터베이스 연결 종료
+    #     conn.close()
         
-        # 여기서 가져온 데이터를 활용하여 필요한 작업 수행
+    #     # 여기서 가져온 데이터를 활용하여 필요한 작업 수행
         
-        # 필요한 작업을 수행한 후에는 결과를 반환하거나 적절하게 활용할 수 있습니다.
-        return 'Data Loaded Successfully'
+    #     # 필요한 작업을 수행한 후에는 결과를 반환하거나 적절하게 활용할 수 있습니다.
+    #     return 'Data Loaded Successfully'
 
 class IXL_TEST_DF(db.Model):
     __tablename__ = 'ixl_test_df'

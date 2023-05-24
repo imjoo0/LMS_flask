@@ -16,7 +16,7 @@ import { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData
 const learninghistoryWorker = new Worker('../static/js/get_learning_history_worker.js');
 
 learninghistoryWorker.onmessage = function(event) {
-    const learningData = event.data.ixl_test_df;
+    const learningData = event.data.data;
     // 워커로부터 전달받은 결과를 처리하는 로직을 구현합니다.
     console.log(learningData)
 
