@@ -134,7 +134,7 @@ export function draw_consulting(sortBy,done_code){
         }
     })
 
-    switch (sortBy) {
+    switch(sortBy){
         case "ban_desc":
         $('#ban_name_sort').html('<strong>반 이름순 정렬👇</strong>')
         $('#student_name_sort').html('원생 이름순 정렬👉')    

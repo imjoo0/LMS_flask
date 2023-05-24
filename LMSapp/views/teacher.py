@@ -137,23 +137,6 @@ def get_mybans(u):
         db.close()
     return jsonify({'ban_data':ban_data,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students})
 
-
-@bp.route('/get_learning_history', methods=['GET'])
-def get_learning_history():
-    db = pymysql.connect(host='192.168.6.3', user='jung', password='wjdgus00',port=3307, database='purple_learning_counseling', cursorclass=pymysql.cursors.DictCursor)
-    try:
-        with db.cursor() as cur:
-            # 상담
-            ixl_test_df = pd.read_sql('SELECT * FROM ixl_test_df',cur).fillna('')
-    except:
-        print('err:', sys.exc_info())
-    finally:
-        db.close()
-    print(ixl_test_df)
-    return jsonify({'ixl_test_df':ixl_test_df})
-
-
-
 # 문의 리스트 / 문의 작성    
 @bp.route('/question', methods=['GET', 'POST'])
 @authrize
