@@ -11,6 +11,7 @@ from LMSapp.views import common
 from LMSapp.views.main_views import authrize
 import requests 
 import sys
+import pandas as pd
 
 # 양방향 연결 
 # from LMSapp import socketio
@@ -138,10 +139,17 @@ def get_mybans(u):
 
 @bp.route('/get_learning_history', methods=['GET'])
 def get_learning_history():
-    ixl_df = IXL_DF()
-    ixl_df.load_data()
-    print('hi')
-    return redirect('/')
+    db = pymysql.connect(host='192.168.6.3', user='jung', password='wjdgus00',port=3306, database='purple_learning_counseling', cursorclass=pymysql.cursors.DictCursor)
+    try:
+        with db.cursor() as cur:
+            # 상담
+            ixl_test_df = pd.read_sql('SELECT * FROM ixl_test_df',cur).fillna('')
+    except:
+        print('err:', sys.exc_info())
+    finally:
+        db.close()
+    return jsonify({'ixl_test_df':ixl_test_df})
+
 
 # 문의 리스트 / 문의 작성    
 @bp.route('/question', methods=['GET', 'POST'])

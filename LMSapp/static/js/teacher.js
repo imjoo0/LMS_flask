@@ -38,18 +38,6 @@ $(window).on('load', async function () {
 });
 
 function home(){
-    const response = $.ajax({
-        url: '/teacher/get_learning_history',
-        type: 'GET',
-        dataType: 'json',
-        data: {},
-    });
-    console.log(response)
-    ban_data = response.ban_data
-    all_consulting = response.all_consulting
-    my_students = response.my_students
-    all_task = response.all_task
-
     let BansData = getBansData()
     $('#ban_chart_list').empty()
     if(BansData.length <= 0){
