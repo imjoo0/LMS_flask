@@ -213,11 +213,10 @@ export function draw_consulting(sortBy,done_code){
                 temp_consulting_contents_box += `
                 <td class="col-2">${consulting.ban_name}</td>
                 <td class="col-2">${consulting.student_name}</br>${consulting.student_origin}</td>
-                <td class="col-1">${consulting.student_birthday}</td>
+                <td class="col-2">${consulting.student_birthday}</td>
                 <td class="col-2">${consulting.student_mobileno}</td>
                 <td class="col-2">${consulting.deadline}</td>
                 <td class="col-1">${consulting.consulting_num}</td>
-                <td class="col-1">${consulting.new_cs_num}</td>
                 <td class="col-1" id="show_consulting" data-bs-toggle="modal" data-bs-target="#consultinghistory" consulting-student-id="${consulting.student_id}"><span class="cursor-pointer">📝</span></td> 
                 `;
             });
