@@ -217,7 +217,7 @@ class IXL_DF(db.Model):
     __tablename__ = 'student_ixl_df'
     __bind_key__ = 'graph_db'  # db1 데이터베이스에 바인딩됨
     
-    student_id = db.Column(db.Integer)
+    student_id = db.Column(db.Integer, primary_key=True)
     SkillPermaCode = db.Column(db.Text())
     학습평가 = db.Column(db.Text())
     date = db.Column(db.Text())
