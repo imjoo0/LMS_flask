@@ -168,7 +168,6 @@ class Task(db.Model):
     #     for ban in bans:
     #         print(ban)
     #     return bans
-
         
 class TaskBan(db.Model):
     __tablename__ = 'taskban'
@@ -214,18 +213,14 @@ class TaskBan(db.Model):
     # def query(cls):
     #     return msession.query(cls)
     
-# task 와 taskban 조인하는 함수 
-# 세션 클래스 사용 , sqlalchemy에서 조인 수행 
-# def get_join_tb_result():
-#     with Session() as msession:
-#         result = msession.query(Task).options(joinedload(cls.bans)).all()
-#         return [dict(id=row.id, contents=row.contents, bans=TaskBan.ban_id) for row in result]
+class IXL_DF(db.Model):
+    __tablename__ = 'student_ixl_df'
+    __bind_key__ = 'graph_db'  # db1 데이터베이스에 바인딩됨
     
-
-class MyEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, Question):
-            return {'id': obj.id, 'text': obj.text}
-        return json.JSONEncoder.default(self, obj)
+    student_id = db.Column(db.Integer)
+    SkillPermaCode = db.Column(db.Text())
+    학습평가 = db.Column(db.Text())
+    date = db.Column(db.Text())
+    class_id = db.Column(db.Integer)
 
 

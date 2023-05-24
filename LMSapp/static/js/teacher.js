@@ -18,28 +18,8 @@ consultingHistoryWorker.onmessage = function(event) {
     const reports = event.data.students_report;
     const consultings = event.data.all_consulting;
     // 워커로부터 전달받은 결과를 처리하는 로직을 구현합니다.
-    const crypto = require('crypto');
 
-    function decrypt(data, is_out_string = true) {
-    const algorithm = '암호화 알고리즘'; // 암호화에 사용된 알고리즘 지정
-    const key = '암호화 키'; // 암호화에 사용된 키 지정
-    const decipher = crypto.createDecipher(algorithm, key);
 
-    let decrypted;
-    if (is_out_string) {
-        decrypted = decipher.update(data, 'base64', 'utf-8');
-        decrypted += decipher.final('utf-8');
-    } else {
-        decrypted = decipher.update(data, 'base64');
-        decrypted = Buffer.concat([decrypted, decipher.final()]);
-    }
-
-    return decrypted;
-    }
-
-    console.log(students)
-    console.log(reports)
-    console.log(consultings)
 
 };
 consultingHistoryWorker.postMessage('message');

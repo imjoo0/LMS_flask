@@ -30,15 +30,6 @@ def decrypt(data, key):
     decrypted_data = f.decrypt(data)
     return decrypted_data.decode('utf-8')
 
-encrypted_data = '암호화된 데이터'  # 복호화할 암호화된 데이터
-encryption_key = '암호화 키'  # 암호화에 사용된 키
-
-decrypted_data = decrypt(encrypted_data, encryption_key)
-output = {'decrypted_data': decrypted_data}
-json_output = json.dumps(output)
-
-print(json_output)
-
 
 # def task_cycle(){
     # UPDATE taskban A LEFT JOIN task B
