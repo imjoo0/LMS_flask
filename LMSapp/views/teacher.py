@@ -148,6 +148,7 @@ def get_learning_history():
         print('err:', sys.exc_info())
     finally:
         db.close()
+    print(ixl_test_df)
     return jsonify({'ixl_test_df':ixl_test_df})
 
 

@@ -12,17 +12,17 @@
 // import * as isFetching from '../js/isFetching.js';
 // const { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData, getStudentsData, getTasksData, makeConsultingListData } = isFetching;
 import { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData, getStudentsData, getTasksData, draw_consulting } from '../js/isFetching.js';
-const consultingHistoryWorker = new Worker('../static/js/consulting_history_worker.js');
-consultingHistoryWorker.onmessage = function(event) {
-    const students = event.data.my_students;
-    const reports = event.data.students_report;
-    const consultings = event.data.all_consulting;
-    // 워커로부터 전달받은 결과를 처리하는 로직을 구현합니다.
 
+const learninghistoryWorker = new Worker('../static/js/get_learning_history.js');
+
+learninghistoryWorker.onmessage = function(event) {
+    const learningData = event.data.ixl_test_df;
+    // 워커로부터 전달받은 결과를 처리하는 로직을 구현합니다.
+    console.log(learningData)
 
 
 };
-consultingHistoryWorker.postMessage('message');
+learninghistoryWorker.postMessage('message');
 $(window).on('load', async function () {
     if (!getIsFetching()) { // IsFetching == false 일때 
         try {
