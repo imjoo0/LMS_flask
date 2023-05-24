@@ -13,7 +13,7 @@
 // const { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData, getStudentsData, getTasksData, makeConsultingListData } = isFetching;
 import { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData, getStudentsData, getTasksData, draw_consulting } from '../js/isFetching.js';
 
-const learninghistoryWorker = new Worker('../static/js/get_learning_history.js');
+const learninghistoryWorker = new Worker('../static/js/get_learning_history_worker.js');
 
 learninghistoryWorker.onmessage = function(event) {
     const learningData = event.data.ixl_test_df;
