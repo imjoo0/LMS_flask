@@ -137,17 +137,11 @@ def get_mybans(u):
     return jsonify({'ban_data':ban_data,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students})
 
 @bp.route('/get_learning_history', methods=['GET'])
-@authrize
-def get_learning_history(u):
-    
-
-# @bp.route('/get_mystudents', methods=['GET'])
-# @authrize
-# def get_mystudents(u):
-#     my_students = callapi.purple_ban(u['id'], 'get_mystudents_new')
-#     if(my_students):
-#         return jsonify({'my_students':my_students})
-#     return jsonify({'my_students':'없음'})
+def get_learning_history():
+    ixl_df = IXL_DF()
+    ixl_df.load_data()
+    print('hi')
+    return redirect('/')
 
 # 문의 리스트 / 문의 작성    
 @bp.route('/question', methods=['GET', 'POST'])
