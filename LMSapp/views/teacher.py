@@ -140,7 +140,7 @@ def get_mybans(u):
 
 @bp.route('/get_learning_history', methods=['GET'])
 def get_learning_history():
-    db = pymysql.connect(host='192.168.6.3', user='jung', password='wjdgus00',port=3306, database='purple_learning_counseling', cursorclass=pymysql.cursors.DictCursor)
+    db = pymysql.connect(host='192.168.6.3', user='jung', password='wjdgus00',port=3307, database='purple_learning_counseling', cursorclass=pymysql.cursors.DictCursor)
     try:
         with db.cursor() as cur:
             # 상담
