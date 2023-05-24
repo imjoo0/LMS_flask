@@ -140,16 +140,18 @@ def get_mybans(u):
 
 @bp.route('/get_learning_history', methods=['GET'])
 def get_learning_history():
-    ixl_df = IXL_DF.query.all()
-    print(ixl_df)
-    data = {}
-    data['student_id'] = ixl_df.student_id
-    data['SkillPermaCode'] = ixl_df.SkillPermaCode
-    data['evalueation'] = ixl_df.evalueation
-    data['date'] = ixl_df.date
-    data['class_id'] = ixl_df.class_id
+    db = pymysql.connect(host='192.168.6.3', user='jung', password='wjdgus00',port=3306, database='purple_learning_counseling', cursorclass=pymysql.cursors.DictCursor)
+    try:
+        with db.cursor() as cur:
+            # 상담
+            ixl_test_df = pd.read_sql('SELECT * FROM ixl_test_df',cur).fillna('')
+    except:
+        print('err:', sys.exc_info())
+    finally:
+        db.close()
+    print(ixl_test_df)
+    return jsonify({'ixl_test_df':ixl_test_df})
 
-    return jsonify({'data':data})
 
 
 # 문의 리스트 / 문의 작성    
