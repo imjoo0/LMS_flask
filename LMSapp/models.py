@@ -215,7 +215,6 @@ class TaskBan(db.Model):
     # def query(cls):
     #     return msession.query(cls)
     
-engine = create_engine('mysql+pymysql://jung:wjdgus00@192.168.6.3:3306/purple_learning_counseling')
 class IXL_DF(db.Model):
     __tablename__ = 'student_ixl_df'
     __bind_key__ = 'graph_db'  # db1 데이터베이스에 바인딩됨
@@ -228,6 +227,7 @@ class IXL_DF(db.Model):
 
     def load_data(self):
         # 데이터베이스 연결
+        engine = create_engine('mysql+pymysql://jung:wjdgus00@192.168.6.3:3306/purple_learning_counseling')
         conn = engine.connect()
         
         # 쿼리 실행
