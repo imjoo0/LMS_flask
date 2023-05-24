@@ -46,7 +46,6 @@ export function getTasksData() {
 export function makeConsultingListData(){
     let result = my_students.reduce((acc, student) => {
         const consultingList = all_consulting.filter(c => c.student_id === student.student_id);
-        const new_cs_num = consultingList.filter(u=>u.category_id > 100 && u.category_id !=110 && u.done == 0).length;
         const unlearned_num = consultingList.filter(u=>u.category_id < 100).length;
         if (consultingList.length > 0) {
             const todoconsulting = consultingList.filter(c => c.done == 0)
@@ -76,8 +75,7 @@ export function makeConsultingListData(){
                     'deadline': make_date(deadline.deadline),
                     'missed': missed_date(missed.missed),
                     'consulting_list': consultingList,
-                    'unlearned_num':unlearned_num,
-                    'new_cs_num':new_cs_num
+                    'unlearned_num':unlearned_num
                 });
             } else {
                 acc.push({
@@ -94,8 +92,7 @@ export function makeConsultingListData(){
                     'deadline': make_date('3000-01-01'),
                     'missed': missed_date('1111-01-01'),
                     'consulting_list': consultingList,
-                    'unlearned_num':unlearned_num,
-                    'new_cs_num':new_cs_num
+                    'unlearned_num':unlearned_num
                 });
             }
         } else {
