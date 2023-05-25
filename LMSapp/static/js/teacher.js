@@ -22,7 +22,7 @@ import { getIsFetching, setIsFetching, getData,  getBansData, getConsultingsData
 
 
 // };
-learninghistoryWorker.postMessage('message');
+// learninghistoryWorker.postMessage('message');
 $(window).on('load', async function () {
     if (!getIsFetching()) { // IsFetching == false 일때 
         try {
