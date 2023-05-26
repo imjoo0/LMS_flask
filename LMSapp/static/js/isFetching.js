@@ -217,7 +217,7 @@ export function draw_consulting(sortBy,done_code){
                 <td class="col-2">${consulting.student_mobileno}</td>
                 <td class="col-2">${consulting.deadline}</td>
                 <td class="col-1">${consulting.consulting_num}</td>
-                <td class="col-1" id="show_consulting" data-bs-toggle="modal" data-bs-target="#consultinghistory" consulting-student-id="${consulting.student_id}"><span class="cursor-pointer">📝</span></td> 
+                <td class="col-1" id="show_consulting" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${consulting.student_id})"><span class="cursor-pointer">📝</span></td> 
                 `;
             });
             $('#today_consulting_box').html(temp_consulting_contents_box);

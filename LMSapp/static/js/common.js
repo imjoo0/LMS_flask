@@ -1,8 +1,19 @@
-// 전역변수로 api에서 불러온 정보를 저장 
+// manage변수 
 let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, studentsData, reportsData, consultingData, consultingHistoryData, consultingcateData, taskData, taskcateData, questionData, answerData, attachData;
+// teacher 변수
+let  Tban_data, Tall_consulting, Tmy_students, Tall_task, Ttask_consulting;
+let isFetching = false;
+
 const today = new Date().setHours(0, 0, 0, 0);
 const todayyoil = new Date().getDay()
 
+// 공용 function 
+function getIsFetching(){
+    return isFetching;
+}
+function setIsFetching(value){
+    isFetching = value;
+}
 function deleteCookie(name) {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     console.log(document.cookie)
@@ -89,6 +100,12 @@ let make_cycle = function (c) {
         return '주기 없음';
     }
 }
+let make_out = function(c) {
+    if (c != 1) {
+        return '이반/퇴소 원생';
+    }
+    return c;
+}
 let make_date = function (d) {
     if (d == null) {
         return '➖'
@@ -168,6 +185,28 @@ function make_duedate(s, d) {
         return '오류'
     }
 }
+
+// teacher_function
+async function get_mybans(){
+    try{
+        const response = await $.ajax({
+            url: '/teacher/get_mybans',
+            type: 'GET',
+            dataType: 'json',
+            data: {},
+        });
+        Tban_data = response.ban_data
+        Tall_consulting = response.all_consulting
+        Tmy_students = response.my_students
+        Tall_task = response.all_task
+        Ttask_consulting = response.task_consulting
+    } catch (error) {
+        alert('Error occurred while retrieving data1.');
+    }
+}
+
+
+// manage_function 
 async function get_all_ban() {
     try {
         const response = await $.ajax({

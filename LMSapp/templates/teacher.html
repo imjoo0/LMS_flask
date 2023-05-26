@@ -507,7 +507,7 @@
                                 <tr class="row">
                                     <th class="col-3">오늘의 업무</th>
                                     <th class="col-3">완수율</th>
-                                    <th class="col-3"> 상담 </th>
+                                    <th class="col-3"> 미학습 관리 </th>
                                     <th class="col-3">완수율</th>
                                 </tr>
                                 <tr id="classreport" class="row">
@@ -519,11 +519,40 @@
             </div>
             <div class="info-container mt-5">
                 <div class="info-title">
-                    <span>To-Do List</span>
+                    <span id="task_title">오늘의 업무</span>
                 </div>
                 <div class="info d-flex justify-content-center align-items-center flex-column">
                     <div class="d-flex justify-content-between flex-row w-100 pb-4 border-bottom">
-                        <h5 class="d-flex justify-content-center align-items-center m-0" id="task_title">오늘의 업무</h3>
+                        <h5 class="d-flex justify-content-center align-items-center m-0" id="taskconsulting_title">본원 요청 업무</h3>
+                        <select class="form-select text-center w-25" onchange="get_consultingtask_student(this.value)">
+                            <option value=0 selected>요청 목록</option>
+                            <option value=1>부재중 목록</option>
+                        </select>
+                    </div>
+                    <input type="text" id="taskconsultingstudent_search_input" placeholder="반 , 원생 이름 혹은 원번으로 검색" style="margin-top:10px;width:350px;height:40px;margin-bottom:10px">
+                    <div class="responsive-table-wrapper d-flex justify-content-start align-items-start flex-column w-100 mt-4" id="taskconsulting_student_list">
+                        <table class="table text-center responsive-table" id="taskconsulting_cate_menu">
+                            <thead>
+                                <tr class="row">
+                                    <th class="col-2">반</th>
+                                    <th class="col-2">이름</th>
+                                    <th class="col-2">생년월일</th>
+                                    <th class="col-2">연락처</th>
+                                    <th class="col-2">상담 마감일</th>
+                                    <th class="col-1">상담 수</th>
+                                    <th class="col-1">상담</th>
+                                </tr>
+                            </thead>
+                            <tr class="row" id="today_taskconsulting_box">
+                    
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center w-100">
+                        <div id="taskconsultingstudent_pagination" class="mt-4 mb-5 text-center"></div>
+                    </div>
+                    <div class="d-flex justify-content-between flex-row w-100 pb-4 border-bottom">
+                        <h5 class="d-flex justify-content-center align-items-center m-0">반 업무</h3>
                     </div>
                     <div
                         class="responsive-table-wrapper d-flex justify-content-start align-items-start flex-column w-100 mt-4">
@@ -541,10 +570,10 @@
                 <div class="info d-flex justify-content-center align-items-center flex-column">
                     <div class="d-flex justify-content-between flex-row w-100 pb-4 border-bottom">
                         <h5 class="d-flex justify-content-center align-items-center m-0" id="today_consulting_title">
-                            상담 목록
+                            미학습 관리
                         </h5>
-                        <select class="form-select text-center w-25" id="get_consulting_student">
-                            <option value=0 selected>상담 목록</option>
+                        <select class="form-select text-center w-25" onchange="get_consulting_student(this.value)">
+                            <option value=0 selected>미학습 상담 목록</option>
                             <option value=1>오늘의 부재중 상담</option>
                         </select>
                     </div>
@@ -553,10 +582,10 @@
                         <table class="table text-center responsive-table" id="today_consulting_table">
                             <thead>
                                 <tr class="row">
-                                    <th class="col-2 sort_things" data-sort-by="ban_desc" id="ban_name_sort">반 이름순 정렬👉</th>
-                                    <th class="col-5 sort_things" data-sort-by="name_desc" id="student_name_sort">원생 이름순 정렬👉</th>
-                                    <th class="col-2 sort_things" data-sort-by="deadline_desc" id="deadline_sort">마감일 정렬👉</th>
-                                    <th class="col-3 sort_things" data-sort-by="consulting_desc" id="consulting_sort">상담 건 정렬👉</th>
+                                    <th class="col-2" onclick="sort_consultingoption('ban_desc')" id="ban_name_sort">반 이름순 정렬👉</th>
+                                    <th class="col-6" onclick="sort_consultingoption('name_desc')" id="student_name_sort">원생 이름순 정렬👉</th>
+                                    <th class="col-2" onclick="sort_consultingoption('deadline_desc')" id="deadline_sort">마감일 정렬👉</th>
+                                    <th class="col-2" onclick="sort_consultingoption('consulting_desc')" id="consulting_sort">상담 건 정렬👉</th>
                                 </tr>
                                 <tr class="row">
                                     <th class="col-2">반</th>
@@ -582,7 +611,7 @@
     </div>
 </div>
     {% block jspart %}
-    <script type="module" src="../static/js/teacher.js"></script>
+    <script type="text/javascript" src="../static/js/teacher.js"></script>
     {% endblock %}
 
 {% endautoescape %}

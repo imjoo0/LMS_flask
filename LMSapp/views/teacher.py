@@ -24,88 +24,12 @@ today_yoil = current_time.weekday() + 1
 standard = datetime.strptime('11110101', "%Y%m%d").date()
 
 # 복호화 fernet -( 상담용 프로그램 )
-from cryptography.fernet import Fernet
+# from cryptography.fernet import Fernet
 
-def decrypt(data, key):
-    f = Fernet(key)
-    decrypted_data = f.decrypt(data)
-    return decrypted_data.decode('utf-8')
-
-
-# def task_cycle(){
-    # UPDATE taskban A LEFT JOIN task B
-    # ON A.task_id= B.id
-    # SET A.done = 0
-    # WHERE date_format(A.created_at, '%Y-%m-%d') < date_format(curdate(),'%Y-%m-%d') AND B.cycle < 6 AND A.done = 1
-# }
-# @socketio.on('connect')
-# def handle_connect():
-#     print('Client connected')
-    
-# @socketio.on('disconnect')
-# def handle_disconnect():
-#     print('Client disconnected')
-
-# def get_new_consulting_data(consulting_id):
-#         # 데이터베이스에서 consulting_id에 해당하는 새로운 상담 데이터 조회
-#         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
-#         try:
-#             with db.cursor() as cur:
-#                 cur.execute("select consulting.student_id, consulting.origin, consulting.student_name, consulting.student_engname,consulting.id,consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate,consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result from consulting left join consultingcategory on consulting.category_id = consultingcategory.id where startdate <= %s and id = %s", ((Today,consulting_id,)))
-#                 new_consulting = cur.fetchone()
-#         except Exception as e:
-#             print(e)
-#         finally:
-#             db.close()
-
-#         return new_consulting
-
-
-
-# @authrize
-# def some_view_function(u):
-#     handle_database_notification(u['id'])
-
-# def handle_database_notification(user_id):
-#     # 데이터베이스 연결 설정
-#     with current_app.app_context():
-#         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
-#         db.autocommit(True)
-
-#         with db.cursor() as cur:
-#             # 변경 이벤트 감지를 위한 SQL 알림 설정
-#             cur.execute("LISTEN consulting_notification;")
-#             cur.execute("LISTEN task_notification;")
-#             while True:
-#                 db.poll()
-#                 while db.notifies:
-#                     notify = db.notifies.pop(0)
-#                     table_name = notify.channel.split('_')[0]  # 알림 채널에서 테이블 이름 추출
-#                     if table_name == 'consulting':
-#                         # 변경 알림을 클라이언트에게 전송
-#                         socketio.emit('consulting_change', {'message': 'Consulting data changed'}, broadcast=True)
-#                         if notify.payload.get('teacher_id') == user_id:
-#                             # 변경된 데이터를 페이지로 전달
-#                             new_consulting = get_new_consulting_data(notify.payload['consulting_id'])
-#                             socketio.emit('new_consulting', {'data': new_consulting}, broadcast=True)
-#                     # elif table_name == 'task':
-#                     #     # 변경 알림을 클라이언트에게 전송
-#                     #     socketio.emit('task_change', {'message': 'Task data changed'}, broadcast=True)
-#                     #     if notify.payload.get('teacher_id') == u['id']:
-#                     #         # 변경된 데이터를 페이지로 전달
-#                     #         new_task = get_new_task_data(notify.payload['task_id'])
-#                     #         socketio.emit('new_task', {'data': new_task}, broadcast=True)
-
-
-# # 데이터베이스 변경 이벤트 감지를 위한 스레드 시작
-# import threading
-# notification_thread = threading.Thread(target=handle_database_notification)
-# notification_thread.start()
-
-# # 데이터베이스 변경 이벤트 감지를 위한 스레드 시작
-# import threading
-# notification_thread = threading.Thread(target=handle_database_notification)
-# notification_thread.start()
+# def decrypt(data, key):
+#     f = Fernet(key)
+#     decrypted_data = f.decrypt(data)
+#     return decrypted_data.decode('utf-8')
 
 # 선생님 메인 페이지
 @bp.route("/", methods=['GET'])
@@ -114,11 +38,48 @@ def home(u):
     if request.method == 'GET':
         teacher_info = callapi.purple_info(u['user_id'], 'get_teacher_info')
         return render_template('teacher.html', user=teacher_info)
+
+# 차트 관련
+@bp.route('/get_data', methods=['GET'])
+@authrize
+def get_data(u):
+    all_consulting = []
+    all_task = []
+    ban_data = callapi.purple_ban(u['user_id'], 'get_mybans')
+    switchstudent = []
+    outstudent = []
+    my_students = callapi.purple_ban(u['user_id'], 'get_mystudents')
+    if(ban_data):
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00',port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                # 상담
+                cur.execute("select consulting.id,consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate,consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result from consulting left join consultingcategory on consulting.category_id = consultingcategory.id where startdate <= %s and teacher_id=%s", (Today,ban_data[0]['id'],))
+                all_consulting = cur.fetchall()
+
+                # 업무
+                cur.execute("select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id left join taskcategory on task.category_id = taskcategory.id where ( (task.category_id = 11) or ( (task.cycle = %s) or (task.cycle = 0) ) ) and ( task.startdate <= %s and %s <= task.deadline ) and taskban.teacher_id=%s;", (today_yoil, Today, Today,ban_data[0]['id'],))
+                all_task = cur.fetchall()
+                
+                cur.execute("SELECT ban_id, id, student_id FROM switchstudent WHERE teacher_id = %s GROUP BY ban_id, id, student_id;", (u['id'],))
+                switchstudent = cur.fetchall()
+
+                cur.execute("SELECT ban_id, id, student_id FROM outstudent WHERE teacher_id = %s GROUP BY ban_id, id, student_id;", (u['id'],))
+                outstudent = cur.fetchall()
+        except:
+            print('err')
+        finally:
+            db.close()
+        return jsonify({'switchstudent': switchstudent,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'outstudent':outstudent,'ban_data':ban_data})
+    return jsonify({'ban_data':'없음'})
+
+
     
 @bp.route('/get_mybans', methods=['GET'])
 @authrize
 def get_mybans(u):
     all_consulting = []
+    task_consulting = []
     all_task = []
     ban_data = callapi.call_api(u['user_id'], 'get_mybans_new')
     my_students = callapi.call_api(u['id'], 'get_mystudents_new')
@@ -131,11 +92,32 @@ def get_mybans(u):
             # 업무
             cur.execute("select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id left join taskcategory on task.category_id = taskcategory.id where ( (task.category_id = 11) or ( (task.cycle = %s) or (task.cycle = 0) ) ) and ( task.startdate <= %s and %s <= task.deadline ) and taskban.teacher_id=%s;", (today_yoil, Today, Today,u['id'],))
             all_task = cur.fetchall()
+            # 본원 상담
+            cur.execute("select consulting.student_id, consulting.origin, consulting.student_name, consulting.student_engname,consulting.id,consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate,consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result from consulting left join consultingcategory on consulting.category_id = consultingcategory.id where startdate <= %s and teacher_id=%s", (Today,u['id'],))
+            task_consulting = cur.fetchall()
     except:
         print('err:', sys.exc_info())
     finally:
         db.close()
-    return jsonify({'ban_data':ban_data,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students})
+    return jsonify({'ban_data':ban_data,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'task_consulting':task_consulting})
+
+
+@bp.route('/get_learning_history', methods=['GET'])
+@authrize
+def get_learning_history(u):
+    all_consulting = []
+    db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00',port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
+    try:
+        with db.cursor() as cur:
+            # 상담
+            cur.execute("select consulting.student_id, consulting.origin, consulting.student_name, consulting.student_engname,consulting.id,consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate,consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result from consulting left join consultingcategory on consulting.category_id = consultingcategory.id where startdate <= %s and teacher_id=%s", (Today,u['id'],))
+            all_consulting = cur.fetchall()
+    except:
+        print('err:', sys.exc_info())
+    finally:
+        db.close()
+    return jsonify({'all_consulting':all_consulting})
+
 
 # 문의 리스트 / 문의 작성    
 @bp.route('/question', methods=['GET', 'POST'])
@@ -190,40 +172,40 @@ def question(u):
         teacher_name = request.form.get('teacher_name', None)
         teacher_engname = request.form.get('teacher_engname', None)
         create_date = datetime.now().date()
-        payloadText  = teacher_name+'( '+ teacher_engname +' )님으로 부터 ' 
+        # payloadText  = teacher_name+'( '+ teacher_engname +' )님으로 부터 ' 
         # 첨부 파일 처리
         if category == 0:
-            # 영교부에서 재택T 문의 관리 하는 시놀로지 채팅 방 token 값 받아야 함. 
-            Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
-            payloadText += '일반 문의가 등록되었습니다 \n' 
+            # # 영교부에서 재택T 문의 관리 하는 시놀로지 채팅 방 token 값 받아야 함. 
+            # Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
+            # payloadText += '일반 문의가 등록되었습니다 \n' 
             new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         elif category == 4: 
-            payloadText += '기술 문의가 등록되었습니다 \n' 
-            Synologytoken = '"iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg"'
+            # payloadText += '기술 문의가 등록되었습니다 \n' 
+            # Synologytoken = '"iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg"'
             new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         elif category ==5: 
-            payloadText += '내근티처 문의가 등록되었습니다 \n' 
-            Synologytoken = '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"'
+            # payloadText += '내근티처 문의가 등록되었습니다 \n' 
+            # Synologytoken = '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"'
             new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         else:
-            Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
-            payloadText += '이반 / 퇴소 요청이 등록되었습니다 \n' 
+            # Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
+            # payloadText += '이반 / 퇴소 요청이 등록되었습니다 \n' 
             history_id = request.form['h_select_box']
             new_question = Question(consulting_history=history_id, category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
-        payloadText += '제목: `'+ title +'`\n'+'```\n'+contents+'\n```'
+        # payloadText += '제목: `'+ title +'`\n'+'```\n'+contents+'\n```'
         db.session.add(new_question)
         db.session.commit()
         files = request.files.getlist('file_upload')
         for file in files:
             common.save_attachment(file, new_question.id)
-        requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
-        try:
-            response = requests.get(requestURI)
-            response.raise_for_status()
-            print(f"statusCode: {response.status_code}")
-        except requests.exceptions.RequestException as e:
-            print("시놀로지 전송 실패")
-            print(e)
+        # requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
+        # try:
+        #     # response = requests.get(requestURI)
+        #     # response.raise_for_status()
+        #     print(f"statusCode: {response.status_code}")
+        # except requests.exceptions.RequestException as e:
+        #     print("시놀로지 전송 실패")
+        #     print(e)
         return jsonify({'result': '완료'})
 
 # 오늘 해야 할 업무 완료 저장 

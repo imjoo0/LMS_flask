@@ -872,3 +872,7 @@ input::placeholder {
     color:red; text-align:center;
     display:none;
   }
+
+  .no_student{
+    color:red;
+  }
