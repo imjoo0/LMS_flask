@@ -70,6 +70,7 @@ def get_data(u):
             print('err')
         finally:
             db.close()
+        print(all_task)
         return jsonify({'switchstudent': switchstudent,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'outstudent':outstudent,'ban_data':ban_data})
     return jsonify({'ban_data':'없음'})
 
@@ -79,7 +80,6 @@ def get_data(u):
 @authrize
 def get_mybans(u):
     all_consulting = []
-    task_consulting = []
     all_task = []
     ban_data = callapi.call_api(u['user_id'], 'get_mybans_new')
     my_students = callapi.call_api(u['id'], 'get_mystudents_new')
@@ -92,14 +92,11 @@ def get_mybans(u):
             # 업무
             cur.execute("select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id left join taskcategory on task.category_id = taskcategory.id where ( (task.category_id = 11) or ( (task.cycle = %s) or (task.cycle = 0) ) ) and ( task.startdate <= %s and %s <= task.deadline ) and taskban.teacher_id=%s;", (today_yoil, Today, Today,u['id'],))
             all_task = cur.fetchall()
-            # 본원 상담
-            cur.execute("select consulting.student_id, consulting.origin, consulting.student_name, consulting.student_engname,consulting.id,consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate,consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result from consulting left join consultingcategory on consulting.category_id = consultingcategory.id where startdate <= %s and teacher_id=%s", (Today,u['id'],))
-            task_consulting = cur.fetchall()
     except:
         print('err:', sys.exc_info())
     finally:
         db.close()
-    return jsonify({'ban_data':ban_data,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'task_consulting':task_consulting})
+    return jsonify({'ban_data':ban_data,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students})
 
 
 @bp.route('/get_learning_history', methods=['GET'])

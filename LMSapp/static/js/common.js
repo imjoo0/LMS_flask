@@ -1,7 +1,7 @@
 // manage변수 
 let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, studentsData, reportsData, consultingData, consultingHistoryData, consultingcateData, taskData, taskcateData, questionData, answerData, attachData;
 // teacher 변수
-let  Tban_data, Tall_consulting, Tmy_students, Tall_task, Ttask_consulting;
+let  Tban_data, Tall_consulting, Tmy_students, Tall_task, Ttask_consulting, Tstudent_consulting;
 let isFetching = false;
 
 const today = new Date().setHours(0, 0, 0, 0);
@@ -104,7 +104,7 @@ let make_out = function(c) {
     if (c != 1) {
         return '이반/퇴소 원생';
     }
-    return c;
+    return '';
 }
 let make_date = function (d) {
     if (d == null) {
@@ -131,7 +131,7 @@ let missed_date = function (d) {
     }
 }
 let make_priority = function (priority) {
-    if (priority == 1) return '';
+    if (priority == 1) return '무관';
     else if (priority == 2) return '오후업무';
     else if (priority == 3) return '오전업무🌞';
     else return '긴급업무⚡';
@@ -197,9 +197,11 @@ async function get_mybans(){
         });
         Tban_data = response.ban_data
         Tall_consulting = response.all_consulting
-        Tmy_students = response.my_students
+        // 업무 데이터 정리
         Tall_task = response.all_task
-        Ttask_consulting = response.task_consulting
+        Tall_task =  Tall_task.length > 0 ? Tall_task.filter(task => (task.done == 1 && new Date(task.created_at).setHours(0, 0, 0, 0) === today)||(task.done == 0)) : [];
+        // student_consulting 
+        Tmy_students = response.my_students
     } catch (error) {
         alert('Error occurred while retrieving data1.');
     }

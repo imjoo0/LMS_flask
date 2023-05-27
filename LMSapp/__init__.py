@@ -7,7 +7,8 @@ from flask_file_upload.file_upload import FileUpload
 import config
 import pymysql
 from flask_wtf.csrf import CSRFProtect  # csrf
-
+file_upload = FileUpload()
+csrf = CSRFProtect()
 # 전역 변수로 db, migrate 객체를 만든 다음 create_app 함수 안에서 init_app 메서드를 이용해 app에 등록
 # db 객체를 create_app 함수 안에서 생성하면 블루프린트와 같은 다른 모듈에서 사용할수 없기 때문에 db, migrate와 같은 객체를 create_app 함수 밖에 생성하고, 해당 객체를 앱에 등록할 때는 create_app 함수에서 init_app 함수를 통해 진행한다.
 db = SQLAlchemy()
@@ -20,9 +21,9 @@ db = SQLAlchemy()
 # Aession = sessionmaker(bind=engine)
 # Base = declarative_base(bind=engine)
 
-file_upload = FileUpload()
-
-csrf = CSRFProtect()
+# 양방향 통신
+from flask_socketio import SocketIO, emit
+socketio = SocketIO()
 
 # 스케줄러 생성
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -72,5 +73,8 @@ def create_app():
 
     from .views import common
     app.register_blueprint(common.bp)
+
+    # SocketIO 초기화 및 애플리케이션에 연결
+    socketio.init_app(app)
 
     return app
