@@ -1,7 +1,7 @@
 // manage변수 
 let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, studentsData, reportsData, consultingData, consultingHistoryData, consultingcateData, taskData, taskcateData, questionData, answerData, attachData;
 // teacher 변수
-let  Tban_data, Tall_consulting, Tmy_students, Tall_task, Ttask_consulting, Tstudent_consulting;
+let  Tban_data, Tall_consulting, Tmy_students, Tall_task, Ttask_consulting, Tstudent_consulting, Tall_students;
 let isFetching = false;
 
 const today = new Date().setHours(0, 0, 0, 0);
@@ -78,6 +78,12 @@ let make_part = function (c) {
         return '최고 관리자';
     }
 }
+let make_small_char = function(c){
+    if(c && c.length > 30) {
+        c = c.substring(0, 30) + ' ▪️▪️▪️ ';
+    }
+    return c
+}
 let make_answer_code = function(rc){
     if( rc == 0){
         return '❌ 반려';
@@ -102,7 +108,7 @@ let make_cycle = function (c) {
 }
 let make_out = function(c) {
     if (c != 1) {
-        return '이반/퇴소 원생';
+        return '이반퇴소원생';
     }
     return '';
 }
@@ -201,7 +207,58 @@ async function get_mybans(){
         Tall_task = response.all_task
         Tall_task =  Tall_task.length > 0 ? Tall_task.filter(task => (task.done == 1 && new Date(task.created_at).setHours(0, 0, 0, 0) === today)||(task.done == 0)) : [];
         // student_consulting 
-        Tmy_students = response.my_students
+        Tall_students = response.my_students
+        Tmy_students = Tall_students.filter(s=>s.category_id == 1)
+        Tstudent_consulting = Tmy_students.reduce((acc, student) => {
+            const consultingList = Tall_consulting.filter(c => c.student_id === student.student_id && c.category_id < 100 );
+            const unlearned_num = consultingList.length;
+            if (unlearned_num>0){
+                const todoconsulting = consultingList.filter(c => c.done == 0)
+                const todoconsulting_num = todoconsulting.length
+                let done = 0                
+                if (todoconsulting_num > 0) {
+                    const deadline = todoconsulting.reduce((prev, current) => {
+                        let prevDueDate = new Date(prev.deadline).setHours(0, 0, 0, 0);
+                        let currentDueDate = new Date(current.deadline).setHours(0, 0, 0, 0);
+                        return currentDueDate < prevDueDate ? current : prev;
+                    }, todoconsulting[0]);
+                    const missed = todoconsulting.reduce((prev, current) => {
+                        let prevDueDate = new Date(prev.missed).setHours(0, 0, 0, 0);
+                        let currentDueDate = new Date(current.missed).setHours(0, 0, 0, 0);
+                        return currentDueDate < prevDueDate ? prev : current;
+                    }, todoconsulting[0]);
+                    acc.push({
+                        'student_id': student.student_id,
+                        'student_origin': student.origin,
+                        'student_name': student.name + '(' + student.nick_name + ')',
+                        'student_mobileno': student.mobileno,
+                        'student_birthday': student.birthday,
+                        'ban_id': student.ban_id,
+                        'ban_name': student.classname,
+                        'consulting_done':done,
+                        'todoconsulting_num':todoconsulting_num,
+                        'deadline': make_date(deadline.deadline),
+                        'missed': missed_date(missed.missed)
+                    });
+                }else{
+                    done = 1;
+                    acc.push({
+                        'student_id': student.student_id,
+                        'student_origin': student.origin,
+                        'student_name': student.name + '(' + student.nick_name + ')',
+                        'student_mobileno': student.mobileno,
+                        'student_birthday': student.birthday,
+                        'ban_id': student.ban_id,
+                        'ban_name': student.classname,
+                        'consulting_done':done,
+                        'todoconsulting_num':todoconsulting_num,
+                        'deadline': make_date('3000-01-01'),
+                        'missed': missed_date('1111-01-01')
+                    });
+                }
+            }
+            return acc;
+        }, []);
     } catch (error) {
         alert('Error occurred while retrieving data1.');
     }

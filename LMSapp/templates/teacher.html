@@ -399,17 +399,57 @@
                     </tbody>
                 </table>
                 <div id="consulting_contents_box_cate" class="student_report_button_box"></div>
-                <!-- </div>
-                <div class="modal_bottom_body" style="margin-top:300px;"> -->
-                <!-- <div class="d-flex justify-content-center mt-4 mb-2 monot_inloading" id="consulting_cant_write_box">
-                </div> -->
-                <div class="d-flex justify-content-center mt-4 mb-2 monot_inloading">
-                    <div id="consulting_write_box">
+                <div class="make_row" style="width: 100%; height: 100%;">
+                    <div class="justify-content-center mt-4 mb-2 monot_inloading" style="width: 40%; height: 100%; margin-right:5%" >
+                        <h3 id="sh_title_msg">상담 기록</h3>
+                        <hr class='hr-dotted'/>
+                        <div id="student_history_record_box">
+                            <div class="my-4 d-flex flex-wrap justify-content-end align-items-center" id="consulting_history_category_box">
+                                <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 상담 카테고리 선택</span></div>
+                                <div class="col-md-4 col-sm-6 col-12">
+                                    <select id="consulting_history_cate" class="form-select form-select w-100" aria-label="Default select example" onchange="sort_consulting_category(this.value)">
+            
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-start align-items-start flex-column">
+                                <table class="table text-center">
+                                    <tbody style="width:100%;">
+                                        <thead>
+                                            <tr class="row">
+                                                <th class="col-11">상담</th>
+                                                <th class="col-1">상세</th>
+                                            </tr>
+                                            <tr class="row">
+                                                <th class="col-2">종류</th>
+                                                <th class="col-2">제목</th>
+                                                <th class="col-2">상담일</th>
+                                                <th class="col-5">내용</th>
+                                                <th class="col-1">확인</th>
+                                            </tr>
+                                        </thead>
+                                        <tr class="row" id="consultinghistory_list">
 
-
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center w-100">
+                                <div id="consultinghistory_list_pagination" class="py-5"></div>
+                            </div>
+                        </div>
+                        <div id="studentconsulting_history_box_detail">
+                        </div>
+                    </div>
+                    <div class="justify-content-center mt-4 mb-2 monot_inloading"style="width: 40%; height: 100%;" id="student_consulting_box">
+                        <h3>상담일지 작성</h3>
+                        <div id="consulting_write_box">
+                            <div id="consulting_contents_box_cate" class="student_report_button_box"></div>
+    
+                        </div>
                     </div>
                 </div>
-                <!-- </div> -->
+                
             </div>
         </div>
     </div>
