@@ -222,7 +222,7 @@ async function get_soquestion_detail(q_id, done_code) {
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">작성일</span>
-        <p>${make_date(question_detail_data.create_date)}</p>
+        <p>${question_detail_data.create_date}</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">대상 반</span>
@@ -232,7 +232,7 @@ async function get_soquestion_detail(q_id, done_code) {
         temp_question_list += `
         <div class="modal-body-select-container">
             <span class="modal-body-select-label">학생</span>
-            <p>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin} )</p>
+            <p>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin})</p>
         </div>`
     }
     temp_question_list +=`
@@ -679,7 +679,7 @@ async function get_question_detail(q_id, done_code) {
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">작성일</span>
-        <p>${make_date(question_detail_data.create_date)}</p>
+        <p>${question_detail_data.create_date}</p>
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">대상 반</span>
@@ -688,9 +688,19 @@ async function get_question_detail(q_id, done_code) {
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">학생</span>`
     
+    console.log(studentsData.filter(s=>s.category_id == 2))
     if(question_detail_data.student_id != 0){
         student_data = studentsData.filter(s => s.student_id == question_detail_data.student_id)[0]
-        temp_question_list += `<p>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin} )</p>`
+        console.log(student_data)
+        if(student_data != undefined){
+            if(student_data.category_id == 1){
+                temp_question_list += `<p>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin})</p>`
+            }else{
+                temp_question_list += `<p>이반/퇴소 처리 된 원생 입니다 </br> ${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin})</p>`
+            }
+        }else{
+            temp_question_list += `<p>이반/퇴소 처리 된 원생</p>`
+        }
     }
     else{
         temp_question_list += `<p>특정 원생 선택 없음</p>`
@@ -1007,7 +1017,6 @@ function task_ban_change(btid) {
         }else if (btid == 5) {
             $('#task_msg').html('👉 18기 반 대상 진행합니다 (소요되는 시간이 있으니 저장 클릭후 알람메시지가 나올 때 까지 대기 해 주세요)')
         }
-
     }
 }
 function delete_selected_ban(idx) {
@@ -1148,7 +1157,6 @@ function show_selections() {
 }
 function delete_selected_student(idx) {
     selectedStudentList.splice(idx, 1)
-
     // 선택 된거 보여주기 
     return show_selections();
 }
@@ -1207,6 +1215,7 @@ function post_consulting_request() {
             indivi_student_selections.forEach(value => {
                 v = String(value).split('_')
                 s_info = studentsData.filter(a => a.student_id ==  Number(v[3]))[0]
+                console.log(s_info)
                 const promise = $.ajax({
                     type: "POST",
                     url: '/manage/consulting/' + v[0] + '/' + v[1] + '/' + v[3]+ '/',
@@ -1251,8 +1260,9 @@ async function get_request_consulting(){
     if (!consultingData) {
         await get_all_consulting()
     }
+    req_consultings = consultingData.filter(c=>c.category_id > 100)
     const updateSearchResult = function () {
-        let copy_data = consultingData.slice();
+        let copy_data = req_consultings.slice();
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
         if(selectedCategory != 'none' && searchInput ==""){
@@ -1319,7 +1329,7 @@ async function get_request_consulting(){
         }
     };
 
-    let category_set = new Set(consultingData.map(c => c.category));
+    let category_set = new Set(req_consultings.map(c => c.category));
         let category_list = [...category_set];
         var idxHtml = `<option value="none">전체</option>`;
         $.each(category_list, function (idx, val) {
@@ -1328,10 +1338,10 @@ async function get_request_consulting(){
     $('#history_cate').html(idxHtml);
     $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
 
-    consultingData.sort(function (a, b) {
+    req_consultings.sort(function (a, b) {
         return new Date(b.startdate) - new Date(a.startdate);
     });
-    Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': consultingData }))
+    Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': req_consultings }))
     $('.mo_inloading').hide();
     $('.not_inloading').show();
 }
@@ -1342,7 +1352,7 @@ function sort_consultingoption(sortBy) {
             $('#deadline_sort').html('마감일 정렬👉')
             $('#startdate_sort').html('최근순 정렬👉')         
             $('#consulting_sort').html('미진행 정렬👉')        
-            consultingData.sort(function (a, b) {
+            req_consultings.sort(function (a, b) {
                 var nameA = a.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
                 var nameB = b.student_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
                 if (nameA < nameB) {
@@ -1360,7 +1370,7 @@ function sort_consultingoption(sortBy) {
             $('#deadline_sort').html('<strong>마감일 정렬👇</strong>')
             $('#startdate_sort').html('최근순 정렬👉')     
             $('#consulting_sort').html('미진행 정렬👉')        
-            consultingData.sort(function (a, b) {
+            req_consultings.sort(function (a, b) {
                 return new Date(a.deadline) - new Date(b.deadline);
             });
             break;
@@ -1370,7 +1380,7 @@ function sort_consultingoption(sortBy) {
             $('#deadline_sort').html('마감일 정렬👉') 
             $('#startdate_sort').html('<strong>최근순 정렬👇</strong>')        
             $('#consulting_sort').html('미진행 정렬👉')        
-            consultingData.sort(function (a, b) {
+            req_consultings.sort(function (a, b) {
                 return new Date(b.startdate) - new Date(a.startdate);
             });
             break;
@@ -1380,7 +1390,7 @@ function sort_consultingoption(sortBy) {
             $('#deadline_sort').html('마감일 정렬👉')    
             $('#startdate_sort').html('최근순 정렬👉')
             $('#consulting_sort').html('<strong>미진행 정렬👇</strong>') 
-            consultingData.sort(function (a, b) {
+            req_consultings.sort(function (a, b) {
                 if (a.done === 0 && b.done === 1) {
                     return -1;
                 }
@@ -1395,12 +1405,12 @@ function sort_consultingoption(sortBy) {
     // 데이터 정렬 후 페이지네이션 다시 설정
     Consultingcontainer.pagination("destroy");
     Consultingcontainer.pagination(
-      Object.assign(ConsultingpaginationOptions, { dataSource: consultingData })
+      Object.assign(ConsultingpaginationOptions, { dataSource: req_consultings })
     );
 }
 
 function get_consultingdetail(consulting_id) {
-    const consulting_history = consultingData.filter(c=>c.id == consulting_id)[0]
+    const consulting_history = req_consultings.filter(c=>c.id == consulting_id)[0]
     const teacher_ban_info = banData.filter(b=>b.ban_id == consulting_history.ban_id)[0]
     $('#my_consulting_requestModalLabel').html(`${teacher_ban_info.name}반 ${teacher_ban_info.teacher_name}( ${teacher_ban_info.teacher_engname} )T의 ${consulting_history.category}상담`);
 
@@ -1629,13 +1639,11 @@ function get_taskban(key){
         container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
     });
 }  
-
 function go_taskback() {
     $('#for_task_list').show()
     $('#for_taskban_list').hide()
     $('#taskModalLabel').html('요청한 업무 목록');
 }  
-
 async function sort_task(value) {
     var dataHtml = '';
     let container = $('#task-pagination')
