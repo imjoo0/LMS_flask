@@ -75,12 +75,12 @@ def get_data(u):
     return jsonify({'ban_data':'없음'})
 
 
-    
-@bp.route('/get_mybans', methods=['GET'])
+@bp.route('/get_teacher_data', methods=['GET'])
 @authrize
 def get_mybans(u):
     all_consulting = []
     all_task = []
+    all_consulting_category = []
     ban_data = callapi.call_api(u['user_id'], 'get_mybans_new')
     my_students = callapi.call_api(u['id'], 'get_mystudents_new')
     db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00',port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
@@ -89,6 +89,10 @@ def get_mybans(u):
             # 상담
             cur.execute("select consulting.origin, consulting.student_name, consulting.student_engname,consulting.id,consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate,consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result from consulting left join consultingcategory on consulting.category_id = consultingcategory.id where startdate <= %s and teacher_id=%s", (Today,u['id'],))
             all_consulting = cur.fetchall()
+
+            cur.execute("SELECT * FROM LMS.consultingcategory where consultingcategory.id > 100;")
+            all_consulting_category = cur.fetchall()
+            
             # 업무
             cur.execute("select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id left join taskcategory on task.category_id = taskcategory.id where ( (task.category_id = 11) or ( (task.cycle = %s) or (task.cycle = 0) ) ) and ( task.startdate <= %s and %s <= task.deadline ) and taskban.teacher_id=%s;", (today_yoil, Today, Today,u['id'],))
             all_task = cur.fetchall()
@@ -96,7 +100,7 @@ def get_mybans(u):
         print('err:', sys.exc_info())
     finally:
         db.close()
-    return jsonify({'ban_data':ban_data,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students})
+    return jsonify({'ban_data':ban_data,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'all_consulting_category':all_consulting_category})
 
 
 @bp.route('/get_learning_history', methods=['GET'])
@@ -255,7 +259,7 @@ def consulting_history(id,is_done):
     return{'result':'완료'}
 
 # 추가 상담 실행 함수 
-@bp.route("/plus_consulting/<int:student_id>/<int:b_id>/<int:t_id>", methods=['POST'])
+@bp.route("/plus_consulting/<int:student_id>/<int:b_id>/<int:t_id>/", methods=['POST'])
 def plus_consulting(student_id,b_id,t_id):
     # 상담 제목
     received_contents = request.form['consulting_contents']

@@ -49,7 +49,16 @@ $(document).ready(function () {
 })
 $(window).on('load', async function () {
     try {
-        await get_total_data();
+        if(!getIsFetching()){
+            try{
+                setIsFetching(true);
+                await get_total_data();
+            }catch (error) {
+                alert('Error occurred while retrieving data2.');
+            }finally {
+                setIsFetching(false);
+            }
+        }
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
@@ -198,56 +207,57 @@ async function get_soquestion_detail(q_id, done_code) {
     // 문의 상세 내용 
     let temp_question_list = `
     <div class="modal-body-select-container">
-        <span class="modal-body-select-label">문의 종류</span>
-        <p>${q_category(question_detail_data.category)}</p>
+        <div class="modal-body-select-label">제목</div>
+        <div>${question_detail_data.title}</div>
     </div>
     <div class="modal-body-select-container">
-        <span class="modal-body-select-label">문의 종류 변경하기</span>
-        <select id="question_kind" class="modal-body-select">
-            <option value="none" selected>문의 종류 변경 하지 않기</option>
-            <option value=0>일반 문의</option>
-            <option value=5>내근티처 문의</option>
-            <option value=4>기술지원 문의</option>
-            <option value=2>이반 요청</option>
-            <option value=1>퇴소 요청</option>
-        </select>
+        <div class="modal-body-select-label">작성일</div>
+        <div>${question_detail_data.create_date}</div>
     </div>
     <div class="modal-body-select-container">
-        <span class="modal-body-select-label">제목</span>
-        <p>${question_detail_data.title}</p>
+        <div class="modal-body-select-label">문의 종류</div>
+        <div class="w-25">${q_category(question_detail_data.category)}</div>
+        <div class="modal-body-select-label">문의 종류 변경하기</div>
+        <div class="w-25">
+            <select id="question_kind" class="modal-body-select w-100">
+                <option value="none" selected>변경X</option>
+                <option value=0>일반 문의</option>
+                <option value=5>내근티처 문의</option>
+                <option value=4>기술지원 문의</option>
+                <option value=2>이반 요청</option>
+                <option value=1>퇴소 요청</option>
+            </select>
+        </div>
     </div>
     <div class="modal-body-select-container">
-        <span class="modal-body-select-label">내용</span>
-        <p>${question_detail_data.contents}</p>
-    </div>
-    <div class="modal-body-select-container">
-        <span class="modal-body-select-label">작성일</span>
-        <p>${question_detail_data.create_date}</p>
-    </div>
-    <div class="modal-body-select-container">
-        <span class="modal-body-select-label">대상 반</span>
-        <p>${question_detail_data.ban_name} ➖ 담임 T : ${question_detail_data.teacher_name} </p>
+        <div class="modal-body-select-label">대상 반</div>
+        <div>${question_detail_data.ban_name} ➖ 담임 T : ${question_detail_data.teacher_name} </div>
     </div>`
     if(student_data){
         temp_question_list += `
         <div class="modal-body-select-container">
-            <span class="modal-body-select-label">학생</span>
-            <p>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin})</p>
+            <div class="modal-body-select-label">학생</div>
+            <div>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin})</div>
         </div>`
     }
     temp_question_list +=`
     <div class="modal-body-select-container">
-    <span class="modal-body-select-label">첨부파일</span>
-    <div class="make_col">
+    <div class="modal-body-select-label">첨부파일</div>
     `
     if(attach.length != 0){
         attach.forEach((a)=>{
             temp_question_list +=`<a href="/common/downloadfile/question/${q_id}/attachment/${a.id}" download="${a.file_name}">${a.file_name}</a>`
         })
     }else{
-        temp_question_list +=`<p>첨부 파일 없음</p>`
+        temp_question_list +=`<div>첨부 파일 없음</div>`
     }
-    temp_question_list += `</div></div>`
+    temp_question_list += `
+    </div>
+    <div class="d-flex flex-column justify-content-start py-3">
+        <div class="modal-body-select-label">내용</div>
+        <div class="mt-3">${question_detail_data.contents}</div>
+    </div>    
+    `
     $('#teacher_question').html(temp_question_list);
     // 상담 일지 처리 
     let consulting_history = consultingData.filter(c => c.id == question_detail_data.consulting_history)
@@ -260,26 +270,22 @@ async function get_soquestion_detail(q_id, done_code) {
             category = `${consulting_history[0].category} ${consulting_history[0].contents}`
         }
         temp_his = `
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">상담 종류</span>
-            <p>${category}</p>
+        <div class="d-flex w-100">
+            <div style="width:16.666%;" class="modal-body-select-label">상담 종류</div>
+            <div style="width:16.666%;">${category}</div>
+            <div style="width:16.666%;" class="modal-body-select-label">상담 사유</div>
+            <div style="width:16.666%;">${consulting_history[0].reason}</div>
+            <div style="width:16.666%;" class="modal-body-select-label">상담 일시</div>
+            <div style="width:16.666%;">${make_date(consulting_history[0].created_at)}</div>
         </div>
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">상담 사유</span>
-            <p>${consulting_history[0].reason}</p>
-        </div>
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">제공한 가이드</span>
-            <p>${consulting_history[0].solution}</p>
-        </div>
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">상담 일시</span>
-            <p>${make_date(consulting_history[0].created_at)}</p>
+        <div class="d-flex flex-column py-3">
+            <div class="modal-body-select-label mt-3">제공한 가이드</div>
+            <div class="mt-3">${consulting_history[0].solution}</div>
         </div>
         `;
     } else {
         temp_his = `
-        <p> 상담내역이 없습니다 </p>
+        <div> 상담내역이 없습니다 </div>
         `;
     }
     $('#cha').html(temp_his);
@@ -310,21 +316,19 @@ async function get_soquestion_detail(q_id, done_code) {
         answer_data = answerData.filter(a => a.question_id == q_id)[0]
         let temp_answer_list = `
         <div class="modal-body-select-container">
-            <span class="modal-body-select-label">답변 내용</span>
-            <textarea class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" rows="15" cols="25"
-            id="answer_content_modi" placeholder="${answer_data.content}"></textarea> 
+           <div class="modal-body-select-label">처리</div>
+           <div>${make_answer_code(answer_data.reject_code)}</div>
         </div>
         <div class="modal-body-select-container">
-            <span class="modal-body-select-label">답변자</span>
-            <p>${make_nullcate(answer_data.writer)}</p>
+            <div class="modal-body-select-label w-25">답변자</div>
+            <div class="w-25">${make_nullcate(answer_data.writer)}</div>
+            <div class="modal-body-select-label w-25">응답일</div>
+            <div class="w-25">${make_date(answer_data.created_at)}</div>
         </div>
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">응답일</span>
-            <p>${make_date(answer_data.created_at)}</p>
-        </div>
-        <div class="modal-body-select-container">
-           <span class="modal-body-select-label">처리</span>
-           <p>${make_answer_code(answer_data.reject_code)}</p>
+        <div class="d-flex flex-column justify-content-start py-3">
+            <span class="modal-body-select-label">내용</span>
+            <textarea class="modal-body w-100 mt-3" style="border-block-width:0;border-left:0;border-right:0" type="text" rows="15" cols="25"
+            id="answer_content_modi">${answer_data.content}</textarea>
         </div>
         `;
         $('#teacher_answer').html(temp_answer_list);
@@ -653,52 +657,50 @@ async function get_question_detail(q_id, done_code) {
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
 
     // 문의 상세 내용 
-    let temp_question_list = `
-    <div class="modal-body-select-container">
-        <span class="modal-body-select-label">문의 종류</span>
-        <p>${q_category(question_detail_data.category)}</p>
-    </div>
-    <div class="modal-body-select-container">
-        <span class="modal-body-select-label">문의 종류 변경하기</span>
-        <select id="question_kind" class="modal-body-select">
-            <option value="none" selected>문의 종류 변경 하지 않기</option>
-            <option value=0>일반 문의</option>
-            <option value=5>내근티처 문의</option>
-            <option value=4>기술지원 문의</option>
-            <option value=2>이반 요청</option>
-            <option value=1>퇴소 요청</option>
-        </select>
-    </div>
-    <div class="modal-body-select-container">
-        <span class="modal-body-select-label">제목</span>
-        <p>${question_detail_data.title}</p>
-    </div>
-    <div class="modal-body-select-container">
-        <span class="modal-body-select-label">내용</span>
-        <p>${question_detail_data.contents}</p>
-    </div>
-    <div class="modal-body-select-container">
-        <span class="modal-body-select-label">작성일</span>
-        <p>${question_detail_data.create_date}</p>
-    </div>
-    <div class="modal-body-select-container">
-        <span class="modal-body-select-label">대상 반</span>
-        <p>${question_detail_data.ban_name} ➖ 담임 T : ${question_detail_data.teacher_name} </p>
-    </div>
-    <div class="modal-body-select-container">
-        <span class="modal-body-select-label">학생</span>`
+    let temp_question_list = 
+    `
+        <div class="modal-body-select-container">
+            <div class="modal-body-select-label">제목</div>
+            <div>${question_detail_data.title}</div>
+        </div>
+        <div class="modal-body-select-container">
+            <div class="modal-body-select-label">작성일</div>
+            <div>${question_detail_data.create_date}</div>
+        </div>
+        <div class="modal-body-select-container">
+            <div class="modal-body-select-label">문의 종류</div>
+            <div class="w-25">${q_category(question_detail_data.category)}</div>
+            <div class="modal-body-select-label">문의 종류 변경</div>
+            <div class="w-25">
+                <select id="question_kind" class="modal-body-select w-100">
+                    <option value="none" selected>변경X</option>
+                    <option value=0>일반 문의</option>
+                    <option value=5>내근티처 문의</option>
+                    <option value=4>기술지원 문의</option>
+                    <option value=2>이반 요청</option>
+                    <option value=1>퇴소 요청</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-body-select-container">
+            <div class="modal-body-select-label">대상 반</div>
+            <div>${question_detail_data.ban_name} ➖ 담임 T : ${question_detail_data.teacher_name} </div>
+        </div>
+        <div class="modal-body-select-container">
+            <div class="modal-body-select-label">학생</div>
+    `
     
     if(question_detail_data.student_id != 0){
         student_data = studentsData.filter(s => s.student_id == question_detail_data.student_id)[0]
-        temp_question_list += `<p>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin})</p>`
+        temp_question_list += `<div>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin})</div>`
     }
     else{
-        temp_question_list += `<p>특정 원생 선택 없음</p>`
+        temp_question_list += `<div>특정 원생 선택 없음</div>`
     }
-    temp_question_list += `</div>
-    <div class="modal-body-select-container">
-    <span class="modal-body-select-label">첨부파일</span>
-    <div class="make_col">
+    temp_question_list += `
+        </div>
+        <div class="modal-body-select-container">
+            <div class="modal-body-select-label">첨부파일</div>
     `
     attach = attachData.filter(a => a.question_id == q_id)
     if(attach.length != 0){
@@ -706,9 +708,16 @@ async function get_question_detail(q_id, done_code) {
             temp_question_list +=`<a href="/common/downloadfile/question/${q_id}/attachment/${a.id}" download="${a.file_name}">${a.file_name}</a>`
         })
     }else{
-        temp_question_list +=`<p>첨부 파일 없음</p>`
+        temp_question_list +=`<div>첨부 파일 없음</div>`
     }
-    temp_question_list += `</div></div>`
+    temp_question_list += 
+    `
+        </div>
+        <div class="d-flex flex-column justify-content-start py-3">
+            <div class="modal-body-select-label">내용</div>
+            <div class="mt-3">${question_detail_data.contents}</div>
+        </div>
+    `
     $('#teacher_question').html(temp_question_list);
 
     // 응답 처리 
@@ -724,18 +733,17 @@ async function get_question_detail(q_id, done_code) {
         answer_data = answerData.filter(a => a.question_id == q_id)[0]
         let temp_answer_list = `
         <div class="modal-body-select-container">
-            <span class="modal-body-select-label">답변 내용</span>
-            <textarea class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" rows="15" cols="25"
-            id="answer_content_modi" placeholder="${answer_data.content}"></textarea> 
+            <div class="modal-body-select-label w-25">답변자</div>
+            <div class="w-25">${make_nullcate(answer_data.writer)}</div>
+            <div class="modal-body-select-label w-25">응답일</div>
+            <div class="w-25">${make_date(answer_data.created_at)}</div>
         </div>
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">답변자</span>
-            <p>${make_nullcate(answer_data.writer)}</p>
+        <div class="d-flex flex-column justify-content-start py-3">
+            <span class="modal-body-select-label">내용</span>
+            <textarea class="modal-body w-100 mt-3" style="border-block-width:0;border-left:0;border-right:0" type="text" rows="15" cols="25"
+            id="answer_content_modi">${answer_data.content}</textarea>
         </div>
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">응답일</span>
-            <p>${make_date(answer_data.created_at)}</p>
-        </div>`;
+        `;
         $('#teacher_answer').html(temp_answer_list);
         $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category},${1})">수정</button>`);
         $('#teacher_answer').show()

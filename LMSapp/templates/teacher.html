@@ -269,7 +269,7 @@
 <!--원생목록-->
 <div class="modal fade" id="ban_student_list" tabindex="-1" aria-labelledby="ban_student_listModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-xl" style="max-width:90%">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="ban_student_listModalLabelt">
@@ -285,6 +285,12 @@
                         <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0" style="margin-left:50%;"><span>📌 원생 검색</span></div>
                         <div class="col-md-4 col-sm-6 col-12">
                             <input type="text" id="student_list_search_input" placeholder="원생 이름 혹은 원번으로 검색" style="width:100%;height:2em;margin-bottom:10px;">
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0" style="margin-left:50%;"><span>📌 관리중인 원생</span></div>
+                        <div class="col-md-4 col-sm-6 col-12">
+                            <label><input type="radio" name="is_out" value="none" checked>전체</label>
+                            <label><input type="radio" name="is_out" value=0 > 관리중인 원생만 보기</label>
+                            <label><input type="radio" name="is_out" value=1> 하차한 원생만 보기</label>
                         </div>
                     </div>
                     <div class="d-flex justify-content-start align-items-start flex-column">
@@ -303,8 +309,7 @@
                                         <th class="col-2">연락처</th>
                                         <th class="col-3">누적 발생 건수</th>
                                         <th class="col-1">진행 건수</th>
-                                        <th class="col-1">기록 /수정</th>
-                                        <th class="col-1">자체 상담</th>
+                                        <th class="col-2">상담 기록 및 추가 상담 진행</th>
                                     </tr>
                                 </thead>
                                 <tr class="row" id="ban_student_info">
@@ -316,51 +321,6 @@
                     <div class="d-flex justify-content-center align-items-center w-100">
                         <div id="ban_student_list_pagination" class="py-5"></div>
                     </div>
-                </div>
-
-                <div id="student_consulting_datebox">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
-                    <button type="button" class="btn btn-back" onclick="go_back()">원생 목록으로 돌아가기🔙 </button>
-                    <div class="mo_inloading" class="loader loader--style2 text-center" title="1">
-                        <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
-                            <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
-                                <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
-                            </path>
-                        </svg>
-                    </div>
-                    <table class="table text-center monot_inloading">
-                        <tbody style="width:100%;">
-                            <tr class="row tagtagtitle" id="studentlist_info_box">
-                                
-                            </tr>
-                            <tr class="row" id="studentlist_consulting_info_box">
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="d-flex justify-content-center align-items-center w-100">
-                        <div id="studentlist_pagination" class="mt-4 mb-5 text-center"></div>
-                    </div>
-                </div>
-
-                <div id="make_plus_consulting">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
-                    <button type="button" class="btn btn-back" onclick="go_back()">원생 목록으로 돌아가기🔙 </button>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">상담 종류</span>
-                        <input class="modal-body-select" type="text" size="50" id="plus_consulting_contents"
-                            style="width: 75%;">
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">상담 사유</span>
-                        <input class="modal-body-select" type="text" size="50" id="plus_consulting_reason"
-                            style="width: 75%;">
-                    </div>
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">제공한 가이드</span>
-                        <textarea class="modal-body-select" type="text" rows="5" cols="25" id="plus_consulting_solution"
-                            style="width: 75%;"></textarea>
-                    </div>
-                    <div class="d-flex justify-content-center mt-4 mb-2" id="plusconsulting_button_box"></div>
                 </div>
             </div>
         </div>
@@ -436,6 +396,33 @@
                             </div>
                             <div class="d-flex justify-content-center align-items-center w-100">
                                 <div id="consultinghistory_list_pagination" class="py-5"></div>
+                            </div>
+                            <div id="make_plus_consulting">
+                                <h3 >추가 상담 진행</h3>
+                                <hr class='hr-dotted'/>
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
+                                <div class="modal-body-select-container">
+                                    <span class="modal-body-select-label">상담 종류</span>
+                                    <select id="consulting_cate" class="form-select form-select w-100" aria-label="Default select example"">
+                                        
+                                    </select>
+                                </div>
+                                <div class="modal-body-select-container">
+                                    <span class="modal-body-select-label">상담 제목</span>
+                                    <input class="modal-body-select" type="text" size="50" id="plus_consulting_contents"
+                                        style="width: 75%;">
+                                </div>
+                                <div class="modal-body-select-container">
+                                    <span class="modal-body-select-label">상담 사유</span>
+                                    <input class="modal-body-select" type="text" size="50" id="plus_consulting_reason"
+                                        style="width: 75%;">
+                                </div>
+                                <div class="modal-body-select-container">
+                                    <span class="modal-body-select-label">제공한 가이드</span>
+                                    <textarea class="modal-body-select" type="text" rows="5" cols="25" id="plus_consulting_solution"
+                                        style="width: 75%;"></textarea>
+                                </div>
+                                <div class="d-flex justify-content-center mt-4 mb-2" id="plusconsulting_button_box"></div>
                             </div>
                         </div>
                         <div id="studentconsulting_history_box_detail">
@@ -595,7 +582,7 @@
                         <h5 class="d-flex justify-content-center align-items-center m-0" id="today_consulting_title">
                             미학습 상담 목록
                         </h5>
-                        <select class="form-select text-center w-25" onchange="get_consulting_student(this.value)">
+                        <select class="form-select text-center w-25" onchange="get_unlearned_consulting_student(this.value)">
                             <option value=0 selected>미학습 상담 목록</option>
                             <option value=1>오늘의 부재중 상담</option>
                         </select>

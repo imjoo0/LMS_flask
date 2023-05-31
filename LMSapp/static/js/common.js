@@ -1,7 +1,7 @@
 // manage변수 
 let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, studentsData, reportsData, consultingData, consultingHistoryData, consultingcateData, taskData, taskcateData, questionData, answerData, attachData;
 // teacher 변수
-let  Tban_data, Tall_consulting, Tmy_students, Tall_task, Ttask_consulting, Tstudent_consulting, Tall_students;
+let  Tconsulting_category, Tban_data, Tall_consulting, Tmy_students, Tall_task, Ttask_consulting, Tunlearned_student, Tall_students, Tstudent_consulting;
 let isFetching = false;
 
 const today = new Date().setHours(0, 0, 0, 0);
@@ -193,29 +193,76 @@ function make_duedate(s, d) {
 }
 
 // teacher_function
-async function get_mybans(){
+async function get_teacher_data(){
     try{
         const response = await $.ajax({
-            url: '/teacher/get_mybans',
+            url: '/teacher/get_teacher_data',
             type: 'GET',
             dataType: 'json',
             data: {},
         });
         Tban_data = response.ban_data
         Tall_consulting = response.all_consulting
-        // 업무 데이터 정리
+        Tconsulting_category = response.all_consulting_category
         Tall_task = response.all_task
         Tall_task =  Tall_task.length > 0 ? Tall_task.filter(task => (task.done == 1 && new Date(task.created_at).setHours(0, 0, 0, 0) === today)||(task.done == 0)) : [];
         // student_consulting 
         Tall_students = response.my_students
         Tmy_students = Tall_students.filter(s=>s.category_id == 1)
-        Tstudent_consulting = Tmy_students.reduce((acc, student) => {
+        Tstudent_consulting = Tall_students.reduce((acc, student) => {
+            const consultingList = Tall_consulting.filter(c => c.student_id === student.student_id);
+            const ulconsultings =  consultingList.length > 0 ? consultingList.filter(c => c.category_id <100 && c.category_id != 11) : []
+            const ulearned_num =  ulconsultings.length
+            let todoconsulting = consultingList.length > 0 ? consultingList.filter(c => c.done == 0) : []
+            let todoconsulting_num = todoconsulting.length
+            const doneconsulting =consultingList.length > 0 ? consultingList.filter(c => c.done == 1) : []
+            const doneconsulting_num = doneconsulting.length
+            if (student.category_id == 1) {
+                acc.push({
+                    'teacher_id': student.teacher_id,
+                    'student_id': student.student_id,
+                    'student_origin': student.origin,
+                    'student_name': student.name + '(' + student.nick_name + ')',
+                    'student_mobileno': student.mobileno,
+                    'student_birthday': student.birthday,
+                    'ban_id': student.ban_id,
+                    'ban_name': student.classname,
+                    'todoconsulting':todoconsulting,
+                    'todoconsulting_num':todoconsulting_num,
+                    'doneconsulting':doneconsulting,
+                    'doneconsulting_num':doneconsulting_num,
+                    'ulconsultings':ulconsultings,
+                    'ulearned_num':ulearned_num,
+                    'is_out_student':0
+                });
+            }else{
+                todoconsulting = todoconsulting.filter(c=>c.category_id < 100)
+                todoconsulting_num = todoconsulting.length
+                acc.push({
+                    'teacher_id': student.teacher_id,
+                    'student_id': student.student_id,
+                    'student_origin': student.origin,
+                    'student_name': student.name + '(' + student.nick_name + ')',
+                    'student_mobileno': student.mobileno,
+                    'student_birthday': student.birthday,
+                    'ban_id': student.ban_id,
+                    'ban_name': student.classname,
+                    'todoconsulting':todoconsulting,
+                    'todoconsulting_num':todoconsulting_num,
+                    'doneconsulting':doneconsulting,
+                    'doneconsulting_num':doneconsulting_num,
+                    'ulearned_num':ulearned_num,
+                    'is_out_student':1
+                });
+            }
+            return acc;
+        }, []);
+        Tunlearned_student = Tmy_students.reduce((acc, student) => {
             const consultingList = Tall_consulting.filter(c => c.student_id === student.student_id && c.category_id < 100 );
             const unlearned_num = consultingList.length;
             if (unlearned_num>0){
                 const todoconsulting = consultingList.filter(c => c.done == 0)
                 const todoconsulting_num = todoconsulting.length
-                let done = 0                
                 if (todoconsulting_num > 0) {
                     const deadline = todoconsulting.reduce((prev, current) => {
                         let prevDueDate = new Date(prev.deadline).setHours(0, 0, 0, 0);
@@ -228,6 +275,7 @@ async function get_mybans(){
                         return currentDueDate < prevDueDate ? prev : current;
                     }, todoconsulting[0]);
                     acc.push({
+                        'teacher_id': student.teacher_id,
                         'student_id': student.student_id,
                         'student_origin': student.origin,
                         'student_name': student.name + '(' + student.nick_name + ')',
@@ -235,14 +283,14 @@ async function get_mybans(){
                         'student_birthday': student.birthday,
                         'ban_id': student.ban_id,
                         'ban_name': student.classname,
-                        'consulting_done':done,
+                        'consulting_done':0,
                         'todoconsulting_num':todoconsulting_num,
                         'deadline': make_date(deadline.deadline),
                         'missed': missed_date(missed.missed)
                     });
                 }else{
-                    done = 1;
                     acc.push({
+                        'teacher_id': student.teacher_id,
                         'student_id': student.student_id,
                         'student_origin': student.origin,
                         'student_name': student.name + '(' + student.nick_name + ')',
@@ -250,7 +298,7 @@ async function get_mybans(){
                         'student_birthday': student.birthday,
                         'ban_id': student.ban_id,
                         'ban_name': student.classname,
-                        'consulting_done':done,
+                        'consulting_done':1,
                         'todoconsulting_num':todoconsulting_num,
                         'deadline': make_date('3000-01-01'),
                         'missed': missed_date('1111-01-01')

@@ -21,7 +21,17 @@ with SSHTunnelForwarder(
             cur.execute('''
             SELECT student.id AS student_id,student.first_name as 'student_name',student.nick_name as 'student_engname',student.register_no as 'origin',class.id AS ban_id, staff.id AS teacher_id,
             student_documents.remarks AS solution, student_documents.updated_at AS created_at,
-            CONCAT(student_document_cate.cate_name, ' ', student_documents.title) AS contents
+            CASE
+				WHEN student_document_cate.id = 3 THEN 101
+                WHEN student_document_cate.id = 4 THEN 102
+                WHEN student_document_cate.id = 5 THEN 112
+                WHEN student_document_cate.id = 8 THEN 104
+                WHEN student_document_cate.id = 11 THEN 106
+                WHEN student_document_cate.id = 14 THEN 109
+                WHEN student_document_cate.id = 17 THEN 113
+                else  111
+			end as category_id,
+            student_documents.title AS contents
             FROM staff
             LEFT JOIN teacher_allocation ON teacher_allocation.teacher_id = staff.id
             LEFT JOIN class ON class.id = teacher_allocation.class_id
@@ -54,7 +64,7 @@ try:
         print('데이터 저장 진행 중 ')
 
         sql = "insert into consulting(student_id,student_name,student_engname,origin, ban_id,teacher_id, contents,startdate,deadline, category_id, done, solution, created_at, missed)" \
-              " values (%(student_id)s,%(student_name)s,%(student_engname)s,%(origin)s,%(ban_id)s,%(teacher_id)s, %(contents)s,'20200101','20300101',111, 1, %(solution)s, %(created_at)s, '11110101');"
+              " values (%(student_id)s,%(student_name)s,%(student_engname)s,%(origin)s,%(ban_id)s,%(teacher_id)s, %(contents)s,'20200101','20300101',%(category_id)s, 1, %(solution)s, %(created_at)s, '11110101');"
 
         cur.executemany(sql, data_list)
 
