@@ -1,7 +1,7 @@
 // manage변수 
 let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, studentsData, reportsData, consultingData, consultingHistoryData, consultingcateData, taskData, taskcateData, questionData, answerData, attachData;
 // teacher 변수
-let  Tconsulting_category, Tban_data, Tall_consulting, Tmy_students, Tall_task, Ttask_consulting, Tunlearned_student, Tall_students, Tstudent_consulting;
+let  Tconsulting_category, Tban_data, Tall_consulting, Tmy_students, Tall_task, Ttask_consulting, Tunlearned_student, Tall_students, Tstudent_consulting, TquestionAnswerdata;
 let isFetching = false;
 
 const today = new Date().setHours(0, 0, 0, 0);
@@ -224,6 +224,7 @@ async function get_teacher_data(){
                     'student_origin': student.origin,
                     'student_name': student.name + '(' + student.nick_name + ')',
                     'student_mobileno': student.mobileno,
+                    'student_category': student.category_id,
                     'student_birthday': student.birthday,
                     'ban_id': student.ban_id,
                     'ban_name': student.classname,
@@ -244,6 +245,7 @@ async function get_teacher_data(){
                     'student_origin': student.origin,
                     'student_name': student.name + '(' + student.nick_name + ')',
                     'student_mobileno': student.mobileno,
+                    'student_category': student.category_id,
                     'student_birthday': student.birthday,
                     'ban_id': student.ban_id,
                     'ban_name': student.classname,
@@ -311,7 +313,19 @@ async function get_teacher_data(){
         alert('Error occurred while retrieving data1.');
     }
 }
-
+async function get_teacher_question() {
+    try {
+        const response = await $.ajax({
+            type: "GET",
+            url: "/teacher/question",
+            dataType: 'json',
+            data: {},
+        });
+        TquestionAnswerdata = response
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
+}
 
 // manage_function 
 async function get_all_ban() {

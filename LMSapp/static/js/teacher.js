@@ -433,12 +433,12 @@ async function get_consulting(student_id) {
                 ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br></br>${contents}</p>
                 <div class="modal-body-select-container">
                     <span class="modal-body-select-label">상담 사유</span>
-                    <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason${consulting_id}" placeholder="${history_reason}">
+                    <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason${consulting_id}" value="${history_reason}">
                 </div>
                 <div class="modal-body-select-container">
                     <span class="modal-body-select-label">제공한 가이드</span>
                     <textarea class="modal-body" type="text" rows="5" cols="25"
-                        id="consulting_solution${consulting_id}" placeholder="${history_solution}"></textarea> 
+                        id="consulting_solution${consulting_id}" value="${history_solution}"></textarea> 
                 </div>
                 `;
                 temp_consulting_write_box += `<p>상담 일시 : ${make_date(history_created)}</p> `;
@@ -537,22 +537,13 @@ async function get_student_history_detail(c_id){
     <p class="mt-lg-4 mt-5">✅ ${category}</p>
     <p mt-lg-4 mt-5>✅ ${consulting_history.contents.replace(/\n/g, '</br>')}</p>
     <div class="modal-body-select-container">
-        <span class="modal-body-select-label">상담 사유</span>
-        <p>${consulting_history.reason}</p>
-    </div>
-    <div class="modal-body-select-container">
-        <span class="modal-body-select-label">제공한 가이드</span>
-        <p>${consulting_history.solution}</p>
-    </div>
-    <div class="jb-division-line" style=" border-top: 1px solid #444444;margin: 30px 0px;"></div>
-    <div class="modal-body-select-container">
         <span class="modal-body-select-label">상담 사유 수정</span>
-        <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason${c_id}" placeholder="${consulting_history.reason}">
+        <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason${c_id}" value="${consulting_history.reason}">
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">제공한 가이드 수정</span>
         <textarea class="modal-body" type="text" rows="5" cols="25"
-        id="consulting_solution${c_id}" placeholder="${consulting_history.solution}"></textarea> 
+        id="consulting_solution${c_id}" value="${consulting_history.solution}"></textarea> 
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">상담 일시</span>
@@ -583,9 +574,9 @@ async function get_student(ban_id) {
             $('#ban_student_list_box').show()
             let temp_consulting_history_student_list = '';
             $.each(data, function (index, student) {
-                let unlearned_cate = [...new Set(student.ulconsultings.map(item => item.category))];
+                let student_category = make_out(student.student_category)
                 temp_consulting_history_student_list += `
-                <td class="col-2 ${make_out(student.student_category)}">${student.student_name}</br>${make_out(student.student_category)}</td>
+                <td class="col-2 ${student_category}">${student.student_name}</br>${student_category}</td>
                 <td class="col-1">${student.student_origin}</td>
                 <td class="col-1">${student.student_birthday}</td>
                 <td class="col-2">${student.student_mobileno}</td>
@@ -594,10 +585,15 @@ async function get_student(ban_id) {
                         <summary>총 ${student.ulearned_num}건</summary>
                         <ul>
                 `;
-                unlearned_cate.forEach((category) => {
-                    let num = student.ulconsultings.filter(u=>u.category == category).length
-                    temp_consulting_history_student_list += `<li>${category} : ${num}건</li>`
-                })
+                let unlearned_consultings = student.ulconsultings
+                let unlearned_cate = []
+                if(unlearned_consultings){
+                    unlearned_cate = [...new Set(unlearned_consultings.map(item => item.category))]; 
+                    unlearned_cate.forEach((category) => {
+                        let num = unlearned_consultings.filter(u=>u.category == category).length
+                        temp_consulting_history_student_list += `<li>${category} : ${num}건</li>`
+                    })
+                }
                 temp_consulting_history_student_list += `
                 </ul>
                 </details>
@@ -901,22 +897,13 @@ async function get_consulting_history_detail(c_id) {
     <p class="mt-lg-4 mt-5">✅ ${category}</p>
     <p mt-lg-4 mt-5>✅ ${consulting_history.contents.replace(/\n/g, '</br>')}</p>
     <div class="modal-body-select-container">
-        <span class="modal-body-select-label">상담 사유</span>
-        <p>${consulting_history.reason}</p>
-    </div>
-    <div class="modal-body-select-container">
-        <span class="modal-body-select-label">제공한 가이드</span>
-        <p>${consulting_history.solution}</p>
-    </div>
-    <div class="jb-division-line" style=" border-top: 1px solid #444444;margin: 30px 0px;"></div>
-    <div class="modal-body-select-container">
         <span class="modal-body-select-label">상담 사유 수정</span>
-        <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason${c_id}" placeholder="${consulting_history.reason}">
+        <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason${c_id}" value="${consulting_history.reason}">
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">제공한 가이드 수정</span>
         <textarea class="modal-body" type="text" rows="5" cols="25"
-        id="consulting_solution${c_id}" placeholder="${consulting_history.solution}"></textarea> 
+        id="consulting_solution${c_id}" value="${consulting_history.solution}"></textarea> 
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">상담 일시</span>
