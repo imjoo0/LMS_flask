@@ -172,11 +172,14 @@ async function home(){
                 <tbody style="width:100%;"> 
                 `;
                 $.each(today_consulting_notdone, function (index, taskconsulting) {
-                    student_info = Tall_students.filter(s=> s.student_id == taskconsulting.student_id)[0]
+                    let student_info = Tall_students.filter(s=> s.student_id == taskconsulting.student_id)[0]
                     if(taskconsulting.contents && taskconsulting.contents.length > 30) {
                         contents = taskconsulting.contents.substring(0, 30) + ' ▪️▪️▪️ ';
                     }
-                    student_category = make_out(student_info.category_id);
+                    let student_category = make_out(2)
+                    if(student_info != undefined){
+                        student_category = make_out(student_info.category_id);
+                    }
                     let done_class = ''
                     if(taskconsulting.done == 1){
                         done_class = 'done';
@@ -190,6 +193,7 @@ async function home(){
                         <td class="col-2 ${done_class}">${make_date(taskconsulting.deadline)} ></td>
                     </tr>
                     `;
+                    
                 })
                 temp_taskconsulting += `</tbody>`
             }
@@ -353,41 +357,63 @@ async function get_unlearned_consulting_student(done_code) {
 }
 // 상담일지 모달 내용 작성 
 async function get_consulting(student_id) {
-    data = Tstudent_consulting.filter(s => s.student_id == student_id)[0]
-    let student_category = make_out(data.student_category)
+    let data = Tstudent_consulting.filter(s => s.student_id == student_id)[0]
+    let student_category = make_out(2)
+    if(data != undefined){
+        student_category = make_out(data.student_category);
+    }else{
+        data = {}
+        data.todoconsulting = Tall_consulting.filter(c=>c.student_id == student_id && c.done == 0)
+        data.todoconsulting_num = data.todoconsulting.length
+        let ban_data = Tban_data.filter(b=>b.register_no == data.todoconsulting[0].ban_id)[0]
+        data.ban_id = ban_data.id
+        data.ban_name = ban_data.name
+        data.student_name = data.todoconsulting[0].student_name + '(' + data.todoconsulting[0].student_engname + ')'
+        data.student_origin = data.todoconsulting[0].origin
+        data.student_birthday = ''
+        data.student_mobileno = ''
+        data.ulearned_num = 0
+        if(ban_data == undefined){
+            data.ban_name = ''
+            data.student_name = ''
+            data.student_origin = ''
+            data.student_birthday = ''
+            data.student_mobileno = ''
+            data.ulearned_num = 0
+        }
+    }
     consulting_history(student_id)
     $('#consultinghistoryModalLabelt').html(`${data.student_name} ${make_out(student_category)} 원생 상담일지`)
-    $('#studentconsulting_history_box_detail').hide()
-    $('.mo_inloading').show()
-    $('.monot_inloading').hide()
+        $('#studentconsulting_history_box_detail').hide()
+        $('.mo_inloading').show()
+        $('.monot_inloading').hide()
 
-    $('#student_info_box').html(`
-    <th class="col-12">${data.ban_name}</th>
-    <th class="col-4">${data.student_name}</th>
-    <th class="col-2">${data.student_origin}</th>
-    <th class="col-1 ${student_category}">${student_category}</th>
-    <th class="col-2">생년월일 : ${data.student_birthday}</th>
-    <th class="col-3">📞${data.student_mobileno}</th>
-    `);
-    let total_ban_unlearned_consulting = Tall_consulting.filter(c=>c.ban_id == data.ban_id && c.category_id < 100).length
+        $('#student_info_box').html(`
+        <th class="col-12">${data.ban_name}</th>
+        <th class="col-4">${data.student_name}</th>
+        <th class="col-2">${data.student_origin}</th>
+        <th class="col-1 ${student_category}">${student_category}</th>
+        <th class="col-2">생년월일 : ${data.student_birthday}</th>
+        <th class="col-3">📞${data.student_mobileno}</th>
+        `);
+        let total_ban_unlearned_consulting = Tall_consulting.filter(c=>c.ban_id == data.ban_id && c.category_id < 100).length
 
-    // // 기한 지난 상담 수
-    let deadline_consulting = data.todoconsulting_num != 0 ? data.todoconsulting.filter(c => new Date(c.deadline).setHours(0, 0, 0, 0) < today).length : 0
+        // // 기한 지난 상담 수
+        let deadline_consulting = data.todoconsulting_num != 0 ? data.todoconsulting.filter(c => new Date(c.deadline).setHours(0, 0, 0, 0) < today).length : 0
 
 
-    $('#student_consulting_info_box').html(`
-    <th class="col-1">상담</th>
-    <th class="col-1">기한 지남</th>
-    <th class="col-4">${data.student_name} 미학습</th>
-    <th class="col-4">${data.ban_name}반 총 미학습</th>
-    <th class="col-2">${data.student_name} 미학습 발생율</th>
-    <td class="col-1">${make_nodata(data.todoconsulting_num)}</td>
-    <td class="col-1">${make_nodata(deadline_consulting)}</td>
-    <td class="col-4">${make_nodata(data.ulearned_num)}</td>
-    <td class="col-4">${make_nodata(total_ban_unlearned_consulting)}</td>
-    <td class="col-2"><strong>${answer_rate(data.ulearned_num, total_ban_unlearned_consulting).toFixed(0)}%</strong></td>
-    `);
-
+        $('#student_consulting_info_box').html(`
+        <th class="col-1">상담</th>
+        <th class="col-1">기한 지남</th>
+        <th class="col-4">${data.student_name} 미학습</th>
+        <th class="col-4">${data.ban_name}반 총 미학습</th>
+        <th class="col-2">${data.student_name} 미학습 발생율</th>
+        <td class="col-1">${make_nodata(data.todoconsulting_num)}</td>
+        <td class="col-1">${make_nodata(deadline_consulting)}</td>
+        <td class="col-4">${make_nodata(data.ulearned_num)}</td>
+        <td class="col-4">${make_nodata(total_ban_unlearned_consulting)}</td>
+        <td class="col-2"><strong>${answer_rate(data.ulearned_num, total_ban_unlearned_consulting).toFixed(0)}%</strong></td>
+        `);
     const color_pallete = ['green', 'purple', 'yellow', 'red', 'blue', 'orange', 'cyan', 'white']
     let temp_consulting_contents_box = `<a class="btn-two white small" onclick="consulting_history(${student_id})">상담 기록</a>
     <a class="btn-two cyan small" onclick="student_report(${student_id})">원생리포트</a>
@@ -493,6 +519,7 @@ async function consulting_history(student_id) {
         }
     }
     consultingStudent_target_list = Tall_consulting.filter(c => c.done == 1 && c.student_id == student_id)
+    console.log(consultingStudent_target_list)
     if (consultingStudent_target_list.length > 0) {
         consultingStudent_target_list.sort((a,b)=>a.created_at-b.created_at)
         let category_set = new Set(consultingStudent_target_list.map(c => c.category));
