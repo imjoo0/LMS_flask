@@ -26,10 +26,7 @@ def save_attachment(file, q_id):
     try:
         # 파일명을 유니코드 NFC로 정규화
         normalized_filename = unicodedata.normalize('NFC', file.filename)
-        utf8_encoded_filename = normalized_filename.encode('utf-8').decode('utf-8')
-        filename, extension = os.path.splitext(utf8_encoded_filename)
-        secure_filename = secure_filename(filename).replace('\0', '').replace(' ', '_')
-        file_name = secure_filename + extension
+        file_name = secure_filename(normalized_filename.replace('\0', '').replace(' ', '_'))
         mime_type = file.mimetype
         data = file.stream.read()
 
@@ -45,11 +42,11 @@ def save_attachment(file, q_id):
 
         return True  # 성공적으로 저장된 경우 True 반환
 
-
     except Exception as e:
         # 파일 저장 실패 처리
         db.session.rollback()
         return str(e)  # 에러 메시지 반환
+
 
 # 비번 변경
 # 오늘 해야 할 업무 완료 저장 

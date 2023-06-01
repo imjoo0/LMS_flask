@@ -459,12 +459,12 @@ async function get_consulting(student_id) {
                 ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br></br>${contents}</p>
                 <div class="modal-body-select-container">
                     <span class="modal-body-select-label">상담 사유</span>
-                    <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason${consulting_id}" value="${history_reason}">
+                    <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason${consulting_id}" placeholder="${history_reason}">
                 </div>
                 <div class="modal-body-select-container">
                     <span class="modal-body-select-label">제공한 가이드</span>
                     <textarea class="modal-body" type="text" rows="5" cols="25"
-                        id="consulting_solution${consulting_id}" value="${history_solution}"></textarea> 
+                        id="consulting_solution${consulting_id}" placeholder="${history_solution}"></textarea> 
                 </div>
                 `;
                 temp_consulting_write_box += `<p>상담 일시 : ${make_date(history_created)}</p> `;
@@ -565,12 +565,12 @@ async function get_student_history_detail(c_id){
     <p mt-lg-4 mt-5>✅ ${consulting_history.contents.replace(/\n/g, '</br>')}</p>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">상담 사유 수정</span>
-        <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason${c_id}" value="${consulting_history.reason}">
+        <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason${c_id}" placeholder="${consulting_history.reason}">
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">제공한 가이드 수정</span>
         <textarea class="modal-body" type="text" rows="5" cols="25"
-        id="consulting_solution${c_id}" value="${consulting_history.solution}"></textarea> 
+        id="consulting_solution${c_id}" placeholder="${consulting_history.solution}"></textarea> 
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">상담 일시</span>
@@ -925,12 +925,12 @@ async function get_consulting_history_detail(c_id) {
     <p mt-lg-4 mt-5>✅ ${consulting_history.contents.replace(/\n/g, '</br>')}</p>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">상담 사유 수정</span>
-        <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason${c_id}" value="${consulting_history.reason}">
+        <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason${c_id}" placeholder="${consulting_history.reason}">
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">제공한 가이드 수정</span>
         <textarea class="modal-body" type="text" rows="5" cols="25"
-        id="consulting_solution${c_id}" value="${consulting_history.solution}"></textarea> 
+        id="consulting_solution${c_id}" placeholder="${consulting_history.solution}"></textarea> 
     </div>
     <div class="modal-body-select-container">
         <span class="modal-body-select-label">상담 일시</span>
