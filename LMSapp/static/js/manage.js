@@ -1814,7 +1814,7 @@ function allpaginating(done_code) {
                 <td class="col-1">${item.student_name}</td>
                 <td class="col-1">${item.teacher_name}</td>
                 <td class="col-4">${make_small_char(item.contents)}</td>
-                <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</td>
+                <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id})">✏️</td>
                 `;
             });
             $('#allalim_tr').html(dataHtml);
@@ -1837,8 +1837,6 @@ function allpaginating(done_code) {
         container.pagination('destroy');
         container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
     });
-
-    
 }
 
 // 미완

@@ -259,8 +259,10 @@ def consulting_history(id,is_done):
     return{'result':'완료'}
 
 # 추가 상담 실행 함수 
-@bp.route("/plus_consulting/<int:student_id>/<int:b_id>/<int:t_id>/", methods=['POST'])
-def plus_consulting(student_id,b_id,t_id):
+@bp.route("/plus_consulting/<int:student_id>/<int:b_id>", methods=['POST'])
+def plus_consulting(student_id,b_id):
+    t_id = request.form['t_id']
+    t_id = User.query.filter(User.user_id == t_id).first().id
     # 상담 제목
     received_contents = request.form['consulting_contents']
     # 상담 사유

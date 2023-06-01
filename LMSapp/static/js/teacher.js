@@ -486,7 +486,7 @@ async function get_consulting(student_id) {
         temp_consulting_write_box += '<p>진행 할 상담이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 </p>'
         $('#consulting_write_box').html(temp_consulting_write_box);
     }
-    temp_consulting_contents_box += `<a class="btn-two white small" onclick="plusconsulting(${student_id},${data.ban_id},${data.teacher_id})">상담 추가</a>`;
+    temp_consulting_contents_box += `<a class="btn-two white small" onclick="plusconsulting(${student_id},${data.ban_id})">상담 추가</a>`;
     $('#consulting_contents_box_cate').html(temp_consulting_contents_box)
     consulting_history(student_id)
     $('.mo_inloading').hide()
@@ -704,16 +704,17 @@ function sort_option(sortBy) {
     );
 }
 
-function plusconsulting(s_id, b_id, t_id) {
+function plusconsulting(s_id, b_id) {
     $('#make_plus_consulting').show();
     let temp_button = `
-    <button class="btn btn-dark" onclick=plusconsulting_history(${s_id},${b_id},${t_id})>저장</button>
+    <button class="btn btn-dark" onclick=plusconsulting_history(${s_id},${b_id})>저장</button>
     <button class="btn btn-dark" onclick=cancel_back()>추가 취소</button>
     `;
     $('#plusconsulting_button_box').html(temp_button)
 }
-function plusconsulting_history(student_id, b_id, t_id) {
+function plusconsulting_history(student_id, b_id) {
     const student_info = Tall_students.filter(a=>a.student_id == student_id)[0]
+    let t_id = Tban_data[0].staff_id
     const consulting_category = $('#consulting_cate').val()
     const consulting_contents = $('#plus_consulting_contents').val()
     const consulting_reason = $('#plus_consulting_reason').val()
@@ -724,9 +725,10 @@ function plusconsulting_history(student_id, b_id, t_id) {
     }
     $.ajax({
         type: "POST",
-        url: '/teacher/plus_consulting/' + student_id + '/' + b_id + '/' + t_id + '/' ,
+        url: '/teacher/plus_consulting/' + student_id + '/' + b_id,
         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
         data: {
+            t_id:t_id,
             student_name : student_info['name'],
             student_engname : student_info['nick_name'],
             origin : student_info['origin'],
