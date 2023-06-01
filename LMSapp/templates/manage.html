@@ -686,44 +686,46 @@
                             </div>
                         </div>
                     </div>
-                    <div class="responsive-table d-flex flex-column w-100">
-                        <div class="d-flex border-bottom border-2 border-secondary p-3">
-                            <div class="w-50 text-center fw-bold">문의 내용</div>
-                            <div class="w-50 text-center fw-bold">답변 내용</div>
-                        </div>
-                        <div class="d-flex">
-                            <div class="w-50 p-3 px-4">
-                                <div id="teacher_question"></div>
+                    <div class="responsive-table">
+                        <div class="d-flex flex-column w-100">
+                            <div class="d-flex border-bottom border-2 border-secondary p-3">
+                                <div class="w-50 text-center fw-bold">문의 내용</div>
+                                <div class="w-50 text-center fw-bold">답변 내용</div>
                             </div>
-                            <div class="w-50 p-3 px-4 border-start">
-                                <div id="manage_answer">
-                                    <div id="manage_answer_3">
-                                        <div class="modal-body-select-container mt-3">
-                                            <span class="modal-body-select-label">요청 처리 결과</span>
-                                            <select class="modal-body-select w-75" id="o_ban_id">
-                                                <option value="none" selected>처리 결과를 선택해주세요</option>
-                                                <option value=0>반려</option>
-                                                <option value=1>승인</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div id="manage_answer_1">
-                                        <div class="d-flex flex-column justify-content-start">
-                                            <div class="modal-body-select-label mt-3">내용</div>
-                                            <textarea id="answer_contents" class="modal-body-select w-100 mt-3" type="text" rows="5" cols="25"
-                                                name="answer_contents1"></textarea>
-                                        </div>
-                                    </div>
-                                    <div id="manage_answer_2">
-                                        <div class="modal-body-select-container">
-                                            <span class="modal-body-select-label">이반 요청 결과</span>
-                                            <select class="modal-body-select" id="o_ban_id2">
-                                            </select>
-                                        </div>
-                                    </div>
+                            <div class="d-flex">
+                                <div class="w-50 p-3">
+                                    <div id="teacher_question"></div>
                                 </div>
-                                <div id="teacher_answer">
-                                    
+                                <div class="w-50 p-3 border-start">
+                                    <div id="manage_answer">
+                                        <div id="manage_answer_2">
+                                            <div class="modal-body-select-container">
+                                                <span class="modal-body-select-label"><span class="modal-body-select-container-span">이반 요청 결과</span></span>
+                                                <select class="modal-body-select w-75" id="o_ban_id2">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div id="manage_answer_3">
+                                            <div class="modal-body-select-container mt-3">
+                                                <span class="modal-body-select-label">요청 처리 결과</span>
+                                                <select class="modal-body-select w-75" id="o_ban_id">
+                                                    <option value="none" selected>처리 결과를 선택해주세요</option>
+                                                    <option value=0>반려</option>
+                                                    <option value=1>승인</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div id="manage_answer_1">
+                                            <div class="d-flex flex-column justify-content-start">
+                                                <div class="modal-body-select-label mt-3"><span class="modal-body-select-container-span">내용</span></div>
+                                                <textarea id="answer_contents" class="modal-body-select w-100 mt-3 ps-2" type="text" rows="5" cols="25"
+                                                    name="answer_contents1"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="teacher_answer">
+                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -838,6 +840,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" onclick="Tcsdata()">기술지원 문의</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="allcsdata()">과거 cs 데이터</a>
                     </li>
                 </ul>
             </div>
@@ -1177,6 +1182,57 @@
                     </table>
                 </div>
                 <div id="Tpagination" class="py-2 text-center"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 과거 전체 문의 관리 -->
+    <div class="info-container" id="allqubox" style="display: none;">
+        <div class="info-title">
+            <span class="make_row">
+                cs 데이터 
+                <select id="allcs_question_view" class="form-select text-center w-25" name="question_view"onchange="allpaginating(this.value)">
+                <option value=0 selected>전체</option>
+                <option value="행정파트">행정파트</option>
+                <option value="내근티처">내근티처</option>
+                <option value="개발관리">개발관리</option>
+            </select>
+            </span>
+        </div>
+        <div class="info">
+            <div  class="cs_inloading loader loader--style2 text-center p-5" title="1">
+                <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                    <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                        <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
+                    </path>
+                </svg>
+            </div>
+            <div class="w-100 not_inloading">
+                <table class="table text-center" style="width:100%;" id="newallcsbox">
+                    <tr class="row" style="background: #DCE6F2;">
+                        <th class="col-12">CS 데이터</th>
+                    </tr>
+                </table>
+                <div id="allcs_teacher_question" style="width: 100%;">
+                    <input class="not_inloading search_input_box" type="text" id="allcs_search_input" placeholder="반이름 혹은 선생님으로 검색">
+                    <table class="table text-center" style="width:100%;">
+                        <thead>
+                            <tr class="row">
+                                <th class="col-1">작성일</th>
+                                <th class="col-1">종류</th>
+                                <th class="col-1">반</th>
+                                <th class="col-2">담임T</th>
+                                <th class="col-2">제목</th>
+                                <th class="col-3">내용</th>
+                                <th class="col-1">응답</th>
+                                <th class="col-1">삭제</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="allalim_tr" class="row"></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="allpagination" class="py-2 text-center"></div>
             </div>
         </div>
     </div>

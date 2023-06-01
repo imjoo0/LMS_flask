@@ -138,6 +138,22 @@ def get_sodata():
             db.close()
         return jsonify({'question':question,'answer':answer,'attach':attach})
 
+@bp.route("/cs", methods=['GET'])
+def get_csdata():
+    if request.method == 'GET':
+        all_cs_data = []
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='cs_page',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute('SELECT cs_student_id as origin, cs_student_name as student_name, cs_student_class as ban_name, cs_teacher_name as teacher_name, cs_content as contents, cs_answer as answer, cs_answerer as answerer, cs_date as created_at, CASE WHEN cs_charge IS NOT NULL THEN cs_charge ELSE cs_sort END AS category FROM cs_page.cs_table;')
+                all_cs_data = cur.fetchall()
+
+        except Exception as e:
+            print(e)
+        finally:
+            db.close()
+        return jsonify({'all_cs_data':all_cs_data})
+
 # 미학습 
 @bp.route("/uldata", methods=['GET'])
 def uldata():
