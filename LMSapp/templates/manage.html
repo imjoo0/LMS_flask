@@ -303,8 +303,8 @@
                         <div id="consulting-pagination" class="mt-4 mb-5 text-center"></div>
                     </div>
                 </div>
-                <div id="request_consultingban_listbox">
-                    <div class="d-flex justify-content-start align-items-start flex-column" id="consulting_history_contents_box"style="margin-left: 20%;">
+                <div id="request_consultingban_listbox" class="p-2">
+                    <div class="d-flex justify-content-start align-items-start flex-column" id="consulting_history_contents_box">
                     </div>
                 </div>
             </div>
@@ -628,7 +628,6 @@
                 </div>
 
                 <div id="for_taskban_list">
-                    <button type="button" class="btn btn-back not_inloading" onclick="go_taskback()">업무 목록보기🔙 </button>
                     <input type="text" id="taskreqban_search_input" placeholder="반 혹은 선생님으로 검색" class="not_inloading" style="margin-left:80%"></p>
                     <table class="table text-center not_inloading" style="width:100%;">
                         <tbody style="width:100%;">
@@ -649,7 +648,10 @@
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-center align-items-center w-100">
-                        <div id="taskbanpagination" class="mt-4 mb-5 text-center"></div>
+                        <div id="taskbanpagination" class="mt-3 mb-2 text-center"></div>
+                    </div>
+                    <div class="w-100 pt-3 d-flex justify-content-center">
+                        <button class="btn btn-danger" onclick="go_taskback()">목록</button>
                     </div>
                 </div>            
             </div>
@@ -718,8 +720,7 @@
                                         <div id="manage_answer_1">
                                             <div class="d-flex flex-column justify-content-start">
                                                 <div class="modal-body-select-label mt-3"><span class="modal-body-select-container-span">내용</span></div>
-                                                <textarea id="answer_contents" class="modal-body-select w-100 mt-3 ps-2" type="text" rows="5" cols="25"
-                                                    name="answer_contents1"></textarea>
+                                                <textarea id="answer_contents" class="modal-body-select w-100 mt-3 ps-2" type="text" name="answer_contents1" style="min-height: 500px;"></textarea>
                                             </div>
                                         </div>
                                     </div>

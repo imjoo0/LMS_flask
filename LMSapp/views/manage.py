@@ -10,6 +10,7 @@ from LMSapp.views.main_views import authrize
 import requests
 from urllib.parse import unquote
 import datetime
+from urllib.parse import quote
 
 bp = Blueprint('manage', __name__, url_prefix='/manage')
 
@@ -89,21 +90,24 @@ def q_kind(id):
         payloadText = before_kind+'에서 ➡️ '
         if(q_kind == 0):
             Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
-            payloadText  += '일반 문의로 변경된 문의가 있습니다 \n 제목:`'+ target_question.title +'`\n```\n'+target_question.contents
+            payloadText  += '일반 문의로 변경된 문의가 있습니다'
         elif(q_kind == 4):
             Synologytoken = '"iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg"'
-            payloadText  += '기술 문의로 변경된 문의가 있습니다 \n 제목:`'+ target_question.title +'`\n```\n'+target_question.contents
+            payloadText  += '기술 문의로 변경된 문의가 있습니다'
         elif(q_kind == 5):
             Synologytoken = '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"'
-            payloadText  += '내근티처 문의로 변경된 문의가 있습니다 \n 제목:`'+ target_question.title +'`\n```\n'+target_question.contents
+            payloadText  += '내근티처 문의로 변경된 문의가 있습니다'
         else:
             Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
             if(q_kind == 1):
-                payloadText  += '이반 요청으로 변경된 문의가 있습니다 \n 제목:`'+ target_question.title +'`\n```\n'+target_question.contents
+                payloadText  += '이반 요청으로 변경된 문의가 있습니다'
             elif(q_kind==2):
-                payloadText  += '퇴소 요청으로 변경된 문의가 있습니다 \n 제목:`'+ target_question.title +'`\n```\n'+target_question.contents
-        payloadText += '\n```'
-        print(payloadText)
+                payloadText  += '퇴소 요청으로 변경된 문의가 있습니다'
+
+        payloadText += '제목: `{}`\n\n```{}```'.format(target_question.title, target_question.contents.replace('\r\n', '\n\n') )
+        link_url = '\n[링크 바로가기]http://purpleacademy.net:2305/manage/?q_id={}&q_type={}'.format(id,q_kind)
+        payloadText += quote(link_url)  # payloadText 인코딩
+
         requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
         try:
             response = requests.get(requestURI)
@@ -113,6 +117,14 @@ def q_kind(id):
             print("시놀로지 전송 실패")
             print(e)
         return jsonify({'result': '문의 종류 수정 완료'})
+      
+
+@bp.route('/is_it_done/<int:id>', methods=['GET'])
+def is_it_done(id):
+    if request.method == 'GET':
+        target_question = Question.query.get_or_404(id)
+        is_done = target_question.answer
+        return jsonify({'is_done':is_done})
       
 @bp.route("/qa", methods=['GET'])
 def get_sodata():

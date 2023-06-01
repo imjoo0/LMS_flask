@@ -143,23 +143,32 @@ footer{
   display: flex;
   justify-content: start;
   align-items: center;
-  width: 100%;
   flex-direction: row;
+  width: 100%;
   padding: 16px 0;
 }
 
-.modal-body-select-container-span {
-  background-color: #444444;
-  color: #fff; 
-  padding: 8px 12px; 
-  border-radius:10px;
+.modal-body-select-label {
+  width: 100px;
+  color: #FFF;
+  margin-right: 20px;
+  display: flex;
+  justify-content: center;
 }
 
-.modal-body-select-label {
-  width: 25%;
+.modal-body-select-container-span {
+  width: 100%;
+  height: fit-content;
   font-size: 16px;
   font-weight: 600;
+  padding-top: 4px;
+  padding-bottom: 8px;
+  background: #444444;
+  color: #fff; 
+  text-align: center;
+  border-radius: 10px;
 }
+
 
 @media all and (max-width : 568px) {
   .modal-body-select-container {
@@ -173,9 +182,8 @@ footer{
 
 .modal-body-select {
   width: 35%;
-  padding: 7px;
-  border: none;
-  border-bottom: 2px groove #2b2b2b44;
+  padding: 12px;
+  border: 2px groove #2b2b2b44;
 }
 
 .modal-body-select-100 {
@@ -197,7 +205,7 @@ footer{
 .modal-body-select:focus {
   border: none;
   outline: none;
-  border-bottom: 2px groove #2b2b2b;
+  border: 2px groove #222222;
 }
 
 .modal-tbody-btn {
