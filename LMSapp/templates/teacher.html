@@ -129,7 +129,6 @@
                 </div>
                 <h3 class="h_title" id="q_title_msg">문의 내역이 없습니다! 😂</h3>
                 <div id="questiondetail" style="width:100%;">
-                    <button type="button" class="btn btn-back" onclick="get_question_list()">🔙 다른 문의조회 </button>
                     <div id="questiondetail_box" class="responsive-table-wrapper">
                         <table class="table text-center responsive-table" id="consulting_history_attach">
                             <thead>
@@ -163,6 +162,9 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-danger" onclick="get_question_list()">목록</button>
+                        </div>
                     </div>
                     <!-- <div id="comment_box">
                         <div class="notice_message">
@@ -194,7 +196,7 @@
                     </table>
                 </div>
                 <div class="d-flex justify-content-center align-items-center w-100">
-                    <div id="question_pagination" class="py-5"></div>
+                    <div id="question_pagination" class="pt-4 pb-3"></div>
                 </div>
             </div>
         </div>
@@ -359,13 +361,13 @@
                     </tbody>
                 </table>
                 <div id="consulting_contents_box_cate" class="student_report_button_box"></div>
-                <div class="make_row" style="width: 100%; height: 100%;">
-                    <div class="justify-content-center mt-4 mb-2 monot_inloading" style="width: 40%; height: 100%; margin-right:5%" >
+                <div class="d-flex w-100">
+                    <div class="w-50 d-flex flex-column pe-5 py-3 monot_inloading" >
                         <h3 id="sh_title_msg">상담 기록</h3>
                         <hr class='hr-dotted'/>
                         <div id="student_history_record_box">
                             <div class="my-4 d-flex flex-wrap justify-content-end align-items-center" id="consulting_history_category_box">
-                                <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 상담 카테고리 선택</span></div>
+                                <div class="col-lg-3 col-md-4 col-sm-5 col-12 pb-3 pb-sm-0"><span>📌 상담 카테고리 선택</span></div>
                                 <div class="col-md-4 col-sm-6 col-12">
                                     <select id="consulting_history_cate" class="form-select form-select w-100" aria-label="Default select example" onchange="sort_consulting_category(this.value)">
             
@@ -428,7 +430,7 @@
                         <div id="studentconsulting_history_box_detail">
                         </div>
                     </div>
-                    <div class="justify-content-center mt-4 mb-2 monot_inloading"style="width: 40%; height: 100%;" id="student_consulting_box">
+                    <div class="w-50 d-flex flex-column ps-5 py-3 monot_inloading"style="width: 40%; height: 100%;" id="student_consulting_box">
                         <h3>상담일지 작성</h3>
                         <div id="consulting_write_box">
                             <div id="consulting_contents_box_cate" class="student_report_button_box"></div>

@@ -12,7 +12,7 @@ from LMSapp.views.main_views import authrize
 import requests 
 import sys
 import pandas as pd
-
+from urllib.parse import quote
 # 양방향 연결 
 # from LMSapp import socketio
 
@@ -172,41 +172,43 @@ def question(u):
         teacher_mobileno = request.form.get('teacher_mobileno', None)
         teacher_name = request.form.get('teacher_name', None)
         teacher_engname = request.form.get('teacher_engname', None)
-        create_date = datetime.now().date()
-        # payloadText  = teacher_name+'( '+ teacher_engname +' )님으로 부터 ' 
-        # 첨부 파일 처리
-        if category == 0:
-            # # 영교부에서 재택T 문의 관리 하는 시놀로지 채팅 방 token 값 받아야 함. 
-            # Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
-            # payloadText += '일반 문의가 등록되었습니다 \n' 
-            new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
-        elif category == 4: 
-            # payloadText += '기술 문의가 등록되었습니다 \n' 
-            # Synologytoken = '"iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg"'
-            new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
-        elif category ==5: 
-            # payloadText += '내근티처 문의가 등록되었습니다 \n' 
-            # Synologytoken = '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"'
-            new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
-        else:
-            # Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
-            # payloadText += '이반 / 퇴소 요청이 등록되었습니다 \n' 
+        create_date = datetime.now()
+        
+        payloadText = teacher_name+'( '+ teacher_engname +' )님으로 부터 ' 
+        if category == 2 or category == 1:
+            Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
+            payloadText += '이반 / 퇴소 요청이 등록되었습니다 \n' 
             history_id = request.form['h_select_box']
             new_question = Question(consulting_history=history_id, category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
-        # payloadText += '제목: `'+ title +'`\n'+'```\n'+contents+'\n```'
+        else:
+            if category == 0:
+                # # 영교부에서 재택T 문의 관리 하는 시놀로지 채팅 방 token 값 받아야 함. 
+                Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
+                payloadText += '일반 문의가 등록되었습니다 \n' 
+            elif category == 4: 
+                payloadText += '기술 문의가 등록되었습니다 \n' 
+                Synologytoken = '"iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg"'
+            elif category ==5: 
+                payloadText += '내근티처 문의가 등록되었습니다 \n' 
+                Synologytoken = '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"'
+            new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         db.session.add(new_question)
         db.session.commit()
+        
+        payloadText += '제목: `{}`\n\n```{}```'.format(title, contents.replace('\r\n', '\n\n') )
+        link_url = '\n[링크 바로가기]http://purpleacademy.net:2305/manage/?q_id={}&q_type={}'.format(new_question.id,category)
+        payloadText += quote(link_url)  # payloadText 인코딩
         files = request.files.getlist('file_upload')
         for file in files:
             common.save_attachment(file, new_question.id)
-        # requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
-        # try:
-        #     # response = requests.get(requestURI)
-        #     # response.raise_for_status()
-        #     print(f"statusCode: {response.status_code}")
-        # except requests.exceptions.RequestException as e:
-        #     print("시놀로지 전송 실패")
-        #     print(e)
+        requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
+        try:
+            response = requests.get(requestURI)
+            response.raise_for_status()
+            print(f"statusCode: {response.status_code}")
+        except requests.exceptions.RequestException as e:
+            print("시놀로지 전송 실패")
+            print(e)
         return jsonify({'result': '완료'})
 
 # 오늘 해야 할 업무 완료 저장 

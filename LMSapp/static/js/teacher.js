@@ -486,7 +486,7 @@ async function get_consulting(student_id) {
         temp_consulting_write_box += '<p>진행 할 상담이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 </p>'
         $('#consulting_write_box').html(temp_consulting_write_box);
     }
-    temp_consulting_contents_box += `<a class="btn-two white small" onclick="plusconsulting(${student_id},${data.ban_id},${data.teacher_id})">상담 추가</a>`;
+    temp_consulting_contents_box += `<a class="btn-two white small" onclick="plusconsulting(${student_id},${data.ban_id})">상담 추가</a>`;
     $('#consulting_contents_box_cate').html(temp_consulting_contents_box)
     consulting_history(student_id)
     $('.mo_inloading').hide()
@@ -513,7 +513,7 @@ async function consulting_history(student_id) {
                 <td class="col-2">${make_small_char(title)}</td>
                 <td class="col-2">${make_date(consulting.created_at)}</td>
                 <td class="col-5"> ${make_small_char(consulting.contents)}</td>
-                <td class="col-1" onclick ="get_student_history_detail(${consulting.id})"> 🔍 </td>`;
+                <td class="col-1" onclick ="get_student_history_detail(${consulting.id})"> <span class="cursor">🔍</span> </td>`;
             });
             $('#consultinghistory_list').html(dataHtml);
         }
@@ -560,7 +560,6 @@ async function get_student_history_detail(c_id){
     }
     temp_his = `
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
-    <button type="button" class="btn btn-back" onclick="consulting_history(${consulting_history.student_id})">상담 목록으로 돌아가기🔙 </button>
     <p class="mt-lg-4 mt-5">✅ ${category}</p>
     <p mt-lg-4 mt-5>✅ ${consulting_history.contents.replace(/\n/g, '</br>')}</p>
     <div class="modal-body-select-container">
@@ -577,9 +576,8 @@ async function get_student_history_detail(c_id){
         <p>${make_date(consulting_history.created_at)}</p>
     </div>
     <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
-        <button class="btn btn-dark"
-            onclick="post_one_consulting(${c_id},${1})"
-        style="margin-right:5px">수정</button>
+        <button class="btn btn-success" onclick="post_one_consulting(${c_id},${1})">수정</button>
+        <button class="btn btn-danger" onclick="consulting_history(${consulting_history.student_id})">목록</button>
     </div>
     `;
     $('#studentconsulting_history_box_detail').html(temp_his);
@@ -704,7 +702,8 @@ function sort_option(sortBy) {
     );
 }
 
-function plusconsulting(s_id, b_id, t_id) {
+function plusconsulting(s_id, b_id) {
+    let t_id = Tban_data[0].teacher_id
     $('#make_plus_consulting').show();
     let temp_button = `
     <button class="btn btn-dark" onclick=plusconsulting_history(${s_id},${b_id},${t_id})>저장</button>
@@ -852,7 +851,7 @@ async function get_consulting_history() {
                 `
                 dataHtml +=`
                 <td class="col-1"> ${consulting.origin}</td>
-                <td class="col-1" onclick ="get_consulting_history_detail(${consulting.id})"> 🔍 </td>`;
+                <td class="col-1" onclick ="get_consulting_history_detail(${consulting.id})"> <span class="cursor">🔍</span> </td>`;
             });
             $('#consulting_history_student_list').html(dataHtml);
         }
@@ -917,29 +916,34 @@ async function get_consulting_history_detail(c_id) {
     let consulting_history = Tall_consulting.filter(c => c.id == c_id)[0]
     let category = `${consulting_history.category}`
     if (consulting_history.category_id < 100) {
-        category = `${consulting_history.category} 상담  검사 날짜: <strong>${make_date(consulting_history.startdate)}</strong>`
+        category = `
+            <div class="modal-body-select-label" style="width:fit-content; padding:6px 16px;">${consulting_history.category} 검사 날짜</div>
+            <div><strong>${make_date(consulting_history.startdate)}</strong></div>
+        `
     }
     temp_his = `
-    <button type="button" class="btn btn-back" onclick="get_consulting_history()">상담 목록으로 돌아가기🔙 </button>
-    <p class="mt-lg-4 mt-5">✅ ${category}</p>
-    <p mt-lg-4 mt-5>✅ ${consulting_history.contents.replace(/\n/g, '</br>')}</p>
     <div class="modal-body-select-container">
-        <span class="modal-body-select-label">상담 사유 수정</span>
-        <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason${c_id}" placeholder="${consulting_history.reason}">
+        ${category}
+    </div>
+    <div class="d-flex flex-column justify-content-start py-3">
+        <div class="modal-body-select-label" style="width:fit-content; padding: 6px 16px;">${consulting_history.contents.replace(/\n/g, '</br>').split(':')[0]}</div>
+        <div class="p-3 pb-0">${consulting_history.contents.replace(/\n/g, '</br>').split(':')[1]}</div>
     </div>
     <div class="modal-body-select-container">
-        <span class="modal-body-select-label">제공한 가이드 수정</span>
-        <textarea class="modal-body" type="text" rows="5" cols="25"
-        id="consulting_solution${c_id}" placeholder="${consulting_history.solution}"></textarea> 
+        <div class="modal-body-select-label">상담 일시</div>
+        <div>${make_date(consulting_history.created_at)}</div>
     </div>
-    <div class="modal-body-select-container">
-        <span class="modal-body-select-label">상담 일시</span>
-        <p>${make_date(consulting_history.created_at)}</p>
+    <div class="d-flex flex-column justify-content-start py-3">
+        <div class="modal-body-select-label">사유 수정</div>
+        <textarea class="modal-body-select w-100 p-3" id="consulting_reason${c_id}">${consulting_history.reason}</textarea>
+    </div>
+    <div class="d-flex flex-column justify-content-start py-3">
+        <span class="modal-body-select-label">가이드 수정</span>
+        <textarea class="modal-body-select w-100 p-3" type="text" id="consulting_solution${c_id}">${consulting_history.solution}</textarea>
     </div>
     <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
-        <button class="btn btn-dark"
-            onclick="post_one_consulting(${c_id},${1})"
-        style="margin-right:5px">수정</button>
+        <button class="btn btn-success" onclick="post_one_consulting(${c_id},${1})" style="margin-right:5px">수정</button>
+        <button class="btn btn-danger" onclick="get_consulting_history()">목록</button>
     </div>
     `;
     $('#consulting_history_box_detail').html(temp_his);
@@ -1309,7 +1313,7 @@ async function get_question_list() {
                     <td class="col-4">${item.title}</td>
                     <td class="col-3"> ${done_code} </td>
                     <td class="col-2"> ${make_date(item.create_date)} </td>
-                    <td class="col-1" onclick="get_question_detail(${item.id})"> <span class="cursor-pointer">🔍</span> </td>
+                    <td class="col-1" onclick="get_question_detail(${item.id})"> <span class="cursor">🔍</span> </td>
                     `;
                 });
                 $('#teacher_question_list').html(dataHtml);
@@ -1329,40 +1333,36 @@ async function get_question_detail(q_id) {
     questiondata = TquestionAnswerdata.filter(q => q.id == q_id)[0]
     let temp_question_list = `
     <div class="modal-body-select-container">
-        <span class="modal-body-select-label">문의 종류</span>
-        <p>${q_category(questiondata.category)}</p>
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">제목</span></div>
+        <div>${questiondata.title}</div>
     </div>
     <div class="modal-body-select-container">
-        <span class="modal-body-select-label">제목</span>
-        <p>${questiondata.title}</p>
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">작성일</span></div>
+        <div>${questiondata.create_date}</div>
     </div>
     <div class="modal-body-select-container">
-        <span class="modal-body-select-label">내용</span>
-        <p>${questiondata.contents}</p>
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">문의 종류</span></div>
+        <div>${q_category(questiondata.category)}</div>
     </div>
-    <div class="modal-body-select-container">
-        <span class="modal-body-select-label">작성일</span>
-        <p>${questiondata.create_date}</p>
-    </div>`
+    `
     if(questiondata.student_id != 0){
         ban_student_data = Tall_students.filter(s => s.student_id == questiondata.student_id)[0]
         temp_question_list+=`
         <div class="modal-body-select-container">
-            <span class="modal-body-select-label">대상 반 | 학생</span>
-            <p>${ban_student_data.classname} ➖ ${ban_student_data.name} (${ban_student_data.nick_name}:${ban_student_data.origin})</p>
+            <div class="modal-body-select-label"><span class="modal-body-select-container-span">대상 반</span></div>
+            <div>${ban_student_data.classname} ➖ ${ban_student_data.name} (${ban_student_data.nick_name}:${ban_student_data.origin})</div>
         </div>`
     }else{
         ban_student_data = Tban_data.filter(b=>b.register_no == questiondata.ban_id)[0]
         temp_question_list+=`
         <div class="modal-body-select-container">
-            <span class="modal-body-select-label">대상 반 | 학생</span>
-            <p>${ban_student_data.name} ➖ "특정 원생 선택하지 않음"</p>
+            <div class="modal-body-select-label"><span class="modal-body-select-container-span">대상 반</span></div>
+            <div>${ban_student_data.name} ➖ "특정 원생 선택하지 않음"</div>
         </div>`
     }
     temp_question_list+=`
     <div class="modal-body-select-container">
-    <span class="modal-body-select-label">첨부파일</span>
-    <div class="make_col">
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">첨부파일</span></div>
     `
     if(questiondata.attach != "없음"){
         questiondata.attach.forEach((a)=>{
@@ -1371,7 +1371,15 @@ async function get_question_detail(q_id) {
     }else{
         temp_question_list +='➖'
     }
-    temp_question_list += `</div></div>`;
+
+    temp_question_list +=
+    `
+        </div>
+        <div class="d-flex flex-column justify-content-start py-3">
+            <div class="modal-body-select-label"><span class="modal-body-select-container-span">내용</span></div>
+            <div class="mt-4 px-2 text-start">${questiondata.contents}</div>
+        </div>
+    `
     $('#teacher_question').html(temp_question_list);
     // 상담 일지 처리 
     if (questiondata.category == 0 || questiondata.category == 4 || questiondata.category == 5) {
@@ -1389,20 +1397,18 @@ async function get_question_detail(q_id) {
             }
             temp_his = `
             <div class="modal-body-select-container">
-                <span class="modal-body-select-label">상담 종류</span>
-                <p>${category}</p>
+                <div class="modal-body-select-label"><span class="modal-body-select-container-span">상담 일시</span></div>
+                <div class="w-25">${make_date(consulting_history.created_at)}</div>
+                <div class="modal-body-select-label"><span class="modal-body-select-container-span">상담 종류</span></div>
+                <div class="w-25">${category}</div>
             </div>
-            <div class="modal-body-select-container">
-                <span class="modal-body-select-label">상담 사유</span>
-                <p>${consulting_history.reason}</p>
+            <div class="d-flex flex-column justify-content-start py-3">
+                <div class="modal-body-select-label"><span class="modal-body-select-container-span">상담 사유</span></div>
+                <div>${consulting_history.reason}</div>
             </div>
-            <div class="modal-body-select-container">
-                <span class="modal-body-select-label">제공한 가이드</span>
-                <p>${consulting_history.solution}</p>
-            </div>
-            <div class="modal-body-select-container">
-                <span class="modal-body-select-label">상담 일시</span>
-                <p>${make_date(consulting_history.created_at)}</p>
+            <div class="d-flex flex-column justify-content-start py-3">
+                <div class="modal-body-select-label"><span class="modal-body-select-container-span">제공한 가이드</span></div>
+                <div>${consulting_history.solution}</div>
             </div>
             `;
         }
@@ -1412,27 +1418,29 @@ async function get_question_detail(q_id) {
     // 응답 처리 
     if (questiondata.answer == 0) {
         temp_answer_list = `
-        <div class="modal-body-select-container">
-        <span class="modal-body-select-label">응답</span>
-        <p>미응답</p>
-        </div>`;
+        <div class="d-flex flex-column justify-content-start py-3">
+            <div class="modal-body-select-label"><span class="modal-body-select-container-span">내용</span></div>
+            <div class="mt-4 px-2 text-start">미응답</div>
+        </div>
+        `;
     } else {
+        if (questiondata.category == 1 || questiondata.category == 2) {
+            temp_answer_list += `
+            <div class="modal-body-select-container">
+                <div class="modal-body-select-label"><span class="modal-body-select-container-span">처리</span></div>
+                <div>${make_answer_code(questiondata.answer_data.reject_code)}</div>
+            </div>`
+        }
         temp_answer_list = `
         <div class="modal-body-select-container">
-        <span class="modal-body-select-label">응답</span>
-        <p>${questiondata.answer_data.content}</p>
+            <div class="modal-body-select-label"><span class="modal-body-select-container-span">응답일</span></div>
+            <div>${questiondata.answer_data.created_at}</div>
         </div>
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">응답일</span>
-            <p>${questiondata.answer_data.created_at}</p>
-        </div>`;
-        if (questiondata.category == 1 || questiondata.category == 2) {
-            temp_answer_list += `<div class="modal-body-select-container">
-           <span class="modal-body-select-label">처리</span>
-           <p>${make_answer_code(questiondata.answer_data.reject_code)}</p>
-           </div>`
-        }
+        <div class="d-flex flex-column justify-content-start py-3">
+            <div class="modal-body-select-label"><span class="modal-body-select-container-span">내용</span></div>
+            <div class="mt-4 px-2 text-start">${questiondata.answer_data.content}</div>
+        </div>
+        `;
     }
     $('#teacher_answer').html(temp_answer_list);
-
 }
