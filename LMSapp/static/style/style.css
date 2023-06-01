@@ -5,6 +5,14 @@
   src: url(./font/PretendardVariable.woff2);
 }
 
+.cursor {
+  cursor: pointer !important;
+}
+
+.cursor:hover{
+  scale: 1.1;
+}
+
 .text-purple {
     color: #b02b74;
 }
@@ -127,6 +135,7 @@ footer{
   .modal .modal-handling {
     width: 98vw !important;
     max-width: 98vw !important;
+
   }
 }
 
@@ -137,6 +146,13 @@ footer{
   width: 100%;
   flex-direction: row;
   padding: 16px 0;
+}
+
+.modal-body-select-container-span {
+  background-color: #444444;
+  color: #fff; 
+  padding: 8px 12px; 
+  border-radius:10px;
 }
 
 .modal-body-select-label {

@@ -1013,6 +1013,8 @@ async function post_one_consulting(consulting, is_done) {
 function post_target_consulting(consulting, is_done) {
     consulting_reason = $('#consulting_reason' + consulting).val()
     consulting_solution = $('#consulting_solution' + consulting).val()
+    console.log(consulting_reason)
+    console.log(consulting_solution)
     if (!consulting_reason || consulting_reason.length == 0) {
         consulting_reason = "작성 내역이 없습니다"
     }
