@@ -145,7 +145,7 @@ def get_csdata():
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='cs_page',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute('SELECT cs_student_id as origin, cs_student_name as student_name, cs_student_class as ban_name, cs_teacher_name as teacher_name, cs_content as contents, cs_answer as answer, cs_answerer as answerer, cs_date as created_at, CASE WHEN cs_charge IS NOT NULL THEN cs_charge ELSE cs_sort END AS category FROM cs_page.cs_table;')
+                cur.execute('SELECT cs_student_id as origin, cs_student_name as student_name, cs_student_class as ban_name, cs_teacher_name as teacher_name, cs_content as contents, cs_answer as answer, cs_answerer as answerer, cs_date as created_at, CASE WHEN cs_charge IS NOT NULL THEN cs_charge ELSE CASE WHEN cs_sort = "행정" THEN "행정 파트" ELSE cs_sort END END AS category FROM cs_page.cs_table;')
                 all_cs_data = cur.fetchall()
 
         except Exception as e:

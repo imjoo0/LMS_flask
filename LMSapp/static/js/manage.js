@@ -64,6 +64,16 @@ $(document).ready(function () {
         $('.nav-link').removeClass('active');
         $(this).addClass('active');
     })
+    var target = document.getElementById('my_consulting_request');
+    let modalObserver = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+            console.log(mutation.target);
+        })
+    })
+    let config = {
+        attributes: true,
+    };
+    modalObserver.observe(target, config);
 })
 $(window).on('load', async function () {
     try {
@@ -104,6 +114,7 @@ function main_view() {
     $('#sobox').hide()
     $('#ulbox').hide()
     $('#detailban').show()
+    $('#allqubox').hide()
 }
 
 // 이반 * 퇴소 
@@ -113,6 +124,7 @@ async function sodata() {
     $('#inTqubox').hide()
     $('#ulbox').hide()
     $('#detailban').hide()
+    $('#allqubox').hide()
     $('#sobox').show()
     $('.cs_inloading').show()
     $('.not_inloading').hide()
@@ -376,6 +388,7 @@ async function csdata() {
     $('#qubox').show()
     $('#Tqubox').hide()
     $('#inTqubox').hide()
+    $('#allqubox').hide()
 
     $('.cs_inloading').show()
     $('.not_inloading').hide()
@@ -477,6 +490,7 @@ async function Tcsdata() {
     $('#qubox').hide()
     $('#Tqubox').show()
     $('#inTqubox').hide()
+    $('#allqubox').hide()
 
     $('.cs_inloading').show()
     $('.not_inloading').hide()
@@ -578,6 +592,7 @@ async function inTdata() {
     $('#qubox').hide()
     $('#Tqubox').hide()
     $('#inTqubox').show()
+    $('#allqubox').hide()
 
     $('.cs_inloading').show()
     $('.not_inloading').hide()
@@ -1436,18 +1451,7 @@ function sort_consultingoption(sortBy) {
     );
 }
 
-$('#my_consulting_request').on('click', function() {
-    $('#my_consulting_request .modal-dialog').removeClass('modal-lg');
-    $('#my_consulting_request .modal-dialog').addClass('modal-handling');
-    $('#my_consulting_request .modal-dialog').addClass('modal-xl');
-    $('#my_consulting_request .modal-dialog').attr('style', 'max-width:90%');
-})
 function get_consultingdetail(consulting_id) {
-    $('#my_consulting_request .modal-dialog').removeClass('modal-handling');
-    $('#my_consulting_request .modal-dialog').removeClass('modal-xl');
-    $('#my_consulting_request .modal-dialog').addClass('modal-lg');
-    $('#my_consulting_request .modal-dialog').attr('style', null);
-
     const consulting_history = req_consultings.filter(c=>c.id == consulting_id)[0]
     const teacher_ban_info = banData.filter(b=>b.ban_id == consulting_history.ban_id)[0]
     $('#my_consulting_requestModalLabel').html(`${teacher_ban_info.name}반 ${teacher_ban_info.teacher_name}( ${teacher_ban_info.teacher_engname} )T의 ${consulting_history.category}상담`);
@@ -1711,41 +1715,6 @@ async function sort_task(value) {
     })
 }
 
-// 과거 코드
-
-
-
-// function get_taskban(task_id) {
-//     $('#taskModalLabel').html('반 별 진행 내역');
-//     $('#for_task_list').hide();
-//     $('#for_taskban_list').show();
-//     $.ajax({
-//         type: "GET",
-//         url: "/manage/taskban/" + task_id,
-//         data: {},
-//         success: function (response) {
-//             let temp_task_ban_box = '';
-//             for (i = 0; i < response['target_taskban'].length; i++) {
-//                 let target = response['target_taskban'][i]
-//                 let id = target["id"]
-//                 let ban = target["ban"]
-//                 let done = target["done"]
-//                 if (done == 0) {
-//                     done = '미진행'
-//                 } else {
-//                     done = '진행완료'
-//                 }
-//                 temp_task_ban_box += `
-//                 <td class="col-4">${ban}</td>
-//                 <td class="col-4">${done}</td>
-//                 <td class="col-4">✖️</td>
-//                 `;
-//                 $('#taskban_list').html(temp_task_ban_box);
-//             }
-//         }
-//     });
-// }
-
 async function delete_consulting(contents, ban_id) {
     const csrf = $('#csrf_token').val();
     var con_val = confirm('정말 삭제하시겠습니까?')
@@ -1838,13 +1807,14 @@ function allpaginating(done_code) {
             $.each(data, function (index, item) {
                 dataHtml += `
                 <td class="col-1">${make_date(item.created_at)}</td>
-                <td class="col-1">cs data</td>
+                <td class="col-1">${item.category}</td>
+                <td class="col-1">${item.answerer}</td>
                 <td class="col-1">${item.ban_name}</td>
-                <td class="col-2">${item.teacher_name}</td>
-                <td class="col-2">${item.origin}</td>
-                <td class="col-3">${item.student_name}</td>
+                <td class="col-1">${item.origin}</td>
+                <td class="col-1">${item.student_name}</td>
+                <td class="col-1">${item.teacher_name}</td>
+                <td class="col-4">${make_small_char(item.contents)}</td>
                 <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</td>
-                <td class="col-1" onclick="delete_question(${item.id})">❌</td>
                 `;
             });
             $('#allalim_tr').html(dataHtml);
@@ -1869,4 +1839,113 @@ function allpaginating(done_code) {
     });
 
     
+}
+
+// 미완
+async function get_cs_detail(q_id, done_code) {
+    $('.cs_inloading').show()
+    $('.not_inloading').hide()
+    if (!studentsData) {
+        await get_all_students().then(() => {
+            $('.cs_inloading').hide()
+            $('.not_inloading').show()
+        });
+    }
+    $('.cs_inloading').hide()
+    $('.not_inloading').show()
+
+    $('#consulting_history_attach').hide()
+    $('#manage_answer').hide()
+    question_detail_data = questionData.filter(q => q.id == q_id)[0]
+
+    // 문의 상세 내용 
+    let temp_question_list = `
+    <div class="modal-body-select-container">
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">제목</span></div>
+        <div>${question_detail_data.title}</div>
+    </div>
+    <div class="modal-body-select-container">
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">작성일</span></div>
+        <div>${make_date(question_detail_data.create_date)}</div>
+    </div>
+    <div class="modal-body-select-container" style="padding: 12px 0">
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">문의 종류</span></div>
+        <div class="w-25">${q_category(question_detail_data.category)}</div>
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">문의 변경</span></div>
+        <select id="question_kind" class="modal-body-select w-25">
+            <option value="none" selected>변경X</option>
+            <option value=0>일반 문의</option>
+            <option value=5>내근티처 문의</option>
+            <option value=4>기술지원 문의</option>
+            <option value=2>이반 요청</option>
+            <option value=1>퇴소 요청</option>
+        </select>
+    </div>
+    <div class="modal-body-select-container">
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">대상 반</span></div>
+        <div>${question_detail_data.ban_name} ➖ 담임 T : ${question_detail_data.teacher_name} </div>
+    </div>
+    <div class="modal-body-select-container">
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">학생</span></div>`
+    
+    console.log(studentsData.filter(s=>s.category_id == 2))
+    if(question_detail_data.student_id != 0){
+        student_data = studentsData.filter(s => s.student_id == question_detail_data.student_id)[0]
+        temp_question_list += `<p>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin} )</p>`
+    }
+    else{
+        temp_question_list += `<div>특정 원생 선택 없음</div>`
+    }
+    temp_question_list += `
+        </div>
+        <div class="modal-body-select-container">
+            <div class="modal-body-select-label"><span class="modal-body-select-container-span">첨부파일</span></div>
+    `
+    attach = attachData.filter(a => a.question_id == q_id)
+    if(attach.length != 0){
+        attach.forEach((a)=>{
+            temp_question_list +=`<a href="/common/downloadfile/question/${q_id}/attachment/${a.id}" download="${a.file_name}">${a.file_name}</a>`
+        })
+    }else{
+        temp_question_list +=`<div>첨부 파일 없음</div>`
+    }
+    temp_question_list += 
+    `
+        </div>
+        <div class="d-flex flex-column justify-content-start py-3">
+            <div class="modal-body-select-label"><span class="modal-body-select-container-span">내용</span></div>
+            <div class="mt-4 ps-2">${question_detail_data.contents}</div>
+        </div>
+    `
+    $('#teacher_question').html(temp_question_list);
+
+    // 응답 처리 
+    if (done_code == 0) {
+        $('#teacher_answer').hide()
+        $('#manage_answer').show()
+        $('#manage_answer_1').show()
+        $('#manage_answer_2').hide()
+        $('#manage_answer_3').hide()
+        $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category},${0})">저장</button>`);
+    } else {
+        $('#manage_answer').hide()
+        answer_data = answerData.filter(a => a.question_id == q_id)[0]
+        let temp_answer_list = `
+        <div class="modal-body-select-container">
+            <div class="modal-body-select-label w-25"><span class="modal-body-select-container-span">답변자</span></div>
+            <div class="w-25">${make_nullcate(answer_data.writer)}</div>
+            <div class="modal-body-select-label w-25"><span class="modal-body-select-container-span">응답일</span></div>
+            <div class="w-25">${make_date(answer_data.created_at)}</div>
+        </div>
+        <div class="d-flex flex-column justify-content-start py-3">
+            <div class="modal-body-select-label"><span class="modal-body-select-container-span">내용</span></div>
+            <textarea class="modal-body w-100 mt-3" style="border-block-width:0;border-left:0;border-right:0" type="text" rows="15" cols="25"
+            id="answer_content_modi">${answer_data.content}</textarea>
+        </div>
+        `;
+        $('#teacher_answer').html(temp_answer_list);
+        $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category},${1})">수정</button>`);
+        $('#teacher_answer').show()
+    }
+
 }
