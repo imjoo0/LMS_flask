@@ -703,10 +703,6 @@ function sort_option(sortBy) {
 }
 
 function plusconsulting(s_id, b_id) {
-<<<<<<< HEAD
-=======
-    let t_id = Tban_data[0].teacher_id
->>>>>>> 7b2e9e5f3d59dc424448f449c51fe69fda53d8d8
     $('#make_plus_consulting').show();
     let temp_button = `
     <button class="btn btn-dark" onclick=plusconsulting_history(${s_id},${b_id})>저장</button>
