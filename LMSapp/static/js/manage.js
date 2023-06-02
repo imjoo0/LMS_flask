@@ -146,10 +146,7 @@ async function sodata() {
     $('.cs_inloading').show()
     $('.not_inloading').hide()
     if (!questionData) {
-        await get_all_question().then(() => {
-            $('.cs_inloading').hide()
-            $('.not_inloading').show()
-        });
+        await get_all_question()
     }
     $('.cs_inloading').hide()
     $('.not_inloading').show()
@@ -183,7 +180,13 @@ function so_paginating(done_code) {
                 callback: function (data, pagination) {
                     var dataHtml = '';
                     $.each(data, function (index, item) {
-                        ban = banData.filter(b => b.ban_id == item.ban_id)[0]
+                        let ban = banData.filter(b => b.ban_id == item.ban_id)[0]
+                        console.log(studentsData)
+                        let origin ='원생 정보 없음'
+                        let student = studentsData.filter(s=>s.student_id == item.student_id)[0]
+                        if(student){
+                            origin = student.origin
+                        }
                         item.ban_name = ban.name
                         item.teacher_name = ban.teacher_engname + '( ' + ban.teacher_name + ' )'
                         let category = q_category(item.category)
@@ -192,10 +195,11 @@ function so_paginating(done_code) {
                             contents = contents.substring(0, 30) + ' ▪️▪️▪️ ';
                         }
                         dataHtml += `
-                        <td class="col-1">${item.create_date}</td>
+                        <td class="col-1">${make_date(item.create_date)}</td>
                         <td class="col-1">${category}</td>
                         <td class="col-1">${item.ban_name}</td>
-                        <td class="col-2">${item.teacher_name}</td>
+                        <td class="col-1">${item.teacher_name}</td>
+                        <td class="col-1">${origin}</td>
                         <td class="col-2">${item.title}</td>
                         <td class="col-3">${contents}</td>
                         <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code})">✏️</td>
@@ -242,22 +246,8 @@ function so_paginating(done_code) {
 async function get_soquestion_detail(q_id, done_code) {
     $('.cs_inloading').show()
     $('.not_inloading').hide()
-    if (!studentsData && !consultingData) {
-        await get_all_students()
-        await get_all_consulting().then(() => {
-            $('.cs_inloading').hide()
-            $('.not_inloading').show()
-        });
-    }else if (!studentsData && consultingData) {
-        await get_all_students().then(() => {
-            $('.cs_inloading').hide()
-            $('.not_inloading').show()
-        });
-    }else if (studentsData && !consultingData) {
-        await get_all_consulting().then(() => {
-            $('.cs_inloading').hide()
-            $('.not_inloading').show()
-        });
+    if (!consultingData) {
+        await get_all_consulting()
     }
     $('.cs_inloading').hide()
     $('.not_inloading').show()
@@ -454,11 +444,17 @@ function paginating(done_code) {
                         if(contents && contents.length > 30) {
                             contents = contents.substring(0, 30) + ' ▪️▪️▪️ ';
                         }
+                        let origin ='원생 정보 없음'
+                        let student = studentsData.filter(s=>s.student_id == item.student_id)[0]
+                        if(student){
+                            origin = student.origin
+                        }
                         dataHtml += `
                         <td class="col-1">${make_date(item.create_date)}</td>
                         <td class="col-1">일반문의</td>
                         <td class="col-1">${item.ban_name}</td>
-                        <td class="col-2">${item.teacher_name}</td>
+                        <td class="col-1">${item.teacher_name}</td>
+                        <td class="col-1">${origin}</td>
                         <td class="col-2">${item.title}</td>
                         <td class="col-3">${contents}</td>
                         <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</td>
@@ -556,11 +552,17 @@ function Tpaginating(done_code) {
                         if(contents && contents.length > 30) {
                             contents = contents.substring(0, 30) + ' ▪️▪️▪️ ';
                         }
+                        let origin ='원생 정보 없음'
+                        let student = studentsData.filter(s=>s.student_id == item.student_id)[0]
+                        if(student){
+                            origin = student.origin
+                        }
                         dataHtml += `
                         <td class="col-1">${make_date(item.create_date)}</td>
                         <td class="col-1">기술지원문의</td>
                         <td class="col-1">${item.ban_name}</td>
-                        <td class="col-2">${item.teacher_name}</td>
+                        <td class="col-1">${item.teacher_name}</td>
+                        <td class="col-1">${origin}</td>
                         <td class="col-2">${item.title}</td>
                         <td class="col-3">${contents}</td>
                         <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</td>
@@ -658,11 +660,17 @@ function inTpaginating(done_code) {
                         if(contents && contents.length > 30) {
                             contents = contents.substring(0, 30) + ' ▪️▪️▪️ ';
                         }
+                        let origin ='원생 정보 없음'
+                        let student = studentsData.filter(s=>s.student_id == item.student_id)[0]
+                        if(student){
+                            origin = student.origin
+                        }
                         dataHtml += `
                         <td class="col-1">${make_date(item.create_date)}</td>
                         <td class="col-1">내근티처 문의</td>
                         <td class="col-1">${item.ban_name}</td>
-                        <td class="col-2">${item.teacher_name}</td>
+                        <td class="col-1">${item.teacher_name}</td>
+                        <td class="col-1">${origin}</td>
                         <td class="col-2">${item.title}</td>
                         <td class="col-3">${contents}</td>
                         <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</td>
@@ -708,12 +716,6 @@ function inTpaginating(done_code) {
 async function get_question_detail(q_id, done_code) {
     $('.cs_inloading').show()
     $('.not_inloading').hide()
-    if (!studentsData) {
-        await get_all_students().then(() => {
-            $('.cs_inloading').hide()
-            $('.not_inloading').show()
-        });
-    }
     $('.cs_inloading').hide()
     $('.not_inloading').show()
 

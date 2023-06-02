@@ -347,6 +347,7 @@ async function get_all_ban() {
         totalHoldnum = 0
         // switchstudentData = response['switchstudent']
         banData = response['all_ban']
+        studentsData = response['students']
         banData.forEach((elem) => {
             elem.out_student_num = Number(elem.out_student_num)
             elem.hold_student_num = Number(elem.hold_student_num)
@@ -365,18 +366,18 @@ async function get_all_ban() {
         alert('Error occurred while retrieving data.');
     }
 }
-async function get_all_students() {
-    try{
-        const response = await $.ajax({
-            url: '/common/all_students',
-            type: 'GET',
-            data: {},
-        });
-        studentsData = response['students']
-    } catch (error) {
-        alert('Error occurred while retrieving data.');
-    }
-}
+// async function get_all_students() {
+//     try{
+//         const response = await $.ajax({
+//             url: '/common/all_students',
+//             type: 'GET',
+//             data: {},
+//         });
+//         studentsData = response['students']
+//     } catch (error) {
+//         alert('Error occurred while retrieving data.');
+//     }
+// }
 async function get_all_consulting() {
     try {
         const response = await $.ajax({
@@ -474,7 +475,6 @@ async function get_student_reports() {
 }
 // 전체 반 정보(차트) 가져오는 함수 
 async function get_total_data() {
-    getStudentsData()
     $('#semester').hide();
     $('#detailban').show();
     $('#qubox').hide()
@@ -758,6 +758,7 @@ function sort_data(sort_op) {
         Object.assign(ResultpaginationOptions, { dataSource: resultData })
     );
 }
+// 여기까지 
 function download_banlist(){
     var con_val = confirm('반 리스트를 다운로드 하시겠습니까?')
     if(con_val){
