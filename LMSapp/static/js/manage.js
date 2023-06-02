@@ -120,7 +120,7 @@ $(window).on('load', async function () {
             }
         }
     } catch (error) {
-        alert('Error occurred while retrieving data.');
+        alert('삭제된 문의 입니다.');
     }
 });
 

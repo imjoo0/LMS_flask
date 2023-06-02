@@ -200,7 +200,8 @@ def question(u):
         
         payloadText += '제목: `{}`\n\n```{}```'.format(title, contents.replace('\r\n', '\n\n') )
         link_url = '\n[링크 바로가기]http://purpleacademy.net:6725/manage/?q_id={}&q_type={}'.format(new_question.id,category)
-        payloadText += quote(link_url)  # payloadText 인코딩
+        encoded_link_url  = quote(link_url)  # payloadText 인코딩
+        payloadText += encoded_link_url
         files = request.files.getlist('file_upload')
         for file in files:
             common.save_attachment(file, new_question.id)
