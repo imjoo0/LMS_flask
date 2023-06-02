@@ -7,7 +7,14 @@ let isFetching = false;
 const today = new Date().setHours(0, 0, 0, 0);
 const todayyoil = new Date().getDay()
 
-// 공용 function 
+// 공용 function
+let make_hours = function(time){
+    var date = new Date(time);
+
+    // 한국 시간으로 변환
+    var koreaTime = date.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
+    return koreaTime
+} 
 function getIsFetching(){
     return isFetching;
 }

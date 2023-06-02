@@ -275,7 +275,7 @@ async function get_soquestion_detail(q_id, done_code) {
     </div>
     <div class="modal-body-select-container">
         <div class="modal-body-select-label"><span class="modal-body-select-container-span">작성일</span></div>
-        <div>${question_detail_data.create_date}</div>
+        <div>${make_hours(question_detail_data.create_date)}</div>
     </div>
     <div class="modal-body-select-container" style="padding: 12px 0">
         <div class="modal-body-select-label"><span class="modal-body-select-container-span">문의 종류</span></div>
@@ -729,7 +729,7 @@ async function get_question_detail(q_id, done_code) {
     </div>
     <div class="modal-body-select-container">
         <div class="modal-body-select-label"><span class="modal-body-select-container-span">작성일</span></div>
-        <div>${question_detail_data.create_date}</div>
+        <div>${make_hours(question_detail_data.create_date)}</div>
     </div>
     <div class="modal-body-select-container" style="padding: 12px 0">
         <div class="modal-body-select-label"><span class="modal-body-select-container-span">문의 종류</span></div>
@@ -1881,7 +1881,6 @@ async function get_cs_detail(q_id) {
     $('.not_inloading').hide()
     let question_detail_data = CSdata.filter(cs=>cs.id == q_id)[0]
     let contents = question_detail_data.contents.replace(/\n/g, '</br>')
-    console.log(question_detail_data)
     $('.cs_inloading').hide()
     $('.not_inloading').show()
 
