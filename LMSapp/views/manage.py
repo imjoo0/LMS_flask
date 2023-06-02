@@ -298,7 +298,6 @@ def delete_consulting(contents,ban_id):
             db.close()
         return jsonify(result)
 
-
 @bp.route('/api/get_task', methods=['GET'])
 def get_task():
     if request.method == 'GET':
@@ -322,26 +321,6 @@ def taskban(task_id):
         tb = TaskBan.query.filter(TaskBan.task_id == task_id).all()
         return json.dumps(tb)
         # return jsonify({'target_taskban':tb})
-
-@bp.route('/api/update_consulting', methods=['GET'])
-def update_task():
-    if request.method == 'GET':
-        result = {}
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                #cur.execute(f'update consulting set content='' where id={id}')
-                result['status'] = 200
-                result['text'] = str(request.args.get('text'))
-        except Exception as e:
-            print(e)
-            result['status'] = 401
-            result['text'] = str(e)
-        finally:
-            db.close()
-
-        return result
-
 
 @bp.route('/api/delete_task/<int:id>', methods=['GET'])
 def delete_task(id):
@@ -397,7 +376,17 @@ def make_task():
         received_task_priority = request.form['task_priority']
         # 업무 주기
         received_task_cycle = request.form['task_cycle']
-        
+        task_yoil = ''
+        if(received_task_cycle == 1):
+            task_yoil = '월요일'
+        elif(received_task_cycle == 2):
+            task_yoil = '화요일'
+        elif(received_task_cycle == 3):
+            task_yoil = '수요일'
+        elif(received_task_cycle == 4):
+            task_yoil = '목요일'
+        elif(received_task_cycle == 5):
+            task_yoil = '금요일'
         task = Task(category_id=received_category,contents=received_task,startdate=received_task_startdate,deadline=received_task_deadline,priority=received_task_priority,cycle=received_task_cycle)
         db.session.add(task)
         db.session.commit()
@@ -414,11 +403,11 @@ def make_task():
                 db.session.commit()
 
                 teacher_mobile_no = User.query.filter(User.id == teacher_id).first().mobileno
-                if(received_task_startdate < Today and (teacher_mobile_no != "입력 바랍니다" or teacher_mobile_no != "000-0000-0000")):
+                if(received_task_startdate <= Today and (teacher_mobile_no != "입력 바랍니다" or teacher_mobile_no != "000-0000-0000")):
                     post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
                     data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
                         'templateCode': "task_cs",
-                        'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '반 이름':task_data[2], '업무내용': received_task, '마감기한': received_task_deadline}, }, ], }
+                        'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '반이름':task_data[2], '업무내용': received_task,'요일':task_yoil, '마감기한': received_task_deadline}, }, ], }
                     headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
                     http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
 
@@ -442,11 +431,11 @@ def make_task():
                 new_task = TaskBan(ban_id=target['ban_id'],teacher_id=target['teacher_id'], task_id=task.id ,done=0)
                 db.session.add(new_task)
                 db.session.commit()
-                if(received_task_startdate < Today and (target['mobileno'] != "입력 바랍니다" or target['mobileno'] != "000-0000-0000")):
+                if(received_task_startdate <= Today and (target['mobileno'] != "입력 바랍니다" or target['mobileno'] != "000-0000-0000")):
                     post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
                     data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
                         'templateCode': "task_cs",
-                        'recipientList': [{'recipientNo':target['mobileno'], 'templateParameter': { '반 이름':target['ban_name'], '업무내용': received_task, '마감기한': received_task_deadline}, }, ], }
+                        'recipientList': [{'recipientNo':target['mobileno'], 'templateParameter': { '반이름':target['ban_name'], '업무내용': received_task,'요일':task_yoil, '마감기한': received_task_deadline}, }, ], }
                     headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
                     http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
         return redirect('/manage')
@@ -490,7 +479,7 @@ def request_ban_student(b_id,t_id,b_name):
             db.session.commit()
 
         teacher_mobile_no = User.query.filter(User.id == t_id).first().mobileno
-        if(received_consulting_startdate < Today and (teacher_mobile_no != "입력 바랍니다" or teacher_mobile_no != "000-0000-0000")):
+        if(received_consulting_startdate <= Today and (teacher_mobile_no != "입력 바랍니다" or teacher_mobile_no != "000-0000-0000")):
             post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
             data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
             'templateCode': "consulting_cs",
@@ -521,7 +510,7 @@ def request_indivi_student(b_id,t_id,s_id):
         db.session.add(new_consulting)
         db.session.commit()
         teacher_mobile_no = User.query.filter(User.id == t_id).first().mobileno
-        if(received_consulting_startdate < Today and (teacher_mobile_no != "입력 바랍니다" or teacher_mobile_no != "000-0000-0000")):
+        if(received_consulting_startdate <= Today and (teacher_mobile_no != "입력 바랍니다" or teacher_mobile_no != "000-0000-0000")):
             post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
             data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
             'templateCode': "consulting_cs",
@@ -573,9 +562,8 @@ def request_all_ban(b_type):
                 continue
             existing_info.add(info_key)  # 새로운 데이터를 추가
             ban_info.append(info)
-        
         for ban in ban_info:
-            if(received_consulting_startdate < Today and(ban['mobileno'] != "입력 바랍니다" or ban['mobileno'] != "000-0000-0000")):
+            if(received_consulting_startdate <= Today and(ban['mobileno'] != "입력 바랍니다" or ban['mobileno'] != "000-0000-0000")):
                 post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
                 data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
                         'templateCode': "consulting_cs",

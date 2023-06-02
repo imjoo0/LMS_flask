@@ -266,6 +266,7 @@ async function get_soquestion_detail(q_id, done_code) {
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
     student_data = studentsData.filter(s => s.student_id == question_detail_data.student_id)[0]
     attach = attachData.filter(a => a.question_id == q_id)
+    let contents = question_detail_data.contents.replace(/\n/g, '</br>')
     // 문의 상세 내용 
     let temp_question_list = `
     <div class="modal-body-select-container">
@@ -316,7 +317,7 @@ async function get_soquestion_detail(q_id, done_code) {
         </div>
         <div class="d-flex flex-column justify-content-start py-3">
             <div class="modal-body-select-label"><span class="modal-body-select-container-span">내용</span></div>
-            <div class="mt-4 ps-2">${question_detail_data.contents}</div>
+            <div class="mt-4 ps-2">${contents}</div>
         </div>    
     `
     $('#teacher_question').html(temp_question_list);
@@ -719,7 +720,7 @@ async function get_question_detail(q_id, done_code) {
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
-
+    let contents = question_detail_data.contents.replace(/\n/g, '</br>')
     // 문의 상세 내용 
     let temp_question_list = `
     <div class="modal-body-select-container">
@@ -776,7 +777,7 @@ async function get_question_detail(q_id, done_code) {
         </div>
         <div class="d-flex flex-column justify-content-start py-3">
             <div class="modal-body-select-label"><span class="modal-body-select-container-span">내용</span></div>
-            <div class="mt-4 ps-2">${question_detail_data.contents}</div>
+            <div class="mt-4 ps-2">${contents}</div>
         </div>
     `
     $('#teacher_question').html(temp_question_list);
@@ -1879,6 +1880,7 @@ async function get_cs_detail(q_id) {
     $('.cs_inloading').show()
     $('.not_inloading').hide()
     let question_detail_data = CSdata.filter(cs=>cs.id == q_id)[0]
+    let contents = question_detail_data.contents.replace(/\n/g, '</br>')
     console.log(question_detail_data)
     $('.cs_inloading').hide()
     $('.not_inloading').show()
@@ -1910,7 +1912,7 @@ async function get_cs_detail(q_id) {
     </div>
     <div class="d-flex flex-column justify-content-start py-3">
         <div class="modal-body-select-label"><span class="modal-body-select-container-span">내용</span></div>
-        <div class="mt-4 ps-2">${question_detail_data.contents}</div>
+        <div class="mt-4 ps-2">${contents}</div>
     </div>
     `
     $('#teacher_question').html(temp_question_list);
