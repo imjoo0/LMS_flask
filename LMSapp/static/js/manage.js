@@ -67,7 +67,6 @@ $(document).ready(function () {
     var target = document.getElementById('request_consultingban_listbox');
     let modalObserver = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
-            console.log(mutation.target.style.cssText)
             if (mutation.target.style.cssText.includes('display: none;')){
                 $('#my_consulting_request .modal-dialog').addClass('modal-handling');
                 $('#my_consulting_request .modal-dialog').addClass('modal-xl');
@@ -316,6 +315,7 @@ async function get_soquestion_detail(q_id, done_code) {
     let temp_his = ''
     if (consulting_history.length != 0) {
         let category = ''
+        let solution = consulting_history[0].solution.replace(/\n/g, '</br>')
         if (consulting_history[0].category_id < 100) {
             category = `${consulting_history[0].week_code}주간 ${consulting_history[0].category}상담`
         } else {
@@ -332,7 +332,7 @@ async function get_soquestion_detail(q_id, done_code) {
         </div>
         <div class="d-flex flex-column py-3">
             <div class="modal-body-select-label mt-3"><span class="modal-body-select-container-span">제공 가이드</span></div>
-            <div class="mt-3 px-3">${consulting_history[0].solution}</div>
+            <div class="mt-3 px-3">${solution}</div>
         </div>
         `;
     } else {
@@ -1509,6 +1509,7 @@ function get_consultingdetail(consulting_id) {
     `;
 
     if(consulting_history.done == 1){
+        let solution = consulting_history.solution.replace(/\n/g, '</br>')
         temp_his += `
         <div class="d-flex flex-column justify-content-start py-3">
             <div class="modal-body-select-label"><span class="modal-body-select-container-span">상담 사유</span></div>
@@ -1516,7 +1517,7 @@ function get_consultingdetail(consulting_id) {
         </div>
         <div class="d-flex flex-column justify-content-start py-3">
             <div class="modal-body-select-label"><span class="modal-body-select-container-span">제공한 가이드</span></div>
-            <div class="mt-3 px-2">${consulting_history.solution}</div>
+            <div class="mt-3 px-2">${solution}</div>
         </div>
         `
     }
