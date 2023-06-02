@@ -196,7 +196,7 @@ def question(u):
         db.session.commit()
         
         payloadText += '제목: `{}`\n\n```{}```'.format(title, contents.replace('\r\n', '\n\n') )
-        link_url = '\n[링크 바로가기]http://purpleacademy.net:2305/manage/?q_id={}&q_type={}'.format(new_question.id,category)
+        link_url = '\n[링크 바로가기]http://purpleacademy.net:6725/manage/?q_id={}&q_type={}'.format(new_question.id,category)
         payloadText += quote(link_url)  # payloadText 인코딩
         files = request.files.getlist('file_upload')
         for file in files:
@@ -252,17 +252,19 @@ def consulting_history(id,is_done):
             target_consulting.solution = received_solution
             target_consulting.created_at = Today
         else:
-            if(received_reason !="작성 내역이 없습니다"):
+            if(received_reason != "작성 내역이 없습니다"):
                 target_consulting.reason = received_reason
-            if(received_solution !="작성 내역이 없습니다"):    
+            if(received_solution != "작성 내역이 없습니다"):    
                 target_consulting.solution = received_solution
         target_consulting.done = 1
         db.session.commit()
     return{'result':'완료'}
 
 # 추가 상담 실행 함수 
-@bp.route("/plus_consulting/<int:student_id>/<int:b_id>/<int:t_id>/", methods=['POST'])
-def plus_consulting(student_id,b_id,t_id):
+@bp.route("/plus_consulting/<int:student_id>/<int:b_id>", methods=['POST'])
+def plus_consulting(student_id,b_id):
+    t_id = request.form['t_id']
+    t_id = User.query.filter(User.user_id == t_id).first().id
     # 상담 제목
     received_contents = request.form['consulting_contents']
     # 상담 사유

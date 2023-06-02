@@ -192,7 +192,7 @@ function so_paginating(done_code) {
                             contents = contents.substring(0, 30) + ' ▪️▪️▪️ ';
                         }
                         dataHtml += `
-                        <td class="col-1">${make_date(item.create_date)}</td>
+                        <td class="col-1">${item.create_date}</td>
                         <td class="col-1">${category}</td>
                         <td class="col-1">${item.ban_name}</td>
                         <td class="col-2">${item.teacher_name}</td>
@@ -274,7 +274,7 @@ async function get_soquestion_detail(q_id, done_code) {
     </div>
     <div class="modal-body-select-container">
         <div class="modal-body-select-label"><span class="modal-body-select-container-span">작성일</span></div>
-        <div>${make_date(question_detail_data.create_date)}</div>
+        <div>${question_detail_data.create_date}</div>
     </div>
     <div class="modal-body-select-container" style="padding: 12px 0">
         <div class="modal-body-select-label"><span class="modal-body-select-container-span">문의 종류</span></div>
@@ -298,7 +298,7 @@ async function get_soquestion_detail(q_id, done_code) {
         temp_question_list += `
         <div class="modal-body-select-container">
             <div class="modal-body-select-label"><span class="modal-body-select-container-span">학생</span></div>
-            <div>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin} )</div>
+            <div>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin})</div>
         </div>`
     }
     temp_question_list += `
@@ -705,8 +705,6 @@ function inTpaginating(done_code) {
 }
 // 일반 문의 상세보기
 async function get_question_detail(q_id, done_code) {
-    console.log('왜 undefined?')
-    console.log(done_code)
     $('.cs_inloading').show()
     $('.not_inloading').hide()
     if (!studentsData) {
@@ -730,7 +728,7 @@ async function get_question_detail(q_id, done_code) {
     </div>
     <div class="modal-body-select-container">
         <div class="modal-body-select-label"><span class="modal-body-select-container-span">작성일</span></div>
-        <div>${make_date(question_detail_data.create_date)}</div>
+        <div>${question_detail_data.create_date}</div>
     </div>
     <div class="modal-body-select-container" style="padding: 12px 0">
         <div class="modal-body-select-label"><span class="modal-body-select-container-span">문의 종류</span></div>
@@ -755,7 +753,7 @@ async function get_question_detail(q_id, done_code) {
     console.log(studentsData.filter(s=>s.category_id == 2))
     if(question_detail_data.student_id != 0){
         student_data = studentsData.filter(s => s.student_id == question_detail_data.student_id)[0]
-        temp_question_list += `<p>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin} )</p>`
+        temp_question_list += `<p>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin})</p>`
     }
     else{
         temp_question_list += `<div>특정 원생 선택 없음</div>`
@@ -1874,8 +1872,6 @@ function allpaginating(done_code) {
         container.pagination('destroy');
         container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
     });
-
-    
 }
 
 // 미완
@@ -1898,7 +1894,7 @@ async function get_cs_detail(q_id) {
     </div>
     <div class="modal-body-select-container">
         <div class="modal-body-select-label"><span class="modal-body-select-container-span">작성일</span></div>
-        <div>${make_date(question_detail_data.created_at)}</div>
+        <div>${question_detail_data.created_at}</div>
     </div>
     <div class="modal-body-select-container" style="padding: 12px 0">
         <div class="modal-body-select-label"><span class="modal-body-select-container-span">문의 종류</span></div>
@@ -1910,7 +1906,7 @@ async function get_cs_detail(q_id) {
     </div>
     <div class="modal-body-select-container">
         <div class="modal-body-select-label"><span class="modal-body-select-container-span">학생</span></div>
-        <div>${question_detail_data.student_name} ( ${question_detail_data.origin} ) </div>
+        <div>${question_detail_data.student_name} ( ${question_detail_data.origin}) </div>
     </div>
     <div class="d-flex flex-column justify-content-start py-3">
         <div class="modal-body-select-label"><span class="modal-body-select-container-span">내용</span></div>

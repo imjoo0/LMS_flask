@@ -47,6 +47,7 @@ def save_attachment(file, q_id):
         db.session.rollback()
         return str(e)  # 에러 메시지 반환
 
+
 # 비번 변경
 # 오늘 해야 할 업무 완료 저장 
 @bp.route("/put_user", methods=['POST'])
