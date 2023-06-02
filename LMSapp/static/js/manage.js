@@ -22,6 +22,7 @@ async function get_all_question() {
         alert('Error occurred while retrieving data.');
     }
 }
+// 이건 지울 꺼
 async function get_all_cs() {
     try {
         const response = await $.ajax({
@@ -34,6 +35,19 @@ async function get_all_cs() {
         alert('Error occurred while retrieving data.');
     }
 }
+// 이게 쓸꺼 
+async function get_cs_data(category) {
+    let csWorker = new Worker("../static/js/cs_worker.js");
+    
+    return new Promise((resolve) => {
+        csWorker.onmessage = function(event) {
+            CSdata = event.data.all_cs_data;
+            const filtered_cs_data = CSdata.filter(item=> item.category == category );
+            resolve(filtered_cs_data);
+        };
+    });
+} 
+
 async function get_all_consultingcate() {
     try {
         const response = await $.ajax({
@@ -146,10 +160,16 @@ async function sodata() {
     $('.not_inloading').hide()
     if (!questionData) {
         await get_all_question()
+        get_cs_data('행정파트').then(()=>{
+            so_cs()
+        })
     }
     $('.cs_inloading').hide()
     $('.not_inloading').show()
     so_paginating(0)
+}
+function so_cs(){
+    console.log('하하ㅏㅎ')
 }
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
@@ -180,12 +200,12 @@ function so_paginating(done_code) {
                     var dataHtml = '';
                     $.each(data, function (index, item) {
                         let ban = banData.filter(b => b.ban_id == item.ban_id)[0]
-                        console.log(studentsData)
                         let origin ='원생 정보 없음'
                         let student = studentsData.filter(s=>s.student_id == item.student_id)[0]
                         if(student){
                             origin = student.origin
                         }
+                        item.origin = origin
                         item.ban_name = ban.name
                         item.teacher_name = ban.teacher_engname + '( ' + ban.teacher_name + ' )'
                         let category = q_category(item.category)
@@ -219,7 +239,7 @@ function so_paginating(done_code) {
             $('#so_search_input').on('keyup', function () {
                 var searchInput = $(this).val().toLowerCase();
                 var filteredData = qdata.filter(function (data) {
-                    return (data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1);
+                    return ((data.hasOwnProperty('origin') && data.origin.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1));
                 });
                 filteredData.sort(function (a, b) {
                     return new Date(b.create_date) - new Date(a.create_date);
@@ -449,6 +469,7 @@ function paginating(done_code) {
                         if(student){
                             origin = student.origin
                         }
+                        item.origin = origin
                         dataHtml += `
                         <td class="col-1">${make_date(item.create_date)}</td>
                         <td class="col-1">일반문의</td>
@@ -473,7 +494,7 @@ function paginating(done_code) {
             $('#cs_search_input').on('keyup', function () {
                 var searchInput = $(this).val().toLowerCase();
                 var filteredData = qdata.filter(function (data) {
-                    return data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1 || (data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1);
+                    return ((data.hasOwnProperty('origin') && data.origin.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1));
                 });
                 filteredData.sort(function (a, b) {
                     return new Date(b.create_date) - new Date(a.create_date);
@@ -557,6 +578,7 @@ function Tpaginating(done_code) {
                         if(student){
                             origin = student.origin
                         }
+                        item.origin = origin
                         dataHtml += `
                         <td class="col-1">${make_date(item.create_date)}</td>
                         <td class="col-1">기술지원문의</td>
@@ -581,7 +603,7 @@ function Tpaginating(done_code) {
             $('#Tcs_search_input').on('keyup', function () {
                 var searchInput = $(this).val().toLowerCase();
                 var filteredData = qdata.filter(function (data) {
-                    return (data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1);
+                    return ((data.hasOwnProperty('origin') && data.origin.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1));
                 });
                 filteredData.sort(function (a, b) {
                     return new Date(b.create_date) - new Date(a.create_date);
@@ -665,6 +687,7 @@ function inTpaginating(done_code) {
                         if(student){
                             origin = student.origin
                         }
+                        item.origin = origin
                         dataHtml += `
                         <td class="col-1">${make_date(item.create_date)}</td>
                         <td class="col-1">내근티처 문의</td>
@@ -689,7 +712,7 @@ function inTpaginating(done_code) {
             $('#inTcs_search_input').on('keyup', function () {
                 var searchInput = $(this).val().toLowerCase();
                 var filteredData = qdata.filter(function (data) {
-                    return data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1 || (data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1);
+                    return ((data.hasOwnProperty('origin') && data.origin.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1));
                 });
                 filteredData.sort(function (a, b) {
                     return new Date(b.create_date) - new Date(a.create_date);

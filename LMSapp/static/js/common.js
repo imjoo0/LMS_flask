@@ -402,6 +402,7 @@ async function get_all_task() {
         alert('Error occurred while retrieving data.');
     }
 }
+
 async function getStudentsData() {
     let studentsWorker = new Worker("../static/js/students_worker.js");
   
