@@ -917,29 +917,33 @@ async function get_consulting_history_detail(c_id) {
     let category = `${consulting_history.category}`
     if (consulting_history.category_id < 100) {
         category = `
-            <div class="modal-body-select-label" style="width:fit-content; padding:6px 16px;">${consulting_history.category} 검사 날짜</div>
-            <div><strong>${make_date(consulting_history.startdate)}</strong></div>
+        <div class="modal-body-select-container">
+            <div class="modal-body-select-label" style="width:fit-content;"><span class="modal-body-select-container-span" style="padding:6px 12px;">${consulting_history.category} 검사 날짜</span></div>
+        </div>
+        <div><strong>${make_date(consulting_history.startdate)}</strong></div>
         `
     }
     temp_his = `
-    <div class="modal-body-select-container">
+    <div class="d-flex flex-column justify-content-start py-3">
         ${category}
     </div>
     <div class="d-flex flex-column justify-content-start py-3">
-        <div class="modal-body-select-label" style="width:fit-content; padding: 6px 16px;">${consulting_history.contents.replace(/\n/g, '</br>').split(':')[0]}</div>
+        <div class="modal-body-select-container"">
+            <div class="modal-body-select-label" style="width:fit-content;"><span class="modal-body-select-container-span" style="padding:6px 12px;">${consulting_history.contents.replace(/\n/g, '</br>').split(':')[0]}</span></div>
+        </div>
         <div class="p-3 pb-0">${consulting_history.contents.replace(/\n/g, '</br>').split(':')[1]}</div>
     </div>
     <div class="modal-body-select-container">
-        <div class="modal-body-select-label">상담 일시</div>
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">상담 일시</span></div>
         <div>${make_date(consulting_history.created_at)}</div>
     </div>
-    <div class="d-flex flex-column justify-content-start py-3">
-        <div class="modal-body-select-label">사유 수정</div>
-        <textarea class="modal-body-select w-100 p-3" id="consulting_reason${c_id}">${consulting_history.reason}</textarea>
+    <div class="d-flex flex-column justify-content-start my-3">
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">사유 수정</span></div>
+        <textarea class="modal-body-select w-100 m-3" id="consulting_reason${c_id}">${consulting_history.reason}</textarea>
     </div>
-    <div class="d-flex flex-column justify-content-start py-3">
-        <span class="modal-body-select-label">가이드 수정</span>
-        <textarea class="modal-body-select w-100 p-3" type="text" id="consulting_solution${c_id}">${consulting_history.solution}</textarea>
+    <div class="d-flex flex-column justify-content-start my-3">
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">가이드 수정</span></div>
+        <textarea class="modal-body-select w-100 m-3" type="text" id="consulting_solution${c_id}">${consulting_history.solution}</textarea>
     </div>
     <div class="d-flex justify-content-center mt-4 mb-2" id="consulting_button_box">
         <button class="btn btn-success" onclick="post_one_consulting(${c_id},${1})" style="margin-right:5px">수정</button>

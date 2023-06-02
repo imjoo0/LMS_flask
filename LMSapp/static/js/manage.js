@@ -1486,18 +1486,18 @@ function get_consultingdetail(consulting_id) {
     }else{
         temp_his += `
         <div class="modal-body-select-container">
-            <div class="modal-body-select-label">상담</div>
+            <div class="modal-body-select-label"><span class="modal-body-select-container-span">상담</span></div>
             <div class="w-25">상담 완료</div>
-            <div class="modal-body-select-label">상담 일시</div>
+            <div class="modal-body-select-label"><span class="modal-body-select-container-span">상담 일시</span></div>
             <div class="w-25">${make_date(consulting_history.created_at)}</div>
         </div>
         `
     }
     temp_his += `
         <div class="modal-body-select-container">
-            <span class="modal-body-select-label">원생</span>
+            <div class="modal-body-select-label"><span class="modal-body-select-container-span">원생</span></div>
             <div class="w-25">${consulting_history.student_engname} (${consulting_history.student_name})</div>
-            <span class="modal-body-select-label">원번</span>
+            <div class="modal-body-select-label"><span class="modal-body-select-container-span">원번</span></div>
             <div class="w-25">${consulting_history.origin}</div>
         </div>
         <div class="d-flex flex-column justify-content-start py-3">
