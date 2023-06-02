@@ -26,7 +26,10 @@ def save_attachment(file, q_id):
     try:
         # 파일명을 유니코드 NFC로 정규화
         file_name = unicodedata.normalize('NFC', file.filename)
+<<<<<<< HEAD
         # file_name = secure_filename(normalized_filename.replace('\0', '').replace(' ', '_'))
+=======
+>>>>>>> 94d4a3906e484d679f1d2dace527a4a474941c7a
         mime_type = file.mimetype
         data = file.stream.read()
 
