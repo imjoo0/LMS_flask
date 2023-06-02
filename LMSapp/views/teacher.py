@@ -6,6 +6,8 @@ from LMSapp.models import *
 from flask import current_app, session
 from flask import Blueprint, render_template, jsonify, request, redirect, url_for, flash
 from datetime import datetime, timedelta, date
+import pytz # 한국 시간
+
 # file-upload 로 자동 바꿈 방지 모듈
 from LMSapp.views import common
 from LMSapp.views.main_views import authrize
@@ -172,7 +174,8 @@ def question(u):
         teacher_mobileno = request.form.get('teacher_mobileno', None)
         teacher_name = request.form.get('teacher_name', None)
         teacher_engname = request.form.get('teacher_engname', None)
-        create_date = datetime.now()
+        korea_timezone = pytz.timezone('Asia/Seoul')
+        create_date = datetime.now(korea_timezone)
         
         payloadText = teacher_name+'( '+ teacher_engname +' )님으로 부터 ' 
         if category == 2 or category == 1:
