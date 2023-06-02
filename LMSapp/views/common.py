@@ -25,8 +25,7 @@ standard = datetime.strptime('11110101',"%Y%m%d").date()
 def save_attachment(file, q_id):
     try:
         # 파일명을 유니코드 NFC로 정규화
-        normalized_filename = unicodedata.normalize('NFC', file.filename)
-        file_name = secure_filename(normalized_filename.replace('\0', '').replace(' ', '_'))
+        file_name = unicodedata.normalize('NFC', file.filename)
         mime_type = file.mimetype
         data = file.stream.read()
 
