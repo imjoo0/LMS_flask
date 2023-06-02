@@ -25,8 +25,8 @@ standard = datetime.strptime('11110101',"%Y%m%d").date()
 def save_attachment(file, q_id):
     try:
         # 파일명을 유니코드 NFC로 정규화
-        normalized_filename = unicodedata.normalize('NFC', file.filename)
-        file_name = secure_filename(normalized_filename.replace('\0', '').replace(' ', '_'))
+        file_name = unicodedata.normalize('NFC', file.filename)
+        # file_name = secure_filename(normalized_filename.replace('\0', '').replace(' ', '_'))
         mime_type = file.mimetype
         data = file.stream.read()
 
@@ -128,29 +128,18 @@ def get_all_task():
                 db.close()        
         return jsonify({'task':task})
 
-# @bp.route('/downloadfile/question/<int:q_id>')
-# def download_file(q_id):
-#     attachments = Attachments.query.filter_by(question_id=q_id).all()
-#     if attachments is None:
-#         return "File not found."
-#     if len(attachments) == 1:
-#         # 이미지 파일의 경우 직접 브라우저에 출력
-#         return send_file(BytesIO(attachments[0].data), mimetype=attachments[0].mime_type)
-#     else:
-#         # 다중 파일의 경우 압축하여 다운로드
-#         zip_buffer = BytesIO()
-#         with zipfile.ZipFile(zip_buffer, "w") as zip_file:
-#             for attachment in attachments:
-#                 file_buffer = BytesIO(attachment.data)
-#                 zip_file.writestr(attachment.file_name, file_buffer.getvalue())
-#         zip_buffer.seek(0)
-#         return send_file(zip_buffer, as_attachment=True, mimetype='application/zip', download_name='attachments.zip')
+from urllib.parse import quote
+
 @bp.route('/downloadfile/question/<int:q_id>/attachment/<int:att_id>')
 def download_attachment(q_id, att_id):
     attachment = Attachments.query.filter_by(id=att_id, question_id=q_id).first()
     if attachment is None:
         return "File not found."
-    return send_file(BytesIO(attachment.data), as_attachment=True, mimetype=attachment.mime_type, download_name=attachment.file_name)
+    
+    # 파일 이름을 URL에 안전한 형식으로 인코딩
+    encoded_filename = quote(attachment.file_name)
+    
+    return send_file(BytesIO(attachment.data), as_attachment=True, mimetype=attachment.mime_type, download_name=encoded_filename)
 
 # 문의 조회 기능 
 

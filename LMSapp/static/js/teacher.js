@@ -125,7 +125,7 @@ async function home(){
     // 상담 목록
     let taskConsultingsData = Tall_consulting.length > 0 ? Tall_consulting.filter(consulting => (consulting.category_id > 100) &&( (consulting.done == 1 && new Date(consulting.created_at).setHours(0, 0, 0, 0) === today)||(consulting.done == 0) )) : []; 
     let today_taskconsulting_num = taskConsultingsData.length;
-    
+    console.log(taskConsultingsData)
     let total_task_num = today_task_num + today_taskconsulting_num
     let temp_report = ''
     if (total_task_num == 0){
