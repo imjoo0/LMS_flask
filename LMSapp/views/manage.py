@@ -103,8 +103,7 @@ def q_kind(id):
                 payloadText  += '이반 요청으로 변경된 문의가 있습니다'
             elif(q_kind==2):
                 payloadText  += '퇴소 요청으로 변경된 문의가 있습니다'
-
-        payloadText += '제목: `{}`\n\n```{}```'.format(target_question.title, target_question.contents.replace('\r\n', '\n\n') )
+        payloadText += ' 제목: `{}`\n\n```{}```'.format(target_question.title, target_question.contents.replace('\r\n', '\n\n') )
         link_url = '\n[링크 바로가기]http://purpleacademy.net:6725/manage/?q_id={}&q_type={}'.format(id,q_kind)
         payloadText += quote(link_url)  # payloadText 인코딩
 
