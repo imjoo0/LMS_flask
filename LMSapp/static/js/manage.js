@@ -173,7 +173,6 @@ async function sodata() {
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
     $('#so_search_input').off('keyup');
-    // soqData = questionData.filter(q => q.category != 0 && q.category != 4 && q.category != 5)
     total_soquestion_num = soqData.length
     sodata_noanswer = total_soquestion_num != 0 ? soqData.filter(a => a.answer == 0).length : 0
 
@@ -209,11 +208,9 @@ function so_paginating(done_code) {
                             item.ban_name = ban.name
                             item.teacher_name = ban.teacher_engname + '( ' + ban.teacher_name + ' )'
                         }
-                        let category = q_category(item.category)
-                        
                         dataHtml += `
                         <td class="col-1">${make_date(item.create_date)}</td>
-                        <td class="col-1">${category}</td>
+                        <td class="col-1">${q_category(item.category)}</td>
                         <td class="col-1">${item.ban_name}</td>
                         <td class="col-1">${item.teacher_name}</td>
                         <td class="col-1">${origin}</td>
