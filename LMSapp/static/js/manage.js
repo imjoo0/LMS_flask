@@ -149,26 +149,27 @@ async function sodata() {
     if (!questionData) {
         await get_all_question()
     }
-
     soqData = questionData.filter(q => q.category != 0 && q.category != 4 && q.category != 5)
     if(!CSdata){
         const csWorker = new Worker("../static/js/cs_worker.js");
         csWorker.postMessage('getCSdata')
-        csWorker.onmessage = function(event) {
-            CSdata = event.data.all_cs_data;
-            const filtered_cs_data = CSdata.filter(item=> item.title == '행정파트' );
+        csWorker.onmessage = function (event) {
+            const CSdata = event.data.all_cs_data;
+            const filtered_cs_data = CSdata.filter(item => item.title == '행정파트');
             soqData = soqData.concat(filtered_cs_data);
-            so_paginating(0)
+            $('.cs_inloading').hide()
+            $('.not_inloading').show()
+            if (CSdata) {
+                so_paginating(0);
+            }
         };
     }else{
         const filtered_cs_data = CSdata.filter(item=> item.title == '행정파트' );
         soqData = soqData.concat(filtered_cs_data);
     }
-
     $('.cs_inloading').hide()
     $('.not_inloading').show()
-    // so_paginating(0)
-    
+    so_paginating(0)   
 }
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
