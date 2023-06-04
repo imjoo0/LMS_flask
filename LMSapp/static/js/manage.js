@@ -162,6 +162,7 @@ async function sodata() {
             console.log(soqData)
         };
     }
+
     $('.cs_inloading').hide()
     $('.not_inloading').show()
     so_paginating(0)
@@ -169,6 +170,7 @@ async function sodata() {
 }
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
+    console.log('뭐가 먼저 실행될까용')
     $('#so_search_input').off('keyup');
     // soqData = questionData.filter(q => q.category != 0 && q.category != 4 && q.category != 5)
     total_soquestion_num = soqData.length
