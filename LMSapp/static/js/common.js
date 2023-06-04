@@ -174,7 +174,7 @@ function q_category(category) {
     } else if (category == 4 || category == '4') {
         c = '기술 지원 문의'
     } else if (category == 10 || category == '10') {
-        c = '기술 지원 문의'
+        c = '이전 cs 데이터'
     }  else {
         c = '내근티처 문의'
     }
