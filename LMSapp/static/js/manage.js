@@ -159,7 +159,7 @@ async function sodata() {
         const csWorker = new Worker("../static/js/cs_worker.js");
         csWorker.postMessage('getCSdata')
         csWorker.onmessage = function (event) {
-            const CSdata = event.data.all_cs_data;
+            CSdata = event.data.all_cs_data;
             const filtered_cs_data = CSdata.filter(item => item.title == '행정파트');
             soqData = soqData.concat(filtered_cs_data);
             $('.cs_inloading').hide()
