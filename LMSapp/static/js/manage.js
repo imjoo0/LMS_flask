@@ -159,6 +159,7 @@ async function sodata() {
             soqData = soqData.concat(filtered_cs_data);
             $('.cs_inloading').hide()
             $('.not_inloading').show()
+            console.log(soqData)
             if (CSdata) {
                 so_paginating(0);
             }
