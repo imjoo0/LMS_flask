@@ -179,7 +179,6 @@ async function sodata() {
 }
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
-    console.log('얼마나 실행되나 보자')
     $('#so_search_input').off('keyup');
     total_soquestion_num = soqData.length
     sodata_noanswer = total_soquestion_num != 0 ? soqData.filter(a => a.answer == 0).length : 0
@@ -225,9 +224,16 @@ function so_paginating(done_code) {
                         <td class="col-1">${item.origin}</td>
                         <td class="col-2">${item.title}</td>
                         <td class="col-3">${make_small_char(item.contents)}</td>
-                        <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code})">✏️</td>
-                        <td class="col-1" onclick="delete_question(${item.id})">❌</td>
                         `;
+                        if(item.category != 10){
+                            dataHtml += `
+                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code})">✏️</td>
+                            <td class="col-1" onclick="delete_question(${item.id})">❌</td>`
+                        }else{
+                            dataHtml += `
+                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_cs_detail(${item.id})">✏️</td>
+                            <td class="col-1">삭제 불가</td>`
+                        }
                     });
                     $('#so_tr').html(dataHtml);
                 }
@@ -1956,7 +1962,7 @@ async function get_cs_detail(q_id) {
     <div class="d-flex flex-column justify-content-start py-3">
         <div class="modal-body-select-label"><span class="modal-body-select-container-span">내용</span></div>
         <textarea class="modal-body-select w-100 mt-3"" type="text" rows="15" cols="25"
-        id="answer_content_modi">${question_detail_data.answer}</textarea>
+        id="answer_content_modi">${question_detail_data.answer_contents}</textarea>
     </div>
     `;
     $('#teacher_answer').html(temp_answer_list);
