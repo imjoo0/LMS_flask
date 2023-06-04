@@ -172,97 +172,118 @@ async function sodata() {
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
     $('#so_search_input').off('keyup');
-    soqData = questionData.filter(q => q.category != 0 && q.category != 4 && q.category != 5)
-    total_soquestion_num = soqData.length
-    sodata_noanswer = total_soquestion_num != 0 ? soqData.filter(a => a.answer == 0).length : 0
-    csWorker.onmessage = function(event) {
-        CSdata = event.data.all_cs_data;
-        const filtered_cs_data = CSdata.filter(item=> item.category == "행정파트" );
-        console.log(filtered_cs_data)
-    };
-    let temp_newso = `
-    <td class="col-4">${total_soquestion_num}  건</td>
-    <td class="col-4">${total_soquestion_num - sodata_noanswer}  건</td>
-    <td class="col-4">${sodata_noanswer}  건</td>`;
-    $('#newso').html(temp_newso)
 
-    if (total_soquestion_num != 0) {
-        qdata = soqData.length > 0 ? soqData.filter(a => a.answer == done_code) : [];
-        if (qdata.length != 0) {
-            $('#no_data_msg').hide()
-            $('#so_question').show()
-            $('#so_pagination').show()
+    let combinedData = [];
+    let csDataLoaded = false;
+    soqData = questionData.filter(q => q.category != 0 && q.category != 4 && q.category != 5);
+    total_soquestion_num = soqData.length;
+    sodata_noanswer = total_soquestion_num !== 0 ? soqData.filter(a => a.answer == 0).length : 0;
+    const mergeData = function() {
+        const filtered_cs_data = CSdata.filter(item => item.title == "행정파트"); 
+        if(csDataLoaded) {
+            // Merge soqData and CSdata into combinedData
+            combinedData = soqData.concat(filtered_cs_data);
 
-            var paginationOptions = {
-                prevText: '이전',
-                nextText: '다음',
-                pageSize: 10,
-                pageClassName: 'float-end',
-                callback: function (data, pagination) {
-                    var dataHtml = '';
-                    $.each(data, function (index, item) {
-                        let ban = banData.filter(b => b.ban_id == item.ban_id)[0]
-                        let origin ='원생 정보 없음'
-                        let student = studentsData.filter(s=>s.student_id == item.student_id)[0]
-                        if(student){
-                            origin = student.origin
+            let temp_newso = `
+                <td class="col-4">${total_soquestion_num}  건</td>
+                <td class="col-4">${total_soquestion_num - sodata_noanswer}  건</td>
+                <td class="col-4">${sodata_noanswer}  건</td>`;
+            $('#newso').html(temp_newso);
+
+            if (total_soquestion_num !== 0) {
+                qdata = soqData.length > 0 ? soqData.filter(a => a.answer == done_code) : [];
+                if (qdata.length !== 0) {
+                    $('#no_data_msg').hide();
+                    $('#so_question').show();
+                    $('#so_pagination').show();
+
+                    var paginationOptions = {
+                        prevText: '이전',
+                        nextText: '다음',
+                        pageSize: 10,
+                        pageClassName: 'float-end',
+                        callback: function (data, pagination) {
+                            var dataHtml = '';
+                            $.each(data, function (index, item) {
+                                let ban = banData.filter(b => b.ban_id == item.ban_id)[0];
+                                let origin = '원생 정보 없음';
+                                let student = studentsData.filter(s => s.student_id == item.student_id)[0];
+                                if (student) {
+                                    origin = student.origin;
+                                }
+                                item.origin = origin;
+                                item.ban_name = ban.name;
+                                item.teacher_name = ban.teacher_engname + '( ' + ban.teacher_name + ' )';
+                                let category = q_category(item.category);
+                                let contents = item.contents;
+                                if (contents && contents.length > 30) {
+                                    contents = contents.substring(0, 30) + ' ▪️▪️▪️ ';
+                                }
+                                dataHtml += `
+                                    <td class="col-1">${make_date(item.create_date)}</td>
+                                    <td class="col-1">${category}</td>
+                                    <td class="col-1">${item.ban_name}</td>
+                                    <td class="col-1">${item.teacher_name}</td>
+                                    <td class="col-1">${origin}</td>
+                                    <td class="col-2">${item.title}</td>
+                                    <td class="col-3">${contents}</td>
+                                    <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code})">✏️</td>
+                                    <td class="col-1" onclick="delete_question(${item.id})">❌</td>
+                                `;
+                            });
+                            $('#so_tr').html(dataHtml);
                         }
-                        item.origin = origin
-                        item.ban_name = ban.name
-                        item.teacher_name = ban.teacher_engname + '( ' + ban.teacher_name + ' )'
-                        let category = q_category(item.category)
-                        let contents = item.contents
-                        if(contents && contents.length > 30) {
-                            contents = contents.substring(0, 30) + ' ▪️▪️▪️ ';
-                        }
-                        dataHtml += `
-                        <td class="col-1">${make_date(item.create_date)}</td>
-                        <td class="col-1">${category}</td>
-                        <td class="col-1">${item.ban_name}</td>
-                        <td class="col-1">${item.teacher_name}</td>
-                        <td class="col-1">${origin}</td>
-                        <td class="col-2">${item.title}</td>
-                        <td class="col-3">${contents}</td>
-                        <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code})">✏️</td>
-                        <td class="col-1" onclick="delete_question(${item.id})">❌</td>
-                        `;
+                    };
+
+                    var container = $('#so_pagination');
+
+                    qdata.sort(function (a, b) {
+                        return new Date(b.create_date) - new Date(a.create_date);
                     });
-                    $('#so_tr').html(dataHtml);
+                    container.pagination(Object.assign(paginationOptions, { 'dataSource': qdata }));
+
+                    $('#so_search_input').on('keyup', function () {
+                        var searchInput = $(this).val().toLowerCase();
+                        var filteredData = qdata.filter(function (data) {
+                            return ((data.hasOwnProperty('origin') && data.origin.toLowerCase().indexOf(searchInput) !== -1) ||
+                                (data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1) ||
+                                (data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1));
+                        });
+                        filteredData.sort(function (a, b) {
+                            return new Date(b.create_date) - new Date(a.create_date);
+                        });
+                        container.pagination('destroy');
+                        container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
+                    });
+                } else {
+                    $('#so_question').hide();
+                    $('#so_pagination').hide();
+                    let temp_nodatamasg = $(`#question_view option[value="${done_code}"]`).text() + '이 없습니다';
+                    $('#no_data_msg').html(temp_nodatamasg);
+                    $('#no_data_msg').show();
                 }
-            };
-
-            var container = $('#so_pagination');
-
-            qdata.sort(function (a, b) {
-                return new Date(b.create_date) - new Date(a.create_date);
-            });
-            container.pagination(Object.assign(paginationOptions, { 'dataSource': qdata }))
-
-            $('#so_search_input').on('keyup', function () {
-                var searchInput = $(this).val().toLowerCase();
-                var filteredData = qdata.filter(function (data) {
-                    return ((data.hasOwnProperty('origin') && data.origin.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1));
-                });
-                filteredData.sort(function (a, b) {
-                    return new Date(b.create_date) - new Date(a.create_date);
-                });
-                container.pagination('destroy');
-                container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
-            });
-        } else {
-            $('#so_question').hide()
-            $('#so_pagination').hide()
-            let temp_nodatamasg = $(`#question_view option[value="${done_code}"]`).text() + '이 없습니다';
-            $('#no_data_msg').html(temp_nodatamasg)
-            $('#no_data_msg').show()
+            } else {
+                $('#so_question').hide();
+                $('#so_pagination').hide();
+                $('#no_data_msg').html('이반 / 퇴소 요청이 없었습니다');
+                $('#no_data_msg').show();
+            }
         }
-    } else {
-        $('#so_question').hide()
-        $('#so_pagination').hide()
-        $('#no_data_msg').html('이반 / 퇴소 요청이 없었습니다')
-        $('#no_data_msg').show()
+    
+    };
+
+    if(!CSdata){
+        csWorker.onmessage = function(event) {
+            const CSdata = event.data.all_cs_data;   
+            // Merge CSdata with soqData after it is loaded
+            csDataLoaded = true;
+            mergeData();
+            // Rest of the code...
+        };
     }
+    mergeData();
 }
+
 // 이반 퇴소 요청 내용 상세보기
 async function get_soquestion_detail(q_id, done_code) {
     $('.cs_inloading').show()
