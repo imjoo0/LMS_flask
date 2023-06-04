@@ -150,6 +150,11 @@ async function sodata() {
         await get_all_question()
     }
     soqData = questionData.filter(q => q.category != 0 && q.category != 4 && q.category != 5)
+
+    $('.cs_inloading').hide()
+    $('.not_inloading').show()
+    so_paginating(0)   
+
     if(!CSdata){
         const csWorker = new Worker("../static/js/cs_worker.js");
         csWorker.postMessage('getCSdata')
@@ -167,13 +172,14 @@ async function sodata() {
     }else{
         const filtered_cs_data = CSdata.filter(item=> item.title == '행정파트' );
         soqData = soqData.concat(filtered_cs_data);
+        $('.cs_inloading').hide()
+        $('.not_inloading').show()
+        so_paginating(0) 
     }
-    $('.cs_inloading').hide()
-    $('.not_inloading').show()
-    so_paginating(0)   
 }
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
+    console.log('얼마나 실행되나 보자')
     $('#so_search_input').off('keyup');
     total_soquestion_num = soqData.length
     sodata_noanswer = total_soquestion_num != 0 ? soqData.filter(a => a.answer == 0).length : 0
