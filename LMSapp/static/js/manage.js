@@ -157,8 +157,8 @@ async function sodata() {
         csWorker.onmessage = function(event) {
             CSdata = event.data.all_cs_data;
             const filtered_cs_data = CSdata.filter(item=> item.title == '행정파트' );
-            soqData.concat(filtered_cs_data);
-            // so_paginating(0)
+            soqData = soqData.concat(filtered_cs_data);
+            so_paginating(0)
             console.log(soqData)
         };
     }
