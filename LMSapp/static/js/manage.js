@@ -167,7 +167,7 @@ async function sodata() {
 
     $('.cs_inloading').hide()
     $('.not_inloading').show()
-    so_paginating(0)
+    // so_paginating(0)
     
 }
 // 이반 퇴소 문의 관리
@@ -197,9 +197,10 @@ function so_paginating(done_code) {
                 callback: function (data, pagination) {
                     var dataHtml = '';
                     $.each(data, function (index, item) {
+                        console.log(item.category)
                         if(item.category != 10){
                             let ban = banData.filter(b => b.ban_id == item.ban_id)[0]
-                            let origin ='원생 정보 없음'
+                            item.origin ='원생 정보 없음'
                             let student = studentsData.filter(s=>s.student_id == item.student_id)[0]
                             if(student){
                                 origin = student.origin
@@ -213,7 +214,7 @@ function so_paginating(done_code) {
                         <td class="col-1">${q_category(item.category)}</td>
                         <td class="col-1">${item.ban_name}</td>
                         <td class="col-1">${item.teacher_name}</td>
-                        <td class="col-1">${origin}</td>
+                        <td class="col-1">${item.origin}</td>
                         <td class="col-2">${item.title}</td>
                         <td class="col-3">${make_small_char(item.contents)}</td>
                         <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code})">✏️</td>
