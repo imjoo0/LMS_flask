@@ -159,8 +159,10 @@ async function sodata() {
             const filtered_cs_data = CSdata.filter(item=> item.title == '행정파트' );
             soqData = soqData.concat(filtered_cs_data);
             so_paginating(0)
-            console.log(soqData)
         };
+    }else{
+        const filtered_cs_data = CSdata.filter(item=> item.title == '행정파트' );
+        soqData = soqData.concat(filtered_cs_data);
     }
 
     $('.cs_inloading').hide()
@@ -170,7 +172,6 @@ async function sodata() {
 }
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
-    console.log('뭐가 먼저 실행될까용')
     $('#so_search_input').off('keyup');
     // soqData = questionData.filter(q => q.category != 0 && q.category != 4 && q.category != 5)
     total_soquestion_num = soqData.length
@@ -197,20 +198,19 @@ function so_paginating(done_code) {
                 callback: function (data, pagination) {
                     var dataHtml = '';
                     $.each(data, function (index, item) {
-                        let ban = banData.filter(b => b.ban_id == item.ban_id)[0]
-                        let origin ='원생 정보 없음'
-                        let student = studentsData.filter(s=>s.student_id == item.student_id)[0]
-                        if(student){
-                            origin = student.origin
+                        if(item.category != 10){
+                            let ban = banData.filter(b => b.ban_id == item.ban_id)[0]
+                            let origin ='원생 정보 없음'
+                            let student = studentsData.filter(s=>s.student_id == item.student_id)[0]
+                            if(student){
+                                origin = student.origin
+                            }
+                            item.origin = origin
+                            item.ban_name = ban.name
+                            item.teacher_name = ban.teacher_engname + '( ' + ban.teacher_name + ' )'
                         }
-                        item.origin = origin
-                        item.ban_name = ban.name
-                        item.teacher_name = ban.teacher_engname + '( ' + ban.teacher_name + ' )'
                         let category = q_category(item.category)
-                        let contents = item.contents
-                        if(contents && contents.length > 30) {
-                            contents = contents.substring(0, 30) + ' ▪️▪️▪️ ';
-                        }
+                        
                         dataHtml += `
                         <td class="col-1">${make_date(item.create_date)}</td>
                         <td class="col-1">${category}</td>
@@ -218,7 +218,7 @@ function so_paginating(done_code) {
                         <td class="col-1">${item.teacher_name}</td>
                         <td class="col-1">${origin}</td>
                         <td class="col-2">${item.title}</td>
-                        <td class="col-3">${contents}</td>
+                        <td class="col-3">${make_small_char(item.contents)}</td>
                         <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code})">✏️</td>
                         <td class="col-1" onclick="delete_question(${item.id})">❌</td>
                         `;
