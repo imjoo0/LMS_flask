@@ -177,7 +177,7 @@ function so_paginating(done_code) {
     sodata_noanswer = total_soquestion_num != 0 ? soqData.filter(a => a.answer == 0).length : 0
     csWorker.onmessage = function(event) {
         CSdata = event.data.all_cs_data;
-        const filtered_cs_data = CSdata.filter(item=> item.category == category );
+        const filtered_cs_data = CSdata.filter(item=> item.category == "행정파트" );
         console.log(filtered_cs_data)
     };
     let temp_newso = `
