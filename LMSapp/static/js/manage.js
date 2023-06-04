@@ -1,6 +1,8 @@
 // const today = new Date();
 var selectedBanList = [];
 var selectedStudentList = [];
+
+const csWorker = new Worker("../static/js/cs_worker.js");
 // API 호출
 function getParameter(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -37,7 +39,6 @@ async function get_all_cs() {
 }
 // 이게 쓸꺼 
 async function get_cs_data(category) {
-    let csWorker = new Worker("../static/js/cs_worker.js");
     
     return new Promise((resolve) => {
         csWorker.onmessage = function(event) {
@@ -160,16 +161,13 @@ async function sodata() {
     $('.not_inloading').hide()
     if (!questionData) {
         await get_all_question()
-        get_cs_data('행정파트').then(()=>{
-            so_cs()
-        })
+    }
+    if(!CSdata){
+        csWorker.postMessage('getCsStart')
     }
     $('.cs_inloading').hide()
     $('.not_inloading').show()
     so_paginating(0)
-}
-function so_cs(){
-    console.log('하하ㅏㅎ')
 }
 // 이반 퇴소 문의 관리
 function so_paginating(done_code) {
@@ -177,7 +175,11 @@ function so_paginating(done_code) {
     soqData = questionData.filter(q => q.category != 0 && q.category != 4 && q.category != 5)
     total_soquestion_num = soqData.length
     sodata_noanswer = total_soquestion_num != 0 ? soqData.filter(a => a.answer == 0).length : 0
-
+    csWorker.onmessage = function(event) {
+        CSdata = event.data.all_cs_data;
+        const filtered_cs_data = CSdata.filter(item=> item.category == category );
+        console.log(filtered_cs_data)
+    };
     let temp_newso = `
     <td class="col-4">${total_soquestion_num}  건</td>
     <td class="col-4">${total_soquestion_num - sodata_noanswer}  건</td>
