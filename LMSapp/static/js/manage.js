@@ -469,13 +469,7 @@ function paginating(done_code) {
                         <td class="col-1">${item.teacher_name}</td>
                         <td class="col-1">${item.origin}</td>
                         <td class="col-2">${item.title}</td>
-<<<<<<< HEAD
-                        <td class="col-3">${contents}</td>
-                        <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})"><span class="cursor">✏️</span></td>
-                        <td class="col-1" onclick="delete_question(${item.id})"><span class="cursor">❌</span></td>
-=======
                         <td class="col-3">${make_small_char(item.contents)}</td>
->>>>>>> 4b4eaf03fea091fa0bd7485857c42df003194d9d
                         `;
                         if(item.category != 10){
                             dataHtml += `
