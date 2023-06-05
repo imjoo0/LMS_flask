@@ -156,7 +156,7 @@ def get_csdata():
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='cs_page',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute('SELECT cs_idx as id, cs_student_id as origin, cs_student_name as student_name, cs_student_class as ban_name, cs_teacher_name as teacher_name, REGEXP_REPLACE(cs_content, \'<[^>]+>\', \'\') AS contents, REGEXP_REPLACE(cs_answer, \'<[^>]+>\', \'\') as answer_contents, cs_answerer as answerer, cs_date as create_date, CASE WHEN cs_charge IS NOT NULL THEN cs_charge ELSE CASE WHEN cs_sort = "행정" THEN "행정 파트" ELSE cs_sort END END AS title, 1 AS answer, 10 AS category FROM cs_page.cs_table;')
+                cur.execute('SELECT cs_idx as id, cs_student_id as origin, cs_student_name as student_name, cs_student_class as ban_name, cs_teacher_name as teacher_name, REGEXP_REPLACE(cs_content, \'<[^>]+>\', \'\') AS contents, cs_content as question_contents, cs_answer as answer_contents, cs_answerer as answerer, cs_date as create_date, CASE WHEN cs_charge IS NOT NULL THEN cs_charge ELSE CASE WHEN cs_sort = "행정" THEN "행정 파트" ELSE cs_sort END END AS title, 1 AS answer, 10 AS category FROM cs_page.cs_table;')
                 all_cs_data = cur.fetchall()
 
         except Exception as e:

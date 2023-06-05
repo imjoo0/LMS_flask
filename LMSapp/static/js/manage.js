@@ -132,7 +132,6 @@ function main_view() {
     $('#sobox').hide()
     $('#ulbox').hide()
     $('#detailban').show()
-    $('#allqubox').hide()
 }
 
 // 이반 * 퇴소 
@@ -142,7 +141,6 @@ async function sodata() {
     $('#inTqubox').hide()
     $('#ulbox').hide()
     $('#detailban').hide()
-    $('#allqubox').hide()
     $('#sobox').show()
     $('.cs_inloading').show()
     $('.not_inloading').hide()
@@ -204,7 +202,6 @@ function so_paginating(done_code) {
                 callback: function (data, pagination) {
                     var dataHtml = '';
                     $.each(data, function (index, item) {
-                        console.log(item.category)
                         if(item.category != 10){
                             let ban = banData.filter(b => b.ban_id == item.ban_id)[0]
                             item.origin ='원생 정보 없음'
@@ -426,23 +423,19 @@ async function csdata() {
     $('#qubox').show()
     $('#Tqubox').hide()
     $('#inTqubox').hide()
-    $('#allqubox').hide()
 
     $('.cs_inloading').show()
     $('.not_inloading').hide()
     if (!questionData) {
-        await get_all_question().then(() => {
-            $('.cs_inloading').hide()
-            $('.not_inloading').show()
-        });
+        await get_all_question()
     }
     $('.cs_inloading').hide()
     $('.not_inloading').show()
+    csqData = questionData.filter(q => q.category == 0)
     paginating(0)
 }
 function paginating(done_code) {
     $('#cs_search_input').off('keyup');
-    csqData = questionData.filter(q => q.category == 0)
     total_question_num = csqData.length
     csdata_noanswer = total_question_num != 0 ? csqData.filter(a => a.answer == 0).length : 0
 
@@ -535,23 +528,39 @@ async function Tcsdata() {
     $('#qubox').hide()
     $('#Tqubox').show()
     $('#inTqubox').hide()
-    $('#allqubox').hide()
 
     $('.cs_inloading').show()
     $('.not_inloading').hide()
     if (!questionData) {
-        await get_all_question().then(() => {
-            $('.cs_inloading').hide()
-            $('.not_inloading').show()
-        });
+        await get_all_question()
     }
+    csqData = questionData.filter(q => q.category == 4)
     $('.cs_inloading').hide()
     $('.not_inloading').show()
     Tpaginating(0)
+    if(!CSdata){
+        const csWorker = new Worker("../static/js/cs_worker.js");
+        csWorker.postMessage('getCSdata')
+        csWorker.onmessage = function (event) {
+            CSdata = event.data.all_cs_data;
+            const filtered_cs_data = CSdata.filter(item => item.title == '개발관리');
+            csqData = csqData.concat(filtered_cs_data);
+            $('.cs_inloading').hide()
+            $('.not_inloading').show()
+            if (CSdata) {
+                Tpaginating(0);
+            }
+        };
+    }else{
+        const filtered_cs_data = CSdata.filter(item=> item.title == '개발관리' );
+        csqData = csqData.concat(filtered_cs_data);
+        $('.cs_inloading').hide()
+        $('.not_inloading').show()
+        Tpaginating(0) 
+    }
 }
 function Tpaginating(done_code) {
     $('#Tcs_search_input').off('keyup');
-    csqData = questionData.filter(q => q.category == 4)
     total_question_num = csqData.length
     csdata_noanswer = total_question_num != 0 ? csqData.filter(a => a.answer == 0).length : 0
 
@@ -576,30 +585,39 @@ function Tpaginating(done_code) {
                 callback: function (data, pagination) {
                     var dataHtml = '';
                     $.each(data, function (index, item) {
-                        ban = banData.filter(b => b.ban_id == item.ban_id)[0]
-                        item.ban_name = ban.name
-                        item.teacher_name = ban.teacher_engname + '( ' + ban.teacher_name + ' )'
-                        let contents = item.contents
-                        if(contents && contents.length > 30) {
-                            contents = contents.substring(0, 30) + ' ▪️▪️▪️ ';
+                        if(item.category != 10){
+                            ban = banData.filter(b => b.ban_id == item.ban_id)[0]
+                            item.ban_name = ban.name
+                            item.teacher_name = ban.teacher_engname + '( ' + ban.teacher_name + ' )'
+                            item.origin ='원생 정보 없음'
+                            let student = studentsData.filter(s=>s.student_id == item.student_id)[0]
+                            if(student){
+                                origin = student.origin
+                            }
+                            item.origin = origin
+                            item.ban_name = ban.name
+                            item.teacher_name = ban.teacher_engname + '( ' + ban.teacher_name + ' )'
                         }
-                        let origin ='원생 정보 없음'
-                        let student = studentsData.filter(s=>s.student_id == item.student_id)[0]
-                        if(student){
-                            origin = student.origin
-                        }
-                        item.origin = origin
+                        
+                        
                         dataHtml += `
                         <td class="col-1">${make_date(item.create_date)}</td>
-                        <td class="col-1">기술지원문의</td>
+                        <td class="col-1">${q_category(item.category)}</td>
                         <td class="col-1">${item.ban_name}</td>
                         <td class="col-1">${item.teacher_name}</td>
-                        <td class="col-1">${origin}</td>
+                        <td class="col-1">${item.origin}</td>
                         <td class="col-2">${item.title}</td>
-                        <td class="col-3">${contents}</td>
-                        <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</td>
-                        <td class="col-1" onclick="delete_question(${item.id})">❌</td>
+                        <td class="col-3">${make_small_char(item.contents)}</td>
                         `;
+                        if(item.category != 10){
+                            dataHtml += `
+                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</td>
+                            <td class="col-1" onclick="delete_question(${item.id})">❌</td>`
+                        }else{
+                            dataHtml += `
+                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_cs_detail(${item.id})">✏️</td>
+                            <td class="col-1">삭제 불가</td>`
+                        }
                     });
                     $('#Talim_tr').html(dataHtml);
                 }
@@ -636,7 +654,7 @@ function Tpaginating(done_code) {
         $('#Tcsno_data_msg').show()
     }
 }
-// 일반 문의 
+// 내근T 문의 
 async function inTdata() {
     $('#detailban').hide()
     $('#sobox').hide()
@@ -644,23 +662,39 @@ async function inTdata() {
     $('#qubox').hide()
     $('#Tqubox').hide()
     $('#inTqubox').show()
-    $('#allqubox').hide()
 
     $('.cs_inloading').show()
     $('.not_inloading').hide()
     if (!questionData) {
-        await get_all_question().then(() => {
-            $('.cs_inloading').hide()
-            $('.not_inloading').show()
-        });
+        await get_all_question()
     }
+    csqData = questionData.filter(q => q.category == 5)
     $('.cs_inloading').hide()
     $('.not_inloading').show()
     inTpaginating(0)
+    if(!CSdata){
+        const csWorker = new Worker("../static/js/cs_worker.js");
+        csWorker.postMessage('getCSdata')
+        csWorker.onmessage = function (event) {
+            CSdata = event.data.all_cs_data;
+            const filtered_cs_data = CSdata.filter(item => item.title == '내근티처');
+            csqData = csqData.concat(filtered_cs_data);
+            $('.cs_inloading').hide()
+            $('.not_inloading').show()
+            if (CSdata) {
+                inTpaginating(0);
+            }
+        };
+    }else{
+        const filtered_cs_data = CSdata.filter(item=> item.title == '내근티처' );
+        csqData = csqData.concat(filtered_cs_data);
+        $('.cs_inloading').hide()
+        $('.not_inloading').show()
+        inTpaginating(0) 
+    }
 }
 function inTpaginating(done_code) {
     $('#inTcs_search_input').off('keyup');
-    csqData = questionData.filter(q => q.category == 5)
     total_question_num = csqData.length
     csdata_noanswer = total_question_num != 0 ? csqData.filter(a => a.answer == 0).length : 0
 
@@ -685,30 +719,35 @@ function inTpaginating(done_code) {
                 callback: function (data, pagination) {
                     var dataHtml = '';
                     $.each(data, function (index, item) {
-                        ban = banData.filter(b => b.ban_id == item.ban_id)[0]
-                        item.ban_name = ban.name
-                        item.teacher_name = ban.teacher_engname + '( ' + ban.teacher_name + ' )'
-                        let contents = item.contents
-                        if(contents && contents.length > 30) {
-                            contents = contents.substring(0, 30) + ' ▪️▪️▪️ ';
+                        if(item.category != 10){
+                            ban = banData.filter(b => b.ban_id == item.ban_id)[0]
+                            item.ban_name = ban.name
+                            item.teacher_name = ban.teacher_engname + '( ' + ban.teacher_name + ' )'
+                            item.origin ='원생 정보 없음'
+                            let student = studentsData.filter(s=>s.student_id == item.student_id)[0]
+                            if(student){
+                                item.origin = student.origin
+                            }
                         }
-                        let origin ='원생 정보 없음'
-                        let student = studentsData.filter(s=>s.student_id == item.student_id)[0]
-                        if(student){
-                            origin = student.origin
-                        }
-                        item.origin = origin
+                        
                         dataHtml += `
                         <td class="col-1">${make_date(item.create_date)}</td>
-                        <td class="col-1">내근티처 문의</td>
+                        <td class="col-1">${q_category(item.category)}</td>
                         <td class="col-1">${item.ban_name}</td>
                         <td class="col-1">${item.teacher_name}</td>
-                        <td class="col-1">${origin}</td>
+                        <td class="col-1">${item.origin}</td>
                         <td class="col-2">${item.title}</td>
-                        <td class="col-3">${contents}</td>
-                        <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</td>
-                        <td class="col-1" onclick="delete_question(${item.id})">❌</td>
-                    `;
+                        <td class="col-3">${make_small_char(item.contents)}</td>
+                        `;
+                        if(item.category != 10){
+                            dataHtml += `
+                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</td>
+                            <td class="col-1" onclick="delete_question(${item.id})">❌</td>`
+                        }else{
+                            dataHtml += `
+                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_cs_detail(${item.id})">✏️</td>
+                            <td class="col-1">삭제 불가</td>`
+                        }
                     });
                     $('#inTalim_tr').html(dataHtml);
                 }
@@ -846,6 +885,62 @@ async function get_question_detail(q_id, done_code) {
         $('#teacher_answer').show()
     }
 
+}
+// 과거 cs 문의 상세보기
+async function get_cs_detail(q_id) {
+    $('.cs_inloading').show()
+    $('.not_inloading').hide()
+    let question_detail_data = CSdata.filter(cs=>cs.id == q_id)[0]
+    // let contents = question_detail_data.contents.replace(/\n/g, '</br>')
+    $('.cs_inloading').hide()
+    $('.not_inloading').show()
+
+    $('#consulting_history_attach').hide()
+    $('#manage_answer').hide()
+
+    // 문의 상세 내용 
+    let temp_question_list = `
+    <div class="modal-body-select-container">
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">제목</span></div>
+        <div>이전 페이지 CS</div>
+    </div>
+    <div class="modal-body-select-container">
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">작성일</span></div>
+        <div>${question_detail_data.created_at}</div>
+    </div>
+    <div class="modal-body-select-container" style="padding: 12px 0">
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">문의 종류</span></div>
+        <div class="w-25">${question_detail_data.category}문의</div>
+    </div>
+    <div class="modal-body-select-container">
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">대상 반</span></div>
+        <div>${question_detail_data.ban_name} ➖ 담임 T : ${question_detail_data.teacher_name} </div>
+    </div>
+    <div class="modal-body-select-container">
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">학생</span></div>
+        <div>${question_detail_data.student_name} ( ${question_detail_data.origin}) </div>
+    </div>
+    <div class="d-flex flex-column justify-content-start py-3">
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">내용</span></div>
+        <div class="mt-4 ps-2">${question_detail_data.question_contents}</div>
+    </div>
+    `
+    $('#teacher_question').html(temp_question_list);
+
+    let temp_answer_list = `
+    <div class="modal-body-select-container">
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">답변자</span></div>
+        <div class="w-25">${make_nullcate(question_detail_data.answerer)}</div>
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">응답일</span></div>
+        <div class="w-25">${make_date(question_detail_data.created_at)}</div>
+    </div>
+    <div class="d-flex flex-column justify-content-start py-3">
+        <div class="modal-body-select-label"><span class="modal-body-select-container-span">내용</span></div>
+        <div class="mt-4 ps-2">${question_detail_data.answer_contents}</div>
+    </div>
+    `;
+    $('#teacher_answer').html(temp_answer_list);
+    $('#teacher_answer').show()
 }
 // 본원 답변 기능 
 function post_answer(q_id, category,done_code) {
@@ -1839,132 +1934,3 @@ async function delete_task(idx) {
     }
 }
 
-// 과거 cs 데이터
-async function allcsdata() {
-    $('#detailban').hide()
-    $('#sobox').hide()
-    $('#ulbox').hide()
-    $('#qubox').hide()
-    $('#Tqubox').hide()
-    $('#inTqubox').hide()
-    $('#allqubox').show()
-
-    $('.cs_inloading').show()
-    $('.not_inloading').hide()
-    if (!CSdata) {
-        await get_all_cs().then(() => {
-            $('.cs_inloading').hide()
-            $('.not_inloading').show()
-        });
-    }
-    $('.cs_inloading').hide()
-    $('.not_inloading').show()
-    allpaginating(0)
-}
-function allpaginating(done_code) {
-    $('#allcs_search_input').off('keyup');
-    let all_cs_data = CSdata
-    if(done_code != 0){
-        all_cs_data = CSdata.filter(cs=>cs.category == done_code)
-    }
-    $('#allcs_teacher_question').show()
-    $('#allpagination').show()
-    var paginationOptions = {
-        prevText: '이전',
-        nextText: '다음',
-        pageSize: 10,
-        pageClassName: 'float-end',
-        callback: function (data, allpagination) {
-            var dataHtml = '';
-            $.each(data, function (index, item) {
-                dataHtml += `
-                <td class="col-1">${make_date(item.created_at)}</td>
-                <td class="col-1">${item.category}</td>
-                <td class="col-1">${item.answerer}</td>
-                <td class="col-1">${item.ban_name}</td>
-                <td class="col-1">${item.origin}</td>
-                <td class="col-1">${item.student_name}</td>
-                <td class="col-1">${item.teacher_name}</td>
-                <td class="col-4">${make_small_char(item.contents)}</td>
-                <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_cs_detail(${item.id})">✏️</td>
-                `;
-            });
-            $('#allalim_tr').html(dataHtml);
-        }
-    };
-    var container = $('#allpagination');
-    all_cs_data.sort(function (a, b) {
-        return new Date(b.created_at) - new Date(a.created_at);
-    });
-    container.pagination(Object.assign(paginationOptions, { 'dataSource': all_cs_data }));
-
-    $('#allcs_search_input').on('keyup', function () {
-        var searchInput = $(this).val().toLowerCase();
-        var filteredData = qdata.filter(function (data) {
-            return (data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1);
-        });
-        filteredData.sort(function (a, b) {
-            return new Date(b.created_at) - new Date(a.created_at);
-        });
-        container.pagination('destroy');
-        container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
-    });
-}
-
-// 미완
-async function get_cs_detail(q_id) {
-    $('.cs_inloading').show()
-    $('.not_inloading').hide()
-    let question_detail_data = CSdata.filter(cs=>cs.id == q_id)[0]
-    let contents = question_detail_data.contents.replace(/\n/g, '</br>')
-    $('.cs_inloading').hide()
-    $('.not_inloading').show()
-
-    $('#consulting_history_attach').hide()
-    $('#manage_answer').hide()
-
-    // 문의 상세 내용 
-    let temp_question_list = `
-    <div class="modal-body-select-container">
-        <div class="modal-body-select-label"><span class="modal-body-select-container-span">제목</span></div>
-        <div>이전 페이지 CS</div>
-    </div>
-    <div class="modal-body-select-container">
-        <div class="modal-body-select-label"><span class="modal-body-select-container-span">작성일</span></div>
-        <div>${question_detail_data.created_at}</div>
-    </div>
-    <div class="modal-body-select-container" style="padding: 12px 0">
-        <div class="modal-body-select-label"><span class="modal-body-select-container-span">문의 종류</span></div>
-        <div class="w-25">${question_detail_data.category}문의</div>
-    </div>
-    <div class="modal-body-select-container">
-        <div class="modal-body-select-label"><span class="modal-body-select-container-span">대상 반</span></div>
-        <div>${question_detail_data.ban_name} ➖ 담임 T : ${question_detail_data.teacher_name} </div>
-    </div>
-    <div class="modal-body-select-container">
-        <div class="modal-body-select-label"><span class="modal-body-select-container-span">학생</span></div>
-        <div>${question_detail_data.student_name} ( ${question_detail_data.origin}) </div>
-    </div>
-    <div class="d-flex flex-column justify-content-start py-3">
-        <div class="modal-body-select-label"><span class="modal-body-select-container-span">내용</span></div>
-        <div class="mt-4 ps-2">${contents}</div>
-    </div>
-    `
-    $('#teacher_question').html(temp_question_list);
-
-    let temp_answer_list = `
-    <div class="modal-body-select-container">
-        <div class="modal-body-select-label"><span class="modal-body-select-container-span">답변자</span></div>
-        <div class="w-25">${make_nullcate(question_detail_data.answerer)}</div>
-        <div class="modal-body-select-label"><span class="modal-body-select-container-span">응답일</span></div>
-        <div class="w-25">${make_date(question_detail_data.created_at)}</div>
-    </div>
-    <div class="d-flex flex-column justify-content-start py-3">
-        <div class="modal-body-select-label"><span class="modal-body-select-container-span">내용</span></div>
-        <textarea class="modal-body-select w-100 mt-3"" type="text" rows="15" cols="25"
-        id="answer_content_modi">${question_detail_data.answer_contents}</textarea>
-    </div>
-    `;
-    $('#teacher_answer').html(temp_answer_list);
-    $('#teacher_answer').show()
-}
