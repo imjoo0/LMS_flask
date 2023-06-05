@@ -1126,7 +1126,6 @@ async function request_task() {
     $('.mo_inloading').show()
     $('.monot_inloading').hide()
     if (!taskcateData) {
-        // await get_all_students()
         await get_all_taskcate().then(() => {
             $('.mo_inloading').hide()
             $('.monot_inloading').show()
@@ -1217,12 +1216,7 @@ async function request_consulting() {
     $('#consultingban_search_input').off('keyup');
     $('.mo_inloading').show()
     $('.monot_inloading').hide()
-    if (!consultingcateData && studentsData) {
-        await get_all_consultingcate()
-    } else if (consultingcateData && !studentsData) {
-        await get_all_students()
-    } else if (!consultingcateData && !studentsData) {
-        await get_all_students()
+    if (!consultingcateData) {
         await get_all_consultingcate()
     }
     $('.mo_inloading').hide()
@@ -1437,47 +1431,41 @@ function post_consulting_request() {
     }
 }
 
-async function get_request_consulting(){
+async function get_request_consulting() {
     $('#request_consultingban_listbox').hide();
     $('#request_consulting_listbox').show();
     $('#my_consulting_requestModalLabel').html('요청한 상담 목록');
     $('#consulting_list_search_input').off('keyup');
-    $('.mo_inloading').show()
-    $('.not_inloading').hide()
-    if (!consultingData) {
-        await get_all_consulting()
-    }
-    req_consultings = consultingData.filter(c=>c.category_id > 100)
     const updateSearchResult = function () {
         let copy_data = req_consultings.slice();
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
-        if(selectedCategory != 'none' && searchInput ==""){
+        if (selectedCategory != 'none' && searchInput == "") {
             copy_data = copy_data.filter((e) => {
-                return e.category == selectedCategory;
-            })
+            return e.category == selectedCategory;
+            });
             Consultingcontainer.pagination('destroy');
             Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': copy_data }));
-        }else if(selectedCategory != 'none' && searchInput !=""){
+        } else if (selectedCategory != 'none' && searchInput != "") {
             copy_data = copy_data.filter(function (d) {
-                return (
-                  (d.category == selectedCategory) &&
-                  (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) ||
-                  (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1)
-                );
-            })
+            return (
+                (d.category == selectedCategory) &&
+                (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) ||
+                (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1)
+            );
+            });
             Consultingcontainer.pagination('destroy');
             Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': copy_data }));
-        }else if(selectedCategory == 'none' && searchInput !=""){
+        } else if (selectedCategory == 'none' && searchInput != "") {
             copy_data = copy_data.filter(function (d) {
-                return (
-                  (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) ||
-                  (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1)
-                );
-            })
+            return (
+                (d.hasOwnProperty('student_name') && d.student_name.toLowerCase().indexOf(searchInput) !== -1) ||
+                (d.hasOwnProperty('origin') && d.origin.toLowerCase().indexOf(searchInput) !== -1)
+            );
+            });
             Consultingcontainer.pagination('destroy');
             Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': copy_data }));
-        }else{
+        } else {
             Consultingcontainer.pagination('destroy');
             Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': copy_data }));
         }
@@ -1490,48 +1478,77 @@ async function get_request_consulting(){
         callback: function (data, pagination) {
             var dataHtml = '';
             $.each(data, function (index, consulting) {
-                data = banData.filter(b=>b.ban_id == consulting.ban_id)[0]
-                consulting.ban_name = '-'
-                if(data){
-                    consulting.ban_name = data.name    
-                }
-                let contents = consulting.contents;
-                if(contents && contents.length > 50) {
-                    contents = contents.substring(0, 40) + ' ▪️▪️▪️ ';
-                }
-                dataHtml += `
-                <td class="col-2">"${make_date(consulting.startdate)}" ~ <strong>"${make_date(consulting.deadline)}"</strong></td>
-                <td class="col-1">${consulting.category}</td>
-                <td class="col-2">${contents}</td>
-                <td class="col-1">${consulting.ban_name}</td>
-                <td class="col-1">${make_nullcate(consulting.teacher_name)} (${make_nullcate(consulting.teacher_engname)})</td>
-                <td class="col-1">${consulting.teacher_mobileno}</td>
-                <td class="col-1">${make_nullcate(consulting.student_name)} (${make_nullcate(consulting.student_engname)})</td>
-                <td class="col-1">${consulting.origin}</td>
-                <td class="col-1">${make_reject_code(consulting.done)}</td>
-                <td class="col-1" onclick="get_consultingdetail(${consulting.id})"> <span class="cursor">🔍</span> </td>`;
+            data = banData.filter(b => b.ban_id == consulting.ban_id)[0];
+            consulting.ban_name = '-';
+            if (data) {
+                consulting.ban_name = data.name;
+            }
+            let contents = consulting.contents;
+            if (contents && contents.length > 50) {
+                contents = contents.substring(0, 40) + ' ▪️▪️▪️ ';
+            }
+            dataHtml += `
+            <td class="col-2">"${make_date(consulting.startdate)}" ~ <strong>"${make_date(consulting.deadline)}"</strong></td>
+            <td class="col-1">${consulting.category}</td>
+            <td class="col-2">${contents}</td>
+            <td class="col-1">${consulting.ban_name}</td>
+            <td class="col-1">${make_nullcate(consulting.teacher_name)} (${make_nullcate(consulting.teacher_engname)})</td>
+            <td class="col-1">${consulting.teacher_mobileno}</td>
+            <td class="col-1">${make_nullcate(consulting.student_name)} (${make_nullcate(consulting.student_engname)})</td>
+            <td class="col-1">${consulting.origin}</td>
+            <td class="col-1">${make_reject_code(consulting.done)}</td>
+            <td class="col-1" onclick="get_consultingdetail(${consulting.id})"> <span class="cursor">🔍</span> </td>`;
             });
             // $('#consulting-option').html(idxHtml);
             $('#tr-row').html(dataHtml);
         }
     };
+    if (!consultingData) {
+        $('.mo_inloading').show();
+        $('.not_inloading').hide();
+        consultingData = []
+        let currentPage = 1;  // 현재 페이지 번호
+        let pageSize = 5000;  // 페이지당 데이터 개수
 
-    let category_set = new Set(req_consultings.map(c => c.category));
-        let category_list = [...category_set];
-        var idxHtml = `<option value="none">전체</option>`;
-        $.each(category_list, function (idx, val) {
-          idxHtml += `<option value="${val}">${val}</option>`;
-        });
-    $('#history_cate').html(idxHtml);
-    $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
-
-    req_consultings.sort(function (a, b) {
-        return new Date(b.startdate) - new Date(a.startdate);
-    });
-    Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': req_consultings }))
-    $('.mo_inloading').hide();
-    $('.not_inloading').show();
-}
+        // await get_all_consulting()
+        const consultingsWorker = new Worker("../static/js/consultings_worker.js");
+        function fetchData() {
+            consultingsWorker.postMessage({ page: currentPage, pageSize });
+        }
+        // Function to handle messages from the Web Worker
+        consultingsWorker.onmessage = function (event) {
+            let total_count = event.data.total_count
+            consultingData = event.data.consulting;
+            req_consultings = consultingData.filter(c => c.category_id > 100);
+            Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': req_consultings }));
+            $('#history_cate').html('<option value="none">데이터 로딩중. . .</option>');
+            $('#consulting_list_search_input').hide();
+            $('.mo_inloading').hide();
+            $('.not_inloading').show(); 
+            console.log(consultingData.length)
+            console.log(total_count)
+            if(consultingData.length == total_count){
+                Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': req_consultings }));
+                let category_set = new Set(req_consultings.map(c => c.category));
+                let category_list = [...category_set];
+                var idxHtml = `<option value="none">전체</option>`;
+                $.each(category_list, function (idx, val) {
+                    idxHtml += `<option value="${val}">${val}</option>`;
+                });
+                $('#history_cate').html(idxHtml);
+                $('#consulting_list_search_input').show();
+                $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
+                return
+            }
+            pageSize=total_count
+            fetchData();
+        };
+        fetchData();
+        $('.mo_inloading').hide();
+        $('.not_inloading').show();
+    }
+  }
+  
 function sort_consultingoption(sortBy) {
     switch (sortBy) {
         case "name_desc":

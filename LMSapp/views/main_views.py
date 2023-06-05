@@ -59,8 +59,7 @@ def sign_in():
         payload = {
             'user_id' : result.user_id,
             'id':result.id,
-            'category':result.category,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=82800) #23시간 후 만료     
+            'category':result.category 
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
         # session['user_id'] = result.user_id,

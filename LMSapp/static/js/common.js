@@ -368,18 +368,6 @@ async function get_all_ban() {
         alert('Error occurred while retrieving data.');
     }
 }
-// async function get_all_students() {
-//     try{
-//         const response = await $.ajax({
-//             url: '/common/all_students',
-//             type: 'GET',
-//             data: {},
-//         });
-//         studentsData = response['students']
-//     } catch (error) {
-//         alert('Error occurred while retrieving data.');
-//     }
-// }
 async function get_all_consulting() {
     try {
         const response = await $.ajax({
@@ -405,8 +393,13 @@ async function get_all_task() {
     }
 }
 async function getConsultingsData() {
-    let consultingsWorker = new Worker("../static/js/consultings_worker.js");
-  
+    const consultingsWorker = new Worker("../static/js/consultings_worker.js");
+    consultingsWorker.postMessage('getCONSULTINGdata')
+    consultingsWorker.onmessage = function(event) {
+        consultingData = event.data.consulting;
+        // Process the data received from the worker
+        console.log(data);
+      };
     return new Promise((resolve) => {
         consultingsWorker.onmessage = function(event) {
             consultingData = event.data.consulting;

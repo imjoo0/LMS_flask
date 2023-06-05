@@ -111,6 +111,36 @@ def get_all_consulting():
                 db.close()        
         return jsonify({'consulting':consulting})
        
+@bp.route("/consulting_chunk", methods=['GET'])
+def get_paginated_consulting():
+    if request.method == 'GET':
+        page = request.args.get('page', default=1, type=int)  # 클라이언트에서 전달한 페이지 번호
+        page_size = request.args.get('page_size', default=10000, type=int)  # 클라이언트에서 전달한 페이지 크기
+        offset = (page - 1) * page_size  # 오프셋 계산
+        print(offset)
+        print(page_size)
+        consulting = []
+        total_count = 0
+
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                # 전체 데이터 개수 조회
+                cur.execute("SELECT COUNT(*) AS total_count FROM consulting;")
+                result = cur.fetchone()
+                total_count = result['total_count']
+
+                # 페이징된 데이터 조회
+                cur.execute(f"SELECT consulting.id, consulting.teacher_id, user.eng_name as teacher_engname, user.name as teacher_name, user.mobileno as teacher_mobileno, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id AS category_id, consulting.week_code, consultingcategory.name AS category, consulting.student_name, consulting.student_engname, consulting.origin, consulting.contents, consulting.startdate AS startdate, consulting.deadline AS deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result, (SELECT COUNT(*) FROM consulting WHERE (category_id < 100 && consulting.startdate <= curdate())) AS total_unlearned_consulting FROM consulting LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id LEFT JOIN user ON consulting.teacher_id = user.id ORDER BY consulting.startdate DESC LIMIT %s, %s;", (offset, page_size))
+                consulting = cur.fetchall()
+
+        except Exception as e:
+            print(e)
+        finally:
+            db.close()
+
+        return jsonify({'consulting': consulting, 'total_count': total_count})
+
 @bp.route("/task", methods=['GET'])
 def get_all_task():
     if request.method == 'GET':
