@@ -134,7 +134,6 @@ async function sodata() {
         await get_all_question()
     }
     soqData = questionData.filter(q => q.category != 0 && q.category != 4 && q.category != 5)
-
     $('.cs_inloading').hide()
     $('.not_inloading').show()
     so_paginating(0)   
@@ -179,9 +178,8 @@ function so_paginating(done_code) {
                             item.origin ='원생 정보 없음'
                             let student = studentsData.filter(s=>s.student_id == item.student_id)[0]
                             if(student){
-                                origin = student.origin
+                                item.origin = student.origin
                             }
-                            item.origin = origin
                             item.ban_name = ban.name
                             item.teacher_name = ban.teacher_engname + '( ' + ban.teacher_name + ' )'
                         }
@@ -588,9 +586,8 @@ function Tpaginating(done_code) {
                             item.origin ='원생 정보 없음'
                             let student = studentsData.filter(s=>s.student_id == item.student_id)[0]
                             if(student){
-                                origin = student.origin
+                                item.origin = student.origin
                             }
-                            item.origin = origin
                             item.ban_name = ban.name
                             item.teacher_name = ban.teacher_engname + '( ' + ban.teacher_name + ' )'
                         }
