@@ -22,20 +22,6 @@ async function get_all_question() {
         alert('Error occurred while retrieving data.');
     }
 }
-// 이건 지울 꺼
-async function get_all_cs() {
-    try {
-        const response = await $.ajax({
-            url: '/manage/cs',
-            type: 'GET',
-            data: {},
-        })
-        CSdata = response['all_cs_data']
-    } catch (error) {
-        alert('Error occurred while retrieving data.');
-    }
-}
-
 async function get_all_consultingcate() {
     try {
         const response = await $.ajax({
@@ -158,21 +144,7 @@ async function sodata() {
         csWorker.postMessage('getCSdata')
         csWorker.onmessage = function (event) {
             CSdata = event.data.all_cs_data;
-            const filtered_cs_data = CSdata.filter(item => item.title == '행정파트');
-            soqData = soqData.concat(filtered_cs_data);
-            $('.cs_inloading').hide()
-            $('.not_inloading').show()
-            console.log(soqData)
-            if (CSdata) {
-                so_paginating(0);
-            }
         };
-    }else{
-        const filtered_cs_data = CSdata.filter(item=> item.title == '행정파트' );
-        soqData = soqData.concat(filtered_cs_data);
-        $('.cs_inloading').hide()
-        $('.not_inloading').show()
-        so_paginating(0) 
     }
 }
 // 이반 퇴소 문의 관리
@@ -429,10 +401,30 @@ async function csdata() {
     if (!questionData) {
         await get_all_question()
     }
+    csqData = questionData.filter(q => q.category == 0)
     $('.cs_inloading').hide()
     $('.not_inloading').show()
-    csqData = questionData.filter(q => q.category == 0)
     paginating(0)
+    if(!CSdata){
+        const csWorker = new Worker("../static/js/cs_worker.js");
+        csWorker.postMessage('getCSdata')
+        csWorker.onmessage = function (event) {
+            CSdata = event.data.all_cs_data;
+            const filtered_cs_data = CSdata.filter(item => item.title == '행정파트');
+            csqData = csqData.concat(filtered_cs_data);
+            $('.cs_inloading').hide()
+            $('.not_inloading').show()
+            if (CSdata) {
+                paginating(0);
+            }
+        };
+    }else{
+        const filtered_cs_data = CSdata.filter(item=> item.title == '행정파트' );
+        csqData = csqData.concat(filtered_cs_data);
+        $('.cs_inloading').hide()
+        $('.not_inloading').show()
+        paginating(0) 
+    }
 }
 function paginating(done_code) {
     $('#cs_search_input').off('keyup');
@@ -460,30 +452,40 @@ function paginating(done_code) {
                 callback: function (data, pagination) {
                     var dataHtml = '';
                     $.each(data, function (index, item) {
-                        ban = banData.filter(b => b.ban_id == item.ban_id)[0]
-                        item.ban_name = ban.name
-                        item.teacher_name = ban.teacher_engname + '( ' + ban.teacher_name + ' )'
-                        let contents = item.contents
-                        if(contents && contents.length > 30) {
-                            contents = contents.substring(0, 30) + ' ▪️▪️▪️ ';
+                        if(item.category != 10){
+                            ban = banData.filter(b => b.ban_id == item.ban_id)[0]
+                            item.ban_name = ban.name
+                            item.teacher_name = ban.teacher_engname + '( ' + ban.teacher_name + ' )'
+                            item.origin ='원생 정보 없음'
+                            let student = studentsData.filter(s=>s.student_id == item.student_id)[0]
+                            if(student){
+                                item.origin = student.origin
+                            }
                         }
-                        let origin ='원생 정보 없음'
-                        let student = studentsData.filter(s=>s.student_id == item.student_id)[0]
-                        if(student){
-                            origin = student.origin
-                        }
-                        item.origin = origin
                         dataHtml += `
                         <td class="col-1">${make_date(item.create_date)}</td>
-                        <td class="col-1">일반문의</td>
+                        <td class="col-1">${q_category(item.category)}</td>
                         <td class="col-1">${item.ban_name}</td>
                         <td class="col-1">${item.teacher_name}</td>
-                        <td class="col-1">${origin}</td>
+                        <td class="col-1">${item.origin}</td>
                         <td class="col-2">${item.title}</td>
+<<<<<<< HEAD
                         <td class="col-3">${contents}</td>
                         <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})"><span class="cursor">✏️</span></td>
                         <td class="col-1" onclick="delete_question(${item.id})"><span class="cursor">❌</span></td>
+=======
+                        <td class="col-3">${make_small_char(item.contents)}</td>
+>>>>>>> 4b4eaf03fea091fa0bd7485857c42df003194d9d
                         `;
+                        if(item.category != 10){
+                            dataHtml += `
+                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code})">✏️</td>
+                            <td class="col-1" onclick="delete_question(${item.id})">❌</td>`
+                        }else{
+                            dataHtml += `
+                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_cs_detail(${item.id})">✏️</td>
+                            <td class="col-1">삭제 불가</td>`
+                        }
                     });
                     $('#alim_tr').html(dataHtml);
                 }
