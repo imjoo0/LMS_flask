@@ -9,10 +9,6 @@
   cursor: pointer !important;
 }
 
-.cursor:hover{
-  scale: 1.1;
-}
-
 .text-purple {
     color: #b02b74;
 }
@@ -161,7 +157,7 @@ footer{
   height: fit-content;
   font-size: 16px;
   font-weight: 600;
-  padding-top: 4px;
+  padding-top: 8px;
   padding-bottom: 8px;
   background: #444444;
   color: #fff; 
