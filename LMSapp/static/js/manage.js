@@ -196,11 +196,11 @@ function so_paginating(done_code) {
                         `;
                         if(item.category != 10){
                             dataHtml += `
-                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code})">✏️</td>
-                            <td class="col-1" onclick="delete_question(${item.id})">❌</td>`
+                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_soquestion_detail(${item.id},${done_code})"><span class="cursor">✏️</span></td>
+                            <td class="col-1" onclick="delete_question(${item.id})"><span class="cursor">❌</span></td>`
                         }else{
                             dataHtml += `
-                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_cs_detail(${item.id})">✏️</td>
+                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_cs_detail(${item.id})"><span class="cursor">✏️</span></td>
                             <td class="col-1">삭제 불가</td>`
                         }
                     });
@@ -296,10 +296,10 @@ async function get_soquestion_detail(q_id, done_code) {
     `
     if(attach.length != 0){
         attach.forEach((a)=>{
-            temp_question_list +=`<a class="pt-3 px-3" href="/common/downloadfile/question/${q_id}/attachment/${a.id}" download="${a.file_name}">${a.file_name}</a>`
+            temp_question_list +=`<a class="pt-3 px-2" href="/common/downloadfile/question/${q_id}/attachment/${a.id}" download="${a.file_name}">${a.file_name}</a>`
         })
     }else{
-        temp_question_list +=`<div>첨부 파일 없음</div>`
+        temp_question_list +=`<div class="pt-3 px-2">첨부 파일 없음</div>`
     }
     temp_question_list += `
         </div>
@@ -321,17 +321,17 @@ async function get_soquestion_detail(q_id, done_code) {
             category = `${consulting_history[0].category} ${consulting_history[0].contents}`
         }
         temp_his = `
-        <div class="modal-body-select-container align-items-start">
-            <div class="modal-body-select-label"><span class="modal-body-select-container-span">상담 종류</span></div>
+        <div class="modal-body-select-container">
+            <div class="modal-body-select-label align-items-start"><span class="modal-body-select-container-span">상담 종류</span></div>
             <div style="width:16.666%; margin-right:20px;">${category}</div>
-            <div class="modal-body-select-label"><span class="modal-body-select-container-span">상담 사유</span></div>
+            <div class="modal-body-select-label align-items-start"><span class="modal-body-select-container-span">상담 사유</span></div>
             <div style="width:16.666%; margin-right:20px;">${consulting_history[0].reason}</div>
-            <div class="modal-body-select-label"><span class="modal-body-select-container-span">상담 일시</span></div>
+            <div class="modal-body-select-label align-items-start"><span class="modal-body-select-container-span">상담 일시</span></div>
             <div style="width:16.666%; margin-right:20px;">${make_date(consulting_history[0].created_at)}</div>
         </div>
         <div class="d-flex flex-column py-3">
             <div class="modal-body-select-label mt-3"><span class="modal-body-select-container-span">제공 가이드</span></div>
-            <div class="mt-3 px-3">${solution}</div>
+            <div class="mt-3 px-2">${solution}</div>
         </div>
         `;
     } else {
@@ -469,7 +469,13 @@ function paginating(done_code) {
                         <td class="col-1">${item.teacher_name}</td>
                         <td class="col-1">${item.origin}</td>
                         <td class="col-2">${item.title}</td>
+<<<<<<< HEAD
+                        <td class="col-3">${contents}</td>
+                        <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})"><span class="cursor">✏️</span></td>
+                        <td class="col-1" onclick="delete_question(${item.id})"><span class="cursor">❌</span></td>
+=======
                         <td class="col-3">${make_small_char(item.contents)}</td>
+>>>>>>> 4b4eaf03fea091fa0bd7485857c42df003194d9d
                         `;
                         if(item.category != 10){
                             dataHtml += `
@@ -607,11 +613,11 @@ function Tpaginating(done_code) {
                         `;
                         if(item.category != 10){
                             dataHtml += `
-                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</td>
-                            <td class="col-1" onclick="delete_question(${item.id})">❌</td>`
+                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})"><span class="cursor">✏️</span></td>
+                            <td class="col-1" onclick="delete_question(${item.id})"><span class="cursor">❌</span></td>`
                         }else{
                             dataHtml += `
-                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_cs_detail(${item.id})">✏️</td>
+                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_cs_detail(${item.id})"><span class="cursor">✏️</span></td>
                             <td class="col-1">삭제 불가</td>`
                         }
                     });
@@ -737,11 +743,11 @@ function inTpaginating(done_code) {
                         `;
                         if(item.category != 10){
                             dataHtml += `
-                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})">✏️</td>
-                            <td class="col-1" onclick="delete_question(${item.id})">❌</td>`
+                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id},${done_code})"><span class="cursor">✏️</span></td>
+                            <td class="col-1" onclick="delete_question(${item.id})"><span class="cursor">❌</span></td>`
                         }else{
                             dataHtml += `
-                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_cs_detail(${item.id})">✏️</td>
+                            <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_cs_detail(${item.id})"><span class="cursor">✏️</span></td>
                             <td class="col-1">삭제 불가</td>`
                         }
                     });
@@ -840,7 +846,7 @@ async function get_question_detail(q_id, done_code) {
             temp_question_list +=`<a class="pt-3 px-3" href="/common/downloadfile/question/${q_id}/attachment/${a.id}" download="${a.file_name}">${a.file_name}</a>`
         })
     }else{
-        temp_question_list +=`<div>첨부 파일 없음</div>`
+        temp_question_list +=`<div class="pt-3 px-2">첨부 파일 없음</div>`
     }
     temp_question_list += 
     `
@@ -1170,7 +1176,7 @@ function show_ban_selection() {
         var value = selectedBanList[i].split('_')
         selectedOptions += `
         <td class="col-11">${value[2]}</td>
-        <td class="col-1" onclick="delete_selected_ban(${i})">❌</td>`;
+        <td class="col-1" onclick="delete_selected_ban(${i})"><span class="cursor">❌</span></td>`;
         $('#target_task_bans').html(selectedOptions);
     }
 }
@@ -1315,27 +1321,27 @@ function show_selections() {
                 selectedOptions += `
                 <td class="col-4">${value[2]}</td>
                 <td class="col-6">${value[4]}</td>
-                <td class="col-2" onclick="delete_selected_student(${i})">❌</td>`;
+                <td class="col-2" onclick="delete_selected_student(${i})"><span class="cursor">❌</span></td>`;
             }else{
                 selectedOptions += `
                 <td class="col-4">${value[2]}</td>
                 <td class="col-6">전체 원생 대상 진행</td>
-                <td class="col-2" onclick="delete_selected_student(${i})">❌</td>`;
+                <td class="col-2" onclick="delete_selected_student(${i})"><span class="cursor">❌</span></td>`;
             }
         }else{
             var value = selectedStudentList[i]
             if(value==0 || value =='0'){
-                selectedOptions += `<td class="col-10">전체 반 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})">❌</td>`
+                selectedOptions += `<td class="col-10">전체 반 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})"><span class="cursor">❌</span></td>`
             }else if(value==1 || value =='1'){
-                selectedOptions += `<td class="col-10">PLUS/ALPHA반 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})">❌</td>`
+                selectedOptions += `<td class="col-10">PLUS/ALPHA반 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})"><span class="cursor">❌</span></td>`
             }else if(value==2 || value =='2'){
-                selectedOptions += `<td class="col-10">NF/Inter반 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})">❌</td>`
+                selectedOptions += `<td class="col-10">NF/Inter반 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})"><span class="cursor">❌</span></td>`
             }else if(value==3 || value =='3'){
-                selectedOptions += `<td class="col-10">16기 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})">❌</td>`
+                selectedOptions += `<td class="col-10">16기 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})"><span class="cursor">❌</span></td>`
             }else if(value==4 || value =='4'){
-                selectedOptions += `<td class="col-10">17기 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})">❌</td>`
+                selectedOptions += `<td class="col-10">17기 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})"><span class="cursor">❌</span></td>`
             }else{
-                selectedOptions += `<td class="col-10">18기 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})">❌</td>`
+                selectedOptions += `<td class="col-10">18기 대상 진행</td><td class="col-2" onclick="delete_selected_student(${i})"><span class="cursor">❌</span></td>`
             }
         }
         $('#result_tbox').html(selectedOptions);
