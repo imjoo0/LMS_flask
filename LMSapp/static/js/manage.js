@@ -886,6 +886,7 @@ async function get_question_detail(q_id, done_code) {
 async function get_cs_detail(q_id) {
     $('.cs_inloading').show()
     $('.not_inloading').hide()
+    $('#button_box').empty();
     let question_detail_data = CSdata.filter(cs=>cs.id == q_id)[0]
     // let contents = question_detail_data.contents.replace(/\n/g, '</br>')
     $('.cs_inloading').hide()

@@ -404,17 +404,6 @@ async function get_all_task() {
         alert('Error occurred while retrieving data.');
     }
 }
-
-async function getStudentsData() {
-    let studentsWorker = new Worker("../static/js/students_worker.js");
-  
-    return new Promise((resolve) => {
-        studentsWorker.onmessage = function(event) {
-            studentsData = event.data.students;
-            resolve(studentsData);
-        };
-    });
-} 
 async function getConsultingsData() {
     let consultingsWorker = new Worker("../static/js/consultings_worker.js");
   
@@ -491,6 +480,13 @@ async function get_total_data() {
             $('#inloading').show()
             $('#semester_pagination').hide()
             await get_all_ban().then(() => {
+                if(!studentsData){
+                    const studentsWorker = new Worker("../static/js/students_worker.js");
+                    studentsWorker.postMessage('getStudentsdata')
+                    studentsWorker.onmessage = function (event) {
+                        studentsData = event.data.students;
+                    };
+                }
                 total_student_num = Number(banData[0].total_student_num)
                 // switchstudent_num = switchstudentData.length
                 // 학기 별 원생
