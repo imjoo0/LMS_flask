@@ -1513,20 +1513,12 @@ async function get_request_consulting() {
             req_consultings = consultingData.filter(c => c.category_id > 100);
             Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': req_consultings }));
             $('#history_cate').html('<option value="none">전체 데이터 로딩중 . . . (카테고리 선택은 조금 대기해주세요)</option>');
-            $('#consulting_list_search_input').hide();
+            // $('#consulting_list_search_input').hide();
+            $('.waitplz').hide()
             $('.mo_inloading').hide();
             $('.not_inloading').show();
             if(consultingData.length == consultingCount){
-                Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': req_consultings }));
-                let category_set = new Set(req_consultings.map(c => c.category));
-                let category_list = [...category_set];
-                var idxHtml = `<option value="none">전체</option>`;
-                $.each(category_list, function (idx, val) {
-                    idxHtml += `<option value="${val}">${val}</option>`;
-                });
-                $('#history_cate').html(idxHtml);
-                $('#consulting_list_search_input').show();
-                $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
+                $('.waitplz').show()
                 return
             }
             pageSize=consultingCount
@@ -1536,6 +1528,7 @@ async function get_request_consulting() {
     }else{
         $('.mo_inloading').hide();
         $('.not_inloading').show();
+        $('.waitplz').show()
         req_consultings = consultingData.filter(c => c.category_id > 100);
         Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': req_consultings }));
         let category_set = new Set(req_consultings.map(c => c.category));
@@ -1547,6 +1540,26 @@ async function get_request_consulting() {
         $('#history_cate').html(idxHtml);
         $('#consulting_list_search_input').show();
         $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
+        $('input[name="is_requ"]').change(function() {
+            let selectedValue = $('input[name="is_requ"]:checked').val();
+            if(selectedValue == 'none'){
+                let copy_data = consultingData.slice();
+                req_consultings = copy_data
+            }else if(selectedValue == 1){
+                let copy_data = consultingData.slice();
+                req_consultings = copy_data.filter(c => c.category_id <= 100);
+            }else{
+                let copy_data = consultingData.slice();
+                req_consultings = copy_data.filter(c => c.category_id > 100);
+            }
+            Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': req_consultings }))
+            let category_set = new Set(req_consultings.map(c => c.category));
+            let category_list = [...category_set];
+            var idxHtml = `<option value="none">전체</option>`;
+            $.each(category_list, function (idx, val) {
+                idxHtml += `<option value="${val}">${val}</option>`;
+            });
+        });
     }
 }
   
