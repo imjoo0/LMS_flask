@@ -87,13 +87,13 @@ $(window).on('load', async function () {
                 let q_id = getParameter("q_id");
                 if(q_id!=="" && q_type!==""){
                     if(q_type== 1 ||  q_type==2){                        
-                        sodata();
+                        await sodata();
                     }else if(q_type== 0){
-                        csdata();
+                        await csdata();
                     }else if(q_type== 5){
-                        inTdata();
+                        await inTdata();
                     }else if(q_type== 4){
-                        Tcsdata();
+                        await Tcsdata();
                     }
                     $("#soanswer").modal("show");
                     const response = await $.ajax({
@@ -527,11 +527,9 @@ async function Tcsdata() {
     $('.not_inloading').hide()
     if (!questionData) {
         await get_all_question()
+        csqData = questionData.filter(q => q.category == 4)
+        Tpaginating(0) 
     }
-    csqData = questionData.filter(q => q.category == 4)
-    $('.cs_inloading').hide()
-    $('.not_inloading').show()
-    Tpaginating(0)
     if(!CSdata){
         const csWorker = new Worker("../static/js/cs_worker.js");
         csWorker.postMessage('getCSdata')
@@ -554,6 +552,8 @@ async function Tcsdata() {
     }
 }
 function Tpaginating(done_code) {
+    $('.cs_inloading').hide()
+    $('.not_inloading').show()
     $('#Tcs_search_input').off('keyup');
     total_question_num = csqData.length
     csdata_noanswer = total_question_num != 0 ? csqData.filter(a => a.answer == 0).length : 0
@@ -786,6 +786,7 @@ async function get_question_detail(q_id, done_code) {
 
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
+    console.log(questionData)
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
     let contents = question_detail_data.contents.replace(/\n/g, '</br>')
     // 문의 상세 내용 
