@@ -88,7 +88,6 @@ def get_mybans(u):
     try:
         with db.cursor() as cur:
             # 상담
-            # 상담
             for ban in ban_data:
                 cur.execute("select consulting.origin, consulting.student_name, consulting.student_engname,consulting.id,consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate,consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result from consulting left join consultingcategory on consulting.category_id = consultingcategory.id where startdate <= %s and ban_id=%s", (Today,ban['register_no'],))
                 all_consulting.extend(cur.fetchall())

@@ -821,7 +821,6 @@ function get_consulting_history_by_cate(category) {
 
 //  지난 상담 상담일지 
 async function get_consulting_history() {
-    console.log(Tmy_students)
     $('#consulting_history_bansel_box').show()
     $('#consulting_history_box').show()
     $('#consulting_history_box_detail').hide()
@@ -834,11 +833,13 @@ async function get_consulting_history() {
         callback: function (data, pagination) {
             var dataHtml = '';
             $.each(data, function (index, consulting) {
-                student_info = Tall_students.filter(s => s.student_id == consulting.student_id)[0]
-                student_category = make_out(student_info.category_id)
-                consulting.student_name = student_info.name + '( ' + student_info.nick_name + ' )'
-                consulting.origin = student_info.origin
-                consulting.ban_name = student_info.classname
+                let student_info = Tall_students.filter(s => s.student_id == consulting.student_id)[0]
+                let student_category = ''
+                consulting.ban_name = ''
+                if(student_info){
+                    student_category = make_out(student_info.category_id)
+                    consulting.ban_name = student_info.classname
+                }
                 let title =make_small_char(consulting.contents)
                 if (consulting.category_id < 100) {
                     title = consulting.category
@@ -848,7 +849,7 @@ async function get_consulting_history() {
                 <td class="col-2">${title}</td>
                 <td class="col-2">${make_date(consulting.created_at)}</td>
                 <td class="col-2"> ${consulting.ban_name}</td>
-                <td class="col-2 ${student_category}"> ${consulting.student_name}</br>${student_category}</td>
+                <td class="col-2 ${student_category}"> ${consulting.student_name} (${consulting.student_engname})</br>${student_category}</td>
                 `
                 dataHtml +=`
                 <td class="col-1"> ${consulting.origin}</td>
