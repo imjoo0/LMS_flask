@@ -1,5 +1,5 @@
 // manage변수 
-let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, studentsData, reportsData, consultingData,consultingCount, consultingHistoryData, consultingcateData, taskData, taskcateData, questionData, answerData, attachData, CSdata;
+let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, studentsData, reportsData, consultingData, consultingHistoryData, consultingcateData, taskData, taskcateData, questionData, answerData, attachData, CSdata;
 // teacher 변수
 let  Tconsulting_category, Tban_data, Tall_consulting, Tmy_students, Tall_task, Ttask_consulting, Tunlearned_student, Tall_students, Tstudent_consulting, TquestionAnswerdata;
 let isFetching = false;
@@ -358,8 +358,6 @@ async function get_all_ban() {
             elem.out_num_per = answer_rate(elem.total_out_num, elem.first_student_num).toFixed(0)
             totalOutnum += elem.out_student_num
             totalHoldnum += elem.hold_student_num
-            // elem.switch_minus_num = switchstudentData.filter(a => a.ban_id == elem.ban_id).length
-            // elem.switch_plus_num = switchstudentData.filter(a => a.switch_ban_id == elem.ban_id).length
         });
         banData = response['all_ban'].map((item) => {
             return { ...item, total_out_num_per: Number(answer_rate(item.out_student_num, totalOutnum).toFixed(2)) }

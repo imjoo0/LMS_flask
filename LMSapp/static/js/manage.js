@@ -248,6 +248,8 @@ async function get_soquestion_detail(q_id, done_code) {
     student_data = studentsData.filter(s => s.student_id == question_detail_data.student_id)[0]
     attach = attachData.filter(a => a.question_id == q_id)
     let contents = question_detail_data.contents.replace(/\n/g, '</br>')
+    $('.cs_inloading').hide()
+    $('.not_inloading').show()
     // 문의 상세 내용 
     let temp_question_list = `
     <div class="modal-body-select-container">
@@ -302,64 +304,6 @@ async function get_soquestion_detail(q_id, done_code) {
         </div>    
     `
     $('#teacher_question').html(temp_question_list);
-    
-    let temp_his = ''
-    // 상담 일지 처리 
-    // if (!consultingData) {
-    //     consultingData = []
-    //     let currentPage = 1;
-    //     let pageSize = 10000;
-    //     const consultingsWorker = new Worker("../static/js/writed_consultings_worker.js");
-    //     function fetchData() {
-    //         consultingsWorker.postMessage({ page: currentPage, pageSize });
-    //     }
-    //     consultingsWorker.onmessage = function (event) {
-    //         currentPage += pageSize
-    //         pageSize += 10000
-    //         let total_count = event.data.total_count
-    //         consultingData = event.data.consulting;
-    //         console.log(consultingData)
-    //         if(consultingData.length >= total_count){
-    //             return;
-    //         }
-    //         fetchData()
-    //     };
-    //     fetchData();
-    // }
-    // let consulting_history = consultingData.filter(c => c.id == question_detail_data.consulting_history)
-    // if (consulting_history.length != 0){
-    //     $('.cs_inloading').hide()
-    //     $('.not_inloading').show()
-    //     let category = ''
-    //     let solution = consulting_history[0].solution.replace(/\n/g, '</br>')
-    //     if (consulting_history[0].category_id < 100) {
-    //         category = `${consulting_history[0].week_code}주간 ${consulting_history[0].category}상담`
-    //     } else {
-    //         category = `${consulting_history[0].category} ${consulting_history[0].contents}`
-    //     }
-    //     temp_his = `
-    //     <div class="modal-body-select-container">
-    //         <div class="modal-body-select-label align-items-start"><span class="modal-body-select-container-span">상담 종류</span></div>
-    //         <div style="width:16.666%; margin-right:20px;">${category}</div>
-    //         <div class="modal-body-select-label align-items-start"><span class="modal-body-select-container-span">상담 사유</span></div>
-    //         <div style="width:16.666%; margin-right:20px;">${consulting_history[0].reason}</div>
-    //         <div class="modal-body-select-label align-items-start"><span class="modal-body-select-container-span">상담 일시</span></div>
-    //         <div style="width:16.666%; margin-right:20px;">${make_date(consulting_history[0].created_at)}</div>
-    //     </div>
-    //     <div class="d-flex flex-column py-3">
-    //         <div class="modal-body-select-label mt-3"><span class="modal-body-select-container-span">제공 가이드</span></div>
-    //         <div class="mt-3 px-2">${solution}</div>
-    //     </div>
-    //     `;
-    // } else {
-    //     fetchData()
-    //     temp_his = `
-    //     <div> 상담내역이 없습니다 </div>
-    //     `;
-    // }
-    $('#cha').html(temp_his);
-    $('#consulting_history_attach').show()
-
     // 응답 처리 
     if (question_detail_data.category == 2) {
         let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
@@ -403,6 +347,33 @@ async function get_soquestion_detail(q_id, done_code) {
         $('#teacher_answer').html(temp_answer_list);
         $('#teacher_answer').show()
         $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category},${1})">수정</button>`);
+    }
+    // 상담 일지 처리 
+    let temp_his = `<div> 상담내역이 없습니다 </div>`;
+    let category = ''
+    if(question_detail_data.consulting_history){
+        let solution = question_detail_data.solution.replace(/\n/g, '</br>')
+        if (question_detail_data.consulting_categoryid < 100) {
+            category = `${question_detail_data.week_code}주간 ${question_detail_data.consulting_category}상담`
+        } else {
+            category = `${question_detail_data.consulting_category} ${question_detail_data.consulting_category}`
+        }
+        temp_his = `
+        <div class="modal-body-select-container">
+            <div class="modal-body-select-label align-items-start"><span class="modal-body-select-container-span">상담 종류</span></div>
+            <div style="width:16.666%; margin-right:20px;">${category}</div>
+            <div class="modal-body-select-label align-items-start"><span class="modal-body-select-container-span">상담 사유</span></div>
+            <div style="width:16.666%; margin-right:20px;">${question_detail_data.reason}</div>
+            <div class="modal-body-select-label align-items-start"><span class="modal-body-select-container-span">상담 일시</span></div>
+            <div style="width:16.666%; margin-right:20px;">${make_date(question_detail_data.created_at)}</div>
+        </div>
+        <div class="d-flex flex-column py-3">
+            <div class="modal-body-select-label mt-3"><span class="modal-body-select-container-span">제공 가이드</span></div>
+            <div class="mt-3 px-2">${solution}</div>
+        </div>
+        `;
+        $('#cha').html(temp_his);
+        $('#consulting_history_attach').show()
     }
 }
 // 일반 문의 
@@ -1523,7 +1494,7 @@ async function get_request_consulting() {
             $('#tr-row').html(dataHtml);
         }
     };
-    if (!consultingData) {
+    if(!consultingData){
         $('.mo_inloading').show();
         $('.not_inloading').hide();
         consultingData = []
@@ -1537,13 +1508,15 @@ async function get_request_consulting() {
         }
         // Function to handle messages from the Web Worker
         consultingsWorker.onmessage = function (event) {
-            let total_count = event.data.total_count
+            let consultingCount = event.data.total_count
             consultingData = event.data.consulting;
             req_consultings = consultingData.filter(c => c.category_id > 100);
             Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': req_consultings }));
-            $('#history_cate').html('<option value="none">데이터 로딩중. . .</option>');
+            $('#history_cate').html('<option value="none">전체 데이터 로딩중 . . . (카테고리 선택은 조금 대기해주세요)</option>');
             $('#consulting_list_search_input').hide();
-            if(consultingData.length == total_count){
+            $('.mo_inloading').hide();
+            $('.not_inloading').show();
+            if(consultingData.length == consultingCount){
                 Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': req_consultings }));
                 let category_set = new Set(req_consultings.map(c => c.category));
                 let category_list = [...category_set];
@@ -1556,12 +1529,10 @@ async function get_request_consulting() {
                 $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
                 return
             }
-            pageSize=total_count
+            pageSize=consultingCount
             fetchData();
         };
         fetchData();
-        $('.mo_inloading').hide();
-        $('.not_inloading').show();
     }else{
         $('.mo_inloading').hide();
         $('.not_inloading').show();
