@@ -1421,8 +1421,6 @@ function post_consulting_request() {
 }
 
 async function get_request_consulting() {
-    $('.mo_inloading').show();
-    $('.not_inloading').hide();
     $('#request_consultingban_listbox').hide();
     $('#request_consulting_listbox').show();
     $('#my_consulting_requestModalLabel').html('요청한 상담 목록');
@@ -1497,6 +1495,8 @@ async function get_request_consulting() {
     if(!consultingData){
         $('.mo_inloading').show();
         $('.not_inloading').hide();
+        $('#history_cate').html('<option value="none">전체 데이터 로딩중 . . . (카테고리 선택은 조금 대기해주세요)</option>');
+        $('.waitplz').hide()
         consultingData = []
         let currentPage = 1;  // 현재 페이지 번호
         let pageSize = 5000;  // 페이지당 데이터 개수
@@ -1508,29 +1508,63 @@ async function get_request_consulting() {
         }
         // Function to handle messages from the Web Worker
         consultingsWorker.onmessage = function (event) {
+            $('.mo_inloading').show();
+            $('.not_inloading').hide();
+            $('#history_cate').html('<option value="none">전체 데이터 로딩중 . . . (카테고리 선택은 조금 대기해주세요)</option>');
+            $('.waitplz').hide()
             let consultingCount = event.data.total_count
             consultingData = event.data.consulting;
-            req_consultings = consultingData.filter(c => c.category_id > 100);
+            let req_consultings = consultingData.filter(c => c.category_id > 100);
             Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': req_consultings }));
-            $('#history_cate').html('<option value="none">전체 데이터 로딩중 . . . (카테고리 선택은 조금 대기해주세요)</option>');
             // $('#consulting_list_search_input').hide();
-            $('.waitplz').hide()
             $('.mo_inloading').hide();
             $('.not_inloading').show();
             if(consultingData.length == consultingCount){
                 $('.waitplz').show()
+                let category_set = new Set(req_consultings.map(c => c.category));
+                let category_list = [...category_set];
+                var idxHtml = `<option value="none">전체</option>`;
+                $.each(category_list, function (idx, val) {
+                    idxHtml += `<option value="${val}">${val}</option>`;
+                });
+                $('#history_cate').html(idxHtml);
+                $('#consulting_list_search_input').show();
+                $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
                 return
             }
             pageSize=consultingCount
             fetchData();
         };
         fetchData();
-    }else{
-        $('.mo_inloading').hide();
-        $('.not_inloading').show();
-        $('.waitplz').show()
-        req_consultings = consultingData.filter(c => c.category_id > 100);
-        Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': req_consultings }));
+    }
+    $('.mo_inloading').hide();
+    $('.not_inloading').show();
+    $('.waitplz').show()
+    let copy_data = consultingData.slice();
+    let req_consultings = copy_data.filter(c => c.category_id > 100);
+    Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': req_consultings }));
+    let category_set = new Set(req_consultings.map(c => c.category));
+    let category_list = [...category_set];
+    var idxHtml = `<option value="none">전체</option>`;
+    $.each(category_list, function (idx, val) {
+        idxHtml += `<option value="${val}">${val}</option>`;
+    });
+    $('#history_cate').html(idxHtml);
+    $('#consulting_list_search_input').show();
+    $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
+    $('input[name="is_requ"]').change(function() {
+        let selectedValue = $('input[name="is_requ"]:checked').val();
+        if(selectedValue == 'none'){
+            let copy_data = consultingData.slice();
+            req_consultings = copy_data
+        }else if(selectedValue == 1){
+            let copy_data = consultingData.slice();
+            req_consultings = copy_data.filter(c => c.category_id <= 100);
+        }else{
+            let copy_data = consultingData.slice();
+            req_consultings = copy_data.filter(c => c.category_id > 100);
+        }
+        Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': req_consultings }))
         let category_set = new Set(req_consultings.map(c => c.category));
         let category_list = [...category_set];
         var idxHtml = `<option value="none">전체</option>`;
@@ -1538,29 +1572,7 @@ async function get_request_consulting() {
             idxHtml += `<option value="${val}">${val}</option>`;
         });
         $('#history_cate').html(idxHtml);
-        $('#consulting_list_search_input').show();
-        $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
-        $('input[name="is_requ"]').change(function() {
-            let selectedValue = $('input[name="is_requ"]:checked').val();
-            if(selectedValue == 'none'){
-                let copy_data = consultingData.slice();
-                req_consultings = copy_data
-            }else if(selectedValue == 1){
-                let copy_data = consultingData.slice();
-                req_consultings = copy_data.filter(c => c.category_id <= 100);
-            }else{
-                let copy_data = consultingData.slice();
-                req_consultings = copy_data.filter(c => c.category_id > 100);
-            }
-            Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': req_consultings }))
-            let category_set = new Set(req_consultings.map(c => c.category));
-            let category_list = [...category_set];
-            var idxHtml = `<option value="none">전체</option>`;
-            $.each(category_list, function (idx, val) {
-                idxHtml += `<option value="${val}">${val}</option>`;
-            });
-        });
-    }
+    });
 }
   
 function sort_consultingoption(sortBy) {
