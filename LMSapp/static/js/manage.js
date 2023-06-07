@@ -1446,10 +1446,9 @@ async function get_request_consulting() {
             dataHtml += `
             <td class="col-2">"${make_date(consulting.startdate)}" ~ <strong>"${make_date(consulting.deadline)}"</strong></td>
             <td class="col-1">${consulting.category}</td>
-            <td class="col-2">${contents}</td>
+            <td class="col-3">${contents}</td>
             <td class="col-1">${consulting.ban_name}</td>
             <td class="col-1">${make_nullcate(consulting.teacher_name)} (${make_nullcate(consulting.teacher_engname)})</td>
-            <td class="col-1">${consulting.teacher_mobileno}</td>
             <td class="col-1">${make_nullcate(consulting.student_name)} (${make_nullcate(consulting.student_engname)})</td>
             <td class="col-1">${consulting.origin}</td>
             <td class="col-1">${make_reject_code(consulting.done)}</td>
@@ -1691,32 +1690,6 @@ function get_consultingdetail(consulting_id) {
     $('#consulting_history_contents_box').html(temp_his);
     $('#request_consulting_listbox').hide();
     $('#request_consultingban_listbox').show();
-}
-
-async function sort_consulting(value) {
-    let container = $('#consulting-pagination')
-    container.pagination({
-        dataSource: consultingGroupedresult,
-        prevText: '이전',
-        nextText: '다음',
-        pageSize: 10,
-        callback: function (consultingGroupedresult, pagination) {
-            var dataHtml = '';
-            $.each(consultingGroupedresult, function (index, consulting) {
-                let key = Object.keys(consulting)[0]
-                if (key.includes(value) || value == "none") {
-                    let consulting_info = key.split('_')
-                    dataHtml += `
-                    <td class="col-1">${make_duedate(consulting_info[2], consulting_info[3])}</td>
-                    <td class="col-3">${consulting_info[2]} ~ ${consulting_info[3]}</td>
-                    <td class="col-2">${consulting_info[0]}</td>
-                    <td class="col-5"> ${consulting_info[1]}</td>
-                    <td class="col-1" onclick ="get_consultingban('${key}')"> <span class="cursor">🔍</span> </td>`;
-                }
-            });
-            $('#tr-row').html(dataHtml);
-        }
-    })
 }
 
 // 요청 업무관리 기능 
