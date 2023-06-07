@@ -59,11 +59,7 @@ def sign_in():
         payload = {
             'user_id' : result.user_id,
             'id':result.id,
-<<<<<<< HEAD
             'category':result.category 
-=======
-            'category':result.category
->>>>>>> f8653a5c0225887706cdfb8bf4de8952ce578eaa
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
         # session['user_id'] = result.user_id,
