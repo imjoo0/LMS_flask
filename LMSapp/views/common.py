@@ -69,7 +69,6 @@ def get_ban():
 def get_all_students():
     if request.method == 'GET':
         students = callapi.purple_allinfo('get_all_student_online')
-        # students = callapi.purple_allinfo('get_all_ban_student')
         return jsonify({'students':students})
  
 @bp.route("/consulting_chunk", methods=['GET'])

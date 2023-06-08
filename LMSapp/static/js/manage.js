@@ -1231,6 +1231,8 @@ async function request_consulting() {
     $("#consulting_date").datepicker({ dateFormat: 'yy-mm-dd' });
     $("#consulting_deadline").datepicker({ dateFormat: 'yy-mm-dd' });
 
+    let copy_data = studentsData.slice();
+    let target_studentData = copy_data.filter(s=>s.category_id == 1)
     let temp_consulting_category_list = '<option value=0 selected>상담카테고리를 선택해주세요</option>';
     consultingcateData.forEach(cate_data => {
         temp_consulting_category_list += `<option value="${cate_data.id}">${cate_data.name}</option>`;
@@ -1245,9 +1247,9 @@ async function request_consulting() {
     $('#consulting_target_ban').html(temp_ban_option)
 
     let temp_student_option = '<option value=0 selected>원생을 선택해주세요</option>';
-    studentsData.forEach(student_data => {
+    target_studentData.forEach(student_data => {
         let value = `${student_data.ban_id}_${student_data.teacher_id}_${student_data.ban_name}_${student_data.student_id}_${student_data.student_name}`; // btid
-        temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin} )</option>`;
+        temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin} ) - ${student_data.ban_name}</option>`;
     });
     $('#consulting_target_student').html(temp_student_option)
 
@@ -1271,12 +1273,12 @@ async function request_consulting() {
         $('#consulting_target_student').show()
         let temp_student_option = '<option value=0 selected>원생을 선택해주세요</option>';
         var searchInput = $(this).val().toLowerCase();
-        var filteredData = studentsData.filter(function (data) {
+        var filteredData = target_studentData.filter(function (data) {
             return (data.hasOwnProperty('student_name') && data.student_name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('student_engname') && data.student_engname.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('origin') && data.origin.toLowerCase().indexOf(searchInput) !== -1);
         });
         filteredData.forEach(student_data => {
             let value = `${student_data.ban_id}_${student_data.teacher_id}_${student_data.ban_name}_${student_data.student_id}_${student_data.student_name}`; // btid
-            temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin} )</option>`;
+            temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin} )  - ${student_data.ban_name}</option>`;
             });
         $('#consulting_target_student').html(temp_student_option)
     });
@@ -1310,6 +1312,7 @@ function show_selections() {
         // bid+tid+bname+sid+sname
         if(selectedStudentList[i].includes('_')){
             var value = selectedStudentList[i].split('_')
+            console.log(value)
             if(value.length > 3){
                 selectedOptions += `
                 <td class="col-4">${value[2]}</td>
