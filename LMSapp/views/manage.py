@@ -383,13 +383,12 @@ def make_task():
                 db.session.commit()
 
                 teacher_mobile_no = User.query.filter(User.id == teacher_id).first().mobileno
-                if(received_task_startdate <= Today and (teacher_mobile_no != "입력 바랍니다" or teacher_mobile_no != "000-0000-0000")):
-                    post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
-                    data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
-                        'templateCode': "task_cs",
-                        'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '반이름':task_data[2], '업무내용': received_task,'요일':task_yoil, '마감기한': received_task_deadline}, }, ], }
-                    headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
-                    http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
+                post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
+                data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
+                    'templateCode': "task_cs",
+                    'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '반이름':task_data[2], '업무내용': received_task,'요일':task_yoil, '마감기한': received_task_deadline}, }, ], }
+                headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
+                http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
 
         # 전체 반이 선택 된 경우
         else:
@@ -459,13 +458,12 @@ def request_ban_student(b_id,t_id,b_name):
             db.session.commit()
 
         teacher_mobile_no = User.query.filter(User.id == t_id).first().mobileno
-        if(received_consulting_startdate <= Today and (teacher_mobile_no != "입력 바랍니다" or teacher_mobile_no != "000-0000-0000")):
-            post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
-            data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
-            'templateCode': "consulting_cs",
-            'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '원번':b_name, '원생이름': '전체 원생 대상', '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], }
-            headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
-            http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
+        post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
+        data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
+        'templateCode': "consulting_cs",
+        'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '원번':b_name, '원생이름': '전체 원생 대상', '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], }
+        headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
+        http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
 
         return jsonify({'result':'success'})    
 
@@ -490,14 +488,14 @@ def request_indivi_student(b_id,t_id,s_id):
         db.session.add(new_consulting)
         db.session.commit()
         teacher_mobile_no = User.query.filter(User.id == t_id).first().mobileno
-        if(received_consulting_startdate <= Today and (teacher_mobile_no != "입력 바랍니다" or teacher_mobile_no != "000-0000-0000")):
-            post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
-            data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
+        post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
+        data_sendkey = {
+            'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
             'templateCode': "consulting_cs",
-            'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '원번':origin, '원생이름': student_name, '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], }
-            headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
-            http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
-
+            'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '원번':origin, '원생이름': student_name, '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], 
+            }
+        headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
+        http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
         return jsonify({'result':'success'})
    
 # 전체 반에 상담 요청 저장
@@ -543,13 +541,12 @@ def request_all_ban(b_type):
             existing_info.add(info_key)  # 새로운 데이터를 추가
             ban_info.append(info)
         for ban in ban_info:
-            if(received_consulting_startdate <= Today and(ban['mobileno'] != "입력 바랍니다" or ban['mobileno'] != "000-0000-0000")):
-                post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
-                data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
-                        'templateCode': "consulting_cs",
-                        'recipientList': [{'recipientNo':ban['mobileno'], 'templateParameter': { '원번':ban['ban_name'], '원생이름': '전체 원생 대상', '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], }
-                headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
-                http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
+            post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
+            data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
+                    'templateCode': "consulting_cs",
+                    'recipientList': [{'recipientNo':ban['mobileno'], 'templateParameter': { '원번':ban['ban_name'], '원생이름': '전체 원생 대상', '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], }
+            headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
+            http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
         
         return jsonify({'result':'success'})    
 
