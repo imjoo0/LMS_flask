@@ -46,7 +46,6 @@ def save_attachment(file, q_id):
         db.session.rollback()
         return str(e)  # 에러 메시지 반환
 
-
 # 비번 변경
 # 오늘 해야 할 업무 완료 저장 
 @bp.route("/put_user", methods=['POST'])
@@ -63,23 +62,8 @@ def put_user(u):
 @bp.route("/all_ban", methods=['GET'])
 def get_ban():
     if request.method == 'GET':
-        all_ban = callapi.purple_allinfo('get_all_ban')
+        all_ban = callapi.purple_allinfo('get_all_ban_online')
         students = callapi.purple_allinfo('get_all_ban_student')
-        # consulting = []
-        switchstudent = []
-        
-        # db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        # try:
-        #     with db.cursor() as cur:
-        #         cur.execute("SELECT ban_id,switch_ban_id,teacher_id,student_id FROM switchstudent;")
-        #         switchstudent = cur.fetchall()
-
-        #         # cur.execute(f"SELECT consulting.id, consulting.teacher_id,consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id AS category_id, consulting.week_code, consultingcategory.name AS category, consulting.contents, DATE_FORMAT(consulting.startdate, '%Y-%m-%d') AS startdate, DATE_FORMAT(consulting.deadline, '%Y-%m-%d') AS deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result, (SELECT COUNT(*) FROM consulting WHERE (category_id < 100 && consulting.startdate <= curdate())) AS total_unlearned_consulting FROM consulting LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id;")
-        #         # consulting = cur.fetchall()
-        # except:
-        #         print('err')
-        # finally:
-        #         db.close()        
         return jsonify({'all_ban':all_ban,'students': students})
 
 @bp.route("/get_student_reports", methods=['GET'])
@@ -138,33 +122,6 @@ def get_paginated_consulting():
             db.close()
 
         return jsonify({'consulting': consulting, 'total_count': total_count})
-@bp.route("/consulting_created", methods=['GET'])
-def get_created_consulting():
-    if request.method == 'GET':
-        page = request.args.get('page', default=1, type=int)  # 클라이언트에서 전달한 페이지 번호
-        page_size = request.args.get('page_size', default=10000, type=int)  # 클라이언트에서 전달한 페이지 크기
-        offset = (page - 1) * page_size  # 오프셋 계산
-        consulting = []
-        total_count = 0
-
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                # 전체 데이터 개수 조회
-                cur.execute("SELECT COUNT(*) AS total_count FROM consulting;")
-                result = cur.fetchone()
-                total_count = result['total_count']
-
-                # 페이징된 데이터 조회
-                cur.execute(f"SELECT consulting.id, consulting.teacher_id, user.eng_name as teacher_engname, user.name as teacher_name, user.mobileno as teacher_mobileno, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id AS category_id, consulting.week_code, consultingcategory.name AS category, consulting.student_name, consulting.student_engname, consulting.origin, consulting.contents, consulting.startdate AS startdate, consulting.deadline AS deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result, (SELECT COUNT(*) FROM consulting WHERE (category_id < 100 && consulting.startdate <= curdate())) AS total_unlearned_consulting FROM consulting LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id LEFT JOIN user ON consulting.teacher_id = user.id ORDER BY consulting.created_at DESC LIMIT %s, %s;", (offset, page_size))
-                consulting = cur.fetchall()
-
-        except Exception as e:
-            print(e)
-        finally:
-            db.close()
-
-        return jsonify({'consulting': consulting, 'total_count': total_count})
 
 @bp.route("/task", methods=['GET'])
 def get_all_task():
@@ -209,7 +166,27 @@ def del_question(id):
         db.session.delete(target_question)
         db.session.commit()
         return jsonify('삭제 완료')
-    
+
+# 상담 삭제 기능
+@bp.route('/delete_consulting/<int:id>', methods=['GET'])
+def delete_consulting(id):
+    result = {}
+    if request.method == 'POST':
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute('DELETE FROM consulting WHERE id=%s', (id))
+                db.commit()
+                result['status'] = 200
+                result['text'] = 'Success'
+        except Exception as e:
+            print(e)
+            result['status'] = 401
+            result['text'] = str(e)
+        finally:
+            db.close()
+        return jsonify(result)
+
 # 댓글 작성 / 조회 
 @bp.route('/comment/<int:id>/<int:is_coco>', methods=['GET','POST'])
 @authrize

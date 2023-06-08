@@ -1129,4 +1129,31 @@ async function delete_question(q_id) {
     }
 }
 
-
+// 상담 삭제 함수
+async function delete_consulting(id,category){
+    const csrf = $('#csrf_token').val();
+    var con_val = confirm('삭제 후 복구 할 수 없습니다. 정말 삭제하시겠습니까?')
+    if (con_val == true) {
+        if(category < 100){
+            alert('미학습 상담은 삭제할 수 없습니다')
+            return;
+        }
+        await $.ajax({
+            url: '/common/delete_consulting/' + id,
+            type: 'POST',
+            headers: { 'content-type': 'application/json' },
+            data: {},
+            success: function (data) {
+                if (data.status == 200) {
+                    alert(`삭제되었습니다.`)
+                    window.location.reload()
+                }else{
+                    alert(`실패 ${data.status} ${data.text}`)
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        })
+    }
+}

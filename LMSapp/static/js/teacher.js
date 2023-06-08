@@ -512,8 +512,10 @@ async function consulting_history(student_id) {
                 <td class="col-2"> ${consulting.category}</td>
                 <td class="col-2">${make_small_char(title)}</td>
                 <td class="col-2">${make_date(consulting.created_at)}</td>
-                <td class="col-5"> ${make_small_char(consulting.contents)}</td>
-                <td class="col-1" onclick ="get_student_history_detail(${consulting.id})"> <span class="cursor">🔍</span> </td>`;
+                <td class="col-4"> ${make_small_char(consulting.contents)}</td>
+                <td class="col-1" onclick ="get_student_history_detail(${consulting.id})"> <span class="cursor">🔍</span> </td>
+                <td class="col-1" onclick="delete_consulting(${consulting.id},${consulting.category_id})"> <span class="cursor">🗑️</span> </td>
+                `;
             });
             $('#consultinghistory_list').html(dataHtml);
         }
@@ -848,12 +850,14 @@ async function get_consulting_history() {
                 <td class="col-2"> ${consulting.category}</td>
                 <td class="col-2">${title}</td>
                 <td class="col-2">${make_date(consulting.created_at)}</td>
-                <td class="col-2"> ${consulting.ban_name}</td>
+                <td class="col-1"> ${consulting.ban_name}</td>
                 <td class="col-2 ${student_category}"> ${consulting.student_name} (${consulting.student_engname})</br>${student_category}</td>
                 `
                 dataHtml +=`
                 <td class="col-1"> ${consulting.origin}</td>
-                <td class="col-1" onclick ="get_consulting_history_detail(${consulting.id})"> <span class="cursor">🔍</span> </td>`;
+                <td class="col-1" onclick ="get_consulting_history_detail(${consulting.id})"> <span class="cursor">🔍</span> </td>
+                <td class="col-1" onclick="delete_consulting(${consulting.id},${consulting.category_id})"> <span class="cursor">🗑️</span> </td>
+                `;
             });
             $('#consulting_history_student_list').html(dataHtml);
         }

@@ -5,11 +5,6 @@ import datetime
 
 headers = {'content-type': 'application/json'}
 
-def json_default(value):
-    if isinstance(value, datetime.datetime):
-        return value.strftime('%Y-%m-%d')
-    raise TypeError('not serializable')
-
 def purple_info(id,url):
     result = requests.post(config.api + url, headers=headers, data=json.dumps({'data':{'id': id}}))
     result = result.json()

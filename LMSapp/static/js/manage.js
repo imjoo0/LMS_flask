@@ -516,12 +516,16 @@ async function Tcsdata() {
 
     $('.cs_inloading').show()
     $('.not_inloading').hide()
-    if (!questionData) {
+    if (!questionData){
         await get_all_question()
-        csqData = questionData.filter(q => q.category == 4)
-        Tpaginating(0) 
     }
+    csqData = questionData.filter(q => q.category == 4)
+    $('.cs_inloading').hide()
+    $('.not_inloading').show()
+    paginating(0)
     if(!CSdata){
+        $('.cs_inloading').show()
+        $('.not_inloading').hide()
         const csWorker = new Worker("../static/js/cs_worker.js");
         csWorker.postMessage('getCSdata')
         csWorker.onmessage = function (event) {
@@ -1434,25 +1438,23 @@ async function get_request_consulting() {
         callback: function (data, pagination) {
             var dataHtml = '';
             $.each(data, function (index, consulting) {
+            console.log(consulting)
             data = banData.filter(b => b.ban_id == consulting.ban_id)[0];
             consulting.ban_name = '-';
             if (data) {
                 consulting.ban_name = data.name;
             }
-            let contents = consulting.contents;
-            if (contents && contents.length > 50) {
-                contents = contents.substring(0, 40) + ' ▪️▪️▪️ ';
-            }
             dataHtml += `
             <td class="col-2">"${make_date(consulting.startdate)}" ~ <strong>"${make_date(consulting.deadline)}"</strong></td>
             <td class="col-1">${consulting.category}</td>
-            <td class="col-3">${contents}</td>
+            <td class="col-2">${make_small_char(consulting.contents)}</td>
             <td class="col-1">${consulting.ban_name}</td>
             <td class="col-1">${make_nullcate(consulting.teacher_name)} (${make_nullcate(consulting.teacher_engname)})</td>
             <td class="col-1">${make_nullcate(consulting.student_name)} (${make_nullcate(consulting.student_engname)})</td>
             <td class="col-1">${consulting.origin}</td>
             <td class="col-1">${make_reject_code(consulting.done)}</td>
-            <td class="col-1" onclick="get_consultingdetail(${consulting.id})"> <span class="cursor">🔍</span> </td>`;
+            <td class="col-1" onclick="get_consultingdetail(${consulting.id})"> <span class="cursor">🔍</span> </td>
+            <td class="col-1" onclick="delete_consulting(${consulting.id},${consulting.category_id})"> <span class="cursor">🗑️</span> </td>`;
             });
             // $('#consulting-option').html(idxHtml);
             $('#tr-row').html(dataHtml);
@@ -1550,12 +1552,15 @@ async function show_request_consulting() {
         if(selectedValue == 'none'){
             let copy_data = consultingData.slice();
             req_consultings = copy_data
-        }else if(selectedValue == 1){
-            let copy_data = consultingData.slice();
-            req_consultings = copy_data.filter(c => c.category_id <= 100);
-        }else{
+        }else if(selectedValue == 0){
             let copy_data = consultingData.slice();
             req_consultings = copy_data.filter(c => c.category_id > 100);
+        }else if(selectedValue == 1){
+            let copy_data = consultingData.slice();
+            req_consultings = copy_data.filter(c => c.category_id < 100);
+        }else{
+            let copy_data = consultingData.slice();
+            req_consultings = copy_data.filter(c => c.category_id == 100);
         }
         Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': req_consultings }))
         let category_set = new Set(req_consultings.map(c => c.category));
@@ -1630,7 +1635,6 @@ function sort_consultingoption(sortBy) {
       Object.assign(ConsultingpaginationOptions, { dataSource: req_consultings })
     );
 }
-
 function get_consultingdetail(consulting_id) {
     const consulting_history = req_consultings.filter(c=>c.id == consulting_id)[0]
     const teacher_ban_info = banData.filter(b=>b.ban_id == consulting_history.ban_id)[0]
@@ -1640,7 +1644,7 @@ function get_consultingdetail(consulting_id) {
     if(consulting_history.done == 0){
         temp_his += `
         <div class="modal-body-select-container">
-            <div class="modal-body-select-label">상담</div>
+            <div class="modal-body-select-label">✔️</div>
             <div>미진행</div>
         </div>
         `
@@ -1886,35 +1890,6 @@ async function sort_task(value) {
             $('#task-tr').html(dataHtml);
         }
     })
-}
-
-async function delete_consulting(contents, ban_id) {
-    const csrf = $('#csrf_token').val();
-    var con_val = confirm('정말 삭제하시겠습니까?')
-    if (con_val == true) {
-        await $.ajax({
-            url: '/manage/api/delete_consulting/' + contents+'/'+ban_id,
-            type: 'get',
-            headers: { 'content-type': 'application/json' },
-            data: {},
-            success: function (data) {
-                if (data.status == 200) {
-                    alert(`삭제되었습니다.`)
-                    window.location.reload()
-                }else{
-                    alert(`실패 ${data.status} ${data.text}`)
-                }
-            },
-            error: function (xhr, status, error) {
-                alert(xhr.responseText);
-            }
-        })
-    }
-}
-
-async function delete_ban_consulting(idx) {
-    const csrf = $('#csrf_token').val();
-    
 }
 async function delete_task(idx) {
     const csrf = $('#csrf_token').val();
