@@ -79,6 +79,7 @@ $(window).on('load', async function () {
             try{     
                 setIsFetching(true);
                 await get_total_data();
+                await get_students_data();
             }catch (error) {
                 alert('Error occurred while retrieving data2.');
             }finally {
@@ -107,7 +108,8 @@ $(window).on('load', async function () {
             }
         }
     } catch (error) {
-        alert('삭제된 문의 입니다.');
+        console.log(error)
+        alert(error)
     }
 });
 
@@ -781,8 +783,8 @@ async function get_question_detail(q_id, done_code) {
 
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
-    console.log(questionData)
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
+    console.log(question_detail_data)
     let contents = question_detail_data.contents.replace(/\n/g, '</br>')
     // 문의 상세 내용 
     let temp_question_list = `
@@ -814,7 +816,6 @@ async function get_question_detail(q_id, done_code) {
     <div class="modal-body-select-container">
         <div class="modal-body-select-label"><span class="modal-body-select-container-span">학생</span></div>`
     
-    console.log(studentsData.filter(s=>s.category_id == 2))
     if(question_detail_data.student_id != 0){
         student_data = studentsData.filter(s => s.student_id == question_detail_data.student_id)[0]
         temp_question_list += `<p>${student_data.student_name} ( *${student_data.student_engname} 원번: ${student_data.origin})</p>`
