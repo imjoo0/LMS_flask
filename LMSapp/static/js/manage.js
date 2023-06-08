@@ -1115,17 +1115,6 @@ async function uldata() {
 
 // 업무 요청 관련 함수 
 async function request_task() {
-    try {
-        const response = await $.ajax({
-            type: "GET",
-            url: "/common/all_ban_students_data",
-            dataType: 'json',
-            data: {},
-        });
-        
-    } catch (error) {
-        alert('Error occurred while retrieving data.');
-    }
     $('#taskban_search_input').off('keyup');
     $('.mo_inloading').show()
     $('.monot_inloading').hide()

@@ -278,6 +278,7 @@ def get_consulting_history(student_id):
             db.close()
 
         return json.dumps(all_consulting)
+
 @bp.route('/api/get_task', methods=['GET'])
 def get_task():
     if request.method == 'GET':
@@ -358,15 +359,17 @@ def make_task():
         received_task_cycle = request.form['task_cycle']
         task_yoil = ''
         if(received_task_cycle == 1):
-            task_yoil = '월요일'
+            task_yoil = '월요일 업무'
         elif(received_task_cycle == 2):
-            task_yoil = '화요일'
+            task_yoil = '화요일 업무'
         elif(received_task_cycle == 3):
-            task_yoil = '수요일'
+            task_yoil = '수요일 업무'
         elif(received_task_cycle == 4):
-            task_yoil = '목요일'
+            task_yoil = '목요일 업무'
         elif(received_task_cycle == 5):
-            task_yoil = '금요일'
+            task_yoil = '금요일 업무'
+        else:
+            task_yoil = '주기 무관 업무'
         task = Task(category_id=received_category,contents=received_task,startdate=received_task_startdate,deadline=received_task_deadline,priority=received_task_priority,cycle=received_task_cycle)
         db.session.add(task)
         db.session.commit()
@@ -380,8 +383,6 @@ def make_task():
                 teacher_id=int(task_data[1])
                 new_task = TaskBan(ban_id=int(task_data[0]),teacher_id=teacher_id, task_id=task.id ,done=0)
                 db.session.add(new_task)
-                db.session.commit()
-
                 teacher_mobile_no = User.query.filter(User.id == teacher_id).first().mobileno
                 post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
                 data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
@@ -389,7 +390,7 @@ def make_task():
                     'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '반이름':task_data[2], '업무내용': received_task,'요일':task_yoil, '마감기한': received_task_deadline}, }, ], }
                 headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
                 http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
-
+                db.session.commit()
         # 전체 반이 선택 된 경우
         else:
             # 전체 반에 진행 
@@ -409,14 +410,13 @@ def make_task():
             for target in targets:
                 new_task = TaskBan(ban_id=target['ban_id'],teacher_id=target['teacher_id'], task_id=task.id ,done=0)
                 db.session.add(new_task)
+                post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
+                data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
+                    'templateCode': "task_cs",
+                    'recipientList': [{'recipientNo':target['mobileno'], 'templateParameter': { '반이름':target['ban_name'], '업무내용': received_task,'요일':task_yoil, '마감기한': received_task_deadline}, }, ], }
+                headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
+                http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
                 db.session.commit()
-                if(received_task_startdate <= Today and (target['mobileno'] != "입력 바랍니다" or target['mobileno'] != "000-0000-0000")):
-                    post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
-                    data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
-                        'templateCode': "task_cs",
-                        'recipientList': [{'recipientNo':target['mobileno'], 'templateParameter': { '반이름':target['ban_name'], '업무내용': received_task,'요일':task_yoil, '마감기한': received_task_deadline}, }, ], }
-                    headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
-                    http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
         return redirect('/manage')
 
 # 상담 요청  
@@ -471,7 +471,6 @@ def request_ban_student(b_id,t_id,b_name):
 @bp.route("/consulting/<int:b_id>/<int:t_id>/<int:s_id>/", methods=['POST'])
 def request_indivi_student(b_id,t_id,s_id):
     if request.method == 'POST':
-        post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
         #  상담 카테고리 저장
         received_consulting_category = request.form['consulting_category']
         #  상담 내용 저장
@@ -484,18 +483,22 @@ def request_indivi_student(b_id,t_id,s_id):
         student_name = request.form['student_name']
         student_engname = request.form['student_engname']
         origin = request.form['origin']
+        teacher_mobile_no = User.query.filter(User.id == t_id).first().mobileno
+        print(teacher_mobile_no)
+
         new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=s_id,student_name=student_name,student_engname=student_engname,origin=origin,contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
         db.session.add(new_consulting)
-        db.session.commit()
-        teacher_mobile_no = User.query.filter(User.id == t_id).first().mobileno
         post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
         data_sendkey = {
             'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
             'templateCode': "consulting_cs",
             'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '원번':origin, '원생이름': student_name, '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], 
-            }
+        }
         headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
         http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
+        print(http_post_requests)
+        db.session.commit()
+        
         return jsonify({'result':'success'})
    
 # 전체 반에 상담 요청 저장
