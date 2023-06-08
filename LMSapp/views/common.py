@@ -63,42 +63,19 @@ def put_user(u):
 def get_ban():
     if request.method == 'GET':
         all_ban = callapi.purple_allinfo('get_all_ban_online')
-        students = callapi.purple_allinfo('get_all_ban_student')
-        return jsonify({'all_ban':all_ban,'students': students})
+        return jsonify({'all_ban':all_ban})
 
-@bp.route("/get_student_reports", methods=['GET'])
-def get_student_reports():
-    if request.method == 'GET':
-        reports = callapi.purple_allinfo('get_student_reports')
-        return jsonify({'reports':reports})
-    
 @bp.route("/all_students", methods=['GET'])
 def get_all_students():
     if request.method == 'GET':
-        students = callapi.purple_allinfo('get_all_ban_student')
+        students = callapi.purple_allinfo('get_all_student_online')
+        # students = callapi.purple_allinfo('get_all_ban_student')
         return jsonify({'students':students})
-
-@bp.route("/consulting", methods=['GET'])
-def get_all_consulting():
-    if request.method == 'GET':
-        consulting = []
-        # consulting_history = callapi.purple_allinfo('get_all_consulting_history') 
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                cur.execute(f"SELECT consulting.id, consulting.teacher_id, user.eng_name as teacher_engname,user.name as teacher_name,user.mobileno as teacher_mobileno, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id AS category_id, consulting.week_code, consultingcategory.name AS category,consulting.student_name,consulting.student_engname,consulting.origin, consulting.contents, DATE_FORMAT(consulting.startdate, '%Y-%m-%d') AS startdate, DATE_FORMAT(consulting.deadline, '%Y-%m-%d') AS deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result, (SELECT COUNT(*) FROM consulting WHERE (category_id < 100 && consulting.startdate <= curdate())) AS total_unlearned_consulting FROM consulting LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id LEFT JOIN user ON consulting.teacher_id = user.id;")
-                consulting = cur.fetchall()
-
-        except:
-                print('err')
-        finally:
-                db.close()        
-        return jsonify({'consulting':consulting})
-       
+ 
 @bp.route("/consulting_chunk", methods=['GET'])
-def get_paginated_consulting():
+def get_consulting_chunk():
     if request.method == 'GET':
-        page = request.args.get('page', default=1, type=int)  # 클라이언트에서 전달한 페이지 번호
+        page = request.args.get('page', default=1, type=int)  # 클라이언트에서 전달한 페이지 번호 2
         page_size = request.args.get('page_size', default=10000, type=int)  # 클라이언트에서 전달한 페이지 크기
         offset = (page - 1) * page_size  # 오프셋 계산
         consulting = []
@@ -113,7 +90,7 @@ def get_paginated_consulting():
                 total_count = result['total_count']
 
                 # 페이징된 데이터 조회
-                cur.execute(f"SELECT consulting.id, consulting.teacher_id, user.eng_name as teacher_engname, user.name as teacher_name, user.mobileno as teacher_mobileno, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id AS category_id, consulting.week_code, consultingcategory.name AS category, consulting.student_name, consulting.student_engname, consulting.origin, consulting.contents, consulting.startdate AS startdate, consulting.deadline AS deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result, (SELECT COUNT(*) FROM consulting WHERE (category_id < 100 && consulting.startdate <= curdate())) AS total_unlearned_consulting FROM consulting LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id LEFT JOIN user ON consulting.teacher_id = user.id ORDER BY consulting.startdate DESC LIMIT %s, %s;", (offset, page_size))
+                cur.execute(f"SELECT consulting.id, consulting.teacher_id, user.eng_name as teacher_engname, user.name as teacher_name, user.mobileno as teacher_mobileno, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id AS category_id, consulting.week_code, consultingcategory.name AS category, consulting.student_name, consulting.student_engname, consulting.origin, consulting.contents, consulting.startdate AS startdate, consulting.deadline AS deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result FROM consulting LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id LEFT JOIN user ON consulting.teacher_id = user.id ORDER BY consulting.startdate DESC LIMIT %s, %s;", (offset, page_size))
                 consulting = cur.fetchall()
 
         except Exception as e:
@@ -229,3 +206,65 @@ def comment(u,id,is_coco):
         db.session.add(new_comment)
         db.session.commit()
         return jsonify({'result': '댓글 작성 완료'})
+
+# without callapi
+# import datetime
+# import traceback
+# from sshtunnel import SSHTunnelForwarder
+# @bp.route("/all_ban_students_data", methods=['GET'])
+# def get_all_ban_students_data():
+#     if request.method == 'GET':
+#         data_list = []
+#         with SSHTunnelForwarder(
+#                 ('15.164.36.206'),
+#                 ssh_username="ec2-user",
+#                 ssh_pkey="D:/privatekey/purple_academy_privkey.pem",
+#                 remote_bind_address=('purple-lms-mariadb-1.cdpnol1tlujr.ap-northeast-2.rds.amazonaws.com', 3306)
+#         )as tunnel:
+#             db = pymysql.connect(
+#                 host='127.0.0.1', user="readonly",
+#                 password="purpledbreadonly12!@", port=tunnel.local_bind_port, database='purple-lms',
+#                 cursorclass=pymysql.cursors.DictCursor,
+#             )
+#             try:
+#                 with db.cursor() as cur:
+#                     # semester 계산기 
+#                     # cur.execute("select class.name_numeric") 
+#                     cur.execute("select staff.id, staff.name as eng_name, staff.name_kor as name, staff.staff_id as user_id,SHA2(staff.staff_id, 256) as user_pw, staff.mobileno,staff.email,staff.department as category from staff where staff.id = 366;")
+#                     data_list = cur.fetchall().copy()
+#                     print(data_list)
+                        
+#             except:
+#                 print("fail 1")
+#             finally:
+#                 db.close()
+
+#         db=pymysql.connect(
+#                 host='purpleacademy.net', user="purple",
+#                 password="wjdgus00", port=3306, database='LMS',
+#                 cursorclass=pymysql.cursors.DictCursor,
+#             )
+
+#         try:
+#             with db.cursor() as cur:
+#                 print('데이터 저장 진행 중 ')
+
+#                 # sql = "insert into user(id,user_id,user_pw,name,eng_name,mobileno,email,category)" \
+#                 #     " values (%(id)s, %(user_id)s, %(user_pw)s,%(name)s, %(eng_name)s, %(mobileno)s, %(email)s, %(category)s);"
+
+#                 # cur.executemany(sql, data_list)
+
+#                 # db.commit()
+#         except:
+#             print(traceback.format_exc())
+#             print("fail 2")
+
+#         finally:
+#             db.close()
+
+
+@bp.route("/get_student_reports", methods=['GET'])
+def get_student_reports():
+    if request.method == 'GET':
+        reports = callapi.purple_allinfo('get_student_reports')
+        return jsonify({'reports':reports})

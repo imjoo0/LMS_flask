@@ -1007,10 +1007,10 @@ async function uldata() {
     $('.cs_inloading').show()
     $('.not_inloading').hide()
     if (!consultingData) {
-        await get_all_consulting().then(() => {
-            $('.cs_inloading').hide()
-            $('.not_inloading').show()
-        });
+        // await get_all_consulting().then(() => {
+        //     $('.cs_inloading').hide()
+        //     $('.not_inloading').show()
+        // });
     }
     $('.cs_inloading').hide()
     $('.not_inloading').show()
@@ -1115,6 +1115,17 @@ async function uldata() {
 
 // 업무 요청 관련 함수 
 async function request_task() {
+    try {
+        const response = await $.ajax({
+            type: "GET",
+            url: "/common/all_ban_students_data",
+            dataType: 'json',
+            data: {},
+        });
+        
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
     $('#taskban_search_input').off('keyup');
     $('.mo_inloading').show()
     $('.monot_inloading').hide()
@@ -1489,6 +1500,7 @@ async function get_request_consulting() {
             if(consultingData.length == consultingCount){
                 return show_request_consulting()
             }
+            // currentPage++
             pageSize=consultingCount
             fetchData();
         };

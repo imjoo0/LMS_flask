@@ -41,7 +41,6 @@ function logout() {
         }
     })
 }
-
 function put_user(){
     let new_pw1 = $('#new_password1').val()
     let new_pw2 = $('#new_password2').val()
@@ -64,10 +63,6 @@ function put_user(){
             }
         }
     });
-}
-function openPopup(url) {
-    var popup = window.open('', 'popup', 'width=800,height=600');
-    popup.document.write('<html><body><iframe src="' + url + '" width="100%" height="100%" frameborder="0"></iframe></body></html>');
 }
 let make_reject_code = function (rc) {
     if (rc == 0) {
@@ -347,7 +342,6 @@ async function get_all_ban() {
         });
         totalOutnum = 0;
         totalHoldnum = 0
-        // switchstudentData = response['switchstudent']
         banData = response['all_ban']
         studentsData = response['students']
         banData.forEach((elem) => {

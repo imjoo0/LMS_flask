@@ -930,7 +930,7 @@ async function get_consulting_history_detail(c_id) {
         `
     }
     temp_his = `
-    <div class="d-flex flex-column justify-content-start py-3">
+    <div class="d-flex flex-column justify-content-start py-3" style="font-size:1.25rem;">
         ${category}
     </div>
     <div class="d-flex flex-column justify-content-start py-3">

@@ -5,6 +5,11 @@ import datetime
 
 headers = {'content-type': 'application/json'}
 
+def json_default(value):
+    if isinstance(value, datetime.datetime):
+        return value.strftime('%Y-%m-%d')
+    raise TypeError('not serializable')
+
 def purple_info(id,url):
     result = requests.post(config.api + url, headers=headers, data=json.dumps({'data':{'id': id}}))
     result = result.json()
@@ -19,16 +24,6 @@ def purple_ban(id,url):
     result = requests.post(config.api + url, headers=headers, data=json.dumps({'data':{'id': id}}))
     result = result.json()
     if(len(result)>0):
-        return result
-    else:
-        return False
-
-def purple_allinfo(url):
-    result = requests.post(config.api + url, headers=headers, data=json.dumps({'data':{}}))
-    result = result.json()
-    if(len(result) > 0):
-        if(len(result) == 1):
-            result = result[0]
         return result
     else:
         return False
@@ -70,3 +65,13 @@ def call_api(id,url):
     result = requests.post(config.api + url, headers=headers, data=json.dumps({'data':{'id': id}}))
     result = result.json()
     return result
+    
+def purple_allinfo(url):
+    result = requests.post(config.api + url, headers=headers, data=json.dumps({'data':{}}))
+    result = result.json()
+    if(len(result) > 0):
+        if(len(result) == 1):
+            result = result[0]
+        return result
+    else:
+        return False
