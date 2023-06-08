@@ -123,12 +123,8 @@ async function home(){
     // 업무 관리 
     let today_task_num = Tall_task.length
     // 상담 목록
-    console.log(Tall_consulting)
-    let test = Tall_consulting.filter(t=>t.category_id > 100 && t.done == 0)
-    console.log(test)
     let taskConsultingsData = Tall_consulting.length > 0 ? Tall_consulting.filter(consulting => (consulting.category_id > 100) &&( (consulting.done == 1 && new Date(consulting.created_at).setHours(0, 0, 0, 0) === today)||(consulting.done == 0) )) : []; 
     let today_taskconsulting_num = taskConsultingsData.length;
-    console.log(taskConsultingsData)
     let total_task_num = today_task_num + today_taskconsulting_num
     let temp_report = ''
     if (total_task_num == 0){
