@@ -521,7 +521,6 @@ async function consulting_history(student_id) {
         }
     }
     consultingStudent_target_list = Tall_consulting.filter(c => c.done == 1 && c.student_id == student_id)
-    console.log(consultingStudent_target_list)
     if (consultingStudent_target_list.length > 0) {
         consultingStudent_target_list.sort((a,b)=>a.created_at-b.created_at)
         let category_set = new Set(consultingStudent_target_list.map(c => c.category));
