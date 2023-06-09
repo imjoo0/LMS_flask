@@ -47,7 +47,7 @@ async function get_all_taskcate() {
     }
 }
 // 처음 get 할때 뿌려질 정보 보내는 함수 
-$(document).ready(function () {
+$(document).ready(async function () {
     $('.nav-link').on('click', function () {
         $('.nav-link').removeClass('active');
         $(this).addClass('active');
@@ -78,33 +78,158 @@ $(window).on('load', async function () {
         if(!getIsFetching()){
             try{     
                 setIsFetching(true);
-                await get_total_data();
-                await get_students_data();
-            }catch (error) {
-                alert('Error occurred while retrieving data2.');
-            }finally {
-                setIsFetching(false);
                 let q_type =  getParameter("q_type");
                 let q_id = getParameter("q_id");
-                if(q_id!=="" && q_type!==""){
-                    if(q_type== 1 ||  q_type==2){                        
-                        await sodata();
-                    }else if(q_type== 0){
-                        await csdata();
-                    }else if(q_type== 5){
-                        await inTdata();
-                    }else if(q_type== 4){
-                        await Tcsdata();
-                    }
-                    $("#soanswer").modal("show");
+                if(q_id !== "" && q_type !== ""){
                     const response = await $.ajax({
                         url: `is_it_done/${q_id}`,
                         type: 'GET',
                         dataType: 'json',
                         data: {},
                     })
-                    get_question_detail(Number(q_id),response.is_done);
+                    let target_question = response.target_question
+                    let target_bandata = response.target_bandata
+                    $("#soanswer").modal("show");
+                    $('.cs_inloading').show()
+                    $('.not_inloading').hide()
+                    $('.cs_inloading').hide()
+                    $('.not_inloading').show()
+                    $('#consulting_history_attach').hide()
+                    $('#manage_answer').hide()
+                    let question_detail_data = target_question['question'][0]
+                    let contents = question_detail_data.contents.replace(/\n/g, '</br>')
+                    let temp_question_list = `
+                    <div class="modal-body-select-container">
+                        <div class="modal-body-select-label"><span class="modal-body-select-container-span">제목</span></div>
+                        <div>${question_detail_data.title}</div>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <div class="modal-body-select-label"><span class="modal-body-select-container-span">작성일</span></div>
+                        <div>${make_hours(question_detail_data.create_date)}</div>
+                    </div>
+                    <div class="modal-body-select-container" style="padding: 12px 0">
+                        <div class="modal-body-select-label"><span class="modal-body-select-container-span">문의 종류</span></div>
+                        <div class="w-25">${q_category(question_detail_data.category)}</div>
+                        <div class="modal-body-select-label"><span class="modal-body-select-container-span">문의 변경</span></div>
+                        <select id="question_kind" class="modal-body-select w-25">
+                            <option value="none" selected>변경X</option>
+                            <option value=0>일반 문의</option>
+                            <option value=5>내근티처 문의</option>
+                            <option value=4>기술지원 문의</option>
+                            <option value=2>이반 요청</option>
+                            <option value=1>퇴소 요청</option>
+                        </select>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <div class="modal-body-select-label"><span class="modal-body-select-container-span">대상 반</span></div>
+                        <div>${target_bandata[0].ban_name} ➖ 담임 T : ${question_detail_data.teacher_engname}  ( ${question_detail_data.teacher_name} )</div>
+                    </div>
+                    <div class="modal-body-select-container">
+                        <div class="modal-body-select-label"><span class="modal-body-select-container-span">학생</span></div>`
+                    if(question_detail_data.student_id != 0){
+                        let student_data = target_bandata.filter(s => s.student_id == question_detail_data.student_id)[0]
+                        temp_question_list += `<p>${student_data.first_name} ( *${student_data.nick_name} 원번: ${student_data.register_no})</p>`
+                    }
+                    else{
+                        temp_question_list += `<div>특정 원생 선택 없음</div>`
+                    }
+                    temp_question_list += `
+                        </div>
+                        <div class="d-flex flex-column justify-content-start py-3">
+                            <div class="modal-body-select-label"><span class="modal-body-select-container-span">첨부파일</span></div>
+                    `
+                    let attach = target_question['attach']
+                    if(attach.length != 0){
+                        attach.forEach((a)=>{
+                            temp_question_list +=`<a class="pt-3 px-3" href="/common/downloadfile/question/${q_id}/attachment/${a.id}" download="${a.file_name}">${a.file_name}</a>`
+                        })
+                    }else{
+                        temp_question_list +=`<div class="pt-3 px-2">첨부 파일 없음</div>`
+                    }
+                    temp_question_list += 
+                    `
+                        </div>
+                        <div class="d-flex flex-column justify-content-start py-3">
+                            <div class="modal-body-select-label"><span class="modal-body-select-container-span">내용</span></div>
+                            <div class="mt-4 ps-2">${contents}</div>
+                        </div>
+                    `
+                    $('#teacher_question').html(temp_question_list);
+                    let temp_his = `<div> 상담내역이 없습니다 </div>`;
+                    let category = ''
+                    if(question_detail_data.consulting_history){
+                        let solution = question_detail_data.solution.replace(/\n/g, '</br>')
+                        if (question_detail_data.consulting_categoryid < 100) {
+                            category = `${question_detail_data.week_code}주간 ${question_detail_data.consulting_category}상담`
+                        } else {
+                            category = `${question_detail_data.consulting_category} ${question_detail_data.consulting_category}`
+                        }
+                        temp_his = `
+                        <div class="modal-body-select-container">
+                            <div class="modal-body-select-label align-items-start"><span class="modal-body-select-container-span">상담 종류</span></div>
+                            <div style="width:16.666%; margin-right:20px;">${category}</div>
+                            <div class="modal-body-select-label align-items-start"><span class="modal-body-select-container-span">상담 사유</span></div>
+                            <div style="width:16.666%; margin-right:20px;">${question_detail_data.reason}</div>
+                            <div class="modal-body-select-label align-items-start"><span class="modal-body-select-container-span">상담 일시</span></div>
+                            <div style="width:16.666%; margin-right:20px;">${make_date(question_detail_data.created_at)}</div>
+                        </div>
+                        <div class="d-flex flex-column py-3">
+                            <div class="modal-body-select-label mt-3"><span class="modal-body-select-container-span">제공 가이드</span></div>
+                            <div class="mt-3 px-2">${solution}</div>
+                        </div>
+                        `;
+                        $('#cha').html(temp_his);
+                        $('#consulting_history_attach').show()
+                    }
+                    if (question_detail_data.answer == 0) {
+                        if (question_detail_data.category == 2){
+                            let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
+                            banData.forEach(ban_data => {
+                                let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}`;
+                                let selectmsg = `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
+                                temp_o_ban_id += selectmsg
+                            });
+                            $('#o_ban_id2').html(temp_o_ban_id)
+                            $('#manage_answer_2').show()
+                            $('#manage_answer_3').hide()
+                        }else{
+                            $('#manage_answer_2').hide()
+                            $('#manage_answer_3').show()
+                        }
+                        $('#teacher_answer').hide()
+                        $('#manage_answer').show()
+                        $('#manage_answer_1').show()
+                        $('#manage_answer_2').hide()
+                        $('#manage_answer_3').hide()
+                        $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category},${0})">저장</button>`);
+                    } else {
+                        $('#manage_answer').hide()
+                        let answer_data = target_question['answer'][0]
+                        let temp_answer_list = `
+                        <div class="modal-body-select-container">
+                            <div class="modal-body-select-label"><span class="modal-body-select-container-span">답변자</span></div>
+                            <div class="w-25">${make_nullcate(answer_data.writer)}</div>
+                            <div class="modal-body-select-label"><span class="modal-body-select-container-span">응답일</span></div>
+                            <div class="w-25">${make_date(answer_data.created_at)}</div>
+                        </div>
+                        <div class="d-flex flex-column justify-content-start py-3">
+                            <div class="modal-body-select-label"><span class="modal-body-select-container-span">내용</span></div>
+                            <textarea class="modal-body-select w-100 mt-3" type="text" rows="15" cols="25"
+                            id="answer_content_modi">${answer_data.content}</textarea>
+                        </div>
+                        `;
+                        $('#teacher_answer').html(temp_answer_list);
+                        $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category},${1})">수정</button>`);
+                        $('#teacher_answer').show()
+                    }
+                    
+                    await get_total_data()
                 }
+                
+            }catch (error) {
+                alert('Error occurred while retrieving data2.');
+            }finally {
+                setIsFetching(false);
             }
         }
     } catch (error) {
@@ -784,7 +909,6 @@ async function get_question_detail(q_id, done_code) {
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
     question_detail_data = questionData.filter(q => q.id == q_id)[0]
-    console.log(question_detail_data)
     let contents = question_detail_data.contents.replace(/\n/g, '</br>')
     // 문의 상세 내용 
     let temp_question_list = `
@@ -1301,7 +1425,6 @@ function show_selections() {
         // bid+tid+bname+sid+sname
         if(selectedStudentList[i].includes('_')){
             var value = selectedStudentList[i].split('_')
-            console.log(value)
             if(value.length > 3){
                 selectedOptions += `
                 <td class="col-4">${value[2]}</td>
@@ -1392,7 +1515,6 @@ function post_consulting_request() {
             indivi_student_selections.forEach(value => {
                 v = String(value).split('_')
                 s_info = studentsData.filter(a => a.student_id ==  Number(v[3]))[0]
-                console.log(s_info)
                 const promise = $.ajax({
                     type: "POST",
                     url: '/manage/consulting/' + v[0] + '/' + v[1] + '/' + v[3]+ '/',
@@ -1441,7 +1563,6 @@ async function get_request_consulting() {
         callback: function (data, pagination) {
             var dataHtml = '';
             $.each(data, function (index, consulting) {
-            console.log(consulting)
             data = banData.filter(b => b.ban_id == consulting.ban_id)[0];
             consulting.ban_name = '-';
             if (data) {

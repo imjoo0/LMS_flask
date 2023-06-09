@@ -470,6 +470,30 @@ async function get_students_data() {
         alert('Error occurred while retrieving data.');
     }
 }
+async function get_cs_data() {
+    try {
+        if(!CSdata){
+            const csWorker = new Worker("../static/js/cs_worker.js");
+            const message = new Promise((resolve, reject) => {
+                csWorker.onmessage = function (event) {
+                    resolve(event.data.all_cs_data);
+                    resolve(event.data.question);
+                    resolve(event.data.answer);
+                    resolve(event.data.attach);
+                };
+                csWorker.onerror = function (error) {
+                    reject(error);
+                };
+
+            });
+            csWorker.postMessage('getCSdata');
+            CSdata = await message;
+            console.log(CSdata)
+        }
+    } catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
+}
 async function get_total_data() {
     $('#semester').hide();
     $('#detailban').show();
@@ -480,10 +504,11 @@ async function get_total_data() {
     $('#ulbox').hide()
     $('#target_ban_info_body').hide()
     try {
+        get_students_data()
+        get_cs_data()
         if(!banData){
             $('#inloading').show()
             $('#semester_pagination').hide()
-            
             await get_all_ban().then(() => {
                 total_student_num = Number(banData[0].total_student_num)
                 // switchstudent_num = switchstudentData.length
@@ -620,7 +645,6 @@ async function get_total_data() {
                 $('#semester_pagination').show();
                 $('#target_ban_info_body').show();
             })
-              
         }
     } catch (error) {
         alert('Error occurred while retrieving data.');

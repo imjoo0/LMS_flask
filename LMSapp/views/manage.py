@@ -121,7 +121,27 @@ def q_kind(id):
 @bp.route('/is_it_done/<int:id>', methods=['GET'])
 def is_it_done(id):
     if request.method == 'GET':
-        target_question = Question.query.get_or_404(id)
+        target_question = {}
+        
+        q = Question.query.get_or_404(id)
+        target_bandata = callapi.purple_info(q.ban_id,'get_target_students')
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute('select user.eng_name as teacher_engname,user.name as teacher_name, question.category,question.id,question.title,question.contents,question.teacher_id,question.ban_id,question.student_id,question.create_date,question.answer,question.consulting_history,question.mobileno,consulting.solution,consulting.contents as consulting_contents,consulting.reason,consulting.week_code,consultingcategory.name as consulting_category,consulting.category_id as consulting_categoryid,consulting.created_at as created_at from LMS.question left join user on question.teacher_id = user.id  left join consulting on question.consulting_history = consulting.id left join consultingcategory on consulting.category_id = consultingcategory.id where question.id = %s;', (id))
+                target_question['question'] = cur.fetchall()
+
+                cur.execute('SELECT user.eng_name as writer, answer.title,answer.content,answer.created_at,answer.reject_code,answer.question_id FROM LMS.answer left join question on answer.question_id =question.id left join user on user.id = answer.writer_id where question.id = %s;', (id))
+                target_question['answer'] = cur.fetchall()
+
+                cur.execute('select question_id,file_name,id from attachment where attachment.question_id = %s;', (id))
+                target_question['attach'] = cur.fetchall()
+
+        except Exception as e:
+            print(e)
+        finally:
+            db.close()
+        return jsonify({'target_question':target_question,'target_bandata':target_bandata})
         is_done = target_question.answer
         return jsonify({'is_done':is_done})
       
