@@ -117,12 +117,10 @@ def q_kind(id):
             print(e)
         return jsonify({'result': '문의 종류 수정 완료'})
       
-
-@bp.route('/is_it_done/<int:id>', methods=['GET'])
-def is_it_done(id):
+@bp.route('/modal_question/<int:id>', methods=['GET'])
+def modal_question(id):
     if request.method == 'GET':
         target_question = {}
-        
         q = Question.query.get_or_404(id)
         target_bandata = callapi.purple_info(q.ban_id,'get_target_students')
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
@@ -142,8 +140,25 @@ def is_it_done(id):
         finally:
             db.close()
         return jsonify({'target_question':target_question,'target_bandata':target_bandata})
-        is_done = target_question.answer
-        return jsonify({'is_done':is_done})
+ 
+@bp.route('/is_it_done/<int:id>', methods=['GET'])
+def is_it_done(id):
+    if request.method == 'GET':
+        q = Question.query.get_or_404(id)
+        target_answer = []
+        if(q.answer == 1):
+            db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+            try:
+                with db.cursor() as cur:
+                    cur.execute('SELECT user.eng_name as answerer, answer.title,answer.content as answer_contents,answer.created_at,answer.reject_code,answer.question_id,question.category FROM LMS.answer left join question on answer.question_id =question.id left join user on user.id = answer.writer_id where question.id = %s;', (id))
+                    target_answer = cur.fetchall()
+
+            except Exception as e:
+                print(e)
+            finally:
+                db.close()
+        return jsonify({'target_answer':target_answer})
+        
       
 @bp.route("/qa", methods=['GET'])
 def get_sodata():

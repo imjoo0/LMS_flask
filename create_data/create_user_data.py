@@ -20,7 +20,7 @@ with SSHTunnelForwarder(
         with db.cursor() as cur:
             # semester 계산기 
             # cur.execute("select class.name_numeric") 
-            cur.execute("select staff.id, staff.name as eng_name, staff.name_kor as name, staff.staff_id as user_id,SHA2(staff.staff_id, 256) as user_pw, staff.mobileno,staff.email,staff.department as category from staff where staff.id = 366;")
+            cur.execute("select staff.id, staff.name as eng_name, staff.name_kor as name, staff.staff_id as user_id,SHA2(staff.staff_id, 256) as user_pw, staff.mobileno,staff.email,staff.department as category from staff where staff.id = 348;")
             data_list = cur.fetchall().copy()
                 
     except:
