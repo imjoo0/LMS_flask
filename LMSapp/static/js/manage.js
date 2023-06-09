@@ -82,7 +82,7 @@ $(window).on('load', async function () {
                 let q_id = getParameter("q_id");
                 if(q_id !== "" && q_type !== ""){
                     const response = await $.ajax({
-                        url: `is_it_done/${q_id}`,
+                        url: `modal_question/${q_id}`,
                         type: 'GET',
                         dataType: 'json',
                         data: {},
@@ -1068,17 +1068,55 @@ async function get_cs_detail(q_id) {
     $('#teacher_answer').show()
 }
 // 본원 답변 기능 
-function post_answer(q_id, category,done_code) {
+async function post_answer(q_id, category,done_code) {
     let q_kind = $('#question_kind').val()
     if(q_kind == 'none'){
         if(done_code == 0){
-            // 저장의 경우 
-            answer_contents = $('#answer_contents').val()
-            o_ban_id = 0
-            if(category == 2) {
-                o_ban_id = Number($('#o_ban_id2').val().split('_')[0])
-            }else if(category == 3 || category == 1){
-                o_ban_id = $('#o_ban_id').val()
+            const response = await $.ajax({
+                type: "GET",
+                url: "/manage/is_it_done/"+q_id,
+                dataType: 'json',
+                data: {},
+            });
+            let target_answer = response['target_answer']
+            if(target_answer.length > 0){
+                target_answer = target_answer[0]
+                let answerer = make_nullcate(target_answer.answerer)
+                alert(answerer+'(이)가 이미 응답한 문의 입니다')
+                
+                $('#manage_answer').hide()
+                let temp_answer_list = `
+                <div class="modal-body-select-container">
+                    <div class="modal-body-select-label"><span class="modal-body-select-container-span">답변자</span></div>
+                    <div class="w-25">${answerer}</div>
+                    <div class="modal-body-select-label"><span class="modal-body-select-container-span">응답일</span></div>
+                    <div class="w-25">${make_date(target_answer.created_at)}</div>
+                </div>
+                <div class="d-flex flex-column justify-content-start py-3">
+                    <div class="modal-body-select-label"><span class="modal-body-select-container-span">내용</span></div>
+                    <textarea class="modal-body-select w-100 mt-3" type="text" rows="15" cols="25"
+                    id="answer_content_modi">${target_answer.answer_contents}</textarea>
+                </div>
+                `;
+                $('#teacher_answer').html(temp_answer_list);
+                $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${target_answer.category},${1})">수정</button>`);
+                $('#teacher_answer').show()
+                // var con_val = confirm('수정하시겠습니까?')
+                // if (con_val == true) {
+                //     post_answer(q_id,target_answer.category,1);
+                // }else{
+                //     return
+                // }
+                return
+            }else{
+                // 정상 저장의 경우 
+                answer_contents = $('#answer_contents').val()
+                o_ban_id = 0
+                if(category == 2) {
+                    o_ban_id = Number($('#o_ban_id2').val().split('_')[0])
+                }else if(category == 3 || category == 1){
+                    o_ban_id = $('#o_ban_id').val()
+                }
             }
         }else{
             // 수정의 경우
