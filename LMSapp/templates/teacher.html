@@ -49,9 +49,9 @@
             <div class="modal-body py-4 px-5">
                 <div enctype="multipart/form-data">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
-                    <div class="modal-body-select-container">
-                        <span class="modal-body-select-label">문의 종류</span>
-                        <select id="question_kind" class="modal-body-select" name="question_category"
+                    <div class="modal-body-select-container" >
+                        <div class="modal-body-select-label" style="width:fit-content;"><span class="modal-body-select-container-span" style="padding:6px 12px;">문의 종류</span></div>
+                        <select id="question_kind" class="modal-body-select w-50 m-3" name="question_category"
                             onchange="change_question_kind(this.value)">
                             <option value="none" selected>문의 종류를 선택해주세요</option>
                             <option value=0>일반 문의</option>
@@ -61,42 +61,33 @@
                             <option value=1>퇴소 승인 요청</option>
                         </select>
                     </div>
+                    
                     <div id="question_topurple">
-                        <div class="modal-body-select-container">
-                            <span class="modal-body-select-label">대상 반</span>
-                            <select class="modal-body-select" name="ban_id" onchange="get_ban_student(this.value)"
-                                id="my_ban_list">
+                        <div class="modal-body-select-container" >
+                            <div class="modal-body-select-label" style="width:fit-content;"><span class="modal-body-select-container-span" style="padding:6px 12px;">대상 반</span></div>
+                            <select id="my_ban_list" class="modal-body-select w-50 m-3" name="ban_id" onchange="get_ban_student(this.value)">
                             </select>
                             <p class="error_msg_alert" id="error_msg_bansel"> 🔻 대상 반 선택은 필수 입니다 </p>
                         </div>
-                        <div id="question_box">
-
+                        <div class="modal-body-select-container" id="question_box">
+    
                         </div>
-                        <div class="modal-body-select-container">
-                            <span class="modal-body-select-label">문의 제목</span>
-                            <input class="modal-body-select modal-body-select-100" type="text" size="50"
-                                id="question_title">
-                        </div>
-                        <div class="modal-body-select-container">
-                            <span class="modal-body-select-label">문의 내용</span>
-                            <textarea id="question_contents" class="modal-body-select modal-body-select-100" type="text"
-                                rows="5" cols="25"></textarea>
-                        </div>
+                        <div class="modal-body-select-label" style="width:fit-content;"><span class="modal-body-select-container-span" style="padding:6px 12px;">문의 제목</span></div>
+                        <input class="modal-body-select w-100 m-3" type="text" id="question_title" placeholder="상담의 구분이 가능한 제목을 입력해주세요">
+                        <div class="modal-body-select-label" style="width:fit-content;"><span class="modal-body-select-container-span" style="padding:6px 12px;">문의 내용</span></div>
+                        <textarea class="modal-body-select w-100 m-3" type="text" rows="5" cols="25" id="question_contents" placeholder="문의 내용을 작성해 주세요"></textarea>        
                         <div class="modal-body-select-container"style="display:none">
                             <span class="modal-body-select-label" >선생님 핸드폰 번호</span>
                             <input class="modal-body-select modal-body-select-100" type="text" 
-                                   id="teacher_mobileno" value="{{ user['mobileno'] }}" placeholder="{{user['mobileno'] }}">
+                                    id="teacher_mobileno" value="{{ user['mobileno'] }}" placeholder="{{user['mobileno'] }}">
                             <input class="modal-body-select modal-body-select-100" type="text" 
                             id="teacher_name" value="{{ user['name'] }}" placeholder="{{user['name'] }}">
                             <input class="modal-body-select modal-body-select-100" type="text" 
                             id="teacher_engname" value="{{ user['engname'] }}" placeholder="{{user['engname'] }}">
                         </div>
-                        <div class="modal-body-select-container">
-                            <span class="modal-body-select-label">첨부 파일</br> (최대갯수 : 3)</span>
-                            <!-- <input type="file" name="file-upload" multiple> -->
-                            <input type="file" id="file-upload" class="py-sm-0 py-3" multiple>
-                            <p class="error_msg_alert" id="error_msg_filesel"> 🔻 파일 최대 업로드 갯수 3개 </p>
-                        </div>
+                        <div class="modal-body-select-label" style="width:fit-content;"><span class="modal-body-select-container-span" style="padding:6px 12px;">첨부 파일 </br> (최대갯수 : 3)</span></div>
+                        <input class="modal-body-select w-100 m-3" type="file" id="file-upload" multiple>
+                        <p class="error_msg_alert" id="error_msg_filesel"> 🔻 파일 최대 업로드 갯수 3개 </p>
                         <div class="d-flex justify-content-center mt-4 mb-2">
                             <button class="btn btn-success" onclick="question_save()">저장</button>
                             <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin-top: 13px;">취소</button> -->
