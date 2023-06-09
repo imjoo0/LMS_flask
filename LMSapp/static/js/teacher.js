@@ -1050,34 +1050,31 @@ function change_question_kind(str) {
         $('#question_topurple').hide()
     } else if (str == 0 || str == 4 || str == 5) {
         let question_html = `
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">대상 원생</span>
-            <select id="student_list" class="modal-body-select" name="target_student">
-                <option value=0 selected>특정 원생 선택하지 않기</option>
-                <optgroup class="selstulist" label="원생 선택" multiple>
-                </optgroup>
-            </select>
-        </div>
+        <div class="modal-body-select-label" style="width:fit-content;"><span class="modal-body-select-container-span" style="padding:6px 12px;">대상 원생</span></div>
+        <select id="student_list" class="modal-body-select w-50 m-3" name="target_student">
+            <option value=0 selected>특정 원생 선택하지 않기</option>
+            <optgroup class="selstulist" label="원생 선택" multiple>
+            </optgroup>
+        </select>
         `;
         $('#question_box').html(question_html);
         $('#question_topurple').show()
     } else {
         let question_html = `
-        <div class="modal-body-select-container">
-            <span class="modal-body-select-label">대상 원생</span>
-            <select id="student_list_so" class="modal-body-select" onchange="attach_consulting_history(this.value)">
-                <option value="none" selected>대상 원생을 선택 해 주세요</option>
-                <optgroup class="selstulist" label="원생 선택" multiple>
-                </optgroup>
-            </select>
-        </div>
+        <div class="modal-body-select-label" style="width:20%;"><span class="modal-body-select-container-span" style="padding:6px 12px;">대상 원생</span></div>
+        <select id="student_list_so" class="modal-body-select m-3" onchange="attach_consulting_history(this.value)">
+            <option value="none" selected>대상 원생을 선택 해 주세요</option>
+            <optgroup class="selstulist" label="원생 선택" multiple>
+            </optgroup>
+        </select>
         <p class="error_msg_alert" id="error_msg_stusel"> 🔻 대상 원생 선택은 필수 입니다 </p>
         <div class="modal-body-select-container">
-            <span class="modal-body-select-label">상담 내용</span>
-            <select class="modal-body-select" name="consulting_history" id="h_select_box">
+            <div class="modal-body-select-label" style="width:20%;"><span class="modal-body-select-container-span" style="padding:6px 12px;">상담 내용</span></div>
+            <select name="consulting_history" id="h_select_box" class="modal-body-select w-100 m-3">
+            
             </select>
+            <p class="error_msg_alert" id="error_msg_consel"> 🔻 상담일지 첨부는 필수 입니다 </p>
         </div>
-        <p class="error_msg_alert" id="error_msg_consel"> 🔻 상담일지 첨부는 필수 입니다 </p>
         `;
         $('#question_box').html(question_html);
         $('#question_topurple').show()
@@ -1138,7 +1135,7 @@ function attach_consulting_history(student_id) {
                 category = `${consulting.category} ${consulting.contents}`
             }
             temp_h_select += `
-            <option value="${consulting.id}"> ${category} - 제공한 가이드: ${consulting.solution}</option>
+            <option value="${consulting.id}"> ${category} - 제공한 가이드: ${make_small_char(consulting.solution)}</option>
             `;
         });
     }
@@ -1152,7 +1149,6 @@ function attach_consulting_history(student_id) {
     }
 
 }
-
 // 문의 저장 
 function question_save(){
     // 파일 저장 처리 
@@ -1287,7 +1283,7 @@ async function get_question_list() {
                     }
                     dataHtml += `
                     <td class="col-2">${q_category(item.category)}</td>
-                    <td class="col-4">${item.title}</td>
+                    <td class="col-4">${make_small_char(item.title)}</td>
                     <td class="col-3"> ${done_code} </td>
                     <td class="col-2"> ${make_date(item.create_date)} </td>
                     <td class="col-1" onclick="get_question_detail(${item.id})"> <span class="cursor">🔍</span> </td>
