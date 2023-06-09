@@ -222,10 +222,20 @@ $(window).on('load', async function () {
                         $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category},${1})">수정</button>`);
                         $('#teacher_answer').show()
                     }
-                    
-                    await get_total_data()
                 }
-                
+                await get_total_data()
+                // await get_all_question()
+                // if(q_id !== "" && q_type !== ""){
+                //     if(q_type== 1 ||  q_type==2){                        
+                //         so_paginating(0);
+                //     }else if(q_type== 0){
+                //         paginating(0);
+                //     }else if(q_type== 5){
+                //         inTpaginating(0);
+                //     }else if(q_type== 4){
+                //         paginating(0);
+                //     }
+                // }
             }catch (error) {
                 alert('Error occurred while retrieving data2.');
             }finally {

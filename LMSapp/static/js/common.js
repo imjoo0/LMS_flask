@@ -504,8 +504,7 @@ async function get_total_data() {
     $('#ulbox').hide()
     $('#target_ban_info_body').hide()
     try {
-        get_students_data()
-        get_cs_data()
+        await get_students_data()
         if(!banData){
             $('#inloading').show()
             $('#semester_pagination').hide()
