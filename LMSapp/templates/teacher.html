@@ -405,27 +405,23 @@
                                 <h3 >추가 상담 진행</h3>
                                 <hr class='hr-dotted'/>
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" style="display: block;" />
-                                <div class="modal-body-select-container">
-                                    <span class="modal-body-select-label">상담 종류</span>
-                                    <select id="consulting_cate" class="form-select form-select w-100" aria-label="Default select example"">
-                                        
-                                    </select>
+                                <div class="modal-body-select-container" >
+                                    <div class="modal-body-select-label" style="width:fit-content;"><span class="modal-body-select-container-span" style="padding:6px 12px;"> 상담 종류 </span></div>
                                 </div>
-                                <div class="modal-body-select-container">
-                                    <span class="modal-body-select-label">상담 제목</span>
-                                    <input class="modal-body-select" type="text" size="50" id="plus_consulting_contents"
-                                        style="width: 75%;">
+                                <select id="consulting_cate" class="form-select form-select w-100" aria-label="Default select example">
+                                </select>
+                                <div class="modal-body-select-container" >
+                                    <div class="modal-body-select-label" style="width:fit-content;"><span class="modal-body-select-container-span" style="padding:6px 12px;"> 상담 제목 </span></div>
                                 </div>
-                                <div class="modal-body-select-container">
-                                    <span class="modal-body-select-label">상담 사유</span>
-                                    <input class="modal-body-select" type="text" size="50" id="plus_consulting_reason"
-                                        style="width: 75%;">
+                                <input class="modal-body-select w-100 m-3" type="text" id="plus_consulting_contents" style="width: 75%;">
+                                <div class="modal-body-select-container" >
+                                    <div class="modal-body-select-label" style="width:fit-content;"><span class="modal-body-select-container-span" style="padding:6px 12px;"> 상담 사유 </span></div>
                                 </div>
-                                <div class="modal-body-select-container">
-                                    <span class="modal-body-select-label">제공한 가이드</span>
-                                    <textarea class="modal-body-select" type="text" rows="5" cols="25" id="plus_consulting_solution"
-                                        style="width: 75%;"></textarea>
+                                <input class="modal-body-select w-100 m-3" type="text" id="plus_consulting_reason" style="width: 75%;" placeholder="원생의 상담 사유, 사연을 입력해 주세요">
+                                <div class="modal-body-select-container" >
+                                    <div class="modal-body-select-label" style="width:fit-content;"><span class="modal-body-select-container-span" style="padding:6px 12px;">제공한 가이드</span></div>
                                 </div>
+                                <textarea class="modal-body-select w-100 m-3" type="text" rows="5" cols="25" id="plus_consulting_solution" style="width: 75%;" placeholder="가이드를 입력해 주세요"></textarea>         
                                 <div class="d-flex justify-content-center mt-4 mb-2" id="plusconsulting_button_box"></div>
                             </div>
                         </div>

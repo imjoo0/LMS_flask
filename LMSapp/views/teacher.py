@@ -232,7 +232,6 @@ def consulting_history(id,is_done):
 @bp.route("/plus_consulting/<int:student_id>/<int:b_id>", methods=['POST'])
 def plus_consulting(student_id,b_id):
     t_id = request.form['t_id']
-    t_id = User.query.filter(User.user_id == t_id).first().id
     # 상담 제목
     received_contents = request.form['consulting_contents']
     # 상담 사유
@@ -243,8 +242,10 @@ def plus_consulting(student_id,b_id):
     student_name = request.form['student_name']
     student_engname = request.form['student_engname']
     origin = request.form['origin']
+    # consulting_category
+    consulting_category = request.form['consulting_category']
     # 상담생성 
-    newconsulting =  Consulting(teacher_id=t_id,ban_id=b_id,category_id=100,student_id=student_id,student_name=student_name,student_engname=student_engname,origin=origin,contents=received_contents,startdate=Today,deadline=Today,done=1,missed=standard,reason=received_reason,solution=received_solution,created_at=Today)
+    newconsulting =  Consulting(teacher_id=t_id,ban_id=b_id,category_id=consulting_category,student_id=student_id,student_name=student_name,student_engname=student_engname,origin=origin,contents=received_contents,startdate=Today,deadline=Today,done=1,missed=standard,reason=received_reason,solution=received_solution,created_at=Today)
     db.session.add(newconsulting)
     db.session.commit()
     return{'result':'추가 상담 저장 완료'}

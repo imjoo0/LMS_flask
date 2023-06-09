@@ -432,41 +432,42 @@ async function get_consulting(student_id) {
         $.each(consultingGroupedCategory, function (index, key) {
             let target_consultings = consultingGrouped[key]
             let cate_consultings_num = target_consultings.length
-            temp_consulting_write_box += `<hr class='hr-dotted'/><h3 id="target_${key}" style="margin-bottom:1.2rem;">${key} ${cate_consultings_num}건</h3>`
+            temp_consulting_write_box += `<hr class='hr-dotted'/>
+            <div id="target_${key}" class="modal-body-select-container" style="width:100%;margin-bottom:1.2rem;">
+                <div class="modal-body-select-label" style="width:100%;"><span class="modal-body-select-container-span" style="padding:6px 12px; font-size:20px;">${key} ${cate_consultings_num}건</span></div>
+            </div>`
             for (i = 0; i < cate_consultings_num; i++) {
                 let target = target_consultings[i]
                 let category = target['category']
                 let consulting_id = target['id']
-                let contents = target['contents'].replace(/\n/g, '</br>');
+                let contents ='<strong>' + target['contents'].replace(/\n/g, '</br>') + '</strong>';
                 let consulting_missed = missed_date(target['missed'])
                 let deadline = make_date(target['deadline'])
-                let history_created = target['created_at']
+                // let history_created = target['created_at']
                 if (target['category_id'] < 100) {
                     contents = ` <details>
-                    <summary style="font-size:20px;"> 미학습 기록 상세 보기 </summary>
+                    <summary style="font-size:20px;"><strong> 미학습 기록 상세 보기 </strong> " ${category} 검사 날짜:  ${make_date(target['startdate'])} "</summary>
                     <ul>${contents}
                     </ul></details>`
-                    temp_consulting_write_box += `
-                    <p class="mt-lg-4 mt-5">✅${category} 검사 날짜: <strong> ${make_date(target['startdate'])}</strong></p>
-                    `;
                 }
                 let history_reason = target['reason'] == null ? '입력해주세요' : target['reason']
                 let history_solution = target['solution'] == null ? '입력해주세요' : target['solution']
                 temp_consulting_write_box += `
                 <input type="hidden" id="target_consulting_id${idx}" value="${consulting_id}" style="display: block;" />
-                <p class="mt-lg-4 mt-5">✅<strong>${category}</strong></br><strong>➖상담 마감일:
-                ~${deadline}까지 </strong>| 부재중 : ${consulting_missed}</br></br>${contents}</p>
-                <div class="modal-body-select-container">
-                    <span class="modal-body-select-label">상담 사유</span>
-                    <input class="modal-body" style="border-block-width:0;border-left:0;border-right:0" type="text" size="50"id="consulting_reason${consulting_id}" placeholder="${history_reason}">
+                <p class="mt-lg-4 mt-5">${contents}</p>
+                <div class="modal-body-select-container" >
+                    <div class="modal-body-select-label" style="width:fit-content;"><span class="modal-body-select-container-span" style="padding:6px 12px; background:#626262"> 상담 마감일: ~ ${deadline}까지  |   부재중  :  ${consulting_missed}</span></div>
                 </div>
-                <div class="modal-body-select-container">
-                    <span class="modal-body-select-label">제공한 가이드</span>
-                    <textarea class="modal-body" type="text" rows="5" cols="25"
-                        id="consulting_solution${consulting_id}" placeholder="${history_solution}"></textarea> 
+                <div class="modal-body-select-container" >
+                    <div class="modal-body-select-label" style="width:fit-content;"><span class="modal-body-select-container-span" style="padding:6px 12px; background:#626262">상담 사유</span></div>
                 </div>
+                <input class="modal-body-select w-100 m-3" type="text" id="consulting_reason${consulting_id}" placeholder="${history_reason}">
+                <div class="modal-body-select-container" >
+                    <div class="modal-body-select-label" style="width:fit-content;"><span class="modal-body-select-container-span" style="padding:6px 12px; background:#626262">제공한 가이드</span></div>
+                </div>
+                <textarea class="modal-body-select w-100 m-3" type="text" rows="5" cols="25"
+                        id="consulting_solution${consulting_id}" placeholder="${history_solution}"></textarea>                 
                 `;
-                temp_consulting_write_box += `<p>상담 일시 : ${make_date(history_created)}</p> `;
                 idx += 1;
             }
             temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" href="#target_${key}" onclick="get_consulting_history_by_cate(event)">${key} ${cate_consultings_num}건</a>`;
@@ -482,7 +483,7 @@ async function get_consulting(student_id) {
         temp_consulting_contents_box += `<a class="btn-two black small" onclick="missed_consulting(${idx})">부재중</a>`;
         $('#consulting_write_box').html(temp_consulting_write_box);
     }else{
-        temp_consulting_write_box += '<p>진행 할 상담이 없습니다.* 원생 목록에서 추가 상담을 진행해주세요 </p>'
+        temp_consulting_write_box += '<p>진행 할 상담이 없습니다.* 상담 추가를 통해 상담을 진행해주세요 </p>'
         $('#consulting_write_box').html(temp_consulting_write_box);
     }
     temp_consulting_contents_box += `<a class="btn-two white small" onclick="plusconsulting(${student_id},${data.ban_id})">상담 추가</a>`;
@@ -679,7 +680,7 @@ function plusconsulting(s_id, b_id) {
 }
 function plusconsulting_history(student_id, b_id) {
     const student_info = Tall_students.filter(a=>a.student_id == student_id)[0]
-    let t_id = Tban_data[0].staff_id
+    const t_id = student_info.teacher_id
     const consulting_category = $('#consulting_cate').val()
     const consulting_contents = $('#plus_consulting_contents').val()
     const consulting_reason = $('#plus_consulting_reason').val()
@@ -880,28 +881,19 @@ async function get_consulting_history() {
     }
 }
 async function get_consulting_history_detail(c_id,is_by_student) {
-    // if(is_by_student == 1){
-    //     $('#student_history_record_box').hide()
-    //     $('#studentconsulting_history_box_detail').show()
-    // }else{
-    //     $('#consulting_history_bansel_box').hide()
-    //     $('#consulting_history_box').hide()
-    //     $('#consulting_history_box_detail').show()
-    // }
     let temp_his = ''
     let consulting_history = Tall_consulting.filter(c => c.id == c_id)[0]
     let category = `${consulting_history.category}`
     let contents = consulting_history.contents.replace(/\n/g, '</br>').split(':')
-    console.log(contents)
     if (consulting_history.category_id < 100) {
-        category += `미학습 검사 날짜 : ${make_date(consulting_history.startdate)}`
+        category += `  미학습 검사 날짜 : ${make_date(consulting_history.startdate)}`
     }
     temp_his = `
     <div class="modal-body-select-container">
             <div class="modal-body-select-label" style="width:fit-content;"><span class="modal-body-select-container-span" style="padding:6px 12px;">${category}</span></div>
     </div>
     <div class="d-flex flex-column justify-content-start py-3">
-        <div class="modal-body-select-container"">
+        <div class="modal-body-select-container">
             <div class="modal-body-select-label" style="width:fit-content;"><span class="modal-body-select-container-span" style="padding:6px 12px;"> 제목 : ${make_nullcate(contents[0])}</span></div>
         </div>`
     if(contents.length > 1){
