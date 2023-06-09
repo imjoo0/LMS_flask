@@ -684,7 +684,7 @@ function plusconsulting_history(student_id, b_id) {
     const consulting_solution = $('#plus_consulting_solution').val()
     if(consulting_category == 0){
         alert('상담 종류를 선택해주세요')
-        return
+        window.location.reload()
     }
     $.ajax({
         type: "POST",
