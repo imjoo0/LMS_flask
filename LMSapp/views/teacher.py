@@ -57,7 +57,7 @@ def get_mybans(u):
                 cur.execute("select consulting.origin, consulting.student_name, consulting.student_engname,consulting.id,consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate,consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result from consulting left join consultingcategory on consulting.category_id = consultingcategory.id where startdate <= %s and ban_id=%s", (Today,ban['register_no'],))
                 all_consulting.extend(cur.fetchall())
 
-            cur.execute("SELECT * FROM LMS.consultingcategory where consultingcategory.id > 100;")
+            cur.execute("SELECT * FROM LMS.consultingcategory;")
             all_consulting_category = cur.fetchall()
             
             # 업무
@@ -232,7 +232,6 @@ def consulting_history(id,is_done):
 @bp.route("/plus_consulting/<int:student_id>/<int:b_id>", methods=['POST'])
 def plus_consulting(student_id,b_id):
     t_id = request.form['t_id']
-    t_id = User.query.filter(User.user_id == t_id).first().id
     # 상담 제목
     received_contents = request.form['consulting_contents']
     # 상담 사유
@@ -243,8 +242,10 @@ def plus_consulting(student_id,b_id):
     student_name = request.form['student_name']
     student_engname = request.form['student_engname']
     origin = request.form['origin']
+    # consulting_category
+    consulting_category = request.form['consulting_category']
     # 상담생성 
-    newconsulting =  Consulting(teacher_id=t_id,ban_id=b_id,category_id=100,student_id=student_id,student_name=student_name,student_engname=student_engname,origin=origin,contents=received_contents,startdate=Today,deadline=Today,done=1,missed=standard,reason=received_reason,solution=received_solution,created_at=Today)
+    newconsulting =  Consulting(teacher_id=t_id,ban_id=b_id,category_id=consulting_category,student_id=student_id,student_name=student_name,student_engname=student_engname,origin=origin,contents=received_contents,startdate=Today,deadline=Today,done=1,missed=standard,reason=received_reason,solution=received_solution,created_at=Today)
     db.session.add(newconsulting)
     db.session.commit()
     return{'result':'추가 상담 저장 완료'}
