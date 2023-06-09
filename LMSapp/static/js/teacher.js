@@ -672,8 +672,8 @@ function sort_option(sortBy) {
 function plusconsulting(s_id, b_id) {
     $('#make_plus_consulting').show();
     let temp_button = `
-    <button class="btn btn-dark" onclick=plusconsulting_history(${s_id},${b_id})>저장</button>
-    <button class="btn btn-dark" onclick=cancel_back()>추가 취소</button>
+    <button class="btn btn-success" onclick=plusconsulting_history(${s_id},${b_id})>저장</button>
+    <button class="btn btn-danger" onclick=cancel_back()>추가 취소</button>
     `;
     $('#plusconsulting_button_box').html(temp_button)
 }
