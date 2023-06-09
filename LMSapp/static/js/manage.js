@@ -1111,7 +1111,6 @@ async function uldata() {
             }
         })
     });
-
 }
 
 // 업무 요청 관련 함수 

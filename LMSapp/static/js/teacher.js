@@ -540,10 +540,8 @@ function sort_consulting_category(category){
     SConsultingcontainer = $('#consultinghistory_list_pagination')
     if(category != 'none'){
         let copy_data = consultingStudent_target_list.slice();
-        copy_data.filter((e) => {
-            return e.category == category;
-        })
-        SConsultingcontainer.pagination(Object.assign(consultinghistory_list_paginationOptions, { 'dataSource': copy_data }));
+        let target_data = copy_data.filter(e => e.category == category)
+        SConsultingcontainer.pagination(Object.assign(consultinghistory_list_paginationOptions, { 'dataSource': target_data }));
     }else{
         SConsultingcontainer.pagination('destroy');
         SConsultingcontainer.pagination(Object.assign(consultinghistory_list_paginationOptions, { 'dataSource': consultingStudent_target_list }));
