@@ -103,13 +103,11 @@ def get_consulting_chunk():
 def get_consulting_chunk_by_teacher():
     if request.method == 'GET':
         # 페이지 정보 및 페이지 크기 받아오기
-        page = request.args.get('page', default=1, type=int)
+        # page = request.args.get('page', default=0, type=int)
         page_size = request.args.get('page_size', default=10000, type=int)
+        t_id = request.args.get('t_id', default=0, type=int)
 
-        # 오프셋 계산
-        offset = (page - 1) * page_size
-
-        consulting = {}
+        consulting = []
         total_count = 0
 
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
@@ -119,17 +117,16 @@ def get_consulting_chunk_by_teacher():
                 cur.execute("SELECT COUNT(*) AS total_count FROM consulting;")
                 result = cur.fetchone()
                 total_count = result['total_count']
-
-                # consulting 정보 조회 (teacher_id 별로 묶음)
-                cur.execute(f"SELECT consulting.id, consulting.teacher_id, user.eng_name as teacher_engname, user.name as teacher_name, user.mobileno as teacher_mobileno, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id AS category_id, consulting.week_code, consultingcategory.name AS category, consulting.student_name, consulting.student_engname, consulting.origin, consulting.contents, consulting.startdate AS startdate, consulting.deadline AS deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result FROM consulting LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id LEFT JOIN user ON consulting.teacher_id = user.id ORDER BY consulting.startdate DESC LIMIT %s, %s;", (offset, page_size))
-                consulting_list = cur.fetchall()
-
-                # consulting 정보를 teacher_id 별로 묶어서 저장
-                for item in consulting_list:
-                    teacher_id = item['teacher_id']
-                    if teacher_id not in consulting:
-                        consulting[teacher_id] = []
-                    consulting[teacher_id].append(item)
+                
+                if(t_id != 0):
+                    cur.execute(f"SELECT consulting.id, consulting.teacher_id, user.eng_name as teacher_engname, user.name as teacher_name, user.mobileno as teacher_mobileno, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id AS category_id, consulting.week_code, consultingcategory.name AS category, consulting.student_name, consulting.student_engname, consulting.origin, consulting.contents, consulting.startdate AS startdate, consulting.deadline AS deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result FROM consulting LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id LEFT JOIN user ON consulting.teacher_id = user.id where consulting.teacher_id = %s;",(t_id,))
+                    consulting.extend(cur.fetchall())
+                    # consulting 정보 조회 (teacher_id 별로 묶음)
+                    cur.execute(f"SELECT consulting.id, consulting.teacher_id, user.eng_name as teacher_engname, user.name as teacher_name, user.mobileno as teacher_mobileno, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id AS category_id, consulting.week_code, consultingcategory.name AS category, consulting.student_name, consulting.student_engname, consulting.origin, consulting.contents, consulting.startdate AS startdate, consulting.deadline AS deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result FROM consulting LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id LEFT JOIN user ON consulting.teacher_id = user.id where consulting.teacher_id != %s ORDER BY consulting.teacher_id DESC LIMIT %s, %s;", (t_id, 0, 5000,))
+                    consulting.extend(cur.fetchall())
+                else:
+                    cur.execute(f"SELECT consulting.id, consulting.teacher_id, user.eng_name as teacher_engname, user.name as teacher_name, user.mobileno as teacher_mobileno, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id AS category_id, consulting.week_code, consultingcategory.name AS category, consulting.student_name, consulting.student_engname, consulting.origin, consulting.contents, consulting.startdate AS startdate, consulting.deadline AS deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result FROM consulting LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id LEFT JOIN user ON consulting.teacher_id = user.id ORDER BY consulting.teacher_id DESC LIMIT %s, %s;", (5000, page_size,))
+                    consulting = cur.fetchall()
 
         except Exception as e:
             print(e)
@@ -137,6 +134,76 @@ def get_consulting_chunk_by_teacher():
             db.close()
 
         return jsonify({'consulting': consulting, 'total_count': total_count})
+
+@bp.route("/consulting_chunk_by_ban", methods=['GET'])
+def get_consulting_chunk_by_ban():
+    if request.method == 'GET':
+        # 페이지 정보 및 페이지 크기 받아오기
+        page_size = request.args.get('page_size', default=10000, type=int)
+        b_id = request.args.get('b_id', default=0, type=int)
+
+        consulting = []
+        total_count = 0
+
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                # 전체 데이터 개수 조회
+                cur.execute("SELECT COUNT(*) AS total_count FROM consulting;")
+                result = cur.fetchone()
+                total_count = result['total_count']
+                
+                if(b_id != 0):
+                    cur.execute(f"SELECT consulting.id, consulting.teacher_id, user.eng_name as teacher_engname, user.name as teacher_name, user.mobileno as teacher_mobileno, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id AS category_id, consulting.week_code, consultingcategory.name AS category, consulting.student_name, consulting.student_engname, consulting.origin, consulting.contents, consulting.startdate AS startdate, consulting.deadline AS deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result FROM consulting LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id LEFT JOIN user ON consulting.teacher_id = user.id where consulting.ban_id = %s;",(b_id,))
+                    consulting.extend(cur.fetchall())
+                    # consulting 정보 조회 (teacher_id 별로 묶음)
+                    cur.execute(f"SELECT consulting.id, consulting.teacher_id, user.eng_name as teacher_engname, user.name as teacher_name, user.mobileno as teacher_mobileno, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id AS category_id, consulting.week_code, consultingcategory.name AS category, consulting.student_name, consulting.student_engname, consulting.origin, consulting.contents, consulting.startdate AS startdate, consulting.deadline AS deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result FROM consulting LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id LEFT JOIN user ON consulting.teacher_id = user.id where consulting.ban_id != %s ORDER BY consulting.ban_id DESC LIMIT %s, %s;", (b_id, 0, 5000,))
+                    consulting.extend(cur.fetchall())
+                else:
+                    cur.execute(f"SELECT consulting.id, consulting.teacher_id, user.eng_name as teacher_engname, user.name as teacher_name, user.mobileno as teacher_mobileno, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id AS category_id, consulting.week_code, consultingcategory.name AS category, consulting.student_name, consulting.student_engname, consulting.origin, consulting.contents, consulting.startdate AS startdate, consulting.deadline AS deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result FROM consulting LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id LEFT JOIN user ON consulting.teacher_id = user.id ORDER BY consulting.ban_id DESC LIMIT %s, %s;", (5000, page_size,))
+                    consulting = cur.fetchall()
+
+        except Exception as e:
+            print(e)
+        finally:
+            db.close()
+
+        return jsonify({'consulting': consulting, 'total_count': total_count})
+
+@bp.route("/task_chunk_by_ban", methods=['GET'])
+def get_task_chunk_by_ban():
+    if request.method == 'GET':
+        # 페이지 정보 및 페이지 크기 받아오기
+        page_size = request.args.get('page_size', default=10000, type=int)
+        b_id = request.args.get('b_id', default=0, type=int)
+
+        task = []
+        total_count = 0
+
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                # 전체 데이터 개수 조회
+                cur.execute("SELECT COUNT(*) AS total_count FROM taskban;")
+                result = cur.fetchone()
+                total_count = result['total_count']
+                
+                if(b_id != 0):
+                    cur.execute(f"select task.id,task.category_id, task.contents, task.url, task.attachments, task.startdate as startdate, task.deadline as deadline, task.priority, task.cycle, taskcategory.name,taskban.id as taskban_id, taskban.ban_id, taskban.teacher_id, taskban.done from task left join taskcategory on task.category_id = taskcategory.id left join taskban on task.id = taskban.task_id where taskban.ban_id = %s;",(b_id,))
+                    task.extend(cur.fetchall())
+                    # task 정보 조회 (teacher_id 별로 묶음)
+                    cur.execute(f"select task.id,task.category_id, task.contents, task.url, task.attachments, task.startdate as startdate, task.deadline as deadline, task.priority, task.cycle, taskcategory.name,taskban.id as taskban_id, taskban.ban_id, taskban.teacher_id, taskban.done from task left join taskcategory on task.category_id = taskcategory.id left join taskban on task.id = taskban.task_id where taskban.ban_id != %s ORDER BY taskban.ban_id DESC LIMIT %s,%s;",(b_id, 0, 5000,))
+                    task.extend(cur.fetchall())
+                else:
+                    cur.execute(f"select task.id,task.category_id, task.contents, task.url, task.attachments, task.startdate as startdate, task.deadline as deadline, task.priority, task.cycle, taskcategory.name,taskban.id as taskban_id, taskban.ban_id, taskban.teacher_id, taskban.done from task left join taskcategory on task.category_id = taskcategory.id left join taskban on task.id = taskban.task_id ORDER BY taskban.ban_id DESC LIMIT %s,%s;",(5000, page_size,))
+                    task = cur.fetchall()
+
+        except Exception as e:
+            print(e)
+        finally:
+            db.close()
+
+        return jsonify({'task': task, 'total_count': total_count})
 
 @bp.route("/task", methods=['GET'])
 def get_all_task():
