@@ -684,7 +684,7 @@ function plusconsulting_history(student_id, b_id) {
     const consulting_solution = $('#plus_consulting_solution').val()
     if(consulting_category == 0){
         alert('상담 종류를 선택해주세요')
-        window.location.reload()
+        return;
     }
     $.ajax({
         type: "POST",
@@ -703,6 +703,7 @@ function plusconsulting_history(student_id, b_id) {
         success: function (response) {
             {
                 alert(response["result"])
+                window.location.reload()
             }
         }
     })
@@ -994,8 +995,6 @@ async function post_one_consulting(consulting, is_done) {
 function post_target_consulting(consulting, is_done) {
     consulting_reason = $('#consulting_reason' + consulting).val()
     consulting_solution = $('#consulting_solution' + consulting).val()
-    console.log(consulting_reason)
-    console.log(consulting_solution)
     if (!consulting_reason || consulting_reason.length == 0) {
         consulting_reason = "작성 내역이 없습니다"
     }
@@ -1025,7 +1024,7 @@ function get_update_done() {
             return update_done($(this).val())
         }
     });
-    window.location.replace('/teacher')
+    window.location.reload()
 }
 function update_done(target) {
     $.ajax({
