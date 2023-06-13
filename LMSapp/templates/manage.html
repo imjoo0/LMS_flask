@@ -45,15 +45,24 @@
             </div>
             <div class="modal-body monot_inloading" id="teacher_infobox">
                 <div class="info-container">
-                    <div class="info-title">
-                        <span>Total Chart</span>
+                    <div class="info-title" id="ban_nametag">
+                        
                     </div>
-                    <div class="chart-wrapper">
-                        <canvas id="total-chart-element" class="total-chart-element p-sm-3 p-2"></canvas>
-                        <div class ="chart-data-summary" id="teacher_info_student_num">
-                            
+                    <div class="make_row" style="width:100%;height:300px;">
+                        <div class="chart-wrapper" style="width:50%; margin-top:10px;">
+                            <canvas id="total-chart-element-studentnum" class="total-chart-element p-sm-3 p-2"  style="width:100%;height:100%;"></canvas>
+                            <div class ="chart-data-summary" id="teacher_info_student_num">
+                                
+                            </div>
+                        </div>
+                        <div class="chart-wrapper" style="width:50%; margin-top:10px;">
+                            <canvas id="total-chart-element-unlearnednum" class="total-chart-element p-sm-3 p-2" style="width:100%;height:100%;"></canvas>
+                            <div class ="chart-data-summary" id="teacher_info_unlearned_num">
+                                
+                            </div>
                         </div>
                     </div>
+                   
                 </div>
                 <div class="info-container mt-5">
                     <div class="info-title">
@@ -69,9 +78,6 @@
                                     <tr class="row">
                                         <th class="col-6">누적 미학습</th>
                                         <th class="col-6">미학습 발생율</th>
-                                    </tr>
-                                    <tr class="row" id="ucomcom"></tr>
-                                    <tr id="totalreport-row" class="row">
                                     </tr>
                                 </tbody>
                             </table>
@@ -871,7 +877,7 @@
                         <div id="target_ban_info_body">
                             <div class="row row-cols-2">
                                 <div class="semester-student-chart-wrapper col-7 px-4 py-5">
-                                    <canvas id="semester-student-chart"></canvas>
+                                    <canvas id="semester-student-chart" style="height: 556px; width: 1152px;"></canvas>
                                 </div>  
                             <div id="semester-student-table" class="col-5 px-4 py-5">
         

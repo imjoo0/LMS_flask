@@ -1510,6 +1510,10 @@ function delete_selected_student(idx) {
 }
 function post_consulting_request() {
     consulting_category = $('#consulting_category_list').val()
+    if(consulting_category == 0){
+        alert('카테고리를 선택해 주세요')
+        reutrn
+    }
     consulting_contents = $('#consulting_contents').val()
     consulting_date = $('#consulting_date').val()
     consulting_deadline = $('#consulting_deadline').val()
