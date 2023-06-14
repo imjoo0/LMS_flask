@@ -3,13 +3,6 @@
 선생님 업무 관리 페이지
 {% endblock %}
 
-{% block topnav %}
-{% if user %}
-{{ user['name'] }} ({{ user['engname'] }})님 환영합니다.
-{% else %}
-로그인이 필요합니다.
-{% endif %}
-{% endblock %}
 {% block style %}
 <link rel="stylesheet" href="../static/style/teacher.css">
 {% endblock %}

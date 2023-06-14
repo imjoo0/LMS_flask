@@ -1101,6 +1101,7 @@ async function post_answer(q_id, category,done_code) {
                 $('#teacher_answer').html(temp_answer_list);
                 $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${target_answer.category},${1})">수정</button>`);
                 $('#teacher_answer').show()
+                
                 // var con_val = confirm('수정하시겠습니까?')
                 // if (con_val == true) {
                 //     post_answer(q_id,target_answer.category,1);
@@ -1902,6 +1903,7 @@ async function get_task(){
                         var dataHtml = '';
                         $.each(taskGroupedresult, function (index, task) {
                             let key = Object.keys(task)[0]
+                            console.log(key)
                             let task_info = key.split('_')
                             category_list.push(task_info[0])
                             dataHtml += `

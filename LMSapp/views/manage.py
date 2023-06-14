@@ -419,12 +419,12 @@ def make_task():
                 new_task = TaskBan(ban_id=int(task_data[0]),teacher_id=teacher_id, task_id=task.id ,done=0)
                 db.session.add(new_task)
                 teacher_mobile_no = User.query.filter(User.id == teacher_id).first().mobileno
-                post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
-                data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
-                    'templateCode': "task_cs",
-                    'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '반이름':task_data[2], '업무내용': received_task,'요일':task_yoil, '마감기한': received_task_deadline}, }, ], }
-                headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
-                http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
+                # post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
+                # data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
+                #     'templateCode': "task_cs",
+                #     'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '반이름':task_data[2], '업무내용': received_task,'요일':task_yoil, '마감기한': received_task_deadline}, }, ], }
+                # headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
+                # http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
                 db.session.commit()
         # 전체 반이 선택 된 경우
         else:
@@ -445,12 +445,12 @@ def make_task():
             for target in targets:
                 new_task = TaskBan(ban_id=target['ban_id'],teacher_id=target['teacher_id'], task_id=task.id ,done=0)
                 db.session.add(new_task)
-                post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
-                data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
-                    'templateCode': "task_cs",
-                    'recipientList': [{'recipientNo':target['mobileno'], 'templateParameter': { '반이름':target['ban_name'], '업무내용': received_task,'요일':task_yoil, '마감기한': received_task_deadline}, }, ], }
-                headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
-                http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
+                # post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
+                # data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
+                #     'templateCode': "task_cs",
+                #     'recipientList': [{'recipientNo':target['mobileno'], 'templateParameter': { '반이름':target['ban_name'], '업무내용': received_task,'요일':task_yoil, '마감기한': received_task_deadline}, }, ], }
+                # headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
+                # http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
                 db.session.commit()
         return redirect('/manage')
 
@@ -519,7 +519,6 @@ def request_indivi_student(b_id,t_id,s_id):
         student_engname = request.form['student_engname']
         origin = request.form['origin']
         teacher_mobile_no = User.query.filter(User.id == t_id).first().mobileno
-        print(teacher_mobile_no)
 
         new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=s_id,student_name=student_name,student_engname=student_engname,origin=origin,contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
         db.session.add(new_consulting)
