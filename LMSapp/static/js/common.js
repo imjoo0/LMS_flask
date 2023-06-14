@@ -1,5 +1,5 @@
 // manage변수 
-let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, studentsData, reportsData, consultingCount,consultingData, consultingHistoryData, consultingcateData,taskCount, taskData, taskcateData, questionData, answerData, attachData, CSdata;
+let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, studentsData, reportsData, consultingCount,tempConsultingData,consultingData, consultingHistoryData, consultingcateData,taskCount, taskData, taskcateData, questionData, answerData, attachData, CSdata;
 // teacher 변수
 let  Tconsulting_category, Tban_data, Tall_consulting, Tmy_students, Tall_task, Ttask_consulting, Tunlearned_student, Tall_students, Tstudent_consulting, TquestionAnswerdata;
 let isFetching = false;
@@ -815,6 +815,8 @@ async function get_ban_info(b_id) {
     // 데이터 불러오기 
     if(!consultingData){
         consultingData = []
+        tempConsultingData = []
+        // 평균 api 호출 횟수 15번 
         let consultingbanChunkWorker = new Worker("../static/js/consultings_ban_worker.js");  
         let ban_id_history = b_id
         function fetchData(b_id){
@@ -824,46 +826,39 @@ async function get_ban_info(b_id) {
             if (consultingCount != undefined) {
                 consultingCount = event.data.total_count
                 consultingData = consultingData.concat(event.data.consulting);
-                consultingData = consultingData.reduce((unique, item) => {
-                    const existingItem = unique.find((i) => i.id === item.id);
-                    if (!existingItem) {
-                      unique.push(item);
-                    }
-                    return unique;
-                }, []);
+                console.log('최종으로 불림')
                 return; // 조건을 만족하면 함수 종료
             }
             consultingCount = event.data.total_count
             consultingData = event.data.consulting;
             fetchData(0);
-            show_ban_report(b_id)
+            show_ban_report(b_id,consultingData)
         };
         fetchData(b_id);
-    }else{    
-        // consultingData = consultingData.reduce((unique, item) => {
-        //     const existingItem = unique.find((i) => i.id === item.id);
-        //     if (!existingItem) {
-        //       unique.push(item);
-        //     }
-        //     return unique;
-        // }, []);
-        if( (consultingData.length < consultingCount) && (consultingData.filter(c=>c.ban_id == b_id).length == 0) ){
-            let ban_id_history = 0
-            let consultingbanChunkWorker = new Worker("../static/js/consultings_ban_worker.js");  
-            consultingbanChunkWorker.postMessage({b_id,ban_id_history})
-            consultingbanChunkWorker.onmessage = function (event) {
-                consultingData = consultingData.concat(event.data.consulting);
-                return show_ban_report(b_id)
-            };
+    }else{
+        if( (consultingData.length < consultingCount) && !(consultingData.some(c=>c.ban_id == b_id))){
+            if ((tempConsultingData) && (tempConsultingData.some(c=>c.ban_id == b_id))){
+                console.log('이미 불린 애라 얘가 불림')
+                return show_ban_report(b_id,tempConsultingData)
+            }else{
+                let ban_id_history = 0
+                let consultingbanChunkWorker = new Worker("../static/js/consultings_ban_worker.js");  
+                consultingbanChunkWorker.postMessage({b_id,ban_id_history})
+                consultingbanChunkWorker.onmessage = function (event) {
+                    tempConsultingData = tempConsultingData.concat(event.data.consulting);
+                    console.log('임시로 내가 불림')
+                    return show_ban_report(b_id,tempConsultingData)
+                };
+            }
         }else{
-            show_ban_report(b_id)   
+            console.log('앞으로 얘만 불림')
+            show_ban_report(b_id,consultingData)   
         }
     }
 
 }
-async function show_ban_report(b_id){
-    console.log('ge')
-    console.log(consultingData)
+async function show_ban_report(b_id,target_data){
+    let copy_data = target_data.slice();
     if(!taskData){
         taskData = []
         let pageSize = 5000;  // 페이지당 데이터 개수
@@ -902,8 +897,12 @@ async function show_ban_report(b_id){
     }
     $('.mo_inloading').hide()
     $('.monot_inloading').show()
-    $('#teachertitle').html(`${info.teacher_engname}(${info.teacher_name}) TEACHER REPORT    📞 ${info.teacher_mobileno}    ✉️ ${info.teacher_email}`)
-    $('#ban_nametag').html(`<span>${info.name} Total Chart</span>`)
+    // 각 태그 이름 바꾸기 
+    $('#teachertitle').html(`${info.name} Report`)
+    $('#ban_nametag').html(`<span>${info.name}</span>`)
+    $('#teacher_infobox').html('Class Manage')
+    // $('#ban_nametag').html(`<span>${info.teacher_engname}(${info.teacher_name}) 📞 ${info.teacher_mobileno} ✉️ ${info.teacher_email}`) </span>
+
 
     let temp_info_student_num = `
         <span>  관리중:${info.student_num}</span><br>
@@ -911,87 +910,197 @@ async function show_ban_report(b_id){
         <span>* 퇴소:${info.out_student_num}</span>
     `
     $('#teacher_info_student_num').html(temp_info_student_num)
-
+    
 
     let ctx = document.getElementById('total-chart-element-studentnum').getContext('2d');
-    let BanChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['관리중', '보류', '퇴소'],
-            datasets: [
-                {
-                    data: [info.student_num, info.hold_student_num, info.out_student_num],
-                    backgroundColor: ['#3C486B', '#F9D949', '#F45050'],
-                    hoverOffset: 3,
-                },
-            ],
-        },
-        options: {
-            maintainAspectRatio: false,
-            aspectRatio: 1,
-            plugins: {
-                legend: {
-                    display: false,
-                },
+    if(info.first_student_num == 0){
+        let BanChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['관리중인 원생이 없습니다'],
+                datasets: [
+                    {
+                        data: [100],
+                        backgroundColor: ['#F5EFE7'],
+                        hoverOffset: 1,
+                    },
+                ],
             },
-            responsive: true,
-            width: 500,
-            height: 500,
-        },
-    })
+            options: {
+                maintainAspectRatio: false,
+                aspectRatio: 1,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+                responsive: true,
+                width: 500,
+                height: 500,
+            },
+        })
+    }else{
+        let BanChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['관리중', '보류', '퇴소'],
+                datasets: [
+                    {
+                        data: [info.student_num, info.hold_student_num, info.out_student_num],
+                        backgroundColor: ['#3C486B', '#F9D949', '#F45050'],
+                        hoverOffset: 3,
+                    },
+                ],
+            },
+            options: {
+                maintainAspectRatio: false,
+                aspectRatio: 1,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+                responsive: true,
+                width: 500,
+                height: 500,
+            },
+        })
+    }
+    
 
-    let banconsultingData = consultingData.filter(c => c.ban_id == b_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
-    let banconsultaskData = banconsultingData.filter(c =>  c.category_id > 100)
+    let banconsultingData = copy_data.filter(c => c.ban_id == b_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
+    // let banconsultaskData = banconsultingData.filter(c =>  c.category_id > 100)
     let banunlearnedData = banconsultingData.filter(c => c.category_id < 100)
     let unlearned_ttc = null
     unlearned_ttc = banunlearnedData.length
-    // 
+    //
     let temp_info_ulearned_num = `<span>미학습:${unlearned_ttc}</span><br>`
-    let data_array = []
-    let unlearned_cate = [...new Set(banunlearnedData.map(item => item.category))];
-    unlearned_cate.forEach((category) => {
-        let num = banunlearnedData.filter(u => u.category == category).length
-        temp_info_ulearned_num += `<span>* ${category} : ${num} 건</span><br>`
-        data_array.push(num)
-    })
-    $('#teacher_info_unlearned_num').html(temp_info_ulearned_num)
-
-    let ctx_u = document.getElementById('total-chart-element-unlearnednum').getContext('2d');
-    let UnlearnedChart = new Chart(ctx_u, {
-        type: 'doughnut',
-        data: {
-            labels: unlearned_cate,
-            datasets: [
-                {
-                    data: data_array,
-                    backgroundColor: ['#89375F', '#BA90C6', '#BACDDB', '#E8A0BF', '#F3E8FF', '#CE5959'],
-                    hoverOffset: unlearned_cate.length,
-                },
-            ],
-        },
-        options: {
-            maintainAspectRatio: false,
-            aspectRatio: 1,
-            plugins: {
-                legend: {
-                    display: false,
-                },
+    if(unlearned_ttc == 0){
+        let ctx_u = document.getElementById('total-chart-element-unlearnednum').getContext('2d');
+        let UnlearnedChart = new Chart(ctx_u, {
+            type: 'doughnut',
+            data: {
+                labels: ['관리중인 원생이 없습니다'],
+                datasets: [
+                    {
+                        data: [100],
+                        backgroundColor: ['#F5EFE7'],
+                        hoverOffset: 1,
+                    },
+                ],
             },
-            responsive: true,
-            width: 500,
-            height: 500,
-        },
-    })
-    // let tconsulting_num = null 
-    // tconsulting_num = TconsultingData.length
-    // if(tconsulting_num == 0){
-    //     $('#consulting_chart').html(`<td class="col-4">진행할 상담이 없었습니다</td><td class="col-4">➖</td><td class="col-4" style="color:red">➖</td>`)
-    // }else{
-    //     let ttd = null
-    //     ttd = tconsulting_num != 0 ? TconsultaskData.filter(c => c.done == 1).length : 0
-    //     $('#consulting_chart').html(`<td class="col-4">${ttd} / ${tconsulting_num}건</td><td class="col-4">${answer_rate(ttd, tconsulting_num).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(TconsultingData.filter(c => c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
-    // }
+            options: {
+                maintainAspectRatio: false,
+                aspectRatio: 1,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+                responsive: true,
+                width: 500,
+                height: 500,
+            },
+        })
+    }else{
+        let data_array = []
+        let unlearned_cate = [...new Set(banunlearnedData.map(item => item.category))];
+        unlearned_cate.forEach((category) => {
+            let num = banunlearnedData.filter(u => u.category == category).length
+            temp_info_ulearned_num += `<span>* ${category} : ${num} 건</span><br>`
+            data_array.push(num)
+        })
     
+        let ctx_u = document.getElementById('total-chart-element-unlearnednum').getContext('2d');
+        let UnlearnedChart = new Chart(ctx_u, {
+            type: 'doughnut',
+            data: {
+                labels: unlearned_cate,
+                datasets: [
+                    {
+                        data: data_array,
+                        backgroundColor: ['#89375F', '#BA90C6', '#BACDDB', '#E8A0BF', '#F3E8FF', '#CE5959'],
+                        hoverOffset: unlearned_cate.length,
+                    },
+                ],
+            },
+            options: {
+                maintainAspectRatio: false,
+                aspectRatio: 1,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+                responsive: true,
+                width: 500,
+                height: 500,
+            },
+        })
+    } 
+    
+    $('#teacher_info_unlearned_num').html(temp_info_ulearned_num)
+    
+    let banconsulting_num = null 
+    banconsulting_num = banconsultingData.length
+    if(banconsulting_num == 0){
+        $('#consulting_chart').html(`<td class="col-4">진행할 상담이 없었습니다</td><td class="col-4">➖</td><td class="col-4" style="color:red">➖</td>`)
+    }else{
+        let ttd = null
+        ttd = banconsulting_num != 0 ? banconsultingData.filter(c => c.done == 1).length : 0
+        $('#consulting_chart').html(`<td class="col-4">${ttd} / ${banconsulting_num}건</td><td class="col-4">${answer_rate(ttd, banconsulting_num).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(banconsultingData.filter(c => c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
+    }
+        // // 업무 데이터
+    if(!taskData){
+        await get_all_task();
+    }
+    let target_task = taskData.slice();
+    const chunkedTaskData = target_task.filter(t=>t.ban_id == b_id)
+    
+    let TtasktodayData = null
+    TtasktodayData = chunkedTaskData.filter(t => (new Date(t.startdate).setHours(0, 0, 0, 0) <= today && today < new Date(t.deadline).setHours(0, 0, 0, 0)) && ((t.cycle == 0 && t.created_at == null) || (t.cycle == 0 && new Date(t.created_at).setHours(0, 0, 0, 0) == today) || (t.cycle == todayyoil)))
+    let today_done = null
+    today_done = TtasktodayData.filter(t => t.done == 1).length
+    let Ttaskhisory = null
+    Ttaskhisory = chunkedTaskData.filter(t => new Date(t.deadline).setHours(0, 0, 0, 0) < today)
+    let history_done = null
+    history_done = Ttaskhisory.filter(t => t.done == 1).length
+    $('#task_chart').html(`<td class="col-4">${today_done}/${TtasktodayData.length}건</td><td class="col-4">${answer_rate(today_done, TtasktodayData.length).toFixed(0)}%</td><td class="col-4">${answer_rate(history_done, Ttaskhisory.length).toFixed(0)}%</td>`);
+
+    // student data 
+    let target_students = studentsData.slice();
+    const chunkedStudentData = target_students.filter(s=>s.ban_id = b_id)
+    
+    // const Tstudent = chunkedStudentData
+
+    $('#displayCount').html(`관리 중인 원생 수: ${chunkedStudentData.length}명`)
+    chunkedStudentData.forEach((elem) => {
+        elem.unlearned = banunlearnedData.filter(a => a.student_id == elem.student_id).length
+        elem.up = answer_rate(elem.unlearned, banunlearnedData.length).toFixed(0)
+    });
+    var paginationOptions = {
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 10,
+        pageClassName: 'float-end',
+        callback: function (data, pagination) {
+            let chartHtml = "";
+            $.each(data, function (index, item) {
+                chartHtml += `
+                <td class="col-3">${item.student_name}( ${item.student_engname} )</td>
+                <td class="col-2">${item.origin}</td>
+                <td class="col-3">${item.pname} ( 📞${item.pmobileno} )</td>
+                <td class="col-3">${item.unlearned}건 ( ${item.up}% ) </td>
+                <td class="col-1" custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${item.student_id})">📝</td>`;
+            });
+            $("#s_data").html(chartHtml);
+        }
+    };
+    var StudentContainer = $('#pagingul')
+    StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': chunkedStudentData }))
+
+
+
 
     // let temp_baninfo = `<tr class="row">
     // <th class="col-2">반이름</th>
@@ -1006,53 +1115,6 @@ async function show_ban_report(b_id){
 
     
 
-    // // 업무 데이터
-    // if(!taskData){
-    //     await get_all_task();
-    // }
-    // const chunkedTaskData = taskData.filter(t=>t.teacher_id == t_id)
-    // console.log(taskData)
-    
-    // let TtasktodayData = null
-    // TtasktodayData = chunkedTaskData.filter(t => (new Date(t.startdate).setHours(0, 0, 0, 0) <= today && today < new Date(t.deadline).setHours(0, 0, 0, 0)) && ((t.cycle == 0 && t.created_at == null) || (t.cycle == 0 && new Date(t.created_at).setHours(0, 0, 0, 0) == today) || (t.cycle == todayyoil)))
-    // let today_done = null
-    // today_done = TtasktodayData.filter(t => t.done == 1).length
-    // let Ttaskhisory = null
-    // Ttaskhisory = chunkedTaskData.filter(t => new Date(t.deadline).setHours(0, 0, 0, 0) < today)
-    // let history_done = null
-    // history_done = Ttaskhisory.filter(t => t.done == 1).length
-    // $('#task_chart').html(`<td class="col-4">${today_done}/${TtasktodayData.length}건</td><td class="col-4">${answer_rate(today_done, TtasktodayData.length).toFixed(0)}%</td><td class="col-4">${answer_rate(history_done, Ttaskhisory.length).toFixed(0)}%</td>`);
-
-    // // student data 
-    // const chunkedStudentData = studentsData.filter(s=>s.teacher_id = t_id)
-    
-    // // const Tstudent = chunkedStudentData
-
-    // $('#displayCount').html(`관리 중인 원생 수: ${chunkedStudentData.length}명`)
-    // chunkedStudentData.forEach((elem) => {
-    //     elem.unlearned = TunlearnedData.filter(a => a.student_id == elem.student_id).length
-    //     elem.up = answer_rate(elem.unlearned, TunlearnedData.length).toFixed(0)
-    // });
-    // var paginationOptions = {
-    //     prevText: '이전',
-    //     nextText: '다음',
-    //     pageSize: 10,
-    //     pageClassName: 'float-end',
-    //     callback: function (data, pagination) {
-    //         let chartHtml = "";
-    //         $.each(data, function (index, item) {
-    //             chartHtml += `
-    //             <td class="col-3">${item.student_name}( ${item.student_engname} )</td>
-    //             <td class="col-2">${item.origin}</td>
-    //             <td class="col-3">${item.pname} ( 📞${item.pmobileno} )</td>
-    //             <td class="col-3">${item.unlearned}건 ( ${item.up}% ) </td>
-    //             <td class="col-1" custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${item.student_id})">📝</td>`;
-    //         });
-    //         $("#s_data").html(chartHtml);
-    //     }
-    // };
-    // var StudentContainer = $('#pagingul')
-    // StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': chunkedStudentData }))
 
 }
 // 미래 -_-

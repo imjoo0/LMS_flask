@@ -33,8 +33,12 @@
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header make_row">
-                <h5 class="modal-title" id="teachertitle"></h5>
-                <button type="button" class="btn btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <h5 class="modal-title" id="teachertitle" style="width:80%"></h5>
+                <select class="modal-body-select w-10" id="report_type" style="margin-right:50px;text-align:center">
+                    <option value=0 selected >Class Report</option>
+                    <option value=1 > Teacher Report </option>
+                </select>
+                <button type="button" class="btn btn-close btn-close-black" data-bs-dismiss="modal"></button>
             </div>
             <div class="mo_inloading" class="loader loader--style2 text-center" title="1">
                 <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
@@ -43,7 +47,7 @@
                     </path>
                 </svg>
             </div>
-            <div class="modal-body monot_inloading" id="teacher_infobox">
+            <div class="modal-body monot_inloading">
                 <div class="info-container">
                     <div class="info-title" id="ban_nametag">
                         
@@ -66,21 +70,10 @@
                 </div>
                 <div class="info-container mt-5">
                     <div class="info-title">
-                        <span>Teacher Report</span>
+                        <span id="teacher_infobox">  </span>
                     </div>
                     <div class="info">
                         <div class="total_table" style="width:90%">
-                            <table class="table text-center no_mb">
-                                <tbody style="width:100%;">
-                                    <tr class="row tagtagtitle">
-                                        <th class="col-12">미학습 현황</th>
-                                    </tr>
-                                    <tr class="row">
-                                        <th class="col-6">누적 미학습</th>
-                                        <th class="col-6">미학습 발생율</th>
-                                    </tr>
-                                </tbody>
-                            </table>
                             <table class="table text-center no_mb">
                                 <tbody style="width:100%;">
                                     <tr class="row tagtagtitle">
@@ -112,7 +105,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="info-container mt-5">
+                <!-- <div class="info-container mt-5">
                     <div class="info-title">
                         <span>Class Report</span>
                     </div>
@@ -122,7 +115,7 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </div> -->
                 <div class="info-container mt-5">
                     <div class="info-title">
                         <span>Student Report</span>
