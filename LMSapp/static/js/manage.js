@@ -196,8 +196,9 @@ $(window).on('load', async function () {
                             $('#manage_answer_2').hide()
                             $('#manage_answer_3').show()
                         }
+                        $('#teacher_answer').empty();
                         $('#teacher_answer').hide()
-                        $('#manage_answer').show()
+                        $('#manage_answer').sShow()
                         $('#manage_answer_1').show()
                         $('#manage_answer_2').hide()
                         $('#manage_answer_3').hide()
@@ -457,6 +458,7 @@ async function get_soquestion_detail(q_id, done_code) {
         $('#manage_answer_3').show()
     }
     if(done_code == 0) {
+        $('#teacher_answer').empty();
         $('#teacher_answer').hide()
         $('#manage_answer').show()
         $('#manage_answer_1').show()
@@ -982,6 +984,7 @@ async function get_question_detail(q_id, done_code) {
 
     // 응답 처리 
     if (done_code == 0) {
+        $('#teacher_answer').empty();
         $('#teacher_answer').hide()
         $('#manage_answer').show()
         $('#manage_answer_1').show()
@@ -1308,7 +1311,7 @@ async function request_task() {
         let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}`;
         temp_ban_option += `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
     });
-    $('#task_target_ban').html(temp_ban_option)
+    $('#task_ban').html(temp_ban_option)
 
     let temp_task_category_list = '<option value=0 selected>업무 카테고리를 선택해주세요</option>';
     taskcateData.forEach(task_data => {
@@ -1326,7 +1329,7 @@ async function request_task() {
             let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}`;
             temp_ban_option += `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
         });
-        $('#task_target_ban').html(temp_ban_option)
+        $('#task_ban').html(temp_ban_option)
     });
 }
 function show_ban_selection() {
@@ -1342,7 +1345,7 @@ function show_ban_selection() {
 }
 function task_ban_change(btid) {
     if (btid.includes('_')) {
-        // 다중 반 처리
+        // 개별 반 처리
         $('#target_task_bans').show()
         $('#task_msg').html('👇 개별 반 대상 진행합니다 (대상 반을 확인해 주세요)')
         if (selectedBanList.indexOf(btid) === -1) {
@@ -1375,6 +1378,162 @@ function delete_selected_ban(idx) {
     selectedBanList.splice(idx, 1)
     $('select[name="task_target_ban[]"]').val(selectedBanList);
     return show_ban_selection()
+}
+
+function post_task_request() {
+    let task_cateogry = $('#task_category_list').val()
+    let task_date = $('#task_date').val()
+    let task_deadline = $('#task_deadline').val()
+    let task_contents = $('#task_contents').val()
+
+    if(task_cateogry == 0){
+        alert('카테고리를 선택해 주세요')
+        reutrn
+    }
+    if(!task_date || !task_deadline){
+        alert('업무 시작/종료일을 선택해 주세요')
+        reutrn
+    }
+    if(!task_contents){
+        alert('업무 내용을 적어주세요')
+        reutrn
+    }
+    let task_cycle = $('#task_cycle').val
+    let task_priority = $('#task_priority').val
+    // 다중 선택 대상 선택일 경우  )
+    if (selectedBanList.length == 0) {
+        let selected = Number($('select[name="task_target_ban[]"]').val()[0])
+        $.ajax({
+            url: '/manage/task/'+selected,
+            type: 'POST',
+            data: JSON.stringify({
+                task_category_list: task_cateogry,
+                task_date: task_date,
+                task_deadline: task_deadline,
+                task_contents: task_contents,
+                task_cycle:task_cycle,
+                task_priority:task_priority
+            }),
+            contentType: 'application/json',
+            success: function(response) {
+              // 요청이 성공했을 때의 처리
+              if(response['result'] == 'success'){
+                alert('업무 요청이 완료되었습니다')
+                window.location.reload()
+              }
+            },
+            error: function(error) {
+              // 요청이 실패했을 때의 처리
+              console.log(error);
+            }
+        });
+    }else{
+        $.ajax({
+            url: `/manage/task/0`,
+            type: 'POST',
+            data: JSON.stringify({ 
+                selectedBanList: selectedBanList,
+                task_category_list: task_cateogry,
+                task_date: task_date,
+                task_deadline: task_deadline,
+                task_contents: task_contents,
+                task_cycle:task_cycle,
+                task_priority:task_priority
+            }),
+            contentType: 'application/json',
+            success: function(response) {
+                if(response['result'] == 'success'){
+                    alert('업무 요청이 완료되었습니다')
+                    window.location.reload()
+                }
+            },
+            error: function(error) {
+              // 요청이 실패했을 때의 처리
+              console.log(error);
+            }
+        });
+    }
+    //     console.log(selectedBanList)
+    //     let total_ban_selections = selectedStudentList.filter(value=>!(value.includes('_')))
+    //     let total_student_selections = selectedStudentList.filter(value => value.includes('-1'));
+    //     const totalPromises = [];
+
+    //     // 전체 반 대상 
+    //     if (total_ban_selections.length != 0) {
+    //         total_ban_selections.forEach(value => {
+    //             v = Number(value)
+    //             const promise = $.ajax({
+    //                 type: "POST",
+    //                 url: '/manage/consulting/all_ban/' + v,
+    //                 // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+    //                 data: {
+    //                     consulting_category: consulting_category,
+    //                     consulting_contents: consulting_contents,
+    //                     consulting_date: consulting_date,
+    //                     consulting_deadline: consulting_deadline
+    //                 }
+    //             })
+    //             totalPromises.push(promise);
+    //         })
+    //     }
+    //     // 전체 학생 대상
+    //     if (total_student_selections.length != 0) {
+    //         total_student_selections.forEach(value => {
+    //             v = value.split('_')
+    //             totalstudent_ban_id = Number(v[0])
+    //             totalstudent_teacher_id = Number(v[1])
+    //             const promise = $.ajax({
+    //                 type: "POST",
+    //                 url:`/manage/consulting/ban/${totalstudent_ban_id}/${totalstudent_teacher_id}/${v[2]}/`,
+    //                 // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+    //                 data: {
+    //                     consulting_category: consulting_category,
+    //                     consulting_contents: consulting_contents,
+    //                     consulting_date: consulting_date,
+    //                     consulting_deadline: consulting_deadline
+    //                 }
+    //             })
+    //             totalPromises.push(promise);
+    //         })
+    //     }
+    //     // 개별 학생 대상 인 경우  
+    //     let indivi_student_selections = selectedStudentList.filter(value => (value.includes('_')) && !(value.includes('-1')));
+    //     if (indivi_student_selections.length != 0) {
+    //         indivi_student_selections.forEach(value => {
+    //             v = String(value).split('_')
+    //             s_info = studentsData.filter(a => a.student_id ==  Number(v[3]))[0]
+    //             const promise = $.ajax({
+    //                 type: "POST",
+    //                 url: '/manage/consulting/' + v[0] + '/' + v[1] + '/' + v[3]+ '/',
+    //                 // data: JSON.stringify(jsonData), // String -> json 형태로 변환
+    //                 data: {
+    //                     student_name : s_info['student_name'],
+    //                     student_engname : s_info['student_engname'],
+    //                     origin : s_info['origin'],
+    //                     consulting_category: consulting_category,
+    //                     consulting_contents: consulting_contents,
+    //                     consulting_date: consulting_date,
+    //                     consulting_deadline: consulting_deadline
+    //                 }
+    //             })
+    //             totalPromises.push(promise);
+    //         })
+    //     }
+    //     Promise.all(totalPromises).then((responses) => {
+    //         let isSuccess = true;
+    //         responses.forEach(response => {
+    //             if (response['result'] !== 'success') {
+    //                 isSuccess = false;
+    //             }
+    //         })
+    //         if (isSuccess) {
+    //             alert('상담 요청 완료');
+    //             window.location.reload();
+    //         } else {
+    //             alert('상담 요청 실패');
+    //         }
+    //     })
+    // }
 }
 
 // 상담 요청 관련 함수 

@@ -376,22 +376,22 @@ def request_task():
         return jsonify({'all_task_category':all_task_category})
 
 # 요청 업무 저장 
-@bp.route("/task", methods=['POST'])
-def make_task():
+@bp.route("/task/<int:b_type>", methods=['POST'])
+def make_task(b_type):
     if request.method == 'POST':
         #  업무 카테고리 저장
-        received_category = request.form['task_category']
+        received_category = request.json.get('task_category_list')
         #  업무 내용 저장
-        received_task = request.form['task_contents']
+        received_task = request.json.get('task_contents')
         #  업무을 진행할 시작일 저장
-        received_task_startdate = datetime.datetime.strptime(request.form['task_date'], "%Y-%m-%d").date()
+        received_task_startdate = datetime.datetime.strptime(request.json.get('task_date'), "%Y-%m-%d").date()
 
         #  업무을 마무리할 마감일 저장
-        received_task_deadline = request.form['task_deadline']
+        received_task_deadline = request.json.get('task_deadline')
         # 업무 우선순위
-        received_task_priority = request.form['task_priority']
+        received_task_priority = request.json.get('task_priority')
         # 업무 주기
-        received_task_cycle = request.form['task_cycle']
+        received_task_cycle = request.json.get('task_cycle')
         task_yoil = ''
         if(received_task_cycle == 1):
             task_yoil = '월요일 업무'
@@ -410,9 +410,10 @@ def make_task():
         db.session.commit()
 
         #  업무 진행할 반 저장
-        received_target_ban = request.form.getlist('task_target_ban[]')
-
-        if '_' in received_target_ban[0]:
+        
+        if b_type == 0:
+            arrayData = request.get_json()
+            received_target_ban = arrayData['selectedBanList']
             for target in received_target_ban:
                 task_data = target.split('_')
                 teacher_id=int(task_data[1])
@@ -429,17 +430,17 @@ def make_task():
         # 전체 반이 선택 된 경우
         else:
             # 전체 반에 진행 
-            if received_target_ban[0] == '0':
+            if b_type == 0:
                 targets = callapi.purple_allinfo('get_all_ban_teacher')
-            elif received_target_ban[0] == '1':   
+            elif b_type == 1:   
                 targets = callapi.purple_allinfo('get_plusalpha_ban_teacher')
-            elif received_target_ban[0] == '2': 
+            elif b_type == 2: 
                 targets = callapi.purple_allinfo('get_nfinter_ban_teacher')
-            elif received_target_ban[0] == '3': 
+            elif b_type == 3: 
                 targets = callapi.purple_allinfo('get_sixteen_ban_teacher')
-            elif received_target_ban[0] == '4': 
+            elif b_type == 4: 
                 targets = callapi.purple_allinfo('get_seventeen_ban_teacher')
-            elif received_target_ban[0] == '5': 
+            elif b_type == 5: 
                 targets = callapi.purple_allinfo('get_eighteen_ban_teacher')
             
             for target in targets:
@@ -452,7 +453,7 @@ def make_task():
                 # headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
                 # http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
                 db.session.commit()
-        return redirect('/manage')
+        return jsonify({'result':'success'})
 
 # 상담 요청  
 @bp.route("/request_consulting", methods=['GET'])

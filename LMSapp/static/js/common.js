@@ -826,7 +826,6 @@ async function get_ban_info(b_id) {
             if (consultingCount != undefined) {
                 consultingCount = event.data.total_count
                 consultingData = consultingData.concat(event.data.consulting);
-                console.log('최종으로 불림')
                 return; // 조건을 만족하면 함수 종료
             }
             consultingCount = event.data.total_count
@@ -838,7 +837,6 @@ async function get_ban_info(b_id) {
     }else{
         if( (consultingData.length < consultingCount) && !(consultingData.some(c=>c.ban_id == b_id))){
             if ((tempConsultingData) && (tempConsultingData.some(c=>c.ban_id == b_id))){
-                console.log('이미 불린 애라 얘가 불림')
                 return show_ban_report(b_id,tempConsultingData)
             }else{
                 let ban_id_history = 0
@@ -846,12 +844,10 @@ async function get_ban_info(b_id) {
                 consultingbanChunkWorker.postMessage({b_id,ban_id_history})
                 consultingbanChunkWorker.onmessage = function (event) {
                     tempConsultingData = tempConsultingData.concat(event.data.consulting);
-                    console.log('임시로 내가 불림')
                     return show_ban_report(b_id,tempConsultingData)
                 };
             }
         }else{
-            console.log('앞으로 얘만 불림')
             show_ban_report(b_id,consultingData)   
         }
     }
@@ -895,6 +891,13 @@ async function show_ban_report(b_id,target_data){
         alert('반 정보가 없습니다')
         return
     }
+    $('#report_type').change(function() {
+        selectedValue = $(this).val();
+        console.log(selectedValue)
+        if(selectedValue == 0){
+        }else{
+        }
+    });
     $('.mo_inloading').hide()
     $('.monot_inloading').show()
     // 각 태그 이름 바꾸기 
@@ -1069,7 +1072,7 @@ async function show_ban_report(b_id,target_data){
 
     // student data 
     let target_students = studentsData.slice();
-    const chunkedStudentData = target_students.filter(s=>s.ban_id = b_id)
+    const chunkedStudentData = target_students.filter(s=>s.ban_id == b_id)
     
     // const Tstudent = chunkedStudentData
 
@@ -1099,24 +1102,8 @@ async function show_ban_report(b_id,target_data){
     var StudentContainer = $('#pagingul')
     StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': chunkedStudentData }))
 
-
-
-
-    // let temp_baninfo = `<tr class="row">
-    // <th class="col-2">반이름</th>
-    // <th class="col-1">학기</th>
-    // <th class="col-1">원생 수</th>
-    // <th class="col-2">퇴소</th>
-    // <th class="col-2">퇴소율</th>
-    // <th class="col-2">보류</th>
-    // <th class="col-2">미학습</th>
-    // </tr>`;
-   
-
-    
-
-
 }
+
 // 미래 -_-
 async function show_teacher_report(t_id){
     console.log('실행이 되지롱')
