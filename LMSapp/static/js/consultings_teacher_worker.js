@@ -1,10 +1,11 @@
 // consulting_worker.js
 
 // Function to fetch data from the server
-async function fetchDataFromServer(pageSize, t_id) {
+async function fetchDataFromServer(t_id, teacher_id_history) {
   try {
-    const response = await fetch(`/common/consulting_chunk_by_teacher?&page_size=${pageSize}&t_id=${t_id}`);
+    const response = await fetch(`/common/consulting_chunk_by_teacher?t_id=${t_id}&teacher_id_history=${teacher_id_history}`);
     const data = await response.json();
+    console.log(data);
     return data;
   } catch (error) {
     console.log(error);
@@ -13,8 +14,9 @@ async function fetchDataFromServer(pageSize, t_id) {
 }
 
 // Event listener to handle incoming messages from the client
-onmessage = async function (event) {
-  const { pageSize, t_id } = event.data;
-  const data = await fetchDataFromServer(pageSize, t_id);
+onmessage = async function(event) {
+  const { t_id, teacher_id_history } = event.data;
+  const data = await fetchDataFromServer(t_id, teacher_id_history);
   postMessage(data);
 };
+

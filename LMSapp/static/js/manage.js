@@ -1398,8 +1398,8 @@ function post_task_request() {
         alert('업무 내용을 적어주세요')
         reutrn
     }
-    let task_cycle = $('#task_cycle').val
-    let task_priority = $('#task_priority').val
+    let task_cycle = $('#task_cycle').val()
+    let task_priority = $('#task_priority').val()
     // 다중 선택 대상 선택일 경우  )
     if (selectedBanList.length == 0) {
         let selected = Number($('select[name="task_target_ban[]"]').val()[0])
