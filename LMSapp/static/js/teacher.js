@@ -230,7 +230,7 @@ async function home(){
                 <tr class="row">
                 <th class="col-8">${category}업무</th>
                 <th class="col-2">< 업무순서</th>
-                <th class="col-2">마감일 ></th>
+                <th class="col-2">업무 종료일 ></th>
                 </tr>
             </thead>
             <tbody style="width:100%;"> 

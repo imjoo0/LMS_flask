@@ -1180,34 +1180,34 @@ async function uldata() {
     let container = $('#ul_pagination')
     $('.cs_inloading').show()
     $('.not_inloading').hide()
-    if (!consultingData) {
-        // await get_all_consulting().then(() => {
-        //     $('.cs_inloading').hide()
-        //     $('.not_inloading').show()
-        // });
-    }
+    // if (!consultingData) {
+    //     await get_all_consulting().then(() => {
+    //         $('.cs_inloading').hide()
+    //         $('.not_inloading').show()
+    //     });
+    // }
     $('.cs_inloading').hide()
     $('.not_inloading').show()
-    // all_uc_consulting = consultingData[0].total_unlearned_consulting
-    // studentsData.forEach((elem) => {
-    //     elem.unlearned = consultingData.filter(a => a.student_id == elem.student_id && a.category_id < 100).length
-    //     elem.up = answer_rate(elem.unlearned, all_uc_consulting).toFixed(2)
-    // });
-    // studentsData.sort((a, b) => {
-    //     if (b.up !== a.up) {
-    //         return b.up - a.up;
-    //     } else {
-    //         return b.unlearned - a.unlearned; // students.length가 큰 순으로 정렬
-    //     }
-    // });
+    all_uc_consulting = consultingData.filter(c=>c.category_id > 100)
+    studentsData.forEach((elem) => {
+        elem.unlearned = consultingData.filter(a => a.student_id == elem.student_id && a.category_id < 100).length
+        elem.up = answer_rate(elem.unlearned, all_uc_consulting.length).toFixed(2)
+    });
+    studentsData.sort((a, b) => {
+        if (b.up !== a.up) {
+            return b.up - a.up;
+        } else {
+            return b.unlearned - a.unlearned; // students.length가 큰 순으로 정렬
+        }
+    });
 
-    // if (studentsData.length == 0) {
-    //     let no_data_title = `<h1> ${response.text} </h1>`
-    //     $('#ultitle').html(no_data_title);
-    //     $('#ul_data_box').hide()
-    //     $('#ul_pagination').hide()
-    //     return
-    // }
+    if (studentsData.length == 0) {
+        let no_data_title = `<h1> ${response.text} </h1>`
+        $('#ultitle').html(no_data_title);
+        $('#ul_data_box').hide()
+        $('#ul_pagination').hide()
+        return
+    }
     $('#ultitle').empty();
     $('#ul_data_box').show()
     $('#ul_pagination').show()
@@ -1511,6 +1511,10 @@ function delete_selected_student(idx) {
 }
 function post_consulting_request() {
     consulting_category = $('#consulting_category_list').val()
+    if(consulting_category == 0){
+        alert('카테고리를 선택해 주세요')
+        reutrn
+    }
     consulting_contents = $('#consulting_contents').val()
     consulting_date = $('#consulting_date').val()
     consulting_deadline = $('#consulting_deadline').val()
