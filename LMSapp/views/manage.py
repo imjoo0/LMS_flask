@@ -158,8 +158,7 @@ def is_it_done(id):
             finally:
                 db.close()
         return jsonify({'target_answer':target_answer})
-        
-      
+              
 @bp.route("/qa", methods=['GET'])
 def get_sodata():
     if request.method == 'GET':
@@ -358,6 +357,25 @@ def delete_task(id):
 
         return result
 
+@bp.route('/api/delete_tasks/<int:id>', methods=['GET'])
+def delete_tasks(id):
+    result = {}
+    if request.method == 'GET':
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute(f'DELETE task, taskban FROM task LEFT JOIN taskban ON taskban.task_id = task.id WHERE task.id = %s;',(id,))
+                db.commit()
+                result['status'] = 200
+                result['text'] = id
+        except Exception as e:
+            print(e)
+            result['status'] = 401
+            result['text'] = str(e)
+        finally:
+            db.close()
+
+        return result
 # 업무 요청  
 @bp.route("/request_task", methods=['GET'])
 def request_task():
