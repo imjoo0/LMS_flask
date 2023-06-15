@@ -2041,7 +2041,7 @@ async function get_task(){
         await get_all_task().then(() => {
             if (taskData.length > 0) {
                 taskGrouped = taskData.reduce((acc, item) => {
-                    const v = `${item.name}_${item.contents}_${item.startdate}_${item.deadline}_${item.cycle}_${item.priority}`;
+                    const v = `${item.name}_${item.contents}_${item.startdate}_${item.deadline}_${item.cycle}_${item.priority}_${item.id}`;
                     if (!acc[v]) {
                         acc[v] = [];
                     }
@@ -2075,8 +2075,10 @@ async function get_task(){
                                 <td class="col-1">${make_priority(task_info[5])}</td>
                                 <td class="col-1">${make_cycle(task_info[4])}</td>
                                 <td class="col-2">${task_info[0]} 업무</td>
-                                <td class="col-3">${task_info[1]}</td>
-                                <td class="col-1" onclick ="get_taskban('${key}')"> <span class="cursor">🔍</span> </td>`;
+                                <td class="col-2">${make_small_char(task_info[1])}</td>
+                                <td class="col-1" onclick ="get_taskban('${key}')"> <span class="cursor">🔍</span> </td>
+                                <td class="col-1" onclick ="delete_tasks('${task_info[6]}')" ><span class="cursor">🗑️</span></td>
+                                `;
                         });
                         category_set = new Set(category_list)
                         category_list = [...category_set]
@@ -2235,6 +2237,30 @@ async function delete_task(idx) {
     if (con_val == true) {
         await $.ajax({
             url: '/manage/api/delete_task/' + idx,
+            type: 'get',
+            headers: { 'content-type': 'application/json' },
+            data: {},
+            success: function (data) {
+                if (data.status == 200) {
+                    alert(`삭제되었습니다.`)
+                    window.location.reload()
+                } else {
+                    alert(`실패 ${data.status} ${data.text}`)
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        })
+    }
+}
+async function delete_tasks(idx) {
+    idx = Number(idx)
+    const csrf = $('#csrf_token').val();
+    var con_val = confirm('요청된 업무를 전부 삭제하시겠습니까?')
+    if (con_val == true) {
+        await $.ajax({
+            url: '/manage/api/delete_tasks/' + idx,
             type: 'get',
             headers: { 'content-type': 'application/json' },
             data: {},
