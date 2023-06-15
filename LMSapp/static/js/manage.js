@@ -257,37 +257,55 @@ function main_view() {
     $('#ulbox').hide()
     $('#detailban').show()
 }
-
-// 이반 * 퇴소 
-async function sodata() {
+async function get_question_list(q_type){
+    $('.cs_inloading').show()
+    $('.not_inloading').hide()
+    $('#detailban').hide()
     $('#qubox').hide()
     $('#Tqubox').hide()
     $('#inTqubox').hide()
     $('#ulbox').hide()
-    $('#detailban').hide()
-    $('#sobox').show()
-    $('.cs_inloading').show()
-    $('.not_inloading').hide()
+    $('#sobox').hide()
     if (!questionData) {
+        // 얘를 워커를 사용하는 식으로 변경 
         await get_all_question()
-    }
-    soqData = questionData.filter(q => q.category != 0 && q.category != 4 && q.category != 5)
-    $('.cs_inloading').hide()
-    $('.not_inloading').show()
-    so_paginating(0)   
-
-    if(!CSdata){
-        const csWorker = new Worker("../static/js/cs_worker.js");
-        csWorker.postMessage('getCSdata')
-        csWorker.onmessage = function (event) {
-            CSdata = event.data.all_cs_data;
-        };
+        if(!CSdata){
+            const csWorker = new Worker("../static/js/cs_worker.js");
+            csWorker.postMessage('getCSdata')
+            csWorker.onmessage = function (event) {
+                CSdata = event.data.all_cs_data;
+            };
+        }
+        let copy_data = questionData
+        let q_data = copy_data.filter(q=>q.category == q_type)
+        if(q_type == 1 || 2){
+            qdata = copy_data.filter(q => q.category != 0 && q.category != 4 && q.category != 5)
+        }
+        total_q_num = qdata.length
+        q_noanswer = total_q_num != 0 ? qdata.filter(a => a.answer == 0).length : 0
+    
+        let temp_newso = `
+        <td class="col-4">${total_q_num}  건</td>
+        <td class="col-4">${total_q_num - q_noanswer}  건</td>
+        <td class="col-4">${q_noanswer}  건</td>`;
+        $('#newso').html(temp_newso)
+    
+        
     }
 }
 // 이반 퇴소 문의 관리
-function so_paginating(done_code) {
+function so_paginating(qdata) {
+    $('.cs_inloading').hide()
+    $('.not_inloading').show()
+    $('#sobox').show()
+    let copy_data = qdata
+    $('#question_view').change(function() {
+        copy_data.filter(q=>q.done == $(this).val())
+        so_paginating(copy_data)
+    });
+
     $('#so_search_input').off('keyup');
-    total_soquestion_num = soqData.length
+    total_soquestion_num = copy_data.length
     sodata_noanswer = total_soquestion_num != 0 ? soqData.filter(a => a.answer == 0).length : 0
 
     let temp_newso = `
@@ -353,14 +371,20 @@ function so_paginating(done_code) {
 
             $('#so_search_input').on('keyup', function () {
                 var searchInput = $(this).val().toLowerCase();
-                var filteredData = qdata.filter(function (data) {
-                    return ((data.hasOwnProperty('origin') && data.origin.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1));
-                });
-                filteredData.sort(function (a, b) {
-                    return new Date(b.create_date) - new Date(a.create_date);
-                });
-                container.pagination('destroy');
-                container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
+                let copy_data = qdata.slice();
+                if(searchInput == ""){
+                    container.pagination('destroy');
+                    container.pagination(Object.assign(paginationOptions, { 'dataSource': qdata }));
+                }else{
+                    var filteredData = copy_data.filter(function (data) {
+                        return ((data.hasOwnProperty('origin') && data.origin.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1));
+                    });
+                    filteredData.sort(function (a, b) {
+                        return new Date(b.create_date) - new Date(a.create_date);
+                    });
+                    container.pagination('destroy');
+                    container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
+                }
             });
         } else {
             $('#so_question').hide()
@@ -620,14 +644,20 @@ function paginating(done_code) {
 
             $('#cs_search_input').on('keyup', function () {
                 var searchInput = $(this).val().toLowerCase();
-                var filteredData = qdata.filter(function (data) {
-                    return ((data.hasOwnProperty('origin') && data.origin.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1));
-                });
-                filteredData.sort(function (a, b) {
-                    return new Date(b.create_date) - new Date(a.create_date);
-                });
-                container.pagination('destroy');
-                container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
+                let copy_data = qdata.slice();
+                if(searchInput == ""){
+                    container.pagination('destroy');
+                    container.pagination(Object.assign(paginationOptions, { 'dataSource': qdata }));
+                }else{
+                    var filteredData = copy_data.filter(function (data) {
+                        return ((data.hasOwnProperty('origin') && data.origin.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1));
+                    });
+                    filteredData.sort(function (a, b) {
+                        return new Date(b.create_date) - new Date(a.create_date);
+                    });
+                    container.pagination('destroy');
+                    container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
+                }
             });
 
         } else {
@@ -757,14 +787,20 @@ function Tpaginating(done_code) {
 
             $('#Tcs_search_input').on('keyup', function () {
                 var searchInput = $(this).val().toLowerCase();
-                var filteredData = qdata.filter(function (data) {
-                    return ((data.hasOwnProperty('origin') && data.origin.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1));
-                });
-                filteredData.sort(function (a, b) {
-                    return new Date(b.create_date) - new Date(a.create_date);
-                });
-                container.pagination('destroy');
-                container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
+                let copy_data = qdata.slice();
+                if(searchInput == ""){
+                    container.pagination('destroy');
+                    container.pagination(Object.assign(paginationOptions, { 'dataSource': qdata }));
+                }else{
+                    var filteredData = copy_data.filter(function (data) {
+                        return ((data.hasOwnProperty('origin') && data.origin.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1));
+                    });
+                    filteredData.sort(function (a, b) {
+                        return new Date(b.create_date) - new Date(a.create_date);
+                    });
+                    container.pagination('destroy');
+                    container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
+                }
             });
 
         } else {
@@ -887,14 +923,20 @@ function inTpaginating(done_code) {
 
             $('#inTcs_search_input').on('keyup', function () {
                 var searchInput = $(this).val().toLowerCase();
-                var filteredData = qdata.filter(function (data) {
-                    return ((data.hasOwnProperty('origin') && data.origin.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1));
-                });
-                filteredData.sort(function (a, b) {
-                    return new Date(b.create_date) - new Date(a.create_date);
-                });
-                container.pagination('destroy');
-                container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
+                let copy_data = qdata.slice();
+                if(searchInput == ""){
+                    container.pagination('destroy');
+                    container.pagination(Object.assign(paginationOptions, { 'dataSource': qdata }));
+                }else{
+                    var filteredData = copy_data.filter(function (data) {
+                        return ((data.hasOwnProperty('origin') && data.origin.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('ban_name') && data.ban_name.toLowerCase().indexOf(searchInput) !== -1)||(data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1));
+                    });
+                    filteredData.sort(function (a, b) {
+                        return new Date(b.create_date) - new Date(a.create_date);
+                    });
+                    container.pagination('destroy');
+                    container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
+                }
             });
 
         } else {
