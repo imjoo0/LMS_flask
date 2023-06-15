@@ -357,8 +357,8 @@ def delete_task(id):
 
         return result
 
-@bp.route('/api/delete_tasks/<int:id>', methods=['GET'])
-def delete_tasks(id):
+@bp.route('/api/every_delete_tasks/<int:id>', methods=['GET'])
+def every_delete_tasks(id):
     result = {}
     if request.method == 'GET':
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)

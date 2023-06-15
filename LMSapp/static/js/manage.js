@@ -2260,7 +2260,7 @@ async function delete_tasks(idx) {
     var con_val = confirm('요청된 업무를 전부 삭제하시겠습니까?')
     if (con_val == true) {
         await $.ajax({
-            url: '/manage/api/delete_tasks/' + idx,
+            url: '/manage/api/every_delete_tasks/' + idx,
             type: 'get',
             headers: { 'content-type': 'application/json' },
             data: {},
