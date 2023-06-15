@@ -1339,7 +1339,7 @@ async function show_teacher_report(t_id,b_id,target_data){
     $('#task_chart').html(`<td class="col-4">${today_done}/${TtasktodayData.length}건</td><td class="col-4">${answer_rate(today_done, TtasktodayData.length).toFixed(0)}%</td><td class="col-4">${answer_rate(history_done, Ttaskhisory.length).toFixed(0)}%</td>`);
 
     // student data 
-    let chunkedStudentData = studentsData.filter(s=>s.teacher_id = t_id && s.category_id == 1)
+    let chunkedStudentData = studentsData.filter(s=>s.teacher_id == t_id && s.category_id == 1)
     
     // const Tstudent = chunkedStudentData
 

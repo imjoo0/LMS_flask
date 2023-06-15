@@ -6,7 +6,7 @@ from LMSapp.models import *
 from flask import current_app, session
 from flask import Blueprint, render_template, jsonify, request, redirect, url_for, flash
 from datetime import datetime, timedelta, date
-
+import pytz
 # file-upload 로 자동 바꿈 방지 모듈
 from LMSapp.views import common
 from LMSapp.views.main_views import authrize
@@ -19,9 +19,14 @@ from urllib.parse import quote
 
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 
-current_time = datetime.now()
-Today = current_time.date()
-today_yoil = current_time.weekday() + 1
+
+current_time = datetime.utcnow()
+
+korea_timezone = pytz.timezone('Asia/Seoul')
+korea_time = current_time.astimezone(korea_timezone)
+
+Today = korea_time.date()
+today_yoil = korea_time.weekday() + 1
 standard = datetime.strptime('11110101', "%Y%m%d").date()
 
 # 복호화 fernet -( 상담용 프로그램 )
