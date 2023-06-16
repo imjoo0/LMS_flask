@@ -212,7 +212,7 @@ def del_question(id):
         return jsonify('삭제 완료')
 
 # 상담 삭제 기능
-@bp.route('/delete_consulting/<int:id>', methods=['GET'])
+@bp.route('/delete_consulting/<int:id>', methods=['POST'])
 def delete_consulting(id):
     result = {}
     if request.method == 'POST':
