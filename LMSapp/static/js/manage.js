@@ -23,7 +23,9 @@ async function get_all_question() {
         for (let i = 0; i < studentsData.length; i++) {
         const student = studentsData[i];
         studentMap.set(student.student_id, {
-            origin: student.origin
+            origin: student.origin,
+            student_name:student.student_name,
+            student_engname:student.student_engname
         });
         }
 
@@ -42,7 +44,7 @@ async function get_all_question() {
             const question = questionData[i];
             const ban = banMap.get(question.ban_id);
             const student = studentMap.get(question.student_id);
-
+            console.log(student)
             question.origin = student ? student.origin : '원생 정보 없음';
             question.student_name = student ? student.student_name : '원생 정보 없음';
             question.student_engname = student ? student.student_engname : '원생 정보 없음';
@@ -410,6 +412,7 @@ async function get_question_detail(q_id){
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
     let question_detail_data = questionData.filter(q => q.id == q_id)[0]
+    console.log(question_detail_data)
     // student_data = studentsData.filter(s => s.student_id == question_detail_data.student_id)[0]
     const attachMap = new Map();
     for (let i = 0; i < attachData.length; i++) {
