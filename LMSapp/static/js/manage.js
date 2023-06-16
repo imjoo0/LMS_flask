@@ -23,7 +23,9 @@ async function get_all_question() {
         for (let i = 0; i < studentsData.length; i++) {
         const student = studentsData[i];
         studentMap.set(student.student_id, {
-            origin: student.origin
+            origin: student.origin,
+            student_name:student.student_name,
+            student_engname:student.student_engname
         });
         }
 
@@ -36,8 +38,6 @@ async function get_all_question() {
             teacher_name: ban.teacher_engname + ' (' + ban.teacher_name + ')'
         });
         }
-
-        // questionData를 순회하면서 필요한 정보를 매핑하여 저장
         for (let i = 0; i < questionData.length; i++) {
             const question = questionData[i];
             const ban = banMap.get(question.ban_id);
@@ -49,7 +49,15 @@ async function get_all_question() {
             question.ban_name = ban ? ban.ban_name : '';
             question.teacher_name = ban ? ban.teacher_name : '';
         }
-        
+        // questionData를 순회하면서 필요한 정보를 매핑하여 저장
+        if(!CSdata){
+            const csWorker = new Worker("../static/js/cs_worker.js");
+            csWorker.postMessage('getCSdata')
+            csWorker.onmessage = function (event) {
+                CSdata = event.data.all_cs_data;
+                questionData = qdata.concat(CSdata)
+            };
+        }
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
@@ -300,19 +308,28 @@ async function get_question_list(q_type){
         // q_type의 문의 먼저 최근 문의 1-5000건씩 가져오기 
         await get_all_question()
     }
-    if(!CSdata){
-        const csWorker = new Worker("../static/js/cs_worker.js");
-        csWorker.postMessage('getCSdata')
-        csWorker.onmessage = function (event) {
-            CSdata = event.data.all_cs_data;
-        };
-    }
     let copy_data = questionData.slice()
     let qdata = copy_data.filter(q=>q.category == q_type)
     if(q_type == 1){
         qdata = qdata.concat(copy_data.filter(q => q.category == 2))
     }
 
+    if(CSdata){
+        if(q_type == 0){
+            qdata = qdata.concat(CSdata.filter(q => q.title == '행정파트'))
+            console.log(CSdata)
+            $('.cs_inloading').hide()
+            $('.not_inloading').show()
+        }else if(q_type == 4){
+            qdata = qdata.concat(CSdata.filter(q => q.title == '내근티처'))
+            $('.cs_inloading').hide()
+            $('.not_inloading').show()
+        }else if(q_type == 5){
+            qdata = qdata.concat(CSdata.filter(q => q.title == '개발관리'))
+            $('.cs_inloading').hide()
+            $('.not_inloading').show()
+        }
+    }
     let total_q_num = qdata.length
     let q_noanswer = total_q_num != 0 ? qdata.filter(a => a.answer == 0).length : 0
 
@@ -337,7 +354,6 @@ function question_paginating(qdata,done_code){
     $('#so_question').show()
     $('#so_pagination').show()
     let copy_data = qdata.slice()
-    console.log(copy_data)
     let target = copy_data.length > 0 ? copy_data.filter(q=>q.answer == done_code) : 0;
     console.log(target)
     var container = $('#so_pagination');
