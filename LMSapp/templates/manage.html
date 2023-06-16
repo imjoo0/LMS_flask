@@ -826,16 +826,16 @@
                         <a class="nav-link" onclick="uldata()">학습 관리</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" onclick="sodata()">이반 퇴소 관리</a>
+                        <a class="nav-link" onclick="get_question_list(1)">이반 퇴소 관리</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" onclick="csdata()">일반 문의</a>
+                        <a class="nav-link" onclick="get_question_list(0)">일반 문의</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" onclick="inTdata()">내근티처 문의</a>
+                        <a class="nav-link" onclick="get_question_list(5)">내근티처 문의</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" onclick="Tcsdata()">기술지원 문의</a>
+                        <a class="nav-link" onclick="get_question_list(4)">기술지원 문의</a>
                     </li>
                 </ul>
             </div>
@@ -902,12 +902,12 @@
         </div>
     </div>
     <!-- 이반 퇴소 관리 -->
-    <div id="sobox" style="display: none;">
+    <div id="questionbox" style="display: none;">
         <div class="info-container">
             <div class="info-title">
                 <span class="make_row">
-                    퇴소 / 이반 요청 관리
-                    <select id="question_view" class="form-select text-center w-25" name="question_view" onchange="so_paginating(this.value)">
+                    문의 관리
+                    <select id="question_view" class="form-select text-center w-25" name="question_view" >
                         <option value=0 selected>미응답 요청</option>
                         <option value=1>응답한 요청</option>
                     </select>
@@ -923,9 +923,6 @@
                 </div>
                 <div class="w-100 not_inloading">
                     <table class="table text-center" style="width:100%;">
-                        <tr class="row" style="background: #DCE6F2;">
-                            <th class="col-12">Teacher 퇴소/이반 요청 사항</th>
-                        </tr>
                         <tr class="row" style="background:#DCE6F2;">
                             <th class="col-4">총 요청</th>
                             <th class="col-4">응답한 요청</th>
@@ -935,7 +932,7 @@
                     </table>
                     <h3 id="no_data_msg" style="width: 100%; text-align: center; padding: 16px 0;"></h3>
                     <div id="so_question" style="width: 100%;">
-                        <input class="not_inloading search_input_box" type="text" id="so_search_input" placeholder="원번, 반이름 혹은 선생님으로 검색">
+                        <input class="not_inloading search_input_box" type="text" id="question_search_input" placeholder="원번, 반이름 혹은 선생님으로 검색">
                         <table class="table text-center" style="width:100%;">
                             <thead>
                                 <tr class="row">
