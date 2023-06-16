@@ -230,7 +230,7 @@ $(window).on('load', async function () {
                         }
                         $('#teacher_answer').empty();
                         $('#teacher_answer').hide()
-                        $('#manage_answer').sShow()
+                        $('#manage_answer').show()
                         $('#manage_answer_1').show()
                         $('#manage_answer_2').hide()
                         $('#manage_answer_3').hide()
@@ -251,6 +251,7 @@ $(window).on('load', async function () {
                             id="answer_content_modi">${answer_data.content}</textarea>
                         </div>
                         `;
+                        console.log('ge')
                         $('#teacher_answer').html(temp_answer_list);
                         $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category},${1})">수정</button>`);
                         $('#teacher_answer').show()
@@ -282,24 +283,18 @@ $(window).on('load', async function () {
 });
 
 function main_view() {
-    $('#qubox').hide()
-    $('#Tqubox').hide()
-    $('#inTqubox').hide()
-    $('#sobox').hide()
+    $('#questionbox').hide()
     $('#ulbox').hide()
     $('#detailban').show()
 }
 async function get_question_list(q_type){
+    $('#questionbox').hide()
     $('#question_view').val(0); 
     $('#question_search_input').off('keyup');
     $('.cs_inloading').show()
     $('.not_inloading').hide()
     $('#detailban').hide()
-    $('#qubox').hide()
-    $('#Tqubox').hide()
-    $('#inTqubox').hide()
     $('#ulbox').hide()
-    $('#sobox').hide()
     if (!questionData) {
         // 얘를 워커를 사용하는 식으로 변경 
         // q_type의 문의 먼저 최근 문의 1-5000건씩 가져오기 
@@ -736,11 +731,8 @@ async function post_answer(q_id, category,done_code) {
 }
 // 미학습 (학습관리)
 async function uldata() {
-    $('#qubox').hide()
-    $('#sobox').hide()
+    $('#questionbox').hide()
     $('#detailban').hide()
-    $('#Tqubox').hide()
-    $('#inTqubox').hide()
     $('#ulbox').show()
     let container = $('#ul_pagination')
     $('.cs_inloading').show()
@@ -1322,7 +1314,6 @@ function post_consulting_request() {
         })
     }
 }
-
 async function get_request_consulting() {
     $('.mo_inloading').show();
     $('.not_inloading').hide();

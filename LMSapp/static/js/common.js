@@ -479,10 +479,7 @@ async function get_cs_data() {
 async function get_total_data() {
     $('#semester').hide();
     $('#detailban').show();
-    $('#qubox').hide()
-    $('#inTqubox').hide()
-    $('#Tqubox').hide()
-    $('#sobox').hide()
+    $('#questionbox').hide()
     $('#ulbox').hide()
     $('#target_ban_info_body').hide()
     try {
