@@ -42,6 +42,7 @@ standard = datetime.strptime('11110101', "%Y%m%d").date()
 @authrize
 def home(u):
     if request.method == 'GET':
+        print(Today)
         teacher_info = callapi.purple_info(u['user_id'], 'get_teacher_info')
         return render_template('teacher.html', user=teacher_info)
 
@@ -230,7 +231,6 @@ def consulting_history(id,is_done):
         if(is_done == 0):
             target_consulting.reason = received_reason
             target_consulting.solution = received_solution
-            target_consulting.created_at = Today
         else:
             if(received_reason != "작성 내역이 없습니다"):
                 target_consulting.reason = received_reason

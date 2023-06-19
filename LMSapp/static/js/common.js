@@ -1,6 +1,6 @@
 // manage변수 
 let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, studentsData, reportsData, consultingCount,consultingData, consultingHistoryData, consultingcateData,taskCount, taskData, taskcateData, questionData, answerData, attachData, CSdata;
-let tempConsultingData
+let tempConsultingData,temptaskData
 // teacher 변수
 let  Tconsulting_category, Tban_data, Tall_consulting, Tmy_students, Tall_task, Ttask_consulting, Tunlearned_student, Tall_students, Tstudent_consulting, TquestionAnswerdata;
 let isFetching = false;
@@ -358,18 +358,6 @@ async function get_all_data() {
         banData = response['all_ban'].map((item) => {
             return { ...item, total_out_num_per: Number(answer_rate(item.out_student_num, totalOutnum).toFixed(2)) }
         })
-    } catch (error) {
-        alert('Error occurred while retrieving data.');
-    }
-}
-async function get_all_consulting() {
-    try {
-        const response = await $.ajax({
-            url: '/common/consulting',
-            type: 'GET',
-            data: {},
-        });
-        consultingData = response['consulting']
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
@@ -809,54 +797,179 @@ async function get_ban_info(t_id,b_id) {
             consultingCount = event.data.total_count
             consultingData = event.data.consulting;
             fetchData(0);
-            show_ban_report(t_id,b_id,consultingData)
+            if(taskData){
+                if( (taskData.length < taskCount) && !(taskData.some(c=>c.teacher_id == t_id))){
+                    if ((temptaskData) && (temptaskData.some(c=>c.teacher_id == t_id))){
+                        return show_ban_report(t_id,b_id,consultingData,temptaskData)
+                    }else{
+                        let teacher_id_history = 0
+                        let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");   
+                        taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
+                        taskTeacherChunkWorker.onmessage = function (event) {
+                            temptaskData = temptaskData.concat(event.data.consulting);
+                            return show_ban_report(t_id,b_id,consultingData,temptaskData)
+                        };
+                    }
+                }else{
+                    show_ban_report(t_id,b_id,consultingData,taskData)   
+                }
+            }else{
+                taskData = []
+                temptaskData = []
+                let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");  
+                let teacher_id_history = t_id
+                function taskfetchData(t_id){
+                    taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
+                }
+                taskfetchData(t_id);
+                taskTeacherChunkWorker.onmessage = function (event){
+                    if (taskCount != undefined) {
+                        taskCount = event.data.total_count
+                        taskData = taskData.concat(event.data.task);
+                        return; // 조건을 만족하면 함수 종료
+                    }
+                    taskCount = event.data.total_count
+                    taskData = event.data.task;
+                    taskfetchData(0);
+                    show_ban_report(t_id,b_id,consultingData,taskData)
+                }
+            }
         };
         fetchData(t_id);
     }else{
         if( (consultingData.length < consultingCount) && !(consultingData.some(c=>c.teacher_id == t_id))){
             if ((tempConsultingData) && (tempConsultingData.some(c=>c.teacher_id == t_id))){
-                return show_ban_report(t_id,b_id,tempConsultingData)
+                if(taskData){
+                    if( (taskData.length < taskCount) && !(taskData.some(c=>c.teacher_id == t_id))){
+                        if ((temptaskData) && (temptaskData.some(c=>c.teacher_id == t_id))){
+                            return show_ban_report(t_id,b_id,tempConsultingData,temptaskData)
+                        }else{
+                            let teacher_id_history = 0
+                            let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");   
+                            taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
+                            taskTeacherChunkWorker.onmessage = function (event) {
+                                temptaskData = temptaskData.concat(event.data.consulting);
+                                return show_ban_report(t_id,b_id,tempConsultingData,temptaskData)
+                            };
+                        }
+                    }else{
+                        show_ban_report(t_id,b_id,tempConsultingData,taskData)   
+                    }
+                    // show_ban_report(t_id,b_id,consultingData)
+                }else{
+                    taskData = []
+                    temptaskData = []
+                    let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");  
+                    let teacher_id_history = t_id
+                    function taskfetchData(t_id){
+                        taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
+                    }
+                    taskfetchData(t_id);
+                    taskTeacherChunkWorker.onmessage = function (event){
+                        if (taskCount != undefined) {
+                            taskCount = event.data.total_count
+                            taskData = taskData.concat(event.data.task);
+                            return; // 조건을 만족하면 함수 종료
+                        }
+                        taskCount = event.data.total_count
+                        taskData = event.data.task;
+                        taskfetchData(0);
+                        show_ban_report(t_id,b_id,tempConsultingData,taskData)
+                    }
+                }
             }else{
                 let teacher_id_history = 0
                 let consultingTeacherChunkWorker = new Worker("../static/js/consultings_teacher_worker.js");  
                 consultingTeacherChunkWorker.postMessage({t_id,teacher_id_history})
                 consultingTeacherChunkWorker.onmessage = function (event) {
                     tempConsultingData = tempConsultingData.concat(event.data.consulting);
-                    return show_ban_report(t_id,b_id,tempConsultingData)
+                    // return show_ban_report(t_id,b_id,tempConsultingData)
+                    if(taskData){
+                        if( (taskData.length < taskCount) && !(taskData.some(c=>c.teacher_id == t_id))){
+                            if ((temptaskData) && (temptaskData.some(c=>c.teacher_id == t_id))){
+                                return show_ban_report(t_id,b_id,tempConsultingData,temptaskData)
+                            }else{
+                                let teacher_id_history = 0
+                                let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");   
+                                taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
+                                taskTeacherChunkWorker.onmessage = function (event) {
+                                    temptaskData = temptaskData.concat(event.data.consulting);
+                                    return show_ban_report(t_id,b_id,tempConsultingData,temptaskData)
+                                };
+                            }
+                        }else{
+                            show_ban_report(t_id,b_id,tempConsultingData,taskData)   
+                        }
+                    }else{
+                        taskData = []
+                        temptaskData = []
+                        let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");  
+                        let teacher_id_history = t_id
+                        function taskfetchData(t_id){
+                            taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
+                        }
+                        taskfetchData(t_id);
+                        taskTeacherChunkWorker.onmessage = function (event){
+                            if (taskCount != undefined) {
+                                taskCount = event.data.total_count
+                                taskData = taskData.concat(event.data.task);
+                                return; // 조건을 만족하면 함수 종료
+                            }
+                            taskCount = event.data.total_count
+                            taskData = event.data.task;
+                            taskfetchData(0);
+                            show_ban_report(t_id,b_id,tempConsultingData,taskData)
+                        }
+                    }
                 };
             }
         }else{
-            show_ban_report(t_id,b_id,consultingData)   
+            if(taskData){
+                if( (taskData.length < taskCount) && !(taskData.some(c=>c.teacher_id == t_id))){
+                    if ((temptaskData) && (temptaskData.some(c=>c.teacher_id == t_id))){
+                        return show_ban_report(t_id,b_id,consultingData,temptaskData)
+                    }else{
+                        let teacher_id_history = 0
+                        let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");   
+                        taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
+                        taskTeacherChunkWorker.onmessage = function (event) {
+                            temptaskData = temptaskData.concat(event.data.consulting);
+                            return show_ban_report(t_id,b_id,consultingData,temptaskData)
+                        };
+                    }
+                }else{
+                    show_ban_report(t_id,b_id,consultingData,taskData)   
+                }
+            }else{
+                taskData = []
+                temptaskData = []
+                let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");  
+                let teacher_id_history = t_id
+                function taskfetchData(t_id){
+                    taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
+                }
+                taskfetchData(t_id);
+                taskTeacherChunkWorker.onmessage = function (event){
+                    if (taskCount != undefined) {
+                        taskCount = event.data.total_count
+                        taskData = taskData.concat(event.data.task);
+                        return; // 조건을 만족하면 함수 종료
+                    }
+                    taskCount = event.data.total_count
+                    taskData = event.data.task;
+                    taskfetchData(0);
+                    show_ban_report(t_id,b_id,consultingData,taskData)
+                }
+            }
         }
     }
 
 }
-async function show_ban_report(t_id,b_id,target_data){
+async function show_ban_report(t_id,b_id,target_consultingdata,target_taskdata){
     $('#report_type').val(0);  // 선택된 값이 0으로 변경됨
     $('#class_list').hide()
-    let copy_data = target_data.slice();
-    if(!taskData){
-        taskData = []
-        let pageSize = 5000;  // 페이지당 데이터 개수
-        let taskBanrChunkWorker = new Worker("../static/js/tasks_worker.js");  
-        function fetchData(b_id){
-            if (taskData.length >= taskCount) {
-                return; // 조건을 만족하면 함수 종료
-            }
-            taskBanrChunkWorker.postMessage({pageSize,b_id})
-        }
-        taskBanrChunkWorker.onmessage = function (event) {
-            taskCount = event.data.total_count
-            taskData = taskData.concat(event.data.task);
-            if (taskData.length >= taskCount) {
-                taskData = Array.from(new Set(taskData));
-                return; // 조건을 만족하면 함수 종료
-            }
-            pageSize=taskCount
-            fetchData(0);
-        };
-        fetchData(b_id);
-    }
+    let copy_data = target_consultingdata.slice();
+    let copy_taskdata = target_taskdata.slice();
     if (Chart.getChart('total-chart-element-studentnum')) {
         Chart.getChart('total-chart-element-studentnum').destroy()
     }
@@ -874,11 +987,10 @@ async function show_ban_report(t_id,b_id,target_data){
     // 리포트 타입에 따라 화면 변화 
     $('#report_type').change(function() {
         selectedValue = $(this).val();
-        console.log(selectedValue)
         if(selectedValue == 0){
-            return show_ban_report(t_id,b_id,target_data)
+            return show_ban_report(t_id,b_id,target_consultingdata,target_taskdata)
         }else{
-            return show_teacher_report(t_id,b_id,target_data)
+            return show_teacher_report(t_id,b_id,target_consultingdata,target_taskdata)
         }
     });
     $('.mo_inloading').hide()
@@ -953,7 +1065,6 @@ async function show_ban_report(t_id,b_id,target_data){
         })
     }
     
-
     let banconsultingData = copy_data.filter(c => c.ban_id == b_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
     // let banconsultaskData = banconsultingData.filter(c =>  c.category_id > 100)
     let banunlearnedData = banconsultingData.filter(c => c.category_id < 100)
@@ -1036,13 +1147,8 @@ async function show_ban_report(t_id,b_id,target_data){
         ttd = banconsulting_num != 0 ? banconsultingData.filter(c => c.done == 1).length : 0
         $('#consulting_chart').html(`<td class="col-4">${ttd} / ${banconsulting_num}건</td><td class="col-4">${answer_rate(ttd, banconsulting_num).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(banconsultingData.filter(c => c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
     }
-        // // 업무 데이터
-    if(!taskData){
-        await get_all_task();
-    }
-    let target_task = taskData.slice();
-    const chunkedTaskData = target_task.filter(t=>t.ban_id == b_id)
-    
+    // 업무 데이터
+    const chunkedTaskData = copy_taskdata.filter(t=>t.ban_id == b_id)
     let TtasktodayData = null
     TtasktodayData = chunkedTaskData.filter(t => (new Date(t.startdate).setHours(0, 0, 0, 0) <= today && today < new Date(t.deadline).setHours(0, 0, 0, 0)) && ((t.cycle == 0 && t.created_at == null) || (t.cycle == 0 && new Date(t.created_at).setHours(0, 0, 0, 0) == today) || (t.cycle == todayyoil)))
     let today_done = null

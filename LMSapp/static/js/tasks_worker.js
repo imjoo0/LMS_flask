@@ -1,6 +1,6 @@
-async function fetchDataFromServer(pageSize, b_id) {
+async function fetchDataFromServer(t_id, teacher_id_history) {
     try {
-      const response = await fetch(`/common/task_chunk_by_ban?&page_size=${pageSize}&b_id=${b_id}`);
+      const response = await fetch(`/common/task_chunk_by_teacher?&t_id=${t_id}&teacher_id_history=${teacher_id_history}`);
       const data = await response.json();
       return data;
     } catch (error) {
@@ -11,8 +11,8 @@ async function fetchDataFromServer(pageSize, b_id) {
   
   // Event listener to handle incoming messages from the client
   onmessage = async function (event) {
-    const { pageSize, b_id } = event.data;
-    const data = await fetchDataFromServer(pageSize, b_id);
+    const { t_id, teacher_id_history } = event.data;
+    const data = await fetchDataFromServer(t_id, teacher_id_history);
     postMessage(data);
   };
   

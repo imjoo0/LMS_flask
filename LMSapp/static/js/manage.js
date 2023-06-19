@@ -754,12 +754,6 @@ async function uldata() {
     let container = $('#ul_pagination')
     $('.cs_inloading').show()
     $('.not_inloading').hide()
-    // if (!consultingData) {
-    //     await get_all_consulting().then(() => {
-    //         $('.cs_inloading').hide()
-    //         $('.not_inloading').show()
-    //     });
-    // }
     $('.cs_inloading').hide()
     $('.not_inloading').show()
     all_uc_consulting = consultingData.filter(c=>c.category_id > 100)
@@ -1375,7 +1369,6 @@ async function get_request_consulting() {
         let currentPage = 1;  // 현재 페이지 번호
         let pageSize = 5000;  // 페이지당 데이터 개수
 
-        // await get_all_consulting()
         const consultingsWorker = new Worker("../static/js/consultings_worker.js");
         function fetchData() {
             consultingsWorker.postMessage({ page: currentPage, pageSize });

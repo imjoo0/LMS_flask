@@ -135,10 +135,8 @@ def get_consulting_chunk_by_teacher():
 @bp.route("/task_chunk_by_teacher", methods=['GET'])
 def get_task_chunk_by_teacher():
     if request.method == 'GET':
-        # 페이지 정보 및 페이지 크기 받아오기
-        page_size = request.args.get('page_size', default=10000, type=int)
-        t_id = request.args.get('t_id', default=0, type=int)
-
+        teacher_id_history = request.args.get('teacher_id_history', default=1, type=int)
+        t_id = request.args.get('t_id', default=0, type=int)  # 클라이언트에서 전달한 불러야 하는 t_id 
         task = []
         total_count = 0
 
@@ -151,14 +149,11 @@ def get_task_chunk_by_teacher():
                 total_count = result['total_count']
                 
                 if(t_id != 0):
-                    cur.execute(f"select task.id,task.category_id, task.contents, task.url, task.attachments, task.startdate as startdate, task.deadline as deadline, task.priority, task.cycle, taskcategory.name,taskban.id as taskban_id, taskban.ban_id, taskban.teacher_id, taskban.done from task left join taskcategory on task.category_id = taskcategory.id left join taskban on task.id = taskban.task_id where task.startdate <= curdate() and curdate() <= task.deadline and taskban.teacher_id = %s;",(t_id,))
-                    task.extend(cur.fetchall())
-                    # task 정보 조회 (teacher_id 별로 묶음)
-                    cur.execute(f"select task.id,task.category_id, task.contents, task.url, task.attachments, task.startdate as startdate, task.deadline as deadline, task.priority, task.cycle, taskcategory.name,taskban.id as taskban_id, taskban.ban_id, taskban.teacher_id, taskban.done from task left join taskcategory on task.category_id = taskcategory.id left join taskban on task.id = taskban.task_id where task.startdate <= curdate() and curdate() <= task.deadline and taskban.teacher_id != %s ORDER BY taskban.startdate DESC LIMIT %s,%s;",(t_id, 0, 5000,))
+                    cur.execute(f"select task.id,task.category_id, task.contents, task.url, task.attachments, task.startdate as startdate, task.deadline as deadline, task.priority, task.cycle, taskcategory.name,taskban.id as taskban_id, taskban.ban_id, taskban.teacher_id, taskban.done from task left join taskcategory on task.category_id = taskcategory.id left join taskban on task.id = taskban.task_id where taskban.teacher_id = %s;",(t_id,))
                     task.extend(cur.fetchall())
                 else:
-                    cur.execute(f"select task.id,task.category_id, task.contents, task.url, task.attachments, task.startdate as startdate, task.deadline as deadline, task.priority, task.cycle, taskcategory.name,taskban.id as taskban_id, taskban.ban_id, taskban.teacher_id, taskban.done from task left join taskcategory on task.category_id = taskcategory.id left join taskban on task.id = taskban.task_id where task.startdate <= curdate() and curdate() <= task.deadline ORDER BY taskban.startdate DESC LIMIT %s,%s;",(5000, page_size,))
-                    task = cur.fetchall()
+                    cur.execute(f"select task.id,task.category_id, task.contents, task.url, task.attachments, task.startdate as startdate, task.deadline as deadline, task.priority, task.cycle, taskcategory.name,taskban.id as taskban_id, taskban.ban_id, taskban.teacher_id, taskban.done from task left join taskcategory on task.category_id = taskcategory.id left join taskban on task.id = taskban.task_id where taskban.teacher_id != %s ORDER BY taskban.teacher_id;",(teacher_id_history,))
+                    task.extend(cur.fetchall())
 
         except Exception as e:
             print(e)
