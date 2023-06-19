@@ -3,7 +3,7 @@
 // Function to fetch data from the server
 async function fetchDataFromServer(page, pageSize) {
     try {
-      const response = await fetch(`/common/question?page=${page}&page_size=${pageSize}`);
+      const response = await fetch(`/manage/question?page=${page}&page_size=${pageSize}`);
       const data = await response.json();
       return data;
     } catch (error) {

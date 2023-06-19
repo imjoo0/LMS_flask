@@ -159,23 +159,41 @@ def is_it_done(id):
                 db.close()
         return jsonify({'target_answer':target_answer})
               
-@bp.route("/qa", methods=['GET'])
-def get_sodata():
+@bp.route("/get_questiondata", methods=['GET'])
+def get_questiondata():
     if request.method == 'GET':
+        page = request.args.get('page', default=1, type=int)  # 클라이언트에서 전달한 페이지 번호 2
+        page_size = request.args.get('page_size', default=1000, type=int)  # 클라이언트에서 전달한 페이지 크기
+        offset = (page - 1) * page_size  # 오프셋 계산 > 51-1*10
+        want_to_see = request.args.get('want_to_see', default=false, type=bool)
+        total_count = 0
         question = []
-        answer = []
         attach = []
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute('select question.category,question.id,question.title,question.contents,question.teacher_id,question.ban_id,question.student_id,question.create_date,question.answer,question.consulting_history,question.mobileno,consulting.solution,consulting.contents as consulting_contents,consulting.reason,consulting.week_code,consultingcategory.name as consulting_category,consulting.category_id as consulting_categoryid,consulting.created_at as created_at from LMS.question left join consulting on question.consulting_history = consulting.id left join consultingcategory on consulting.category_id = consultingcategory.id;')
+                cur.execute("SELECT COUNT(*) AS total_count FROM question;")
+                result = cur.fetchone()
+                total_count = result['total_count']
+
+                cur.execute('''
+                SELECT question.id,question.category,question.title,question.contents,question.teacher_id,question.ban_id,question.student_id,question.create_date as created_at,question.answer,question.consulting_history,question.mobileno,consulting.solution,consulting.contents as consulting_contents,consulting.reason,consulting.week_code,consultingcategory.name as consulting_category,consulting.category_id as consulting_categoryid,consulting.created_at as consulting_created_at ,
+                answer.id as answer_id, user.eng_name as answerer, answer.title as answer_title,answer.content as answer_contents ,answer.created_at as answer_created_at,answer.reject_code as answer_reject_code
+                from LMS.question
+                left join answer on answer.question_id = question.id 
+                left join user on user.id = answer.writer_id 
+                left join consulting on question.consulting_history = consulting.id 
+                left join consultingcategory on consulting.category_id = consultingcategory.id 
+                ORDER BY question.category != %s, question.answer,question.create_date DESC
+                LIMIT %s, %s;
+                ''',(q_type,offset,page_size,))
                 question = cur.fetchall()
 
-                cur.execute('SELECT user.eng_name as writer, answer.title,answer.content,answer.created_at,answer.reject_code,answer.question_id FROM LMS.answer left join question on answer.question_id =question.id left join user on user.id = answer.writer_id;')
-                answer = cur.fetchall()
-
-                cur.execute('select question_id,file_name,id from attachment')
+                cur.execute('select question_id,file_name,id from attachment LEFT JOIN question on attachment.question_id = question.id ORDER BY question.category != %s, question.create_date DESC LIMIT %s, %s;',(q_type,offset,page_size,))
                 attach = cur.fetchall()
+
+                if(want_to_see):
+                    cur.execute('SELECT * FROM LMS.cs ORDER BY cs.category != %s, cs.create_date;',(q_type))
 
         except Exception as e:
             print(e)
