@@ -55,7 +55,7 @@ async function get_all_question() {
             csWorker.postMessage('getCSdata')
             csWorker.onmessage = function (event) {
                 CSdata = event.data.all_cs_data;
-                questionData = qdata.concat(CSdata)
+                questionData = questionData.concat(CSdata)
             };
         }
     } catch (error) {
@@ -339,6 +339,13 @@ async function get_question_list(q_type){
     <td class="col-4">${q_noanswer}  건</td>`;
     $('#newso').html(temp_newso)
     
+    let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
+    banData.forEach(ban_data => {
+        let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}`;
+        let selectmsg = `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
+        temp_o_ban_id += selectmsg
+    });
+    $('#o_ban_id2').html(temp_o_ban_id)
     question_paginating(qdata,0)
     $('#question_view').change(function() {
         question_paginating(qdata,$(this).val())
@@ -513,18 +520,14 @@ async function get_question_detail(q_id){
     $('#teacher_question').html(temp_question_list);
     // 응답 처리 
     if (question_detail_data.category == 2) {
-        let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
-        banData.forEach(ban_data => {
-            let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}`;
-            let selectmsg = `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
-            temp_o_ban_id += selectmsg
-        });
-        $('#o_ban_id2').html(temp_o_ban_id)
         $('#manage_answer_2').show()
         $('#manage_answer_3').hide()
-    }else{
+    }else if(question_detail_data.category == 3){
         $('#manage_answer_2').hide()
         $('#manage_answer_3').show()
+    }else{
+        $('#manage_answer_2').hide()
+        $('#manage_answer_3').hide()
     }
     if(!answer) {
         $('#teacher_answer').empty();
@@ -542,10 +545,11 @@ async function get_question_detail(q_id){
                <div>${make_answer_code(answer.reject_code)}</div>
             </div>`
         }
+        console.log(answer)
         temp_answer_list += `
         <div class="modal-body-select-container">
             <div class="modal-body-select-label"><span class="modal-body-select-container-span">답변자</span></div>
-            <div class="w-25">${make_nullcate(answer.writer)}</div>
+            <div class="w-25">${make_nullcate(answer.answerer)}</div>
             <div class="modal-body-select-label"><span class="modal-body-select-container-span">응답일</span></div>
             <div class="w-25">${make_date(answer.created_at)}</div>
         </div>
@@ -632,7 +636,7 @@ async function get_cs_detail(q_id) {
     let temp_answer_list = `
     <div class="modal-body-select-container">
         <div class="modal-body-select-label"><span class="modal-body-select-container-span">답변자</span></div>
-        <div class="w-25">${make_nullcate(question_detail_data.answerer)}</div>
+        <div class="w-25">${make_nullcate(answer.answerer)}</div>
         <div class="modal-body-select-label"><span class="modal-body-select-container-span">응답일</span></div>
         <div class="w-25">${make_date(question_detail_data.created_at)}</div>
     </div>
