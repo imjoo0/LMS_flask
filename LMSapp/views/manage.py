@@ -162,10 +162,12 @@ def is_it_done(id):
 @bp.route("/get_questiondata", methods=['GET'])
 def get_questiondata():
     if request.method == 'GET':
-        page = request.args.get('page', default=1, type=int)  # 클라이언트에서 전달한 페이지 번호 2
+        page = request.args.get('page', default=0, type=int)  # 받은 questionData.length 0
         page_size = request.args.get('page_size', default=1000, type=int)  # 클라이언트에서 전달한 페이지 크기
-        offset = (page - 1) * page_size  # 오프셋 계산 > 51-1*10
-        want_to_see = request.args.get('want_to_see', default=false, type=bool)
+        q_type = request.args.get('q_type', default=0, type=int)
+
+        # offset = (page - 1) * page_size  # 오프셋 계산 > 51-1*10
+        offset = 0
         total_count = 0
         question = []
         attach = []
@@ -175,31 +177,51 @@ def get_questiondata():
                 cur.execute("SELECT COUNT(*) AS total_count FROM question;")
                 result = cur.fetchone()
                 total_count = result['total_count']
-
-                cur.execute('''
-                SELECT question.id,question.category,question.title,question.contents,question.teacher_id,question.ban_id,question.student_id,question.create_date as created_at,question.answer,question.consulting_history,question.mobileno,consulting.solution,consulting.contents as consulting_contents,consulting.reason,consulting.week_code,consultingcategory.name as consulting_category,consulting.category_id as consulting_categoryid,consulting.created_at as consulting_created_at ,
-                answer.id as answer_id, user.eng_name as answerer, answer.title as answer_title,answer.content as answer_contents ,answer.created_at as answer_created_at,answer.reject_code as answer_reject_code
-                from LMS.question
-                left join answer on answer.question_id = question.id 
-                left join user on user.id = answer.writer_id 
-                left join consulting on question.consulting_history = consulting.id 
-                left join consultingcategory on consulting.category_id = consultingcategory.id 
-                ORDER BY question.category != %s, question.answer,question.create_date DESC
-                LIMIT %s, %s;
-                ''',(q_type,offset,page_size,))
-                question = cur.fetchall()
-
-                cur.execute('select question_id,file_name,id from attachment LEFT JOIN question on attachment.question_id = question.id ORDER BY question.category != %s, question.create_date DESC LIMIT %s, %s;',(q_type,offset,page_size,))
-                attach = cur.fetchall()
-
-                if(want_to_see):
-                    cur.execute('SELECT * FROM LMS.cs ORDER BY cs.category != %s, cs.create_date;',(q_type))
-
+                if page < total_count : 
+                    cur.execute('''
+                    SELECT question.id,question.category,question.title,question.contents,question.teacher_id,question.ban_id,question.student_id,question.create_date as created_at,question.answer,question.consulting_history,question.mobileno,consulting.solution,consulting.contents as consulting_contents,consulting.reason,consulting.week_code,consultingcategory.name as consulting_category,consulting.category_id as consulting_categoryid,consulting.created_at as consulting_created_at ,
+                    answer.id as answer_id, user.eng_name as answerer, answer.title as answer_title,answer.content as answer_contents ,answer.created_at as answer_created_at,answer.reject_code as answer_reject_code
+                    from LMS.question
+                    left join answer on answer.question_id = question.id 
+                    left join user on user.id = answer.writer_id 
+                    left join consulting on question.consulting_history = consulting.id 
+                    left join consultingcategory on consulting.category_id = consultingcategory.id 
+                    ORDER BY 
+                    question.category = %s DESC,
+                    question.category , question.answer,
+                    question.create_date DESC
+                    LIMIT %s, %s;
+                    ''',(q_type,page,page_size,))
+                    question = cur.fetchall()
+                
+                    cur.execute('select attachment.question_id,attachment.file_name,attachment.id from attachment LEFT JOIN question on attachment.question_id = question.id ORDER BY question.category != %s, question.create_date DESC LIMIT %s, %s;',(q_type,offset,page_size,))
+                    attach = cur.fetchall()
+                else:
+                    attach = []
+                    offset = page - total_count
+                    print('여기가 실행된다')
+                    cur.execute('''
+                    SELECT SUM(total_count) AS total_count
+                    FROM (
+                        SELECT COUNT(*) AS total_count
+                        FROM question
+                        UNION ALL
+                        SELECT COUNT(*) AS total_count
+                        FROM cs
+                    ) AS t;
+                    ''')
+                    result = cur.fetchone()
+                    total_count = result['total_count']
+                    print(offset)
+                    if offset < total_count :
+                        cur.execute('SELECT * FROM LMS.cs ORDER BY cs.category != %s, cs.create_date LIMIT %s, %s;',(q_type,offset,page_size,))
+                        question = cur.fetchall()
+                    print(question)
         except Exception as e:
             print(e)
         finally:
             db.close()
-        return jsonify({'question':question,'answer':answer,'attach':attach})
+        return jsonify({'question':question, 'total_count': total_count,'attach':attach})
 
 @bp.route("/cs", methods=['GET'])
 def get_csdata():

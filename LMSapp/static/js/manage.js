@@ -8,60 +8,6 @@ function getParameter(name) {
         results = regex.exec(location.search);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
-async function get_all_question() {
-    try {
-        const response = await $.ajax({
-            url: '/manage/qa',
-            type: 'GET',
-            data: {},
-        })
-        questionData = response['question']
-        answerData = response['answer']
-        attachData = response['attach']
-
-        const studentMap = new Map();
-        for (let i = 0; i < studentsData.length; i++) {
-        const student = studentsData[i];
-        studentMap.set(student.student_id, {
-            origin: student.origin,
-            student_name:student.student_name,
-            student_engname:student.student_engname
-        });
-        }
-
-        // 반 데이터를 Map으로 매핑
-        const banMap = new Map();
-        for (let i = 0; i < banData.length; i++) {
-        const ban = banData[i];
-        banMap.set(ban.ban_id, {
-            ban_name: ban.name,
-            teacher_name: ban.teacher_engname + ' (' + ban.teacher_name + ')'
-        });
-        }
-        for (let i = 0; i < questionData.length; i++) {
-            const question = questionData[i];
-            const ban = banMap.get(question.ban_id);
-            const student = studentMap.get(question.student_id);
-            console.log(student)
-            question.origin = student ? student.origin : '원생 정보 없음';
-            question.student_name = student ? student.student_name : '원생 정보 없음';
-            question.student_engname = student ? student.student_engname : '원생 정보 없음';
-            question.ban_name = ban ? ban.ban_name : '';
-            question.teacher_name = ban ? ban.teacher_name : '';
-        }
-        // questionData를 순회하면서 필요한 정보를 매핑하여 저장
-        if(!CSdata){
-            const csWorker = new Worker("../static/js/cs_worker.js");
-            csWorker.postMessage('getCSdata')
-            csWorker.onmessage = function (event) {
-                CSdata = event.data.all_cs_data;
-                questionData = questionData.concat(CSdata)
-            };
-        }
-    } catch (error) {
-        alert('Error occurred while retrieving data.');
-    }
-}
 async function get_all_consultingcate() {
     try {
         const response = await $.ajax({
@@ -222,6 +168,12 @@ $(window).on('load', async function () {
                         $('#consulting_history_attach').show()
                     }
                     if (question_detail_data.answer == 0) {
+                        $('#teacher_answer').empty();
+                        $('#teacher_answer').hide()
+                        $('#manage_answer').show()
+                        $('#manage_answer_1').show()
+                        $('#manage_answer_2').hide()
+                        $('#manage_answer_3').hide()
                         if (question_detail_data.category == 2){
                             let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
                             banData.forEach(ban_data => {
@@ -231,17 +183,9 @@ $(window).on('load', async function () {
                             });
                             $('#o_ban_id2').html(temp_o_ban_id)
                             $('#manage_answer_2').show()
-                            $('#manage_answer_3').hide()
                         }else{
-                            $('#manage_answer_2').hide()
                             $('#manage_answer_3').show()
                         }
-                        $('#teacher_answer').empty();
-                        $('#teacher_answer').hide()
-                        $('#manage_answer').show()
-                        $('#manage_answer_1').show()
-                        $('#manage_answer_2').hide()
-                        $('#manage_answer_3').hide()
                         $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category},${0})">저장</button>`);
                     } else {
                         $('#manage_answer').hide()
@@ -266,7 +210,7 @@ $(window).on('load', async function () {
                     }
                 }
                 await get_total_data()
-                // await get_all_question()
+                // await get_question_chunk()
                 // if(q_id !== "" && q_type !== ""){
                 //     if(q_type== 1 ||  q_type==2){                        
                 //         so_paginating(0);
@@ -295,6 +239,43 @@ function main_view() {
     $('#ulbox').hide()
     $('#detailban').show()
 }
+function get_question_chunk(currentPage,pageSize,done_code, q_type) {
+    console.log('지금 questionData.length')
+    console.log(currentPage)
+    const questionsWorker = new Worker("../static/js/questions_worker.js");
+    function question_fetchData(){
+        questionsWorker.postMessage({ page: currentPage, pageSize, q_type });
+    }
+    question_fetchData();
+    questionsWorker.onmessage = function (event) {
+        $('.cs_inloading').show()
+        $('.not_inloading').hide()
+        questionCount = event.data.total_count
+        questionData = questionData.concat(event.data.question);
+        attachData = attachData.concat(event.data.attach)
+        let copy_data = questionData.slice()
+        let target_questions = copy_data.filter(q => q.category == q_type);
+        if(q_type == 1){
+            target_questions = target_questions.concat(copy_data.filter(q => q.category == 2))
+            questionData.some(q=>q.teacher_id == t_id)
+        }
+        question_paginating(target_questions,done_code)
+        if(currentPage >= questionCount){
+            alert('더이상 불러올 데이터가 없습니다.');
+            $('#getqbutton').hide();
+        }
+    };
+}
+// 문의 관리
+function get_question_data(q_type){
+    var con_val = confirm('과거 데이터를 불러오시겠습니까?')
+    if (con_val == true) {
+        let currentPage = questionData.length;  // 현재 페이지 번호
+        let pageSize = 1000;  // 페이지당 데이터 개수
+        let done_code = 1;
+        get_question_chunk(currentPage,pageSize,done_code, q_type)
+    }
+}
 async function get_question_list(q_type){
     $('#questionbox').hide()
     $('#question_view').val(0); 
@@ -304,55 +285,24 @@ async function get_question_list(q_type){
     $('#detailban').hide()
     $('#ulbox').hide()
     if (!questionData) {
-        // 얘를 워커를 사용하는 식으로 변경 
-        // q_type의 문의 먼저 최근 문의 1-5000건씩 가져오기 
-        await get_all_question()
-    }
-    let copy_data = questionData.slice()
-    let qdata = copy_data.filter(q=>q.category == q_type)
-    if(q_type == 1){
-        qdata = qdata.concat(copy_data.filter(q => q.category == 2))
-    }
-
-    if(CSdata){
-        if(q_type == 0){
-            qdata = qdata.concat(CSdata.filter(q => q.title == '행정파트'))
-            console.log(CSdata)
-            $('.cs_inloading').hide()
-            $('.not_inloading').show()
-        }else if(q_type == 4){
-            qdata = qdata.concat(CSdata.filter(q => q.title == '내근티처'))
-            $('.cs_inloading').hide()
-            $('.not_inloading').show()
-        }else if(q_type == 5){
-            qdata = qdata.concat(CSdata.filter(q => q.title == '개발관리'))
-            $('.cs_inloading').hide()
-            $('.not_inloading').show()
+        questionData = []
+        attachData = []
+        questionCount = 0
+        let currentPage = 0;  // 현재 페이지 번호
+        let pageSize = 1000;  // 페이지당 데이터 개수
+        let done_code = 0;
+        get_question_chunk(currentPage,pageSize,done_code,q_type)
+    }else{
+        let copy_data = questionData.slice()
+        let target_questions = copy_data.filter(q => q.category == q_type);
+        if(q_type == 1){
+            target_questions = target_questions.concat(copy_data.filter(q => q.category == 2))
         }
+        question_paginating(target_questions,0)
     }
-    let total_q_num = qdata.length
-    let q_noanswer = total_q_num != 0 ? qdata.filter(a => a.answer == 0).length : 0
-
-    let temp_newso = `
-    <td class="col-4">${total_q_num}  건</td>
-    <td class="col-4">${total_q_num - q_noanswer}  건</td>
-    <td class="col-4">${q_noanswer}  건</td>`;
-    $('#newso').html(temp_newso)
-    
-    let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
-    banData.forEach(ban_data => {
-        let value = `${ban_data.ban_id}_${ban_data.teacher_id}_${ban_data.name}`;
-        let selectmsg = `<option value="${value}">${ban_data.name} (${make_semester(ban_data.semester)}월 학기)</option>`;
-        temp_o_ban_id += selectmsg
-    });
-    $('#o_ban_id2').html(temp_o_ban_id)
-    question_paginating(qdata,0)
-    $('#question_view').change(function() {
-        question_paginating(qdata,$(this).val())
-    });
 }
-// 문의 관리
 function question_paginating(qdata,done_code){
+    $('#so_pagination').empty()
     $('#question_view').val(done_code); 
     $('.cs_inloading').hide()
     $('.not_inloading').show()
@@ -360,9 +310,12 @@ function question_paginating(qdata,done_code){
     $('#no_data_msg').hide()
     $('#so_question').show()
     $('#so_pagination').show()
+    $('#question_view').change(function() {
+        question_paginating(qdata,$(this).val())
+    });
     let copy_data = qdata.slice()
     let target = copy_data.length > 0 ? copy_data.filter(q=>q.answer == done_code) : 0;
-    console.log(target)
+    
     var container = $('#so_pagination');
     var paginationOptions = {
         prevText: '이전',
@@ -373,7 +326,7 @@ function question_paginating(qdata,done_code){
             var dataHtml = '';
             $.each(data, function (index, item) {
                 dataHtml += `
-                <td class="col-1">${make_date(item.create_date)}</td>
+                <td class="col-1">${make_date(item.created_at)}</td>
                 <td class="col-1">${q_category(item.category)}</td>
                 <td class="col-1">${item.ban_name}</td>
                 <td class="col-1">${item.teacher_name}</td>
@@ -402,9 +355,6 @@ function question_paginating(qdata,done_code){
         $('#no_data_msg').show();
         return;
     }
-    target.sort(function (a, b) {
-        return new Date(b.create_date) - new Date(a.create_date);
-    });
     container.pagination(Object.assign(paginationOptions, { 'dataSource': target }))
 
     $('#question_search_input').on('keyup', function () {
@@ -424,7 +374,9 @@ function question_paginating(qdata,done_code){
             container.pagination(Object.assign(paginationOptions, { 'dataSource': filteredData }));
         }
     });
-
+    if(done_code == 1){
+        $('#so_pagination').append(`<button id="getqbutton" style="margin-right:10px;" onclick="get_question_data(${qdata[0].category})">과거 데이터 더 불러오기</button>`)
+    }
 }
 // 문의 내용 상세보기
 async function get_question_detail(q_id){
@@ -519,21 +471,21 @@ async function get_question_detail(q_id){
     `
     $('#teacher_question').html(temp_question_list);
     // 응답 처리 
-    if (question_detail_data.category == 2) {
-        $('#manage_answer_2').show()
-        $('#manage_answer_3').hide()
-    }else if(question_detail_data.category == 3){
-        $('#manage_answer_2').hide()
-        $('#manage_answer_3').show()
-    }else{
-        $('#manage_answer_2').hide()
-        $('#manage_answer_3').hide()
-    }
     if(!answer) {
         $('#teacher_answer').empty();
         $('#teacher_answer').hide()
         $('#manage_answer').show()
         $('#manage_answer_1').show()
+        if (question_detail_data.category == 2) {
+            $('#manage_answer_2').show()
+            $('#manage_answer_3').hide()
+        }else if(question_detail_data.category == 3){
+            $('#manage_answer_2').hide()
+            $('#manage_answer_3').show()
+        }else{
+            $('#manage_answer_2').hide()
+            $('#manage_answer_3').hide()
+        }
         $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category},${0})">저장</button>`);
     }else{
         $('#manage_answer').hide()

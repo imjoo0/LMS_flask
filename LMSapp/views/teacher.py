@@ -64,10 +64,10 @@ def get_mybans(u):
                 SELECT consulting.origin, consulting.student_name, consulting.student_engname, consulting.id, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate, consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result
                 FROM consulting
                 LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id
-                WHERE (consulting.category_id < 100 AND consulting.done = 0 AND %s <= consulting.startdate AND consulting.startdate <= %s and consulting.ban_id=%s)
+                WHERE (consulting.category_id < 100 AND consulting.done = 0 AND %s <= consulting.startdate AND consulting.startdate <= curdate() and consulting.ban_id=%s)
                 OR (consulting.category_id < 100 AND consulting.done != 0 AND consulting.ban_id=%s)
-                OR (consulting.category_id >= 100 AND consulting.startdate <= %s and consulting.ban_id=%s)
-                ''',({ban['startdate']},Today,ban['register_no'],ban['register_no'],Today,ban['register_no'], ) )
+                OR (consulting.category_id >= 100 AND consulting.startdate <= curdate() and consulting.ban_id=%s)
+                ''',({ban['startdate']},ban['register_no'],ban['register_no'],ban['register_no'], ) )
                 all_consulting.extend(cur.fetchall())
 
             cur.execute("SELECT * FROM LMS.consultingcategory;")

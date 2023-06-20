@@ -1,6 +1,7 @@
 // manage변수 
-let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, studentsData, reportsData, consultingCount,consultingData, consultingHistoryData, consultingcateData,taskCount, taskData, taskcateData, questionData, answerData, attachData, CSdata;
-let tempConsultingData,temptaskData
+let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, studentsData, reportsData, consultingData, consultingHistoryData, consultingcateData,taskCount, taskData, taskcateData, questionData, answerData, attachData, CSdata;
+let consultingCount, questionCount;
+let tempConsultingData,temptaskData;
 // teacher 변수
 let  Tconsulting_category, Tban_data, Tall_consulting, Tmy_students, Tall_task, Ttask_consulting, Tunlearned_student, Tall_students, Tstudent_consulting, TquestionAnswerdata;
 let isFetching = false;
@@ -161,17 +162,15 @@ let make_semester = function (semester) {
     }
 }
 function q_category(category) {
-    if (category == 0 || category == '0') {
-        c = '일반문의'
-    } else if (category == 1 || category == '1') {
+    if (category == 1 || category == '1') {
         c = '퇴소문의'
     } else if (category == 2 || category == '2') {
         c = '이반문의'
+    }else if (category == 3 || category == '3') {
+        c = '일반문의'
     } else if (category == 4 || category == '4') {
         c = '기술 지원 문의'
-    } else if (category == 10 || category == '10') {
-        c = '이전 cs 데이터'
-    }  else {
+    }else {
         c = '내근티처 문의'
     }
     return c
@@ -346,6 +345,7 @@ async function get_all_data() {
         banData = response['all_ban']
         studentsData =response['all_students']
         // studentsData = response['students']
+        let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
         banData.forEach((elem) => {
             elem.out_student_num = Number(elem.out_student_num)
             elem.hold_student_num = Number(elem.hold_student_num)
@@ -354,7 +354,11 @@ async function get_all_data() {
             elem.out_num_per = answer_rate(elem.total_out_num, elem.first_student_num).toFixed(0)
             totalOutnum += elem.out_student_num
             totalHoldnum += elem.hold_student_num
+            let value = `${elem.ban_id}_${elem.teacher_id}_${elem.name}`;
+            let selectmsg = `<option value="${value}">${elem.name} (${make_semester(elem.semester)}월 학기)</option>`;
+            temp_o_ban_id += selectmsg
         });
+        $('#o_ban_id2').html(temp_o_ban_id)
         banData = response['all_ban'].map((item) => {
             return { ...item, total_out_num_per: Number(answer_rate(item.out_student_num, totalOutnum).toFixed(2)) }
         })
