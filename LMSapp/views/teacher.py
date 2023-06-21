@@ -43,6 +43,7 @@ standard = datetime.strptime('11110101', "%Y%m%d").date()
 def home(u):
     if request.method == 'GET':
         print(Today)
+        print(today_yoil)
         teacher_info = callapi.purple_info(u['user_id'], 'get_teacher_info')
         return render_template('teacher.html', user=teacher_info)
 
@@ -74,7 +75,7 @@ def get_mybans(u):
             all_consulting_category = cur.fetchall()
             
             # 업무
-            cur.execute("select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id left join taskcategory on task.category_id = taskcategory.id where ( (task.category_id = 11) or ( (task.cycle = %s) or (task.cycle = 0) ) ) and ( task.startdate <= %s and %s <= task.deadline ) and taskban.teacher_id=%s;", (today_yoil, Today, Today,u['id'],))
+            cur.execute("select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id left join taskcategory on task.category_id = taskcategory.id where ( (task.category_id = 11) or ( (task.cycle = %s) or (task.cycle = 0) ) ) and ( task.startdate <= curdate() and curdate() <= task.deadline ) and taskban.teacher_id=%s;", (today_yoil, u['id'],))
             all_task = cur.fetchall()
     except:
         print('err:', sys.exc_info())
@@ -231,12 +232,12 @@ def consulting_history(id,is_done):
         if(is_done == 0):
             target_consulting.reason = received_reason
             target_consulting.solution = received_solution
+            target_consulting.created_at = Today
         else:
             if(received_reason != "작성 내역이 없습니다"):
                 target_consulting.reason = received_reason
             if(received_solution != "작성 내역이 없습니다"):    
                 target_consulting.solution = received_solution
-        target_consulting.created_at = Today
         target_consulting.done = 1
         db.session.commit()
     return{'result':'완료'}

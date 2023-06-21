@@ -1,7 +1,10 @@
 // manage변수 
-let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, studentsData, reportsData, consultingData, consultingHistoryData, consultingcateData,taskCount, taskData, taskcateData, questionData, answerData, attachData, CSdata;
-let consultingCount, questionCount;
+let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, studentsData, reportsData, consultingData, consultingHistoryData, consultingcateData, taskData, taskcateData, questionData, answerData, attachData, CSdata;
+let consultingCount, questionCount, taskCount;
 let tempConsultingData,temptaskData;
+const studentMap = new Map();
+const banMap = new Map();
+
 // teacher 변수
 let  Tconsulting_category, Tban_data, Tall_consulting, Tmy_students, Tall_task, Ttask_consulting, Tunlearned_student, Tall_students, Tstudent_consulting, TquestionAnswerdata;
 let isFetching = false;
@@ -118,10 +121,19 @@ let make_out = function(c) {
 }
 let make_date = function (d) {
     if (d == null) {
-        return '➖'
+        return '➖';
     }
-    const date = new Date(d)
-    return date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0')
+    const date = new Date(d);
+    const koreaTime = date.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
+    const koreaDate = new Date(Date.parse(koreaTime));
+    console.log(koreaDate);
+    return (
+        koreaDate.getFullYear() +
+        "-" +
+        (koreaDate.getMonth() + 1).toString().padStart(2, "0") +
+        "-" +
+        koreaDate.getDate().toString().padStart(2, "0")
+    );
 }
 let make_nullcate = function (d) {
     if (d == null || d == "") {
@@ -194,6 +206,9 @@ function make_duedate(s, d) {
     } else {
         return '오류'
     }
+}
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 // teacher_function
@@ -333,37 +348,59 @@ async function get_teacher_question() {
 
 // manage_function 
 async function get_all_data() {
+    $('#inloading').show()
+    $('#semester_pagination').hide()
     try {
-        const response = await $.ajax({
-            type: "GET",
-            url: "/common/all_data",
-            dataType: 'json',
-            data: {},
-        });
-        totalOutnum = 0;
-        totalHoldnum = 0
-        banData = response['all_ban']
-        studentsData =response['all_students']
-        // studentsData = response['students']
-        let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
-        banData.forEach((elem) => {
-            elem.out_student_num = Number(elem.out_student_num)
-            elem.hold_student_num = Number(elem.hold_student_num)
-            elem.first_student_num = elem.student_num + elem.out_student_num + elem.hold_student_num
-            elem.total_out_num = elem.out_student_num + elem.hold_student_num
-            elem.out_num_per = answer_rate(elem.total_out_num, elem.first_student_num).toFixed(0)
-            totalOutnum += elem.out_student_num
-            totalHoldnum += elem.hold_student_num
-            let value = `${elem.ban_id}_${elem.teacher_id}_${elem.name}`;
-            let selectmsg = `<option value="${value}">${elem.name} (${make_semester(elem.semester)}월 학기)</option>`;
-            temp_o_ban_id += selectmsg
-        });
-        $('#o_ban_id2').html(temp_o_ban_id)
-        banData = response['all_ban'].map((item) => {
-            return { ...item, total_out_num_per: Number(answer_rate(item.out_student_num, totalOutnum).toFixed(2)) }
-        })
+        const studentsWorker = new Worker("../static/js/students_worker.js");
+        const bansWorker = new Worker("../static/js/bans_worker.js");
+        studentsWorker.postMessage('get_studentsData');
+        bansWorker.postMessage('get_bansData');
+        studentsWorker.onmessage = function (event) {
+            studentsData = event.data.students
+            for (let i = 0; i < studentsData.length; i++) {
+                const student = studentsData[i];
+                studentMap.set(student.student_id, {
+                    origin: student.origin,
+                    student_name:student.student_name + ' (' + student.student_engname + ')',
+                });
+            }
+            // if (typeof banData !== 'undefined') {
+            //     get_total_data();
+            // }
+        };
+        bansWorker.onmessage = function (event) {
+            banData = event.data.all_ban
+            totalOutnum = 0;
+            totalHoldnum = 0
+            let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
+            banData.forEach((elem) => {
+                elem.out_student_num = Number(elem.out_student_num)
+                elem.hold_student_num = Number(elem.hold_student_num)
+                elem.first_student_num = elem.student_num + elem.out_student_num + elem.hold_student_num
+                elem.total_out_num = elem.out_student_num + elem.hold_student_num
+                elem.out_num_per = answer_rate(elem.total_out_num, elem.first_student_num).toFixed(0)
+                totalOutnum += elem.out_student_num
+                totalHoldnum += elem.hold_student_num
+                let value = `${elem.ban_id}_${elem.teacher_id}_${elem.name}`;
+                let selectmsg = `<option value="${value}">${elem.name} (${make_semester(elem.semester)}월 학기)</option>`;
+                temp_o_ban_id += selectmsg
+                banMap.set(elem.ban_id, {
+                    ban_name: elem.name,
+                    email: elem.teacher_email,
+                    teacher_name: elem.teacher_engname +'( '+ elem.teacher_name +' )'
+                });
+            });
+            $('#o_ban_id2').html(temp_o_ban_id)
+            banData =banData.map((item) => {
+                return { ...item, total_out_num_per: Number(answer_rate(item.out_student_num, totalOutnum).toFixed(2)) }
+            })
+            // if (typeof studentsData !== 'undefined') {
+            get_total_data();
+            // }
+        };
+
     } catch (error) {
-        alert('Error occurred while retrieving data.');
+        alert('Error occurred while retrieving data.44');
     }
 }
 async function get_all_task() {
@@ -423,7 +460,7 @@ async function getChunkedStudentsData(teacherID) {
     });
 }
 async function getChunkedTasksData(teacherID) {
-    let taskWorker = new Worker("../static/js/tasks_worker.js");
+    let taskWorker = new Worker("../static/js/tasks_teacher_worker.js");
     return new Promise((resolve) => {
         taskWorker.onmessage = function(event) {
             taskData = event.data.task;
@@ -474,13 +511,10 @@ async function get_total_data() {
     $('#questionbox').hide()
     $('#ulbox').hide()
     $('#target_ban_info_body').hide()
+    $('#inloading').hide();
+    $('#semester_pagination').show();
+    $('#target_ban_info_body').show();
     try {
-        if(!banData){
-            await get_all_data()
-            // get_students_data()
-            $('#inloading').show()
-            $('#semester_pagination').hide()
-        }
         total_student_num = Number(banData[0].total_student_num)
         // switchstudent_num = switchstudentData.length
         // 학기 별 원생
@@ -612,9 +646,6 @@ async function get_total_data() {
             }
         });
         semesterShow(3);
-        $('#inloading').hide();
-        $('#semester_pagination').show();
-        $('#target_ban_info_body').show();
         
     }catch (error) {
         alert('Error occurred while retrieving data.');
@@ -807,7 +838,7 @@ async function get_ban_info(t_id,b_id) {
                         return show_ban_report(t_id,b_id,consultingData,temptaskData)
                     }else{
                         let teacher_id_history = 0
-                        let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");   
+                        let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");   
                         taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
                         taskTeacherChunkWorker.onmessage = function (event) {
                             temptaskData = temptaskData.concat(event.data.consulting);
@@ -820,7 +851,7 @@ async function get_ban_info(t_id,b_id) {
             }else{
                 taskData = []
                 temptaskData = []
-                let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");  
+                let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");  
                 let teacher_id_history = t_id
                 function taskfetchData(t_id){
                     taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
@@ -849,7 +880,7 @@ async function get_ban_info(t_id,b_id) {
                             return show_ban_report(t_id,b_id,tempConsultingData,temptaskData)
                         }else{
                             let teacher_id_history = 0
-                            let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");   
+                            let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");   
                             taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
                             taskTeacherChunkWorker.onmessage = function (event) {
                                 temptaskData = temptaskData.concat(event.data.consulting);
@@ -863,7 +894,7 @@ async function get_ban_info(t_id,b_id) {
                 }else{
                     taskData = []
                     temptaskData = []
-                    let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");  
+                    let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");  
                     let teacher_id_history = t_id
                     function taskfetchData(t_id){
                         taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
@@ -894,7 +925,7 @@ async function get_ban_info(t_id,b_id) {
                                 return show_ban_report(t_id,b_id,tempConsultingData,temptaskData)
                             }else{
                                 let teacher_id_history = 0
-                                let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");   
+                                let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");   
                                 taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
                                 taskTeacherChunkWorker.onmessage = function (event) {
                                     temptaskData = temptaskData.concat(event.data.consulting);
@@ -907,7 +938,7 @@ async function get_ban_info(t_id,b_id) {
                     }else{
                         taskData = []
                         temptaskData = []
-                        let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");  
+                        let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");  
                         let teacher_id_history = t_id
                         function taskfetchData(t_id){
                             taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
@@ -934,7 +965,7 @@ async function get_ban_info(t_id,b_id) {
                         return show_ban_report(t_id,b_id,consultingData,temptaskData)
                     }else{
                         let teacher_id_history = 0
-                        let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");   
+                        let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");   
                         taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
                         taskTeacherChunkWorker.onmessage = function (event) {
                             temptaskData = temptaskData.concat(event.data.consulting);
@@ -947,7 +978,7 @@ async function get_ban_info(t_id,b_id) {
             }else{
                 taskData = []
                 temptaskData = []
-                let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");  
+                let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");  
                 let teacher_id_history = t_id
                 function taskfetchData(t_id){
                     taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})

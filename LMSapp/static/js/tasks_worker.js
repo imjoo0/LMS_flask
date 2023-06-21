@@ -1,6 +1,8 @@
-async function fetchDataFromServer(t_id, teacher_id_history) {
+// tasks_worker.js
+
+async function fetchDataFromServer(page, pageSize) {
     try {
-      const response = await fetch(`/common/task_chunk_by_teacher?&t_id=${t_id}&teacher_id_history=${teacher_id_history}`);
+      const response = await fetch(`/manage/get_taskdata?page=${page}&page_size=${pageSize}`);
       const data = await response.json();
       return data;
     } catch (error) {
@@ -10,9 +12,9 @@ async function fetchDataFromServer(t_id, teacher_id_history) {
   }
   
   // Event listener to handle incoming messages from the client
-  onmessage = async function (event) {
-    const { t_id, teacher_id_history } = event.data;
-    const data = await fetchDataFromServer(t_id, teacher_id_history);
+  onmessage = async function(event) {
+    const { page, pageSize } = event.data;
+    const data = await fetchDataFromServer(page, pageSize);
     postMessage(data);
   };
   

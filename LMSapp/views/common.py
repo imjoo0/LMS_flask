@@ -64,18 +64,17 @@ def put_user(u):
     return jsonify({'result': 'success'})
 
 # 통계 자료
-@bp.route("/all_data", methods=['GET'])
-def get_data():
+@bp.route("/all_ban", methods=['GET'])
+def get_all_ban():
     if request.method == 'GET':
         all_ban = callapi.purple_allinfo('get_all_ban_online')
-        all_students = callapi.purple_allinfo('get_all_student_online')
-        return jsonify({'all_ban':all_ban,'all_students':all_students})
+        return jsonify({'all_ban':all_ban})
 
-# @bp.route("/all_students", methods=['GET'])
-# def get_all_students():
-#     if request.method == 'GET':
-#         students = callapi.purple_allinfo('get_all_student_online')
-#         return jsonify({'students':students})
+@bp.route("/all_students", methods=['GET'])
+def get_all_students():
+    if request.method == 'GET':
+        students = callapi.purple_allinfo('get_all_student_online')
+        return jsonify({'students':students})
  
 @bp.route("/consulting_chunk", methods=['GET'])
 def get_consulting_chunk():
