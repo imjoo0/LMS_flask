@@ -127,12 +127,19 @@ def question(u):
                 qdata['attach'] = "없음"
             else:
                 my_attachments = Attachments.query.filter(Attachments.question_id == q.id).all()
-                qdata['attach'] = []
+                qdata['question_attach'] = []
+                qdata['answer_attach'] = []
                 for qa in my_attachments:
-                    qdata['attach'].append({
-                        'id': qa.id,
-                        'file_name':qa.file_name
-                    })
+                    if qa.is_answer == 0:
+                        qdata['question_attach'].append({
+                            'id': qa.id,
+                            'file_name':qa.file_name
+                        })
+                    else:
+                        qdata['answer_attach'].append({
+                            'id': qa.id,
+                            'file_name':qa.file_name
+                        })
             data.append(qdata)
         return data
     elif request.method == 'POST':
@@ -183,7 +190,7 @@ def question(u):
         payloadText += encoded_link_url
         files = request.files.getlist('file_upload')
         for file in files:
-            common.save_attachment(file, new_question.id)
+            common.save_attachment(file, new_question.id, 0)
         requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
         try:
             response = requests.get(requestURI)
