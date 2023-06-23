@@ -302,6 +302,7 @@ async function get_question_detail(q_id){
         question_detail_data.attach = attachMap.get(q_id);
         question_detail_data.contents = question_detail_data.contents.replace(/\n/g, '</br>')
     }
+    console.log(question_detail_data.attach)
     show_question_detail(q_id,question_detail_data)
 }
 // 문의 내용 상세보기

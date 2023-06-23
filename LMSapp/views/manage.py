@@ -213,7 +213,6 @@ def get_questiondata():
                     LIMIT %s, %s;
                     ''',(page,page_size,))
                     question = cur.fetchall()
-                
                     cur.execute('select attachment.question_id,attachment.file_name,attachment.id from attachment LEFT JOIN question on attachment.question_id = question.id ORDER BY question.category,question.answer, question.create_date DESC LIMIT %s, %s;',(page,page_size,))
                     attach = cur.fetchall()
                 else:
@@ -620,7 +619,7 @@ def request_indivi_student(b_id,t_id,s_id):
         origin = request.form['origin']
         teacher_mobile_no = User.query.filter(User.id == t_id).first().mobileno
 
-        new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=s_id,student_name=student_name,student_engname=student_engname,origin=origin,contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01')
+        new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=s_id,student_name=student_name,student_engname=student_engname,origin=origin,contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01',week_code=-1)
         db.session.add(new_consulting)
         post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
         data_sendkey = {

@@ -225,6 +225,8 @@ def consulting_missed(id):
 def consulting_history(id,is_done):
     if request.method =='POST':
         # 부재중 체크 (id-consulting_id)
+        URI = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
+        Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
         target_consulting = Consulting.query.get_or_404(id)
         # 상담 사유
         received_reason = request.form['consulting_reason']
@@ -234,6 +236,20 @@ def consulting_history(id,is_done):
             target_consulting.reason = received_reason
             target_consulting.solution = received_solution
             target_consulting.created_at = Today
+            if(target_consulting.week_code < 0):
+                payloadText = target_consulting.contents + ' 상담 작성 알람 \n' 
+                payloadText += '내용: `{}`\n\n```{}```'.format(received_reason, received_solution.replace('\r\n', '\n\n') )
+                # link_url = '\n[링크 바로가기]http://purpleacademy.net:6725/manage/?c_id={}'.format(new_question.id,q_type)
+                # encoded_link_url  = quote(link_url)  # payloadText 인코딩
+                # payloadText += encoded_link_url
+                requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
+                try:
+                    response = requests.get(requestURI)
+                    response.raise_for_status()
+                    print(f"statusCode: {response.status_code}")
+                except requests.exceptions.RequestException as e:
+                    print("시놀로지 전송 실패")
+                    print(e)
         else:
             if(received_reason != "작성 내역이 없습니다"):
                 target_consulting.reason = received_reason
@@ -241,6 +257,7 @@ def consulting_history(id,is_done):
                 target_consulting.solution = received_solution
         target_consulting.done = 1
         db.session.commit()
+        
     return{'result':'완료'}
 
 # 추가 상담 실행 함수 
