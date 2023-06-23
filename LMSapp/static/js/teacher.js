@@ -1047,7 +1047,7 @@ function change_question_kind(str) {
     $('#student_list_so').empty()
     if (str == "none") {
         $('#question_topurple').hide()
-    } else if (str == 0 || str == 4 || str == 5) {
+    } else if (str == 3 || str == 4 || str == 5) {
         let question_html = `
         <div class="modal-body-select-label" style="width:fit-content;"><span class="modal-body-select-container-span" style="padding:6px 12px;">대상 원생</span></div>
         <select id="student_list" class="modal-body-select w-50 m-3" name="target_student">
@@ -1159,7 +1159,6 @@ function question_save(){
         $('#error_msg_filesel').show()
         return;
     }
-    console.log(files)
     for (let i = 0; i < files_length; i++) {
         formData.append('file_upload', files[i]);
     }

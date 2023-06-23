@@ -4,6 +4,7 @@ let consultingCount, questionCount, taskCount;
 let tempConsultingData,temptaskData;
 const studentMap = new Map();
 const banMap = new Map();
+const attachMap = new Map();
 
 // teacher 변수
 let  Tconsulting_category, Tban_data, Tall_consulting, Tmy_students, Tall_task, Ttask_consulting, Tunlearned_student, Tall_students, Tstudent_consulting, TquestionAnswerdata;
@@ -13,13 +14,6 @@ const today = new Date().setHours(0, 0, 0, 0);
 const todayyoil = new Date().getDay()
 
 // 공용 function
-let make_hours = function(time){
-    var date = new Date(time);
-
-    // 한국 시간으로 변환
-    var koreaTime = date.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
-    return koreaTime
-} 
 function getIsFetching(){
     return isFetching;
 }
@@ -28,7 +22,6 @@ function setIsFetching(value){
 }
 function deleteCookie(name) {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    console.log(document.cookie)
 }
 function logout() {
     $.ajax({
@@ -38,7 +31,6 @@ function logout() {
         success: function (response) {
             if (response['result'] === 'success') {
                 deleteCookie('mytoken');
-                console.log(document.cookie)
                 window.location.href = '/';
             } else {
                 window.location.href = '/';
@@ -119,21 +111,32 @@ let make_out = function(c) {
     }
     return '';
 }
+let make_hours = function(time){
+    var date = new Date(time);
+
+    // 한국 시간으로 변환
+    var koreaTime = date.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
+    return koreaTime
+} 
+let make_date_with_yoil = function (d) {
+    if (d == null) {
+        return '➖';
+    }
+    const date = new Date(d);
+    const options = { timeZone: "Asia/Seoul", weekday: "long", year: "numeric", month: "long", day: "numeric" };
+    const koreaTime = date.toLocaleString("ko-KR", options);
+    
+    return koreaTime;
+}
 let make_date = function (d) {
     if (d == null) {
         return '➖';
     }
     const date = new Date(d);
-    const koreaTime = date.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
-    const koreaDate = new Date(Date.parse(koreaTime));
-    console.log(koreaDate);
-    return (
-        koreaDate.getFullYear() +
-        "-" +
-        (koreaDate.getMonth() + 1).toString().padStart(2, "0") +
-        "-" +
-        koreaDate.getDate().toString().padStart(2, "0")
-    );
+    const options = { timeZone: "Asia/Seoul", year: "numeric", month: "long", day: "numeric" };
+    const koreaTime = date.toLocaleString("ko-KR", options);
+    
+    return koreaTime;
 }
 let make_nullcate = function (d) {
     if (d == null || d == "") {
@@ -386,7 +389,7 @@ async function get_all_data() {
                 temp_o_ban_id += selectmsg
                 banMap.set(elem.ban_id, {
                     ban_name: elem.name,
-                    email: elem.teacher_email,
+                    teacher_email: elem.teacher_email,
                     teacher_name: elem.teacher_engname +'( '+ elem.teacher_name +' )'
                 });
             });
@@ -421,7 +424,6 @@ async function getConsultingsData() {
     consultingsWorker.onmessage = function(event) {
         consultingData = event.data.consulting;
         // Process the data received from the worker
-        console.log(data);
       };
     return new Promise((resolve) => {
         consultingsWorker.onmessage = function(event) {
@@ -499,7 +501,6 @@ async function get_cs_data() {
             });
             csWorker.postMessage('getCSdata');
             CSdata = await message;
-            console.log(CSdata)
         }
     } catch (error) {
         alert('Error occurred while retrieving data.');
@@ -787,24 +788,19 @@ function download_banlist(){
         var doc = new jsPDF();
         var tableData = [];
         // HTML 요소를 선택하고 PDF로 변환합니다.
-        console.log($('#semester_banlist tr'))
         $('#semester_banlist tr').each(function(row, element) {
             var rowData = [];
-            console.log(element)
             $(element).find('td').each(function(col, cell) {
-                console.log(cell)
                 rowData.push($(cell).text());
             });
             tableData.push(rowData);
         });
-        console.log(tableData)
 
         // 테이블을 PDF에 추가하기
         doc.autoTable({
             head: [['반', '선생님', '관리 원생 수', '학생 수', '퇴소 율', '보류 학생 수', '퇴소 정보', '전체 퇴소율', '상세 정보']],
             body: tableData,
         });
-        console.log(doc)
 
         // PDF 파일을 저장합니다.
         doc.save('semester_list.pdf');
@@ -1216,7 +1212,7 @@ async function show_ban_report(t_id,b_id,target_consultingdata,target_taskdata){
                 chartHtml += `
                 <td class="col-3">${item.student_name}( ${item.student_engname} )</td>
                 <td class="col-2">${item.origin}</td>
-                <td class="col-3">${item.pname} ( 📞${item.pmobileno} )</td>
+                <td class="col-3">${item.smobileno}</td>
                 <td class="col-3">${item.unlearned}건 ( ${item.up}% ) </td>
                 <td class="col-1" custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${item.student_id})">📝</td>`;
             });
@@ -1247,7 +1243,6 @@ async function show_teacher_report(t_id,b_id,target_data){
     // 리포트 타입에 따라 화면 변화 
     $('#report_type').change(function() {
         selectedValue = $(this).val();
-        console.log(selectedValue)
         if(selectedValue == 0){
             return show_ban_report(t_id,b_id,target_data)
         }else{
@@ -1477,7 +1472,7 @@ async function show_teacher_report(t_id,b_id,target_data){
                 chartHtml += `
                 <td class="col-3">${item.student_name}( ${item.student_engname} )</td>
                 <td class="col-2">${item.origin}</td>
-                <td class="col-3">${item.pname} ( 📞${item.pmobileno} )</td>
+                <td class="col-3">${item.smobileno}</td>
                 <td class="col-3">${item.unlearned}건 ( ${item.up}% ) </td>
                 <td class="col-1" custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${item.student_id})">📝</td>`;
             });

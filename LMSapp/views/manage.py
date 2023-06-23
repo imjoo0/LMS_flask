@@ -64,7 +64,7 @@ def answer(u,id,done_code):
         return jsonify({'result': '문의 답변 저장 완료'})
 
 def make_cate(id):
-    if(id == 0):
+    if(id == 3):
         return '일반 문의'
     elif(id == 4):
         return '기술 문의'
@@ -88,7 +88,7 @@ def q_kind(id):
         target_question.category = q_kind
         db.session.commit()
         payloadText = before_kind+'에서 ➡️ '
-        if(q_kind == 0):
+        if(q_kind == 3):
             Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
             payloadText  += '일반 문의로 변경된 문의가 있습니다'
         elif(q_kind == 4):
@@ -126,11 +126,19 @@ def modal_question(id):
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute('select user.eng_name as teacher_engname,user.name as teacher_name, question.category,question.id,question.title,question.contents,question.teacher_id,question.ban_id,question.student_id,question.create_date,question.answer,question.consulting_history,question.mobileno,consulting.solution,consulting.contents as consulting_contents,consulting.reason,consulting.week_code,consultingcategory.name as consulting_category,consulting.category_id as consulting_categoryid,consulting.created_at as created_at from LMS.question left join user on question.teacher_id = user.id  left join consulting on question.consulting_history = consulting.id left join consultingcategory on consulting.category_id = consultingcategory.id where question.id = %s;', (id))
+                cur.execute('''
+                    SELECT question.id,question.category,question.title,question.contents,question.teacher_id,question.ban_id,
+                    question.student_id,question.create_date,question.answer,
+                    question.consulting_history,question.mobileno,consulting.solution,consulting.reason,consulting.week_code,consultingcategory.name as consulting_category,consulting.category_id as consulting_categoryid,consulting.created_at as consulting_created_at ,
+                    answer.id as answer_id, user.eng_name as answerer, answer.title as answer_title,answer.content as answer_contents ,answer.created_at as answer_created_at,answer.reject_code as answer_reject_code
+                    from LMS.question
+                    left join answer on answer.question_id = question.id 
+                    left join user on user.id = answer.writer_id 
+                    left join consulting on question.consulting_history = consulting.id 
+                    left join consultingcategory on consulting.category_id = consultingcategory.id 
+                    WHERE question.id = %s;
+                ''',(id))
                 target_question['question'] = cur.fetchall()
-
-                cur.execute('SELECT user.eng_name as writer, answer.title,answer.content,answer.created_at,answer.reject_code,answer.question_id FROM LMS.answer left join question on answer.question_id =question.id left join user on user.id = answer.writer_id where question.id = %s;', (id))
-                target_question['answer'] = cur.fetchall()
 
                 cur.execute('select question_id,file_name,id from attachment where attachment.question_id = %s;', (id))
                 target_question['attach'] = cur.fetchall()
@@ -211,12 +219,9 @@ def get_questiondata():
                 else:
                     attach = []
                     offset = page - question_count
-                    print(offset)
-                    # print(offset)
                     if offset < total_count :
                         cur.execute('SELECT * FROM LMS.cs ORDER BY cs.create_date LIMIT %s, %s;',(offset,page_size,))
                         question = cur.fetchall()
-                    # print(question)
         except Exception as e:
             print(e)
         finally:
@@ -625,7 +630,6 @@ def request_indivi_student(b_id,t_id,s_id):
         }
         headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
         http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
-        print(http_post_requests)
         db.session.commit()
         
         return jsonify({'result':'success'})
