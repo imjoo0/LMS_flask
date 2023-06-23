@@ -58,6 +58,10 @@ class Attachments(db.Model):
     data = db.Column(db.LargeBinary)
     file_name = db.Column(db.String(200))
     is_answer = db.Column(db.Integer, nullable=False)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9b9b1716a2137c66e9af0306d90068424bc1b314
     question = db.relationship("Question", back_populates='attachments')
 
 class Comment(db.Model):

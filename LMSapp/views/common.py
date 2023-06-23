@@ -27,7 +27,7 @@ Today = korea_time.date()
 today_yoil = korea_time.weekday() + 1
 standard = datetime.strptime('11110101', "%Y%m%d").date()
 
-def save_attachment(file, q_id):
+def save_attachment(file, q_id, is_answer):
     try:
         # 파일명을 유니코드 NFC로 정규화
         file_name = unicodedata.normalize('NFC', file.filename)
@@ -38,9 +38,11 @@ def save_attachment(file, q_id):
             file_name=file_name,
             mime_type=mime_type,
             data=data,
-            question_id=q_id
+            question_id=q_id,
+            is_answer = is_answer
         )
 
+        print(attachment)
         db.session.add(attachment)
         db.session.commit()
 
