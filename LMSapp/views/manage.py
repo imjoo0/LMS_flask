@@ -31,6 +31,8 @@ def answer(u,id,done_code):
         # answer_title = request.form['answer_title']
         answer_contents = request.form['answer_contents']
         o_ban_id = request.form['o_ban_id']
+        if o_ban_id == 'none':
+            o_ban_id = 0
         target_question = Question.query.get_or_404(id)
         target_question.answer = 1
         files = request.files.getlist('file_upload')

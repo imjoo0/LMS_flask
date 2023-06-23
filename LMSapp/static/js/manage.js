@@ -452,6 +452,7 @@ async function show_question_detail(q_id,question_detail_data){
 // 본원 답변 기능 
 async function post_answer(q_id, category,done_code) {
     let q_kind = $('#question_kind').val()
+    let o_ban_id = 0
     if(q_kind == 'none'){
         if(done_code == 0){
             const response = await $.ajax({

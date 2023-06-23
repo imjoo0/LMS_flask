@@ -1337,7 +1337,7 @@ async function get_question_detail(q_id) {
         <div class="modal-body-select-label"><span class="modal-body-select-container-span">첨부파일</span></div>
     `
     if(questiondata.attach != "없음"){
-        questiondata.attach.forEach((a)=>{
+        questiondata.question_attach.forEach((a)=>{
             temp_question_list += `<a href="/common/downloadfile/question/${q_id}/attachment/${a.id}" download="${a.file_name}">${a.file_name}</a>`;
         })
     }else{
@@ -1408,11 +1408,21 @@ async function get_question_detail(q_id) {
             <div class="modal-body-select-label"><span class="modal-body-select-container-span">응답일</span></div>
             <div>${questiondata.answer_data.created_at}</div>
         </div>
-        <div class="d-flex flex-column justify-content-start py-3">
+        <div class="modal-body-select-container">
+            <div class="modal-body-select-label"><span class="modal-body-select-container-span">첨부파일</span></div>
+        `
+        if(questiondata.attach != "없음"){
+            questiondata.answer_attach.forEach((a)=>{
+                temp_answer_list += `<a href="/common/downloadfile/question/${q_id}/attachment/${a.id}" download="${a.file_name}">${a.file_name}</a>`;
+            })
+        }else{
+            temp_answer_list +='➖'
+        }
+
+        temp_answer_list+=`</div><div class="d-flex flex-column justify-content-start py-3">
             <div class="modal-body-select-label"><span class="modal-body-select-container-span">내용</span></div>
             <div class="mt-4 px-2 text-start">${questiondata.answer_data.content}</div>
-        </div>
-        `;
+        </div>`;
     }
     $('#teacher_answer').html(temp_answer_list);
 }
