@@ -172,6 +172,7 @@ async function home(){
                 `;
                 $.each(today_consulting_notdone, function (index, taskconsulting) {
                     let student_info = Tall_students.filter(s=> s.student_id == taskconsulting.student_id)[0]
+                    let contents = ''
                     if(taskconsulting.contents && taskconsulting.contents.length > 30) {
                         contents = taskconsulting.contents.substring(0, 30) + ' ▪️▪️▪️ ';
                     }

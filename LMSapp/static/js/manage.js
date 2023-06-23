@@ -125,12 +125,14 @@ async function get_question_chunk(currentPage,pageSize,done_code, q_type) {
     questionsWorker.onmessage = function (event) {
         $('.cs_inloading').show()
         $('.not_inloading').hide()
+        let history_q_num = currentPage
+        let history_a_num = attachData.length
         questionCount = event.data.total_count
         questionData = questionData.concat(event.data.question);
         if(!studentsData){
             delay(1000); // 1초의 지연을 줌
         }
-        for (let i = 0; i < questionData.length; i++) {
+        for (let i = history_q_num; i < questionData.length; i++) {
             if(questionData[i]['id']>0){
                 const ban = banMap.get(questionData[i].ban_id);
                 const student = studentMap.get(questionData[i].student_id);
@@ -141,7 +143,7 @@ async function get_question_chunk(currentPage,pageSize,done_code, q_type) {
             }
         }
         attachData = attachData.concat(event.data.attach)
-        for (let i = 0; i < attachData.length; i++) {
+        for (let i = history_a_num; i < attachData.length; i++) {
             const attach = attachData[i];
             const questionId = attach.question_id;
             if (attachMap.has(questionId)) {
@@ -300,6 +302,7 @@ async function get_question_detail(q_id){
         question_detail_data.attach = attachMap.get(q_id);
         question_detail_data.contents = question_detail_data.contents.replace(/\n/g, '</br>')
     }
+    console.log(question_detail_data.attach)
     show_question_detail(q_id,question_detail_data)
 }
 // 문의 내용 상세보기
@@ -1494,7 +1497,7 @@ async function get_request_task(){
                         <td class="col-1"> ${make_cycle(task_info.cycle)}</td>
                         <td class="col-1">${make_priority(task_info.priority)}</td>
                         <td class="col-4">${task_info.category} 업무 :  ${task_info.contents}</td>
-                        <td class="col-2">총 ${total_tasks}개 반 진행 중   (${answer_rate(done_tasks,total_tasks).toFixed(0)} %)</td>
+                        <td class="col-2">총 ${total_tasks}개 반 진행 중   (${answer_rate(done_tasks,total_tasks).toFixed(0)} % 완수 )</td>
                         <td class="col-1" onclick ="get_taskban(${key})"> <span class="cursor">🔍</span> </td>
                         <td class="col-1" onclick="delete_tasks(${key})"> <span class="cursor">🗑️</span> </td>`;
                 });
