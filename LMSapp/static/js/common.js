@@ -547,28 +547,31 @@ async function get_total_data() {
                     <td>${total_student_num - totalOutnum}명</td>
                     <td>${totalOutnum}명(${answer_rate(totalOutnum, total_student_num).toFixed(2)}%)</td>
                     <td><span class='cursor-pointer fs-4' onclick="semesterShow(${3})">📜 </span>
-                    <span class='cursor-pointer fs-4' onclick="download_banlist(${3})">⬇️</span></td>
+                    </td>
                 </tr>
                 <tr>
                     <th class="need">1월 학기</th>
                     <td>${onesemester_total}명</td>
                     <td>${onesemester_total - oneoutnum}명</td>
                     <td>${oneoutnum}명(${answer_rate(oneoutnum, onesemester_total).toFixed(2)}%)</td>
-                    <td><span class='cursor-pointer fs-4' onclick="semesterShow(${1})">📜</span></td>
+                    <td><span class='cursor-pointer fs-4' onclick="semesterShow(${1})">📜</span>
+                    </td>
                 </tr>
                 <tr>
                     <th class="need">5월 학기</th>
                     <td>${fivesemester_total}명</td>
                     <td>${fivesemester_total - fiveoutnum}명</td>
                     <td>${fiveoutnum}명(${answer_rate(fiveoutnum, fivesemester_total).toFixed(2)}%)</td>
-                    <td><span class='cursor-pointer fs-4' onclick="semesterShow(${2})">📜</span></td>
+                    <td><span class='cursor-pointer fs-4' onclick="semesterShow(${2})">📜</span>
+                    </td>
                 </tr>
                 <tr>
                     <th>9월 학기</th>
                     <td>${ninesemester_total}명</td>
                     <td>${ninesemester_total - nineoutnum}명</td>
                     <td>${nineoutnum}명(${answer_rate(nineoutnum, ninesemester_total).toFixed(2)}%)</td>
-                    <td><span class='cursor-pointer fs-4' onclick="semesterShow(${0})">📜</span></td>
+                    <td><span class='cursor-pointer fs-4' onclick="semesterShow(${0})">📜</span>
+                    </td>
                 </tr>
             </table>
         `;
@@ -656,18 +659,32 @@ function semesterShow(semester) {
     $('#ban_search_input').off('keyup');
     $('#semester').show();
     if (semester == 0) {
-        $('#semester_s').html('9월 학기');
+        $('.semester_s').html('9월 학기');
         resultData = ninesemester;
     } else if (semester == 1) {
-        $('#semester_s').html('1월 학기');
+        $('.semester_s').html('1월 학기');
         resultData = onesemester;
     } else if (semester == 2) {
-        $('#semester_s').html('5월 학기');
+        $('.semester_s').html('5월 학기');
         resultData = fivesemester;
     } else {
-        $('#semester_s').html('전체 반')
+        $('.semester_s').html('전체 반')
         resultData = banData;
     }
+    var temp_semester_banlist = '';
+    $.each(resultData, function (index, item) {
+        let teacher_name = item.teacher_engname + '( ' + item.teacher_name + ' )'
+        temp_semester_banlist += `
+        <td class="col-2">${item.name}</td>
+        <td class="col-2">${teacher_name}</td>
+        <td class="col-1">${item.first_student_num}</td>
+        <td class="col-1">${item.student_num}</td>
+        <td class="col-1">${item.out_student_num}(<strong>${item.out_num_per}%</strong>)</td>
+        <td class="col-1">${item.hold_student_num}</td>
+        <td class="col-2"> 총: ${item.total_out_num}명 ( 퇴소 : ${item.out_student_num} / 보류 : ${item.hold_student_num} )</td>
+        <td class="col-2"><strong>${item.total_out_num_per}%</strong></td>`
+    });
+    $('#for_print_semester_list').html(temp_semester_banlist)
     ResultpaginationOptions = {
         prevText: '이전',
         nextText: '다음',
@@ -691,7 +708,7 @@ function semesterShow(semester) {
             $('#semester_banlist').html(temp_semester_banlist)
         }
     };
-
+    
     SemesterContainer = $('#semester_pagination')
     SemesterContainer.pagination(Object.assign(ResultpaginationOptions, { 'dataSource': resultData }))
 
@@ -782,30 +799,28 @@ function sort_data(sort_op) {
         Object.assign(ResultpaginationOptions, { dataSource: resultData })
     );
 }
-function download_banlist(){
-    var con_val = confirm('반 리스트를 다운로드 하시겠습니까?')
-    if(con_val){
-        var doc = new jsPDF();
-        var tableData = [];
-        // HTML 요소를 선택하고 PDF로 변환합니다.
-        $('#semester_banlist tr').each(function(row, element) {
-            var rowData = [];
-            $(element).find('td').each(function(col, cell) {
-                rowData.push($(cell).text());
-            });
-            tableData.push(rowData);
-        });
-
-        // 테이블을 PDF에 추가하기
-        doc.autoTable({
-            head: [['반', '선생님', '관리 원생 수', '학생 수', '퇴소 율', '보류 학생 수', '퇴소 정보', '전체 퇴소율', '상세 정보']],
-            body: tableData,
-        });
-
-        // PDF 파일을 저장합니다.
-        doc.save('semester_list.pdf');
+function download_banlist() {
+    var con_val = confirm('반 리스트를 다운로드 하시겠습니까?');
+    if (con_val) {
+      // 테이블을 포함하는 HTML 요소 선택
+      var element = document.getElementById('for_print_semester');
+    //   element.style.display = 'block';
+      // html2pdf 옵션 설정
+      var options = {
+        margin: 10,
+        filename: 'semester_list.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+      };
+  
+      // HTML 요소를 PDF로 변환하여 다운로드
+      html2pdf().from(element).set(options).save();
+    //   element.style.display = 'none';
     }
-}
+  }
+  
+  
 async function get_ban_info(t_id,b_id) {
     $('.mo_inloading').show()
     $('.monot_inloading').hide()

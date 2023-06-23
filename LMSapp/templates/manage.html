@@ -867,10 +867,12 @@
                                         <th class="col-2" id="teacher_sort" onclick="sort_data('teacher_sort')">선생님 ( 이름 순 정렬👉 )</th>
                                         <th class="col-2" id="unlearned_sort" onclick="sort_data('unlearned_sort')">관리 원생 수 ( 많은 순 정렬👉 )</th>
                                         <th class="col-3" id="tout_sort" onclick="sort_data('tout_sort')">반 퇴소율 ( 반 퇴소율 높은 순 정렬👉 )</th>
-                                        <th class="col-3" id="out_sort" onclick="sort_data('out_sort')">전체 퇴소율 ( 퇴소율 높은 순 정렬👉 )</th>
+                                        <th class="col-2" id="out_sort" onclick="sort_data('out_sort')">전체 퇴소율 ( 퇴소율 높은 순 정렬👉 )</th>
+                                        <th class="col-1" onclick="download_banlist()"><span class='cursor-pointer'> 다운로드 ⬇️</span></th> 
+                                        
                                     </tr>
                                     <tr class="row">
-                                        <th class="col-2" id="semester_s">학기</th>
+                                        <th class="col-2 semester_s">학기</th>
                                         <th class="col-2">담임 T</th>
                                         <th class="col-1">초기 배정 수</th>
                                         <th class="col-1">관리 중 원생 수</th>
@@ -882,6 +884,25 @@
                                     </tr>
                                 </thead>
                                 <tr class="row" id="semester_banlist">
+
+                                </tr>
+                            </table>
+                        </div>
+                        <div style="width:100%; font-size: 11px; display: none;">
+                            <table id="for_print_semester" class="table text-center mt-5" style="width:100%; font-size: 11px;">
+                                <thead>
+                                    <tr class="row">
+                                        <th class="col-2 semester_s">학기</th>
+                                        <th class="col-2">담임 T</th>
+                                        <th class="col-1">초기 배정 수</th>
+                                        <th class="col-1">관리 중 원생 수</th>
+                                        <th class="col-1">퇴소 원생 수</th>
+                                        <th class="col-1">보류 중 원생 수</th>
+                                        <th class="col-2">➖ 퇴소 및 이탈 수</th>
+                                        <th class="col-2"><strong>퇴소율</strong></th>
+                                    </tr>
+                                </thead>
+                                <tr class="row" id="for_print_semester_list">
 
                                 </tr>
                             </table>

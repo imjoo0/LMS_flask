@@ -1396,6 +1396,9 @@ function get_consultingdetail(consulting_id) {
 
 // 요청 업무관리 기능 
 function get_task_chunk(currentPage,pageSize,task_type){
+    if(!banData){
+        delay(1000); // 1초의 지연을 줌
+    } 
     const tasksWorker = new Worker("../static/js/tasks_worker.js");
     function task_fetchData(){
         tasksWorker.postMessage({ page: currentPage, pageSize });
@@ -1407,9 +1410,6 @@ function get_task_chunk(currentPage,pageSize,task_type){
         let before_task_num = taskData.length
         taskCount = event.data.total_count
         taskData = taskData.concat(event.data.task);
-        if(!banData){
-            delay(1000); // 1초의 지연을 줌
-        } 
         let category_list = []
         let sevenDays = new Date()
         sevenDays = new Date(sevenDays.getFullYear(), sevenDays.getMonth(), sevenDays.getDate()-7).setHours(0, 0, 0, 0);
