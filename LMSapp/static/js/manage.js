@@ -908,7 +908,7 @@ async function request_consulting() {
     $("#consulting_deadline").datepicker({ dateFormat: 'yy-mm-dd' });
 
     let copy_data = studentsData.slice();
-    let target_studentData = copy_data.filter(s=>s.category_id == 1)
+    let target_studentData = copy_data
     let temp_consulting_category_list = '<option value=0 selected>상담카테고리를 선택해주세요</option>';
     consultingcateData.forEach(cate_data => {
         temp_consulting_category_list += `<option value="${cate_data.id}">${cate_data.name}</option>`;
@@ -925,7 +925,11 @@ async function request_consulting() {
     let temp_student_option = '<option value=0 selected>원생을 선택해주세요</option>';
     target_studentData.forEach(student_data => {
         let value = `${student_data.ban_id}_${student_data.teacher_id}_${student_data.ban_name}_${student_data.student_id}_${student_data.student_name}`; // btid
-        temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin} ) - ${student_data.ban_name}</option>`;
+        if(student_data.category_id > 1){
+            temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin} ) - ${student_data.ban_name} (보류/퇴소 원생)</option>`
+        }else{
+            temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin} ) - ${student_data.ban_name}</option>`;
+        }
     });
     $('#consulting_target_student').html(temp_student_option)
 
@@ -954,7 +958,11 @@ async function request_consulting() {
         });
         filteredData.forEach(student_data => {
             let value = `${student_data.ban_id}_${student_data.teacher_id}_${student_data.ban_name}_${student_data.student_id}_${student_data.student_name}`; // btid
-            temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin} )  - ${student_data.ban_name}</option>`;
+            if(student_data.category_id > 1){
+                temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin} ) - ${student_data.ban_name} (보류/퇴소 원생)</option>`
+            }else{
+                temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin} ) - ${student_data.ban_name}</option>`;
+            }
             });
         $('#consulting_target_student').html(temp_student_option)
     });
