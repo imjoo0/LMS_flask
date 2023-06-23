@@ -33,7 +33,10 @@ def answer(u,id,done_code):
         o_ban_id = request.form['o_ban_id']
         target_question = Question.query.get_or_404(id)
         target_question.answer = 1
-
+        files = request.files.getlist('file_upload')
+        print(files)
+        for file in files:
+            common.save_attachment(file, id, 1)
         if(done_code == 0):
             post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
             new_answer = Answer(content=answer_contents,created_at=Today,reject_code=int(o_ban_id),question_id = id,writer_id = u['id'])
@@ -43,6 +46,7 @@ def answer(u,id,done_code):
                 'recipientList': [{'recipientNo':target_question.mobileno, 'templateParameter': { '답변내용':answer_contents}, }, ], }
             headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
             http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
+            
         else:
             target_answer = Answer.query.filter(Answer.question_id == id).first()
             if(answer_contents != '' or answer_contents != None):
@@ -213,7 +217,7 @@ def get_questiondata():
                     LIMIT %s, %s;
                     ''',(page,page_size,))
                     question = cur.fetchall()
-                    cur.execute('select attachment.question_id,attachment.file_name,attachment.id from attachment LEFT JOIN question on attachment.question_id = question.id ORDER BY question.category,question.answer, question.create_date DESC LIMIT %s, %s;',(page,page_size,))
+                    cur.execute('select attachment.question_id,attachment.file_name,attachment.id,attachment.is_answer from attachment LEFT JOIN question on attachment.question_id = question.id ORDER BY question.category,question.answer, question.create_date DESC LIMIT %s, %s;',(page,page_size,))
                     attach = cur.fetchall()
                 else:
                     attach = []

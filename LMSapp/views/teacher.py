@@ -183,7 +183,7 @@ def question(u):
         payloadText += encoded_link_url
         files = request.files.getlist('file_upload')
         for file in files:
-            common.save_attachment(file, new_question.id)
+            common.save_attachment(file, new_question.id, 0)
         requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
         try:
             response = requests.get(requestURI)

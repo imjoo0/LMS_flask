@@ -146,16 +146,18 @@ async function get_question_chunk(currentPage,pageSize,done_code, q_type) {
         for (let i = history_a_num; i < attachData.length; i++) {
             const attach = attachData[i];
             const questionId = attach.question_id;
-            if (attachMap.has(questionId)) {
+            if(attachMap.has(questionId)) {
                 const existingAttach = attachMap.get(questionId);
                 existingAttach.push({
                 attach_id: attach.id,
-                file_name: attach.file_name
+                file_name: attach.file_name,
+                is_answer: attach.is_answer
                 });
-            } else {
+            }else {
                 attachMap.set(questionId, [{
                 attach_id: attach.id,
-                file_name: attach.file_name
+                file_name: attach.file_name,
+                is_answer: attach.is_answer
                 }]);
             }
         }
@@ -297,12 +299,17 @@ async function get_question_detail(q_id){
     $('#manage_answer').hide()
     let question_detail_data = questionData.filter(q => q.id == q_id)[0]
     
-    question_detail_data.attach = 0
     if(question_detail_data.id > 0){
-        question_detail_data.attach = attachMap.get(q_id);
-        question_detail_data.contents = question_detail_data.contents.replace(/\n/g, '</br>')
+        let attach = attachMap.get(q_id);
+        console.log(attach)
+        if(attach != undefined){
+            question_detail_data.question_attach = attach.filter(a=>a.is_answer == 0)
+            question_detail_data.answer_attach = attach.filter(a=>a.is_answer != 0)
+            question_detail_data.contents = question_detail_data.contents.replace(/\n/g, '</br>')
+        }
     }
-    console.log(question_detail_data.attach)
+    console.log(question_detail_data.question_attach)
+    console.log(question_detail_data.answer_attach)
     show_question_detail(q_id,question_detail_data)
 }
 // 문의 내용 상세보기
@@ -344,8 +351,8 @@ async function show_question_detail(q_id,question_detail_data){
     <div class="d-flex flex-column justify-content-start py-3">
         <div class="modal-body-select-label"><span class="modal-body-select-container-span">첨부파일</span></div>
     `
-    if(question_detail_data.attach != 0 && question_detail_data.attach != undefined){
-        question_detail_data.attach.forEach((a)=>{
+    if(question_detail_data.question_attach != undefined && question_detail_data.question_attach.length != 0){
+        question_detail_data.question_attach.forEach((a)=>{
             temp_question_list +=`<a class="pt-3 px-2" href="/common/downloadfile/question/${q_id}/attachment/${a.attach_id}" download="${a.file_name}">${a.file_name}</a>`
         })
     }else{
@@ -395,7 +402,17 @@ async function show_question_detail(q_id,question_detail_data){
             <textarea class="modal-body-select w-100 mt-3" type="text" rows="15" cols="25"
             id="answer_content_modi">${question_detail_data.answer_contents}</textarea>
         </div>
+        <div class="d-flex flex-column justify-content-start py-3">
+            <div class="modal-body-select-label"><span class="modal-body-select-container-span">첨부파일</span></div>
         `;
+        if(question_detail_data.answer_attach != undefined  && question_detail_data.answer_attach.length != 0){
+            question_detail_data.answer_attach.forEach((a)=>{
+                temp_answer_list +=`<a class="pt-3 px-2" href="/common/downloadfile/question/${q_id}/attachment/${a.attach_id}" download="${a.file_name}">${a.file_name}</a>`
+            })
+        }else{
+            temp_answer_list +=`<div class="pt-3 px-2">첨부 파일 없음</div>`
+        }
+        temp_answer_list += '</div>'
         $('#teacher_answer').html(temp_answer_list);
         $('#teacher_answer').show()
         $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category},${1})">수정</button>`);
@@ -467,12 +484,6 @@ async function post_answer(q_id, category,done_code) {
                 $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${target_answer.category},${1})">수정</button>`);
                 $('#teacher_answer').show()
                 
-                // var con_val = confirm('수정하시겠습니까?')
-                // if (con_val == true) {
-                //     post_answer(q_id,target_answer.category,1);
-                // }else{
-                //     return
-                // }
                 return
             }else{
                 // 정상 저장의 경우 
@@ -494,14 +505,25 @@ async function post_answer(q_id, category,done_code) {
                 o_ban_id = $('#o_ban_id').val()
             }
         }
-        
+        const formData = new FormData();
+        const fileInput = document.getElementById('file-upload');
+        const files = fileInput.files;
+        const files_length = files.length;
+        if(files_length > 3){
+            $('#error_msg_filesel').show()
+            return;
+        }
+        for (let i = 0; i < files_length; i++) {
+            formData.append('file_upload', files[i]);
+        }
+        formData.append('answer_contents', answer_contents);
+        formData.append('o_ban_id', o_ban_id);
         $.ajax({
             type: "POST",
             url: "/manage/answer/" + q_id +'/'+ done_code,
-            data: {
-                answer_contents: answer_contents,
-                o_ban_id: o_ban_id
-            },
+            data: formData,
+            processData: false,
+            contentType: false,
             success: function (response) {
                 {
                     if(response['result'] == '문의 답변 저장 완료'){
