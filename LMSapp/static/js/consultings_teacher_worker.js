@@ -5,7 +5,6 @@ async function fetchDataFromServer(t_id, teacher_id_history) {
   try {
     const response = await fetch(`/common/consulting_chunk_by_teacher?t_id=${t_id}&teacher_id_history=${teacher_id_history}`);
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.log(error);

@@ -42,8 +42,6 @@ standard = datetime.strptime('11110101', "%Y%m%d").date()
 @authrize
 def home(u):
     if request.method == 'GET':
-        print(Today)
-        print(today_yoil)
         teacher_info = callapi.purple_info(u['user_id'], 'get_teacher_info')
         return render_template('teacher.html', user=teacher_info)
 
@@ -65,17 +63,17 @@ def get_mybans(u):
                 SELECT consulting.origin, consulting.student_name, consulting.student_engname, consulting.id, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate, consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result
                 FROM consulting
                 LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id
-                WHERE (consulting.category_id < 100 AND consulting.done = 0 AND %s <= consulting.startdate AND consulting.startdate <= %s and consulting.ban_id=%s)
+                WHERE (consulting.category_id < 100 AND consulting.done = 0 AND %s <= consulting.startdate AND consulting.startdate <= curdate() and consulting.ban_id=%s)
                 OR (consulting.category_id < 100 AND consulting.done != 0 AND consulting.ban_id=%s)
-                OR (consulting.category_id >= 100 AND consulting.startdate <= %s and consulting.ban_id=%s)
-                ''',({ban['startdate']},Today,ban['register_no'],ban['register_no'],Today,ban['register_no'], ) )
+                OR (consulting.category_id >= 100 AND consulting.startdate <= curdate() and consulting.ban_id=%s)
+                ''',({ban['startdate']},ban['register_no'],ban['register_no'],ban['register_no'], ) )
                 all_consulting.extend(cur.fetchall())
 
             cur.execute("SELECT * FROM LMS.consultingcategory;")
             all_consulting_category = cur.fetchall()
             
             # 업무
-            cur.execute("select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id left join taskcategory on task.category_id = taskcategory.id where ( (task.category_id = 11) or ( (task.cycle = %s) or (task.cycle = 0) ) ) and ( task.startdate <= %s and %s <= task.deadline ) and taskban.teacher_id=%s;", (today_yoil, Today, Today,u['id'],))
+            cur.execute("select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id left join taskcategory on task.category_id = taskcategory.id where ( (task.category_id = 11) or ( (task.cycle = %s) or (task.cycle = 0) ) ) and ( task.startdate <= curdate() and curdate() <= task.deadline ) and taskban.teacher_id=%s;", (today_yoil, u['id'],))
             all_task = cur.fetchall()
     except:
         print('err:', sys.exc_info())
@@ -154,7 +152,7 @@ def question(u):
         teacher_name = request.form.get('teacher_name', None)
         teacher_engname = request.form.get('teacher_engname', None)
         create_date = datetime.now()
-        
+        q_type = 1
         payloadText = teacher_name+'( '+ teacher_engname +' )님으로 부터 ' 
         if category == 2 or category == 1:
             Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
@@ -162,14 +160,17 @@ def question(u):
             history_id = request.form['h_select_box']
             new_question = Question(consulting_history=history_id, category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         else:
-            if category == 0:
+            if category == 3:
+                q_type = 3
                 # # 영교부에서 재택T 문의 관리 하는 시놀로지 채팅 방 token 값 받아야 함. 
                 Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
                 payloadText += '일반 문의가 등록되었습니다 \n' 
             elif category == 4: 
+                q_type = 4
                 payloadText += '기술 문의가 등록되었습니다 \n' 
                 Synologytoken = '"iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg"'
             elif category ==5: 
+                q_type = 5
                 payloadText += '내근티처 문의가 등록되었습니다 \n' 
                 Synologytoken = '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"'
             new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
@@ -177,7 +178,7 @@ def question(u):
         db.session.commit()
         
         payloadText += '제목: `{}`\n\n```{}```'.format(title, contents.replace('\r\n', '\n\n') )
-        link_url = '\n[링크 바로가기]http://purpleacademy.net:6725/manage/?q_id={}&q_type={}'.format(new_question.id,category)
+        link_url = '\n[링크 바로가기]http://purpleacademy.net:6725/manage/?q_id={}&q_type={}'.format(new_question.id,q_type)
         encoded_link_url  = quote(link_url)  # payloadText 인코딩
         payloadText += encoded_link_url
         files = request.files.getlist('file_upload')

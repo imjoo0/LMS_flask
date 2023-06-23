@@ -32,7 +32,7 @@ from datetime import datetime, timedelta
 
 scheduler = BackgroundScheduler(timezone=timezone('Asia/Seoul'))
 
-# 스케줄러에 작업 추가 매일 12시마다 실행 (오후3시 테스트)
+# 스케줄러에 작업 추가 매일 오전 12시마다 실행 -> 서버 시간대 utc 라 3으로 변경
 @scheduler.scheduled_job('cron', hour='3')
 def update_database():
     try:

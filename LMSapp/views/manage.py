@@ -64,7 +64,7 @@ def answer(u,id,done_code):
         return jsonify({'result': '문의 답변 저장 완료'})
 
 def make_cate(id):
-    if(id == 0):
+    if(id == 3):
         return '일반 문의'
     elif(id == 4):
         return '기술 문의'
@@ -88,7 +88,7 @@ def q_kind(id):
         target_question.category = q_kind
         db.session.commit()
         payloadText = before_kind+'에서 ➡️ '
-        if(q_kind == 0):
+        if(q_kind == 3):
             Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
             payloadText  += '일반 문의로 변경된 문의가 있습니다'
         elif(q_kind == 4):
@@ -126,11 +126,19 @@ def modal_question(id):
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute('select user.eng_name as teacher_engname,user.name as teacher_name, question.category,question.id,question.title,question.contents,question.teacher_id,question.ban_id,question.student_id,question.create_date,question.answer,question.consulting_history,question.mobileno,consulting.solution,consulting.contents as consulting_contents,consulting.reason,consulting.week_code,consultingcategory.name as consulting_category,consulting.category_id as consulting_categoryid,consulting.created_at as created_at from LMS.question left join user on question.teacher_id = user.id  left join consulting on question.consulting_history = consulting.id left join consultingcategory on consulting.category_id = consultingcategory.id where question.id = %s;', (id))
+                cur.execute('''
+                    SELECT question.id,question.category,question.title,question.contents,question.teacher_id,question.ban_id,
+                    question.student_id,question.create_date,question.answer,
+                    question.consulting_history,question.mobileno,consulting.solution,consulting.reason,consulting.week_code,consultingcategory.name as consulting_category,consulting.category_id as consulting_categoryid,consulting.created_at as consulting_created_at ,
+                    answer.id as answer_id, user.eng_name as answerer, answer.title as answer_title,answer.content as answer_contents ,answer.created_at as answer_created_at,answer.reject_code as answer_reject_code
+                    from LMS.question
+                    left join answer on answer.question_id = question.id 
+                    left join user on user.id = answer.writer_id 
+                    left join consulting on question.consulting_history = consulting.id 
+                    left join consultingcategory on consulting.category_id = consultingcategory.id 
+                    WHERE question.id = %s;
+                ''',(id))
                 target_question['question'] = cur.fetchall()
-
-                cur.execute('SELECT user.eng_name as writer, answer.title,answer.content,answer.created_at,answer.reject_code,answer.question_id FROM LMS.answer left join question on answer.question_id =question.id left join user on user.id = answer.writer_id where question.id = %s;', (id))
-                target_question['answer'] = cur.fetchall()
 
                 cur.execute('select question_id,file_name,id from attachment where attachment.question_id = %s;', (id))
                 target_question['attach'] = cur.fetchall()
@@ -159,53 +167,98 @@ def is_it_done(id):
                 db.close()
         return jsonify({'target_answer':target_answer})
               
-@bp.route("/qa", methods=['GET'])
-def get_sodata():
+@bp.route("/get_questiondata", methods=['GET'])
+def get_questiondata():
     if request.method == 'GET':
+        page = request.args.get('page', default=0, type=int)  # 받은 questionData.length 0
+        page_size = request.args.get('page_size', default=1000, type=int)  # 클라이언트에서 전달한 페이지 크기
+        q_type = request.args.get('q_type', default=0, type=int)
+
+        # offset = (page - 1) * page_size  # 오프셋 계산 > 51-1*10
+        offset = 0
+        question_count = 0
+        total_count = 0
         question = []
-        answer = []
         attach = []
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute('select question.category,question.id,question.title,question.contents,question.teacher_id,question.ban_id,question.student_id,question.create_date,question.answer,question.consulting_history,question.mobileno,consulting.solution,consulting.contents as consulting_contents,consulting.reason,consulting.week_code,consultingcategory.name as consulting_category,consulting.category_id as consulting_categoryid,consulting.created_at as created_at from LMS.question left join consulting on question.consulting_history = consulting.id left join consultingcategory on consulting.category_id = consultingcategory.id;')
-                question = cur.fetchall()
-
-                cur.execute('SELECT user.eng_name as writer, answer.title,answer.content,answer.created_at,answer.reject_code,answer.question_id FROM LMS.answer left join question on answer.question_id =question.id left join user on user.id = answer.writer_id;')
-                answer = cur.fetchall()
-
-                cur.execute('select question_id,file_name,id from attachment')
-                attach = cur.fetchall()
-
+                cur.execute("SELECT COUNT(*) AS total_count FROM question;")
+                result = cur.fetchone()
+                question_count = result['total_count']
+                cur.execute('''
+                    SELECT SUM(total_count) AS total_count
+                    FROM (
+                        SELECT COUNT(*) AS total_count
+                        FROM question
+                        UNION ALL
+                        SELECT COUNT(*) AS total_count
+                        FROM cs
+                    ) AS t;
+                    ''')
+                result = cur.fetchone()
+                total_count = result['total_count']
+                if page < question_count : 
+                    cur.execute('''
+                    SELECT question.id,question.category,question.title,question.contents,question.contents as question_contents,question.teacher_id,question.ban_id,question.student_id,question.create_date,question.answer,question.consulting_history,question.mobileno,consulting.solution,consulting.contents as consulting_contents,consulting.reason,consulting.week_code,consultingcategory.name as consulting_category,consulting.category_id as consulting_categoryid,consulting.created_at as consulting_created_at ,
+                    answer.id as answer_id, user.eng_name as answerer, answer.title as answer_title,answer.content as answer_contents ,answer.created_at as answer_created_at,answer.reject_code as answer_reject_code
+                    from LMS.question
+                    left join answer on answer.question_id = question.id 
+                    left join user on user.id = answer.writer_id 
+                    left join consulting on question.consulting_history = consulting.id 
+                    left join consultingcategory on consulting.category_id = consultingcategory.id 
+                    ORDER BY 
+                    question.answer,
+                    question.create_date DESC
+                    LIMIT %s, %s;
+                    ''',(page,page_size,))
+                    question = cur.fetchall()
+                
+                    cur.execute('select attachment.question_id,attachment.file_name,attachment.id from attachment LEFT JOIN question on attachment.question_id = question.id ORDER BY question.category,question.answer, question.create_date DESC LIMIT %s, %s;',(page,page_size,))
+                    attach = cur.fetchall()
+                else:
+                    attach = []
+                    offset = page - question_count
+                    if offset < total_count :
+                        cur.execute('SELECT * FROM LMS.cs ORDER BY cs.create_date LIMIT %s, %s;',(offset,page_size,))
+                        question = cur.fetchall()
         except Exception as e:
             print(e)
         finally:
             db.close()
-        return jsonify({'question':question,'answer':answer,'attach':attach})
+        return jsonify({'question':question, 'total_count': total_count,'attach':attach})
 
-@bp.route("/cs", methods=['GET'])
-def get_csdata():
+@bp.route("/get_taskdata", methods=['GET'])
+def get_taskdata():
     if request.method == 'GET':
-        all_cs_data = []
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='cs_page',cursorclass=pymysql.cursors.DictCursor)
+        page = request.args.get('page', default=0, type=int)  # 받은 questionData.length 0
+        page_size = request.args.get('page_size', default=1000, type=int)  # 클라이언트에서 전달한 페이지 크기
+        total_count = 0
+        task = []
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
-                cur.execute('''
-                SELECT cs_idx as id, cs_student_id as origin, cs_student_name as student_name, cs_student_class as ban_name, cs_teacher_name as teacher_name, REGEXP_REPLACE(cs_content, \'<[^>]+>\', \'\') AS contents, cs_content as question_contents, cs_answer as answer_contents, cs_answerer as answerer, cs_date as create_date,
-                CASE WHEN cs_charge IS NOT NULL THEN cs_charge ELSE CASE WHEN cs_sort = "행정" THEN "행정 파트" ELSE cs_sort END END AS title, 1 AS answer,
-                CASE
-                WHEN cs_charge IS NOT NULL AND cs_charge LIKE '%행정%' THEN 0
-                WHEN cs_charge IS NOT NULL AND cs_charge LIKE '%내근%' THEN 4
-                WHEN cs_charge IS NOT NULL AND cs_charge LIKE '%개발%' THEN 5
-                ELSE 0
-                END AS category FROM cs_page.cs_table;''')
-                all_cs_data = cur.fetchall()
+                cur.execute("SELECT COUNT(*) AS total_count FROM taskban;")
+                result = cur.fetchone()
+                total_count = result['total_count']
 
+                cur.execute('''
+                SELECT task.id,task.category_id, task.contents, task.url, task.attachments, 
+                task.startdate, task.deadline, task.priority, task.cycle, taskcategory.name as category, taskban.id as taskban_id, taskban.ban_id, taskban.teacher_id, taskban.done ,taskban.created_at
+                FROM task 
+                LEFT JOIN taskcategory ON task.category_id = taskcategory.id LEFT JOIN taskban ON task.id = taskban.task_id
+                ORDER BY  
+                task.startdate DESC,
+                taskban.done
+                LIMIT %s, %s;
+                ''',(page,page_size,))
+
+                task = cur.fetchall()
         except Exception as e:
             print(e)
         finally:
             db.close()
-        return jsonify({'all_cs_data':all_cs_data})
+        return jsonify({'task':task, 'total_count': total_count})
 
 # 미학습 
 @bp.route("/uldata", methods=['GET'])
@@ -577,7 +630,6 @@ def request_indivi_student(b_id,t_id,s_id):
         }
         headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
         http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
-        print(http_post_requests)
         db.session.commit()
         
         return jsonify({'result':'success'})

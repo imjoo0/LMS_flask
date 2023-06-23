@@ -39,7 +39,6 @@ def login(user):
 @authrize
 def home(user):
     if user is not None:
-        print(type(user['category']))
         if user['category'] == 1 or user['category'] == '1':
             return redirect(url_for('manage.home'))
         elif user['category'] == 0 or user['category'] == '0':
@@ -108,7 +107,6 @@ def find_user(teacher_name):
     else:
         teacher_id = request.form['teacher_id']
         new_user = User(id=teacher_id,name=teacher_name,eng_name=teacher_name)
-        print(new_user)
         
         # return jsonify({'teacher_info': 'success'})
 
@@ -117,7 +115,6 @@ def find_user(teacher_name):
 def find_purple_user(teacher_name):
     if request.method == 'GET':
         teacher_info = callapi.find_user(teacher_name)
-        print(teacher_info)
         if(teacher_info == False):
             return jsonify({'teacher_info': 'nodata'})
         else:

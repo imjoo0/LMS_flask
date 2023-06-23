@@ -1,6 +1,11 @@
 // manage변수 
-let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, studentsData, reportsData, consultingCount,consultingData, consultingHistoryData, consultingcateData,taskCount, taskData, taskcateData, questionData, answerData, attachData, CSdata;
-let tempConsultingData,temptaskData
+let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, studentsData, reportsData, consultingData, consultingHistoryData, consultingcateData, taskData, taskcateData, questionData, answerData, attachData, CSdata;
+let consultingCount, questionCount, taskCount;
+let tempConsultingData,temptaskData;
+const studentMap = new Map();
+const banMap = new Map();
+const attachMap = new Map();
+
 // teacher 변수
 let  Tconsulting_category, Tban_data, Tall_consulting, Tmy_students, Tall_task, Ttask_consulting, Tunlearned_student, Tall_students, Tstudent_consulting, TquestionAnswerdata;
 let isFetching = false;
@@ -9,13 +14,6 @@ const today = new Date().setHours(0, 0, 0, 0);
 const todayyoil = new Date().getDay()
 
 // 공용 function
-let make_hours = function(time){
-    var date = new Date(time);
-
-    // 한국 시간으로 변환
-    var koreaTime = date.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
-    return koreaTime
-} 
 function getIsFetching(){
     return isFetching;
 }
@@ -24,7 +22,6 @@ function setIsFetching(value){
 }
 function deleteCookie(name) {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    console.log(document.cookie)
 }
 function logout() {
     $.ajax({
@@ -34,7 +31,6 @@ function logout() {
         success: function (response) {
             if (response['result'] === 'success') {
                 deleteCookie('mytoken');
-                console.log(document.cookie)
                 window.location.href = '/';
             } else {
                 window.location.href = '/';
@@ -115,12 +111,32 @@ let make_out = function(c) {
     }
     return '';
 }
+let make_hours = function(time){
+    var date = new Date(time);
+
+    // 한국 시간으로 변환
+    var koreaTime = date.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
+    return koreaTime
+} 
+let make_date_with_yoil = function (d) {
+    if (d == null) {
+        return '➖';
+    }
+    const date = new Date(d);
+    const options = { timeZone: "Asia/Seoul", weekday: "long", year: "numeric", month: "long", day: "numeric" };
+    const koreaTime = date.toLocaleString("ko-KR", options);
+    
+    return koreaTime;
+}
 let make_date = function (d) {
     if (d == null) {
-        return '➖'
+        return '➖';
     }
-    const date = new Date(d)
-    return date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0')
+    const date = new Date(d);
+    const options = { timeZone: "Asia/Seoul", year: "numeric", month: "long", day: "numeric" };
+    const koreaTime = date.toLocaleString("ko-KR", options);
+    
+    return koreaTime;
 }
 let make_nullcate = function (d) {
     if (d == null || d == "") {
@@ -161,17 +177,15 @@ let make_semester = function (semester) {
     }
 }
 function q_category(category) {
-    if (category == 0 || category == '0') {
-        c = '일반문의'
-    } else if (category == 1 || category == '1') {
+    if (category == 1 || category == '1') {
         c = '퇴소문의'
     } else if (category == 2 || category == '2') {
         c = '이반문의'
+    }else if (category == 3 || category == '3') {
+        c = '일반문의'
     } else if (category == 4 || category == '4') {
         c = '기술 지원 문의'
-    } else if (category == 10 || category == '10') {
-        c = '이전 cs 데이터'
-    }  else {
+    }else {
         c = '내근티처 문의'
     }
     return c
@@ -195,6 +209,9 @@ function make_duedate(s, d) {
     } else {
         return '오류'
     }
+}
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 // teacher_function
@@ -334,32 +351,59 @@ async function get_teacher_question() {
 
 // manage_function 
 async function get_all_data() {
+    $('#inloading').show()
+    $('#semester_pagination').hide()
     try {
-        const response = await $.ajax({
-            type: "GET",
-            url: "/common/all_data",
-            dataType: 'json',
-            data: {},
-        });
-        totalOutnum = 0;
-        totalHoldnum = 0
-        banData = response['all_ban']
-        studentsData =response['all_students']
-        // studentsData = response['students']
-        banData.forEach((elem) => {
-            elem.out_student_num = Number(elem.out_student_num)
-            elem.hold_student_num = Number(elem.hold_student_num)
-            elem.first_student_num = elem.student_num + elem.out_student_num + elem.hold_student_num
-            elem.total_out_num = elem.out_student_num + elem.hold_student_num
-            elem.out_num_per = answer_rate(elem.total_out_num, elem.first_student_num).toFixed(0)
-            totalOutnum += elem.out_student_num
-            totalHoldnum += elem.hold_student_num
-        });
-        banData = response['all_ban'].map((item) => {
-            return { ...item, total_out_num_per: Number(answer_rate(item.out_student_num, totalOutnum).toFixed(2)) }
-        })
+        const studentsWorker = new Worker("../static/js/students_worker.js");
+        const bansWorker = new Worker("../static/js/bans_worker.js");
+        studentsWorker.postMessage('get_studentsData');
+        bansWorker.postMessage('get_bansData');
+        studentsWorker.onmessage = function (event) {
+            studentsData = event.data.students
+            for (let i = 0; i < studentsData.length; i++) {
+                const student = studentsData[i];
+                studentMap.set(student.student_id, {
+                    origin: student.origin,
+                    student_name:student.student_name + ' (' + student.student_engname + ')',
+                });
+            }
+            // if (typeof banData !== 'undefined') {
+            //     get_total_data();
+            // }
+        };
+        bansWorker.onmessage = function (event) {
+            banData = event.data.all_ban
+            totalOutnum = 0;
+            totalHoldnum = 0
+            let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
+            banData.forEach((elem) => {
+                elem.out_student_num = Number(elem.out_student_num)
+                elem.hold_student_num = Number(elem.hold_student_num)
+                elem.first_student_num = elem.student_num + elem.out_student_num + elem.hold_student_num
+                elem.total_out_num = elem.out_student_num + elem.hold_student_num
+                elem.out_num_per = answer_rate(elem.total_out_num, elem.first_student_num).toFixed(0)
+                totalOutnum += elem.out_student_num
+                totalHoldnum += elem.hold_student_num
+                let value = `${elem.ban_id}_${elem.teacher_id}_${elem.name}`;
+                let selectmsg = `<option value="${value}">${elem.name} (${make_semester(elem.semester)}월 학기)</option>`;
+                temp_o_ban_id += selectmsg
+                banMap.set(elem.ban_id, {
+                    ban_name: elem.name,
+                    teacher_email: elem.teacher_email,
+                    teacher_name: elem.teacher_engname +'( '+ elem.teacher_name +' )'
+                });
+            });
+            $('#o_ban_id2').html(temp_o_ban_id)
+            banData =banData.map((item) => {
+                return { ...item, total_out_num_per: Number(answer_rate(item.out_student_num, totalOutnum).toFixed(2)) }
+            })
+            // if (typeof studentsData !== 'undefined') {
+            get_total_data();
+            // }
+        };
+
     } catch (error) {
-        alert('Error occurred while retrieving data.');
+        alert('Error occurred while retrieving data.44');
     }
 }
 async function get_all_task() {
@@ -380,7 +424,6 @@ async function getConsultingsData() {
     consultingsWorker.onmessage = function(event) {
         consultingData = event.data.consulting;
         // Process the data received from the worker
-        console.log(data);
       };
     return new Promise((resolve) => {
         consultingsWorker.onmessage = function(event) {
@@ -419,7 +462,7 @@ async function getChunkedStudentsData(teacherID) {
     });
 }
 async function getChunkedTasksData(teacherID) {
-    let taskWorker = new Worker("../static/js/tasks_worker.js");
+    let taskWorker = new Worker("../static/js/tasks_teacher_worker.js");
     return new Promise((resolve) => {
         taskWorker.onmessage = function(event) {
             taskData = event.data.task;
@@ -458,7 +501,6 @@ async function get_cs_data() {
             });
             csWorker.postMessage('getCSdata');
             CSdata = await message;
-            console.log(CSdata)
         }
     } catch (error) {
         alert('Error occurred while retrieving data.');
@@ -470,13 +512,10 @@ async function get_total_data() {
     $('#questionbox').hide()
     $('#ulbox').hide()
     $('#target_ban_info_body').hide()
+    $('#inloading').hide();
+    $('#semester_pagination').show();
+    $('#target_ban_info_body').show();
     try {
-        if(!banData){
-            await get_all_data()
-            // get_students_data()
-            $('#inloading').show()
-            $('#semester_pagination').hide()
-        }
         total_student_num = Number(banData[0].total_student_num)
         // switchstudent_num = switchstudentData.length
         // 학기 별 원생
@@ -608,9 +647,6 @@ async function get_total_data() {
             }
         });
         semesterShow(3);
-        $('#inloading').hide();
-        $('#semester_pagination').show();
-        $('#target_ban_info_body').show();
         
     }catch (error) {
         alert('Error occurred while retrieving data.');
@@ -752,24 +788,19 @@ function download_banlist(){
         var doc = new jsPDF();
         var tableData = [];
         // HTML 요소를 선택하고 PDF로 변환합니다.
-        console.log($('#semester_banlist tr'))
         $('#semester_banlist tr').each(function(row, element) {
             var rowData = [];
-            console.log(element)
             $(element).find('td').each(function(col, cell) {
-                console.log(cell)
                 rowData.push($(cell).text());
             });
             tableData.push(rowData);
         });
-        console.log(tableData)
 
         // 테이블을 PDF에 추가하기
         doc.autoTable({
             head: [['반', '선생님', '관리 원생 수', '학생 수', '퇴소 율', '보류 학생 수', '퇴소 정보', '전체 퇴소율', '상세 정보']],
             body: tableData,
         });
-        console.log(doc)
 
         // PDF 파일을 저장합니다.
         doc.save('semester_list.pdf');
@@ -803,7 +834,7 @@ async function get_ban_info(t_id,b_id) {
                         return show_ban_report(t_id,b_id,consultingData,temptaskData)
                     }else{
                         let teacher_id_history = 0
-                        let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");   
+                        let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");   
                         taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
                         taskTeacherChunkWorker.onmessage = function (event) {
                             temptaskData = temptaskData.concat(event.data.consulting);
@@ -816,7 +847,7 @@ async function get_ban_info(t_id,b_id) {
             }else{
                 taskData = []
                 temptaskData = []
-                let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");  
+                let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");  
                 let teacher_id_history = t_id
                 function taskfetchData(t_id){
                     taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
@@ -845,7 +876,7 @@ async function get_ban_info(t_id,b_id) {
                             return show_ban_report(t_id,b_id,tempConsultingData,temptaskData)
                         }else{
                             let teacher_id_history = 0
-                            let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");   
+                            let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");   
                             taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
                             taskTeacherChunkWorker.onmessage = function (event) {
                                 temptaskData = temptaskData.concat(event.data.consulting);
@@ -859,7 +890,7 @@ async function get_ban_info(t_id,b_id) {
                 }else{
                     taskData = []
                     temptaskData = []
-                    let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");  
+                    let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");  
                     let teacher_id_history = t_id
                     function taskfetchData(t_id){
                         taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
@@ -890,7 +921,7 @@ async function get_ban_info(t_id,b_id) {
                                 return show_ban_report(t_id,b_id,tempConsultingData,temptaskData)
                             }else{
                                 let teacher_id_history = 0
-                                let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");   
+                                let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");   
                                 taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
                                 taskTeacherChunkWorker.onmessage = function (event) {
                                     temptaskData = temptaskData.concat(event.data.consulting);
@@ -903,7 +934,7 @@ async function get_ban_info(t_id,b_id) {
                     }else{
                         taskData = []
                         temptaskData = []
-                        let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");  
+                        let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");  
                         let teacher_id_history = t_id
                         function taskfetchData(t_id){
                             taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
@@ -930,7 +961,7 @@ async function get_ban_info(t_id,b_id) {
                         return show_ban_report(t_id,b_id,consultingData,temptaskData)
                     }else{
                         let teacher_id_history = 0
-                        let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");   
+                        let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");   
                         taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
                         taskTeacherChunkWorker.onmessage = function (event) {
                             temptaskData = temptaskData.concat(event.data.consulting);
@@ -943,7 +974,7 @@ async function get_ban_info(t_id,b_id) {
             }else{
                 taskData = []
                 temptaskData = []
-                let taskTeacherChunkWorker = new Worker("../static/js/tasks_worker.js");  
+                let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");  
                 let teacher_id_history = t_id
                 function taskfetchData(t_id){
                     taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
@@ -1181,7 +1212,7 @@ async function show_ban_report(t_id,b_id,target_consultingdata,target_taskdata){
                 chartHtml += `
                 <td class="col-3">${item.student_name}( ${item.student_engname} )</td>
                 <td class="col-2">${item.origin}</td>
-                <td class="col-3">${item.pname} ( 📞${item.pmobileno} )</td>
+                <td class="col-3">${item.smobileno}</td>
                 <td class="col-3">${item.unlearned}건 ( ${item.up}% ) </td>
                 <td class="col-1" custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${item.student_id})">📝</td>`;
             });
@@ -1212,7 +1243,6 @@ async function show_teacher_report(t_id,b_id,target_data){
     // 리포트 타입에 따라 화면 변화 
     $('#report_type').change(function() {
         selectedValue = $(this).val();
-        console.log(selectedValue)
         if(selectedValue == 0){
             return show_ban_report(t_id,b_id,target_data)
         }else{
@@ -1442,7 +1472,7 @@ async function show_teacher_report(t_id,b_id,target_data){
                 chartHtml += `
                 <td class="col-3">${item.student_name}( ${item.student_engname} )</td>
                 <td class="col-2">${item.origin}</td>
-                <td class="col-3">${item.pname} ( 📞${item.pmobileno} )</td>
+                <td class="col-3">${item.smobileno}</td>
                 <td class="col-3">${item.unlearned}건 ( ${item.up}% ) </td>
                 <td class="col-1" custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${item.student_id})">📝</td>`;
             });

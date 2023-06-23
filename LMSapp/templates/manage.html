@@ -125,7 +125,7 @@
                             <tr class="row" style="background:#DCE6F2;">
                                 <th class="col-3">원생 정보</th>
                                 <th class="col-2">원번</th>
-                                <th class="col-3">부모님 정보</th>
+                                <th class="col-3">연락처</th>
                                 <th class="col-3">미학습</th>
                                 <th class="col-1">상세</th>
                             </tr>
@@ -229,7 +229,6 @@
         </div>
     </div>
 </div>
-
 <!-- 상담 관리 모달 -->
 <div class="modal fade" id="my_consulting_request" tabindex="-1" aria-labelledby="my_consulting_requestModalLabel"
     aria-hidden="true">
@@ -312,7 +311,6 @@
         </div>
     </div>
 </div>
-
 <!-- 상담 일지 조회 모달-->
 <div class="modal fade" id="consultinghistory" tabindex="-1" aria-labelledby="consultinghistoryModalLabel"
     aria-hidden="true" style="z-index: 2000;">
@@ -355,7 +353,6 @@
         </div>
     </div>
 </div>
-
 <!-- 신규 업무 요청 모달 -->
 <div class="modal fade" id="request_task" tabindex="-1" aria-labelledby="RequestTaskModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -565,10 +562,9 @@
         </div>
     </div>
 </div>
-
 <!-- 요청한 업무 관리 모달 창 -->
 <div class="modal fade" id="my_task_request" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling" style="max-width:90%;">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="taskModalLabel">
@@ -577,17 +573,25 @@
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <div id="for_task_list">
-                    <div class="my-4 d-flex flex-wrap justify-content-end align-items-center">
-                        <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0"><span>📌 업무 카테고리 선택</span></div>
-                        <div class="col-md-4 col-sm-6 col-12">
-                            <select id="task-category-select" onchange="sort_task(this.value)" class="form-select form-select w-100" aria-label="Default select example">
-                                <optgroup id="task-option">
-                                </optgroup>
+                <div id="request_consulting_listbox">
+                    <div class="my-4 d-flex flex-wrap justify-content-end align-items-center" id="task_categorysel_box">
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0 task_kind"><span>📌 업무 카테고리 선택</span></div>
+                        <div class="col-md-4 col-sm-6 col-12 task_kind">
+                            <select id="task-category-select" class="form-select form-select w-100" aria-label="Default select example">
+                                
                             </select>
                         </div>
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0 task_search" style="margin-left:50%;margin-top: 10px;"><span>📌 검색</span></div>
+                        <div class="col-md-4 col-sm-6 col-12 task_search">
+                            <input type="text" id="taskreqban_search_input" placeholder="반 혹은 선생님, 업무내용으로 검색" style="width:100%;height:2em;margin-top:10px;">
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3 pb-sm-0 task_kind" style="margin-left:50%;margin-top: 10px;"><span>📌 업무 분류</span></div>
+                        <div class="col-md-4 col-sm-6 col-12 task_kind" style="height:2em;margin-top:10px;">
+                            <label><input type="radio" name="is_task" value="none" checked> 요청한 업무 기준으로 보기</label>
+                            <label><input type="radio" name="is_task" value=0 >업무 진행 중 인 반 기준으로 보기</label>
+                        </div>
                     </div>
-                    <div class="d-flex justify-content-start align-items-start flex-column" style="overflow: auto;">
+                    <div class="d-flex justify-content-start align-items-start flex-column">
                         <div class="mo_inloading" class="loader loader--style2 text-center" title="1">
                             <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
                                 <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
@@ -596,21 +600,36 @@
                             </svg>
                         </div>
                         <table class="table text-center not_inloading" id="requ_task_list">
-                            <thead>
+                            <thead id="for_task_list">
                                 <tr class="row">
+                                    <th class="col-4">진행</th>
+                                    <th class="col-4">업무</th>
+                                    <th class="col-2">진행 율</th>
+                                    <th class="col-1">상세 보기</th>
+                                    <th class="col-1">요청 전체 삭제</th>
+                                </tr>
+                            </thead>
+                            <thead id="for_all_task">
+                                <tr class="row">
+                                    <th class="col-4">진행</th>
+                                    <th class="col-2">업무</th>
+                                    <th class="col-3">반</th>
                                     <th class="col-1">진행</th>
-                                    <th class="col-3">시작일 ~ 마감일</th>
-                                    <th class="col-1"></th>
-                                    <th class="col-1">업무 주기</th>
-                                    <th class="col-2">종류</th>
-                                    <th class="col-2">내용</th>
-                                    <th class="col-1">진행 상황</th>
-                                    <th class="col-1">삭제</th>
+                                    <th class="col-1">업무 수행 마지막 날짜</th>
+                                    <th class="col-1">해당 요청 삭제</th>
+                                </tr>
+                            </thead>
+                            <thead id="for_taskban_list">
+                                <tr class="row">
+                                    <th class="col-5">업무</th>
+                                    <th class="col-4">반</th>
+                                    <th class="col-1">진행</th>
+                                    <th class="col-1">업무 수행 마지막 날짜</th>
+                                    <th class="col-1">해당 요청 삭제</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr class="row" id="task-tr">
-                                    
                                 </tr>
                             </tbody>
                         </table>
@@ -618,47 +637,21 @@
                     <div class="d-flex justify-content-center align-items-center w-100">
                         <div id="task-pagination" class="py-5"></div>
                     </div>
-                </div>
-
-                <div id="for_taskban_list">
-                    <input type="text" id="taskreqban_search_input" placeholder="반 혹은 선생님으로 검색" class="not_inloading" style="margin-left:80%"></p>
-                    <table class="table text-center not_inloading" style="width:100%;">
-                        <tbody style="width:100%;">
-                            <thead>
-                                <tr class="row">
-                                    <th class="col-2">반 이름</th>
-                                    <th class="col-2">담임 T</th>
-                                    <th class="col-2">📞</th>
-                                    <th class="col-2">✉️</th>
-                                    <th class="col-3">진행 여부</th>
-                                    <th class="col-1">삭제</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="row" id="taskban_list">
-                                </tr>
-                            </tbody>
-                        </tbody>
-                    </table>
-                    <div class="d-flex justify-content-center align-items-center w-100">
-                        <div id="taskbanpagination" class="mt-3 mb-2 text-center"></div>
-                    </div>
                     <div class="w-100 pt-3 d-flex justify-content-center">
-                        <button class="btn btn-danger" onclick="go_taskback()">목록</button>
+                        <button class="btn btn-danger" onclick="get_request_task()" id="task_list_button">목록</button>
                     </div>
-                </div>            
+                </div>
             </div>
+
         </div>
     </div>
 </div>
-
 <!-- 문의 상세보기 모달 창 -->
 <div class="modal fade" id="soanswer" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="answerModalLabel">
-                    선생님 문의
+        <div class="modal-content" >
+            <div class="modal-header" style="text-align:center; justify-content:center">
+                <h5 class="modal-title" id="answerModalLabel" style="color:grey">
                 </h5>
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
@@ -767,7 +760,7 @@
                         <span class="manage-work-label">반 업무 요청</span>
                     </div>
                 </div>
-                <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#my_task_request" onclick="get_task()">
+                <div class="manage-work-btn" data-bs-toggle="modal" data-bs-target="#my_task_request" onclick="get_request_task()">
                     <div class="manage-work-img">
                         <img src="../static/style/images/order.png">
                     </div>
@@ -829,7 +822,7 @@
                         <a class="nav-link" onclick="get_question_list(1)">이반 퇴소 관리</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" onclick="get_question_list(0)">일반 문의</a>
+                        <a class="nav-link" onclick="get_question_list(3)">일반 문의</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" onclick="get_question_list(5)">내근티처 문의</a>
@@ -922,14 +915,14 @@
                     </svg>
                 </div>
                 <div class="w-100 not_inloading">
-                    <table class="table text-center" style="width:100%;">
+                    <!-- <table class="table text-center" style="width:100%;">
                         <tr class="row" style="background:#DCE6F2;">
                             <th class="col-4">총 요청</th>
                             <th class="col-4">응답한 요청</th>
                             <th class="col-4">응답하지 않은 요청</th>
                         </tr>
                         <tr id="newso" class="row"></tr>
-                    </table>
+                    </table> -->
                     <h3 id="no_data_msg" style="width: 100%; text-align: center; padding: 16px 0;"></h3>
                     <div id="so_question" style="width: 100%;">
                         <input class="not_inloading search_input_box" type="text" id="question_search_input" placeholder="원번, 반이름 혹은 선생님으로 검색">
@@ -952,7 +945,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div id="so_pagination" class="py-2 text-center"></div>
+                    <div id="so_pagination" class="py-2 text-center make_row" style="float: right;order:2"></div>
                 </div>
             </div>
         </div>
