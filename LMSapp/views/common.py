@@ -2,6 +2,8 @@ from flask import Blueprint,render_template, jsonify, request,redirect,url_for,f
 # file-upload 로 자동 바꿈 방지 모듈 
 from werkzeug.utils import secure_filename
 from flask_file_upload import FileUpload
+from datetime import datetime, timedelta, date
+import pytz
 import unicodedata
 from io import BytesIO
 import callapi
@@ -16,11 +18,14 @@ from LMSapp.models import *
 from LMSapp.views import *
 
 # 날짜 
-current_time = datetime.now()
-Today = current_time.date()
-today_yoil = current_time.weekday() + 1
+current_time = datetime.utcnow()
 
-standard = datetime.strptime('11110101',"%Y%m%d").date()
+korea_timezone = pytz.timezone('Asia/Seoul')
+korea_time = current_time.astimezone(korea_timezone)
+
+Today = korea_time.date()
+today_yoil = korea_time.weekday() + 1
+standard = datetime.strptime('11110101', "%Y%m%d").date()
 
 def save_attachment(file, q_id):
     try:

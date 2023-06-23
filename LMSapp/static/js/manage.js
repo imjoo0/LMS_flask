@@ -222,6 +222,12 @@ $(window).on('load', async function () {
                         $('#consulting_history_attach').show()
                     }
                     if (question_detail_data.answer == 0) {
+                        $('#teacher_answer').empty();
+                        $('#teacher_answer').hide()
+                        $('#manage_answer').show()
+                        $('#manage_answer_1').show()
+                        $('#manage_answer_2').hide()
+                        $('#manage_answer_3').hide()
                         if (question_detail_data.category == 2){
                             let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
                             banData.forEach(ban_data => {
@@ -231,19 +237,11 @@ $(window).on('load', async function () {
                             });
                             $('#o_ban_id2').html(temp_o_ban_id)
                             $('#manage_answer_2').show()
-                            $('#manage_answer_3').hide()
-                        }else{
-                            $('#manage_answer_2').hide()
+                        }else if(question_detail_data.category == 1){
                             $('#manage_answer_3').show()
                         }
-                        $('#teacher_answer').empty();
-                        $('#teacher_answer').hide()
-                        $('#manage_answer').show()
-                        $('#manage_answer_1').show()
-                        $('#manage_answer_2').hide()
-                        $('#manage_answer_3').hide()
                         $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category},${0})">저장</button>`);
-                    } else {
+                    }else{
                         $('#manage_answer').hide()
                         let answer_data = target_question['answer'][0]
                         let temp_answer_list = `
@@ -519,21 +517,21 @@ async function get_question_detail(q_id){
     `
     $('#teacher_question').html(temp_question_list);
     // 응답 처리 
-    if (question_detail_data.category == 2) {
-        $('#manage_answer_2').show()
-        $('#manage_answer_3').hide()
-    }else if(question_detail_data.category == 3){
-        $('#manage_answer_2').hide()
-        $('#manage_answer_3').show()
-    }else{
-        $('#manage_answer_2').hide()
-        $('#manage_answer_3').hide()
-    }
     if(!answer) {
         $('#teacher_answer').empty();
         $('#teacher_answer').hide()
         $('#manage_answer').show()
         $('#manage_answer_1').show()
+        if (question_detail_data.category == 2) {
+            $('#manage_answer_2').show()
+            $('#manage_answer_3').hide()
+        }else if(question_detail_data.category == 1){
+            $('#manage_answer_2').hide()
+            $('#manage_answer_3').show()
+        }else{
+            $('#manage_answer_2').hide()
+            $('#manage_answer_3').hide()
+        }
         $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category},${0})">저장</button>`);
     }else{
         $('#manage_answer').hide()
