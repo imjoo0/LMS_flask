@@ -346,7 +346,7 @@ async function show_question_detail(q_id,question_detail_data){
     </div>
     <div class="modal-body-select-container">
         <div class="modal-body-select-label"><span class="modal-body-select-container-span">학생</span></div>
-        <div>${question_detail_data.student_name} (원번: ${question_detail_data.origin} )</div>
+        <div>${question_detail_data.student_name} (원번: ${question_detail_data.origin})</div>
     </div>
     <div class="d-flex flex-column justify-content-start py-3">
         <div class="modal-body-select-label"><span class="modal-body-select-container-span">첨부파일</span></div>
@@ -949,9 +949,9 @@ async function request_consulting() {
     target_studentData.forEach(student_data => {
         let value = `${student_data.ban_id}_${student_data.teacher_id}_${student_data.ban_name}_${student_data.student_id}_${student_data.student_name}`; // btid
         if(student_data.category_id > 1){
-            temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin} ) - ${student_data.ban_name} (보류/퇴소 원생)</option>`
+            temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin}) - ${student_data.ban_name} (보류/퇴소 원생)</option>`
         }else{
-            temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin} ) - ${student_data.ban_name}</option>`;
+            temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin}) - ${student_data.ban_name}</option>`;
         }
     });
     $('#consulting_target_student').html(temp_student_option)
@@ -982,9 +982,9 @@ async function request_consulting() {
         filteredData.forEach(student_data => {
             let value = `${student_data.ban_id}_${student_data.teacher_id}_${student_data.ban_name}_${student_data.student_id}_${student_data.student_name}`; // btid
             if(student_data.category_id > 1){
-                temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin} ) - ${student_data.ban_name} (보류/퇴소 원생)</option>`
+                temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin}) - ${student_data.ban_name} (보류/퇴소 원생)</option>`
             }else{
-                temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin} ) - ${student_data.ban_name}</option>`;
+                temp_student_option += `<option value="${value}">${student_data.student_name} ( ${student_data.student_engname} / ${student_data.origin}) - ${student_data.ban_name}</option>`;
             }
             });
         $('#consulting_target_student').html(temp_student_option)
