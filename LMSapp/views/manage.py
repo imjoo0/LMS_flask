@@ -178,7 +178,6 @@ def get_questiondata():
     if request.method == 'GET':
         page = request.args.get('page', default=0, type=int)  # 받은 questionData.length 0
         page_size = request.args.get('page_size', default=1000, type=int)  # 클라이언트에서 전달한 페이지 크기
-        q_type = request.args.get('q_type', default=0, type=int)
 
         # offset = (page - 1) * page_size  # 오프셋 계산 > 51-1*10
         offset = 0
@@ -514,8 +513,8 @@ def make_task(b_type):
         db.session.commit()
 
         #  업무 진행할 반 저장
-        
-        if b_type == 0:
+        print(b_type)
+        if b_type != 0:
             arrayData = request.get_json()
             received_target_ban = arrayData['selectedBanList']
             for target in received_target_ban:

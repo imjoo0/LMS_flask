@@ -1,9 +1,9 @@
 // questions_worker.js
 
 // Function to fetch data from the server
-async function fetchDataFromServer(page, pageSize, q_type) {
+async function fetchDataFromServer(page, pageSize) {
     try {
-      const response = await fetch(`/manage/get_questiondata?page=${page}&page_size=${pageSize}&q_type=${q_type}`);
+      const response = await fetch(`/manage/get_questiondata?page=${page}&page_size=${pageSize}`);
       const data = await response.json();
       return data;
     } catch (error) {
@@ -14,8 +14,8 @@ async function fetchDataFromServer(page, pageSize, q_type) {
   
   // Event listener to handle incoming messages from the client
   onmessage = async function(event) {
-    const { page, pageSize, q_type } = event.data;
-    const data = await fetchDataFromServer(page, pageSize, q_type);
+    const { page, pageSize } = event.data;
+    const data = await fetchDataFromServer(page, pageSize);
     postMessage(data);
   };
   

@@ -14,6 +14,8 @@ import requests
 import sys
 import pandas as pd
 from urllib.parse import quote
+from flask_socketio import SocketIO, emit
+from LMSapp import socketio
 # 양방향 연결 
 # from LMSapp import socketio
 
@@ -99,7 +101,8 @@ def get_learning_history(u):
     return jsonify({'all_consulting':all_consulting})
 
 
-# 문의 리스트 / 문의 작성    
+# 문의 리스트 / 문의 작성   
+@socketio.on('new_question') 
 @bp.route('/question', methods=['GET', 'POST'])
 @authrize
 def question(u):
@@ -183,6 +186,7 @@ def question(u):
             new_question = Question(category=category, title=title, contents=contents,teacher_id=teacher,mobileno=teacher_mobileno, ban_id=ban_id, student_id=student_id, create_date=create_date, answer=0)
         db.session.add(new_question)
         db.session.commit()
+        emit('new_question', {'message': 'New question registered'}, broadcast=True)
         
         payloadText += '제목: `{}`\n\n```{}```'.format(title, contents.replace('\r\n', '\n\n') )
         link_url = '\n[링크 바로가기]http://purpleacademy.net:6725/manage/?q_id={}&q_type={}'.format(new_question.id,q_type)
@@ -191,14 +195,14 @@ def question(u):
         files = request.files.getlist('file_upload')
         for file in files:
             common.save_attachment(file, new_question.id, 0)
-        requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
-        try:
-            response = requests.get(requestURI)
-            response.raise_for_status()
-            print(f"statusCode: {response.status_code}")
-        except requests.exceptions.RequestException as e:
-            print("시놀로지 전송 실패")
-            print(e)
+        # requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
+        # try:
+        #     response = requests.get(requestURI)
+        #     response.raise_for_status()
+        #     print(f"statusCode: {response.status_code}")
+        # except requests.exceptions.RequestException as e:
+        #     print("시놀로지 전송 실패")
+        #     print(e)
         return jsonify({'result': '완료'})
 
 # 오늘 해야 할 업무 완료 저장 

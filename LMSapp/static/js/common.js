@@ -13,6 +13,8 @@ let isFetching = false;
 const today = new Date().setHours(0, 0, 0, 0);
 const todayyoil = new Date().getDay()
 
+// socket
+var socket = io();
 // 공용 function
 function getIsFetching(){
     return isFetching;
@@ -367,9 +369,6 @@ async function get_all_data() {
                     student_name:student.student_name + ' (' + student.student_engname + ')',
                 });
             }
-            // if (typeof banData !== 'undefined') {
-            //     get_total_data();
-            // }
         };
         bansWorker.onmessage = function (event) {
             banData = event.data.all_ban

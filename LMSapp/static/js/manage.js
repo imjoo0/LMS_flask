@@ -82,6 +82,12 @@ $(window).on('load', async function () {
         alert(error)
     }
 });
+socket.on('new_question', () => {
+    let currentPage = questionData.length;  // 현재 페이지 번호
+    let pageSize = 3000;  // 페이지당 데이터 개수
+    let done_code = 0;
+    get_question_chunk(currentPage, pageSize, done_code);
+});
 
 function main_view() {
     $('#questionbox').hide()
@@ -119,7 +125,7 @@ async function show_modal(q_id){
     show_question_detail(q_id,question_detail_data)
 }
 // 문의 관리
-async function get_question_chunk(currentPage,pageSize,done_code, q_type) {
+async function get_question_chunk(currentPage,pageSize,done_code) {
     const questionsWorker = new Worker("../static/js/questions_worker.js");
     
     questionsWorker.onmessage = function (event) {
@@ -173,7 +179,7 @@ async function get_question_chunk(currentPage,pageSize,done_code, q_type) {
         question_paginating(target_questions,done_code)
     };
     function question_fetchData(){
-        questionsWorker.postMessage({ page: currentPage, pageSize, q_type });
+        questionsWorker.postMessage({ page: currentPage, pageSize });
     }
     question_fetchData();
 }
@@ -184,7 +190,7 @@ function get_question_data(q_type){
         let pageSize = 3000;  // 페이지당 데이터 개수
         let done_code = 1;
         if(questionData.length<questionCount){
-            get_question_chunk(currentPage,pageSize,done_code, q_type)
+            get_question_chunk(currentPage,pageSize,done_code)
         }else{
             let copy_data = questionData.slice()
             let target = copy_data.filter(q=>q.category == q_type)
