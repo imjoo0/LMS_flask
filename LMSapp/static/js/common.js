@@ -13,8 +13,6 @@ let isFetching = false;
 const today = new Date().setHours(0, 0, 0, 0);
 const todayyoil = new Date().getDay()
 
-// socket
-var socket = io();
 // 공용 function
 function getIsFetching(){
     return isFetching;

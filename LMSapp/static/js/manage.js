@@ -70,6 +70,54 @@ $(window).on('load', async function () {
                 if(q_id !== "" && q_type !== ""){
                     show_modal(q_id)
                 }
+                var question_socket = io('/question');
+                question_socket.on('new_question', async function(data){
+                    const response = await $.ajax({
+                        url: `new_question/${data.q_id}`,
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {},
+                    })
+                    let target_question = response.target_question['question']
+                    let target_attach = response.target_question['attach']
+                    const ban = banMap.get(target_question[0].ban_id);
+                    const student = studentMap.get(target_question[0].student_id);
+                    target_question[0].origin = student ? student.origin : '원생 정보 없음';
+                    target_question[0].student_name = student ? student.student_name : '원생 정보 없음';
+                    target_question[0].ban_name = ban ? ban.ban_name : '';
+                    target_question[0].teacher_name = ban ? ban.teacher_name : '';
+                    if(!questionData){
+                        questionData = target_question
+                    }else{
+                        questionData = questionData.concat(target_question);
+                    }
+                    let attach_num  = target_attach.length 
+                    if(attach_num != 0 ){
+                        for (let i = 0; i < attach_num; i++) {
+                            const attach = target_attach[i];
+                            const questionId = attach.question_id;
+                            if(attachMap.has(questionId)) {
+                                const existingAttach = attachMap.get(questionId);
+                                existingAttach.push({
+                                attach_id: attach.id,
+                                file_name: attach.file_name,
+                                is_answer: attach.is_answer
+                                });
+                            }else {
+                                attachMap.set(questionId, [{
+                                attach_id: attach.id,
+                                file_name: attach.file_name,
+                                is_answer: attach.is_answer
+                                }]);
+                            }
+                        }
+                        if(!attachData){
+                            attachData = target_attach
+                        }else{
+                            attachData = attachData.concat(target_attach);
+                        }
+                    }
+                });
                 // get_question_list(q_type)
             }catch (error) {
                 alert('Error occurred while retrieving data2.');
@@ -82,18 +130,16 @@ $(window).on('load', async function () {
         alert(error)
     }
 });
-socket.on('new_question', () => {
-    let currentPage = questionData.length;  // 현재 페이지 번호
-    let pageSize = 3000;  // 페이지당 데이터 개수
-    let done_code = 0;
-    get_question_chunk(currentPage, pageSize, done_code);
-});
+
+// socket
+
 
 function main_view() {
     $('#questionbox').hide()
     $('#ulbox').hide()
     $('#detailban').show()
 }
+
 async function show_modal(q_id){
     const response = await $.ajax({
         url: `modal_question/${q_id}`,
@@ -125,7 +171,7 @@ async function show_modal(q_id){
     show_question_detail(q_id,question_detail_data)
 }
 // 문의 관리
-async function get_question_chunk(currentPage,pageSize,done_code) {
+async function get_question_chunk(currentPage,pageSize,done_code, q_type) {
     const questionsWorker = new Worker("../static/js/questions_worker.js");
     
     questionsWorker.onmessage = function (event) {
@@ -190,7 +236,7 @@ function get_question_data(q_type){
         let pageSize = 3000;  // 페이지당 데이터 개수
         let done_code = 1;
         if(questionData.length<questionCount){
-            get_question_chunk(currentPage,pageSize,done_code)
+            get_question_chunk(currentPage,pageSize,done_code, q_type)
         }else{
             let copy_data = questionData.slice()
             let target = copy_data.filter(q=>q.category == q_type)
@@ -203,7 +249,7 @@ function get_question_data(q_type){
         }
     }
 }
-async function get_question_list(q_type){
+async function get_question_list(q_type,done_code){
     $('#questionbox').hide()
     $('#question_view').val(0); 
     $('#question_search_input').off('keyup');
@@ -217,15 +263,14 @@ async function get_question_list(q_type){
         questionCount = 0
         let currentPage = 0;  // 현재 페이지 번호
         let pageSize = 1000;  // 페이지당 데이터 개수
-        let done_code = 0;
-        get_question_chunk(currentPage,pageSize,done_code,q_type)
+        get_question_chunk(currentPage,pageSize,0, q_type)
     }else{
         let copy_data = questionData.slice()
         let target_questions = copy_data.filter(q => q.category == q_type);
         if(q_type == 1){
             target_questions = target_questions.concat(copy_data.filter(q => q.category == 2))
         }
-        question_paginating(target_questions,0)
+        question_paginating(target_questions,done_code)
     }
 }
 function question_paginating(qdata,done_code){
@@ -274,7 +319,12 @@ function question_paginating(qdata,done_code){
             $('#so_tr').html(dataHtml);
         }
     };
-    
+
+    target.sort((a, b) => {
+        const dateA = new Date(a.create_date);
+        const dateB = new Date(b.create_date);
+        return dateB - dateA;
+    });
     container.pagination(Object.assign(paginationOptions, { 'dataSource': target }))
 
     $('#question_search_input').on('keyup', function () {
@@ -306,20 +356,21 @@ async function get_question_detail(q_id){
     let question_detail_data = questionData.filter(q => q.id == q_id)[0]
     
     if(question_detail_data.id > 0){
+        console.log('여기가')
         let attach = attachMap.get(q_id);
-        console.log(attach)
         if(attach != undefined){
             question_detail_data.question_attach = attach.filter(a=>a.is_answer == 0)
             question_detail_data.answer_attach = attach.filter(a=>a.is_answer != 0)
             question_detail_data.contents = question_detail_data.contents.replace(/\n/g, '</br>')
         }
     }
-    console.log(question_detail_data.question_attach)
-    console.log(question_detail_data.answer_attach)
     show_question_detail(q_id,question_detail_data)
 }
 // 문의 내용 상세보기
 async function show_question_detail(q_id,question_detail_data){
+    $('#teacher_answer').empty();
+    $('#answer_contents').empty();
+    $('#answer_content_modi').empty();
     $('.cs_inloading').hide()
     $('.not_inloading').show()
     // 문의 상세 내용 
@@ -373,10 +424,20 @@ async function show_question_detail(q_id,question_detail_data){
     `
     $('#teacher_question').html(temp_question_list);
     // 응답 처리 
-    if(question_detail_data.answer == 0) {
-        $('#teacher_answer').empty();
+    console.log(question_detail_data.answer)
+    if(question_detail_data.answer == 0 || question_detail_data.answer == '0' ) {
         $('#teacher_answer').hide()
         $('#manage_answer').show()
+        $('#manage_answer_1').html(
+            `
+            <div class="d-flex flex-column justify-content-start">
+                <div class="modal-body-select-label mt-3"><span class="modal-body-select-container-span">내용</span></div>
+                <textarea id="answer_contents" class="modal-body-select w-100 mt-3 ps-2" type="text" name="answer_contents1" style="min-height: 500px;"></textarea>
+                <input class="modal-body-select w-100" type="file" id="file-upload" multiple="" style="margin-top:20px;">
+                <p class="error_msg_alert" id="error_msg_filesel"> 🔻 파일 최대 업로드 갯수 3개 </p>
+            </div>
+            `
+        )
         $('#manage_answer_1').show()
         $('#manage_answer_2').hide()
         $('#manage_answer_3').hide()
@@ -387,6 +448,7 @@ async function show_question_detail(q_id,question_detail_data){
         }
         $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category},${0})">저장</button>`);
     }else{
+        console.log('여기가 찍히는 건가')
         $('#manage_answer').hide()
         let temp_answer_list = ''
         if (question_detail_data.category == 1 || question_detail_data.category == 2) {
@@ -428,7 +490,10 @@ async function show_question_detail(q_id,question_detail_data){
     let category = ''
     if(question_detail_data.consulting_history){
         let solution = question_detail_data.solution.replace(/\n/g, '</br>')
-        let reason = question_detail_data.reason.replace(/\n/g, '</br>')
+        let reason = question_detail_data.reason
+        if(reason != null){
+            reason = reason.replace(/\n/g, '</br>')
+        }
         if (question_detail_data.consulting_categoryid < 100) {
             category = `${question_detail_data.week_code}주간 ${question_detail_data.consulting_category}상담`
         } else {
@@ -490,7 +555,6 @@ async function post_answer(q_id, category,done_code) {
                 $('#teacher_answer').html(temp_answer_list);
                 $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${target_answer.category},${1})">수정</button>`);
                 $('#teacher_answer').show()
-                
                 return
             }else{
                 // 정상 저장의 경우 
@@ -535,7 +599,56 @@ async function post_answer(q_id, category,done_code) {
                 {
                     if(response['result'] == '문의 답변 저장 완료'){
                         alert("문의 답변 완료")
-                        window.location.reload()
+                        // window.location.reload()
+                        questionData = questionData.map((question) => {
+                            if (question.id === q_id) {
+                                question.answer = 1
+                                question.answer_contents = answer_contents
+                                question.answer_created_at = today
+                                question.answer_id = response['target_data'].answer_id
+                                question.answer_reject_code = o_ban_id
+                                question.answerer = response['target_data'].answerer
+                                return question; // 업데이트된 데이터로 대체
+                            }
+                            return question; // 기존 데이터 유지
+                        });
+                        // const updatedIndex = questionData.findIndex((question) => question.id === q_id);
+                        // if (updatedIndex !== -1) {
+                        //     const updatedQuestion = questionData.splice(updatedIndex, 1)[0];
+                        //     questionData.unshift(updatedQuestion);
+                        // }
+                        if( files_length != 0){
+                            let answer_attachments = response['target_data'].attach
+                            for (let i = 0; i < files_length; i++) {
+                                const attach = answer_attachments[i];
+                                const questionId = attach.question_id;
+                                if(attachMap.has(questionId)) {
+                                    const existingAttach = attachMap.get(questionId);
+                                    existingAttach.push({
+                                    attach_id: attach.id,
+                                    file_name: attach.file_name,
+                                    is_answer: attach.is_answer
+                                    });
+                                }else {
+                                    attachMap.set(questionId, [{
+                                    attach_id: attach.id,
+                                    file_name: attach.file_name,
+                                    is_answer: attach.is_answer
+                                    }]);
+                                }
+                            }
+                            if(!attachData){
+                                attachData = answer_attachments
+                            }else{
+                                attachData = attachData.concat(answer_attachments);
+                            }
+
+                        }
+                        if(category == 2){
+                            get_question_list(1,1)
+                        }else{
+                            get_question_list(category,1)
+                        }
                     }else{
                         alert('문의 답변 저장 실패')
                     }
