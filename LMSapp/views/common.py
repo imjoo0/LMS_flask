@@ -16,7 +16,7 @@ file_upload = FileUpload()
 from flask import send_file 
 from LMSapp.models import *
 from LMSapp.views import *
-
+from LMSapp import socketio
 # 날짜 
 current_time = datetime.utcnow()
 
@@ -336,3 +336,8 @@ def get_student_reports():
     if request.method == 'GET':
         reports = callapi.purple_allinfo('get_student_reports')
         return jsonify({'reports':reports})
+
+# socket-io
+@socketio.on('message')
+def handle_message(data):
+    print('received message: ' + data)

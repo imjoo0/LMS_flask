@@ -1,6 +1,7 @@
 from LMSapp.views import *
 from LMSapp.models import *
 from flask import session  # 세션
+from sqlalchemy import and_
 from flask import Blueprint, render_template, jsonify, request, redirect, url_for
 import json
 import callapi
@@ -11,6 +12,8 @@ import requests
 from urllib.parse import unquote
 import datetime
 from urllib.parse import quote
+from flask_socketio import join_room, emit
+from LMSapp import socketio
 
 bp = Blueprint('manage', __name__, url_prefix='/manage')
 
@@ -22,6 +25,10 @@ def home(u):
     if request.method == 'GET':
         user = User.query.filter(User.user_id == u['user_id']).first()        
         return render_template('manage.html', user=user,)
+
+@socketio.on('new_answer',namespace='/answer') 
+def handle_new_answer(q_id):
+    emit('new_answer', {'message': 'New answer registered', 'q_id': q_id}, broadcast=True, namespace='/answer')
 
 # 본원 답변 기능
 @bp.route('/answer/<int:id>/<int:done_code>', methods=['POST'])
@@ -39,16 +46,16 @@ def answer(u,id,done_code):
         
         for file in files:
             common.save_attachment(file, id, 1)
+
         if(done_code == 0):
             post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
-            new_answer = Answer(content=answer_contents,created_at=Today,reject_code=int(o_ban_id),question_id = id,writer_id = u['id'])
-            db.session.add(new_answer)
+            target_answer = Answer(content=answer_contents,created_at=Today,reject_code=int(o_ban_id),question_id = id,writer_id = u['id'])
+            db.session.add(target_answer)
             data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
                 'templateCode': "work_cs_answer",
                 'recipientList': [{'recipientNo':target_question.mobileno, 'templateParameter': { '답변내용':answer_contents}, }, ], }
             headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
             http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
-            
         else:
             target_answer = Answer.query.filter(Answer.question_id == id).first()
             if(answer_contents != '' or answer_contents != None):
@@ -67,7 +74,21 @@ def answer(u,id,done_code):
             db.session.add(new_out_student)
             # db.session.commit()
         db.session.commit()
-        return jsonify({'result': '문의 답변 저장 완료'})
+        target_data = {}
+        target_data['answer_id'] = target_answer.id
+        target_data['answerer'] = User.query.filter(User.id == u['id']).first().name
+        target_data['attach'] = []
+        attachments = Attachments.query.filter(and_(Attachments.question_id == id, Attachments.is_answer == 1)).all()
+        for attachment in attachments:
+            attachment_data = {
+                'file_name': attachment.file_name,
+                'id': attachment.id,
+                'is_answer': attachment.is_answer,
+                'question_id':id
+            }
+            target_data['attach'].append(attachment_data)
+        # handle_new_answer(id)
+        return jsonify({'result': '문의 답변 저장 완료','target_data':target_data})
 
 def make_cate(id):
     if(id == 3):
@@ -146,7 +167,7 @@ def modal_question(id):
                 ''',(id))
                 target_question['question'] = cur.fetchall()
 
-                cur.execute('select question_id,file_name,id from attachment where attachment.question_id = %s;', (id))
+                cur.execute('select question_id,file_name,id,attachment.is_answer from attachment where attachment.question_id = %s;', (id))
                 target_question['attach'] = cur.fetchall()
 
         except Exception as e:
@@ -154,7 +175,7 @@ def modal_question(id):
         finally:
             db.close()
         return jsonify({'target_question':target_question,'target_bandata':target_bandata})
- 
+
 @bp.route('/is_it_done/<int:id>', methods=['GET'])
 def is_it_done(id):
     if request.method == 'GET':
@@ -172,13 +193,44 @@ def is_it_done(id):
             finally:
                 db.close()
         return jsonify({'target_answer':target_answer})
+
+@bp.route('/new_question/<int:id>', methods=['GET'])
+def new_question(id):
+    if request.method == 'GET':
+        target_question = {}
+        q = Question.query.get_or_404(id)
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute('''
+                    SELECT question.id,question.category,question.title,question.contents,question.teacher_id,question.ban_id,
+                    question.student_id,question.create_date,question.answer,
+                    question.consulting_history,question.mobileno,consulting.solution,consulting.reason,consulting.week_code,consultingcategory.name as consulting_category,consulting.category_id as consulting_categoryid,consulting.created_at as consulting_created_at ,
+                    answer.id as answer_id, user.eng_name as answerer, answer.title as answer_title,answer.content as answer_contents ,answer.created_at as answer_created_at,answer.reject_code as answer_reject_code
+                    from LMS.question
+                    left join answer on answer.question_id = question.id 
+                    left join user on user.id = answer.writer_id 
+                    left join consulting on question.consulting_history = consulting.id 
+                    left join consultingcategory on consulting.category_id = consultingcategory.id 
+                    WHERE question.id = %s;
+                ''',(id))
+                target_question['question'] = cur.fetchall()
+
+                cur.execute('select question_id,file_name,id,attachment.is_answer from attachment where attachment.question_id = %s;', (id))
+                target_question['attach'] = cur.fetchall()
+
+        except Exception as e:
+            print(e)
+        finally:
+            db.close()
+        return jsonify({'target_question':target_question})
+ 
               
 @bp.route("/get_questiondata", methods=['GET'])
 def get_questiondata():
     if request.method == 'GET':
         page = request.args.get('page', default=0, type=int)  # 받은 questionData.length 0
         page_size = request.args.get('page_size', default=1000, type=int)  # 클라이언트에서 전달한 페이지 크기
-        q_type = request.args.get('q_type', default=0, type=int)
 
         # offset = (page - 1) * page_size  # 오프셋 계산 > 51-1*10
         offset = 0
