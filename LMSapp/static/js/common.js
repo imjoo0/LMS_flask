@@ -367,9 +367,6 @@ async function get_all_data() {
                     student_name:student.student_name + ' (' + student.student_engname + ')',
                 });
             }
-            // if (typeof banData !== 'undefined') {
-            //     get_total_data();
-            // }
         };
         bansWorker.onmessage = function (event) {
             banData = event.data.all_ban
@@ -379,8 +376,8 @@ async function get_all_data() {
             banData.forEach((elem) => {
                 elem.out_student_num = Number(elem.out_student_num)
                 elem.hold_student_num = Number(elem.hold_student_num)
-                elem.first_student_num = elem.student_num + elem.out_student_num + elem.hold_student_num
                 elem.total_out_num = elem.out_student_num + elem.hold_student_num
+                elem.first_student_num = elem.student_num - elem.total_out_num
                 elem.out_num_per = answer_rate(elem.total_out_num, elem.first_student_num).toFixed(0)
                 totalOutnum += elem.out_student_num
                 totalHoldnum += elem.hold_student_num
@@ -538,7 +535,7 @@ async function get_total_data() {
                     <th class="need"></th>
                     <th>초기 등록 원생 수</th>
                     <th>현재 원생 수</th>
-                    <th>퇴소 원생 수 (퇴소율)</th>
+                    <th>중도하차 원생 수 (하차율)</th>
                     <th>학기 별 반 리스트</th>
                 </tr>
                 <tr>
@@ -674,14 +671,15 @@ function semesterShow(semester) {
     var temp_semester_banlist = '';
     $.each(resultData, function (index, item) {
         let teacher_name = item.teacher_engname + '( ' + item.teacher_name + ' )'
+        console.log(item.out_student_num)
         temp_semester_banlist += `
         <td class="col-2">${item.name}</td>
         <td class="col-2">${teacher_name}</td>
-        <td class="col-1">${item.first_student_num}</td>
         <td class="col-1">${item.student_num}</td>
+        <td class="col-1">${item.first_student_num}</td>
         <td class="col-1">${item.out_student_num}(<strong>${item.out_num_per}%</strong>)</td>
         <td class="col-1">${item.hold_student_num}</td>
-        <td class="col-2"> 총: ${item.total_out_num}명 ( 퇴소 : ${item.out_student_num} / 보류 : ${item.hold_student_num} )</td>
+        <td class="col-2"> 총: ${item.total_out_num}명 ( 퇴소 : ${item.out_student_num} / 유보 : ${item.hold_student_num} )</td>
         <td class="col-2"><strong>${item.total_out_num_per}%</strong></td>`
     });
     $('#for_print_semester_list').html(temp_semester_banlist)
@@ -697,11 +695,11 @@ function semesterShow(semester) {
                 temp_semester_banlist += `
                 <td class="col-2">${item.name}</td>
                 <td class="col-2">${teacher_name}</td>
-                <td class="col-1">${item.first_student_num}</td>
                 <td class="col-1">${item.student_num}</td>
+                <td class="col-1">${item.first_student_num}</td>
                 <td class="col-1">${item.out_student_num}(<strong>${item.out_num_per}%</strong>)</td>
                 <td class="col-1">${item.hold_student_num}</td>
-                <td class="col-2"> 총: ${item.total_out_num}명 ( 퇴소 : ${item.out_student_num} / 보류 : ${item.hold_student_num} )</td>
+                <td class="col-2"> 총: ${item.total_out_num}명 ( 퇴소 : ${item.out_student_num} / 유보 : ${item.hold_student_num} )</td>
                 <td class="col-1"><strong>${item.total_out_num_per}%</strong></td>
                 <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="get_ban_info(${item.teacher_id},${item.ban_id})"><span class="cursor-pointer">👉</span></td>;`;
             });
@@ -1009,7 +1007,6 @@ async function get_ban_info(t_id,b_id) {
             }
         }
     }
-
 }
 async function show_ban_report(t_id,b_id,target_consultingdata,target_taskdata){
     $('#report_type').val(0);  // 선택된 값이 0으로 변경됨
@@ -1049,9 +1046,9 @@ async function show_ban_report(t_id,b_id,target_consultingdata,target_taskdata){
 
 
     let temp_info_student_num = `
-        <span>  관리중:${info.student_num}</span><br>
-        <span>* 보류:${info.hold_student_num}</span><br>
-        <span>* 퇴소:${info.out_student_num}</span>
+        <span>  관리중:${info.first_student_num}</span><br>
+        <span>* 유보:${info.hold_student_num}</span><br>
+        <span>* 중도하차:${info.out_student_num}</span>
     `
     $('#teacher_info_student_num').html(temp_info_student_num)
     
@@ -1087,10 +1084,10 @@ async function show_ban_report(t_id,b_id,target_consultingdata,target_taskdata){
         let BanChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['관리중', '보류', '퇴소'],
+                labels: ['관리중', '유보', '중도하차'],
                 datasets: [
                     {
-                        data: [info.student_num, info.hold_student_num, info.out_student_num],
+                        data: [info.first_student_num, info.hold_student_num, info.out_student_num],
                         backgroundColor: ['#3C486B', '#F9D949', '#F45050'],
                         hoverOffset: 3,
                     },
@@ -1282,9 +1279,9 @@ async function show_teacher_report(t_id,b_id,target_data){
     <th class="col-2">반이름</th>
     <th class="col-1">학기</th>
     <th class="col-1">원생 수</th>
-    <th class="col-2">퇴소</th>
-    <th class="col-2">퇴소율</th>
-    <th class="col-1">보류</th>
+    <th class="col-2">중도하차</th>
+    <th class="col-2">하차율</th>
+    <th class="col-1">유보</th>
     <th class="col-2">미학습</th>
     <th class="col-1">상세보기</th>
     </tr>`;
@@ -1293,7 +1290,7 @@ async function show_teacher_report(t_id,b_id,target_data){
     let os = 0
     let hs = 0
     info.forEach(ban_data => {
-        total_student_num += ban_data.student_num
+        total_student_num += ban_data.first_student_num
         os += ban_data.out_student_num
         hs += ban_data.hold_student_num
         unlearned = unlearned_ttc != 0 ? TunlearnedData.filter(c => c.ban_id == ban_data.ban_id).length : 0
@@ -1301,7 +1298,7 @@ async function show_teacher_report(t_id,b_id,target_data){
         <tr class="row">
             <td class="col-2">${ban_data.name}</td>
             <td class="col-1">${make_semester(ban_data.semester)}학기</td>
-            <td class="col-1">${ban_data.student_num}명</td>
+            <td class="col-1">${ban_data.first_student_num}명</td>
             <td class="col-2">${ban_data.out_student_num}건</td>
             <td class="col-2"><strong>${ban_data.out_num_per}%</strong></td>
             <td class="col-1">${ban_data.hold_student_num}</td>
@@ -1314,8 +1311,8 @@ async function show_teacher_report(t_id,b_id,target_data){
 
     let temp_teacher_info_student_num = `
         <span>  관리중:${total_student_num}</span><br>
-        <span>* 보류:${hs}</span><br>
-        <span>* 퇴소:${os}</span>
+        <span>* 유보:${hs}</span><br>
+        <span>* 중도하차:${os}</span>
     `
     $('#teacher_info_student_num').html(temp_teacher_info_student_num)
     let ctx = document.getElementById('total-chart-element-studentnum').getContext('2d');
@@ -1349,7 +1346,7 @@ async function show_teacher_report(t_id,b_id,target_data){
         let BanChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['관리중', '보류', '퇴소'],
+                labels: ['관리중', '유보', '중도하차'],
                 datasets: [
                     {
                         data: [total_student_num, hs, os],

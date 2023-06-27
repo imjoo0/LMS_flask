@@ -514,8 +514,7 @@ def make_task(b_type):
         db.session.commit()
 
         #  업무 진행할 반 저장
-        
-        if b_type == 0:
+        if b_type != 0:
             arrayData = request.get_json()
             received_target_ban = arrayData['selectedBanList']
             for target in received_target_ban:
