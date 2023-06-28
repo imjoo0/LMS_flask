@@ -931,7 +931,7 @@ function post_task_request() {
         });
     }else{
         $.ajax({
-            url: `/manage/task/0`,
+            url: `/manage/task/`+Number(101),
             type: 'POST',
             data: JSON.stringify({ 
                 selectedBanList: selectedBanList,
