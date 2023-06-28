@@ -199,13 +199,13 @@ def question(u):
         for file in files:
             common.save_attachment(file, new_question.id, 0)
         requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
-        try:
-            response = requests.get(requestURI)
-            response.raise_for_status()
-            print(f"statusCode: {response.status_code}")
-        except requests.exceptions.RequestException as e:
-            print("시놀로지 전송 실패")
-            print(e)
+        # try:
+        #     response = requests.get(requestURI)
+        #     response.raise_for_status()
+        #     print(f"statusCode: {response.status_code}")
+        # except requests.exceptions.RequestException as e:
+        #     print("시놀로지 전송 실패")
+        #     print(e)
 
         return jsonify({'result': '완료'})
 
