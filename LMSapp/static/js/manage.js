@@ -117,6 +117,16 @@ $(window).on('load', async function () {
                             attachData = attachData.concat(target_attach);
                         }
                     }
+                    console.log(questionData)
+                    let copy_data = questionData.slice()
+                    let target_questions = [];
+                    if(target_question[0].category == 1 || target_question[0].category == 2 ){
+                        target_questions = copy_data.filter(q => q.category == 1 || q.category == 2 )
+                    }else{
+                        target_questions = copy_data.filter(q => q.category == target_question[0].category )
+                    }
+                    // 반 데이터를 Map으로 매핑
+                    question_paginating(target_questions,0)
                 });
                 // get_question_list(q_type)
             }catch (error) {
@@ -132,8 +142,6 @@ $(window).on('load', async function () {
 });
 
 // socket
-
-
 function main_view() {
     $('#questionbox').hide()
     $('#ulbox').hide()
@@ -257,7 +265,7 @@ async function get_question_list(q_type,done_code){
     $('.not_inloading').hide()
     $('#detailban').hide()
     $('#ulbox').hide()
-    if (!questionData) {
+    if (!questionData || !questionCount) {
         questionData = []
         attachData = []
         questionCount = 0
