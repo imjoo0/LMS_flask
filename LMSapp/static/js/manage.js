@@ -1325,6 +1325,7 @@ function post_consulting_request() {
         // 개별 학생 대상 인 경우  
         let indivi_student_selections = selectedStudentList.filter(value => (value.includes('_')) && !(value.includes('-1')));
         if (indivi_student_selections.length != 0) {
+            console.log(indivi_student_selections)
             indivi_student_selections.forEach(value => {
                 v = String(value).split('_')
                 s_info = studentsData.filter(a => a.student_id ==  Number(v[3]))[0]
@@ -1333,6 +1334,7 @@ function post_consulting_request() {
                     url: '/manage/consulting/' + v[0] + '/' + v[1] + '/' + v[3]+ '/',
                     // data: JSON.stringify(jsonData), // String -> json 형태로 변환
                     data: {
+                        ban_name: v[2],
                         student_name : s_info['student_name'],
                         student_engname : s_info['student_engname'],
                         origin : s_info['origin'],
@@ -1401,9 +1403,14 @@ async function get_request_consulting() {
     if(!consultingData){
         $('.mo_inloading').show();
         $('.not_inloading').hide();
+<<<<<<< HEAD
+=======
+        $('#consulting_list_search_input').hide();
+>>>>>>> a763a3a15d0dcf7376cccc6bd433b3c0c9d1f11e
         $('#history_cate').html('<option value="none">데이터 로딩중 . . . (카테고리 선택은 조금 대기해주세요)</option>');
         $('.waitplz').hide()
         consultingData = []
+        consultingCount = consultingData.length
         let currentPage = 1;  // 현재 페이지 번호
         let pageSize = 5000;  // 페이지당 데이터 개수
 
@@ -1415,11 +1422,19 @@ async function get_request_consulting() {
         consultingsWorker.onmessage = function (event) {
             $('.mo_inloading').show();
             $('.not_inloading').hide();
+<<<<<<< HEAD
             let consultingCount = event.data.total_count
             consultingData = event.data.consulting;
             show_request_consulting()
             if(consultingData.length == consultingCount){
                 return;
+=======
+            consultingCount = event.data.total_count
+            consultingData = event.data.consulting;
+            show_request_consulting()
+            if(consultingData.length == consultingCount){
+                return ;
+>>>>>>> a763a3a15d0dcf7376cccc6bd433b3c0c9d1f11e
             }
             pageSize=consultingCount
             fetchData();
