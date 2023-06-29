@@ -265,6 +265,9 @@ async function show_modal(q_id){
     question_detail_data.attach = target_question['attach']
     if(question_detail_data.attach.length == 0){
         question_detail_data.attach = 0
+    }else{
+        question_detail_data.question_attach = question_detail_data.attach.filter(a=>a.is_answer == 0)
+        question_detail_data.answer_attach = question_detail_data.attach.filter(a=>a.is_answer != 0)
     }
     show_question_detail(q_id,question_detail_data)
 }
@@ -675,14 +678,19 @@ async function post_answer(q_id, category,done_code) {
         }
         const formData = new FormData();
         const fileInput = document.getElementById('file-upload');
-        const files = fileInput.files;
-        const files_length = files.length;
-        if(files_length > 3){
-            $('#error_msg_filesel').show()
-            return;
-        }
-        for (let i = 0; i < files_length; i++) {
-            formData.append('file_upload', files[i]);
+        if(fileInput != null){
+            const files = fileInput.files;
+            const files_length = files.length;
+            if(files_length > 3){
+                $('#error_msg_filesel').show()
+                return;
+            }
+            for (let i = 0; i < files_length; i++) {
+                formData.append('file_upload', files[i]);
+            }
+        }else{
+            files = []
+            formData.append('file_upload', files);
         }
         formData.append('answer_contents', answer_contents);
         formData.append('o_ban_id', o_ban_id);
@@ -709,11 +717,6 @@ async function post_answer(q_id, category,done_code) {
                             }
                             return question; // 기존 데이터 유지
                         });
-                        // const updatedIndex = questionData.findIndex((question) => question.id === q_id);
-                        // if (updatedIndex !== -1) {
-                        //     const updatedQuestion = questionData.splice(updatedIndex, 1)[0];
-                        //     questionData.unshift(updatedQuestion);
-                        // }
                         if( files_length != 0){
                             let answer_attachments = response['target_data'].attach
                             for (let i = 0; i < files_length; i++) {

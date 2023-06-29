@@ -222,11 +222,7 @@ class TakeOverUser(db.Model):
     teacher_id = db.Column(db.Integer,nullable=False)
     takeover_id = db.Column(db.Integer,nullable=False)
     takeover_user = db.Column(db.String(50), nullable=False)
-<<<<<<< HEAD
-        
-=======
-    
->>>>>>> 2526075323766a1420469c4d6a56b18a2f9312eb
+
 engine = create_engine('mysql+pymysql://jung:wjdgus00@192.168.6.3:3306/purple_learning_counseling')
 class IXL_DF(db.Model):
     __tablename__ = 'student_ixl_df'
