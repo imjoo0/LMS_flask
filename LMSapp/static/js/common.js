@@ -817,7 +817,63 @@ function download_banlist() {
     //   element.style.display = 'none';
     }
   }
+
+function download_excellist(type) {
+    let downloadData;
+    if (type == 0) {
+        downloadData = banData.slice();
+    } else if (semester == 1) {
+        downloadData = onesemester.slice();
+    } else if (semester == 5) {
+        downloadData = fivesemester.slice();
+    } else {
+        downloadData = ninesemester.slice();
+    }
+    var keysToRemove = ['ban_id', 'name_numeric','semester','semester_student_num','teacher_id','total_student_num','teacher_email','teacher_mobileno'];
+    downloadData = downloadData.map(function(item){
+        var filtered = Object.keys(item)
+        .filter(key => !keysToRemove.includes(key))
+        .reduce((obj, key) => {
+        obj[key] = item[key];
+            return obj;
+        }, {});
+        return filtered;
+    })
+    downloadData = downloadData.map(function(item){
+        return {
+            반이름 : item.name,
+            담임T : item.teacher_name +'( '+item.teacher_engname +' )' ,
+            퇴소인원: item.out_student_num,
+            최초배정원생수: item.student_num,
+            관리중원생수: item.first_student_num,
+            중도하차원생수: item.student_num,
+            유보중원생수: item.student_num,
+            총이탈원생수: item.total_out_num,
+            반하차율: item.out_num_per,
+            하차율: item.total_out_num_per
+        };
+    })
+    var workbook = XLSX.utils.book_new();
+    var worksheet = XLSX.utils.json_to_sheet(downloadData);
+
+    // 워크북에 워크시트 추가
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+    // 엑셀 파일로 변환
+    var excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+    // Blob 생성
+    var blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+    // 다운로드 링크 생성
+    var url = window.URL.createObjectURL(blob);
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = '반리스트.xlsx';
+    link.click();
+}
   
+   
   
 async function get_ban_info(t_id,b_id) {
     $('.mo_inloading').show()
@@ -1226,7 +1282,7 @@ async function show_ban_report(t_id,b_id,target_consultingdata,target_taskdata){
                 <td class="col-2">${item.origin}</td>
                 <td class="col-3">${item.smobileno}</td>
                 <td class="col-3">${item.unlearned}건 ( ${item.up}% ) </td>
-                <td class="col-1" custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${item.student_id})">📝</td>`;
+                <td class="col-1" custom-control custom-control-inline custom-checkbox data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${item.student_id})">📝</td>`;
             });
             $("#s_data").html(chartHtml);
         }
