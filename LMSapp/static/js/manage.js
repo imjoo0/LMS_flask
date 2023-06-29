@@ -255,9 +255,8 @@ async function show_modal(q_id){
     $('#manage_answer').hide()
     let question_detail_data = target_question['question'][0]
     question_detail_data.contents = question_detail_data.contents.replace(/\n/g, '</br>')
-    const ban = banMap.get(question_detail_data.ban_id);
-    question_detail_data.ban_name = ban ? ban.ban_name : '';
-    question_detail_data.teacher_name = ban ? ban.teacher_name : '';
+    question_detail_data.ban_name = target_bandata[0] ? target_bandata[0].ban_name : '';
+    question_detail_data.teacher_name = target_bandata[0] ? target_bandata[0].teacher_engname + '( ' + target_bandata[0].teacher_name + ' )': '';
     if(question_detail_data.student_id != 0){
         let student_data = target_bandata.filter(s => s.student_id == question_detail_data.student_id)[0]
         question_detail_data.student_name = `${student_data.first_name} ( ${student_data.nick_name} )`
@@ -697,7 +696,7 @@ async function post_answer(q_id, category,done_code) {
                 {
                     if(response['result'] == '문의 답변 저장 완료'){
                         alert("문의 답변 완료")
-                        // window.location.reload()
+                        $("#soanswer").modal("hide");
                         questionData = questionData.map((question) => {
                             if (question.id === q_id) {
                                 question.answer = 1
@@ -740,12 +739,11 @@ async function post_answer(q_id, category,done_code) {
                             }else{
                                 attachData = attachData.concat(answer_attachments);
                             }
-
                         }
                         if(category == 2){
-                            get_question_list(1,1)
+                            get_question_list(1,0)
                         }else{
-                            get_question_list(category,1)
+                            get_question_list(category,0)
                         }
                     }else{
                         alert('문의 답변 저장 실패')
@@ -764,7 +762,14 @@ async function post_answer(q_id, category,done_code) {
                 {
                     if(response['result'] == '문의 종류 수정 완료'){
                         alert(response["result"])
-                        window.location.reload()
+                        $("#soanswer").modal("hide");
+                        questionData = questionData.map((question) => {
+                            if (question.id === q_id) {
+                                question.category = q_kind
+                                return question; // 업데이트된 데이터로 대체
+                            }
+                            return question; // 기존 데이터 유지
+                        });
                     }else{
                         alert('문의 종류 수정 실패')
                     }
@@ -1403,10 +1408,7 @@ async function get_request_consulting() {
     if(!consultingData){
         $('.mo_inloading').show();
         $('.not_inloading').hide();
-<<<<<<< HEAD
-=======
         $('#consulting_list_search_input').hide();
->>>>>>> a763a3a15d0dcf7376cccc6bd433b3c0c9d1f11e
         $('#history_cate').html('<option value="none">데이터 로딩중 . . . (카테고리 선택은 조금 대기해주세요)</option>');
         $('.waitplz').hide()
         consultingData = []
@@ -1422,19 +1424,11 @@ async function get_request_consulting() {
         consultingsWorker.onmessage = function (event) {
             $('.mo_inloading').show();
             $('.not_inloading').hide();
-<<<<<<< HEAD
-            let consultingCount = event.data.total_count
-            consultingData = event.data.consulting;
-            show_request_consulting()
-            if(consultingData.length == consultingCount){
-                return;
-=======
             consultingCount = event.data.total_count
             consultingData = event.data.consulting;
             show_request_consulting()
             if(consultingData.length == consultingCount){
-                return ;
->>>>>>> a763a3a15d0dcf7376cccc6bd433b3c0c9d1f11e
+                return;
             }
             pageSize=consultingCount
             fetchData();
