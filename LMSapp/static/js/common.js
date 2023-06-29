@@ -2,6 +2,7 @@
 let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, studentsData, reportsData, consultingData, consultingHistoryData, consultingcateData, taskData, taskcateData, questionData, answerData, attachData, CSdata;
 let consultingCount, questionCount, taskCount;
 let tempConsultingData,temptaskData;
+let AlarmList = []
 const studentMap = new Map();
 const banMap = new Map();
 const attachMap = new Map();

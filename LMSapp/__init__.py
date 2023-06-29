@@ -48,6 +48,7 @@ def create_app():
     db.init_app(app)
     csrf.init_app(app)
     file_upload.init_app(app, db)
+    # socketio.init_app(app, async_mode='eventlet')  # asyncio를 사용하기 위해 async_mode를 'eventlet_asyncio'로 설정
 
     from . import models
 
