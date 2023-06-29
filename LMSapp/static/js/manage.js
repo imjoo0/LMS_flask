@@ -239,7 +239,6 @@ function main_view() {
     $('#ulbox').hide()
     $('#detailban').show()
 }
-
 async function show_modal(q_id){
     const response = await $.ajax({
         url: `modal_question/${q_id}`,
@@ -1404,7 +1403,10 @@ async function get_request_consulting() {
     if(!consultingData){
         $('.mo_inloading').show();
         $('.not_inloading').hide();
+<<<<<<< HEAD
+=======
         $('#consulting_list_search_input').hide();
+>>>>>>> a763a3a15d0dcf7376cccc6bd433b3c0c9d1f11e
         $('#history_cate').html('<option value="none">데이터 로딩중 . . . (카테고리 선택은 조금 대기해주세요)</option>');
         $('.waitplz').hide()
         consultingData = []
@@ -1420,13 +1422,20 @@ async function get_request_consulting() {
         consultingsWorker.onmessage = function (event) {
             $('.mo_inloading').show();
             $('.not_inloading').hide();
+<<<<<<< HEAD
+            let consultingCount = event.data.total_count
+            consultingData = event.data.consulting;
+            show_request_consulting()
+            if(consultingData.length == consultingCount){
+                return;
+=======
             consultingCount = event.data.total_count
             consultingData = event.data.consulting;
             show_request_consulting()
             if(consultingData.length == consultingCount){
                 return ;
+>>>>>>> a763a3a15d0dcf7376cccc6bd433b3c0c9d1f11e
             }
-            // currentPage++
             pageSize=consultingCount
             fetchData();
         };
