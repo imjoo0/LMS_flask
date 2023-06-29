@@ -50,15 +50,13 @@ def answer(u,id,done_code):
         if(done_code == 0):
             target_answer = Answer(content=answer_contents,created_at=Today,reject_code=int(o_ban_id),question_id = id,writer_id = u['id'])
             db.session.add(target_answer)
-            if target_question.mobileno == '000-0000-0000' or target_question.mobileno == '070-4618-5624' or target_question.mobileno =='입력바랍니다.' or target_question.mobileno =='010-0000-0000':
+            if target_question.mobileno == '내근':
                 teacher = User.query.filter(User.id == target_question.teacher_id).first()
                 URI = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
                 payloadText = teacher.name + ' 선생님 본원 문의 답변이 등록되었습니다  \n'
                 payloadText += ' 문의/답변 내용: `{}`\n\n```{}```'.format(target_question.title, answer_contents.replace('\r\n', '\n\n') )
-                print(teacher)
                 Synologytoken = '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"'
                 requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
-                print(payloadText)
                 try:
                     response = requests.get(requestURI)
                     response.raise_for_status()
