@@ -671,7 +671,6 @@ function semesterShow(semester) {
     var temp_semester_banlist = '';
     $.each(resultData, function (index, item) {
         let teacher_name = item.teacher_engname + '( ' + item.teacher_name + ' )'
-        console.log(item.out_student_num)
         temp_semester_banlist += `
         <td class="col-2">${item.name}</td>
         <td class="col-2">${teacher_name}</td>

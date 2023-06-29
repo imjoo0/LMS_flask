@@ -70,64 +70,7 @@ $(window).on('load', async function () {
                 if(q_id !== "" && q_type !== ""){
                     show_modal(q_id)
                 }
-                var question_socket = io('/question');
-                question_socket.on('new_question', async function(data){
-                    const response = await $.ajax({
-                        url: `new_question/${data.q_id}`,
-                        type: 'GET',
-                        dataType: 'json',
-                        data: {},
-                    })
-                    let target_question = response.target_question['question']
-                    let target_attach = response.target_question['attach']
-                    const ban = banMap.get(target_question[0].ban_id);
-                    const student = studentMap.get(target_question[0].student_id);
-                    target_question[0].origin = student ? student.origin : '원생 정보 없음';
-                    target_question[0].student_name = student ? student.student_name : '원생 정보 없음';
-                    target_question[0].ban_name = ban ? ban.ban_name : '';
-                    target_question[0].teacher_name = ban ? ban.teacher_name : '';
-                    if(!questionData){
-                        questionData = target_question
-                    }else{
-                        questionData = questionData.concat(target_question);
-                    }
-                    let attach_num  = target_attach.length 
-                    if(attach_num != 0 ){
-                        for (let i = 0; i < attach_num; i++) {
-                            const attach = target_attach[i];
-                            const questionId = attach.question_id;
-                            if(attachMap.has(questionId)) {
-                                const existingAttach = attachMap.get(questionId);
-                                existingAttach.push({
-                                attach_id: attach.id,
-                                file_name: attach.file_name,
-                                is_answer: attach.is_answer
-                                });
-                            }else {
-                                attachMap.set(questionId, [{
-                                attach_id: attach.id,
-                                file_name: attach.file_name,
-                                is_answer: attach.is_answer
-                                }]);
-                            }
-                        }
-                        if(!attachData){
-                            attachData = target_attach
-                        }else{
-                            attachData = attachData.concat(target_attach);
-                        }
-                    }
-                    console.log(questionData)
-                    let copy_data = questionData.slice()
-                    let target_questions = [];
-                    if(target_question[0].category == 1 || target_question[0].category == 2 ){
-                        target_questions = copy_data.filter(q => q.category == 1 || q.category == 2 )
-                    }else{
-                        target_questions = copy_data.filter(q => q.category == target_question[0].category )
-                    }
-                    // 반 데이터를 Map으로 매핑
-                    question_paginating(target_questions,0)
-                });
+                connectSocket()
                 // get_question_list(q_type)
             }catch (error) {
                 alert('Error occurred while retrieving data2.');
@@ -142,6 +85,155 @@ $(window).on('load', async function () {
 });
 
 // socket
+function connectSocket(){
+    var question_socket = io('/question');
+    var consulting_socket = io('/consulting');
+    
+    question_socket.on('new_question', async function(data) {
+        try {
+            const response = await $.ajax({
+                url: `new_question/${data.q_id}`,
+                type: 'GET',
+                dataType: 'json',
+                data: {},
+            });
+            await handle_new_question(response);
+        } catch (error) {
+            console.log('Error occurred while handling new question:', error);
+        }
+    });
+
+    consulting_socket.on('new_consulting', async function(data) {
+        try {
+            const response = await $.ajax({
+                url: `new_consulting/${data.c_id}`,
+                type: 'GET',
+                dataType: 'json',
+                data: {},
+            });
+            await handle_new_consulting(response);
+        } catch (error) {
+            console.log('Error occurred while handling new consulting:', error);
+        }
+    });
+    
+}
+async function handle_new_question(response){
+    let target_question = response.target_question['question']
+    let target_attach = response.target_question['attach']
+    const ban = banMap.get(target_question[0].ban_id);
+    const student = studentMap.get(target_question[0].student_id);
+    target_question[0].origin = student ? student.origin : '원생 정보 없음';
+    target_question[0].student_name = student ? student.student_name : '원생 정보 없음';
+    target_question[0].ban_name = ban ? ban.ban_name : '';
+    target_question[0].teacher_name = ban ? ban.teacher_name : '';
+    if(!questionData){
+        questionData = target_question
+    }else{
+        questionData = questionData.concat(target_question);
+    }
+    let attach_num  = target_attach.length 
+    if(attach_num != 0 ){
+        for (let i = 0; i < attach_num; i++) {
+            const attach = target_attach[i];
+            const questionId = attach.question_id;
+            if(attachMap.has(questionId)) {
+                const existingAttach = attachMap.get(questionId);
+                existingAttach.push({
+                attach_id: attach.id,
+                file_name: attach.file_name,
+                is_answer: attach.is_answer
+                });
+            }else {
+                attachMap.set(questionId, [{
+                attach_id: attach.id,
+                file_name: attach.file_name,
+                is_answer: attach.is_answer
+                }]);
+            }
+        }
+        if(!attachData){
+            attachData = target_attach
+        }else{
+            attachData = attachData.concat(target_attach);
+        }
+    }
+    let copy_data = questionData.slice()
+    let target_questions = [];
+    if(target_question[0].category == 1 || target_question[0].category == 2 ){
+        target_questions = copy_data.filter(q => q.category == 1 || q.category == 2 )
+    }else{
+        target_questions = copy_data.filter(q => q.category == target_question[0].category )
+    }
+    let message = {}
+    message.category = 0
+    message.contents = `${q_category(target_question[0])}가 등록되었습니다`
+    AlarmList.push(0)
+    $('#alarm_num').html(AlarmList.length)
+    console.log(AlarmList)
+    $('#new_question_alarm').html(`📌 새로운 문의 ${AlarmList.filter(a=>a.category==0).length}건 `)
+    // 반 데이터를 Map으로 매핑
+    question_paginating(target_questions,0)
+}
+
+async function handle_new_consulting(response){
+    let target_consulting = response.target_consulting
+    console.log(target_consulting)
+    // let target_attach = response.target_question['attach']
+    // const ban = banMap.get(target_question[0].ban_id);
+    // const student = studentMap.get(target_question[0].student_id);
+    // target_question[0].origin = student ? student.origin : '원생 정보 없음';
+    // target_question[0].student_name = student ? student.student_name : '원생 정보 없음';
+    // target_question[0].ban_name = ban ? ban.ban_name : '';
+    // target_question[0].teacher_name = ban ? ban.teacher_name : '';
+    // if(!questionData){
+    //     questionData = target_question
+    // }else{
+    //     questionData = questionData.concat(target_question);
+    // }
+    // let attach_num  = target_attach.length 
+    // if(attach_num != 0 ){
+    //     for (let i = 0; i < attach_num; i++) {
+    //         const attach = target_attach[i];
+    //         const questionId = attach.question_id;
+    //         if(attachMap.has(questionId)) {
+    //             const existingAttach = attachMap.get(questionId);
+    //             existingAttach.push({
+    //             attach_id: attach.id,
+    //             file_name: attach.file_name,
+    //             is_answer: attach.is_answer
+    //             });
+    //         }else {
+    //             attachMap.set(questionId, [{
+    //             attach_id: attach.id,
+    //             file_name: attach.file_name,
+    //             is_answer: attach.is_answer
+    //             }]);
+    //         }
+    //     }
+    //     if(!attachData){
+    //         attachData = target_attach
+    //     }else{
+    //         attachData = attachData.concat(target_attach);
+    //     }
+    // }
+    // let copy_data = questionData.slice()
+    // let target_questions = [];
+    // if(target_question[0].category == 1 || target_question[0].category == 2 ){
+    //     target_questions = copy_data.filter(q => q.category == 1 || q.category == 2 )
+    // }else{
+    //     target_questions = copy_data.filter(q => q.category == target_question[0].category )
+    // }
+    // let message = {}
+    // message.category = 0
+    // message.contents = `${q_category(target_question[0])}가 등록되었습니다`
+    // AlarmList.push(0)
+    // $('#alarm_num').html(AlarmList.length)
+    // console.log(AlarmList)
+    // $('#new_question_alarm').html(`📌 새로운 문의 ${AlarmList.filter(a=>a.category==0).length}건 `)
+    // // 반 데이터를 Map으로 매핑
+    // question_paginating(target_questions,0)
+}
 function main_view() {
     $('#questionbox').hide()
     $('#ulbox').hide()
@@ -364,7 +456,6 @@ async function get_question_detail(q_id){
     let question_detail_data = questionData.filter(q => q.id == q_id)[0]
     
     if(question_detail_data.id > 0){
-        console.log('여기가')
         let attach = attachMap.get(q_id);
         if(attach != undefined){
             question_detail_data.question_attach = attach.filter(a=>a.is_answer == 0)
@@ -1235,6 +1326,7 @@ function post_consulting_request() {
         // 개별 학생 대상 인 경우  
         let indivi_student_selections = selectedStudentList.filter(value => (value.includes('_')) && !(value.includes('-1')));
         if (indivi_student_selections.length != 0) {
+            console.log(indivi_student_selections)
             indivi_student_selections.forEach(value => {
                 v = String(value).split('_')
                 s_info = studentsData.filter(a => a.student_id ==  Number(v[3]))[0]
@@ -1243,6 +1335,7 @@ function post_consulting_request() {
                     url: '/manage/consulting/' + v[0] + '/' + v[1] + '/' + v[3]+ '/',
                     // data: JSON.stringify(jsonData), // String -> json 형태로 변환
                     data: {
+                        ban_name: v[2],
                         student_name : s_info['student_name'],
                         student_engname : s_info['student_engname'],
                         origin : s_info['origin'],
@@ -1311,9 +1404,11 @@ async function get_request_consulting() {
     if(!consultingData){
         $('.mo_inloading').show();
         $('.not_inloading').hide();
-        $('#history_cate').html('<option value="none">전체 데이터 로딩중 . . . (카테고리 선택은 조금 대기해주세요)</option>');
+        $('#consulting_list_search_input').hide();
+        $('#history_cate').html('<option value="none">데이터 로딩중 . . . (카테고리 선택은 조금 대기해주세요)</option>');
         $('.waitplz').hide()
         consultingData = []
+        consultingCount = consultingData.length
         let currentPage = 1;  // 현재 페이지 번호
         let pageSize = 5000;  // 페이지당 데이터 개수
 
@@ -1325,16 +1420,11 @@ async function get_request_consulting() {
         consultingsWorker.onmessage = function (event) {
             $('.mo_inloading').show();
             $('.not_inloading').hide();
-            $('#history_cate').html('<option value="none">전체 데이터 로딩중 . . . (카테고리 선택은 조금 대기해주세요)</option>');
-            $('.waitplz').hide()
-            let consultingCount = event.data.total_count
+            consultingCount = event.data.total_count
             consultingData = event.data.consulting;
-            req_consultings = consultingData.filter(c => c.category_id > 100);
-            Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': req_consultings }));
-            $('.mo_inloading').hide();
-            $('.not_inloading').show();
+            show_request_consulting()
             if(consultingData.length == consultingCount){
-                return show_request_consulting()
+                return ;
             }
             // currentPage++
             pageSize=consultingCount
@@ -1345,9 +1435,23 @@ async function get_request_consulting() {
     show_request_consulting();
 }
 async function show_request_consulting() {
+    $('.waitplz').show()
+    $('.mo_inloading').hide();
+    $('.not_inloading').show();
+    $('#consulting_list_search_input').show();
     $('#consulting_list_search_input').off('keyup');
+    let copy_data = consultingData.slice();
+    req_consultings = copy_data.filter(c => c.category_id > 100);
+    Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': req_consultings }));
+    let category_set = new Set(req_consultings.map(c => c.category));
+    let category_list = [...category_set];
+    var idxHtml = `<option value="none">전체</option>`;
+    $.each(category_list, function (idx, val) {
+        idxHtml += `<option value="${val}">${val}</option>`;
+    });
+    $('#history_cate').html(idxHtml);
     const updateSearchResult = function () {
-        let copy_data = req_consultings.slice();
+        let copy_data = consultingData.slice();
         const selectedCategory = $('#history_cate').val();
         const searchInput = $('#consulting_list_search_input').val().toLowerCase();
         if (selectedCategory != 'none' && searchInput == "") {
@@ -1380,34 +1484,17 @@ async function show_request_consulting() {
             Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': copy_data }));
         }
     };
-    $('.mo_inloading').hide();
-    $('.not_inloading').show();
-    $('.waitplz').show()
-    let copy_data = consultingData.slice();
-    req_consultings = copy_data.filter(c => c.category_id > 100);
-    Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': req_consultings }));
-    let category_set = new Set(req_consultings.map(c => c.category));
-    let category_list = [...category_set];
-    var idxHtml = `<option value="none">전체</option>`;
-    $.each(category_list, function (idx, val) {
-        idxHtml += `<option value="${val}">${val}</option>`;
-    });
-    $('#history_cate').html(idxHtml);
-    $('#consulting_list_search_input').show();
     $('#history_cate, #consulting_list_search_input').on('change keyup', updateSearchResult);
     $('input[name="is_requ"]').change(function() {
         let selectedValue = $('input[name="is_requ"]:checked').val();
+        let copy_data = consultingData.slice();
         if(selectedValue == 'none'){
-            let copy_data = consultingData.slice();
             req_consultings = copy_data
         }else if(selectedValue == 0){
-            let copy_data = consultingData.slice();
             req_consultings = copy_data.filter(c => c.category_id > 100);
         }else if(selectedValue == 1){
-            let copy_data = consultingData.slice();
             req_consultings = copy_data.filter(c => c.category_id < 100);
         }else{
-            let copy_data = consultingData.slice();
             req_consultings = copy_data.filter(c => c.category_id == 100);
         }
         Consultingcontainer.pagination(Object.assign(ConsultingpaginationOptions, { 'dataSource': req_consultings }))
@@ -1419,7 +1506,7 @@ async function show_request_consulting() {
         });
         $('#history_cate').html(idxHtml);
     });
-}  
+}    
 function sort_consultingoption(sortBy) {
     switch (sortBy) {
         case "name_desc":

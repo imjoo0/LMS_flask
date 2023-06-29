@@ -48,14 +48,31 @@ def answer(u,id,done_code):
             common.save_attachment(file, id, 1)
 
         if(done_code == 0):
-            post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
             target_answer = Answer(content=answer_contents,created_at=Today,reject_code=int(o_ban_id),question_id = id,writer_id = u['id'])
             db.session.add(target_answer)
-            data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
-                'templateCode': "work_cs_answer",
-                'recipientList': [{'recipientNo':target_question.mobileno, 'templateParameter': { '답변내용':answer_contents}, }, ], }
-            headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
-            http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
+            if target_question.mobileno == '000-0000-0000' or target_question.mobileno == '070-4618-5624' or target_question.mobileno =='입력바랍니다.' or target_question.mobileno =='010-0000-0000':
+                teacher = User.query.filter(User.id == target_question.teacher_id).first()
+                URI = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
+                payloadText = teacher.name + ' 선생님 본원 문의 답변이 등록되었습니다  \n'
+                payloadText += ' 문의/답변 내용: `{}`\n\n```{}```'.format(target_question.title, answer_contents.replace('\r\n', '\n\n') )
+                print(teacher)
+                Synologytoken = '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"'
+                requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
+                print(payloadText)
+                try:
+                    response = requests.get(requestURI)
+                    response.raise_for_status()
+                    print(f"statusCode: {response.status_code}")
+                except requests.exceptions.RequestException as e:
+                    print("시놀로지 전송 실패")
+                    print(e)
+            else:
+                post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
+                data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
+                    'templateCode': "work_cs_answer",
+                    'recipientList': [{'recipientNo':target_question.mobileno, 'templateParameter': { '답변내용':answer_contents}, }, ], }
+                headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
+                http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
         else:
             target_answer = Answer.query.filter(Answer.question_id == id).first()
             if(answer_contents != '' or answer_contents != None):
@@ -73,6 +90,7 @@ def answer(u,id,done_code):
             new_out_student = OutStudent(ban_id = target_question.ban_id,teacher_id = target_question.teacher_id,student_id=target_question.student_id,created_at=Today)
             db.session.add(new_out_student)
             # db.session.commit()
+
         db.session.commit()
         target_data = {}
         target_data['answer_id'] = target_answer.id
@@ -87,7 +105,6 @@ def answer(u,id,done_code):
                 'question_id':id
             }
             target_data['attach'].append(attachment_data)
-        # handle_new_answer(id)
         return jsonify({'result': '문의 답변 저장 완료','target_data':target_data})
 
 def make_cate(id):
@@ -662,6 +679,7 @@ def request_ban_student(b_id,t_id,b_name):
 @bp.route("/consulting/<int:b_id>/<int:t_id>/<int:s_id>/", methods=['POST'])
 def request_indivi_student(b_id,t_id,s_id):
     if request.method == 'POST':
+        received_ban_name = request.form['ban_name']
         #  상담 카테고리 저장
         received_consulting_category = request.form['consulting_category']
         #  상담 내용 저장
@@ -674,19 +692,34 @@ def request_indivi_student(b_id,t_id,s_id):
         student_name = request.form['student_name']
         student_engname = request.form['student_engname']
         origin = request.form['origin']
-        teacher_mobile_no = User.query.filter(User.id == t_id).first().mobileno
+        teacher = User.query.filter(User.id == t_id).first()
+        teacher_mobile_no = teacher.mobileno
 
         new_consulting = Consulting(ban_id=b_id,teacher_id=t_id, category_id=received_consulting_category, student_id=s_id,student_name=student_name,student_engname=student_engname,origin=origin,contents=received_consulting_contents, startdate=received_consulting_startdate, deadline=received_consulting_deadline,done=0,missed='1111-01-01',week_code=-1)
         db.session.add(new_consulting)
-        post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
-        data_sendkey = {
-            'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
-            'templateCode': "consulting_cs",
-            'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '원번':origin, '원생이름': student_name, '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], 
-        }
-        headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
-        http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
         db.session.commit()
+        if(teacher_mobile_no == '내근'):
+            URI = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
+            payloadText = teacher.name + ' 선생님 ' + received_ban_name + '반 ' + student_name +'( '+ origin +' )원생의 상담 요청이 등록되었습니다. \n'
+            payloadText += '마감기한: `{}`\n\n```{}```'.format(received_consulting_deadline, received_consulting_contents.replace('\r\n', '\n\n') )
+            Synologytoken = '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"'
+            requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
+            try:
+                response = requests.get(requestURI)
+                response.raise_for_status()
+                print(f"statusCode: {response.status_code}")
+            except requests.exceptions.RequestException as e:
+                print("시놀로지 전송 실패")
+                print(e)
+        else:
+            post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
+            data_sendkey = {
+                'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
+                'templateCode': "consulting_cs",
+                'recipientList': [{'recipientNo':teacher_mobile_no, 'templateParameter': { '원번':origin, '원생이름': student_name, '상담내용': received_consulting_contents, '마감기한': received_consulting_deadline}, }, ], 
+            }
+            headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
+            http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
         
         return jsonify({'result':'success'})
    
