@@ -76,7 +76,7 @@
                             <input class="modal-body-select modal-body-select-100" type="text" 
                             id="teacher_name" value="{{ user['name'] }}" placeholder="{{user['name'] }}">
                             <input class="modal-body-select modal-body-select-100" type="text" 
-                            id="teacher_engname" value="{{ user['engname'] }}" placeholder="{{user['engname'] }}">
+                            id="teacher_engname" value="{{ user['eng_name'] }}" placeholder="{{user['eng_name'] }}">
                         </div>
                         <div class="modal-body-select-label" style="width:fit-content;"><span class="modal-body-select-container-span" style="padding:6px 12px;">첨부 파일 </br> (최대갯수 : 3)</span></div>
                         <input class="modal-body-select w-100 m-3" type="file" id="file-upload" multiple>
@@ -460,7 +460,7 @@
                     <div class="user-detail-deco"></div>
                     <div class="user-name">
                         <div class="d-flex justify-content-center align-items-center flex-column">
-                            <span>{{ user['name'] }}({{ user['engname'] }}) 선생님 안녕하세요.</span>
+                            <span>{{ user['name'] }}({{ user['eng_name'] }}) 선생님 안녕하세요.</span>
                             <div class="mt-2">
                                 <a href="#" class="me-1" data-bs-toggle="modal" data-bs-target="#sign-out">
                                     <i class="fas fa-sign-out-alt text-danger fa-lg fs-5"></i>

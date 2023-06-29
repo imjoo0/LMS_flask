@@ -31,20 +31,12 @@ Today = korea_time.date()
 today_yoil = korea_time.weekday() + 1
 standard = datetime.strptime('11110101', "%Y%m%d").date()
 
-# 복호화 fernet -( 상담용 프로그램 )
-# from cryptography.fernet import Fernet
-
-# def decrypt(data, key):
-#     f = Fernet(key)
-#     decrypted_data = f.decrypt(data)
-#     return decrypted_data.decode('utf-8')
-
 # 선생님 메인 페이지
 @bp.route("/", methods=['GET'])
 @authrize
 def home(u):
     if request.method == 'GET':
-        teacher_info = callapi.purple_info(u['user_id'], 'get_teacher_info')
+        teacher_info = User.query.filter(User.user_id == u['user_id']).first()
         return render_template('teacher.html', user=teacher_info)
 
 # 차트 관련
@@ -56,6 +48,13 @@ def get_mybans(u):
     all_consulting_category = []
     ban_data = callapi.call_api(u['user_id'], 'get_mybans_new')
     my_students = callapi.call_api(u['id'], 'get_mystudents_new')
+    takeovers = TakeOverUser.query.filter(TakeOverUser.teacher_id == u['id']).all()
+    takeovers_num = len(takeovers)
+    if takeovers_num != 0 :
+        for takeover in takeovers:
+            ban_data += callapi.call_api(takeover.takeover_user, 'get_mybans_new')
+            my_students += callapi.call_api(takeover.takeover_user, 'get_mystudents_new')
+
     db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00',port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
     try:
         with db.cursor() as cur:
@@ -71,12 +70,12 @@ def get_mybans(u):
                 ''',({ban['startdate']},ban['register_no'],ban['register_no'],ban['register_no'], ) )
                 all_consulting.extend(cur.fetchall())
 
+                cur.execute("select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id left join taskcategory on task.category_id = taskcategory.id where ( (task.category_id = 11) or ( (task.cycle = %s) or (task.cycle = 0) ) ) and ( task.startdate <= curdate() and curdate() <= task.deadline ) and taskban.ban_id=%s;", (today_yoil,ban['register_no'],))
+                all_task.extend(cur.fetchall())  
+
             cur.execute("SELECT * FROM LMS.consultingcategory;")
             all_consulting_category = cur.fetchall()
             
-            # 업무
-            cur.execute("select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id left join taskcategory on task.category_id = taskcategory.id where ( (task.category_id = 11) or ( (task.cycle = %s) or (task.cycle = 0) ) ) and ( task.startdate <= curdate() and curdate() <= task.deadline ) and taskban.teacher_id=%s;", (today_yoil, u['id'],))
-            all_task = cur.fetchall()
     except:
         print('err:', sys.exc_info())
     finally:
