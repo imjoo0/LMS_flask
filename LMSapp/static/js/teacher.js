@@ -331,7 +331,11 @@ async function get_unlearned_consulting_student(done_code) {
     };
 
     if (consulting_targetdata.length == 0) {
-        $('#today_consulting_title').html($('#today_consulting_title').html() + '   0건');
+        if (done_code == 0) {
+            $('#today_consulting_title').html('미학습자가 없습니다');
+        } else {
+            $('#today_consulting_title').html('오늘 부재중 상담이 없습니다');
+        }
         $('#consulting_student_list').hide();
         $('#consultingstudent_pagination').hide();
     }else{
@@ -351,7 +355,6 @@ async function get_unlearned_consulting_student(done_code) {
 async function get_consulting(student_id) {
     let data = Tstudent_consulting.filter(s => s.student_id == student_id)[0]
     let student_category = make_out(2)
-    console.log(data.student_category)
     if(data != undefined){
         student_category = make_out(data.student_category);
     }else{
@@ -466,7 +469,7 @@ async function get_consulting(student_id) {
             }
             temp_consulting_contents_box += `<a class="btn-two ${color_pallete[index]} small" href="#target_${key}" onclick="get_consulting_history_by_cate(event)">${key} ${cate_consultings_num}건</a>`;
         });
-        temp_consulting_contents_box += `<a class="btn-two black small" onclick="missed_consulting(${idx})">부재중</a>`;
+        temp_consulting_contents_box += `<a class="btn-two black small" onclick="missed_consulting(${idx},${student_id})">부재중</a>`;
         $('#consulting_write_box').html(temp_consulting_write_box);
         temp_postconsulting_buttonbox = `
         <p class="mt-lg-4 mt-5">✔️ 상담 결과 이반 / 취소*환불 / 퇴소 요청이 있었을시 본원 문의 버튼을 통해 승인 요청을 남겨주세요</p>
@@ -627,8 +630,8 @@ async function get_student(ban_id) {
 function cancel_back() {
     $('#make_plus_consulting').hide();
     $("#consulting_cate").val(0);
+    $("#plus_consulting_reason").val("");
     $("#plus_consulting_solution").val("");
-    console.log($("#plus_consulting_solution").val())
 }
 function sort_option(sortBy) {
     switch (sortBy){
@@ -667,14 +670,12 @@ function sort_option(sortBy) {
         });
         break;
     }
-  
     // 데이터 정렬 후 페이지네이션 다시 설정
     Studentcontainer.pagination("destroy");
     Studentcontainer.pagination(
       Object.assign(StudentpaginationOptions, { dataSource: Targetdata })
     );
 }
-
 function plusconsulting() {
     // 상담 카테고리 선택 
     let temp_category = `<option value=0 selected>상담 카테고리를 선택해 주세요</option>`
@@ -761,7 +762,6 @@ function get_consulting_history_by_cate(category) {
         }, 1000);
     }
 }
-
 //  지난 상담 상담일지 
 async function get_consulting_history() {
     $('#consulting_history_bansel_box').show()
@@ -904,16 +904,19 @@ async function get_consulting_history_detail(c_id,is_by_student) {
     }    
 }
 // 부재중 처리
-async function missed_consulting(c_length) {
+async function missed_consulting(c_length,student_id) {
     const csrf = $('#csrf_token').val();
     var con_val = confirm('부재중 처리 하시겠습니까?')
     if (con_val == true) {
         for (i = 0; i < c_length; i++) {
             target = $('#target_consulting_id' + i).val()
+            Tall_consulting.filter(c=>c.id == target)[0].missed = today
+            Tunlearned_student.filter(s=>s.student_id == student_id)[0].missed = missed_date(today)
             post_missed_consulting(target)
         }
         alert('부재중 처리 되었습니다')
-        window.location.reload()
+        get_unlearned_consulting_student(0)
+        $('#consultinghistory').modal("hide");
     }
 }
 function post_missed_consulting(consulting) {
@@ -935,7 +938,6 @@ function post_bulk_consultings(c_length,is_done,student_id) {
         target = $('#target_consulting_id' + i).val()
         post_target_consulting(target, is_done)
     }
-    
     let consulting_solution = $('#plus_consulting_solution').val()
     if(consulting_solution != null && consulting_solution != ""){
         const student_info = Tall_students.filter(a=>a.student_id == student_id)[0]
@@ -964,7 +966,25 @@ function post_bulk_consultings(c_length,is_done,student_id) {
             },
             success: function (response) {
                 {
-                    console.log(response["result"])
+                    // let target_newconsulting = {}
+                    // target_newconsulting.id = Tall_consulting.length;
+                    // target_newconsulting.student_id = student_id;
+                    // target_newconsulting.origin = student_info['origin'];
+                    // target_newconsulting.student_name = student_info['name'];
+                    // target_newconsulting.student_engname = student_info['nick_name'];
+                    // target_newconsulting.ban_id = b_id;
+                    // target_newconsulting.done = 1;
+                    // target_newconsulting.category_id = plus_consulting_category;
+                    // target_newconsulting.contents = consulting_contents;
+                    // target_newconsulting.category = selected_cate;
+                    // target_newconsulting.startdate = today;
+                    // target_newconsulting.deadline = today;                    
+                    // target_newconsulting.missed = missed_date('1111-01-01');                    
+                    // target_newconsulting.created_at = today;                    
+                    // target_newconsulting.reason = consulting_reason;                    
+                    // target_newconsulting.solution = consulting_solution;       
+                    // Tall_consulting.push(target_newconsulting)
+                    // console.log(Tall_consulting)
                 }
             }
         })
@@ -972,10 +992,11 @@ function post_bulk_consultings(c_length,is_done,student_id) {
     alert("상담 저장 완료")
     window.location.reload()
 }
-function plusconsulting_history(student_id) {
+async function plusconsulting_history(student_id) {
     let consulting_solution = $('#plus_consulting_solution').val()
     const student_info = Tall_students.filter(a=>a.student_id == student_id)[0]
     const plus_consulting_category = $('#consulting_cate').val()
+    const selected_cate =$('#consulting_cate option:selected').text();
     const t_id = student_info.teacher_id
     const b_id = student_info.ban_id
     const consulting_contents = '선생님 자체 상담'
@@ -984,7 +1005,7 @@ function plusconsulting_history(student_id) {
         alert('상담 종류를 선택해주세요')
         return;
     }
-    $.ajax({
+    await $.ajax({
         type: "POST",
         url: '/teacher/plus_consulting/' + student_id + '/' + b_id,
         // data: JSON.stringify(jsonData), // String -> json 형태로 변환
@@ -999,12 +1020,30 @@ function plusconsulting_history(student_id) {
             consulting_solution: consulting_solution
         },
         success: function (response) {
-            {
-                alert(response["result"])
-                window.location.reload()
-            }
+            alert(response["result"])
+            // window.location.reload()
+            let target_newconsulting = {}
+            target_newconsulting.id = Tall_consulting.length;
+            target_newconsulting.student_id = student_id;
+            target_newconsulting.origin = student_info['origin'];
+            target_newconsulting.student_name = student_info['name'];
+            target_newconsulting.student_engname = student_info['nick_name'];
+            target_newconsulting.ban_id = b_id;
+            target_newconsulting.done = 1;
+            target_newconsulting.category_id = plus_consulting_category;
+            target_newconsulting.contents = consulting_contents;
+            target_newconsulting.category = selected_cate;
+            target_newconsulting.startdate = today;
+            target_newconsulting.deadline = today;                    
+            target_newconsulting.missed = missed_date('1111-01-01');                    
+            target_newconsulting.created_at = today;                    
+            target_newconsulting.reason = consulting_reason;                    
+            target_newconsulting.solution = consulting_solution;       
+            Tall_consulting.push(target_newconsulting)
         }
     })
+    cancel_back()
+    $('#consultinghistory').modal("hide");
 }
 async function post_one_consulting(consulting, is_done) {
     consulting_reason = $('#consulting_reason' + consulting).val()
@@ -1029,7 +1068,15 @@ async function post_one_consulting(consulting, is_done) {
             }, success: function (response) {
                 if (response['result'] == '완료') {
                     alert("상담일지 수정 완료")
-                    window.location.reload()
+                    // window.location.reload()
+                    let target = Tall_consulting.filter(c=>c.id == consulting)[0]
+                    target.done = 1
+                    if(consulting_reason != "작성 내역이 없습니다"){
+                        target.reason = consulting_reason
+                    }
+                    if(consulting_solution != "작성 내역이 없습니다"){
+                        target.solution = consulting_solution
+                    }
                 } else {
                     alert("상담일지 수정 실패")
                 }
@@ -1055,6 +1102,15 @@ function post_target_consulting(consulting, is_done) {
             consulting_solution: consulting_solution
         }, success: function (response) {
             if (response['result'] == '완료') {
+                // let target = Tall_consulting.filter(c=>c.id == consulting)[0]
+                // target.done = 1
+                // target.created_at = today
+                // if(consulting_reason != "작성 내역이 없습니다"){
+                //     target.reason = consulting_reason
+                // }
+                // if(consulting_solution != "작성 내역이 없습니다"){
+                //     target.solution = consulting_solution
+                // }
             } else {
                 alert("상담일지 저장 실패")
             }
@@ -1066,10 +1122,9 @@ function post_target_consulting(consulting, is_done) {
 function get_update_done() {
     $('input:checkbox[name=taskid]').each(function (index) {
         if ($(this).is(":checked") == true) {
-            return update_done($(this).val())
+            update_done($(this).val())
         }
     });
-    window.location.reload()
 }
 function update_done(target) {
     $.ajax({
@@ -1079,6 +1134,10 @@ function update_done(target) {
         data: {},
         success: function (response) {
             if (response['result'] == '완료') {
+                target = Tall_task.filter(t=>t.id == target)[0]
+                target.created_at = today
+                target.done = 1
+                home()
             } else {
                 alert(response["result"])
             }
@@ -1249,6 +1308,7 @@ function question_save(){
                         if(response["result"]=="완료"){
                             alert("문의 저장 완료")
                             window.location.reload()
+                            // console.log(TquestionAnswerdata)
                         }else{
                             alert("문의 저장에 실패했습니다")
                         }

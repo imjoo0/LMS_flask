@@ -469,7 +469,7 @@ async function get_question_detail(q_id){
     $('#consulting_history_attach').hide()
     $('#manage_answer').hide()
     let question_detail_data = questionData.filter(q => q.id == q_id)[0]
-    
+    question_detail_data.contents = question_detail_data.contents.replace(/\n/g, '</br>')
     if(question_detail_data.id > 0){
         let attach = attachMap.get(q_id);
         if(attach != undefined){
