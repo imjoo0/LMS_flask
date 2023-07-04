@@ -43,7 +43,6 @@ def answer(u,id,done_code):
         target_question = Question.query.get_or_404(id)
         target_question.answer = 1
         files = request.files.getlist('file_upload')
-        
         for file in files:
             common.save_attachment(file, id, 1)
 
@@ -182,7 +181,7 @@ def modal_question(id):
                 ''',(id))
                 target_question['question'] = cur.fetchall()
 
-                cur.execute('select question_id,file_name,id,attachment.is_answer from attachment where attachment.question_id = %s;', (id))
+                cur.execute('select question_id,file_name,id as attach_id,attachment.is_answer from attachment where attachment.question_id = %s;', (id))
                 target_question['attach'] = cur.fetchall()
 
         except Exception as e:
