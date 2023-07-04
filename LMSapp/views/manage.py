@@ -43,7 +43,6 @@ def answer(u,id,done_code):
         target_question = Question.query.get_or_404(id)
         target_question.answer = 1
         files = request.files.getlist('file_upload')
-        
         for file in files:
             common.save_attachment(file, id, 1)
 
