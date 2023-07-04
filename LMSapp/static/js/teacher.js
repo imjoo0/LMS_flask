@@ -56,23 +56,13 @@ async function home(){
         total_now_student_num += now_student_num
 
         temp_ban_list += `
-        <tbody style="width:100%;">
             <tr class="row">
-                <th class="col-12">${elem.name}반 ( ${semester}학기 )</th>
+                <th class="col-4">${elem.name}반 ( ${semester}학기 )</th>
+                <td class="col-2">${now_student_num}</td>
+                <td class="col-2">${hold_student_num}</td>
+                <td class="col-2">${out_student_num}</td>
+                <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${elem.register_no})">✔️</td>
             </tr>
-            <tr class="row">
-                <th class="col-3">관리중</th>
-                <th class="col-3">보류</th>
-                <th class="col-3">퇴소</th>
-                <th class="col-3">원생 목록</th>  
-            </tr>
-            <tr class="row">
-                <td class="col-3">${now_student_num}</td>
-                <td class="col-3">${hold_student_num}</td>
-                <td class="col-3">${out_student_num}</td>
-                <td class="col-3" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${elem.register_no})">✔️</td>
-            </tr>
-        </tbody>
         `
     });
     
@@ -91,7 +81,16 @@ async function home(){
         </div>
         <div class="col-sm-12 d-flex justify-content-center align-items-center">
             <table class="table text-center" id="class_list">
-                ${temp_ban_list}
+                <tbody style="width:100%;">
+                    <tr class="row">
+                        <th class="col-4">반</th>
+                        <th class="col-2">관리중</th>
+                        <th class="col-2">보류</th>
+                        <th class="col-2">퇴소</th>
+                        <th class="col-2">원생 목록</th>  
+                    </tr>    
+                    ${temp_ban_list}
+                </tbody>
             </table>
         </div>
     </div>
@@ -123,7 +122,7 @@ async function home(){
     // 업무 관리 
     let today_task_num = Tall_task.length
     // 상담 목록
-    let taskConsultingsData = Tall_consulting.length > 0 ? Tall_consulting.filter(consulting => (consulting.category_id > 100) &&( (consulting.done == 1 && new Date(consulting.created_at).setHours(0, 0, 0, 0) === today)||(consulting.done == 0) )) : []; 
+    let taskConsultingsData = Tall_consulting.length > 0 ? Tall_consulting.filter(consulting => (consulting.category_id > 100) && ( (consulting.done == 1 && new Date(consulting.created_at).setHours(0, 0, 0, 0) === today) || (consulting.done == 0) ) ) : []; 
     let today_taskconsulting_num = taskConsultingsData.length;
     let total_task_num = today_task_num + today_taskconsulting_num
     let temp_report = ''
@@ -132,7 +131,6 @@ async function home(){
         <td class="col-3">오늘의 업무가 없습니다</td>
         <td class="col-3">➖</td>
         `;
-
         $('#task_title').html('오늘의 업무 0건');
         $('#cate_menu').html('<p>오늘의 업무가 없습니다</p>');
         $('#taskconsulting_cate_menu').html('본원 요청 업무가 없습니다.');
@@ -359,6 +357,7 @@ async function get_unlearned_consulting_student(done_code) {
 async function get_consulting(student_id) {
     let data = Tstudent_consulting.filter(s => s.student_id == student_id)[0]
     let student_category = make_out(2)
+    console.log(data.student_category)
     if(data != undefined){
         student_category = make_out(data.student_category);
     }else{
@@ -383,7 +382,7 @@ async function get_consulting(student_id) {
         }
     }
     consulting_history(student_id)
-    $('#consultinghistoryModalLabelt').html(`${data.student_name} ${make_out(student_category)} 원생 상담일지`)
+    $('#consultinghistoryModalLabelt').html(`${data.student_name} ${student_category} 원생 상담일지`)
         $('#studentconsulting_history_box_detail').hide()
         $('.mo_inloading').show()
         $('.monot_inloading').hide()

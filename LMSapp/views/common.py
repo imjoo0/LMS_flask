@@ -204,12 +204,20 @@ def download_attachment(q_id, att_id):
 @bp.route('/delete_question/<int:id>', methods=['POST'])
 def del_question(id):
     if request.method == 'POST':
-        target_question = Question.query.get_or_404(id)
-        if(target_question.answer == 1):
-            target_answer = Answer.query.filter(Answer.question_id == id).first()
-            db.session.delete(target_answer)
-        db.session.delete(target_question)
-        db.session.commit()
+        result = {}
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        try:
+            with db.cursor() as cur:
+                cur.execute(f'DELETE question, answer, attachment FROM question LEFT JOIN answer ON answer.question_id = question.id LEFT JOIN attachment ON attachment.question_id = question.id  WHERE question.id = {id};')
+                db.commit()
+                result['status'] = 200
+                result['text'] = id
+        except Exception as e:
+            print(e)
+            result['status'] = 401
+            result['text'] = str(e)
+        finally:
+            db.close()
         return jsonify('삭제 완료')
 
 # 상담 삭제 기능

@@ -229,18 +229,19 @@ async function get_teacher_data(){
         Tconsulting_category = response.all_consulting_category
         Tall_task = response.all_task
         Tall_task =  Tall_task.length > 0 ? Tall_task.filter(task => (task.done == 1 && new Date(task.created_at).setHours(0, 0, 0, 0) === today)||(task.done == 0)) : [];
+        console.log(Tall_task)
         // student_consulting 
         Tall_students = response.my_students
         Tmy_students = Tall_students.filter(s=>s.category_id == 1)
         Tstudent_consulting = Tall_students.reduce((acc, student) => {
             const consultingList = Tall_consulting.filter(c => c.student_id === student.student_id);
-            const ulconsultings =  consultingList.length > 0 ? consultingList.filter(c => c.category_id <100 && c.category_id != 11) : []
+            const ulconsultings =  consultingList.length > 0 ? consultingList.filter(c => c.category_id < 100) : []
             const ulearned_num =  ulconsultings.length
             let todoconsulting = consultingList.length > 0 ? consultingList.filter(c => c.done == 0) : []
             let todoconsulting_num = todoconsulting.length
             const doneconsulting =consultingList.length > 0 ? consultingList.filter(c => c.done == 1) : []
             const doneconsulting_num = doneconsulting.length
-            if (student.category_id == 1) {
+            if(student.category_id == 1){
                 acc.push({
                     'teacher_id': student.teacher_id,
                     'student_id': student.student_id,
@@ -283,12 +284,12 @@ async function get_teacher_data(){
             return acc;
         }, []);
         Tunlearned_student = Tmy_students.reduce((acc, student) => {
-            const consultingList = Tall_consulting.filter(c => c.student_id === student.student_id && c.category_id < 100 );
+            const consultingList = Tall_consulting.filter(c => c.student_id === student.student_id && c.category_id < 100);
             const unlearned_num = consultingList.length;
             if (unlearned_num>0){
                 const todoconsulting = consultingList.filter(c => c.done == 0)
                 const todoconsulting_num = todoconsulting.length
-                if (todoconsulting_num > 0) {
+                if(todoconsulting_num > 0) {
                     const deadline = todoconsulting.reduce((prev, current) => {
                         let prevDueDate = new Date(prev.deadline).setHours(0, 0, 0, 0);
                         let currentDueDate = new Date(current.deadline).setHours(0, 0, 0, 0);

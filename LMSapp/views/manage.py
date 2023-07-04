@@ -56,14 +56,14 @@ def answer(u,id,done_code):
                 payloadText = teacher.name + ' 선생님 본원 문의 답변이 등록되었습니다  \n'
                 payloadText += ' 문의/답변 내용: `{}`\n\n```{}```'.format(target_question.title, answer_contents.replace('\r\n', '\n\n') )
                 Synologytoken = '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"'
-                requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
-                try:
-                    response = requests.get(requestURI)
-                    response.raise_for_status()
-                    print(f"statusCode: {response.status_code}")
-                except requests.exceptions.RequestException as e:
-                    print("시놀로지 전송 실패")
-                    print(e)
+                # requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
+                # try:
+                #     response = requests.get(requestURI)
+                #     response.raise_for_status()
+                #     print(f"statusCode: {response.status_code}")
+                # except requests.exceptions.RequestException as e:
+                #     print("시놀로지 전송 실패")
+                #     print(e)
             else:
                 post_url = 'https://api-alimtalk.cloud.toast.com/alimtalk/v2.2/appkeys/hHralrURkLyAzdC8/messages'
                 data_sendkey = {'senderKey': "616586eb99a911c3f859352a90a9001ec2116489",
@@ -182,7 +182,7 @@ def modal_question(id):
                 ''',(id))
                 target_question['question'] = cur.fetchall()
 
-                cur.execute('select question_id,file_name,id,attachment.is_answer from attachment where attachment.question_id = %s;', (id))
+                cur.execute('select question_id,file_name,id as attach_id,attachment.is_answer from attachment where attachment.question_id = %s;', (id))
                 target_question['attach'] = cur.fetchall()
 
         except Exception as e:

@@ -166,16 +166,31 @@ async function handle_new_question(response){
         target_questions = copy_data.filter(q => q.category == target_question[0].category )
     }
     let message = {}
+    // 0이면 새로운 문의 1이면 상담 
     message.category = 0
-    message.contents = `${q_category(target_question[0])}가 등록되었습니다`
-    AlarmList.push(0)
+    message.contents = `<td class="col-4"style="margin-top: 5px;">${q_category(target_question[0].category)}</td><td class="col-6"style="margin-top: 5px;">${make_small_char(target_question[0].title)}</td><td class="col-2"><a class="btn-two yellow small" style="margin-top: 0px;margin-bottom: 0px;margin-left: 0px;width: 100%;height: 90%; color:black;"onclick="show_question_detail(${target_question[0].id},0)">확인</a></td>`
+    AlarmList.push(message)
     $('#alarm_num').html(AlarmList.length)
     console.log(AlarmList)
-    $('#new_question_alarm').html(`📌 새로운 문의 ${AlarmList.filter(a=>a.category==0).length}건 `)
     // 반 데이터를 Map으로 매핑
     question_paginating(target_questions,0)
 }
-
+function show_alarmlist(){
+    $('#new_question_list').hide()
+    let new_question_list = AlarmList.filter(a=>a.category==0)
+    let new_question_listnum  = new_question_list.length
+    let new_consulting_list = AlarmList.filter(a=>a.category==1)
+    $('#new_question_alarm').html(`📌새로운 문의 ${new_question_listnum}건 `)
+    if(new_question_listnum != 0 ){
+        let temp_newquestion_list = ''
+        new_question_list.forEach((a)=>{
+            temp_newquestion_list += a.contents 
+        })
+        $('#newQ_list').html(temp_newquestion_list)
+        $('#new_question_list').show()
+    }
+    
+}
 async function handle_new_consulting(response){
     let target_consulting = response.target_consulting
     console.log(target_consulting)
@@ -248,7 +263,6 @@ async function show_modal(q_id){
     })
     let target_question = response.target_question
     let target_bandata = response.target_bandata
-    $("#soanswer").modal("show");
     $('.cs_inloading').hide()
     $('.not_inloading').show()
     $('#consulting_history_attach').hide()
@@ -468,6 +482,11 @@ async function get_question_detail(q_id){
 }
 // 문의 내용 상세보기
 async function show_question_detail(q_id,question_detail_data){
+    if(question_detail_data == 0 || question_detail_data == '0'){
+        question_detail_data = questionData.filter(q=>q.id == q_id)[0]
+    }
+    console.log(question_detail_data)
+    $("#soanswer").modal("show");
     $('#teacher_answer').empty();
     $('#answer_contents').empty();
     $('#answer_content_modi').empty();
@@ -524,7 +543,6 @@ async function show_question_detail(q_id,question_detail_data){
     `
     $('#teacher_question').html(temp_question_list);
     // 응답 처리 
-    console.log(question_detail_data.answer)
     if(question_detail_data.answer == 0 || question_detail_data.answer == '0' ) {
         $('#teacher_answer').hide()
         $('#manage_answer').show()
@@ -548,7 +566,6 @@ async function show_question_detail(q_id,question_detail_data){
         }
         $('#button_box').html(`<button class="btn btn-success" type="submit" onclick="post_answer(${q_id},${question_detail_data.category},${0})">저장</button>`);
     }else{
-        console.log('여기가 찍히는 건가')
         $('#manage_answer').hide()
         let temp_answer_list = ''
         if (question_detail_data.category == 1 || question_detail_data.category == 2) {
