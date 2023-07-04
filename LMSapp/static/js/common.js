@@ -229,7 +229,6 @@ async function get_teacher_data(){
         Tconsulting_category = response.all_consulting_category
         Tall_task = response.all_task
         Tall_task =  Tall_task.length > 0 ? Tall_task.filter(task => (task.done == 1 && new Date(task.created_at).setHours(0, 0, 0, 0) === today)||(task.done == 0)) : [];
-        console.log(Tall_task)
         // student_consulting 
         Tall_students = response.my_students
         Tmy_students = Tall_students.filter(s=>s.category_id == 1)
