@@ -34,30 +34,6 @@ async function get_all_taskcate() {
 }
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(async function () {
-    $('.nav-link').on('click', function () {
-        $('.nav-link').removeClass('active');
-        $(this).addClass('active');
-    })
-    var target = document.getElementById('request_consultingban_listbox');
-    let modalObserver = new MutationObserver(mutations => {
-        mutations.forEach(mutation => {
-            if (mutation.target.style.cssText.includes('display: none;')){
-                $('#my_consulting_request .modal-dialog').addClass('modal-handling');
-                $('#my_consulting_request .modal-dialog').addClass('modal-xl');
-                $('#my_consulting_request .modal-dialog').removeClass('modal-lg');
-                $('#my_consulting_request .modal-dialog').attr('style','max-width:90%;');
-            } else {
-                $('#my_consulting_request .modal-dialog').removeClass('modal-handling');
-                $('#my_consulting_request .modal-dialog').removeClass('modal-xl');
-                $('#my_consulting_request .modal-dialog').addClass('modal-lg');
-                $('#my_consulting_request .modal-dialog').attr('style',null);
-            }
-        })
-    })
-    let config = {
-        attributes: true,
-    };
-    modalObserver.observe(target, config);
 })
 $(window).on('load', async function () {
     try {
@@ -76,6 +52,30 @@ $(window).on('load', async function () {
                 alert('Error occurred while retrieving data2.');
             }finally {
                 setIsFetching(false);
+                $('.nav-link').on('click', function () {
+                    $('.nav-link').removeClass('active');
+                    $(this).addClass('active');
+                })
+                var target = document.getElementById('request_consultingban_listbox');
+                let modalObserver = new MutationObserver(mutations => {
+                    mutations.forEach(mutation => {
+                        if (mutation.target.style.cssText.includes('display: none;')){
+                            $('#my_consulting_request .modal-dialog').addClass('modal-handling');
+                            $('#my_consulting_request .modal-dialog').addClass('modal-xl');
+                            $('#my_consulting_request .modal-dialog').removeClass('modal-lg');
+                            $('#my_consulting_request .modal-dialog').attr('style','max-width:90%;');
+                        } else {
+                            $('#my_consulting_request .modal-dialog').removeClass('modal-handling');
+                            $('#my_consulting_request .modal-dialog').removeClass('modal-xl');
+                            $('#my_consulting_request .modal-dialog').addClass('modal-lg');
+                            $('#my_consulting_request .modal-dialog').attr('style',null);
+                        }
+                    })
+                })
+                let config = {
+                    attributes: true,
+                };
+                modalObserver.observe(target, config);
             }
         }
     } catch (error) {
