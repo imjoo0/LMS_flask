@@ -164,10 +164,7 @@ def modal_question(id):
         target_question = {}
         q = Question.query.get_or_404(id)
         target_bandata = callapi.purple_info(q.ban_id,'get_target_students')
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                cur.execute('''
+        query = '''
                     SELECT question.id,question.category,question.title,question.contents,question.teacher_id,question.ban_id,
                     question.student_id,question.create_date,question.answer,
                     question.consulting_history,question.mobileno,consulting.solution,consulting.reason,consulting.week_code,consultingcategory.name as consulting_category,consulting.category_id as consulting_categoryid,consulting.created_at as consulting_created_at ,
@@ -178,16 +175,13 @@ def modal_question(id):
                     left join consulting on question.consulting_history = consulting.id 
                     left join consultingcategory on consulting.category_id = consultingcategory.id 
                     WHERE question.id = %s;
-                ''',(id))
-                target_question['question'] = cur.fetchall()
+                '''
+        params = (id,)
+        target_question['question'] = common.db_connection.execute_query(query, params)
 
-                cur.execute('select question_id,file_name,id as attach_id,attachment.is_answer from attachment where attachment.question_id = %s;', (id))
-                target_question['attach'] = cur.fetchall()
+        query = 'select question_id,file_name,id as attach_id,attachment.is_answer from attachment where attachment.question_id = %s;'
+        target_question['attach'] = common.db_connection.execute_query(query, params)
 
-        except Exception as e:
-            print(e)
-        finally:
-            db.close()
         return jsonify({'target_question':target_question,'target_bandata':target_bandata})
 
 @bp.route('/is_it_done/<int:id>', methods=['GET'])
@@ -196,16 +190,9 @@ def is_it_done(id):
         q = Question.query.get_or_404(id)
         target_answer = []
         if(q.answer == 1):
-            db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-            try:
-                with db.cursor() as cur:
-                    cur.execute('SELECT user.eng_name as answerer, answer.title,answer.content as answer_contents,answer.created_at,answer.reject_code,answer.question_id,question.category FROM LMS.answer left join question on answer.question_id =question.id left join user on user.id = answer.writer_id where question.id = %s;', (id))
-                    target_answer = cur.fetchall()
-
-            except Exception as e:
-                print(e)
-            finally:
-                db.close()
+            query = 'SELECT user.eng_name as answerer, answer.title,answer.content as answer_contents,answer.created_at,answer.reject_code,answer.question_id,question.category FROM LMS.answer left join question on answer.question_id =question.id left join user on user.id = answer.writer_id where question.id = %s;'
+            params = (id, )
+            target_answer = common.db_connection.execute_query(query, params)
         return jsonify({'target_answer':target_answer})
 
 @bp.route('/new_question/<int:id>', methods=['GET'])
@@ -213,10 +200,7 @@ def new_question(id):
     if request.method == 'GET':
         target_question = {}
         q = Question.query.get_or_404(id)
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                cur.execute('''
+        query = '''
                     SELECT question.id,question.category,question.title,question.contents,question.teacher_id,question.ban_id,
                     question.student_id,question.create_date,question.answer,
                     question.consulting_history,question.mobileno,consulting.solution,consulting.reason,consulting.week_code,consultingcategory.name as consulting_category,consulting.category_id as consulting_categoryid,consulting.created_at as consulting_created_at ,
@@ -227,16 +211,13 @@ def new_question(id):
                     left join consulting on question.consulting_history = consulting.id 
                     left join consultingcategory on consulting.category_id = consultingcategory.id 
                     WHERE question.id = %s;
-                ''',(id))
-                target_question['question'] = cur.fetchall()
+                '''
+        params = (id, )
+        target_question['question'] = common.db_connection.execute_query(query, params)
 
-                cur.execute('select question_id,file_name,id,attachment.is_answer from attachment where attachment.question_id = %s;', (id))
-                target_question['attach'] = cur.fetchall()
+        query = 'select question_id,file_name,id,attachment.is_answer from attachment where attachment.question_id = %s;'
+        target_question['attach'] = common.db_connection.execute_query(query, params)
 
-        except Exception as e:
-            print(e)
-        finally:
-            db.close()
         return jsonify({'target_question':target_question})
  
               
@@ -252,51 +233,48 @@ def get_questiondata():
         total_count = 0
         question = []
         attach = []
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                cur.execute("SELECT COUNT(*) AS total_count FROM question;")
-                result = cur.fetchone()
-                question_count = result['total_count']
-                cur.execute('''
-                    SELECT SUM(total_count) AS total_count
-                    FROM (
-                        SELECT COUNT(*) AS total_count
-                        FROM question
-                        UNION ALL
-                        SELECT COUNT(*) AS total_count
-                        FROM cs
-                    ) AS t;
-                    ''')
-                result = cur.fetchone()
-                total_count = result['total_count']
-                if page < question_count : 
-                    cur.execute('''
-                    SELECT question.id,question.category,question.title,question.contents,question.contents as question_contents,question.teacher_id,question.ban_id,question.student_id,question.create_date,question.answer,question.consulting_history,question.mobileno,consulting.solution,consulting.contents as consulting_contents,consulting.reason,consulting.week_code,consultingcategory.name as consulting_category,consulting.category_id as consulting_categoryid,consulting.created_at as consulting_created_at ,
-                    answer.id as answer_id, user.eng_name as answerer, answer.title as answer_title,answer.content as answer_contents ,answer.created_at as answer_created_at,answer.reject_code as answer_reject_code
-                    from LMS.question
-                    left join answer on answer.question_id = question.id 
-                    left join user on user.id = answer.writer_id 
-                    left join consulting on question.consulting_history = consulting.id 
-                    left join consultingcategory on consulting.category_id = consultingcategory.id 
-                    ORDER BY 
-                    question.answer,
-                    question.create_date DESC
-                    LIMIT %s, %s;
-                    ''',(page,page_size,))
-                    question = cur.fetchall()
-                    cur.execute('select attachment.question_id,attachment.file_name,attachment.id,attachment.is_answer from attachment LEFT JOIN question on attachment.question_id = question.id ORDER BY question.category,question.answer, question.create_date DESC LIMIT %s, %s;',(page,page_size,))
-                    attach = cur.fetchall()
-                else:
-                    attach = []
-                    offset = page - question_count
-                    if offset < total_count :
-                        cur.execute('SELECT * FROM LMS.cs ORDER BY cs.create_date LIMIT %s, %s;',(offset,page_size,))
-                        question = cur.fetchall()
-        except Exception as e:
-            print(e)
-        finally:
-            db.close()
+        query = "SELECT COUNT(*) AS total_count FROM question;"
+        # result = cur.fetchone()
+        # question_count = result[0]['total_count']
+        question_count = common.db_connection.execute_query(query, )[0]['total_count']
+        query = '''
+                SELECT SUM(total_count) AS total_count
+                FROM (
+                    SELECT COUNT(*) AS total_count
+                    FROM question
+                    UNION ALL
+                    SELECT COUNT(*) AS total_count
+                    FROM cs
+                ) AS t;
+                '''
+        # result = cur.fetchone()
+        # total_count = result['total_count']
+        total_count = common.db_connection.execute_query(query, )[0]['total_count']
+        if page < question_count : 
+            query = '''
+            SELECT question.id,question.category,question.title,question.contents,question.contents as question_contents,question.teacher_id,question.ban_id,question.student_id,question.create_date,question.answer,question.consulting_history,question.mobileno,consulting.solution,consulting.contents as consulting_contents,consulting.reason,consulting.week_code,consultingcategory.name as consulting_category,consulting.category_id as consulting_categoryid,consulting.created_at as consulting_created_at ,
+            answer.id as answer_id, user.eng_name as answerer, answer.title as answer_title,answer.content as answer_contents ,answer.created_at as answer_created_at,answer.reject_code as answer_reject_code
+            from LMS.question
+            left join answer on answer.question_id = question.id 
+            left join user on user.id = answer.writer_id 
+            left join consulting on question.consulting_history = consulting.id 
+            left join consultingcategory on consulting.category_id = consultingcategory.id 
+            ORDER BY 
+            question.answer,
+            question.create_date DESC
+            LIMIT %s, %s;
+            '''
+            params = (page,page_size,)
+            question = common.db_connection.execute_query(query, params)
+            query = 'select attachment.question_id,attachment.file_name,attachment.id,attachment.is_answer from attachment LEFT JOIN question on attachment.question_id = question.id ORDER BY question.category,question.answer, question.create_date DESC LIMIT %s, %s;'
+            attach = common.db_connection.execute_query(query, params)
+        else:
+            attach = []
+            offset = page - question_count
+            if offset < total_count :
+                query = 'SELECT * FROM LMS.cs ORDER BY cs.create_date LIMIT %s, %s;'
+                params = (offset,page_size,)
+                question = common.db_connection.execute_query(query, params)
         return jsonify({'question':question, 'total_count': total_count,'attach':attach})
 
 @bp.route("/get_taskdata", methods=['GET'])
@@ -306,173 +284,44 @@ def get_taskdata():
         page_size = request.args.get('page_size', default=1000, type=int)  # 클라이언트에서 전달한 페이지 크기
         total_count = 0
         task = []
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                cur.execute("SELECT COUNT(*) AS total_count FROM taskban;")
-                result = cur.fetchone()
-                total_count = result['total_count']
+        query = "SELECT COUNT(*) AS total_count FROM taskban;"
+        total_count = common.db_connection.execute_query(query, )[0]['total_count']
 
-                cur.execute('''
-                SELECT task.id,task.category_id, task.contents, task.url, task.attachments, 
-                task.startdate, task.deadline, task.priority, task.cycle, taskcategory.name as category, taskban.id as taskban_id, taskban.ban_id, taskban.teacher_id, taskban.done ,taskban.created_at
-                FROM task 
-                LEFT JOIN taskcategory ON task.category_id = taskcategory.id LEFT JOIN taskban ON task.id = taskban.task_id
-                ORDER BY  
-                task.startdate DESC,
-                taskban.done
-                LIMIT %s, %s;
-                ''',(page,page_size,))
-
-                task = cur.fetchall()
-        except Exception as e:
-            print(e)
-        finally:
-            db.close()
+        query = '''
+        SELECT task.id,task.category_id, task.contents, task.url, task.attachments, 
+        task.startdate, task.deadline, task.priority, task.cycle, taskcategory.name as category, taskban.id as taskban_id, taskban.ban_id, taskban.teacher_id, taskban.done ,taskban.created_at
+        FROM task 
+        LEFT JOIN taskcategory ON task.category_id = taskcategory.id LEFT JOIN taskban ON task.id = taskban.task_id
+        ORDER BY  
+        task.startdate DESC,
+        taskban.done
+        LIMIT %s, %s;
+        '''
+        params = (page,page_size,)
+        task = common.db_connection.execute_query(query, params)
         return jsonify({'task':task, 'total_count': total_count})
-
-# 미학습 
-@bp.route("/uldata", methods=['GET'])
-def uldata():
-    if request.method == 'GET':
-        target_students = callapi.purple_allinfo('get_all_student')
-        if target_students:
-            db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-            unlearned_count = {}
-            try:
-                with db.cursor() as cur:
-                    cur.execute(f'SELECT consulting.student_id, COUNT(*) AS unlearned FROM consulting WHERE category_id < 100 and consulting.startdate <= curdate() GROUP BY consulting.student_id;')
-                    unlearned_count['status'] = 200
-                    unlearned_count['data'] = cur.fetchall()
-
-            except Exception as e:
-                print(e)
-                unlearned_count['status'] = 401
-                unlearned_count['text'] = str(e)
-            finally:
-                db.close()
-            return jsonify({
-            'target_students': target_students,
-            'unlearned_count': unlearned_count
-            })
-        else:
-            return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
-    elif request.method == 'GET':
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        unlearned_count = {}
-        unlearned_students = []
-        try:
-            with db.cursor() as cur:
-                # cur.execute(f'SELECT consulting.ban_id, COUNT(*) AS unlearned, COUNT(*) / (SELECT COUNT(*) FROM consulting WHERE category_id < 100)*100 AS unlearned_p FROM consulting WHERE category_id < 100 GROUP BY consulting.ban_id;')
-                cur.execute(f'SELECT consulting.student_id, COUNT(*) AS unlearned FROM consulting WHERE category_id < 100 GROUP BY consulting.student_id;')
-                unlearned_count['status'] = 200
-                unlearned_count['data'] = cur.fetchall()
-        except Exception as e:
-            print(e)
-            unlearned_count['status'] = 401
-            unlearned_count['text'] = str(e)
-        finally:
-            db.close()
-        if unlearned_count['status'] != 401: 
-            if len(unlearned_count['data']) != 0:
-                # total_num = 0
-                # i=0
-                # if(len(unlearned_count['data']) < 5):
-                #     total_num = len(unlearned_count['data'])
-                # else:
-                #     total_num = 5
-                # unlearned_count['data'].sort(key=lambda x: (-x['unlearned']))
-                # for i in range(total_num):
-                #     target_ban = callapi.purple_info(unlearned_count['data'][i]['ban_id'],'get_ban')
-                #     unlearned_bans.append(target_ban)
-                for data in unlearned_count['data']:
-                    target_student = callapi.purple_info(data['student_id'],'get_student_info')
-                    if target_student:
-                        unlearned_students.append({'target_student': target_student,'unlearned_count':data})
-                return({'unlearned_students': unlearned_students})
-            else:                
-                return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
-        else:
-            return jsonify({'status': 400, 'text': '데이터가 없습니다.'})    
-    
+   
 @bp.route("/consulting_category", methods=['GET'])
 def get_all_consulting_category():
     if request.method == 'GET':
         consulting_category = []
-        
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                cur.execute(f"SELECT * FROM consultingcategory WHERE id > 100 && id != 110 && id != 111;")
-                consulting_category = cur.fetchall()
-
-        except:
-                print('err')
-        finally:
-                db.close()        
+        query = "SELECT * FROM consultingcategory WHERE id > 100"
+        consulting_category = common.db_connection.execute_query(query, )
         return jsonify({'consulting_category':consulting_category})
  
 @bp.route("/task_category", methods=['GET'])
 def get_all_task_category():
     if request.method == 'GET':
         task_category = []
-        
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                cur.execute(f"SELECT * FROM taskcategory;")
-                task_category = cur.fetchall()
-
-        except:
-                print('err')
-        finally:
-                db.close()        
+        query = "SELECT * FROM taskcategory;"
+        task_category = common.db_connection.execute_query(query, )
         return jsonify({'task_category':task_category})
 
-@bp.route('/get_consulting_history/<int:student_id>', methods=['GET'])
-def get_consulting_history(student_id):
-    if request.method == 'GET':
-        all_consulting = []
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                cur.execute("select consulting.id, consulting.ban_id, consulting.category_id, consulting.student_id, consulting.contents, consulting.week_code, consulting.done, consulting.category_id, date_format(consulting.startdate, '%Y-%m-%d') as startdate, date_format(consulting.deadline, '%Y-%m-%d') as deadline, consultingcategory.name from consulting left join consultingcategory on consultingcategory.id = consulting.category_id;")
-                all_consulting = cur.fetchall()
-        except Exception as e:
-            print(e)
-        finally:
-            db.close()
 
-        return json.dumps(all_consulting)
-
-@bp.route('/api/get_task', methods=['GET'])
-def get_task():
-    if request.method == 'GET':
-        all_task = []
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                cur.execute("select task.id, task.category_id, task.contents, task.url, task.attachments, date_format(task.startdate, '%Y-%m-%d') as startdate, date_format(task.deadline, '%Y-%m-%d') as deadline, task.priority, task.cycle, taskcategory.name from task left join taskcategory on task.category_id = taskcategory.id;")
-                all_task = cur.fetchall()
-        except Exception as e:
-            print(e)
-        finally:
-            db.close()
-
-        return json.dumps(all_task)
-
-# 오늘 해야할 업무의 반 이름들 
-@bp.route("/taskban/<int:task_id>", methods=['GET'])
-def taskban(task_id):
-    if request.method == 'GET':
-        tb = TaskBan.query.filter(TaskBan.task_id == task_id).all()
-        return json.dumps(tb)
-        # return jsonify({'target_taskban':tb})
-
-@bp.route('/api/delete_task/<int:id>', methods=['GET'])
+@bp.route('/api/delete_task/<int:id>', methods=['POST'])
 def delete_task(id):
     result = {}
-    if request.method == 'GET':
+    if request.method == 'POST':
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
@@ -489,10 +338,10 @@ def delete_task(id):
 
         return result
 
-@bp.route('/api/every_delete_tasks/<int:id>', methods=['GET'])
+@bp.route('/api/every_delete_tasks/<int:id>', methods=['POST'])
 def every_delete_tasks(id):
     result = {}
-    if request.method == 'GET':
+    if request.method == 'POST':
         db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
         try:
             with db.cursor() as cur:
@@ -509,25 +358,6 @@ def every_delete_tasks(id):
 
         return result
 
-@bp.route('/api/delete_tasks/<int:id>', methods=['GET'])
-def delete_tasks(id):
-    result = {}
-    if request.method == 'GET':
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                cur.execute(f'DELETE task, taskban FROM task LEFT JOIN taskban ON taskban.task_id = task.id WHERE task.id = %s;',(id,))
-                db.commit()
-                result['status'] = 200
-                result['text'] = id
-        except Exception as e:
-            print(e)
-            result['status'] = 401
-            result['text'] = str(e)
-        finally:
-            db.close()
-
-        return result
 # 업무 요청  
 @bp.route("/request_task", methods=['GET'])
 def request_task():
@@ -779,3 +609,68 @@ def get_select_student(b_id):
         return jsonify({'students': students})        
 
 
+# 후에 수정 
+# 미학습 
+@bp.route("/uldata", methods=['GET'])
+def uldata():
+    if request.method == 'GET':
+        target_students = callapi.purple_allinfo('get_all_student')
+        if target_students:
+            db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+            unlearned_count = {}
+            try:
+                with db.cursor() as cur:
+                    cur.execute(f'SELECT consulting.student_id, COUNT(*) AS unlearned FROM consulting WHERE category_id < 100 and consulting.startdate <= curdate() GROUP BY consulting.student_id;')
+                    unlearned_count['status'] = 200
+                    unlearned_count['data'] = cur.fetchall()
+
+            except Exception as e:
+                print(e)
+                unlearned_count['status'] = 401
+                unlearned_count['text'] = str(e)
+            finally:
+                db.close()
+            return jsonify({
+            'target_students': target_students,
+            'unlearned_count': unlearned_count
+            })
+        else:
+            return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
+    elif request.method == 'GET':
+        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+        unlearned_count = {}
+        unlearned_students = []
+        try:
+            with db.cursor() as cur:
+                # cur.execute(f'SELECT consulting.ban_id, COUNT(*) AS unlearned, COUNT(*) / (SELECT COUNT(*) FROM consulting WHERE category_id < 100)*100 AS unlearned_p FROM consulting WHERE category_id < 100 GROUP BY consulting.ban_id;')
+                cur.execute(f'SELECT consulting.student_id, COUNT(*) AS unlearned FROM consulting WHERE category_id < 100 GROUP BY consulting.student_id;')
+                unlearned_count['status'] = 200
+                unlearned_count['data'] = cur.fetchall()
+        except Exception as e:
+            print(e)
+            unlearned_count['status'] = 401
+            unlearned_count['text'] = str(e)
+        finally:
+            db.close()
+        if unlearned_count['status'] != 401: 
+            if len(unlearned_count['data']) != 0:
+                # total_num = 0
+                # i=0
+                # if(len(unlearned_count['data']) < 5):
+                #     total_num = len(unlearned_count['data'])
+                # else:
+                #     total_num = 5
+                # unlearned_count['data'].sort(key=lambda x: (-x['unlearned']))
+                # for i in range(total_num):
+                #     target_ban = callapi.purple_info(unlearned_count['data'][i]['ban_id'],'get_ban')
+                #     unlearned_bans.append(target_ban)
+                for data in unlearned_count['data']:
+                    target_student = callapi.purple_info(data['student_id'],'get_student_info')
+                    if target_student:
+                        unlearned_students.append({'target_student': target_student,'unlearned_count':data})
+                return({'unlearned_students': unlearned_students})
+            else:                
+                return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
+        else:
+            return jsonify({'status': 400, 'text': '데이터가 없습니다.'})    
+ 

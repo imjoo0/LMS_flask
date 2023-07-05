@@ -16,3 +16,11 @@ ALLOWED_EXTENSIONS = ["jpg", "png", "mov", "mp4", "mpg","pdf"]
 MAX_CONTENT_LENGTH = 1000 * 1024 * 1024  # 1000mb
 DEBUG = True
 
+# config.py
+
+class Config:
+    DB_HOST = '127.0.0.1'
+    DB_USER = 'purple'
+    DB_PASSWORD = 'wjdgus00'
+    DB_PORT = 3306
+    DB_DATABASE = 'LMS'

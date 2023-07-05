@@ -17,6 +17,8 @@ from flask import send_file
 from LMSapp.models import *
 from LMSapp.views import *
 from LMSapp import socketio
+
+db_connection = DBConnection()
 # 날짜 
 current_time = datetime.utcnow()
 

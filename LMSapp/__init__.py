@@ -15,8 +15,24 @@ csrf = CSRFProtect()
 db = SQLAlchemy()
 
 # 양방향 통신
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, disconnect 
+
+connected_clients = set()
 socketio = SocketIO()  # asyncio를 사용하기 위해 async_mode를 'asgi'로 설정
+
+@socketio.on('connection')
+def handle_connection():
+    client_socket_id = request.sid
+    if client_socket_id in connected_clients:
+        disconnect()  # 중복 연결이라면 연결 종료
+    else:
+        connected_clients.add(client_socket_id)
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    client_socket_id = request.sid
+    if client_socket_id in connected_clients:
+        connected_clients.remove(client_socket_id)
 
 # 스케줄러 생성
 from apscheduler.schedulers.background import BackgroundScheduler

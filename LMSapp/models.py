@@ -7,6 +7,9 @@ from sqlalchemy import create_engine
 import json
 import callapi
 import pandas as pd
+import pymysql
+from config import Config
+
 #  join 기능
 # from LMSapp import Base,Aession
 # from sqlalchemy import select , and_
@@ -223,6 +226,33 @@ class TakeOverUser(db.Model):
     takeover_id = db.Column(db.Integer,nullable=False)
     takeover_user = db.Column(db.String(50), nullable=False)
 
+
+class DBConnection:
+    _instance = None
+
+    def __new__(cls):
+        if not cls._instance:
+            cls._instance = super().__new__(cls)
+            cls._instance.connect()
+        return cls._instance
+
+    def connect(self):
+        self.db = pymysql.connect(
+            host=Config.DB_HOST,
+            user=Config.DB_USER,
+            password=Config.DB_PASSWORD,
+            port=Config.DB_PORT,
+            database=Config.DB_DATABASE,
+            cursorclass=pymysql.cursors.DictCursor
+        )
+
+    def execute_query(self, query, params=None):
+        with self.db.cursor() as cur:
+            # 쿼리 실행 및 결과 반환
+            cur.execute(query, params)
+            result = cur.fetchall()
+            return result
+            
 engine = create_engine('mysql+pymysql://jung:wjdgus00@192.168.6.3:3306/purple_learning_counseling')
 class IXL_DF(db.Model):
     __tablename__ = 'student_ixl_df'

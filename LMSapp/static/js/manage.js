@@ -34,6 +34,34 @@ async function get_all_taskcate() {
 }
 // 처음 get 할때 뿌려질 정보 보내는 함수 
 $(document).ready(async function () {
+    $('#maininloading').show()
+    $('#main').hide()
+    $('#inloading').show()
+    $('#semester_pagination').hide()
+    $('.nav-link').on('click', function () {
+        $('.nav-link').removeClass('active');
+        $(this).addClass('active');
+    })
+    var target = document.getElementById('request_consultingban_listbox');
+    let modalObserver = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+            if (mutation.target.style.cssText.includes('display: none;')){
+                $('#my_consulting_request .modal-dialog').addClass('modal-handling');
+                $('#my_consulting_request .modal-dialog').addClass('modal-xl');
+                $('#my_consulting_request .modal-dialog').removeClass('modal-lg');
+                $('#my_consulting_request .modal-dialog').attr('style','max-width:90%;');
+            } else {
+                $('#my_consulting_request .modal-dialog').removeClass('modal-handling');
+                $('#my_consulting_request .modal-dialog').removeClass('modal-xl');
+                $('#my_consulting_request .modal-dialog').addClass('modal-lg');
+                $('#my_consulting_request .modal-dialog').attr('style',null);
+            }
+        })
+    })
+    let config = {
+        attributes: true,
+    };
+    modalObserver.observe(target, config);
 })
 $(window).on('load', async function () {
     try {
@@ -52,30 +80,6 @@ $(window).on('load', async function () {
                 alert('Error occurred while retrieving data2.');
             }finally {
                 setIsFetching(false);
-                $('.nav-link').on('click', function () {
-                    $('.nav-link').removeClass('active');
-                    $(this).addClass('active');
-                })
-                var target = document.getElementById('request_consultingban_listbox');
-                let modalObserver = new MutationObserver(mutations => {
-                    mutations.forEach(mutation => {
-                        if (mutation.target.style.cssText.includes('display: none;')){
-                            $('#my_consulting_request .modal-dialog').addClass('modal-handling');
-                            $('#my_consulting_request .modal-dialog').addClass('modal-xl');
-                            $('#my_consulting_request .modal-dialog').removeClass('modal-lg');
-                            $('#my_consulting_request .modal-dialog').attr('style','max-width:90%;');
-                        } else {
-                            $('#my_consulting_request .modal-dialog').removeClass('modal-handling');
-                            $('#my_consulting_request .modal-dialog').removeClass('modal-xl');
-                            $('#my_consulting_request .modal-dialog').addClass('modal-lg');
-                            $('#my_consulting_request .modal-dialog').attr('style',null);
-                        }
-                    })
-                })
-                let config = {
-                    attributes: true,
-                };
-                modalObserver.observe(target, config);
             }
         }
     } catch (error) {
@@ -83,7 +87,1046 @@ $(window).on('load', async function () {
         alert(error)
     }
 });
+async function get_total_data() {
+    $('#maininloading').hide()
+    $('#main').show()
+    $('#semester').hide();
+    $('#detailban').show();
+    $('#questionbox').hide()
+    $('#ulbox').hide()
+    $('#target_ban_info_body').hide()
+    $('#inloading').hide();
+    $('#semester_pagination').show();
+    $('#target_ban_info_body').show();
+    try {
+        total_student_num = Number(banData[0].total_student_num)
+        // switchstudent_num = switchstudentData.length
+        // 학기 별 원생
+        onesemester = total_student_num != 0 ? banData.filter(e => e.semester == 1) : 0
+        fivesemester = total_student_num != 0 ? banData.filter(e => e.semester == 2) : 0
+        ninesemester = total_student_num != 0 ? banData.filter(e => e.semester == 0) : 0
 
+        // 학기별 원생수 및 퇴소 원생 수 
+        onesemester_total = onesemester[0].semester_student_num
+        oneoutnum = onesemester.reduce((acc, item) => acc + item.out_student_num, 0);
+        fivesemester_total = fivesemester[0].semester_student_num
+        fiveoutnum = fivesemester.reduce((acc, item) => acc + item.out_student_num, 0);
+
+        ninesemester_total = ninesemester[0].semester_student_num
+        nineoutnum = ninesemester.reduce((acc, item) => acc + item.out_student_num, 0);
+
+        let semester_student_table = `
+            <table>
+                <tr>
+                    <th class="need"></th>
+                    <th>초기 등록 원생 수</th>
+                    <th>현재 원생 수</th>
+                    <th>중도하차 원생 수 (하차율)</th>
+                    <th>학기 별 반 리스트</th>
+                </tr>
+                <tr>
+                    <th class="need">전체</th>
+                    <td>${total_student_num}명</td>
+                    <td>${total_student_num - totalOutnum}명</td>
+                    <td>${totalOutnum}명(${answer_rate(totalOutnum, total_student_num).toFixed(2)}%)</td>
+                    <td><span class='cursor-pointer fs-4' onclick="semesterShow(${3})">📜 </span>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="need">1월 학기</th>
+                    <td>${onesemester_total}명</td>
+                    <td>${onesemester_total - oneoutnum}명</td>
+                    <td>${oneoutnum}명(${answer_rate(oneoutnum, onesemester_total).toFixed(2)}%)</td>
+                    <td><span class='cursor-pointer fs-4' onclick="semesterShow(${1})">📜</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="need">5월 학기</th>
+                    <td>${fivesemester_total}명</td>
+                    <td>${fivesemester_total - fiveoutnum}명</td>
+                    <td>${fiveoutnum}명(${answer_rate(fiveoutnum, fivesemester_total).toFixed(2)}%)</td>
+                    <td><span class='cursor-pointer fs-4' onclick="semesterShow(${2})">📜</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>9월 학기</th>
+                    <td>${ninesemester_total}명</td>
+                    <td>${ninesemester_total - nineoutnum}명</td>
+                    <td>${nineoutnum}명(${answer_rate(nineoutnum, ninesemester_total).toFixed(2)}%)</td>
+                    <td><span class='cursor-pointer fs-4' onclick="semesterShow(${0})">📜</span>
+                    </td>
+                </tr>
+            </table>
+        `;
+        $('#semester-student-table').html(semester_student_table);
+
+        var chart = Chart.getChart('semester-student-chart')
+        if (chart) {
+            chart.destroy()
+        }
+        // PURPLE 섹션 차트 그리기
+        let ctx = document.getElementById('semester-student-chart').getContext('2d');
+        let semesterStudentChart = new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                labels: ['퍼플 총 원생', '1월 학기', '5월 학기', '9월 학기'],
+                datasets: [{
+                    type: 'bar',
+                    label: '원생 수',
+                    data: [total_student_num - totalOutnum, onesemester_total - oneoutnum, fivesemester_total - fiveoutnum, ninesemester_total - nineoutnum],
+                    backgroundColor: ['#F66F5B77', '#FFBCE277', '#FE85AB77', '#C24F7777'],
+                    borderColor: ['#F66F5B', '#FFBCE2', '#FE85AB', '#C24F77'],
+                    borderWidth: 2
+                }, {
+                    type: 'line',
+                    label: '퇴소 원생 수',
+                    data: [totalOutnum, oneoutnum, fiveoutnum, nineoutnum],
+                    fill: false,
+                    borderColor: '#F23966cc',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                maxBarThickness: 60,
+                interaction: {
+                    mode: 'index',
+                },
+                plugins: {
+                    tooltip: {
+                        padding: 10,
+                        bodySpacing: 5,
+                        bodyFont: {
+                            font: {
+                                family: "pretendard",
+                            }
+                        },
+                        usePointStyle: true,
+                        filter: (item) => item.parsed.y !== null,
+                        callbacks: {
+                            label: (context) => {
+                                return ' ' + context.parsed.y + '명';
+                            },
+                        },
+                    },
+                },
+                scales: {
+                    y: {
+                        afterDataLimits: (scale) => {
+                            scale.max = scale.max * 1.2;
+                        },
+                        axis: 'y',
+                        display: true,
+                        position: 'top',
+                        title: {
+                            display: true,
+                            align: 'end',
+                            color: '#2b2b2b',
+                            font: {
+                                size: 10,
+                                family: "pretendard",
+                                weight: 500,
+                            },
+                            text: '단위 : 명'
+                        }
+                    }
+                }
+            }
+        });
+        semesterShow(3);
+        
+    }catch (error) {
+        alert('Error occurred while retrieving data.');
+    }
+}
+function semesterShow(semester) {
+    $('#ban_search_input').off('keyup');
+    $('#semester').show();
+    if (semester == 0) {
+        $('.semester_s').html('9월 학기');
+        resultData = ninesemester;
+    } else if (semester == 1) {
+        $('.semester_s').html('1월 학기');
+        resultData = onesemester;
+    } else if (semester == 2) {
+        $('.semester_s').html('5월 학기');
+        resultData = fivesemester;
+    } else {
+        $('.semester_s').html('전체 반')
+        resultData = banData;
+    }
+    var temp_semester_banlist = '';
+    $.each(resultData, function (index, item) {
+        let teacher_name = item.teacher_engname + '( ' + item.teacher_name + ' )'
+        temp_semester_banlist += `
+        <td class="col-2">${item.name}</td>
+        <td class="col-2">${teacher_name}</td>
+        <td class="col-1">${item.student_num}</td>
+        <td class="col-1">${item.first_student_num}</td>
+        <td class="col-1">${item.out_student_num}(<strong>${item.out_num_per}%</strong>)</td>
+        <td class="col-1">${item.hold_student_num}</td>
+        <td class="col-2"> 총: ${item.total_out_num}명 ( 퇴소 : ${item.out_student_num} / 유보 : ${item.hold_student_num} )</td>
+        <td class="col-2"><strong>${item.total_out_num_per}%</strong></td>`
+    });
+    $('#for_print_semester_list').html(temp_semester_banlist)
+    ResultpaginationOptions = {
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 10,
+        pageClassName: 'float-end',
+        callback: function (data, pagination) {
+            var temp_semester_banlist = '';
+            $.each(data, function (index, item) {
+                let teacher_name = item.teacher_engname + '( ' + item.teacher_name + ' )'
+                temp_semester_banlist += `
+                <td class="col-2">${item.name}</td>
+                <td class="col-2">${teacher_name}</td>
+                <td class="col-1">${item.student_num}</td>
+                <td class="col-1">${item.first_student_num}</td>
+                <td class="col-1">${item.out_student_num}(<strong>${item.out_num_per}%</strong>)</td>
+                <td class="col-1">${item.hold_student_num}</td>
+                <td class="col-2"> 총: ${item.total_out_num}명 ( 퇴소 : ${item.out_student_num} / 유보 : ${item.hold_student_num} )</td>
+                <td class="col-1"><strong>${item.total_out_num_per}%</strong></td>
+                <td class="col-1" data-bs-toggle="modal" data-bs-target="#teacherinfo" onclick="get_ban_info(${item.teacher_id},${item.ban_id})"><span class="cursor-pointer">👉</span></td>;`;
+            });
+            $('#semester_banlist').html(temp_semester_banlist)
+        }
+    };
+    
+    SemesterContainer = $('#semester_pagination')
+    SemesterContainer.pagination(Object.assign(ResultpaginationOptions, { 'dataSource': resultData }))
+
+    $('#ban_search_input').on('keyup', function () {
+        var searchInput = $(this).val().toLowerCase();
+        var filteredData = resultData.filter(function (data) {
+            return (data.hasOwnProperty('name') && data.name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('teacher_name') && data.teacher_name.toLowerCase().indexOf(searchInput) !== -1) || (data.hasOwnProperty('teacher_engname') && data.teacher_engname.toLowerCase().indexOf(searchInput) !== -1);
+        });
+        SemesterContainer.pagination('destroy');
+        SemesterContainer.pagination(Object.assign(ResultpaginationOptions, { 'dataSource': filteredData }));
+    });
+}
+function sort_data(sort_op) {
+    switch (sort_op) {
+        case "ban_sort":
+            $('#ban_sort').html('<strong>반 ( 이름순 정렬👇 )</strong>')
+            $('#teacher_sort').html('선생님 ( 이름 순 정렬👉 )')
+            $('#unlearned_sort').html('배정 원생 수 ( 많은 순 정렬👉 )')
+            $('#tout_sort').html('반 퇴소율 ( 반 퇴소율 높은 순 정렬👉 )')
+            $('#out_sort').html('퇴소율 ( 높은 순 정렬👉 )')
+            resultData.sort(function (a, b) {
+                var nameA = a.name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+                var nameB = b.name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });
+            break;
+
+        case "teacher_sort":
+            $('#ban_sort').html('반 ( 이름순 정렬👉 )')
+            $('#teacher_sort').html('<strong>선생님 ( 이름 순 정렬👇 )</strong>')
+            $('#unlearned_sort').html('배정 원생 수 ( 많은 순 정렬👉 )')
+            $('#tout_sort').html('반 퇴소율 ( 반 퇴소율 높은 순 정렬👉 )')
+            $('#out_sort').html('퇴소율 ( 높은 순 정렬👉 )')
+            resultData.sort(function (a, b) {
+                var nameA = a.teacher_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+                var nameB = b.teacher_name.toUpperCase(); // 대소문자 구분 없이 비교하기 위해 대문자로 변환
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });
+            break;
+
+        case "unlearned_sort":
+            $('#ban_sort').html('반 ( 이름순 정렬👉 )')
+            $('#teacher_sort').html('선생님 ( 이름 순 정렬👉 )')
+            $('#unlearned_sort').html('<strong>관리 원생 수 ( 많은 순 정렬👇 )</strong>')
+            $('#tout_sort').html('반 퇴소율 ( 반 퇴소율 높은 순 정렬👉 )')
+            $('#out_sort').html('퇴소율 ( 높은 순 정렬👉 )')
+            resultData.sort(function (a, b) {
+                return b.student_num - a.student_num;
+            });
+            break;
+        case "tout_sort":
+            $('#ban_sort').html('반 ( 이름순 정렬👉 )')
+            $('#teacher_sort').html('선생님 ( 이름 순 정렬👉 )')
+            $('#unlearned_sort').html('배정 원생 수 ( 많은 순 정렬👉 )')
+            $('#tout_sort').html('<strong>반 퇴소율 ( 반 퇴소율 높은 순 정렬👇 )</strong>')
+            $('#out_sort').html('전체 퇴소율 ( 높은 순 정렬👉 )')
+            resultData.sort(function (a, b) {
+                return b.out_num_per - a.out_num_per;
+            });
+            break;
+        case "out_sort":
+            $('#ban_sort').html('반 ( 이름순 정렬👉 )')
+            $('#teacher_sort').html('선생님 ( 이름 순 정렬👉 )')
+            $('#unlearned_sort').html('배정 원생 수 ( 많은 순 정렬👉 )')
+            $('#tout_sort').html('반 퇴소율 ( 반 퇴소율 높은 순 정렬👉 )')
+            $('#out_sort').html('<strong>전체 퇴소율 ( 높은 순 정렬👇 )</strong>')
+            resultData.sort(function (a, b) {
+                return b.total_out_num_per - a.total_out_num_per;
+            });
+            break;
+    }
+
+    // 데이터 정렬 후 페이지네이션 다시 설정
+    SemesterContainer.pagination("destroy");
+    SemesterContainer.pagination(
+        Object.assign(ResultpaginationOptions, { dataSource: resultData })
+    );
+}
+function download_banlist() {
+    var con_val = confirm('반 리스트를 다운로드 하시겠습니까?');
+    if (con_val) {
+      // 테이블을 포함하는 HTML 요소 선택
+      var element = document.getElementById('for_print_semester');
+    //   element.style.display = 'block';
+      // html2pdf 옵션 설정
+      var options = {
+        margin: 10,
+        filename: 'semester_list.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+      };
+  
+      // HTML 요소를 PDF로 변환하여 다운로드
+      html2pdf().from(element).set(options).save();
+    //   element.style.display = 'none';
+    }
+}
+function download_excellist(type) {
+    let downloadData;
+    if (type == 0) {
+        downloadData = banData.slice();
+    } else if (semester == 1) {
+        downloadData = onesemester.slice();
+    } else if (semester == 5) {
+        downloadData = fivesemester.slice();
+    } else {
+        downloadData = ninesemester.slice();
+    }
+    var keysToRemove = ['ban_id', 'name_numeric','semester','semester_student_num','teacher_id','total_student_num','teacher_email','teacher_mobileno'];
+    downloadData = downloadData.map(function(item){
+        var filtered = Object.keys(item)
+        .filter(key => !keysToRemove.includes(key))
+        .reduce((obj, key) => {
+        obj[key] = item[key];
+            return obj;
+        }, {});
+        return filtered;
+    })
+    downloadData = downloadData.map(function(item){
+        return {
+            반이름 : item.name,
+            담임T : item.teacher_name +'( '+item.teacher_engname +' )' ,
+            퇴소인원: item.out_student_num,
+            최초배정원생수: item.student_num,
+            관리중원생수: item.first_student_num,
+            중도하차원생수: item.student_num,
+            유보중원생수: item.student_num,
+            총이탈원생수: item.total_out_num,
+            반하차율: item.out_num_per,
+            하차율: item.total_out_num_per
+        };
+    })
+    var workbook = XLSX.utils.book_new();
+    var worksheet = XLSX.utils.json_to_sheet(downloadData);
+
+    // 워크북에 워크시트 추가
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+    // 엑셀 파일로 변환
+    var excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+    // Blob 생성
+    var blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+    // 다운로드 링크 생성
+    var url = window.URL.createObjectURL(blob);
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = '반리스트.xlsx';
+    link.click();
+}   
+async function get_ban_info(t_id,b_id) {
+    $('.mo_inloading').show()
+    $('.monot_inloading').hide()
+    // 데이터 불러오기 
+    if(!consultingData){
+        consultingData = []
+        tempConsultingData = []
+        // 평균 api 호출 횟수 15번 
+        let consultingTeacherChunkWorker = new Worker("../static/js/consultings_teacher_worker.js");  
+        let teacher_id_history = t_id
+        function fetchData(t_id){
+            consultingTeacherChunkWorker.postMessage({t_id,teacher_id_history})
+        }
+        consultingTeacherChunkWorker.onmessage = function (event) {
+            if (consultingCount != undefined) {
+                consultingCount = event.data.total_count
+                consultingData = consultingData.concat(event.data.consulting);
+                return; // 조건을 만족하면 함수 종료
+            }
+            consultingCount = event.data.total_count
+            consultingData = event.data.consulting;
+            fetchData(0);
+            if(taskData){
+                if( (taskData.length < taskCount) && !(taskData.some(c=>c.teacher_id == t_id))){
+                    if ((temptaskData) && (temptaskData.some(c=>c.teacher_id == t_id))){
+                        return show_ban_report(t_id,b_id,consultingData,temptaskData)
+                    }else{
+                        let teacher_id_history = 0
+                        let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");   
+                        taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
+                        taskTeacherChunkWorker.onmessage = function (event) {
+                            temptaskData = temptaskData.concat(event.data.consulting);
+                            return show_ban_report(t_id,b_id,consultingData,temptaskData)
+                        };
+                    }
+                }else{
+                    show_ban_report(t_id,b_id,consultingData,taskData)   
+                }
+            }else{
+                taskData = []
+                temptaskData = []
+                let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");  
+                let teacher_id_history = t_id
+                function taskfetchData(t_id){
+                    taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
+                }
+                taskfetchData(t_id);
+                taskTeacherChunkWorker.onmessage = function (event){
+                    if (taskCount != undefined) {
+                        taskCount = event.data.total_count
+                        taskData = taskData.concat(event.data.task);
+                        return; // 조건을 만족하면 함수 종료
+                    }
+                    taskCount = event.data.total_count
+                    taskData = event.data.task;
+                    taskfetchData(0);
+                    show_ban_report(t_id,b_id,consultingData,taskData)
+                }
+            }
+        };
+        fetchData(t_id);
+    }else{
+        if( (consultingData.length < consultingCount) && !(consultingData.some(c=>c.teacher_id == t_id))){
+            if ((tempConsultingData) && (tempConsultingData.some(c=>c.teacher_id == t_id))){
+                if(taskData){
+                    if( (taskData.length < taskCount) && !(taskData.some(c=>c.teacher_id == t_id))){
+                        if ((temptaskData) && (temptaskData.some(c=>c.teacher_id == t_id))){
+                            return show_ban_report(t_id,b_id,tempConsultingData,temptaskData)
+                        }else{
+                            let teacher_id_history = 0
+                            let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");   
+                            taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
+                            taskTeacherChunkWorker.onmessage = function (event) {
+                                temptaskData = temptaskData.concat(event.data.consulting);
+                                return show_ban_report(t_id,b_id,tempConsultingData,temptaskData)
+                            };
+                        }
+                    }else{
+                        show_ban_report(t_id,b_id,tempConsultingData,taskData)   
+                    }
+                    // show_ban_report(t_id,b_id,consultingData)
+                }else{
+                    taskData = []
+                    temptaskData = []
+                    let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");  
+                    let teacher_id_history = t_id
+                    function taskfetchData(t_id){
+                        taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
+                    }
+                    taskfetchData(t_id);
+                    taskTeacherChunkWorker.onmessage = function (event){
+                        if (taskCount != undefined) {
+                            taskCount = event.data.total_count
+                            taskData = taskData.concat(event.data.task);
+                            return; // 조건을 만족하면 함수 종료
+                        }
+                        taskCount = event.data.total_count
+                        taskData = event.data.task;
+                        taskfetchData(0);
+                        show_ban_report(t_id,b_id,tempConsultingData,taskData)
+                    }
+                }
+            }else{
+                let teacher_id_history = 0
+                let consultingTeacherChunkWorker = new Worker("../static/js/consultings_teacher_worker.js");  
+                consultingTeacherChunkWorker.postMessage({t_id,teacher_id_history})
+                consultingTeacherChunkWorker.onmessage = function (event) {
+                    tempConsultingData = tempConsultingData.concat(event.data.consulting);
+                    // return show_ban_report(t_id,b_id,tempConsultingData)
+                    if(taskData){
+                        if( (taskData.length < taskCount) && !(taskData.some(c=>c.teacher_id == t_id))){
+                            if ((temptaskData) && (temptaskData.some(c=>c.teacher_id == t_id))){
+                                return show_ban_report(t_id,b_id,tempConsultingData,temptaskData)
+                            }else{
+                                let teacher_id_history = 0
+                                let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");   
+                                taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
+                                taskTeacherChunkWorker.onmessage = function (event) {
+                                    temptaskData = temptaskData.concat(event.data.consulting);
+                                    return show_ban_report(t_id,b_id,tempConsultingData,temptaskData)
+                                };
+                            }
+                        }else{
+                            show_ban_report(t_id,b_id,tempConsultingData,taskData)   
+                        }
+                    }else{
+                        taskData = []
+                        temptaskData = []
+                        let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");  
+                        let teacher_id_history = t_id
+                        function taskfetchData(t_id){
+                            taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
+                        }
+                        taskfetchData(t_id);
+                        taskTeacherChunkWorker.onmessage = function (event){
+                            if (taskCount != undefined) {
+                                taskCount = event.data.total_count
+                                taskData = taskData.concat(event.data.task);
+                                return; // 조건을 만족하면 함수 종료
+                            }
+                            taskCount = event.data.total_count
+                            taskData = event.data.task;
+                            taskfetchData(0);
+                            show_ban_report(t_id,b_id,tempConsultingData,taskData)
+                        }
+                    }
+                };
+            }
+        }else{
+            if(taskData){
+                if( (taskData.length < taskCount) && !(taskData.some(c=>c.teacher_id == t_id))){
+                    if ((temptaskData) && (temptaskData.some(c=>c.teacher_id == t_id))){
+                        return show_ban_report(t_id,b_id,consultingData,temptaskData)
+                    }else{
+                        let teacher_id_history = 0
+                        let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");   
+                        taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
+                        taskTeacherChunkWorker.onmessage = function (event) {
+                            temptaskData = temptaskData.concat(event.data.consulting);
+                            return show_ban_report(t_id,b_id,consultingData,temptaskData)
+                        };
+                    }
+                }else{
+                    show_ban_report(t_id,b_id,consultingData,taskData)   
+                }
+            }else{
+                taskData = []
+                temptaskData = []
+                let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");  
+                let teacher_id_history = t_id
+                function taskfetchData(t_id){
+                    taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
+                }
+                taskfetchData(t_id);
+                taskTeacherChunkWorker.onmessage = function (event){
+                    if (taskCount != undefined) {
+                        taskCount = event.data.total_count
+                        taskData = taskData.concat(event.data.task);
+                        return; // 조건을 만족하면 함수 종료
+                    }
+                    taskCount = event.data.total_count
+                    taskData = event.data.task;
+                    taskfetchData(0);
+                    show_ban_report(t_id,b_id,consultingData,taskData)
+                }
+            }
+        }
+    }
+}
+async function show_ban_report(t_id,b_id,target_consultingdata,target_taskdata){
+    $('#report_type').val(0);  // 선택된 값이 0으로 변경됨
+    $('#class_list').hide()
+    let copy_data = target_consultingdata.slice();
+    let copy_taskdata = target_taskdata.slice();
+    if (Chart.getChart('total-chart-element-studentnum')) {
+        Chart.getChart('total-chart-element-studentnum').destroy()
+    }
+    if (Chart.getChart('total-chart-element-unlearnednum')) {
+        Chart.getChart('total-chart-element-unlearnednum').destroy()
+    }
+    let info = banData.filter(b => b.ban_id == b_id)[0]
+    // 예외처리 
+    if (!info){
+        let no_data_title = `<h1> ${response.text} </h1>`
+        $('#teacherModalLabel').html(no_data_title);
+        alert('반 정보가 없습니다')
+        return
+    }
+    // 리포트 타입에 따라 화면 변화 
+    $('#report_type').change(function() {
+        selectedValue = $(this).val();
+        if(selectedValue == 0){
+            return show_ban_report(t_id,b_id,target_consultingdata,target_taskdata)
+        }else{
+            return show_teacher_report(t_id,b_id,target_consultingdata,target_taskdata)
+        }
+    });
+    $('.mo_inloading').hide()
+    $('.monot_inloading').show()
+    // 각 태그 이름 바꾸기 
+    $('#teachertitle').html(`${info.name}  Class  Report`)
+    $('#ban_nametag').html(`<span>${info.name} - ${info.teacher_engname}(${info.teacher_name}) 선생님</span>`)
+    $('#teacher_infobox').html('Class Manage')
+    // $('#ban_nametag').html(`<span>${info.teacher_engname}(${info.teacher_name}) 📞 ${info.teacher_mobileno} ✉️ ${info.teacher_email}`) </span>
+
+
+    let temp_info_student_num = `
+        <span>  관리중:${info.first_student_num}</span><br>
+        <span>* 유보:${info.hold_student_num}</span><br>
+        <span>* 중도하차:${info.out_student_num}</span>
+    `
+    $('#teacher_info_student_num').html(temp_info_student_num)
+    
+
+    let ctx = document.getElementById('total-chart-element-studentnum').getContext('2d');
+    if(info.first_student_num == 0){
+        let BanChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['관리중인 원생이 없습니다'],
+                datasets: [
+                    {
+                        data: [100],
+                        backgroundColor: ['#F5EFE7'],
+                        hoverOffset: 1,
+                    },
+                ],
+            },
+            options: {
+                maintainAspectRatio: false,
+                aspectRatio: 1,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+                responsive: true,
+                width: 500,
+                height: 500,
+            },
+        })
+    }else{
+        let BanChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['관리중', '유보', '중도하차'],
+                datasets: [
+                    {
+                        data: [info.first_student_num, info.hold_student_num, info.out_student_num],
+                        backgroundColor: ['#3C486B', '#F9D949', '#F45050'],
+                        hoverOffset: 3,
+                    },
+                ],
+            },
+            options: {
+                maintainAspectRatio: false,
+                aspectRatio: 1,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+                responsive: true,
+                width: 500,
+                height: 500,
+            },
+        })
+    }
+    
+    let banconsultingData = copy_data.filter(c => c.ban_id == b_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
+    // let banconsultaskData = banconsultingData.filter(c =>  c.category_id > 100)
+    let banunlearnedData = banconsultingData.filter(c => c.category_id < 100)
+    let unlearned_ttc = null
+    unlearned_ttc = banunlearnedData.length
+    //
+    let temp_info_ulearned_num = `<span>미학습:${unlearned_ttc}</span><br>`
+    if(unlearned_ttc == 0){
+        let ctx_u = document.getElementById('total-chart-element-unlearnednum').getContext('2d');
+        let UnlearnedChart = new Chart(ctx_u, {
+            type: 'doughnut',
+            data: {
+                labels: ['미학습 발생이 없습니다'],
+                datasets: [
+                    {
+                        data: [100],
+                        backgroundColor: ['#C2DEDC'],
+                        hoverOffset: 1,
+                    },
+                ],
+            },
+            options: {
+                maintainAspectRatio: false,
+                aspectRatio: 1,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+                responsive: true,
+                width: 500,
+                height: 500,
+            },
+        })
+    }else{
+        let data_array = []
+        let unlearned_cate = [...new Set(banunlearnedData.map(item => item.category))];
+        unlearned_cate.forEach((category) => {
+            let num = banunlearnedData.filter(u => u.category == category).length
+            temp_info_ulearned_num += `<span>* ${category} : ${num} 건</span><br>`
+            data_array.push(num)
+        })
+    
+        let ctx_u = document.getElementById('total-chart-element-unlearnednum').getContext('2d');
+        let UnlearnedChart = new Chart(ctx_u, {
+            type: 'doughnut',
+            data: {
+                labels: unlearned_cate,
+                datasets: [
+                    {
+                        data: data_array,
+                        backgroundColor: ['#89375F', '#BA90C6', '#BACDDB', '#E8A0BF', '#F3E8FF', '#CE5959'],
+                        hoverOffset: unlearned_cate.length,
+                    },
+                ],
+            },
+            options: {
+                maintainAspectRatio: false,
+                aspectRatio: 1,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+                responsive: true,
+                width: 500,
+                height: 500,
+            },
+        })
+    } 
+    
+    $('#teacher_info_unlearned_num').html(temp_info_ulearned_num)
+    
+    let banconsulting_num = null 
+    banconsulting_num = banconsultingData.length
+    if(banconsulting_num == 0){
+        $('#consulting_chart').html(`<td class="col-4">진행할 상담이 없었습니다</td><td class="col-4">➖</td><td class="col-4" style="color:red">➖</td>`)
+    }else{
+        let ttd = null
+        ttd = banconsulting_num != 0 ? banconsultingData.filter(c => c.done == 1).length : 0
+        $('#consulting_chart').html(`<td class="col-4">${ttd} / ${banconsulting_num}건</td><td class="col-4">${answer_rate(ttd, banconsulting_num).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(banconsultingData.filter(c => c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
+    }
+    // 업무 데이터
+    const chunkedTaskData = copy_taskdata.filter(t=>t.ban_id == b_id)
+    let TtasktodayData = null
+    TtasktodayData = chunkedTaskData.filter(t => (new Date(t.startdate).setHours(0, 0, 0, 0) <= today && today < new Date(t.deadline).setHours(0, 0, 0, 0)) && ((t.cycle == 0 && t.created_at == null) || (t.cycle == 0 && new Date(t.created_at).setHours(0, 0, 0, 0) == today) || (t.cycle == todayyoil)))
+    let today_done = null
+    today_done = TtasktodayData.filter(t => t.done == 1).length
+    let Ttaskhisory = null
+    Ttaskhisory = chunkedTaskData.filter(t => new Date(t.deadline).setHours(0, 0, 0, 0) < today)
+    let history_done = null
+    history_done = Ttaskhisory.filter(t => t.done == 1).length
+    $('#task_chart').html(`<td class="col-4">${today_done}/${TtasktodayData.length}건</td><td class="col-4">${answer_rate(today_done, TtasktodayData.length).toFixed(0)}%</td><td class="col-4">${answer_rate(history_done, Ttaskhisory.length).toFixed(0)}%</td>`);
+
+    // student data 
+    let target_students = studentsData.slice();
+    const chunkedStudentData = target_students.filter(s=>s.ban_id == b_id)
+    
+    // const Tstudent = chunkedStudentData
+
+    $('#displayCount').html(`관리 중인 원생 수: ${chunkedStudentData.length}명`)
+    chunkedStudentData.forEach((elem) => {
+        elem.unlearned = banunlearnedData.filter(a => a.student_id == elem.student_id).length
+        elem.up = answer_rate(elem.unlearned, banunlearnedData.length).toFixed(0)
+    });
+    var paginationOptions = {
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 10,
+        pageClassName: 'float-end',
+        callback: function (data, pagination) {
+            let chartHtml = "";
+            $.each(data, function (index, item) {
+                chartHtml += `
+                <td class="col-3">${item.student_name}( ${item.student_engname} )</td>
+                <td class="col-2">${item.origin}</td>
+                <td class="col-3">${item.smobileno}</td>
+                <td class="col-3">${item.unlearned}건 ( ${item.up}% ) </td>
+                <td class="col-1" custom-control custom-control-inline custom-checkbox data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${item.student_id})">📝</td>`;
+            });
+            $("#s_data").html(chartHtml);
+        }
+    };
+    var StudentContainer = $('#pagingul')
+    StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': chunkedStudentData }))
+
+}
+async function show_teacher_report(t_id,b_id,target_data){
+    let copy_data = target_data.slice();
+    $('#report_type').val(1);  // 선택된 값이 0으로 변경됨
+
+    if (Chart.getChart('total-chart-element-studentnum')) {
+        Chart.getChart('total-chart-element-studentnum').destroy()
+    }
+    if (Chart.getChart('total-chart-element-unlearnednum')) {
+        Chart.getChart('total-chart-element-unlearnednum').destroy()
+    }
+    let info = banData.filter(t => t.teacher_id == t_id)
+    if (!info){
+        let no_data_title = `<h1> ${response.text} </h1>`
+        $('#teacherModalLabel').html(no_data_title);
+        alert('반 정보가 없습니다')
+        return
+    }
+    // 리포트 타입에 따라 화면 변화 
+    $('#report_type').change(function() {
+        selectedValue = $(this).val();
+        if(selectedValue == 0){
+            return show_ban_report(t_id,b_id,target_data)
+        }else{
+            return show_teacher_report(t_id,b_id,target_data)
+        }
+    });
+    $('.mo_inloading').hide()
+    $('.monot_inloading').show()
+    $('#class_list').show()
+    // 각 태그 이름 바꾸기 
+    $('#teachertitle').html(`${info[0].teacher_engname}(${info[0].teacher_name})  Teacher  Report`)
+    $('#ban_nametag').html(`<span>${info[0].teacher_engname}(${info[0].teacher_name}) 📞 ${info[0].teacher_mobileno} ✉️ ${info[0].teacher_email}) </span>`)
+    $('#teacher_infobox').html('Teacher Manage')
+
+    let TconsultingData = copy_data.filter(c => c.teacher_id == t_id && new Date(c.startdate).setHours(0, 0, 0, 0) <= today)
+    // let TconsultaskData = TconsultingData.filter(c =>  c.category_id > 100)
+    let TunlearnedData = TconsultingData.filter(c => c.category_id < 100)
+    let unlearned_ttc = null
+    unlearned_ttc = TunlearnedData.length
+
+    let temp_baninfo = `<tr class="row">
+    <th class="col-2">반이름</th>
+    <th class="col-1">학기</th>
+    <th class="col-1">원생 수</th>
+    <th class="col-2">중도하차</th>
+    <th class="col-2">하차율</th>
+    <th class="col-1">유보</th>
+    <th class="col-2">미학습</th>
+    <th class="col-1">상세보기</th>
+    </tr>`;
+    let total_student_num = 0
+    // let now_student_num = 0
+    let os = 0
+    let hs = 0
+    info.forEach(ban_data => {
+        total_student_num += ban_data.first_student_num
+        os += ban_data.out_student_num
+        hs += ban_data.hold_student_num
+        unlearned = unlearned_ttc != 0 ? TunlearnedData.filter(c => c.ban_id == ban_data.ban_id).length : 0
+        temp_baninfo += `
+        <tr class="row">
+            <td class="col-2">${ban_data.name}</td>
+            <td class="col-1">${make_semester(ban_data.semester)}학기</td>
+            <td class="col-1">${ban_data.first_student_num}명</td>
+            <td class="col-2">${ban_data.out_student_num}건</td>
+            <td class="col-2"><strong>${ban_data.out_num_per}%</strong></td>
+            <td class="col-1">${ban_data.hold_student_num}</td>
+            <td class="col-2">${unlearned}건</td>
+            <td class="col-1" onclick="get_ban_info(${ban_data.teacher_id},${ban_data.ban_id})"><span class="cursor-pointer">👉</span></td>
+        </tr>
+        `;
+    });
+    $('#mybaninfo').html(temp_baninfo);
+
+    let temp_teacher_info_student_num = `
+        <span>  관리중:${total_student_num}</span><br>
+        <span>* 유보:${hs}</span><br>
+        <span>* 중도하차:${os}</span>
+    `
+    $('#teacher_info_student_num').html(temp_teacher_info_student_num)
+    let ctx = document.getElementById('total-chart-element-studentnum').getContext('2d');
+    if(total_student_num == 0){
+        let BanChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['관리중인 원생이 없습니다'],
+                datasets: [
+                    {
+                        data: [100],
+                        backgroundColor: ['#F5EFE7'],
+                        hoverOffset: 1,
+                    },
+                ],
+            },
+            options: {
+                maintainAspectRatio: false,
+                aspectRatio: 1,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+                responsive: true,
+                width: 500,
+                height: 500,
+            },
+        })
+    }else{
+        let BanChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['관리중', '유보', '중도하차'],
+                datasets: [
+                    {
+                        data: [total_student_num, hs, os],
+                        backgroundColor: ['#3C486B', '#F9D949', '#F45050'],
+                        hoverOffset: 3,
+                    },
+                ],
+            },
+            options: {
+                maintainAspectRatio: false,
+                aspectRatio: 1,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+                responsive: true,
+                width: 500,
+                height: 500,
+            },
+        })
+    }
+
+
+    let temp_info_ulearned_num = `<span>미학습:${unlearned_ttc}</span><br>`
+    if(unlearned_ttc == 0){
+        let ctx_u = document.getElementById('total-chart-element-unlearnednum').getContext('2d');
+        let UnlearnedChart = new Chart(ctx_u, {
+            type: 'doughnut',
+            data: {
+                labels: ['미학습 발생이 없습니다'],
+                datasets: [
+                    {
+                        data: [100],
+                        backgroundColor: ['#C2DEDC'],
+                        hoverOffset: 1,
+                    },
+                ],
+            },
+            options: {
+                maintainAspectRatio: false,
+                aspectRatio: 1,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+                responsive: true,
+                width: 500,
+                height: 500,
+            },
+        })
+    }else{
+        let data_array = []
+        let unlearned_cate = [...new Set(TunlearnedData.map(item => item.category))];
+        unlearned_cate.forEach((category) => {
+            let num = TunlearnedData.filter(u => u.category == category).length
+            temp_info_ulearned_num += `<span>* ${category} : ${num} 건</span><br>`
+            data_array.push(num)
+        })
+    
+        let ctx_u = document.getElementById('total-chart-element-unlearnednum').getContext('2d');
+        let UnlearnedChart = new Chart(ctx_u, {
+            type: 'doughnut',
+            data: {
+                labels: unlearned_cate,
+                datasets: [
+                    {
+                        data: data_array,
+                        backgroundColor: ['#89375F', '#BA90C6', '#BACDDB', '#E8A0BF', '#F3E8FF', '#CE5959'],
+                        hoverOffset: unlearned_cate.length,
+                    },
+                ],
+            },
+            options: {
+                maintainAspectRatio: false,
+                aspectRatio: 1,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+                responsive: true,
+                width: 500,
+                height: 500,
+            },
+        })
+    } 
+    
+    $('#teacher_info_unlearned_num').html(temp_info_ulearned_num)
+    let tconsulting_num = null 
+    tconsulting_num = TconsultingData.length
+    if(tconsulting_num == 0){
+        $('#consulting_chart').html(`<td class="col-4">진행할 상담이 없었습니다</td><td class="col-4">➖</td><td class="col-4" style="color:red">➖</td>`)
+    }else{
+        let ttd = null
+        ttd = tconsulting_num != 0 ? TconsultingData.filter(c => c.done == 1).length : 0
+        $('#consulting_chart').html(`<td class="col-4">${ttd} / ${tconsulting_num}건</td><td class="col-4">${answer_rate(ttd, tconsulting_num).toFixed(0)}%</td><td class="col-4" style="color:red">${make_nodata(TconsultingData.filter(c => c.done == 0 && new Date(c.deadline).setHours(0, 0, 0, 0) < today).length)}</td>`)
+    }
+    const chunkedTaskData = taskData.filter(t=>t.teacher_id == t_id)
+    
+    let TtasktodayData = null
+    TtasktodayData = chunkedTaskData.filter(t => (new Date(t.startdate).setHours(0, 0, 0, 0) <= today && today < new Date(t.deadline).setHours(0, 0, 0, 0)) && ((t.cycle == 0 && t.created_at == null) || (t.cycle == 0 && new Date(t.created_at).setHours(0, 0, 0, 0) == today) || (t.cycle == todayyoil)))
+    let today_done = null
+    today_done = TtasktodayData.filter(t => t.done == 1).length
+    let Ttaskhisory = null
+    Ttaskhisory = chunkedTaskData.filter(t => new Date(t.deadline).setHours(0, 0, 0, 0) < today)
+    let history_done = null
+    history_done = Ttaskhisory.filter(t => t.done == 1).length
+    $('#task_chart').html(`<td class="col-4">${today_done}/${TtasktodayData.length}건</td><td class="col-4">${answer_rate(today_done, TtasktodayData.length).toFixed(0)}%</td><td class="col-4">${answer_rate(history_done, Ttaskhisory.length).toFixed(0)}%</td>`);
+
+    // student data 
+    let chunkedStudentData = studentsData.filter(s=>s.teacher_id == t_id && s.category_id == 1)
+    
+    // const Tstudent = chunkedStudentData
+
+    $('#displayCount').html(`관리 중인 원생 수: ${chunkedStudentData.length}명`)
+    chunkedStudentData.forEach((elem) => {
+        elem.unlearned = TunlearnedData.filter(a => a.student_id == elem.student_id).length
+        elem.up = answer_rate(elem.unlearned, TunlearnedData.length).toFixed(0)
+    });
+    var paginationOptions = {
+        prevText: '이전',
+        nextText: '다음',
+        pageSize: 10,
+        pageClassName: 'float-end',
+        callback: function (data, pagination) {
+            let chartHtml = "";
+            $.each(data, function (index, item) {
+                chartHtml += `
+                <td class="col-3">${item.student_name}( ${item.student_engname} )</td>
+                <td class="col-2">${item.origin}</td>
+                <td class="col-3">${item.smobileno}</td>
+                <td class="col-3">${item.unlearned}건 ( ${item.up}% ) </td>
+                <td class="col-1" custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${item.student_id})">📝</td>`;
+            });
+            $("#s_data").html(chartHtml);
+        }
+    };
+    var StudentContainer = $('#pagingul')
+    StudentContainer.pagination(Object.assign(paginationOptions, { 'dataSource': chunkedStudentData }))
+
+}
 // socket
 function connectSocket(){
     var question_socket = io('/question');
@@ -255,6 +1298,8 @@ function main_view() {
     $('#detailban').show()
 }
 async function show_modal(q_id){
+    $('#maininloading').hide()
+    $('#main').show()
     const response = await $.ajax({
         url: `modal_question/${q_id}`,
         type: 'GET',
@@ -1969,7 +3014,7 @@ async function delete_task(idx) {
     if (con_val == true) {
         await $.ajax({
             url: '/manage/api/delete_task/' + idx,
-            type: 'get',
+            type: 'POST',
             headers: { 'content-type': 'application/json' },
             data: {},
             success: function (data) {
@@ -1993,7 +3038,7 @@ async function delete_tasks(idx) {
     if (con_val == true) {
         await $.ajax({
             url: '/manage/api/every_delete_tasks/' + idx,
-            type: 'get',
+            type: 'POST',
             headers: { 'content-type': 'application/json' },
             data: {},
             success: function (data) {
