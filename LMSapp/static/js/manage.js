@@ -1140,7 +1140,7 @@ function connectSocket(){
                 dataType: 'json',
                 data: {},
             });
-            await handle_new_question(response);
+            handle_new_question(response);
         } catch (error) {
             console.log('Error occurred while handling new question:', error);
         }
@@ -1164,6 +1164,8 @@ function connectSocket(){
 async function handle_new_question(response){
     let target_question = response.target_question['question']
     let target_attach = response.target_question['attach']
+    console.log(target_question)
+    console.log(target_attach)
     const ban = banMap.get(target_question[0].ban_id);
     const student = studentMap.get(target_question[0].student_id);
     target_question[0].origin = student ? student.origin : '원생 정보 없음';
@@ -1520,7 +1522,6 @@ async function get_question_detail(q_id){
         if(attach != undefined){
             question_detail_data.question_attach = attach.filter(a=>a.is_answer == 0)
             question_detail_data.answer_attach = attach.filter(a=>a.is_answer != 0)
-            question_detail_data.contents = question_detail_data.contents.replace(/\n/g, '</br>')
         }
     }
     show_question_detail(q_id,question_detail_data)
@@ -1530,7 +1531,8 @@ async function show_question_detail(q_id,question_detail_data){
     if(question_detail_data == 0 || question_detail_data == '0'){
         question_detail_data = questionData.filter(q=>q.id == q_id)[0]
     }
-    console.log(question_detail_data)
+    $('#consulting_history_attach').hide()
+    $('#manage_answer').hide()
     $("#soanswer").modal("show");
     $('#teacher_answer').empty();
     $('#answer_contents').empty();

@@ -363,16 +363,8 @@ def every_delete_tasks(id):
 def request_task():
     if request.method == 'GET':
         all_task_category = []
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                cur.execute("select taskcategory.id, taskcategory.name from taskcategory;")
-                all_task_category = cur.fetchall()
-        except Exception as e:
-            print(e)
-        finally:
-            db.close()
-
+        query = "select taskcategory.id, taskcategory.name from taskcategory;"
+        all_task_category = common.db_connection.execute_query(query, )
         return jsonify({'all_task_category':all_task_category})
 
 # 요청 업무 저장 
@@ -459,16 +451,8 @@ def make_task(b_type):
 def request_consulting():
     if request.method == 'GET':
         all_consulting_category = []
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        try:
-            with db.cursor() as cur:
-                cur.execute("select consultingcategory.id, consultingcategory.name from consultingcategory where consultingcategory.id > 100 and consultingcategory.id != 110;")
-                all_consulting_category = cur.fetchall()
-        except Exception as e:
-            print(e)
-        finally:
-            db.close()
-
+        query = "select consultingcategory.id, consultingcategory.name from consultingcategory where consultingcategory.id > 100;"
+        all_consulting_category = common.db_connection.execute_query(query, )
         return jsonify({'all_consulting_category':all_consulting_category})
     
 # 전체 반 원생 상담 요청 저장
@@ -602,12 +586,6 @@ def request_all_ban(b_type):
         
         return jsonify({'result':'success'})    
 
-@bp.route("/ban_student/<int:b_id>", methods=['GET'])
-def get_select_student(b_id):
-    if request.method == 'GET':
-        students = callapi.purple_info(b_id,'get_students')
-        return jsonify({'students': students})        
-
 
 # 후에 수정 
 # 미학습 
@@ -616,61 +594,51 @@ def uldata():
     if request.method == 'GET':
         target_students = callapi.purple_allinfo('get_all_student')
         if target_students:
-            db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
             unlearned_count = {}
-            try:
-                with db.cursor() as cur:
-                    cur.execute(f'SELECT consulting.student_id, COUNT(*) AS unlearned FROM consulting WHERE category_id < 100 and consulting.startdate <= curdate() GROUP BY consulting.student_id;')
-                    unlearned_count['status'] = 200
-                    unlearned_count['data'] = cur.fetchall()
-
-            except Exception as e:
-                print(e)
-                unlearned_count['status'] = 401
-                unlearned_count['text'] = str(e)
-            finally:
-                db.close()
+            query = 'SELECT consulting.student_id, COUNT(*) AS unlearned FROM consulting WHERE category_id < 100 and consulting.startdate <= curdate() GROUP BY consulting.student_id;'
+            unlearned_count['status'] = 200
+            unlearned_count['data'] = common.db_connection.execute_query(query, )
             return jsonify({
             'target_students': target_students,
             'unlearned_count': unlearned_count
             })
         else:
             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
-    elif request.method == 'GET':
-        db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
-        unlearned_count = {}
-        unlearned_students = []
-        try:
-            with db.cursor() as cur:
-                # cur.execute(f'SELECT consulting.ban_id, COUNT(*) AS unlearned, COUNT(*) / (SELECT COUNT(*) FROM consulting WHERE category_id < 100)*100 AS unlearned_p FROM consulting WHERE category_id < 100 GROUP BY consulting.ban_id;')
-                cur.execute(f'SELECT consulting.student_id, COUNT(*) AS unlearned FROM consulting WHERE category_id < 100 GROUP BY consulting.student_id;')
-                unlearned_count['status'] = 200
-                unlearned_count['data'] = cur.fetchall()
-        except Exception as e:
-            print(e)
-            unlearned_count['status'] = 401
-            unlearned_count['text'] = str(e)
-        finally:
-            db.close()
-        if unlearned_count['status'] != 401: 
-            if len(unlearned_count['data']) != 0:
-                # total_num = 0
-                # i=0
-                # if(len(unlearned_count['data']) < 5):
-                #     total_num = len(unlearned_count['data'])
-                # else:
-                #     total_num = 5
-                # unlearned_count['data'].sort(key=lambda x: (-x['unlearned']))
-                # for i in range(total_num):
-                #     target_ban = callapi.purple_info(unlearned_count['data'][i]['ban_id'],'get_ban')
-                #     unlearned_bans.append(target_ban)
-                for data in unlearned_count['data']:
-                    target_student = callapi.purple_info(data['student_id'],'get_student_info')
-                    if target_student:
-                        unlearned_students.append({'target_student': target_student,'unlearned_count':data})
-                return({'unlearned_students': unlearned_students})
-            else:                
-                return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
-        else:
-            return jsonify({'status': 400, 'text': '데이터가 없습니다.'})    
+    # elif request.method == 'GET':
+    #     db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00', port=3306, database='LMS',cursorclass=pymysql.cursors.DictCursor)
+    #     unlearned_count = {}
+    #     unlearned_students = []
+    #     try:
+    #         with db.cursor() as cur:
+    #             # cur.execute(f'SELECT consulting.ban_id, COUNT(*) AS unlearned, COUNT(*) / (SELECT COUNT(*) FROM consulting WHERE category_id < 100)*100 AS unlearned_p FROM consulting WHERE category_id < 100 GROUP BY consulting.ban_id;')
+    #             cur.execute(f'SELECT consulting.student_id, COUNT(*) AS unlearned FROM consulting WHERE category_id < 100 GROUP BY consulting.student_id;')
+    #             unlearned_count['status'] = 200
+    #             unlearned_count['data'] = cur.fetchall()
+    #     except Exception as e:
+    #         print(e)
+    #         unlearned_count['status'] = 401
+    #         unlearned_count['text'] = str(e)
+    #     finally:
+    #         db.close()
+    #     if unlearned_count['status'] != 401: 
+    #         if len(unlearned_count['data']) != 0:
+    #             # total_num = 0
+    #             # i=0
+    #             # if(len(unlearned_count['data']) < 5):
+    #             #     total_num = len(unlearned_count['data'])
+    #             # else:
+    #             #     total_num = 5
+    #             # unlearned_count['data'].sort(key=lambda x: (-x['unlearned']))
+    #             # for i in range(total_num):
+    #             #     target_ban = callapi.purple_info(unlearned_count['data'][i]['ban_id'],'get_ban')
+    #             #     unlearned_bans.append(target_ban)
+    #             for data in unlearned_count['data']:
+    #                 target_student = callapi.purple_info(data['student_id'],'get_student_info')
+    #                 if target_student:
+    #                     unlearned_students.append({'target_student': target_student,'unlearned_count':data})
+    #             return({'unlearned_students': unlearned_students})
+    #         else:                
+    #             return jsonify({'status': 400, 'text': '데이터가 없습니다.'})
+    #     else:
+    #         return jsonify({'status': 400, 'text': '데이터가 없습니다.'})    
  

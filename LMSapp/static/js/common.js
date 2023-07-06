@@ -8,7 +8,9 @@ const banMap = new Map();
 const attachMap = new Map();
 
 // teacher 변수
-let  Tconsulting_category, Tban_data, Tall_consulting, Tmy_students, Tall_task, Ttask_consulting, Tunlearned_student, Tall_students, Tstudent_consulting, TquestionAnswerdata;
+let  Tconsulting_category, Tban_data, Tall_consulting, Tmy_students, Tall_task, Ttask_consulting, Tunlearned_student, Tall_students, Tstudent_consulting, TquestionAnswerdata, TquestionAttachdata;
+const TattachMap = new Map();
+
 let isFetching = false;
 
 const today = new Date().setHours(0, 0, 0, 0);
@@ -340,11 +342,29 @@ async function get_teacher_question() {
     try {
         const response = await $.ajax({
             type: "GET",
-            url: "/teacher/question",
+            url: "/teacher/get_questiondata",
             dataType: 'json',
             data: {},
         });
-        TquestionAnswerdata = response
+        TquestionAnswerdata = response.question
+        TquestionAttachdata = response.attach
+        TquestionAttachdata.forEach((attach) => {
+            const question_id = attach.question_id
+            if(TattachMap.has(question_id)) {
+                const existingAttach = TattachMap.get(question_id);
+                existingAttach.push({
+                attach_id: attach.id,
+                file_name: attach.file_name,
+                is_answer: attach.is_answer
+                });
+            }else {
+                TattachMap.set(question_id, [{
+                attach_id: attach.id,
+                file_name: attach.file_name,
+                is_answer: attach.is_answer
+                }]);
+            }
+        })
     } catch (error) {
         alert('Error occurred while retrieving data.');
     }
@@ -579,13 +599,18 @@ async function delete_question(q_id) {
             data: {},
             success: function (data) {
                 alert(data)
-                history.go(0)
+                questionData = questionData.filter(function(item) {
+                    return item.id !== q_id;
+                });
+                attachData = attachData.filter(function(item) {
+                    return item.question_id !== q_id;
+                });
+                main_view()
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseText);
             }
         })
-        get_consulting()
     }
 }
 

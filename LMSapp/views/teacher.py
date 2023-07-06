@@ -50,110 +50,68 @@ def get_mybans(u):
     my_students = callapi.call_api(u['id'], 'get_mystudents_new')
     takeovers = TakeOverUser.query.filter(TakeOverUser.teacher_id == u['id']).all()
     takeovers_num = len(takeovers)
+    
     if takeovers_num != 0 :
         for takeover in takeovers:
             ban_data += callapi.call_api(takeover.takeover_user, 'get_mybans_new')
-            my_students += callapi.call_api(takeover.takeover_user, 'get_mystudents_new')
+            my_students += callapi.call_api(takeover.takeover_id, 'get_mystudents_new')
 
-    db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00',port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
-    try:
-        with db.cursor() as cur:
-            # 상담
-            for ban in ban_data:
-                cur.execute('''
-                SELECT consulting.origin, consulting.student_name, consulting.student_engname, consulting.id, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate, consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result
-                FROM consulting
-                LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id
-                WHERE (consulting.category_id < 100 AND consulting.done = 0 AND %s <= consulting.startdate AND consulting.startdate <= curdate() and consulting.ban_id=%s)
-                OR (consulting.category_id < 100 AND consulting.done != 0 AND consulting.ban_id=%s)
-                OR (consulting.category_id >= 100 AND consulting.startdate <= curdate() and consulting.ban_id=%s)
-                ''',({ban['startdate']},ban['register_no'],ban['register_no'],ban['register_no'], ) )
-                all_consulting.extend(cur.fetchall())
+    # 상담
+    for ban in ban_data:
+        query = '''
+        SELECT consulting.origin, consulting.student_name, consulting.student_engname, consulting.id, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate, consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result
+        FROM consulting
+        LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id
+        WHERE (consulting.category_id < 100 AND consulting.done = 0 AND %s <= consulting.startdate AND consulting.startdate <= curdate() and consulting.ban_id=%s)
+        OR (consulting.category_id < 100 AND consulting.done != 0 AND consulting.ban_id=%s)
+        OR (consulting.category_id >= 100 AND consulting.startdate <= curdate() and consulting.ban_id=%s)
+        '''
+        params = ({ban['startdate']},ban['register_no'],ban['register_no'],ban['register_no'], ) 
+        all_consulting.extend(common.db_connection.execute_query(query, params))
 
-                cur.execute("select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id left join taskcategory on task.category_id = taskcategory.id where ( (task.category_id = 11) or ( (task.cycle = %s) or (task.cycle = 0) ) ) and ( task.startdate <= curdate() and curdate() <= task.deadline ) and taskban.ban_id=%s;", (today_yoil,ban['register_no'],))
-                all_task.extend(cur.fetchall())  
+        query = "select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id left join taskcategory on task.category_id = taskcategory.id where ( (task.category_id = 11) or ( (task.cycle = %s) or (task.cycle = 0) ) ) and ( task.startdate <= curdate() and curdate() <= task.deadline ) and taskban.ban_id=%s;"
+        params = (today_yoil,ban['register_no'],)
+        all_task.extend(common.db_connection.execute_query(query, params))  
 
-            cur.execute("SELECT * FROM LMS.consultingcategory;")
-            all_consulting_category = cur.fetchall()
+    query = "SELECT * FROM LMS.consultingcategory;"
+    all_consulting_category = common.db_connection.execute_query(query, )
             
-    except:
-        print('err:', sys.exc_info())
-    finally:
-        db.close()
     return jsonify({'ban_data':ban_data,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'all_consulting_category':all_consulting_category})
-
-
-@bp.route('/get_learning_history', methods=['GET'])
-@authrize
-def get_learning_history(u):
-    all_consulting = []
-    db = pymysql.connect(host='127.0.0.1', user='purple', password='wjdgus00',port=3306, database='LMS', cursorclass=pymysql.cursors.DictCursor)
-    try:
-        with db.cursor() as cur:
-            # 상담
-            cur.execute("select consulting.student_id, consulting.origin, consulting.student_name, consulting.student_engname,consulting.id,consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate,consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result from consulting left join consultingcategory on consulting.category_id = consultingcategory.id where startdate <= %s and teacher_id=%s", (Today,u['id'],))
-            all_consulting = cur.fetchall()
-    except:
-        print('err:', sys.exc_info())
-    finally:
-        db.close()
-    return jsonify({'all_consulting':all_consulting})
-
 
 # 문의 리스트 / 문의 작성   
 @socketio.on('new_question',namespace='/question') 
 def handle_new_question(q_id):
     emit('new_question', {'message': 'New question registered', 'q_id': q_id}, broadcast=True, namespace='/question')
-    
-@bp.route('/question', methods=['GET', 'POST'])
+
+@bp.route("/get_questiondata", methods=['GET'])
+@authrize
+def get_questiondata(u):
+    if request.method == 'GET':
+        query = '''
+        SELECT question.id,question.category,question.title,question.contents,question.contents as question_contents,question.teacher_id,question.ban_id,question.student_id,question.create_date,question.answer,question.consulting_history,question.mobileno,consulting.solution,consulting.contents as consulting_contents,consulting.reason,consulting.week_code,consultingcategory.name as consulting_category,consulting.category_id as consulting_categoryid,consulting.created_at as consulting_created_at ,
+        answer.id as answer_id, user.eng_name as answerer, answer.title as answer_title,answer.content as answer_contents ,answer.created_at as answer_created_at,answer.reject_code as answer_reject_code
+        from LMS.question
+        left join answer on answer.question_id = question.id 
+        left join user on user.id = answer.writer_id 
+        left join consulting on question.consulting_history = consulting.id 
+        left join consultingcategory on consulting.category_id = consultingcategory.id 
+        where question.teacher_id = %s
+        ORDER BY 
+        question.answer,
+        question.create_date DESC;
+        '''
+        params = (u['id'], )
+        question = common.db_connection.execute_query(query, params)
+        query = 'select attachment.question_id,attachment.file_name,attachment.id,attachment.is_answer from attachment LEFT JOIN question on attachment.question_id = question.id where question.teacher_id = %s ORDER BY question.category,question.answer, question.create_date;'
+        attach = common.db_connection.execute_query(query, params)
+        
+        return jsonify({'question':question,'attach':attach})
+
+@bp.route('/question', methods=[ 'POST'])
 @authrize
 def question(u):
-    if request.method == 'GET':
-        data = []
-        my_questions = Question.query.filter(Question.teacher_id == u['id']).all()
-        for q in my_questions:
-            qdata = {}
-            qdata['id'] = q.id
-            qdata['category'] = q.category
-            qdata['title'] = q.title
-            qdata['contents'] = q.contents
-            qdata['ban_id'] = q.ban_id
-            qdata['student_id'] = q.student_id
-            qdata['create_date'] = q.create_date.strftime('%Y-%m-%d')
-            qdata['answer'] = q.answer
-            qdata['consluting'] = q.consulting_history
-            if (q.answer != 0 and q.qa is not None):
-                qdata['answer_data'] = {}
-                qdata['answer_data']['id']=q.qa.id
-                qdata['answer_data']['content']=q.qa.content
-                qdata['answer_data']['reject_code']=q.qa.reject_code
-                qdata['answer_data']['created_at']=q.qa.created_at.strftime('%Y-%m-%d')
-            if (q.attachments is None):
-                qdata['attach'] = "없음"
-            else:
-                my_attachments = Attachments.query.filter(Attachments.question_id == q.id).all()
-                qdata['question_attach'] = []
-                qdata['answer_attach'] = []
-                for qa in my_attachments:
-                    if qa.is_answer == 0:
-                        qdata['question_attach'].append({
-                            'id': qa.id,
-                            'file_name':qa.file_name
-                        })
-                    else:
-                        qdata['answer_attach'].append({
-                            'id': qa.id,
-                            'file_name':qa.file_name
-                        })
-            data.append(qdata)
-        return data
-    elif request.method == 'POST':
+    if request.method == 'POST':
         URI = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
-        # groupToken = {
-        #         '행정파트': '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"',
-        #         '내근티처': '"MQzg6snlRV4MFw27afkGXRmfghHRQVcM77xYo5khI8Wz4zPM4wLVqXlu1O5ppWLv"',
-        #         '개발관리': '"iMUOvyhPeqCzEeBniTJKf3y6uflehbrB2kddhLUQXHwLxsXHxEbOr2K4qLHvvEIg"',
-        # }
         category = int(request.form['question_category'])
         title = request.form['question_title']
         contents = request.form['question_contents']
