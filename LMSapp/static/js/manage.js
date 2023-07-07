@@ -74,7 +74,6 @@ $(window).on('load', async function () {
                 if(q_id !== "" && q_type !== ""){
                     show_modal(q_id)
                 }
-                connectSocket()
                 // get_question_list(q_type)
             }catch (error) {
                 alert('Error occurred while retrieving data2.');
@@ -236,6 +235,8 @@ async function get_total_data() {
         
     }catch (error) {
         alert('Error occurred while retrieving data.');
+    }finally{
+        // connectSocket()
     }
 }
 function semesterShow(semester) {
@@ -257,6 +258,7 @@ function semesterShow(semester) {
     var temp_semester_banlist = '';
     $.each(resultData, function (index, item) {
         let teacher_name = item.teacher_engname + '( ' + item.teacher_name + ' )'
+        item.total_out_num_per = answer_rate(item.out_student_num, totalOutnum).toFixed(2);
         temp_semester_banlist += `
         <td class="col-2">${item.name}</td>
         <td class="col-2">${teacher_name}</td>
@@ -1134,12 +1136,14 @@ function connectSocket(){
     
     question_socket.on('new_question', async function(data) {
         try {
+            console.log(data.q_id)
             const response = await $.ajax({
                 url: `new_question/${data.q_id}`,
                 type: 'GET',
                 dataType: 'json',
                 data: {},
             });
+            console.log(response)
             handle_new_question(response);
         } catch (error) {
             console.log('Error occurred while handling new question:', error);

@@ -25,6 +25,7 @@ $(window).on('load', async function () {
 })
 
 async function home(){
+    $('#make_out_button').show()
     $('#ban_chart_list').empty()
     if(Tban_data.length <= 0){
         alert('담당중인 반이 없습니다')
@@ -1536,3 +1537,35 @@ function show_question_detail(q_id,question_detail_data){
         $('#consulting_history_attach').show()
     }
 }
+
+function show_make_out(){
+    $('.modiv').show()
+    $.ajax({
+        type: "GET",
+        url: "/teacher/take_over_user",
+        data: {},
+        success: function (response) {
+            users = response.take_over_user
+            let temp_option = ''
+            users.forEach((user)=>{
+                temp_option += `<option value='${user.id}_${user.user_id}' selected >${user.name} ( ${user.eng_name} )</option>`
+            })
+            $('#take_over').html(temp_option)
+        }
+    })
+
+}
+function make_teacher_out(){
+    const selected = $('#take_over').val().split('_')
+    console.log(selected[0])
+    console.log(selected[1])
+    $.ajax({
+        type: "POST",
+        url: "/teacher/take_over_post",
+        data: {teacher_id :Number(selected[0]),teacher_user:selected[1]},
+        success: function (response) {
+            alert(response.result)
+        }
+    })
+}
+

@@ -86,26 +86,25 @@ def handle_new_question(q_id):
 @bp.route("/get_questiondata", methods=['GET'])
 @authrize
 def get_questiondata(u):
-    if request.method == 'GET':
-        query = '''
-        SELECT question.id,question.category,question.title,question.contents,question.contents as question_contents,question.teacher_id,question.ban_id,question.student_id,question.create_date,question.answer,question.consulting_history,question.mobileno,consulting.solution,consulting.contents as consulting_contents,consulting.reason,consulting.week_code,consultingcategory.name as consulting_category,consulting.category_id as consulting_categoryid,consulting.created_at as consulting_created_at ,
-        answer.id as answer_id, user.eng_name as answerer, answer.title as answer_title,answer.content as answer_contents ,answer.created_at as answer_created_at,answer.reject_code as answer_reject_code
-        from LMS.question
-        left join answer on answer.question_id = question.id 
-        left join user on user.id = answer.writer_id 
-        left join consulting on question.consulting_history = consulting.id 
-        left join consultingcategory on consulting.category_id = consultingcategory.id 
-        where question.teacher_id = %s
-        ORDER BY 
-        question.answer,
-        question.create_date DESC;
-        '''
-        params = (u['id'], )
-        question = common.db_connection.execute_query(query, params)
-        query = 'select attachment.question_id,attachment.file_name,attachment.id,attachment.is_answer from attachment LEFT JOIN question on attachment.question_id = question.id where question.teacher_id = %s ORDER BY question.category,question.answer, question.create_date;'
-        attach = common.db_connection.execute_query(query, params)
-        
-        return jsonify({'question':question,'attach':attach})
+    query = '''
+    SELECT question.id,question.category,question.title,question.contents,question.contents as question_contents,question.teacher_id,question.ban_id,question.student_id,question.create_date,question.answer,question.consulting_history,question.mobileno,consulting.solution,consulting.contents as consulting_contents,consulting.reason,consulting.week_code,consultingcategory.name as consulting_category,consulting.category_id as consulting_categoryid,consulting.created_at as consulting_created_at ,
+    answer.id as answer_id, user.eng_name as answerer, answer.title as answer_title,answer.content as answer_contents ,answer.created_at as answer_created_at,answer.reject_code as answer_reject_code
+    from LMS.question
+    left join answer on answer.question_id = question.id 
+    left join user on user.id = answer.writer_id 
+    left join consulting on question.consulting_history = consulting.id 
+    left join consultingcategory on consulting.category_id = consultingcategory.id 
+    where question.teacher_id = %s
+    ORDER BY 
+    question.answer,
+    question.create_date DESC;
+    '''
+    params = (u['id'], )
+    question = common.db_connection.execute_query(query, params)
+    query = 'select attachment.question_id,attachment.file_name,attachment.id,attachment.is_answer from attachment LEFT JOIN question on attachment.question_id = question.id where question.teacher_id = %s ORDER BY question.category,question.answer, question.create_date;'
+    attach = common.db_connection.execute_query(query, params)
+    
+    return jsonify({'question':question,'attach':attach})
 
 @bp.route('/question', methods=[ 'POST'])
 @authrize
@@ -253,3 +252,31 @@ def plus_consulting(student_id,b_id):
     db.session.add(newconsulting)
     db.session.commit()
     return{'result':'추가 상담 저장 완료'}
+
+
+@bp.route("/take_over_user", methods=['GET'])
+@authrize
+def take_over_user(u):
+    take_over_user = {}
+    query = 'SELECT id, user_id, name, eng_name from LMS.user where user.mobileno = %s and id != %s;'
+    params = ('내근',u['id'], )
+    take_over_user = common.db_connection.execute_query(query, params)
+        
+    return{'take_over_user':take_over_user}
+
+@bp.route("/take_over_post", methods=['POST'])
+@authrize
+def take_over_post(u):
+    if request.method =='POST':
+        teacher_id = request.form['teacher_id']
+        teacher_user = request.form['teacher_user']
+        history_takes = TakeOverUser.query.filter(TakeOverUser.teacher_id == teacher_id).all()
+        if len(history_takes) != 0:
+            for history in history_takes:
+                new_take = TakeOverUser(teacher_id=u['id'], takeover_id=history.takeover_id, takeover_user=history.takeover_user)
+                db.session.add(new_take)
+        new_take = TakeOverUser(teacher_id=u['id'], takeover_id=teacher_id, takeover_user=teacher_user)
+        db.session.add(new_take)
+        db.session.commit()
+        return jsonify({'result': '퇴사 처리 완료'})
+

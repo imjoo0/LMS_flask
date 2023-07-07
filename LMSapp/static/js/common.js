@@ -1,5 +1,5 @@
 // manage변수 
-let switchstudentData, outstudentData, banData, totalOutnum, totalHoldnum, studentsData, reportsData, consultingData, consultingHistoryData, consultingcateData, taskData, taskcateData, questionData, answerData, attachData, CSdata;
+let switchstudentData, outstudentData, banData, totalOutnum, studentsData, reportsData, consultingData, consultingHistoryData, consultingcateData, taskData, taskcateData, questionData, answerData, attachData, CSdata;
 let consultingCount, questionCount, taskCount;
 let tempConsultingData,temptaskData;
 let AlarmList = []
@@ -375,45 +375,99 @@ async function get_all_data() {
     try {
         const bansWorker = new Worker("../static/js/bans_worker.js");
         bansWorker.postMessage('get_bansData');
-        const studentsWorker = new Worker("../static/js/students_worker.js");
-        studentsWorker.postMessage('get_studentsData');
-        studentsWorker.onmessage = function (event) {
-            studentsData = event.data.students
-            for (let i = 0; i < studentsData.length; i++) {
-                const student = studentsData[i];
-                studentMap.set(student.student_id, {
-                    origin: student.origin,
-                    student_name:student.student_name + ' (' + student.student_engname + ')',
-                });
-            }
-        };
+        
         bansWorker.onmessage = function (event) {
-            banData = event.data.all_ban
+            let all_data = event.data.all_data
+              // studentsData 추출
+            // studentsData = all_data.map(function(item) {
+            //     // for (let i = 0; i < studentsData.length; i++) {
+            //         //         const student = studentsData[i];
+            //         //         studentMap.set(student.student_id, {
+            //         //             origin: student.origin,
+            //         //             student_name:student.student_name + ' (' + student.student_engname + ')',
+            //         //         });
+            //         //     }
+            //     return {
+            //       birthday: item.birthday,
+            //       category_id: item.category_id,
+            //       nick_name: item.student_engname,
+            //       origin: item.origin,
+            //       register_date: item.register_date,
+            //       smobileno: item.smobileno,
+            //       student_engname: item.student_engname,
+            //       student_id: item.student_id,
+            //       student_name: item.student_name
+            //     };
+            // });
             totalOutnum = 0;
-            totalHoldnum = 0
-            let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>'
-            banData.forEach((elem) => {
-                elem.out_student_num = Number(elem.out_student_num)
-                elem.hold_student_num = Number(elem.hold_student_num)
-                elem.total_out_num = elem.out_student_num + elem.hold_student_num
-                elem.first_student_num = elem.student_num - elem.total_out_num
-                elem.out_num_per = answer_rate(elem.total_out_num, elem.first_student_num).toFixed(0)
-                totalOutnum += elem.out_student_num
-                totalHoldnum += elem.hold_student_num
-                let value = `${elem.ban_id}_${elem.teacher_id}_${elem.name}`;
-                let selectmsg = `<option value="${value}">${elem.name} (${make_semester(elem.semester)}월 학기)</option>`;
-                temp_o_ban_id += selectmsg
-                banMap.set(elem.ban_id, {
-                    ban_name: elem.name,
-                    teacher_email: elem.teacher_email,
-                    teacher_name: elem.teacher_engname +'( '+ elem.teacher_name +' )'
-                });
-            });
+            let temp_o_ban_id = '<option value="none" selected>이반 처리 결과를 선택해주세요</option><option value=0>반려</option>' 
+            var { temp_banData, temp_studentsData } = all_data.reduce(
+                (acc, item) => {
+                    if (!acc.banMap.has(item.ban_id)) {
+                        acc.banMap.set(item.ban_id, {
+                        ban_name: item.ban_name,
+                        teacher_email: item.teacher_email,
+                        teacher_name: item.teacher_engname + ' (' + item.teacher_name + ')'
+                        });
+                        const student_num = Number(item.student_num);
+                        const out_student_num = Number(item.out_student_num);
+                        const hold_student_num = Number(item.hold_student_num);
+                        const total_out_num = out_student_num + hold_student_num;
+                        const first_student_num = item.student_num - total_out_num;
+                        const out_num_per = answer_rate(total_out_num, student_num).toFixed(0);
+                        totalOutnum += total_out_num
+
+                        temp_o_ban_id += `<option value="${item.ban_id}_${item.teacher_id}_${item.name}">${item.name} (${make_semester(item.semester)}월 학기)</option>`
+                
+                        acc.temp_banData.push({
+                        ban_id: item.ban_id,
+                        name: item.ban_name,
+                        hold_student_num: item.hold_student_num,
+                        name_numeric: item.name_numeric,
+                        out_student_num: item.out_student_num,
+                        semester: item.semester,
+                        semester_student_num: item.semester_student_num,
+                        teacher_email: item.teacher_email,
+                        teacher_engname: item.teacher_engname,
+                        teacher_id: item.teacher_id,
+                        teacher_mobileno: item.teacher_mobileno,
+                        teacher_name: item.teacher_name,
+                        total_student_num: item.total_student_num,
+                        student_num,
+                        out_student_num,
+                        hold_student_num,
+                        total_out_num,
+                        first_student_num,
+                        out_num_per
+                        });
+                    }
+              
+                    studentMap.set(item.student_id,{
+                        origin:item.origin,
+                        student_name: item.student_name + ' (' + item.student_engname + ')',
+                    })
+                    acc.temp_studentsData.push({
+                        birthday: item.birthday,
+                        category_id: item.category_id,
+                        nick_name: item.student_engname,
+                        origin: item.origin,
+                        register_date: item.register_date,
+                        smobileno: item.smobileno,
+                        student_engname: item.student_engname,
+                        student_id: item.student_id,
+                        student_name: item.student_name
+                    });
+              
+                    return acc;
+                },
+                { temp_banData: [], temp_studentsData: [], banMap: new Map() }
+            );
             $('#o_ban_id2').html(temp_o_ban_id)
-            banData =banData.map((item) => {
-                return { ...item, total_out_num_per: Number(answer_rate(item.out_student_num, totalOutnum).toFixed(2)) }
-            })
+            banData = temp_banData
+            studentsData = temp_studentsData  
+
             get_total_data();
+
         };
 
     } catch (error) {

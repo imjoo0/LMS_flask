@@ -106,7 +106,17 @@
           <div class="modal-footer">
               <button class="btn btn-success" onclick="put_user()">패스워드 변경</button>
               <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
+              <button class="btn btn btn-danger" onclick="show_make_out()" style="background-color: black; display: none;" id="make_out_button">퇴사 처리</button>
           </div>
+          <div class="row w-100 mt-3 modiv" style="display: none;">
+            <div class="col-sm-3 mb-sm-0 mb-2"><span>📌 담당반 전달 선생님 선택</span></div>
+            <div class="col-sm-9">
+              <select class="modal-body-select w-90" id="take_over" style="margin-right:50px;text-align:center">
+                <option value=0 selected >선생님 ( 영어이름 )</option>
+                <option value=1 >선생님 ( 영어이름 )</option>
+              </select>
+              <button class="btn btn btn-danger" onclick="make_teacher_out()" style="background-color: black;" >저장</button>
+            </div>
           </div>
         </div>
       </div>

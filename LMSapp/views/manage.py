@@ -214,6 +214,7 @@ def new_question(id):
                 '''
         params = (id, )
         target_question['question'] = common.db_connection.execute_query(query, params)
+        print(target_question['question'])
 
         query = 'select question_id,file_name,id,attachment.is_answer from attachment where attachment.question_id = %s;'
         target_question['attach'] = common.db_connection.execute_query(query, params)

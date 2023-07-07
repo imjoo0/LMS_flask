@@ -71,8 +71,8 @@ def put_user(u):
 @bp.route("/all_ban", methods=['GET'])
 def get_all_ban():
     if request.method == 'GET':
-        all_ban = callapi.purple_allinfo('get_all_ban_online')
-        return jsonify({'all_ban':all_ban})
+        all_data = callapi.purple_allinfo('get_all_ban_student_online')
+        return jsonify({'all_data':all_data})
 
 @bp.route("/all_students", methods=['GET'])
 def get_all_students():
