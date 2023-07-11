@@ -231,12 +231,13 @@ async function get_total_data() {
                 }
             }
         });
+        // console.log(studentsData)
         semesterShow(3);
         
     }catch (error) {
         alert('Error occurred while retrieving data.');
     }finally{
-        // connectSocket()
+        connectSocket()
     }
 }
 function semesterShow(semester) {
@@ -385,7 +386,7 @@ function sort_data(sort_op) {
     );
 }
 function download_banlist() {
-    var con_val = confirm('반 리스트를 다운로드 하시겠습니까?');
+    var con_val = confirm('아래 리스트를 다운로드 하시겠습니까?');
     if (con_val) {
       // 테이블을 포함하는 HTML 요소 선택
       var element = document.getElementById('for_print_semester');
@@ -489,7 +490,17 @@ async function get_ban_info(t_id,b_id) {
                         let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");   
                         taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
                         taskTeacherChunkWorker.onmessage = function (event) {
-                            temptaskData = temptaskData.concat(event.data.consulting);
+                            taskCount = event.data.total_count
+                            let data = event.data.task
+                            data.forEach(item=>{
+                                item.done_code = 0
+                                let done_date = new Date(item.created_at);
+                                done_date =  new Date(done_date.getFullYear(), done_date.getMonth(), done_date.getDate()).setHours(0, 0, 0, 0);
+                                if( (item.created_at != null) && ( (item.cycle != todayyoil && sevenDays <= done_date)||(item.cycle == todayyoil && today == done_date) )){
+                                    item.done_code = 1
+                                }
+                            })
+                            temptaskData = temptaskData.concat(data);
                             return show_ban_report(t_id,b_id,consultingData,temptaskData)
                         };
                     }
@@ -506,13 +517,23 @@ async function get_ban_info(t_id,b_id) {
                 }
                 taskfetchData(t_id);
                 taskTeacherChunkWorker.onmessage = function (event){
+                    let data = event.data.task
+                    data.forEach(item=>{
+                        item.done_code = 0
+                        let done_date = new Date(item.created_at);
+                        done_date =  new Date(done_date.getFullYear(), done_date.getMonth(), done_date.getDate()).setHours(0, 0, 0, 0);
+                        if( (item.created_at != null) && ( (item.cycle != todayyoil && sevenDays <= done_date)||(item.cycle == todayyoil && today == done_date) )){
+                            item.done_code = 1
+                        }   
+                    })
                     if (taskCount != undefined) {
                         taskCount = event.data.total_count
-                        taskData = taskData.concat(event.data.task);
+                        taskData = taskData.concat(data);
                         return; // 조건을 만족하면 함수 종료
+                    }else{
+                        taskCount = event.data.total_count
+                        taskData = data;
                     }
-                    taskCount = event.data.total_count
-                    taskData = event.data.task;
                     taskfetchData(0);
                     show_ban_report(t_id,b_id,consultingData,taskData)
                 }
@@ -531,14 +552,22 @@ async function get_ban_info(t_id,b_id) {
                             let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");   
                             taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
                             taskTeacherChunkWorker.onmessage = function (event) {
-                                temptaskData = temptaskData.concat(event.data.consulting);
+                                let data = event.data.task
+                                data.forEach(item=>{
+                                    item.done_code = 0
+                                    let done_date = new Date(item.created_at);
+                                    done_date =  new Date(done_date.getFullYear(), done_date.getMonth(), done_date.getDate()).setHours(0, 0, 0, 0);
+                                    if( (item.created_at != null) && ( (item.cycle != todayyoil && sevenDays <= done_date)||(item.cycle == todayyoil && today == done_date) )){
+                                        item.done_code = 1
+                                    }   
+                                })
+                                temptaskData = temptaskData.concat(data);
                                 return show_ban_report(t_id,b_id,tempConsultingData,temptaskData)
                             };
                         }
                     }else{
                         show_ban_report(t_id,b_id,tempConsultingData,taskData)   
                     }
-                    // show_ban_report(t_id,b_id,consultingData)
                 }else{
                     taskData = []
                     temptaskData = []
@@ -549,13 +578,23 @@ async function get_ban_info(t_id,b_id) {
                     }
                     taskfetchData(t_id);
                     taskTeacherChunkWorker.onmessage = function (event){
+                        let data = event.data.task
+                        data.forEach(item=>{
+                            item.done_code = 0
+                            let done_date = new Date(item.created_at);
+                            done_date =  new Date(done_date.getFullYear(), done_date.getMonth(), done_date.getDate()).setHours(0, 0, 0, 0);
+                            if( (item.created_at != null) && ( (item.cycle != todayyoil && sevenDays <= done_date)||(item.cycle == todayyoil && today == done_date) )){
+                                item.done_code = 1
+                            }   
+                        })
                         if (taskCount != undefined) {
-                            taskCount = event.data.total_count
-                            taskData = taskData.concat(event.data.task);
+                            taskCount = event.data.total_count  
+                            taskData = taskData.concat(data);
                             return; // 조건을 만족하면 함수 종료
+                        }else{
+                            taskCount = event.data.total_count  
+                            taskData = data;
                         }
-                        taskCount = event.data.total_count
-                        taskData = event.data.task;
                         taskfetchData(0);
                         show_ban_report(t_id,b_id,tempConsultingData,taskData)
                     }
@@ -576,7 +615,16 @@ async function get_ban_info(t_id,b_id) {
                                 let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");   
                                 taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
                                 taskTeacherChunkWorker.onmessage = function (event) {
-                                    temptaskData = temptaskData.concat(event.data.consulting);
+                                    let data = event.data.task
+                                    data.forEach(item=>{
+                                        item.done_code = 0
+                                        let done_date = new Date(item.created_at);
+                                        done_date =  new Date(done_date.getFullYear(), done_date.getMonth(), done_date.getDate()).setHours(0, 0, 0, 0);
+                                        if( (item.created_at != null) && ( (item.cycle != todayyoil && sevenDays <= done_date)||(item.cycle == todayyoil && today == done_date) )){
+                                            item.done_code = 1
+                                        }   
+                                    })
+                                    temptaskData = temptaskData.concat(data);
                                     return show_ban_report(t_id,b_id,tempConsultingData,temptaskData)
                                 };
                             }
@@ -593,13 +641,23 @@ async function get_ban_info(t_id,b_id) {
                         }
                         taskfetchData(t_id);
                         taskTeacherChunkWorker.onmessage = function (event){
+                            let data = event.data.task
+                            data.forEach(item=>{
+                                item.done_code = 0
+                                let done_date = new Date(item.created_at);
+                                done_date =  new Date(done_date.getFullYear(), done_date.getMonth(), done_date.getDate()).setHours(0, 0, 0, 0);
+                                if( (item.created_at != null) && ( (item.cycle != todayyoil && sevenDays <= done_date)||(item.cycle == todayyoil && today == done_date) )){
+                                    item.done_code = 1
+                                }   
+                            })
                             if (taskCount != undefined) {
                                 taskCount = event.data.total_count
                                 taskData = taskData.concat(event.data.task);
                                 return; // 조건을 만족하면 함수 종료
+                            }else{
+                                taskCount = event.data.total_count
+                                taskData = event.data.task;
                             }
-                            taskCount = event.data.total_count
-                            taskData = event.data.task;
                             taskfetchData(0);
                             show_ban_report(t_id,b_id,tempConsultingData,taskData)
                         }
@@ -616,7 +674,16 @@ async function get_ban_info(t_id,b_id) {
                         let taskTeacherChunkWorker = new Worker("../static/js/tasks_teacher_worker.js");   
                         taskTeacherChunkWorker.postMessage({t_id,teacher_id_history})
                         taskTeacherChunkWorker.onmessage = function (event) {
-                            temptaskData = temptaskData.concat(event.data.consulting);
+                            let data = event.data.task
+                            data.forEach(item=>{
+                                item.done_code = 0
+                                let done_date = new Date(item.created_at);
+                                done_date =  new Date(done_date.getFullYear(), done_date.getMonth(), done_date.getDate()).setHours(0, 0, 0, 0);
+                                if( (item.created_at != null) && ( (item.cycle != todayyoil && sevenDays <= done_date)||(item.cycle == todayyoil && today == done_date) )){
+                                    item.done_code = 1
+                                }   
+                            })
+                            temptaskData = temptaskData.concat(data);
                             return show_ban_report(t_id,b_id,consultingData,temptaskData)
                         };
                     }
@@ -633,13 +700,23 @@ async function get_ban_info(t_id,b_id) {
                 }
                 taskfetchData(t_id);
                 taskTeacherChunkWorker.onmessage = function (event){
+                    let data = event.data.task
+                    data.forEach(item=>{
+                        item.done_code = 0
+                        let done_date = new Date(item.created_at);
+                        done_date =  new Date(done_date.getFullYear(), done_date.getMonth(), done_date.getDate()).setHours(0, 0, 0, 0);
+                        if( (item.created_at != null) && ( (item.cycle != todayyoil && sevenDays <= done_date)||(item.cycle == todayyoil && today == done_date) )){
+                            item.done_code = 1
+                        }   
+                    })
                     if (taskCount != undefined) {
                         taskCount = event.data.total_count
-                        taskData = taskData.concat(event.data.task);
+                        taskData = taskData.concat(data);
                         return; // 조건을 만족하면 함수 종료
+                    }else{
+                        taskCount = event.data.total_count
+                        taskData = data;
                     }
-                    taskCount = event.data.total_count
-                    taskData = event.data.task;
                     taskfetchData(0);
                     show_ban_report(t_id,b_id,consultingData,taskData)
                 }
@@ -681,8 +758,6 @@ async function show_ban_report(t_id,b_id,target_consultingdata,target_taskdata){
     $('#teachertitle').html(`${info.name}  Class  Report`)
     $('#ban_nametag').html(`<span>${info.name} - ${info.teacher_engname}(${info.teacher_name}) 선생님</span>`)
     $('#teacher_infobox').html('Class Manage')
-    // $('#ban_nametag').html(`<span>${info.teacher_engname}(${info.teacher_name}) 📞 ${info.teacher_mobileno} ✉️ ${info.teacher_email}`) </span>
-
 
     let temp_info_student_num = `
         <span>  관리중:${info.first_student_num}</span><br>
@@ -832,22 +907,20 @@ async function show_ban_report(t_id,b_id,target_consultingdata,target_taskdata){
     // 업무 데이터
     const chunkedTaskData = copy_taskdata.filter(t=>t.ban_id == b_id)
     let TtasktodayData = null
-    TtasktodayData = chunkedTaskData.filter(t => (new Date(t.startdate).setHours(0, 0, 0, 0) <= today && today < new Date(t.deadline).setHours(0, 0, 0, 0)) && ((t.cycle == 0 && t.created_at == null) || (t.cycle == 0 && new Date(t.created_at).setHours(0, 0, 0, 0) == today) || (t.cycle == todayyoil)))
-    let today_done = null
-    today_done = TtasktodayData.filter(t => t.done == 1).length
-    let Ttaskhisory = null
+    TtasktodayData = chunkedTaskData.filter(t => (new Date(t.startdate).setHours(0, 0, 0, 0) <= today && today < new Date(t.deadline).setHours(0, 0, 0, 0)))
+    let total_tasks = TtasktodayData.length;
+    let done_tasks = total_tasks != 0 ? TtasktodayData.filter(t=>t.done_code != 0).length : 0
     Ttaskhisory = chunkedTaskData.filter(t => new Date(t.deadline).setHours(0, 0, 0, 0) < today)
     let history_done = null
     history_done = Ttaskhisory.filter(t => t.done == 1).length
-    $('#task_chart').html(`<td class="col-4">${today_done}/${TtasktodayData.length}건</td><td class="col-4">${answer_rate(today_done, TtasktodayData.length).toFixed(0)}%</td><td class="col-4">${answer_rate(history_done, Ttaskhisory.length).toFixed(0)}%</td>`);
+    $('#task_chart').html(`<td class="col-4">${done_tasks}/${total_tasks}건</td><td class="col-4">${answer_rate(done_tasks, total_tasks).toFixed(0)}%</td><td class="col-4">${answer_rate(history_done, Ttaskhisory.length).toFixed(0)}%</td>`);
 
     // student data 
     let target_students = studentsData.slice();
-    const chunkedStudentData = target_students.filter(s=>s.ban_id == b_id)
-    
+    let chunkedStudentData = target_students.filter(s=>s.ban_id == b_id)
     // const Tstudent = chunkedStudentData
 
-    $('#displayCount').html(`관리 중인 원생 수: ${chunkedStudentData.length}명`)
+    $('#displayCount').html(`원생 목록 : ${chunkedStudentData.length}명`)
     chunkedStudentData.forEach((elem) => {
         elem.unlearned = banunlearnedData.filter(a => a.student_id == elem.student_id).length
         elem.up = answer_rate(elem.unlearned, banunlearnedData.length).toFixed(0)
@@ -860,11 +933,12 @@ async function show_ban_report(t_id,b_id,target_consultingdata,target_taskdata){
         callback: function (data, pagination) {
             let chartHtml = "";
             $.each(data, function (index, item) {
+                const student_category = make_out(item.category_id)
                 chartHtml += `
-                <td class="col-3">${item.student_name}( ${item.student_engname} )</td>
-                <td class="col-2">${item.origin}</td>
-                <td class="col-3">${item.smobileno}</td>
-                <td class="col-3">${item.unlearned}건 ( ${item.up}% ) </td>
+                <td class="col-4 ${student_category}">${item.student_name}( ${item.student_engname} ) ${student_category}</td>
+                <td class="col-1 ${student_category}">${item.origin}</td>
+                <td class="col-3 ${student_category}">${item.smobileno}</td>
+                <td class="col-3 ${student_category}">${item.unlearned}건 ( ${item.up}% ) </td>
                 <td class="col-1" custom-control custom-control-inline custom-checkbox data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${item.student_id})">📝</td>`;
             });
             $("#s_data").html(chartHtml);
@@ -1088,21 +1162,22 @@ async function show_teacher_report(t_id,b_id,target_data){
     const chunkedTaskData = taskData.filter(t=>t.teacher_id == t_id)
     
     let TtasktodayData = null
-    TtasktodayData = chunkedTaskData.filter(t => (new Date(t.startdate).setHours(0, 0, 0, 0) <= today && today < new Date(t.deadline).setHours(0, 0, 0, 0)) && ((t.cycle == 0 && t.created_at == null) || (t.cycle == 0 && new Date(t.created_at).setHours(0, 0, 0, 0) == today) || (t.cycle == todayyoil)))
+    TtasktodayData = chunkedTaskData.filter(t => (new Date(t.startdate).setHours(0, 0, 0, 0) <= today && today < new Date(t.deadline).setHours(0, 0, 0, 0)))
+    let total_tasks = TtasktodayData.length
     let today_done = null
-    today_done = TtasktodayData.filter(t => t.done == 1).length
+    today_done = total_tasks != 0 ? TtasktodayData.filter(t => t.done_code != 0).length : 0
     let Ttaskhisory = null
     Ttaskhisory = chunkedTaskData.filter(t => new Date(t.deadline).setHours(0, 0, 0, 0) < today)
     let history_done = null
     history_done = Ttaskhisory.filter(t => t.done == 1).length
-    $('#task_chart').html(`<td class="col-4">${today_done}/${TtasktodayData.length}건</td><td class="col-4">${answer_rate(today_done, TtasktodayData.length).toFixed(0)}%</td><td class="col-4">${answer_rate(history_done, Ttaskhisory.length).toFixed(0)}%</td>`);
+    $('#task_chart').html(`<td class="col-4">${today_done}/${total_tasks}건</td><td class="col-4">${answer_rate(today_done, total_tasks).toFixed(0)}%</td><td class="col-4">${answer_rate(history_done, Ttaskhisory.length).toFixed(0)}%</td>`);
 
     // student data 
-    let chunkedStudentData = studentsData.filter(s=>s.teacher_id == t_id && s.category_id == 1)
+    let chunkedStudentData = studentsData.filter(s=>s.teacher_id == t_id)
     
     // const Tstudent = chunkedStudentData
 
-    $('#displayCount').html(`관리 중인 원생 수: ${chunkedStudentData.length}명`)
+    $('#displayCount').html(`원생 목록 : ${chunkedStudentData.length}명`)
     chunkedStudentData.forEach((elem) => {
         elem.unlearned = TunlearnedData.filter(a => a.student_id == elem.student_id).length
         elem.up = answer_rate(elem.unlearned, TunlearnedData.length).toFixed(0)
@@ -1115,11 +1190,12 @@ async function show_teacher_report(t_id,b_id,target_data){
         callback: function (data, pagination) {
             let chartHtml = "";
             $.each(data, function (index, item) {
+                const student_category = make_out(item.category_id)
                 chartHtml += `
-                <td class="col-3">${item.student_name}( ${item.student_engname} )</td>
-                <td class="col-2">${item.origin}</td>
-                <td class="col-3">${item.smobileno}</td>
-                <td class="col-3">${item.unlearned}건 ( ${item.up}% ) </td>
+                <td class="col-3 ${student_category}">${item.student_name}( ${item.student_engname} ) ${student_category}</td>
+                <td class="col-2 ${student_category}">${item.origin}</td>
+                <td class="col-3 ${student_category}">${item.smobileno}</td>
+                <td class="col-3 ${student_category}">${item.unlearned}건 ( ${item.up}% ) </td>
                 <td class="col-1" custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting_history(${item.student_id})">📝</td>`;
             });
             $("#s_data").html(chartHtml);
@@ -1136,14 +1212,12 @@ function connectSocket(){
     
     question_socket.on('new_question', async function(data) {
         try {
-            console.log(data.q_id)
             const response = await $.ajax({
                 url: `new_question/${data.q_id}`,
                 type: 'GET',
                 dataType: 'json',
                 data: {},
             });
-            console.log(response)
             handle_new_question(response);
         } catch (error) {
             console.log('Error occurred while handling new question:', error);
@@ -1167,9 +1241,8 @@ function connectSocket(){
 }
 async function handle_new_question(response){
     let target_question = response.target_question['question']
-    let target_attach = response.target_question['attach']
     console.log(target_question)
-    console.log(target_attach)
+    let target_attach = response.target_question['attach']
     const ban = banMap.get(target_question[0].ban_id);
     const student = studentMap.get(target_question[0].student_id);
     target_question[0].origin = student ? student.origin : '원생 정보 없음';
@@ -1220,7 +1293,6 @@ async function handle_new_question(response){
     message.contents = `<td class="col-4"style="margin-top: 5px;">${q_category(target_question[0].category)}</td><td class="col-6"style="margin-top: 5px;">${make_small_char(target_question[0].title)}</td><td class="col-2"><a class="btn-two yellow small" style="margin-top: 0px;margin-bottom: 0px;margin-left: 0px;width: 100%;height: 90%; color:black;"onclick="show_question_detail(${target_question[0].id},0)">확인</a></td>`
     AlarmList.push(message)
     $('#alarm_num').html(AlarmList.length)
-    console.log(AlarmList)
     // 반 데이터를 Map으로 매핑
     question_paginating(target_questions,0)
 }
@@ -1242,7 +1314,6 @@ function show_alarmlist(){
 }
 async function handle_new_consulting(response){
     let target_consulting = response.target_consulting
-    console.log(target_consulting)
     // let target_attach = response.target_question['attach']
     // const ban = banMap.get(target_question[0].ban_id);
     // const student = studentMap.get(target_question[0].student_id);
@@ -1453,6 +1524,7 @@ function question_paginating(qdata,done_code){
     });
     let copy_data = qdata.slice()
     let target = copy_data.length > 0 ? copy_data.filter(q=>q.answer == done_code) : 0;
+    console.log(target)
     if(target == 0){
         $('#so_question').hide();
         $('#so_pagination').hide();
@@ -1477,10 +1549,13 @@ function question_paginating(qdata,done_code){
                 <td class="col-1">${item.teacher_name}</td>
                 <td class="col-1">${item.origin}</td>
                 <td class="col-2">${item.title}</td>
-                <td class="col-3">${make_small_char(item.contents)}</td>
-                <td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id})"><span class="cursor">✏️</span></td>
-                <td class="col-1" onclick="delete_question(${item.id})"><span class="cursor">❌</span></td>
-                `;
+                <td class="col-3">${make_small_char(item.contents)}</td>`
+                if(item.category < 3){
+                    dataHtml +=`<td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id})"><span class="cursor">✏️</span> 처리결과 : ${make_answer_code(item.answer_reject_code)}</td>`
+                }else{
+                    dataHtml +=`<td class="col-1 custom-control custom-control-inline custom-checkbox" data-bs-toggle="modal" data-bs-target="#soanswer" onclick="get_question_detail(${item.id})"><span class="cursor">✏️</span></td>`
+                }
+                dataHtml += `<td class="col-1" onclick="delete_question(${item.id})"><span class="cursor">🗑️</span></td>`;
             });
             $('#so_tr').html(dataHtml);
         }
@@ -1624,6 +1699,11 @@ async function show_question_detail(q_id,question_detail_data){
             <div class="modal-body-select-container">
                <div class="modal-body-select-label"><span class="modal-body-select-container-span">처리</span></div>
                <div>${make_answer_code(question_detail_data.answer_reject_code)}</div>
+               <select class="modal-body-select w-50" id="o_ban_id_modi" style="margin-left:50px">
+                    <option value=-1 selected>처리 결과를 변경하지 않기</option>
+                    <option value=0>반려</option>
+                    <option value=1>승인</option>
+                </select>
             </div>`
         }
         temp_answer_list += `
@@ -1737,12 +1817,7 @@ async function post_answer(q_id, category,done_code) {
         }else{
             // 수정의 경우
             answer_contents = $('#answer_content_modi').val()
-            o_ban_id = 0
-            if(category == 2) {
-                o_ban_id = Number($('#o_ban_id2').val().split('_')[0])
-            }else if(category == 3 || category == 1){
-                o_ban_id = $('#o_ban_id').val()
-            }
+            o_ban_id = $('#o_ban_id_modi').val()
         }
         const formData = new FormData();
         const fileInput = document.getElementById('file-upload');
@@ -2401,7 +2476,6 @@ function post_consulting_request() {
         // 개별 학생 대상 인 경우  
         let indivi_student_selections = selectedStudentList.filter(value => (value.includes('_')) && !(value.includes('-1')));
         if (indivi_student_selections.length != 0) {
-            console.log(indivi_student_selections)
             indivi_student_selections.forEach(value => {
                 v = String(value).split('_')
                 s_info = studentsData.filter(a => a.student_id ==  Number(v[3]))[0]

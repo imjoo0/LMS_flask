@@ -16,20 +16,7 @@ import pandas as pd
 from urllib.parse import quote
 from flask_socketio import join_room, emit
 from LMSapp import socketio
-# 양방향 연결 
-# from LMSapp import socketio
-
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
-
-
-current_time = datetime.utcnow()
-
-korea_timezone = pytz.timezone('Asia/Seoul')
-korea_time = current_time.astimezone(korea_timezone)
-
-Today = korea_time.date()
-today_yoil = korea_time.weekday() + 1
-standard = datetime.strptime('11110101', "%Y%m%d").date()
 
 # 선생님 메인 페이지
 @bp.route("/", methods=['GET'])
@@ -38,26 +25,27 @@ def home(u):
     if request.method == 'GET':
         teacher_info = User.query.filter(User.user_id == u['user_id']).first()
         return render_template('teacher.html', user=teacher_info)
+# 차트 관련
+@bp.route('/get_banstudents_data', methods=['GET'])
+@authrize
+def get_banstudents_data(u):
+    global all_data 
+    all_data = callapi.call_api(u['id'], 'get_myban_student_online')
+    takeovers = TakeOverUser.query.filter(TakeOverUser.teacher_id == u['id']).all()
+    if len(takeovers) != 0 :
+        for takeover in takeovers:
+            all_data += callapi.call_api(takeover.takeover_id, 'get_myban_student_online')
+    return jsonify({'all_data':all_data})
 
 # 차트 관련
 @bp.route('/get_teacher_data', methods=['GET'])
 @authrize
-def get_mybans(u):
+def get_teacher_data(u):
     all_consulting = []
     all_task = []
     all_consulting_category = []
-    ban_data = callapi.call_api(u['user_id'], 'get_mybans_new')
-    my_students = callapi.call_api(u['id'], 'get_mystudents_new')
-    takeovers = TakeOverUser.query.filter(TakeOverUser.teacher_id == u['id']).all()
-    takeovers_num = len(takeovers)
-    
-    if takeovers_num != 0 :
-        for takeover in takeovers:
-            ban_data += callapi.call_api(takeover.takeover_user, 'get_mybans_new')
-            my_students += callapi.call_api(takeover.takeover_id, 'get_mystudents_new')
-
     # 상담
-    for ban in ban_data:
+    for ban in all_data:
         query = '''
         SELECT consulting.origin, consulting.student_name, consulting.student_engname, consulting.id, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate, consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result
         FROM consulting
@@ -66,17 +54,17 @@ def get_mybans(u):
         OR (consulting.category_id < 100 AND consulting.done != 0 AND consulting.ban_id=%s)
         OR (consulting.category_id >= 100 AND consulting.startdate <= curdate() and consulting.ban_id=%s)
         '''
-        params = ({ban['startdate']},ban['register_no'],ban['register_no'],ban['register_no'], ) 
+        params = ({ban['startdate']},ban['ban_id'],ban['ban_id'],ban['ban_id'], ) 
         all_consulting.extend(common.db_connection.execute_query(query, params))
 
         query = "select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id left join taskcategory on task.category_id = taskcategory.id where ( (task.category_id = 11) or ( (task.cycle = %s) or (task.cycle = 0) ) ) and ( task.startdate <= curdate() and curdate() <= task.deadline ) and taskban.ban_id=%s;"
-        params = (today_yoil,ban['register_no'],)
+        params = (today_yoil,ban['ban_id'],)
         all_task.extend(common.db_connection.execute_query(query, params))  
 
     query = "SELECT * FROM LMS.consultingcategory;"
     all_consulting_category = common.db_connection.execute_query(query, )
             
-    return jsonify({'ban_data':ban_data,'all_consulting':all_consulting,'all_task':all_task,'my_students':my_students,'all_consulting_category':all_consulting_category})
+    return jsonify({'all_consulting':all_consulting,'all_task':all_task,'all_consulting_category':all_consulting_category})
 
 # 문의 리스트 / 문의 작성   
 @socketio.on('new_question',namespace='/question') 
@@ -149,6 +137,7 @@ def question(u):
         
         payloadText += '제목: `{}`\n\n```{}```'.format(title, contents.replace('\r\n', '\n\n') )
         link_url = '\n[링크 바로가기]http://purpleacademy.net:6725/manage/?q_id={}&q_type={}'.format(new_question.id,q_type)
+        link_url = link_url.replace('%', '%25')
         encoded_link_url  = quote(link_url)  # payloadText 인코딩
         payloadText += encoded_link_url
         files = request.files.getlist('file_upload')
@@ -162,7 +151,6 @@ def question(u):
         # except requests.exceptions.RequestException as e:
         #     print("시놀로지 전송 실패")
         #     print(e)
-
         return jsonify({'result': '완료'})
 
 # 오늘 해야 할 업무 완료 저장 

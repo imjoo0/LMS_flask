@@ -23,7 +23,9 @@ bp = Blueprint('manage', __name__, url_prefix='/manage')
 @authrize
 def home(u):
     if request.method == 'GET':
-        user = User.query.filter(User.user_id == u['user_id']).first()        
+        global user_mobileno
+        user = User.query.filter(User.user_id == u['user_id']).first()     
+        user_mobileno = user.mobileno   
         return render_template('manage.html', user=user,)
 
 @socketio.on('new_answer',namespace='/answer') 
@@ -69,13 +71,15 @@ def answer(u,id,done_code):
                     'templateCode': "work_cs_answer",
                     'recipientList': [{'recipientNo':target_question.mobileno, 'templateParameter': { '답변내용':answer_contents}, }, ], }
                 headers = {"X-Secret-Key": "K6FYGdFS", "Content-Type": "application/json;charset=UTF-8", }
-                http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
+                if(user_mobileno != '팀장'):
+                    http_post_requests = requests.post(post_url, json=data_sendkey, headers=headers)
         else:
             target_answer = Answer.query.filter(Answer.question_id == id).first()
             if(answer_contents != '' or answer_contents != None):
                 target_answer.content = answer_contents
             target_answer.created_at = Today
-            target_answer.reject_code = int(o_ban_id)
+            if(o_ban_id != -1):
+                target_answer.reject_code = int(o_ban_id)
             target_answer.question_id = id
             target_answer.writer_id = u['id']
 
@@ -146,6 +150,7 @@ def q_kind(id):
                 payloadText  += '퇴소 요청으로 변경된 문의가 있습니다'
         payloadText += ' 제목: `{}`\n\n```{}```'.format(target_question.title, target_question.contents.replace('\r\n', '\n\n') )
         link_url = '\n[링크 바로가기]http://purpleacademy.net:6725/manage/?q_id={}&q_type={}'.format(id,q_kind)
+        link_url = link_url.replace('%', '%25')
         payloadText += quote(link_url)  # payloadText 인코딩
 
         requestURI = URI + '&token=' + Synologytoken + '&payload={"text": "' + payloadText + '"}'
@@ -201,20 +206,19 @@ def new_question(id):
         target_question = {}
         q = Question.query.get_or_404(id)
         query = '''
-                    SELECT question.id,question.category,question.title,question.contents,question.teacher_id,question.ban_id,
-                    question.student_id,question.create_date,question.answer,
-                    question.consulting_history,question.mobileno,consulting.solution,consulting.reason,consulting.week_code,consultingcategory.name as consulting_category,consulting.category_id as consulting_categoryid,consulting.created_at as consulting_created_at ,
-                    answer.id as answer_id, user.eng_name as answerer, answer.title as answer_title,answer.content as answer_contents ,answer.created_at as answer_created_at,answer.reject_code as answer_reject_code
-                    from LMS.question
-                    left join answer on answer.question_id = question.id 
-                    left join user on user.id = answer.writer_id 
-                    left join consulting on question.consulting_history = consulting.id 
-                    left join consultingcategory on consulting.category_id = consultingcategory.id 
-                    WHERE question.id = %s;
+                SELECT question.id,question.category,question.title,question.contents,question.teacher_id,question.ban_id,
+                question.student_id,question.create_date,question.answer,
+                question.consulting_history,question.mobileno,consulting.solution,consulting.reason,consulting.week_code,consultingcategory.name as consulting_category,consulting.category_id as consulting_categoryid,consulting.created_at as consulting_created_at ,
+                answer.id as answer_id, user.eng_name as answerer, answer.title as answer_title,answer.content as answer_contents ,answer.created_at as answer_created_at,answer.reject_code as answer_reject_code
+                from LMS.question
+                left join answer on answer.question_id = question.id 
+                left join user on user.id = answer.writer_id 
+                left join consulting on question.consulting_history = consulting.id 
+                left join consultingcategory on consulting.category_id = consultingcategory.id 
+                WHERE question.id = %s;
                 '''
         params = (id, )
         target_question['question'] = common.db_connection.execute_query(query, params)
-        print(target_question['question'])
 
         query = 'select question_id,file_name,id,attachment.is_answer from attachment where attachment.question_id = %s;'
         target_question['attach'] = common.db_connection.execute_query(query, params)

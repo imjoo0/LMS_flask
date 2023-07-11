@@ -15,7 +15,6 @@ $(window).on('load', async function () {
         try{
             setIsFetching(true);
             await get_teacher_data()
-            home()
         }catch (error) {
             alert('Error occurred while retrieving data2.');
         }finally {
@@ -24,75 +23,8 @@ $(window).on('load', async function () {
     }
 })
 
-async function home(){
+async function home(total_now_student_num, total_hold_student_num, total_out_student_num){
     $('#make_out_button').show()
-    $('#ban_chart_list').empty()
-    if(Tban_data.length <= 0){
-        alert('담당중인 반이 없습니다')
-        return
-    }
-    // 인원 관리 
-    let temp_ban_option = '<option value="none" selected>반을 선택해주세요</option>';
-    let total_first_student_num = 0
-    let total_out_student_num = 0
-    let total_hold_student_num = 0
-    let total_now_student_num = 0
-    let temp_ban_list = ''
-    Tban_data.forEach((elem) => {
-        let semester = make_semester(elem.semester)
-        temp_ban_option += `<option value=${elem.register_no}>${elem.name} (${semester}월 학기)</option>`;
-        let first_student = Tall_students.filter(s=>s.ban_id == elem.register_no)
-        let first_student_num = first_student.length
-        let out_student_num = first_student_num != 0 ? first_student.filter(s=>s.category_id == 2 || s.category_id == 8).length : 0 
-        let hold_student_num = first_student_num != 0 ? first_student.filter(s=>s.category_id == 3).length : 0 
-        let now_student_num = first_student_num - out_student_num - hold_student_num
-
-        total_first_student_num += first_student_num
-        total_out_student_num += out_student_num
-        total_hold_student_num += hold_student_num
-        total_now_student_num += now_student_num
-
-        temp_ban_list += `
-            <tr class="row">
-                <th class="col-4">${elem.name}반 ( ${semester}학기 )</th>
-                <td class="col-2">${now_student_num}</td>
-                <td class="col-2">${hold_student_num}</td>
-                <td class="col-2">${out_student_num}</td>
-                <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${elem.register_no})">✔️</td>
-            </tr>
-        `
-    });
-    
-    let temp_ban_chart = `
-    <div class="d-flex justify-content-start align-items-start flex-column w-100 my-2">
-        <h5 class="mb-3"> 📌 초기 배정 원생 수:  ${total_first_student_num}</h5>
-        <div class="row w-100">
-            <div class="chart-wrapper col-sm-5"style="margin-left:30%">
-                <canvas id="total-chart-element" class="total-chart-element p-sm-3 p-2"></canvas>
-                <div class ="chart-data-summary">
-                    <span>관리중:${total_now_student_num}</span><br>
-                    <span>* 보류:${total_hold_student_num}</span><br>
-                    <span>* 퇴소:${total_out_student_num}</span>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 d-flex justify-content-center align-items-center">
-            <table class="table text-center" id="class_list">
-                <tbody style="width:100%;">
-                    <tr class="row">
-                        <th class="col-4">반</th>
-                        <th class="col-2">관리중</th>
-                        <th class="col-2">보류</th>
-                        <th class="col-2">퇴소</th>
-                        <th class="col-2">원생 목록</th>  
-                    </tr>    
-                    ${temp_ban_list}
-                </tbody>
-            </table>
-        </div>
-    </div>
-    `;
-    $('#ban_chart_list').html(temp_ban_chart);
     new Chart($((`#total-chart-element`)), {
         type: 'doughnut',
         data: {
@@ -113,13 +45,11 @@ async function home(){
             },
         },
     });
-    // 본원 문의 ban선택 옵션 같이 붙이기 
-    $('#my_ban_list').html(temp_ban_option)
-
+}
+function home_task(){
     // 업무 관리 
     let today_task_num = Tall_task.length
     // 상담 목록
-    let taskConsultingsData = Tall_consulting.length > 0 ? Tall_consulting.filter(consulting => (consulting.category_id > 100) && ( (consulting.done == 1 && new Date(consulting.created_at).setHours(0, 0, 0, 0) === today) || (consulting.done == 0) ) ) : []; 
     let today_taskconsulting_num = taskConsultingsData.length;
     let total_task_num = today_task_num + today_taskconsulting_num
     let temp_report = ''
@@ -166,23 +96,14 @@ async function home(){
                 <tbody style="width:100%;"> 
                 `;
                 $.each(today_consulting_notdone, function (index, taskconsulting) {
-                    let student_info = Tall_students.filter(s=> s.student_id == taskconsulting.student_id)[0]
-                    let contents = ''
-                    if(taskconsulting.contents && taskconsulting.contents.length > 30) {
-                        contents = taskconsulting.contents.substring(0, 30) + ' ▪️▪️▪️ ';
-                    }
-                    let student_category = make_out(2)
-                    if(student_info != undefined){
-                        student_category = make_out(student_info.category_id);
-                    }
                     let done_class = ''
                     if(taskconsulting.done == 1){
                         done_class = 'done';
                     }
                     temp_taskconsulting += `
                     <tr class="row">
-                        <td class="col-5 ${done_class}">${contents}</td>
-                        <td class="col-2 ${student_category} ${done_class}">${taskconsulting.origin}</br>${student_category}</td>
+                        <td class="col-5 ${done_class}">${make_small_char(taskconsulting.contents)}</td>
+                        <td class="col-2 ${done_class}">${taskconsulting.origin}</td>
                         <td class="col-2 ${done_class}">${taskconsulting.student_name}</br>${taskconsulting.student_engname}</td>
                         <td class="col-1 ${done_class}" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting('${taskconsulting.student_id}')"><span class="cursor-pointer">📝</td>
                         <td class="col-2 ${done_class}">${make_date(taskconsulting.deadline)} ></td>
@@ -273,26 +194,25 @@ async function home(){
             });
         });
         $('#cate_menu').html(temp_cate_menu);
-    }
-
-    // 미학습 관리 
-    let ulearned_student_num = Tunlearned_student.length
-    if(ulearned_student_num != 0){
-        uconsulting_todo_student = Tunlearned_student.filter(u => u.consulting_done == 0)
-        let uconsulting_todo_student_num = uconsulting_todo_student.length
-        temp_report += `
-        <td class="col-3"> ${ulearned_student_num - uconsulting_todo_student_num}/${ulearned_student_num} </td>
-        <td class="col-3"> ( ${answer_rate(ulearned_student_num - uconsulting_todo_student_num, ulearned_student_num).toFixed(0)}% ) </td>
-        `;
-        get_unlearned_consulting_student(0)
-    }else{
-        temp_report += `
-        <td class="col-3">미학습 발생이 없습니다</td>
-        <td class="col-3">➖</td>
-        `;
-    }
-    $('#classreport').html(temp_report)    
+        let ulearned_student_num = unlearnedConsultingsData.length
+        if(ulearned_student_num != 0){
+            let uconsulting_todo_student = unlearnedConsultingsData.filter(u => u.consulting_done == 0)
+            let uconsulting_todo_student_num = uconsulting_todo_student.length
+            temp_report += `
+            <td class="col-3"> ${ulearned_student_num - uconsulting_todo_student_num}/${ulearned_student_num} </td>
+            <td class="col-3"> ( ${answer_rate(ulearned_student_num - uconsulting_todo_student_num, ulearned_student_num).toFixed(0)}% ) </td>
+            `;
+            get_unlearned_consulting_student(0)
+        }else{
+            temp_report += `
+            <td class="col-3">미학습 발생이 없습니다</td>
+            <td class="col-3">➖</td>
+            `;
+        }
+        $('#classreport').html(temp_report)   
+        }
 }
+
 // 미학습 상담 목록
 async function get_unlearned_consulting_student(done_code) {
     $('#consultingstudent_search_input').off('keyup');
@@ -1140,7 +1060,7 @@ function update_done(target) {
                 target = Tall_task.filter(t=>t.id == target)[0]
                 target.created_at = today
                 target.done = 1
-                home()
+                home_task()
             } else {
                 alert(response["result"])
             }
@@ -1412,10 +1332,12 @@ async function get_question_detail(q_id) {
     $('#manage_answer').hide()
     let question_detail_data = TquestionAnswerdata.filter(q => q.id == q_id)[0]
     const student = Tall_students.filter(s=>s.student_id == question_detail_data.student_id)[0]
+    const ban = Tban_data.filter(b=>b.register_no == question_detail_data.ban_id)[0]
+    console.log(ban)
     question_detail_data.contents = question_detail_data.contents.replace(/\n/g, '</br>')
     question_detail_data.origin =student ?  student.origin : '';
     question_detail_data.student_name =student ?  student.nick_name +'(' + student.name + ')' : '특정 원생 선택 하지 않음';
-    question_detail_data.ban_name = student ?  student.classname : Tban_data.filter(b=>b.register_no == question_detail_data.ban_id)[0].name;
+    question_detail_data.ban_name = ban ?  ban.name : '반 정보 없음' ;
     // question_detail_data.teacher_name = ''
     let attach = TattachMap.get(q_id);
     if(attach != undefined){

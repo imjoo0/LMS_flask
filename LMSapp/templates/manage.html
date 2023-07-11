@@ -143,8 +143,8 @@
                                 <th class="col-12" id="displayCount"></th>
                             </tr>
                             <tr class="row" style="background:#DCE6F2;">
-                                <th class="col-3">원생 정보</th>
-                                <th class="col-2">원번</th>
+                                <th class="col-4">원생 정보</th>
+                                <th class="col-1">원번</th>
                                 <th class="col-3">연락처</th>
                                 <th class="col-3">미학습</th>
                                 <th class="col-1">상세</th>
@@ -751,6 +751,7 @@
     <div id="user-info" class="border-bottom">
         <div class="d-flex justify-content-center flex-xl-row row-cols-xl-2 flex-column-reverse">
             <!-- 왼쪽 버튼 4개 -->
+            {% if user['mobileno'] != '팀장' %}
             <div class="d-flex justify-content-center flex-row flex-wrap pb-xl-5 pe-xl-3 pb-5">
                 <!-- <button onclick="edit_personal_info()">정보 수정</button> -->
                 <div class="manage-work-btn" style="margin: 0 2% 2% 0;" data-bs-toggle="modal" data-bs-target="#request_consulting" onclick="request_consulting()">
@@ -786,6 +787,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
 
             <!-- 오른쪽 계정 정보 -->
             <div class="d-flex justify-content-start align-items-center pb-xl-5 ps-xl-3 pb-3">
@@ -801,10 +803,12 @@
                                 <a href="#" class="ms-1" data-bs-toggle="modal" data-bs-target="#put_my">
                                     <i class="fa-solid fa-gear text-primary fa-lg fs-6"></i>
                                 </a>
+                                {% if user['mobileno'] != '팀장' %}
                                 <a href="#" class="ms-1" data-bs-toggle="modal" data-bs-target="#alarm_modal" onclick="show_alarmlist()">
                                     <i class="fa-solid fa-bell text-normal fa-lg fs-6" style="color:#F1C376;"></i>
                                     <span class="notification-badge" style="font-size:15px;bottom: 66.9%;" id="alarm_num"></span>
                                 </a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -842,6 +846,7 @@
                     <li class="nav-item">
                         <a class="nav-link" onclick="get_question_list(1,0)">이반 퇴소 관리</a>
                     </li>
+                    {% if user['mobileno'] != '팀장' %}
                     <li class="nav-item">
                         <a class="nav-link" onclick="get_question_list(3,0)">일반 문의</a>
                     </li>
@@ -851,6 +856,7 @@
                     <li class="nav-item">
                         <a class="nav-link" onclick="get_question_list(4,0)">기술지원 문의</a>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
