@@ -5,11 +5,13 @@ let tempConsultingData,temptaskData;
 let AlarmList = []
 const studentMap = new Map();
 const banMap = new Map();
+const TstudentMap = new Map();
+const TbanMap = new Map();
 const attachMap = new Map();
 const consultingStudentMap = new Map();
 
 // teacher 변수
-let  Tconsulting_category, Tban_data, Tall_consulting,taskConsultingsData,unlearnedConsultingsData,unlearnedStudents, Tmy_students, Tall_task, Ttask_consulting, Tunlearned_student, Tall_students, Tstudent_consulting, TquestionAnswerdata, TquestionAttachdata;
+let  Tconsulting_category, Tban_data, Tall_consulting, taskConsultingsData, unlearnedConsultingsData, unlearnedConsultingsCount, Tmy_students, Tall_task, Ttask_consulting, Tunlearned_student, Tall_students, Tstudent_consulting, TquestionAnswerdata, TquestionAttachdata;
 const TattachMap = new Map();
 
 let isFetching = false;
@@ -223,12 +225,14 @@ function delay(ms) {
 // teacher_function
 async function get_teacher_data(){
     try{
+        $('#ban_report_loading').show()
+        $('#ban_report_notloading').hide()
         const banstudentsWorker = new Worker("../static/js/bans_worker.js");
         const teacherdataWorker = new Worker("../static/js/students_worker.js")
         let temp_ban_option = '<option value="none" selected>반을 선택해주세요</option>';
         banstudentsWorker.postMessage('get_banstudentsData');
+        teacherdataWorker.postMessage('get_teacherdata')
         banstudentsWorker.onmessage = function (event) {
-            teacherdataWorker.postMessage('get_teacherdata')
             $('#ban_chart_list').empty()
             let all_data = event.data.all_data
             let total_first_student_num = all_data.length;
@@ -245,10 +249,11 @@ async function get_teacher_data(){
                 alert('담당중인 반이 없습니다')
                 return
             }
+            Tmy_students = []
             let temp_ban_list = ''
-            var { temp_banData, temp_studentsData, temp_unlearnedStudents } = all_data.reduce(
+            var { temp_banData, temp_studentsData } = all_data.reduce(
                 (acc, item) => {
-                    if (!banMap.has(item.ban_id)) {
+                    if (!TbanMap.has(item.ban_id)) {
                         let semester = make_semester(item.semester)
                         // 반 차트를 그리기 위한 변수 선언 
                         let first_student = all_data.filter(s=>s.ban_id == item.ban_id)
@@ -267,11 +272,9 @@ async function get_teacher_data(){
                             </tr>
                         `
 
-                        banMap.set(item.ban_id, {
-                        ban_name: item.ban_name,
-                        teacher_email: item.teacher_email,
-                        teacher_name: item.teacher_engname + ' (' + item.teacher_name + ')',
-                        ban_startdate:item.startdate
+                        TbanMap.set(item.ban_id, {
+                            ban_name: item.ban_name,
+                            ban_startdate:item.startdate
                         });
                 
                         acc.temp_banData.push({
@@ -285,7 +288,7 @@ async function get_teacher_data(){
 
                     }
               
-                    studentMap.set(item.student_id,{
+                    TstudentMap.set(item.student_id,{
                         origin:item.origin,
                         ban_id:item.ban_id,
                         ban_name:item.ban_name,
@@ -307,9 +310,25 @@ async function get_teacher_data(){
                         birthday: item.birthday,
                         mobileno: item.mobileno
                     });
+
+                    if(item.category_id == 1){
+                        Tmy_students.push({
+                            student_id: item.student_id,
+                            teacher_id: item.teacher_id,
+                            ban_id: item.ban_id,
+                            ban_name: item.ban_name,
+                            birthday: item.birthday,
+                            category_id: item.category_id,
+                            eng_name: item.nick_name,
+                            name: item.name,
+                            origin: item.origin,
+                            birthday: item.birthday,
+                            mobileno: item.mobileno
+                        })
+                    }
                     return acc;
                 },
-                { temp_banData: [], temp_studentsData: [],temp_unlearnedStudents:[], banMap: new Map(), studentMap:new Map() }
+                { temp_banData: [], temp_studentsData: [], TbanMap: new Map(), TstudentMap:new Map() }
             );
             Tban_data = temp_banData
             Tall_students = temp_studentsData
@@ -344,212 +363,180 @@ async function get_teacher_data(){
             </div>
             `;
             $('#ban_chart_list').html(temp_ban_chart);
-            unlearnedStudents = temp_unlearnedStudents
-            return home(total_now_student_num, total_hold_student_num, total_out_student_num)
+            return home_chart(total_now_student_num, total_hold_student_num, total_out_student_num).then(()=>{
+                teacherdataWorker.onmessage = function (event) {
+                    Tall_consulting = event.data.all_consulting
+                    Tconsulting_category = event.data.all_consulting_category
+                    Tall_task =  event.data.all_task
+                    let todayConsultingsData = Tall_consulting.length > 0 ? Tall_consulting.filter(consulting => (consulting.done == 1 && new Date(consulting.created_at).setHours(0, 0, 0, 0) === today) || (consulting.done == 0) ) : []; 
+                    var { temp_taskConsultingsData, temp_unlearnedConsultingsData } = todayConsultingsData.reduce(
+                        (acc, item) => {
+                            const student = TstudentMap.get(item.student_id)
+                            if(item.week_code < 0){
+                                acc.temp_taskConsultingsData.push({
+                                    ban_id:item.ban_id,
+                                    ban_name:student.ban_name,
+                                    contents: item.contents,
+                                    category_id: item.category_id,
+                                    category: item.category,
+                                    startdate:item.startdate,
+                                    deadline:item.deadline,
+                                    done:item.done,
+                                    created_at:item.created_at,
+                                    missed:item.missed,
+                                    reason:item.reason,
+                                    result:item.result,
+                                    solution:item.solution,
+                                    week_code:item.week_code,
+                                    student_id:item.student_id,
+                                    student_name:student.student_name,
+                                    student_birthday:student.birthday,
+                                    student_mobileno:student.mobileno,
+                                    student_category:student.category_id,
+                                    origin:item.origin,
+                                    id:item.id
+                                });
+                            }else{
+                                acc.temp_unlearnedConsultingsData.push({
+                                    ban_id:item.ban_id,
+                                    ban_name:student.ban_name,
+                                    contents: item.contents,
+                                    category_id: item.category_id,
+                                    category: item.category,
+                                    startdate:item.startdate,
+                                    deadline:item.deadline,
+                                    done:item.done,
+                                    created_at:item.created_at,
+                                    missed:item.missed,
+                                    reason:item.reason,
+                                    result:item.result,
+                                    solution:item.solution,
+                                    week_code:item.week_code,
+                                    student_id:item.student_id,
+                                    student_name:student.student_name,
+                                    student_birthday:student.birthday,
+                                    student_mobileno:student.mobileno,
+                                    student_category:student.category_id,
+                                    origin:item.origin,
+                                    id:item.id
+                                })
+                            }
+                            let str_studentid = String(item.student_id)
+                            if(consultingStudentMap.has(str_studentid)) {
+                                const existingconsulting = consultingStudentMap.get(str_studentid);
+                                existingconsulting.push({
+                                    ban_id:item.ban_id,
+                                    ban_name:student.ban_name,
+                                    contents: item.contents,
+                                    category_id: item.category_id,
+                                    category: item.category,
+                                    startdate:item.startdate,
+                                    deadline:item.deadline,
+                                    done:item.done,
+                                    created_at:item.created_at,
+                                    missed:item.missed,
+                                    reason:item.reason,
+                                    result:item.result,
+                                    solution:item.solution,
+                                    week_code:item.week_code,
+                                    student_id:item.student_id,
+                                    student_name:student.student_name,
+                                    student_birthday:student.birthday,
+                                    student_mobileno:student.mobileno,
+                                    student_category:student.category_id,
+                                    origin:item.origin,
+                                    id:item.id
+                                });
+                            }else {
+                                consultingStudentMap.set(str_studentid,[{
+                                    ban_id:item.ban_id,
+                                    ban_name:student.ban_name,
+                                    contents: item.contents,
+                                    category_id: item.category_id,
+                                    category: item.category,
+                                    startdate:item.startdate,
+                                    deadline:item.deadline,
+                                    done:item.done,
+                                    created_at:item.created_at,
+                                    missed:item.missed,
+                                    reason:item.reason,
+                                    result:item.result,
+                                    solution:item.solution,
+                                    week_code:item.week_code,
+                                    student_id:item.student_id,
+                                    student_name:student.student_name,
+                                    student_birthday:student.birthday,
+                                    student_mobileno:student.mobileno,
+                                    student_category:student.category_id,
+                                    origin:item.origin,
+                                    id:item.id
+                                }]);
+                            }
+        
+                            return acc;
+                        },
+                        { temp_taskConsultingsData: [], temp_unlearnedConsultingsData: [], consultingStudentMap: new Map() }
+                    );
+                    taskConsultingsData = temp_taskConsultingsData
+                    unlearnedConsultingsData = temp_unlearnedConsultingsData
+                    unlearnedConsultingsCount = unlearnedConsultingsData.length
+                    if(unlearnedConsultingsCount != 0){
+                        Tunlearned_student = Tmy_students.reduce((acc, student) => {
+                        const consultingList = unlearnedConsultingsData.filter(c => c.student_id === student.student_id);
+                        const unlearned_num = consultingList.length;
+                        if (unlearned_num>0){
+                            const todoconsulting = consultingList.filter(c => c.done == 0)
+                            const todoconsulting_num = todoconsulting.length
+                            if(todoconsulting_num > 0) {
+                                const deadline = todoconsulting.reduce((prev, current) => {
+                                    let prevDueDate = new Date(prev.deadline).setHours(0, 0, 0, 0);
+                                    let currentDueDate = new Date(current.deadline).setHours(0, 0, 0, 0);
+                                    return currentDueDate < prevDueDate ? current : prev;
+                                }, todoconsulting[0]);
+                                const missed = todoconsulting.reduce((prev, current) => {
+                                    let prevDueDate = new Date(prev.missed).setHours(0, 0, 0, 0);
+                                    let currentDueDate = new Date(current.missed).setHours(0, 0, 0, 0);
+                                    return currentDueDate < prevDueDate ? prev : current;
+                                }, todoconsulting[0]);
+                                acc.push({
+                                    'teacher_id': student.teacher_id,
+                                    'student_id': student.student_id,
+                                    'student_origin': student.origin,
+                                    'student_name': student.name + '(' + student.eng_name + ')',
+                                    'student_mobileno': student.mobileno,
+                                    'student_birthday': student.birthday,
+                                    'ban_id': student.ban_id,
+                                    'ban_name': student.ban_name,
+                                    'consulting_done':0,
+                                    'todoconsulting_num':todoconsulting_num,
+                                    'deadline': make_date(deadline.deadline),
+                                    'missed': missed_date(missed.missed)
+                                });
+                            }else{
+                                acc.push({
+                                    'teacher_id': student.teacher_id,
+                                    'student_id': student.student_id,
+                                    'student_origin': student.origin,
+                                    'student_name': student.name + '(' + student.eng_name + ')',
+                                    'student_mobileno': student.mobileno,
+                                    'student_birthday': student.birthday,
+                                    'ban_id': student.ban_id,
+                                    'ban_name': student.ban_name,
+                                    'consulting_done':1,
+                                    'todoconsulting_num':todoconsulting_num,
+                                    'deadline': make_date('3000-01-01'),
+                                    'missed': missed_date('1111-01-01')
+                                });
+                            }
+                        }
+                            return acc;
+                        }, []);
+                    }
+                    home_task()
+                };
+            })
         };
-        teacherdataWorker.onmessage = function (event) {
-            Tall_consulting = event.data.all_consulting
-            Tconsulting_category = event.data.all_consulting_category
-            Tall_task =  event.data.all_task
-            let todayConsultingsData = Tall_consulting.length > 0 ? Tall_consulting.filter(consulting => (consulting.done == 1 && new Date(consulting.created_at).setHours(0, 0, 0, 0) === today) || (consulting.done == 0) ) : []; 
-            var { temp_taskConsultingsData, temp_unlearnedConsultingsData } = todayConsultingsData.reduce(
-                (acc, item) => {
-                    if(item.week_code < 0){
-                        acc.temp_taskConsultingsData.push({
-                            ban_id:item.ban_id,
-                            contents: item.contents,
-                            category_id: item.category_id,
-                            category: item.category,
-                            startdate:item.startdate,
-                            deadline:item.deadline,
-                            done:item.done,
-                            created_at:item.created_at,
-                            missed:item.missed,
-                            reason:item.reason,
-                            result:item.result,
-                            solution:item.solution,
-                            week_code:item.week_code,
-                            student_id:item.student_id,
-                            student_name:item.student_name,
-                            origin:item.origin,
-                            id:item.id
-                        });
-                    }else{
-                        acc.temp_unlearnedConsultingsData.push({
-                            ban_id:item.ban_id,
-                            contents: item.contents,
-                            category_id: item.category_id,
-                            category: item.category,
-                            startdate:item.startdate,
-                            deadline:item.deadline,
-                            done:item.done,
-                            created_at:item.created_at,
-                            missed:item.missed,
-                            reason:item.reason,
-                            result:item.result,
-                            solution:item.solution,
-                            week_code:item.week_code,
-                            student_id:item.student_id,
-                            student_name:item.student_name,
-                            origin:item.origin,
-                            id:item.id
-                        })
-                    }
-                    if(consultingStudentMap.has(item.student_id)) {
-                        const existingconsulting = consultingStudentMap.get(item.student_id);
-                        existingconsulting.push({
-                            ban_id:item.ban_id,
-                            contents: item.contents,
-                            category_id: item.category_id,
-                            category: item.category,
-                            startdate:item.startdate,
-                            deadline:item.deadline,
-                            done:item.done,
-                            created_at:item.created_at,
-                            missed:item.missed,
-                            reason:item.reason,
-                            result:item.result,
-                            solution:item.solution,
-                            week_code:item.week_code,
-                            student_id:item.student_id,
-                            student_name:item.student_name,
-                            origin:item.origin,
-                            id:item.id
-                        });
-                    }else {
-                        consultingStudentMap.set(item.student_id,[{
-                            ban_id:item.ban_id,
-                            contents: item.contents,
-                            category_id: item.category_id,
-                            category: item.category,
-                            startdate:item.startdate,
-                            deadline:item.deadline,
-                            done:item.done,
-                            created_at:item.created_at,
-                            missed:item.missed,
-                            reason:item.reason,
-                            result:item.result,
-                            solution:item.solution,
-                            week_code:item.week_code,
-                            student_id:item.student_id,
-                            student_name:item.student_name,
-                            origin:item.origin,
-                            id:item.id
-                        }]);
-                    }
-
-                    return acc;
-                },
-                { temp_taskConsultingsData: [], temp_unlearnedConsultingsData: [], consultingStudentMap: new Map() }
-            );
-            taskConsultingsData = temp_taskConsultingsData
-            unlearnedConsultingsData = temp_unlearnedConsultingsData
-            
-            Tmy_students = Tall_students.filter(s=>s.category_id == 1)
-            Tunlearned_student = Tmy_students.reduce((acc, student) => {
-                const consultingList = unlearnedConsultingsData.filter(c => c.student_id === student.student_id);
-                const unlearned_num = consultingList.length;
-                if (unlearned_num>0){
-                    const todoconsulting = consultingList.filter(c => c.done == 0)
-                    const todoconsulting_num = todoconsulting.length
-                    if(todoconsulting_num > 0) {
-                        const deadline = todoconsulting.reduce((prev, current) => {
-                            let prevDueDate = new Date(prev.deadline).setHours(0, 0, 0, 0);
-                            let currentDueDate = new Date(current.deadline).setHours(0, 0, 0, 0);
-                            return currentDueDate < prevDueDate ? current : prev;
-                        }, todoconsulting[0]);
-                        const missed = todoconsulting.reduce((prev, current) => {
-                            let prevDueDate = new Date(prev.missed).setHours(0, 0, 0, 0);
-                            let currentDueDate = new Date(current.missed).setHours(0, 0, 0, 0);
-                            return currentDueDate < prevDueDate ? prev : current;
-                        }, todoconsulting[0]);
-                        acc.push({
-                            'teacher_id': student.teacher_id,
-                            'student_id': student.student_id,
-                            'student_origin': student.origin,
-                            'student_name': student.name + '(' + student.nick_name + ')',
-                            'student_mobileno': student.mobileno,
-                            'student_birthday': student.birthday,
-                            'ban_id': student.ban_id,
-                            'ban_name': student.ban_name,
-                            'consulting_done':0,
-                            'todoconsulting_num':todoconsulting_num,
-                            'deadline': make_date(deadline.deadline),
-                            'missed': missed_date(missed.missed)
-                        });
-                    }else{
-                        acc.push({
-                            'teacher_id': student.teacher_id,
-                            'student_id': student.student_id,
-                            'student_origin': student.origin,
-                            'student_name': student.name + '(' + student.nick_name + ')',
-                            'student_mobileno': student.mobileno,
-                            'student_birthday': student.birthday,
-                            'ban_id': student.ban_id,
-                            'ban_name': student.ban_name,
-                            'consulting_done':1,
-                            'todoconsulting_num':todoconsulting_num,
-                            'deadline': make_date('3000-01-01'),
-                            'missed': missed_date('1111-01-01')
-                        });
-                    }
-                }
-                return acc;
-            }, []);
-            console.log(Tunlearned_student)
-            home_task()
-            // Tstudent_consulting = Tall_students.reduce((acc, student) => {
-            //     const consultingList = Tall_consulting.filter(c => c.student_id === student.student_id);
-            //     const ulconsultings =  consultingList.length > 0 ? consultingList.filter(c => c.category_id < 100) : []
-            //     const ulearned_num =  ulconsultings.length
-            //     let todoconsulting = consultingList.length > 0 ? consultingList.filter(c => c.done == 0) : []
-            //     let todoconsulting_num = todoconsulting.length
-            //     const doneconsulting =consultingList.length > 0 ? consultingList.filter(c => c.done == 1) : []
-            //     const doneconsulting_num = doneconsulting.length
-            //     if(student.category_id == 1){
-            //         acc.push({
-            //             'teacher_id': student.teacher_id,
-            //             'student_id': student.student_id,
-            //             'student_origin': student.origin,
-            //             'student_name': student.name + '(' + student.nick_name + ')',
-            //             'student_mobileno': student.mobileno,
-            //             'student_category': student.category_id,
-            //             'student_birthday': student.birthday,
-            //             'ban_id': student.ban_id,
-            //             'ban_name': student.classname,
-            //             'todoconsulting':todoconsulting,
-            //             'todoconsulting_num':todoconsulting_num,
-            //             'doneconsulting':doneconsulting,
-            //             'doneconsulting_num':doneconsulting_num,
-            //             'ulconsultings':ulconsultings,
-            //             'ulearned_num':ulearned_num,
-            //             'is_out_student':0
-            //         });
-            //     }else{
-            //         todoconsulting = todoconsulting.filter(c=>c.category_id < 100)
-            //         todoconsulting_num = todoconsulting.length
-            //         acc.push({
-            //             'teacher_id': student.teacher_id,
-            //             'student_id': student.student_id,
-            //             'student_origin': student.origin,
-            //             'student_name': student.name + '(' + student.nick_name + ')',
-            //             'student_mobileno': student.mobileno,
-            //             'student_category': student.category_id,
-            //             'student_birthday': student.birthday,
-            //             'ban_id': student.ban_id,
-            //             'ban_name': student.classname,
-            //             'todoconsulting':todoconsulting,
-            //             'todoconsulting_num':todoconsulting_num,
-            //             'doneconsulting':doneconsulting,
-            //             'doneconsulting_num':doneconsulting_num,
-            //             'ulearned_num':ulearned_num,
-            //             'is_out_student':1
-            //         });
-            //     }
-            //     return acc;
-            // }, []);
-
-        };
+        
     
         
     } catch (error) {

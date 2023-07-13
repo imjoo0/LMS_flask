@@ -23,18 +23,28 @@ bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 @authrize
 def home(u):
     if request.method == 'GET':
+        print(Today)
         teacher_info = User.query.filter(User.user_id == u['user_id']).first()
         return render_template('teacher.html', user=teacher_info)
 # 차트 관련
 @bp.route('/get_banstudents_data', methods=['GET'])
 @authrize
 def get_banstudents_data(u):
-    global all_data 
+    global ban_data 
+    ban_data = []
+    ban_id_set = set()
     all_data = callapi.call_api(u['id'], 'get_myban_student_online')
     takeovers = TakeOverUser.query.filter(TakeOverUser.teacher_id == u['id']).all()
     if len(takeovers) != 0 :
         for takeover in takeovers:
             all_data += callapi.call_api(takeover.takeover_id, 'get_myban_student_online')
+    # 중복된 ban_id를 제거하기 위해 set을 사용하여 고유한 값만 유지합니다.
+    for data in all_data:
+        ban_id = data['ban_id']
+        startdate = data['startdate']
+        if ban_id not in ban_id_set:
+            ban_data.append({'ban_id': ban_id, 'startdate': startdate})
+            ban_id_set.add(ban_id)
     return jsonify({'all_data':all_data})
 
 # 차트 관련
@@ -45,7 +55,7 @@ def get_teacher_data(u):
     all_task = []
     all_consulting_category = []
     # 상담
-    for ban in all_data:
+    for ban in ban_data:
         query = '''
         SELECT consulting.origin, consulting.student_name, consulting.student_engname, consulting.id, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate, consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result
         FROM consulting

@@ -1,10 +1,7 @@
-from flask import Blueprint,render_template, jsonify, request,redirect,url_for
+from flask import Blueprint,render_template, jsonify, request,redirect,url_for, session
 from functools import wraps
 import jwt
 import hashlib
-bp = Blueprint('main', __name__, url_prefix='/')
-
-# 로그인 
 from flask import session  # 세션
 from LMSapp.views import *
 import callapi
@@ -12,20 +9,21 @@ import config
 from LMSapp.models import *
 import datetime
 from sqlalchemy import and_,or_
+
+bp = Blueprint('main', __name__, url_prefix='/')
 SECRET_KEY = config.SECRET_KEY
 
 def authrize(f):
     @wraps(f)
-    def decorated_function(*args, **kws):
-        if not 'mytoken' in request.cookies:
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
             return render_template('login.html')
         try:
-            token = request.cookies['mytoken']
-            user = jwt.decode(token,SECRET_KEY, algorithms=['HS256'])
-            return f(user, *args, **kws)
+            token = session['mytoken']
+            user = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+            return f(user, *args, **kwargs)
         except jwt.ExpiredSignatureError or jwt.exceptions.DecodeError:
             return render_template('login.html')
-
     return decorated_function
 
 @bp.route('/')
@@ -61,8 +59,8 @@ def sign_in():
             'category':result.category
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-        # session['user_id'] = result.user_id,
-        # session['user_registerno'] = result.id
+        session['user_id'] = result.user_id
+        session['mytoken'] = token
         return jsonify({'result': 'success', 'token': token})
     else:
         return jsonify({'result':'fail', 'msg': 'id, pw 를 확인해주세요'})
@@ -71,6 +69,7 @@ def sign_in():
 # 로그아웃 API
 @bp.route("/logout", methods=['GET'])
 def logout():
+    session.clear()
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
