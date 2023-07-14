@@ -277,15 +277,15 @@ async function get_unlearned_consulting_student(done_code) {
 }
 // 상담일지 모달 내용 작성 
 async function get_consulting(student_id) {
-    let data = consultingStudentMap.get(String(student_id));
-    console.log(data)
+    let str_studentid = String(student_id)
+    let data = consultingStudentMap.get(str_studentid);
     let student_category = make_out(2)
     if(data != undefined){
         student_category = make_out(data[0].student_category);
     }else{
-        alert('상담 내역이 없습니다')
-        return;
+        data = TstudentMap.get(str_studentid)
     }
+    console.log(data)
     consulting_history(student_id)
     $('#consultinghistoryModalLabelt').html(`${data[0].ban_name} 반 ${data[0].student_name} / ${data[0].origin} / ${student_category} 원생 /  생년월일 :${data[0].student_birthday} 📞${data[0].student_mobileno} 상담`)
     $('#studentconsulting_history_box_detail').hide()
@@ -458,18 +458,19 @@ async function get_student(ban_id) {
             $('#ban_student_list_box').show()
             let temp_consulting_history_student_list = '';
             $.each(data, function (index, student) {
-                let student_category = make_out(student.student_category)
+                let student_category = make_out(student.category_id)
                 temp_consulting_history_student_list += `
-                <td class="col-2 ${student_category}">${student.student_name}</br>${student_category}</td>
-                <td class="col-1">${student.student_origin}</td>
-                <td class="col-1">${student.student_birthday}</td>
-                <td class="col-2">${student.student_mobileno}</td>
+                <td class="col-2 ${student_category}">${student.name}</br>${student_category}</td>
+                <td class="col-1">${student.origin}</td>
+                <td class="col-1">${student.birthday}</td>
+                <td class="col-2">${student.mobileno}</td>
+                `;
+                let unlearned_consultings = Tall_consulting.filter(c=>c.student_id == student.student_id && c.category_id < 100)
+                temp_consulting_history_student_list += `
                 <td class="col-3"> 
                     <details>
-                        <summary>총 ${student.ulearned_num}건</summary>
-                        <ul>
-                `;
-                let unlearned_consultings = student.ulconsultings
+                        <summary>총 ${unlearned_consultings.length}건</summary>
+                        <ul>`
                 let unlearned_cate = []
                 if(unlearned_consultings){
                     unlearned_cate = [...new Set(unlearned_consultings.map(item => item.category))]; 
@@ -482,7 +483,7 @@ async function get_student(ban_id) {
                 </ul>
                 </details>
                 </td>
-                <td class="col-1">${student.doneconsulting_num}건</td> 
+                <td class="col-1">${unlearned_consultings.filter(c=>c.done == 1).length}건</td> 
                 <td class="col-2" data-bs-toggle="modal" data-bs-target="#consultinghistory" onclick="get_consulting(${student.student_id})">📝</td> 
                 `;
             });
@@ -490,8 +491,8 @@ async function get_student(ban_id) {
         }
     }
     Studentcontainer = $('#ban_student_list_pagination')
-    Targetdata = Tstudent_consulting.filter(s =>s.ban_id == ban_id)
-    Targetdata.sort((a,b)=>a.student_category - b.student_category)
+    Targetdata = Tall_students.filter(s =>s.ban_id == ban_id)
+    Targetdata.sort((a,b)=>a.category_id - b.category_id)
     $('#ban_student_listModalLabelt').html(`${Targetdata[0].ban_name}반 원생 목록`);
     Studentcontainer.pagination(Object.assign(StudentpaginationOptions, { 'dataSource': Targetdata }))
     $('input[name="is_out"]').change(function() {
@@ -499,9 +500,14 @@ async function get_student(ban_id) {
         if(selectedValue == 'none'){
             Studentcontainer.pagination(Object.assign(StudentpaginationOptions, { 'dataSource': Targetdata }))
         }else{
-            let copy_data = Targetdata.slice();
-            copy_data = copy_data.filter(s =>s.is_out_student == selectedValue)
-            Studentcontainer.pagination(Object.assign(StudentpaginationOptions, { 'dataSource': copy_data }))
+            if(selectedValue == 0){
+                let copy_data = Tmy_students.filter(s.ban_id == ban_id)
+                Studentcontainer.pagination(Object.assign(StudentpaginationOptions, { 'dataSource': copy_data }))
+            }else{
+                let copy_data = Targetdata.slice();
+                copy_data = copy_data.filter(s =>s.category_id != 1)
+                Studentcontainer.pagination(Object.assign(StudentpaginationOptions, { 'dataSource': copy_data }))
+            }
         }
     });
     $('#student_list_search_input').on('keyup', function () {

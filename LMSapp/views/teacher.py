@@ -168,6 +168,11 @@ def question(u):
 def task(tb_id):
     if request.method =='POST':
         # tb_id = 완료한 taskban의 id
+        current_time = datetime.utcnow()
+        korea_timezone = pytz.timezone('Asia/Seoul')
+        korea_time = current_time + timedelta(hours=9)
+        korea_time = korea_timezone.localize(korea_time)
+        Today = korea_time.date()
         target_taskban = TaskBan.query.get_or_404(tb_id)
         target_taskban.created_at = Today
         target_taskban.done = 1
@@ -180,6 +185,11 @@ def task(tb_id):
 @bp.route("/consulting_missed/<int:id>", methods=['POST'])
 def consulting_missed(id):
     if request.method =='POST':
+        current_time = datetime.utcnow()
+        korea_timezone = pytz.timezone('Asia/Seoul')
+        korea_time = current_time + timedelta(hours=9)
+        korea_time = korea_timezone.localize(korea_time)
+        Today = korea_time.date()
         target_consulting = Consulting.query.get_or_404(id)
         target_consulting.missed = Today
         target_consulting.done = 0
@@ -193,6 +203,11 @@ def consulting_missed(id):
 @bp.route("/consulting_history/<int:id>/<int:is_done>", methods=['POST'])
 def consulting_history(id,is_done):
     if request.method =='POST':
+        current_time = datetime.utcnow()
+        korea_timezone = pytz.timezone('Asia/Seoul')
+        korea_time = current_time + timedelta(hours=9)
+        korea_time = korea_timezone.localize(korea_time)
+        Today = korea_time.date()
         # 부재중 체크 (id-consulting_id)
         URI = 'http://118.131.85.245:9888/webapi/entry.cgi?api=SYNO.Chat.External&method=incoming&version=2'
         Synologytoken = '"PBj2WnZcmdzrF2wMhHXyzafvlF6i1PTaPf5s4eBuKkgCjBCOImWMXivfGKo4PQ8q"'
