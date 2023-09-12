@@ -523,12 +523,12 @@ input::placeholder {
     display: inline-block;
     border-radius: 100%;
   }
-  .color .red    {background: #fa5a5a;}
+  .color .red    {background: #e45555;}
   .color .yellow {background: #f0d264;}
   .color .green  {background: #82c8a0;}
-  .color .cyan   {background: #7fccde;}
-  .color .blue   {background: #6698cb;}
-  .color .purple {background: #cb99c5;}
+  .color .cyan   {background: #7fa8de;}
+  .color .blue   {background: #415fb4;}
+  .color .purple {background: #c782b6;}
   
   .content, 
   .content-gradient, 
@@ -618,12 +618,12 @@ input::placeholder {
   }
   
   /* Colors for .btn and .btn-two */
-  .btn.blue, .btn-two.blue     {background-color: #7fb1bf;}
+  .btn.blue, .btn-two.blue     {background-color: #3871b3;}
   .btn.green, .btn-two.green   {background-color: #9abf7f;}
   .btn.red, .btn-two.red       {background-color: #fa5a5a;}
   .btn.orange, .btn-two.orange       {background-color: #faa75a;}
   .btn.purple, .btn-two.purple {background-color: #cb99c5;}
-  .btn.cyan, .btn-two.cyan     {background-color: #7fccde;}
+  .btn.cyan, .btn-two.cyan     {background-color: #77b2e2;}
   .btn.yellow, .btn-two.yellow {background-color: #f0d264;}
   .btn.white, .btn-two.white     {background-color: #fcfcf1; color: black;}
   .btn.white, .btn-two.black     {background-color: #202020; color: white;}

@@ -5,13 +5,19 @@ let tempConsultingData,temptaskData;
 let AlarmList = []
 const studentMap = new Map();
 const banMap = new Map();
-const TstudentMap = new Map();
-const TbanMap = new Map();
 const attachMap = new Map();
-const consultingStudentMap = new Map();
 
 // teacher 변수
-let  Tconsulting_category, Tban_data, Tall_consulting, taskConsultingsData, unlearnedConsultingsData, unlearnedConsultingsCount, Tmy_students, Tall_task, Ttask_consulting, Tunlearned_student, Tall_students, Tstudent_consulting, TquestionAnswerdata, TquestionAttachdata;
+let  TstudentMap;
+let  TbanMap = new Map();
+const consultingStudentMap = new Map();
+const TunSubList = {};
+
+let  Tban_data, Tall_consulting, taskConsultingsData, TunlearnedConsultingsData, unlearnedConsultingsCount,
+Tmy_students, Tall_task,Tgrouped_task, Ttask_consulting, Tunlearned_student,
+Tall_students, Tstudent_consulting, TquestionAnswerdata, TquestionAttachdata,
+Tall_writing, Tunsubmit_list;
+let groupedData = {};
 const TattachMap = new Map();
 
 let isFetching = false;
@@ -20,6 +26,79 @@ const today = new Date().setHours(0, 0, 0, 0);
 const todayyoil = new Date().getDay()
 
 // 공용 function
+function find_min_deadline(unlearned_list) {
+    if (unlearned_list.length === 0) {
+        return null; // 빈 배열인 경우 null 반환
+    }
+
+    let minDeadline = unlearned_list[0].deadline; // 첫 번째 요소로 초기화
+
+    for (let i = 1; i < unlearned_list.length; i++) {
+        const currentDeadline = unlearned_list[i].deadline;
+        if (currentDeadline < minDeadline) {
+            minDeadline = currentDeadline; // 더 작은 deadline을 찾으면 업데이트
+        }
+    }
+
+    return minDeadline;
+}
+function find_recent_missed(unlearned_list) {
+    if (unlearned_list.length === 0) {
+        return null; // 빈 배열인 경우 null 반환
+    }
+
+    let recentMissedDate = unlearned_list[0].missed; // 첫 번째 요소로 초기화
+
+    for (let i = 1; i < unlearned_list.length; i++) {
+        const currentMissedDate = unlearned_list[i].missed;
+        if (currentMissedDate > recentMissedDate) {
+            recentMissedDate = currentMissedDate; // 더 최근 날짜를 찾으면 업데이트
+        }
+    }
+
+    return recentMissedDate;
+}
+function make_sub(type, startdate) {
+    if(startdate){
+        // 문자열에서 'T'와 'Z'를 제거한 후 Date 객체로 변환
+        const startDateObj = new Date(startdate.replace('T', ' ').replace('Z', ''));
+
+        // 한국 시간 기준으로 변경
+        const startDateInKorea = new Date(startDateObj.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
+
+        // 계산된 마감일을 담을 변수
+        let endDateInKorea = new Date(startDateInKorea);
+
+        if (type === "1" || type === "2" || type === "5") {
+            endDateInKorea.setDate(endDateInKorea.getDate() + 14);
+        } else if (type === "3" || type === "4") {
+            endDateInKorea.setDate(endDateInKorea.getDate() + 7);
+        } else {
+            endDateInKorea.setDate(endDateInKorea.getDate() + 5);
+        }
+
+        // 날짜를 "YYYY-MM-DD" 형식의 문자열로 반환
+        const year = endDateInKorea.getFullYear();
+        const month = String(endDateInKorea.getMonth() + 1).padStart(2, '0');
+        const day = String(endDateInKorea.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }else{return '마감일 데이터 없음'}
+}
+function make_type(type){
+    if(type=="1"){
+        return "오거나이저"
+    }else if(type=="2"){
+        return "인투리딩 라이팅"
+    }else if(type=="3"){
+        return "새들리어"
+    }else if(type=="4"){
+        return "보캐블러리"
+    }else if(type=="5"){
+        return "인투리딩 서머리"
+    }else{
+        return "리딩익스플로러 서머리"
+    }
+}
 function getIsFetching(){
     return isFetching;
 }
@@ -114,7 +193,7 @@ let make_cycle = function (c) {
     }
 }
 let make_out = function(c) {
-    if (c != 1) {
+    if (c != 1 && c != 8) {
         return '이반퇴소원생';
     }
     return '';
@@ -222,365 +301,6 @@ function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// teacher_function
-async function get_teacher_data(){
-    try{
-        $('#ban_report_loading').show()
-        $('#ban_report_notloading').hide()
-        const banstudentsWorker = new Worker("../static/js/bans_worker.js");
-        const teacherdataWorker = new Worker("../static/js/students_worker.js")
-        let temp_ban_option = '<option value="none" selected>반을 선택해주세요</option>';
-        banstudentsWorker.postMessage('get_banstudentsData');
-        teacherdataWorker.postMessage('get_teacherdata')
-        banstudentsWorker.onmessage = function (event) {
-            $('#ban_chart_list').empty()
-            let all_data = event.data.all_data
-            let total_first_student_num = all_data.length;
-            let total_out_student = total_first_student_num != 0 ? all_data.filter(s=>s.category_id != 1) : []
-            let every_out_student_num = total_out_student.length
-            let total_out_student_num = 0
-            let total_hold_student_num = 0
-            if(every_out_student_num != 0){
-                total_out_student_num = total_out_student.filter(s=>s.category_id != 3).length;
-                total_hold_student_num = total_out_student.filter(s=>s.category_id == 3).length;
-            }
-            let total_now_student_num = total_first_student_num - every_out_student_num
-            if(total_now_student_num <= 0){
-                alert('담당중인 반이 없습니다')
-                return
-            }
-            Tmy_students = []
-            let temp_ban_list = ''
-            var { temp_banData, temp_studentsData } = all_data.reduce(
-                (acc, item) => {
-                    if (!TbanMap.has(item.ban_id)) {
-                        let semester = make_semester(item.semester)
-                        // 반 차트를 그리기 위한 변수 선언 
-                        let first_student = all_data.filter(s=>s.ban_id == item.ban_id)
-                        let first_student_num = first_student.length
-                        let out_student_num = first_student_num != 0 ? first_student.filter(s=>s.category_id == 2 || s.category_id == 8).length : 0 
-                        let hold_student_num = first_student_num != 0 ? first_student.filter(s=>s.category_id == 3).length : 0 
-                        let now_student_num = first_student_num - out_student_num - hold_student_num
-
-                        temp_ban_list += `
-                        <tr class="row">
-                            <th class="col-4">${item.ban_name}반 ( ${semester}학기 )</th>
-                            <td class="col-2">${now_student_num}</td>
-                            <td class="col-2">${hold_student_num}</td>
-                            <td class="col-2">${out_student_num}</td>
-                            <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${item.ban_id})">✔️</td>
-                        </tr>
-                        `
-
-                        TbanMap.set(item.ban_id, {
-                            ban_name: item.ban_name,
-                            ban_startdate:item.startdate
-                        });
-                
-                        acc.temp_banData.push({
-                        ban_id: item.ban_id,
-                        name: item.ban_name,
-                        semester:semester,
-                        startdate:item.startdate,
-                        teacher_id: item.teacher_id
-                        });
-                        temp_ban_option += `<option value=${item.ban_id}>${item.name} (${item.semester}월 학기)</option>`;
-
-                    }
-              
-                    let str_studentid = String(item.student_id)
-                    TstudentMap.set(str_studentid,{
-                        origin:item.origin,
-                        ban_id:item.ban_id,
-                        ban_name:item.ban_name,
-                        birthday: item.birthday,
-                        mobileno: item.mobileno,
-                        student_name: item.name + ' (' + item.nick_name + ')',
-                        category_id : item.category_id
-                    })
-                    acc.temp_studentsData.push({
-                        student_id: item.student_id,
-                        teacher_id: item.teacher_id,
-                        ban_id: item.ban_id,
-                        ban_name: item.ban_name,
-                        birthday: item.birthday,
-                        category_id: item.category_id,
-                        eng_name: item.nick_name,
-                        name: item.name + ' (' + item.nick_name + ')',
-                        origin: item.origin,
-                        birthday: item.birthday,
-                        mobileno: item.mobileno
-                    });
-
-                    if(item.category_id == 1){
-                        Tmy_students.push({
-                            student_id: item.student_id,
-                            teacher_id: item.teacher_id,
-                            ban_id: item.ban_id,
-                            ban_name: item.ban_name,
-                            birthday: item.birthday,
-                            category_id: item.category_id,
-                            eng_name: item.nick_name,
-                            name: item.name,
-                            origin: item.origin,
-                            birthday: item.birthday,
-                            mobileno: item.mobileno
-                        })
-                    }
-                    return acc;
-                },
-                { temp_banData: [], temp_studentsData: [], TbanMap: new Map(), TstudentMap:new Map() }
-            );
-            Tban_data = temp_banData
-            Tall_students = temp_studentsData
-            $('#my_ban_list').html(temp_ban_option)
-            let temp_ban_chart = `
-            <div class="d-flex justify-content-start align-items-start flex-column w-100 my-2">
-                <h5 class="mb-3"> 📌 초기 배정 원생 수:  ${total_first_student_num}</h5>
-                <div class="row w-100">
-                    <div class="chart-wrapper col-sm-5"style="margin-left:30%">
-                        <canvas id="total-chart-element" class="total-chart-element p-sm-3 p-2"></canvas>
-                        <div class ="chart-data-summary">
-                            <span>관리중:${total_now_student_num}</span><br>
-                            <span>* 보류:${total_hold_student_num}</span><br>
-                            <span>* 퇴소:${total_out_student_num}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12 d-flex justify-content-center align-items-center">
-                    <table class="table text-center" id="class_list">
-                        <tbody style="width:100%;">
-                            <tr class="row">
-                                <th class="col-4">반</th>
-                                <th class="col-2">관리중</th>
-                                <th class="col-2">보류</th>
-                                <th class="col-2">퇴소</th>
-                                <th class="col-2">원생 목록</th>  
-                            </tr>    
-                            ${temp_ban_list}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            `;
-            $('#ban_chart_list').html(temp_ban_chart);
-            return home_chart(total_now_student_num, total_hold_student_num, total_out_student_num).then(()=>{
-                teacherdataWorker.onmessage = function (event) {
-                    try{
-                        Tall_consulting = event.data.all_consulting
-                        Tconsulting_category = event.data.all_consulting_category
-                        Tall_task =  event.data.all_task
-                        let todayConsultingsData = Tall_consulting.length > 0 ? Tall_consulting.filter(consulting => (consulting.done == 1 && new Date(consulting.created_at).setHours(0, 0, 0, 0) === today) || (consulting.done == 0) ) : []; 
-                        var { temp_taskConsultingsData, temp_unlearnedConsultingsData } = todayConsultingsData.reduce(
-                            (acc, item) => {
-                                let str_studentid = String(item.student_id)
-                                const student = TstudentMap.get(str_studentid)
-                                if(item.week_code < 0){
-                                    acc.temp_taskConsultingsData.push({
-                                        ban_id:item.ban_id,
-                                        ban_name:student.ban_name,
-                                        contents: item.contents,
-                                        category_id: item.category_id,
-                                        category: item.category,
-                                        startdate:item.startdate,
-                                        deadline:item.deadline,
-                                        done:item.done,
-                                        created_at:item.created_at,
-                                        missed:item.missed,
-                                        reason:item.reason,
-                                        result:item.result,
-                                        solution:item.solution,
-                                        week_code:item.week_code,
-                                        student_id:item.student_id,
-                                        student_name:student.student_name,
-                                        student_birthday:student.birthday,
-                                        student_mobileno:student.mobileno,
-                                        student_category:student.category_id,
-                                        origin:item.origin,
-                                        id:item.id
-                                    });
-                                }else{
-                                    acc.temp_unlearnedConsultingsData.push({
-                                        ban_id:item.ban_id,
-                                        ban_name:student.ban_name,
-                                        contents: item.contents,
-                                        category_id: item.category_id,
-                                        category: item.category,
-                                        startdate:item.startdate,
-                                        deadline:item.deadline,
-                                        done:item.done,
-                                        created_at:item.created_at,
-                                        missed:item.missed,
-                                        reason:item.reason,
-                                        result:item.result,
-                                        solution:item.solution,
-                                        week_code:item.week_code,
-                                        student_id:item.student_id,
-                                        student_name:student.student_name,
-                                        student_birthday:student.birthday,
-                                        student_mobileno:student.mobileno,
-                                        student_category:student.category_id,
-                                        origin:item.origin,
-                                        id:item.id
-                                    })
-                                }
-                                if(consultingStudentMap.has(str_studentid)) {
-                                    const existingconsulting = consultingStudentMap.get(str_studentid);
-                                    existingconsulting.push({
-                                        ban_id:item.ban_id,
-                                        ban_name:student.ban_name,
-                                        contents: item.contents,
-                                        category_id: item.category_id,
-                                        category: item.category,
-                                        startdate:item.startdate,
-                                        deadline:item.deadline,
-                                        done:item.done,
-                                        created_at:item.created_at,
-                                        missed:item.missed,
-                                        reason:item.reason,
-                                        result:item.result,
-                                        solution:item.solution,
-                                        week_code:item.week_code,
-                                        student_id:item.student_id,
-                                        student_name:student.student_name,
-                                        student_birthday:student.birthday,
-                                        student_mobileno:student.mobileno,
-                                        student_category:student.category_id,
-                                        origin:item.origin,
-                                        id:item.id
-                                    });
-                                }else {
-                                    consultingStudentMap.set(str_studentid,[{
-                                        ban_id:item.ban_id,
-                                        ban_name:student.ban_name,
-                                        contents: item.contents,
-                                        category_id: item.category_id,
-                                        category: item.category,
-                                        startdate:item.startdate,
-                                        deadline:item.deadline,
-                                        done:item.done,
-                                        created_at:item.created_at,
-                                        missed:item.missed,
-                                        reason:item.reason,
-                                        result:item.result,
-                                        solution:item.solution,
-                                        week_code:item.week_code,
-                                        student_id:item.student_id,
-                                        student_name:student.student_name,
-                                        student_birthday:student.birthday,
-                                        student_mobileno:student.mobileno,
-                                        student_category:student.category_id,
-                                        origin:item.origin,
-                                        id:item.id
-                                    }]);
-                                }
-            
-                                return acc;
-                            },
-                            { temp_taskConsultingsData: [], temp_unlearnedConsultingsData: [], consultingStudentMap: new Map() }
-                        );
-                        taskConsultingsData = temp_taskConsultingsData
-                        unlearnedConsultingsData = temp_unlearnedConsultingsData
-                        unlearnedConsultingsCount = unlearnedConsultingsData.length
-                        if(unlearnedConsultingsCount != 0){
-                            Tunlearned_student = Tmy_students.reduce((acc, student) => {
-                            const consultingList = unlearnedConsultingsData.filter(c => c.student_id === student.student_id);
-                            const unlearned_num = consultingList.length;
-                            if (unlearned_num>0){
-                                const todoconsulting = consultingList.filter(c => c.done == 0)
-                                const todoconsulting_num = todoconsulting.length
-                                if(todoconsulting_num > 0) {
-                                    const deadline = todoconsulting.reduce((prev, current) => {
-                                        let prevDueDate = new Date(prev.deadline).setHours(0, 0, 0, 0);
-                                        let currentDueDate = new Date(current.deadline).setHours(0, 0, 0, 0);
-                                        return currentDueDate < prevDueDate ? current : prev;
-                                    }, todoconsulting[0]);
-                                    const missed = todoconsulting.reduce((prev, current) => {
-                                        let prevDueDate = new Date(prev.missed).setHours(0, 0, 0, 0);
-                                        let currentDueDate = new Date(current.missed).setHours(0, 0, 0, 0);
-                                        return currentDueDate < prevDueDate ? prev : current;
-                                    }, todoconsulting[0]);
-                                    acc.push({
-                                        'teacher_id': student.teacher_id,
-                                        'student_id': student.student_id,
-                                        'student_origin': student.origin,
-                                        'student_name': student.name + '(' + student.eng_name + ')',
-                                        'student_mobileno': student.mobileno,
-                                        'student_birthday': student.birthday,
-                                        'ban_id': student.ban_id,
-                                        'ban_name': student.ban_name,
-                                        'consulting_done':0,
-                                        'todoconsulting_num':todoconsulting_num,
-                                        'deadline': make_date(deadline.deadline),
-                                        'missed': missed_date(missed.missed)
-                                    });
-                                }else{
-                                    acc.push({
-                                        'teacher_id': student.teacher_id,
-                                        'student_id': student.student_id,
-                                        'student_origin': student.origin,
-                                        'student_name': student.name + '(' + student.eng_name + ')',
-                                        'student_mobileno': student.mobileno,
-                                        'student_birthday': student.birthday,
-                                        'ban_id': student.ban_id,
-                                        'ban_name': student.ban_name,
-                                        'consulting_done':1,
-                                        'todoconsulting_num':todoconsulting_num,
-                                        'deadline': make_date('3000-01-01'),
-                                        'missed': missed_date('1111-01-01')
-                                    });
-                                }
-                            }
-                                return acc;
-                            }, []);
-                        }
-                    }catch{
-                        console.log('err')
-                    }finally{
-                        home_task()
-                    }
-                };
-            })
-        };
-        
-    
-        
-    } catch (error) {
-        alert('Error occurred while retrieving data1.');
-    }
-}
-async function get_teacher_question() {
-    try {
-        const response = await $.ajax({
-            type: "GET",
-            url: "/teacher/get_questiondata",
-            dataType: 'json',
-            data: {},
-        });
-        TquestionAnswerdata = response.question
-        TquestionAttachdata = response.attach
-        TquestionAttachdata.forEach((attach) => {
-            const question_id = attach.question_id
-            if(TattachMap.has(question_id)) {
-                const existingAttach = TattachMap.get(question_id);
-                existingAttach.push({
-                attach_id: attach.id,
-                file_name: attach.file_name,
-                is_answer: attach.is_answer
-                });
-            }else {
-                TattachMap.set(question_id, [{
-                attach_id: attach.id,
-                file_name: attach.file_name,
-                is_answer: attach.is_answer
-                }]);
-            }
-        })
-    } catch (error) {
-        alert('Error occurred while retrieving data.');
-    }
-}
-
 // manage_function 
 async function get_all_data() {
     try {
@@ -639,6 +359,7 @@ async function get_all_data() {
                 studentMap.set(item.student_id,{
                     origin:item.origin,
                     student_name: item.student_name + ' (' + item.student_engname + ')',
+                    mobileno : student.mobileno
                 })
                 acc.temp_studentsData.push({
                     ban_id: item.ban_id,

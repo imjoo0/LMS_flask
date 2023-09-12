@@ -75,3 +75,9 @@ def purple_info(id,url):
         return result
     else:
         return False
+
+    # 퍼플 라이팅 정보 가져오기
+def call_purplewriting(ban_id):
+    responese = requests.get('https://writing.purpleacademy.co.kr/api/getunsubmitstudents', headers={'bid': ban_id})
+    result = json.loads(responese.text)
+    return result

@@ -24,7 +24,6 @@ current_time = datetime.utcnow()
 korea_timezone = pytz.timezone('Asia/Seoul')
 korea_time = current_time + timedelta(hours=9)
 korea_time = korea_timezone.localize(korea_time)
-
 Today = korea_time.date()
 today_yoil = korea_time.weekday() + 1
 standard = datetime.strptime('11110101', "%Y%m%d").date()

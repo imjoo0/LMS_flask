@@ -23,31 +23,22 @@ bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 @authrize
 def home(u):
     if request.method == 'GET':
-        print(Today)
         teacher_info = User.query.filter(User.user_id == u['user_id']).first()
-        return render_template('teacher.html', user=teacher_info)
+        consulting_categories = ConsultingCategory.query.filter(ConsultingCategory.id != 100).all()
+        return render_template('teacher.html', user=teacher_info, consulting_categories=consulting_categories)
 # 차트 관련
 @bp.route('/get_banstudents_data', methods=['GET'])
 @authrize
 def get_banstudents_data(u):
-    global ban_data 
-    ban_data = []
-    ban_id_set = set()
     all_data = callapi.call_api(u['id'], 'get_myban_student_online')
     takeovers = TakeOverUser.query.filter(TakeOverUser.teacher_id == u['id']).all()
     if len(takeovers) != 0 :
         for takeover in takeovers:
             all_data += callapi.call_api(takeover.takeover_id, 'get_myban_student_online')
-    # 중복된 ban_id를 제거하기 위해 set을 사용하여 고유한 값만 유지합니다.
-    for data in all_data:
-        ban_id = data['ban_id']
-        startdate = data['startdate']
-        if ban_id not in ban_id_set:
-            ban_data.append({'ban_id': ban_id, 'startdate': startdate})
-            ban_id_set.add(ban_id)
+    
     return jsonify({'all_data':all_data})
 
-# 차트 관련
+# 선생님의 업무와 상담 관련 데이터 
 @bp.route('/get_teacher_data', methods=['GET'])
 @authrize
 def get_teacher_data(u):
@@ -56,6 +47,11 @@ def get_teacher_data(u):
     all_consulting_category = []
     # 상담
     for ban in ban_data:
+        # 상담 해야 하는 날짜가 오늘 이상인 경우 , 내가 담당한 반의 consulting 기록들을 가져옵니다 
+        # 상담 요청일(startdate)가 반 시작일 ban['startdate']값보다 커야 합니다 .
+        #  consulting.cateogry_id < 100 = 미학습 상담 ( 자동 생성 )
+        #  consulting.cateogry_id > 100 = 본원 요청 상담 
+        #  consulting.cateogry_id = 100 = 선생님 자체 상담 - 미학습 상담 ~ 본원 요청 상담 카테고리 전부 가능 
         query = '''
         SELECT consulting.origin, consulting.student_name, consulting.student_engname, consulting.id, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate, consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result
         FROM consulting
@@ -66,16 +62,133 @@ def get_teacher_data(u):
         '''
         params = ({ban['startdate']},ban['ban_id'],ban['ban_id'],ban['ban_id'], ) 
         all_consulting.extend(common.db_connection.execute_query(query, params))
-
-        query = "select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at from taskban left join task on taskban.task_id = task.id left join taskcategory on task.category_id = taskcategory.id where ( (task.category_id = 11) or ( (task.cycle = %s) or (task.cycle = 0) ) ) and ( task.startdate <= curdate() and curdate() <= task.deadline ) and taskban.ban_id=%s;"
+        # 업무의 경우엔, task의 category 가 11 이라 상시 업무 인 경우 
+        # 업무 cycle 이 오늘 요일이 된 경우 
+        # 업무의 startdate가 오늘 이상인 경우 이고 deadline 을 넘기지 않은 경우 
+        # 오늘 완수한 업무이거나 done이 0인 경우
+        query = '''
+        select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at 
+        from taskban 
+        left join task on taskban.task_id = task.id 
+        left join taskcategory on task.category_id = taskcategory.id 
+        where ( (task.category_id = 11) or ( (task.cycle = %s) or (task.cycle = 0) ) ) and ( task.startdate <= curdate() and curdate() <= task.deadline ) and taskban.ban_id=%s
+        AND ( (taskban.done = 1 AND DATE(taskban.created_at) = CURDATE()) OR taskban.done = 0 );'''
         params = (today_yoil,ban['ban_id'],)
         all_task.extend(common.db_connection.execute_query(query, params))  
-
     query = "SELECT * FROM LMS.consultingcategory;"
     all_consulting_category = common.db_connection.execute_query(query, )
-            
     return jsonify({'all_consulting':all_consulting,'all_task':all_task,'all_consulting_category':all_consulting_category})
 
+#퍼플 라이팅 미제출 명단 데이터
+@bp.route('/get_purplewriting_data', methods=['GET'])
+def get_purplewriting_data():
+    ban_id = request.args.get('ban_id',type=str) 
+    r = callapi.call_purplewriting(ban_id)
+    for item in r:
+        item['ban_id'] = ban_id
+    return jsonify({'result':r})
+
+#업무 데이터
+@bp.route('/get_task_data', methods=['GET'])
+def get_task_data():
+    ban_id = request.args.get('ban_id',type=int)
+    korea_time = current_time + timedelta(hours=9)
+    korea_time = pytz.timezone('Asia/Seoul').localize(korea_time)
+    today_yoil = korea_time.weekday() + 1
+    task_consulting = []
+    task = []
+    consulting = []
+    # 본원에서 요청한 상담을 업무로 가져옵니다 
+    # 본원 요청 업무 : week_code < 0
+    # 오늘 완료한 경우 가져옵니다 
+    # 완료하지 않은 경우 가져옵니다 
+    query = '''
+    SELECT consulting.origin, consulting.student_name, consulting.student_engname, consulting.id, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate, consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result
+    FROM consulting
+    LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id
+    WHERE (consulting.week_code < 0 AND consulting.startdate <= curdate() AND consulting.ban_id=%s)
+    AND ( (consulting.done = 0) OR (consulting.done = 1 AND consulting.created_at = CURDATE()) )
+    '''
+    params = (ban_id, ) 
+    task_consulting = common.db_connection.execute_query(query, params)
+    # 업무의 경우엔, task의 category 가 11 이라 상시 업무 인 경우 
+    # 업무 cycle 이 오늘 요일이 된 경우 
+    # 업무의 startdate가 오늘 이상인 경우 이고 deadline 을 넘기지 않은 경우 
+    # 오늘 완수한 업무이거나 done이 0인 경우
+    query = '''
+    select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at 
+    from taskban 
+    left join task on taskban.task_id = task.id 
+    left join taskcategory on task.category_id = taskcategory.id 
+    WHERE ( (task.category_id = 11) or ( (task.cycle = %s) or (task.cycle = 0) ) ) and ( task.startdate <= CURDATE() and CURDATE() <= task.deadline ) and taskban.ban_id=%s
+    AND ( (taskban.done = 1 AND DATE(taskban.created_at) = CURDATE()) OR taskban.done = 0 );'''
+    params = (today_yoil,ban_id,)
+    task = common.db_connection.execute_query(query, params)
+
+    return jsonify({'task_consulting':task_consulting,'task':task})
+
+#미학습 데이터
+@bp.route('/get_unlearned_data', methods=['GET'])
+def get_unlearned_data():
+    ban_id = request.args.get('ban_id',type=int)
+    startdate = request.args.get('startdate')
+    unlearned = []
+    # 상담 중 진행하지 않은 미학습 상담 기록만 가져옵니다 
+    # 미학습 상담의 경우 반 시작일에 생성된 경우는 제외 합니다. 
+    query = '''
+        SELECT consulting.origin, consulting.student_name, consulting.student_engname, consulting.id, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate, consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result
+    FROM consulting
+    LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id
+    WHERE (consulting.category_id < 100 AND consulting.done = 0 AND %s <= consulting.startdate AND consulting.startdate <= curdate() and consulting.ban_id=%s)
+    '''
+    params = (startdate,ban_id, ) 
+    unlearned = common.db_connection.execute_query(query, params)
+    
+    return jsonify({'unlearned':unlearned})
+
+# 선생님 상담 기록 데이터
+@bp.route("/get_teacherconsultinghistory/<int:done_count>", methods=['GET'])
+@authrize
+def get_teacherconsultinghistory(u, done_count):
+    t_consulting = []
+    
+    # 정렬 방법: created_at 기준으로 내림차순 정렬
+    # done_count는 페이지 번호로, 페이지당 500개의 결과를 가져옵니다.
+    query = '''
+    SELECT consulting.origin, consulting.student_name, consulting.student_engname, consulting.id, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate, consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result
+    ,1 as writer
+    FROM consulting
+    LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id
+    WHERE consulting.done = 1 and teacher_id = %s
+    ORDER BY consulting.created_at DESC
+    LIMIT %s, 500;  -- 페이지당 500개씩 가져옵니다.
+    '''
+    
+    # done_count에 따라 오프셋 계산
+    offset = (done_count - 1) * 500
+    
+    params = (u['id'], offset)
+    t_consulting = common.db_connection.execute_query(query, params)
+    return jsonify({'t_consulting': t_consulting})
+
+
+# 원생 상담 기록 데이터
+@bp.route("/get_consultinghistory/<int:student_id>", methods=['GET'])
+@authrize
+def get_consultinghistory(u, student_id):
+    consulting_history = []
+    query = '''
+    SELECT consulting.id, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate, consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result,
+    0 as writer
+    FROM consulting
+    LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id
+    LEFT JOIN user ON consulting.teacher_id = user.id
+    WHERE consulting.teacher_id != %s and consulting.done = 1 and student_id =%s;
+    '''
+    params = (u['id'], student_id)
+    consulting_history = common.db_connection.execute_query(query, params)
+    
+    return jsonify({'consulting_history':consulting_history})
 # 문의 리스트 / 문의 작성   
 @socketio.on('new_question',namespace='/question') 
 def handle_new_question(q_id):
@@ -103,6 +216,7 @@ def get_questiondata(u):
     attach = common.db_connection.execute_query(query, params)
     
     return jsonify({'question':question,'attach':attach})
+
 
 @bp.route('/question', methods=[ 'POST'])
 @authrize
