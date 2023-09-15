@@ -16,6 +16,33 @@ import pandas as pd
 from urllib.parse import quote
 from flask_socketio import join_room, emit
 from LMSapp import socketio
+
+# 암호화 
+from cryptography.fernet import Fernet
+
+def encrypt(data, is_out_string=True):
+    key = config.key
+    f = Fernet(key)
+    if isinstance(data, bytes):
+        ou = f.encrypt(data) # 바이트형태이면 바로 암호화
+    else:
+        ou = f.encrypt(data.encode('utf-8')) # 인코딩 후 암호화
+    if is_out_string is True:
+        return ou.decode('utf-8') # 출력이 문자열이면 디코딩 후 반환
+    else:
+        return ou
+
+def decrypt(data, is_out_string=True):
+    key = config.key
+    f = Fernet(key)
+    if isinstance(data, bytes):
+        ou = f.decrypt(data) # 바이트형태이면 바로 복호화
+    else:
+        ou = f.decrypt(data.encode('utf-8')) # 인코딩 후 복호화
+    if is_out_string is True:
+        return ou.decode('utf-8') # 출력이 문자열이면 디코딩 후 반환
+    else:
+        return ou
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 
 # 선생님 메인 페이지
@@ -189,6 +216,7 @@ def get_consultinghistory(u, student_id):
     consulting_history = common.db_connection.execute_query(query, params)
     
     return jsonify({'consulting_history':consulting_history})
+
 # 문의 리스트 / 문의 작성   
 @socketio.on('new_question',namespace='/question') 
 def handle_new_question(q_id):
@@ -210,13 +238,13 @@ def get_questiondata(u):
     question.answer,
     question.create_date DESC;
     '''
+    
     params = (u['id'], )
     question = common.db_connection.execute_query(query, params)
     query = 'select attachment.question_id,attachment.file_name,attachment.id,attachment.is_answer from attachment LEFT JOIN question on attachment.question_id = question.id where question.teacher_id = %s ORDER BY question.category,question.answer, question.create_date;'
     attach = common.db_connection.execute_query(query, params)
     
     return jsonify({'question':question,'attach':attach})
-
 
 @bp.route('/question', methods=[ 'POST'])
 @authrize
@@ -407,3 +435,284 @@ def take_over_post(u):
         db.session.commit()
         return jsonify({'result': '퇴사 처리 완료'})
 
+#  데이터 그리기 
+def plot_widget_line_graph(self, widget, ax1, ax2, data, y1_color, y2_color, y1_col_name, y2_col_name):
+        # 1. 기본 스타일 설정
+        # widget.figure.clear()
+        ax1.clear()
+        ax2.clear()
+
+        plt.style.use('default')
+        plt.rcParams['font.family'] = 'Malgun Gothic'
+        plt.rcParams['axes.unicode_minus'] = False
+        font_size = 9
+        
+        # 2. 데이터 준비
+        x = [i for i in range(0,len(data))]
+        x_tick = data['date'].tolist()
+        if len(x_tick) > 7:
+            x_tick = ['' if x_tick.index(i) % 2 == 1 else i for i in x_tick]
+
+        y1 = [i if i not in ['',np.nan] else np.nan for i in data[y1_col_name]] 
+        y2 = [i if i not in ['',np.nan] else np.nan for i in data[y2_col_name]]
+
+        # 3. 그래프 그리기
+        plt.setp(ax1, xticks=x, xticklabels=x_tick)
+
+        lns1 = ax1.plot(x, y1, '-s', color=y1_color, markersize=5, linewidth=2, alpha=0.8, label=y1_col_name)
+        ax1.tick_params(axis='both', direction='in', labelsize = font_size)
+
+        if y1.count(np.nan) != len(y1):
+            ymax = np.nanmax(y1)
+            ymin = np.nanmin(y1)
+            yterm = (ymax-ymin)
+            ax1.set_ylim(ymin-yterm, ymax+yterm)
+            if 'WC' in y1_col_name:
+                if ymin-yterm < 0:
+                    ax1.set_ylim(0, ymax+yterm)
+                else:
+                    ax2.set_ylim(ymin-yterm, ymax+yterm)
+
+            if 'Lexile' in y1_col_name:
+                ax1.yaxis.set_major_formatter(lambda x, pos: str(int(x)).replace('-','BR') + 'L')
+                if ymin < 0:
+                    ax1.tick_params(axis='y', direction='in', labelsize = font_size-1)
+        else:
+            ax1.set_yticks([])
+
+        lns2 = ax2.plot(x, y2, '-s', color=y2_color, markersize=5, linewidth=2, alpha=0.8, label=y2_col_name)
+        ax2.tick_params(axis='y', direction='in', labelsize = font_size)
+
+        if y2.count(np.nan) != len(y2):
+            ymax = np.nanmax(y2)
+            ymin = np.nanmin(y2)
+            yterm = (ymax-ymin)
+            ax2.set_ylim(ymin-yterm, ymax+yterm)
+            if 'WC' in y2_col_name:
+                if ymin-yterm < 0:
+                    ax2.set_ylim(0, ymax+yterm)
+                else:
+                    ax2.set_ylim(ymin-yterm, ymax+yterm)
+
+            if 'Lexile' in y2_col_name:
+                ax2.yaxis.set_major_formatter(lambda x, pos: str(int(x)).replace('-','BR') + 'L')
+                if ymin < 0:
+                    ax2.tick_params(axis='y', direction='in', labelsize = font_size-1)
+        else:
+            ax2.set_yticks([])
+
+        lns = lns1 + lns2
+        labs = [l.get_label() for l in lns]
+        ax1.legend(lns, labs, loc = 'center', bbox_to_anchor=(0.5, -0.2), ncol= len(lns), fontsize = font_size-1)
+
+        ax1.set_zorder(ax2.get_zorder() + 10)
+        ax1.patch.set_visible(False)
+
+        widget.canvas.draw()
+
+def plot_widget_bar_line_graph(self, widget, ax1, ax2, data, y1_color, y2_color, y1_col_name, y2_col_name):
+    ax1.clear()
+    ax2.clear()
+
+    # 1. 기본 스타일 설정
+    plt.style.use('default')
+    plt.rcParams['font.family'] = 'Malgun Gothic'
+    plt.rcParams['axes.unicode_minus'] = False
+    font_size = 9
+
+    # 2. 데이터 준비
+    x = [i for i in range(0,len(data))]
+    x_tick = data['date'].tolist()
+    if len(x_tick) > 7:
+        x_tick = ['' if x_tick.index(i) % 2 == 1 else i for i in x_tick]
+
+    y1 = [i if i not in ['',np.nan] else np.nan for i in data[y1_col_name]] 
+    y1[-1] = 0 if np.isnan(y1[-1]) else y1[-1]
+    y2 = [i if i not in ['',np.nan] else np.nan for i in data[y2_col_name]]
+
+    # 3. 그래프 그리기
+    plt.setp(ax1, xticks=x, xticklabels=x_tick)
+
+    bar = ax1.bar(x, y1, color=y1_color, width=0.8, alpha=0.8, label = y1_col_name)
+    ax1.tick_params(axis='x', direction='in', labelsize = font_size-1)
+    ax1.tick_params(axis='y', direction='in', labelsize = font_size)
+
+    if y1.count(np.nan) != len(y1):
+        ymax = np.nanmax(y1)
+        ymin = 0
+        yterm = (ymax-ymin)/3
+        ax1.set_ylim(0, ymax+yterm)
+        if ymax > 100000:
+            ax1.tick_params(axis='both', direction='in', labelsize = font_size-1)
+    else:
+        ax1.set_yticks([])
+
+    lns = ax2.plot(x, y2, '-s', color=y2_color, markersize=5, linewidth=2, alpha=0.8, label = y2_col_name)
+    ax2.tick_params(axis='y', direction='in', labelsize = font_size)
+    
+    if y2.count(np.nan) != len(y2):
+        ymax = np.nanmax(y2)
+        ymin = np.nanmin(y2)
+        yterm = (ymax-ymin)/3
+        if ymin-yterm < 0:
+            ax2.set_ylim(0, ymax+yterm)
+        else:
+            ax2.set_ylim(ymin-yterm, ymax+yterm)
+            
+        if ymax+yterm > 100000:
+            ax2.tick_params(axis='both', direction='in', labelsize = font_size-1)
+    else:
+        ax2.set_yticks([])
+
+    lns = lns + [bar]
+    labs = [l.get_label() for l in lns]
+    ax1.legend(lns, labs, loc = 'center', bbox_to_anchor=(0.5, -0.2), ncol= len(lns), fontsize = font_size-1)
+
+    ax2.set_zorder(ax1.get_zorder() + 10)
+    ax1.patch.set_visible(False)
+
+    widget.canvas.draw()
+
+def plot_widget_stacked_bar_line_graph(self, widget, ax1, ax2, data, y1_color, y2_color, y3_color, y1_col_name, y2_col_name, y3_col_name):
+
+    ax1.clear()
+    ax2.clear()
+
+    # 1. 기본 스타일 설정
+    plt.style.use('default')
+    plt.rcParams['font.family'] = 'Malgun Gothic'
+    plt.rcParams['axes.unicode_minus'] = False
+    font_size = 9
+
+    # 2. 데이터 준비
+    x = [i for i in range(0,len(data))]
+    x_tick = data['date'].tolist()
+    if len(x_tick) > 7:
+        x_tick = ['' if x_tick.index(i) % 2 == 1 else i for i in x_tick]
+
+    y1 = [i if i not in ['',np.nan] else 0 for i in data[y1_col_name]]
+    y2 = [i if i not in ['',np.nan] else 0 for i in data[y2_col_name]]
+    y3 = [float(i) if i not in ['',np.nan] else np.nan for i in data[y3_col_name]]
+
+    y_1_2 = [y1[i] + y2[i] for i in range(len(y1))]        
+
+    # 3. 그래프 그리기
+    plt.setp(ax1, xticks=x, xticklabels=x_tick)
+
+    bar1 = ax1.bar(x, y1, color=y1_color, width=0.7, alpha=0.75, label = y1_col_name)
+    bar2 = ax1.bar(x, y2, color=y2_color, width=0.7, alpha=0.75, label = y2_col_name, bottom = y1)
+    ax1.tick_params(axis='both', direction='in', labelsize = font_size)
+
+    if y1.count(np.nan) != len(y1):
+        ymax = max(y_1_2)
+        ax1.set_ylim(0, ymax * 1.3)
+    else:
+        ax1.set_yticks([])
+
+    lns = ax2.plot(x, y3, '-s', color=y3_color, markersize=5, linewidth=2, alpha=0.8, label = y3_col_name)
+    ax2.tick_params(axis='y', direction='in', labelsize = font_size)
+    
+    if y3.count(np.nan) != len(y3):
+        ax2.set_ylim(0, 1.1)
+        ax2.yaxis.set_major_formatter(lambda x, pos: str(int(x*100)) + '%')
+    else:
+        ax2.set_yticks([])
+
+    lns = lns + [bar1] + [bar2]
+    labs = [l.get_label() for l in lns]
+    ax1.legend(lns, labs, loc = 'center', bbox_to_anchor=(0.5, -0.2), ncol= len(lns), fontsize = font_size-1)
+
+    ax2.set_zorder(ax1.get_zorder() + 10)
+    ax1.patch.set_visible(False)
+
+    widget.canvas.draw()
+
+def plot_widget_double_bar_line_graph(self, widget, ax1, classification_list, student_score_list, mean_score_list):
+    
+    # 1. 기본 스타일 설정
+    ax1.clear()
+    plt.style.use('default')
+    plt.rcParams['font.family'] = 'Malgun Gothic'
+    font_size = 9
+
+    # 2. 데이터 준비
+    x = np.arange(len(classification_list))
+    plt.setp(ax1, xticks=x, xticklabels = classification_list)
+    ax1.tick_params(axis='both', direction='in', labelsize = font_size)
+    if len(classification_list) < 4:
+        width = 0.35
+    elif len(classification_list) == 4:
+        width = 0.3
+    else:
+        width = 0.25
+
+    # 3. 그래프 그리기
+
+    bar1 = ax1.bar(x - width/2, student_score_list, width, color = '#3399ff', label='학생 점수')
+    bar2 = ax1.bar(x + width/2, mean_score_list, width, color = '#FF3F4B', label='단계 평균')
+
+    for bar in bar1:
+        plt.annotate(sround(bar.get_height(),1), xy=(bar.get_x() + width/3, bar.get_height()+0.15), fontsize=font_size)
+
+    for bar in bar2:
+        plt.annotate(sround(bar.get_height(),1), xy=(bar.get_x() + width/3, bar.get_height()+0.15), fontsize=font_size)
+
+    bar = [bar1] + [bar2]
+    ax1.set_ylim(0, 110)
+
+    labs = [l.get_label() for l in bar]
+    ax1.legend(bar, labs, loc = 'center', bbox_to_anchor=(0.5, -0.2), ncol= len(bar), fontsize = font_size-1)
+    widget.canvas.draw()
+
+def sround(self, num, digit=0):
+        m, n = divmod((num * (10 ** digit)), 1)
+        if n == 0.5:
+            return (num * (10 ** digit) + 0.5) / (10 ** digit)
+        else:
+            return round(num, digit)
+
+# 원생 상담 기록 데이터
+@bp.route("/get_consulting_program/<string:student_origin>", methods=['GET'])
+@authrize
+def get_consulting_program(u, student_origin):
+    query = '''
+    SELECT student_id from program_student where origin = %s
+    '''
+    params = (student_origin)
+    student_id = common.db_connection.execute_query(query, params)
+    print(student_id)
+    student_id = student_id[0]['student_id']
+    print(student_id)
+
+    db = pymysql.connect(host='118.131.85.245', user='jung', password='wjdgus00',port=9243, database='purple_learning_counseling', cursorclass=pymysql.cursors.DictCursor)
+    try:
+        with db.cursor() as cur:
+            cur.execute('''
+                    SELECT * FROM student_ixl_df where student_id = %s
+            ''',(student_id, ) )
+            student_ixl_df = cur.fetchall()
+            cur.execute('''
+                    SELECT * FROM reading_data where student_id = %s
+            ''',(student_id, ) )
+            student_reading_data = cur.fetchall()
+            columns_to_process = ['SR', 'Lexile', 'AR', 'Lexile_BookLevel', 'BC', 'WC', 'Quiz', 'WC/권', '목표WC', '달성률']
+
+            for col_name in columns_to_process:
+                student_reading_data[col_name] = student_reading_data[col_name].apply(lambda x: '' if x in ['nan', ''] else sround(float(x), 1) if col_name in ['SR', 'AR'] else int(x.replace('.0', '')) if col_name in ['Lexile', 'Lexile_BookLevel', 'BC', 'WC', 'Quiz', 'WC/권', '목표WC', '달성률'] else x)
+            plot_widget_line_graph(reading_score_graph, reading_score_graph_ax1, reading_score_graph_ax2, student_reading_data_sample_tmp, 'blue', 'red', 'SR', 'Lexile')
+            # 여기는 앞으로 고정 값으로 보내줄겁니다 .
+            cur.execute('''
+                    SELECT * FROM ixl_problem_info
+            ''', )
+            basic_info = cur.fetchall()
+            for info in basic_info:
+                info['단계'] = decrypt(info['단계'])
+                info['대분류'] = decrypt(info['대분류'])
+                info['스킬넘버'] = decrypt(info['스킬넘버'])
+                info['주제'] = decrypt(info['주제'])
+                info['퍼마코드'] = decrypt(info['퍼마코드'])
+    except:
+        print('err:', sys.exc_info())
+    finally:
+        db.close()
+    return jsonify({'student_ixl_df':student_ixl_df,'student_reading_data':student_reading_data,'basic_info':basic_info})

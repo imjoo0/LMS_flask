@@ -383,7 +383,8 @@ async function get_consulting(student_id) {
     let todo_consultingnum = todo_consulting.length;
     // <a class="btn-two green small" onclick="student_report(${student_id})">수강 기록</a>
     // <a class="btn-two cyan small" onclick="student_report(${student_id})">원생리포트</a>
-    let temp_consulting_contents_box = `<a class="btn-two purple small" onclick="consulting_history(${student_id})">상담 기록</a>
+    let temp_consulting_contents_box = `<a class="btn-two yellow small" onclick="consulting_program('${student_data.origin}')">원생리포트</a>
+    <a class="btn-two purple small" onclick="consulting_history(${student_id})">상담 기록</a>
     <a class="btn-two red small" onclick="plusconsulting()">상담 추가</a>`;
     let temp_consulting_write_box = ''
     if(todo_consultingnum != 0){
@@ -521,6 +522,44 @@ async function consulting_history(student_id) {
         });
         SConsultingcontainer.pagination(Object.assign(consultinghistory_list_paginationOptions, { 'dataSource': consultingStudent_target_list }));
     }
+}
+// consulting_program
+async function consulting_program(student_origin) {
+    let test = 'P210107'
+    const response = await $.ajax({
+        type: "GET",
+        url: "/teacher/get_consulting_program/"+test,
+        dataType: 'json',
+        data: {},
+    });
+    console.log(response.student_ixl_df)
+    console.log(response.basic_info)
+    let student_ixl_df = response.student_ixl_df
+    let basic_info = response.basic_info
+    let student_reading_data = response.student_reading_data
+    $('.button').show()
+    $("#consulting_modal").css("max-width", "90%");
+    $("#student_consulting_box").removeClass("w-100").addClass("w-50");
+    $("#student_program_record_box").addClass("w-50 flex-column monot_inloading");
+    $("#student_program_record_box").show();
+    $("#student_program_box_detail").removeClass("w-50 flex-column monot_inloading");
+    $('#student_program_box_detail').hide()
+    $('#student_program_list').empty()
+    let temp = ''
+    student_ixl_df.forEach( (ixl) => {
+        let info = basic_info.filter(i=>i['퍼마코드'] == ixl['Skill Perma Code'])[0]
+        console.log(info)
+        temp += `
+        <td class="col-1">${info['단계']}</td>
+        <td class="col-2">${info['대분류']}</td>
+        <td class="col-1">${ixl['학습평가']}</td>
+        <th class="col-1">${make_nullcate(ixl['date'])} </th>
+        <th class="col-1">${info['스킬넘버']}</th>
+        <th class="col-6">${info['주제']}</th>
+        `
+    })
+    $('#student_program_list').html(temp)
+   
 }
 function sort_consulting_category(category){
     SConsultingcontainer = $('#consultinghistory_list_pagination')
@@ -777,7 +816,6 @@ async function get_consulting_history() {
                 if (consulting.category_id < 100) {
                     title = consulting.category
                 }
-                console.log(student_info)
                 dataHtml += `
                 <td class="col-2"> ${consulting.category}</td>
                 <td class="col-2">${title}</td>
@@ -830,7 +868,7 @@ async function get_consulting_history() {
             container.pagination(Object.assign(CpaginationOptions, { 'dataSource': done_consulting }));
         }
     };
-    if (done_consulting.length > 0) {
+    if(done_consulting.length > 0) {
         let category_set = new Set(done_consulting.map(c => c.category));
         let category_list = [...category_set];
         var idxHtml = `<option value="none">전체</option>`;

@@ -99,165 +99,165 @@ async function get_teacher_data(){
             },
         });
 
-        // const purplewritingWorker = new Worker("../static/js/Twriting_worker.js");
-        // const TtaskdataWorker = new Worker("../static/js/Ttask_worker.js");
-        // const TunlearnedWorker = new Worker("../static/js/Tunlearned_worker.js");
-        // let temp_ban_list = ''
-        // let temp_ban_option = '<option value="none" selected>반을 선택해주세요</option>';
-        // // Tall_students 는 전체 원생-반으로 묶여 있기 때문에 전체 데이터에서 반데이터로 나누는 작업을 합니다.
-        // // TbanstudentsWorker 작업이 완료되면 이 부분이 실행됩니다.
-        // Tall_students.forEach((student) => {
-        //     student.semester = make_semester(student.semester)
-        //     if (!TbanMap.has(student.ban_id)) {
-        //         TtaskdataWorker.postMessage({'ban_id':student.ban_id}) 
-        //         TtaskdataWorker.onmessage = function (event) {
-        //             // 본원 요청 상담=업무
-        //             Ttask_consulting = Ttask_consulting.concat(event.data.task_consulting)
-        //             Tall_task = Tall_task.concat(event.data.task)
-        //             Tgrouped_task = Tall_task.reduce((acc, item) => {
-        //                 if (!acc[item.category]) {
-        //                     acc[item.category] = [];
-        //                 }
-        //                 acc[item.category].push(item);
-        //                 return acc;
-        //             }, []);
-        //             return home_task()
-        //         };
-        //         TunlearnedWorker.postMessage({'ban_id':student.ban_id,'startdate':student.startdate})
-        //         TunlearnedWorker.onmessage = function (event) {
-        //             // 미제출 명단을 가져옵니다.
-        //             TunlearnedConsultingsData = TunlearnedConsultingsData.concat(event.data.unlearned) 
-        //             unlearnedConsultingsCount = TunlearnedConsultingsData.length
-        //             if(unlearnedConsultingsCount != 0 ){
-        //                 const unlearnedDataByStudent = {};
-        //                 TunlearnedConsultingsData.forEach((unlearned)=>{
-        //                     const studentId = unlearned.student_id;
+        const purplewritingWorker = new Worker("../static/js/Twriting_worker.js");
+        const TtaskdataWorker = new Worker("../static/js/Ttask_worker.js");
+        const TunlearnedWorker = new Worker("../static/js/Tunlearned_worker.js");
+        let temp_ban_list = ''
+        let temp_ban_option = '<option value="none" selected>반을 선택해주세요</option>';
+        // Tall_students 는 전체 원생-반으로 묶여 있기 때문에 전체 데이터에서 반데이터로 나누는 작업을 합니다.
+        // TbanstudentsWorker 작업이 완료되면 이 부분이 실행됩니다.
+        Tall_students.forEach((student) => {
+            student.semester = make_semester(student.semester)
+            if (!TbanMap.has(student.ban_id)) {
+                TtaskdataWorker.postMessage({'ban_id':student.ban_id}) 
+                TtaskdataWorker.onmessage = function (event) {
+                    // 본원 요청 상담=업무
+                    Ttask_consulting = Ttask_consulting.concat(event.data.task_consulting)
+                    Tall_task = Tall_task.concat(event.data.task)
+                    Tgrouped_task = Tall_task.reduce((acc, item) => {
+                        if (!acc[item.category]) {
+                            acc[item.category] = [];
+                        }
+                        acc[item.category].push(item);
+                        return acc;
+                    }, []);
+                    return home_task()
+                };
+                TunlearnedWorker.postMessage({'ban_id':student.ban_id,'startdate':student.startdate})
+                TunlearnedWorker.onmessage = function (event) {
+                    // 미제출 명단을 가져옵니다.
+                    TunlearnedConsultingsData = TunlearnedConsultingsData.concat(event.data.unlearned) 
+                    unlearnedConsultingsCount = TunlearnedConsultingsData.length
+                    if(unlearnedConsultingsCount != 0 ){
+                        const unlearnedDataByStudent = {};
+                        TunlearnedConsultingsData.forEach((unlearned)=>{
+                            const studentId = unlearned.student_id;
 
-        //                     // unlearnedDataByStudent에 학생 별로 그룹화
-        //                     if (!unlearnedDataByStudent[studentId]) {
-        //                         unlearnedDataByStudent[studentId] = [];
-        //                     }
+                            // unlearnedDataByStudent에 학생 별로 그룹화
+                            if (!unlearnedDataByStudent[studentId]) {
+                                unlearnedDataByStudent[studentId] = [];
+                            }
 
-        //                     unlearnedDataByStudent[studentId].push(unlearned);
+                            unlearnedDataByStudent[studentId].push(unlearned);
 
-        //                     for (const studentId in unlearnedDataByStudent) {
-        //                         const unlearnedArray = unlearnedDataByStudent[studentId];
+                            for (const studentId in unlearnedDataByStudent) {
+                                const unlearnedArray = unlearnedDataByStudent[studentId];
 
-        //                         // 미학습 기록을 deadline 기준으로 정렬
-        //                         unlearnedArray.sort((a, b) => {
-        //                             if (a.deadline < b.deadline) return -1;
-        //                             if (a.deadline > b.deadline) return 1;
-        //                             return 0;
-        //                         });
+                                // 미학습 기록을 deadline 기준으로 정렬
+                                unlearnedArray.sort((a, b) => {
+                                    if (a.deadline < b.deadline) return -1;
+                                    if (a.deadline > b.deadline) return 1;
+                                    return 0;
+                                });
 
-        //                         // 가장 오래된 deadline과 최신 missed 설정
-        //                         const oldestDeadline = unlearnedArray[0].deadline;
-        //                         const latestMissed = unlearnedArray.reduce((latest, current) => {
-        //                             if (!latest || current.missed > latest) {
-        //                                 return current.missed;
-        //                             }
-        //                             return latest;
-        //                         }, null);
+                                // 가장 오래된 deadline과 최신 missed 설정
+                                const oldestDeadline = unlearnedArray[0].deadline;
+                                const latestMissed = unlearnedArray.reduce((latest, current) => {
+                                    if (!latest || current.missed > latest) {
+                                        return current.missed;
+                                    }
+                                    return latest;
+                                }, null);
 
-        //                         // Tunlearned_student에 업데이트
-        //                         const studentObj = Tunlearned_student.find(item => item.student_id === studentId);
-        //                         if (studentObj) {
-        //                             studentObj.deadline = oldestDeadline;
-        //                             studentObj.missed = latestMissed;
-        //                             studentObj.unlearned_list = unlearnedArray;
-        //                         } else {
-        //                             // Tunlearned_student에 해당 학생이 없으면 새로 추가
-        //                             Tunlearned_student.push({
-        //                                 student_id: studentId,
-        //                                 deadline: oldestDeadline,
-        //                                 missed: latestMissed,
-        //                                 unlearned_list: unlearnedArray
-        //                             });
-        //                         }
-        //                     }
-        //                 })
+                                // Tunlearned_student에 업데이트
+                                const studentObj = Tunlearned_student.find(item => item.student_id === studentId);
+                                if (studentObj) {
+                                    studentObj.deadline = oldestDeadline;
+                                    studentObj.missed = latestMissed;
+                                    studentObj.unlearned_list = unlearnedArray;
+                                } else {
+                                    // Tunlearned_student에 해당 학생이 없으면 새로 추가
+                                    Tunlearned_student.push({
+                                        student_id: studentId,
+                                        deadline: oldestDeadline,
+                                        missed: latestMissed,
+                                        unlearned_list: unlearnedArray
+                                    });
+                                }
+                            }
+                        })
 
-        //                 // Tunlearned_student를 deadline이 오래된 순으로 정렬
-        //                 Tunlearned_student.sort((a, b) => {
-        //                     if (a.deadline < b.deadline) return -1;
-        //                     if (a.deadline > b.deadline) return 1;
-        //                     return 0;
-        //                 });
+                        // Tunlearned_student를 deadline이 오래된 순으로 정렬
+                        Tunlearned_student.sort((a, b) => {
+                            if (a.deadline < b.deadline) return -1;
+                            if (a.deadline > b.deadline) return 1;
+                            return 0;
+                        });
 
-        //             }
-        //             return home_unlearned(0)
-        //         };
-        //         // 담당중인 학생들의 퍼플 라이팅 미제출 내역 데이터를 백그라운드로 요청 보냅니다
-        //         purplewritingWorker.postMessage({ ban_id: student.ban_id })
-        //         purplewritingWorker.onmessage = function (event) {
-        //             // 미제출 명단을 가져옵니다.
-        //             Tall_writing=Tall_writing.concat(event.data.result) 
-        //             $('#total_unsubmited_num').html(`누적 퍼플 라이팅 미제출 : ${Tall_writing.length} 건`)
-        //             $('#unsubmited_loader').show()
-        //             // *ban_id 추가 경우 
-        //             const groupedData = {};
-        //             Tall_writing.forEach(item => {
-        //                 const { ban_id, week } = item;
+                    }
+                    return home_unlearned(0)
+                };
+                // // 담당중인 학생들의 퍼플 라이팅 미제출 내역 데이터를 백그라운드로 요청 보냅니다
+                // purplewritingWorker.postMessage({ ban_id: student.ban_id })
+                // purplewritingWorker.onmessage = function (event) {
+                //     // 미제출 명단을 가져옵니다.
+                //     Tall_writing=Tall_writing.concat(event.data.result) 
+                //     $('#total_unsubmited_num').html(`누적 퍼플 라이팅 미제출 : ${Tall_writing.length} 건`)
+                //     $('#unsubmited_loader').show()
+                //     // *ban_id 추가 경우 
+                //     const groupedData = {};
+                //     Tall_writing.forEach(item => {
+                //         const { ban_id, week } = item;
                         
-        //                 // ban_id를 키로, week을 서브 키로 가지는 객체를 생성
-        //                 if (!groupedData[ban_id]) {
-        //                     groupedData[ban_id] = {};
-        //                 }
+                //         // ban_id를 키로, week을 서브 키로 가지는 객체를 생성
+                //         if (!groupedData[ban_id]) {
+                //             groupedData[ban_id] = {};
+                //         }
                     
-        //                 // week 값을 키로 가지는 배열에 데이터 추가
-        //                 if (!groupedData[ban_id][week]) {
-        //                     groupedData[ban_id][week] = [];
-        //                 }
+                //         // week 값을 키로 가지는 배열에 데이터 추가
+                //         if (!groupedData[ban_id][week]) {
+                //             groupedData[ban_id][week] = [];
+                //         }
                         
-        //                 groupedData[ban_id][week].push(item);
-        //             });
-        //             // week 값을 내림차순으로 정렬하기
-        //             for (const ban_id in groupedData) {
-        //                 const weeks = Object.keys(groupedData[ban_id]).sort((a, b) => b - a);
-        //                 TunSubList[ban_id] = weeks.map(week => ({
-        //                     week,
-        //                     unsubmiteds: groupedData[ban_id][week]
-        //                 }));
-        //             }
-        //             // 결과 출력
-        //             return home_unsubmited()
-        //         };
-        //         temp_ban_option += `<option value=${student.ban_id}>${student.ban_name} (${student.semester}월 학기)</option>`; // 문의 남길때 필요한 반 select 박스도 전체 반 for문 도는 김에 같이 붙입니다. 
+                //         groupedData[ban_id][week].push(item);
+                //     });
+                //     // week 값을 내림차순으로 정렬하기
+                //     for (const ban_id in groupedData) {
+                //         const weeks = Object.keys(groupedData[ban_id]).sort((a, b) => b - a);
+                //         TunSubList[ban_id] = weeks.map(week => ({
+                //             week,
+                //             unsubmiteds: groupedData[ban_id][week]
+                //         }));
+                //     }
+                //     // 결과 출력
+                //     return home_unsubmited()
+                // };
+                temp_ban_option += `<option value=${student.ban_id}>${student.ban_name} (${student.semester}월 학기)</option>`; // 문의 남길때 필요한 반 select 박스도 전체 반 for문 도는 김에 같이 붙입니다. 
 
-        //         // 반별 차트를 그리기 위한 변수 선언 
-        //         let first_student = Tall_students.filter(s=>s.ban_id == student.ban_id)
-        //         let first_student_num = first_student.length
-        //         let out_student_num = first_student_num != 0 ? first_student.filter(s=>s.category_id == 2).length : 0 
-        //         let hold_student_num = first_student_num != 0 ? first_student.filter(s=>s.category_id == 3).length : 0 
-        //         let now_student_num = first_student_num - out_student_num - hold_student_num
+                // 반별 차트를 그리기 위한 변수 선언 
+                let first_student = Tall_students.filter(s=>s.ban_id == student.ban_id)
+                let first_student_num = first_student.length
+                let out_student_num = first_student_num != 0 ? first_student.filter(s=>s.category_id == 2).length : 0 
+                let hold_student_num = first_student_num != 0 ? first_student.filter(s=>s.category_id == 3).length : 0 
+                let now_student_num = first_student_num - out_student_num - hold_student_num
 
 
-        //         temp_ban_list += `
-        //             <th class="col-3">${student.ban_name}반</th>
-        //             <th class="col-1">${student.semester}학기</th>
-        //             <td class="col-2">${now_student_num}</td>
-        //             <td class="col-2">${hold_student_num}</td>
-        //             <td class="col-2">${out_student_num}</td>
-        //             <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${student.ban_id})">✔️</td>
-        //         `
+                temp_ban_list += `
+                    <th class="col-3">${student.ban_name}반</th>
+                    <th class="col-1">${student.semester}학기</th>
+                    <td class="col-2">${now_student_num}</td>
+                    <td class="col-2">${hold_student_num}</td>
+                    <td class="col-2">${out_student_num}</td>
+                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${student.ban_id})">✔️</td>
+                `
 
-        //         TbanMap.set(student.ban_id, {
-        //             ban_name: student.ban_name,
-        //             ban_startdate:student.startdate
-        //         });
+                TbanMap.set(student.ban_id, {
+                    ban_name: student.ban_name,
+                    ban_startdate:student.startdate
+                });
         
-        //         Tban_data.push({
-        //             ban_id: student.ban_id,
-        //             name: student.ban_name,
-        //             semester:student.semester,
-        //             startdate:student.startdate,
-        //             teacher_id: student.teacher_id
-        //         });
-        //     }
-        //     if(student.category_id != 2 && student.category_id != 3){
-        //         Tmy_students.push(student)
-        //     }
-        // });
+                Tban_data.push({
+                    ban_id: student.ban_id,
+                    name: student.ban_name,
+                    semester:student.semester,
+                    startdate:student.startdate,
+                    teacher_id: student.teacher_id
+                });
+            }
+            if(student.category_id != 2 && student.category_id != 3){
+                Tmy_students.push(student)
+            }
+        });
         $('#maininloading').hide()
         $('#main').show()   
     }catch(error){

@@ -15,7 +15,7 @@ UPLOAD_FOLDER = join(dirname(realpath(__file__)), "/LMSapp/static/uploads/")
 ALLOWED_EXTENSIONS = ["jpg", "png", "mov", "mp4", "mpg","pdf"]
 MAX_CONTENT_LENGTH = 1000 * 1024 * 1024  # 1000mb
 DEBUG = True
-
+key = b'6rru0HL8dXdRCKBjk_uEjOE33X0A1UUHbf3bZgV1kh4='
 # config.py
 
 class Config:
