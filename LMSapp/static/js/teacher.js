@@ -528,15 +528,17 @@ async function consulting_program(student_origin) {
     let test = 'P210107'
     const response = await $.ajax({
         type: "GET",
-        url: "/teacher/get_consulting_program/"+test,
+        url: "/teacher/get_reading_program/"+test,
         dataType: 'json',
         data: {},
     });
-    console.log(response.student_ixl_df)
-    console.log(response.basic_info)
-    let student_ixl_df = response.student_ixl_df
-    let basic_info = response.basic_info
-    let student_reading_data = response.student_reading_data
+    // console.log(response.student_ixl_df)
+    console.log(response)
+    let temp_img_src = 'data:image/png;base64,' + response.image;
+    $('#readingimg').attr('src', temp_img_src);
+    // let student_ixl_df = response.student_ixl_df
+    // let basic_info = response.basic_info
+    // let student_reading_data = response.student_reading_data
     $('.button').show()
     $("#consulting_modal").css("max-width", "90%");
     $("#student_consulting_box").removeClass("w-100").addClass("w-50");
@@ -545,20 +547,19 @@ async function consulting_program(student_origin) {
     $("#student_program_box_detail").removeClass("w-50 flex-column monot_inloading");
     $('#student_program_box_detail').hide()
     $('#student_program_list').empty()
-    let temp = ''
-    student_ixl_df.forEach( (ixl) => {
-        let info = basic_info.filter(i=>i['퍼마코드'] == ixl['Skill Perma Code'])[0]
-        console.log(info)
-        temp += `
-        <td class="col-1">${info['단계']}</td>
-        <td class="col-2">${info['대분류']}</td>
-        <td class="col-1">${ixl['학습평가']}</td>
-        <th class="col-1">${make_nullcate(ixl['date'])} </th>
-        <th class="col-1">${info['스킬넘버']}</th>
-        <th class="col-6">${info['주제']}</th>
-        `
-    })
-    $('#student_program_list').html(temp)
+    // let temp = ''
+    // student_ixl_df.forEach( (ixl) => {
+    //     let info = basic_info.filter(i=>i['퍼마코드'] == ixl['Skill Perma Code'])[0]
+    //     console.log(info)
+    //     temp += `
+    //     <td class="col-1">${info['단계']}</td>
+    //     <td class="col-2">${info['대분류']}</td>
+    //     <td class="col-1">${ixl['학습평가']}</td>
+    //     <th class="col-1">${make_nullcate(ixl['date'])} </th>
+    //     <th class="col-1">${info['스킬넘버']}</th>
+    //     <th class="col-6">${info['주제']}</th>
+    //     `
+    // })
    
 }
 function sort_consulting_category(category){

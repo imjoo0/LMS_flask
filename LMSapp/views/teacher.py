@@ -4,7 +4,7 @@ import json
 from LMSapp.views import *
 from LMSapp.models import *
 from flask import current_app, session
-from flask import Blueprint, render_template, jsonify, request, redirect, url_for, flash
+from flask import Blueprint, render_template, jsonify, request, redirect, url_for, flash, send_file
 from datetime import datetime, timedelta, date
 import pytz
 # file-upload 로 자동 바꿈 방지 모듈
@@ -12,6 +12,7 @@ from LMSapp.views import common
 from LMSapp.views.main_views import authrize
 import requests 
 import sys
+import config
 import pandas as pd
 from urllib.parse import quote
 from flask_socketio import join_room, emit
@@ -19,6 +20,11 @@ from LMSapp import socketio
 
 # 암호화 
 from cryptography.fernet import Fernet
+# 그래프 그리기 
+import matplotlib.pyplot as plt
+import numpy as np
+import io
+import base64
 
 def encrypt(data, is_out_string=True):
     key = config.key
@@ -436,11 +442,13 @@ def take_over_post(u):
         return jsonify({'result': '퇴사 처리 완료'})
 
 #  데이터 그리기 
-def plot_widget_line_graph(self, widget, ax1, ax2, data, y1_color, y2_color, y1_col_name, y2_col_name):
+def plot_widget_line_graph(ax1, ax2, data, y1_color, y2_color, y1_col_name, y2_col_name):
         # 1. 기본 스타일 설정
         # widget.figure.clear()
         ax1.clear()
         ax2.clear()
+        print(ax1)
+        print(ax2)
 
         plt.style.use('default')
         plt.rcParams['font.family'] = 'Malgun Gothic'
@@ -448,9 +456,11 @@ def plot_widget_line_graph(self, widget, ax1, ax2, data, y1_color, y2_color, y1_
         font_size = 9
         
         # 2. 데이터 준비
-        x = [i for i in range(0,len(data))]
+        # x = [i for i in range(0,len(data))]
+        x = range(len(data))
         x_tick = data['date'].tolist()
         if len(x_tick) > 7:
+            # x_tick = ['' if i % 2 == 1 else i for i in x_tick]
             x_tick = ['' if x_tick.index(i) % 2 == 1 else i for i in x_tick]
 
         y1 = [i if i not in ['',np.nan] else np.nan for i in data[y1_col_name]] 
@@ -508,7 +518,11 @@ def plot_widget_line_graph(self, widget, ax1, ax2, data, y1_color, y2_color, y1_
         ax1.set_zorder(ax2.get_zorder() + 10)
         ax1.patch.set_visible(False)
 
-        widget.canvas.draw()
+        img_buffer = io.BytesIO()
+        plt.savefig(img_buffer, format='png')
+        img_buffer.seek(0)
+
+        return send_file(img_buffer, mimetype='image/png')
 
 def plot_widget_bar_line_graph(self, widget, ax1, ax2, data, y1_color, y2_color, y1_col_name, y2_col_name):
     ax1.clear()
@@ -671,48 +685,113 @@ def sround(self, num, digit=0):
         else:
             return round(num, digit)
 
-# 원생 상담 기록 데이터
-@bp.route("/get_consulting_program/<string:student_origin>", methods=['GET'])
-@authrize
-def get_consulting_program(u, student_origin):
+# 원생 IXL 기록 데이터
+@bp.route("/get_IXL_program/<string:student_origin>", methods=['GET'])
+def get_IXL_program(student_origin):
     query = '''
     SELECT student_id from program_student where origin = %s
     '''
     params = (student_origin)
     student_id = common.db_connection.execute_query(query, params)
-    print(student_id)
     student_id = student_id[0]['student_id']
-    print(student_id)
 
     db = pymysql.connect(host='118.131.85.245', user='jung', password='wjdgus00',port=9243, database='purple_learning_counseling', cursorclass=pymysql.cursors.DictCursor)
     try:
         with db.cursor() as cur:
+            # ixl 데이터 
             cur.execute('''
                     SELECT * FROM student_ixl_df where student_id = %s
             ''',(student_id, ) )
             student_ixl_df = cur.fetchall()
-            cur.execute('''
-                    SELECT * FROM reading_data where student_id = %s
-            ''',(student_id, ) )
-            student_reading_data = cur.fetchall()
-            columns_to_process = ['SR', 'Lexile', 'AR', 'Lexile_BookLevel', 'BC', 'WC', 'Quiz', 'WC/권', '목표WC', '달성률']
-
-            for col_name in columns_to_process:
-                student_reading_data[col_name] = student_reading_data[col_name].apply(lambda x: '' if x in ['nan', ''] else sround(float(x), 1) if col_name in ['SR', 'AR'] else int(x.replace('.0', '')) if col_name in ['Lexile', 'Lexile_BookLevel', 'BC', 'WC', 'Quiz', 'WC/권', '목표WC', '달성률'] else x)
-            plot_widget_line_graph(reading_score_graph, reading_score_graph_ax1, reading_score_graph_ax2, student_reading_data_sample_tmp, 'blue', 'red', 'SR', 'Lexile')
+            # plot_widget_line_graph(reading_score_graph_ax1, reading_score_graph_ax2, student_reading_data_sample_tmp, 'blue', 'red', 'SR', 'Lexile')
             # 여기는 앞으로 고정 값으로 보내줄겁니다 .
-            cur.execute('''
-                    SELECT * FROM ixl_problem_info
-            ''', )
-            basic_info = cur.fetchall()
-            for info in basic_info:
-                info['단계'] = decrypt(info['단계'])
-                info['대분류'] = decrypt(info['대분류'])
-                info['스킬넘버'] = decrypt(info['스킬넘버'])
-                info['주제'] = decrypt(info['주제'])
-                info['퍼마코드'] = decrypt(info['퍼마코드'])
+            # cur.execute('''
+            #         SELECT * FROM ixl_problem_info
+            # ''', )
+            # basic_info = cur.fetchall()
+            # for info in basic_info:
+            #     info['단계'] = decrypt(info['단계'])
+            #     info['대분류'] = decrypt(info['대분류'])
+            #     info['스킬넘버'] = decrypt(info['스킬넘버'])
+            #     info['주제'] = decrypt(info['주제'])
+            #     info['퍼마코드'] = decrypt(info['퍼마코드'])
     except:
         print('err:', sys.exc_info())
     finally:
         db.close()
-    return jsonify({'student_ixl_df':student_ixl_df,'student_reading_data':student_reading_data,'basic_info':basic_info})
+    return jsonify({'student_ixl_df':student_ixl_df})
+
+
+# 원생 리딩 기록 데이터
+@bp.route("/get_reading_program/<string:student_origin>", methods=['GET'])
+def get_reading_program(student_origin):
+    query = '''
+    SELECT student_id from program_student where origin = %s
+    '''
+    params = (student_origin)
+    student_id = common.db_connection.execute_query(query, params)
+    student_id = student_id[0]['student_id']
+
+    try:
+        db = pymysql.connect(host='118.131.85.245', user='jung', password='wjdgus00',port=9243, database='purple_learning_counseling', cursorclass=pymysql.cursors.DictCursor)
+        with db.cursor() as cur:
+            # 도서 데이터 
+            cur.execute("SELECT * FROM reading_data where student_id = %s",(student_id, ) )
+            student_reading_data = cur.fetchall()
+            columns_to_process = ['SR', 'Lexile', 'AR', 'Lexile_BookLevel', 'BC', 'WC', 'Quiz', 'WC/권', '목표WC', '달성률']
+
+            for item in student_reading_data:
+                for col_name in columns_to_process:
+                    if col_name in ['SR', 'AR']:
+                        item[col_name] = '' if item[col_name] in ['nan', ''] else sround(float(item[col_name]), 1)
+                    elif col_name in ['Lexile', 'Lexile_BookLevel', 'BC', 'WC', 'Quiz', 'WC/권', '목표WC', '달성률']:
+                        item[col_name] = '' if item[col_name] in ['nan', ''] else int(float(item[col_name]))
+                    # 나머지 열에 대해서는 변환을 시도하지 않고 그대로 둠
+            
+            dates = [data['date'] for data in student_reading_data]
+            sr_scores = [data['SR'] for data in student_reading_data]
+            lexile_scores = [data['Lexile'] for data in student_reading_data]
+            
+            dates_with_nan = []
+            sr_scores_with_nan = []
+            lexile_scores_with_nan = []
+
+            for date, sr, lexile in zip(dates, sr_scores, lexile_scores):
+                if sr != '':
+                    dates_with_nan.append(date)
+                    sr_scores_with_nan.append(sr)
+                    lexile_scores_with_nan.append(np.nan)
+                
+                dates_with_nan.append(date)
+                sr_scores_with_nan.append(np.nan)
+                lexile_scores_with_nan.append(lexile)
+
+            # 그래프 생성
+            plt.figure(figsize=(10, 6))
+
+            plt.plot(dates_with_nan, sr_scores_with_nan, marker='s', markersize=5, label='SR', linestyle='-', color='blue')
+            plt.plot(dates_with_nan, lexile_scores_with_nan, marker='s', markersize=5, label='Lexile', linestyle='-', color='red')
+
+            plt.xlabel('Date')
+            plt.ylabel('Scores')
+            plt.title('SR and Lexile Scores Over Time')
+            plt.xticks(rotation=45)
+            plt.grid(True)
+            plt.legend()
+
+            # x 축의 눈금이 많을 경우 일부만 표시
+            if len(dates) > 7:
+                plt.xticks(dates_with_nan[::2], rotation=45)
+
+            plt.tight_layout()
+
+            img_buffer = io.BytesIO()
+            plt.savefig(img_buffer, format='png')
+            img_buffer.seek(0)
+            img_data = base64.b64encode(img_buffer.read()).decode('utf-8')
+            return jsonify(image=img_data)
+    except Exception as e:
+        print('Error:', e)
+    finally:
+        if db:
+            db.close()
