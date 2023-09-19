@@ -442,95 +442,89 @@ def take_over_post(u):
         return jsonify({'result': '퇴사 처리 완료'})
 
 #  데이터 그리기 
-def plot_widget_line_graph(ax1, ax2, data, y1_color, y2_color, y1_col_name, y2_col_name):
-        # 1. 기본 스타일 설정
-        # widget.figure.clear()
-        ax1.clear()
-        ax2.clear()
-        print(ax1)
-        print(ax2)
 
-        plt.style.use('default')
-        plt.rcParams['font.family'] = 'Malgun Gothic'
-        plt.rcParams['axes.unicode_minus'] = False
-        font_size = 9
-        
-        # 2. 데이터 준비
-        # x = [i for i in range(0,len(data))]
-        x = range(len(data))
-        x_tick = data['date'].tolist()
-        if len(x_tick) > 7:
-            # x_tick = ['' if i % 2 == 1 else i for i in x_tick]
-            x_tick = ['' if x_tick.index(i) % 2 == 1 else i for i in x_tick]
+# 연도-월 형식의 문자열을 파싱하여 연도와 월을 추출
+def extract_year_month(date_str):
+    parts = date_str.split('-')
+    if len(parts) == 2:
+        year = int(parts[0])
+        month = int(parts[1])
+        return year, month
+    else:
+        return None
 
-        y1 = [i if i not in ['',np.nan] else np.nan for i in data[y1_col_name]] 
-        y2 = [i if i not in ['',np.nan] else np.nan for i in data[y2_col_name]]
+# 연도와 월을 비교하는 함수
+def compare_year_month(date1, date2):
+    year1, month1 = extract_year_month(date1)
+    year2, month2 = extract_year_month(date2)
+    if year1 is not None and year2 is not None and month1 is not None and month2 is not None:
+        if year1 == year2 and month1 + 1 == month2:
+            return True
+    return False
 
-        # 3. 그래프 그리기
-        plt.setp(ax1, xticks=x, xticklabels=x_tick)
-
-        lns1 = ax1.plot(x, y1, '-s', color=y1_color, markersize=5, linewidth=2, alpha=0.8, label=y1_col_name)
-        ax1.tick_params(axis='both', direction='in', labelsize = font_size)
-
-        if y1.count(np.nan) != len(y1):
-            ymax = np.nanmax(y1)
-            ymin = np.nanmin(y1)
-            yterm = (ymax-ymin)
-            ax1.set_ylim(ymin-yterm, ymax+yterm)
-            if 'WC' in y1_col_name:
-                if ymin-yterm < 0:
-                    ax1.set_ylim(0, ymax+yterm)
-                else:
-                    ax2.set_ylim(ymin-yterm, ymax+yterm)
-
-            if 'Lexile' in y1_col_name:
-                ax1.yaxis.set_major_formatter(lambda x, pos: str(int(x)).replace('-','BR') + 'L')
-                if ymin < 0:
-                    ax1.tick_params(axis='y', direction='in', labelsize = font_size-1)
-        else:
-            ax1.set_yticks([])
-
-        lns2 = ax2.plot(x, y2, '-s', color=y2_color, markersize=5, linewidth=2, alpha=0.8, label=y2_col_name)
-        ax2.tick_params(axis='y', direction='in', labelsize = font_size)
-
-        if y2.count(np.nan) != len(y2):
-            ymax = np.nanmax(y2)
-            ymin = np.nanmin(y2)
-            yterm = (ymax-ymin)
-            ax2.set_ylim(ymin-yterm, ymax+yterm)
-            if 'WC' in y2_col_name:
-                if ymin-yterm < 0:
-                    ax2.set_ylim(0, ymax+yterm)
-                else:
-                    ax2.set_ylim(ymin-yterm, ymax+yterm)
-
-            if 'Lexile' in y2_col_name:
-                ax2.yaxis.set_major_formatter(lambda x, pos: str(int(x)).replace('-','BR') + 'L')
-                if ymin < 0:
-                    ax2.tick_params(axis='y', direction='in', labelsize = font_size-1)
-        else:
-            ax2.set_yticks([])
-
-        lns = lns1 + lns2
-        labs = [l.get_label() for l in lns]
-        ax1.legend(lns, labs, loc = 'center', bbox_to_anchor=(0.5, -0.2), ncol= len(lns), fontsize = font_size-1)
-
-        ax1.set_zorder(ax2.get_zorder() + 10)
-        ax1.patch.set_visible(False)
-
-        img_buffer = io.BytesIO()
-        plt.savefig(img_buffer, format='png')
-        img_buffer.seek(0)
-
-        return send_file(img_buffer, mimetype='image/png')
-
-def plot_widget_bar_line_graph(self, widget, ax1, ax2, data, y1_color, y2_color, y1_col_name, y2_col_name):
-    ax1.clear()
-    ax2.clear()
-
+def plot_widget_line_graph(data, y1_color, y2_color, y1_col_name, y2_col_name):
     # 1. 기본 스타일 설정
     plt.style.use('default')
-    plt.rcParams['font.family'] = 'Malgun Gothic'
+    plt.rcParams['axes.unicode_minus'] = False
+    font_size = 9
+
+    # 2. 데이터 준비
+    x = range(len(data))
+    x_tick = [item['date'] for item in data]
+    if len(x_tick) > 7:
+        x_tick = ['' if x_tick.index(i) % 2 == 1 else i for i in x_tick]
+
+    # null 또는 빈 문자열인 값을 NaN으로 변경
+    y1 = [item[y1_col_name] if str(item[y1_col_name]).strip() not in ['', 'nan'] else np.nan for item in data]
+    y2 = [item[y2_col_name] if str(item[y2_col_name]).strip() not in ['', 'nan'] else np.nan for item in data]
+
+    # 3. 그래프 생성
+    fig, ax1 = plt.subplots(figsize=(10, 6))
+
+    # 왼쪽 y 축 (SR) 설정
+    ax1.set_xlabel('Date')
+    ax1.set_ylabel(y1_col_name, color=y1_color)
+    ax1.plot(x, y1, '-s', color=y1_color, markersize=5, linewidth=2, alpha=0.8, label=y1_col_name)
+    ax1.tick_params(axis='both', direction='in', labelsize=font_size)
+
+    # 오른쪽 y 축 (Lexile) 설정
+    ax2 = ax1.twinx()
+    ax2.set_ylabel(y2_col_name, color=y2_color)
+    ax2.plot(x, y2, '-s', color=y2_color, markersize=5, linewidth=2, alpha=0.8, label=y2_col_name)
+    ax2.tick_params(axis='y', direction='in', labelsize=font_size)
+
+    # x 축 눈금 설정 (모든 월을 표시)
+    ax1.set_xticks(x)
+    ax1.set_xticklabels(x_tick, rotation=45)
+
+    # 연속된 월에만 선으로 연결
+    for i in range(len(x) - 1):
+        if data[i]['date'] == data[i + 1]['date'] and not (np.isnan(y1[i]) or np.isnan(y1[i + 1])):
+            ax1.plot([x[i], x[i + 1]], [y1[i], y1[i + 1]], color=y1_color, linestyle='-', linewidth=2)
+            ax1.plot([x[i], x[i + 1]], [y2[i], y2[i + 1]], color=y2_color, linestyle='-', linewidth=2)
+
+    # y1 및 y2의 범위 조정
+    ax1.set_ylim(min(y1) - 0.5, max(y1) + 0.5)
+    ax2.set_ylim(min(y2) - 10, max(y2) + 10)
+
+    # Legend에 'AR' 추가
+    ax1.legend(loc='upper left', fontsize=font_size)
+    ax2.legend(loc='upper right', fontsize=font_size)
+
+    plt.title(f'{y1_col_name} and {y2_col_name} Over Time')
+
+    plt.grid(True)
+    plt.tight_layout()
+
+    img_buffer = io.BytesIO()
+    plt.savefig(img_buffer, format='png')
+    img_buffer.seek(0)
+    img_data = base64.b64encode(img_buffer.read()).decode('utf-8')
+    return img_data
+
+def plot_widget_bar_line_graph(data, y1_color, y2_color, y1_col_name, y2_col_name):
+    # 1. 기본 스타일 설정
+    plt.style.use('default')
     plt.rcParams['axes.unicode_minus'] = False
     font_size = 9
 
@@ -545,6 +539,7 @@ def plot_widget_bar_line_graph(self, widget, ax1, ax2, data, y1_color, y2_color,
     y2 = [i if i not in ['',np.nan] else np.nan for i in data[y2_col_name]]
 
     # 3. 그래프 그리기
+    fig, ax1 = plt.subplots(figsize=(10, 6))
     plt.setp(ax1, xticks=x, xticklabels=x_tick)
 
     bar = ax1.bar(x, y1, color=y1_color, width=0.8, alpha=0.8, label = y1_col_name)
@@ -585,7 +580,14 @@ def plot_widget_bar_line_graph(self, widget, ax1, ax2, data, y1_color, y2_color,
     ax2.set_zorder(ax1.get_zorder() + 10)
     ax1.patch.set_visible(False)
 
-    widget.canvas.draw()
+    plt.grid(True)
+    plt.tight_layout()
+
+    img_buffer = io.BytesIO()
+    plt.savefig(img_buffer, format='png')
+    img_buffer.seek(0)
+    img_data = base64.b64encode(img_buffer.read()).decode('utf-8')
+    return img_data
 
 def plot_widget_stacked_bar_line_graph(self, widget, ax1, ax2, data, y1_color, y2_color, y3_color, y1_col_name, y2_col_name, y3_col_name):
 
@@ -678,7 +680,7 @@ def plot_widget_double_bar_line_graph(self, widget, ax1, classification_list, st
     ax1.legend(bar, labs, loc = 'center', bbox_to_anchor=(0.5, -0.2), ncol= len(bar), fontsize = font_size-1)
     widget.canvas.draw()
 
-def sround(self, num, digit=0):
+def sround(num, digit=0):
         m, n = divmod((num * (10 ** digit)), 1)
         if n == 0.5:
             return (num * (10 ** digit) + 0.5) / (10 ** digit)
@@ -738,58 +740,18 @@ def get_reading_program(student_origin):
             # 도서 데이터 
             cur.execute("SELECT * FROM reading_data where student_id = %s",(student_id, ) )
             student_reading_data = cur.fetchall()
-            columns_to_process = ['SR', 'Lexile', 'AR', 'Lexile_BookLevel', 'BC', 'WC', 'Quiz', 'WC/권', '목표WC', '달성률']
+        
+        columns_to_process = ['SR', 'Lexile', 'AR', 'Lexile_BookLevel', 'BC', 'WC', 'Quiz', 'WC/권', '목표WC', '달성률']
+        for item in student_reading_data:
+            for col_name in columns_to_process:
+                if col_name in ['SR', 'AR']:
+                    item[col_name] = '' if item[col_name] in ['nan', ''] else sround(float(item[col_name]), 1)
+                elif col_name in ['Lexile', 'Lexile_BookLevel', 'BC', 'WC', 'Quiz', 'WC/권', '목표WC', '달성률']:
+                    item[col_name] = '' if item[col_name] in ['nan', ''] else int(float(item[col_name]))
 
-            for item in student_reading_data:
-                for col_name in columns_to_process:
-                    if col_name in ['SR', 'AR']:
-                        item[col_name] = '' if item[col_name] in ['nan', ''] else sround(float(item[col_name]), 1)
-                    elif col_name in ['Lexile', 'Lexile_BookLevel', 'BC', 'WC', 'Quiz', 'WC/권', '목표WC', '달성률']:
-                        item[col_name] = '' if item[col_name] in ['nan', ''] else int(float(item[col_name]))
-                    # 나머지 열에 대해서는 변환을 시도하지 않고 그대로 둠
-            
-            dates = [data['date'] for data in student_reading_data]
-            sr_scores = [data['SR'] for data in student_reading_data]
-            lexile_scores = [data['Lexile'] for data in student_reading_data]
-            
-            dates_with_nan = []
-            sr_scores_with_nan = []
-            lexile_scores_with_nan = []
-
-            for date, sr, lexile in zip(dates, sr_scores, lexile_scores):
-                if sr != '':
-                    dates_with_nan.append(date)
-                    sr_scores_with_nan.append(sr)
-                    lexile_scores_with_nan.append(np.nan)
-                
-                dates_with_nan.append(date)
-                sr_scores_with_nan.append(np.nan)
-                lexile_scores_with_nan.append(lexile)
-
-            # 그래프 생성
-            plt.figure(figsize=(10, 6))
-
-            plt.plot(dates_with_nan, sr_scores_with_nan, marker='s', markersize=5, label='SR', linestyle='-', color='blue')
-            plt.plot(dates_with_nan, lexile_scores_with_nan, marker='s', markersize=5, label='Lexile', linestyle='-', color='red')
-
-            plt.xlabel('Date')
-            plt.ylabel('Scores')
-            plt.title('SR and Lexile Scores Over Time')
-            plt.xticks(rotation=45)
-            plt.grid(True)
-            plt.legend()
-
-            # x 축의 눈금이 많을 경우 일부만 표시
-            if len(dates) > 7:
-                plt.xticks(dates_with_nan[::2], rotation=45)
-
-            plt.tight_layout()
-
-            img_buffer = io.BytesIO()
-            plt.savefig(img_buffer, format='png')
-            img_buffer.seek(0)
-            img_data = base64.b64encode(img_buffer.read()).decode('utf-8')
-            return jsonify(image=img_data)
+        img_data = plot_widget_line_graph(student_reading_data, 'blue', 'red', 'SR', 'Lexile')
+        img2_data = plot_widget_bar_line_graph(student_reading_data, 'light-blue', 'grey', 'WC', 'BC')    
+        return jsonify(image=img2_data)
     except Exception as e:
         print('Error:', e)
     finally:
