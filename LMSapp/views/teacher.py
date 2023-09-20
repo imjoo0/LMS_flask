@@ -441,27 +441,8 @@ def take_over_post(u):
         db.session.commit()
         return jsonify({'result': '퇴사 처리 완료'})
 
+
 #  데이터 그리기 
-
-# 연도-월 형식의 문자열을 파싱하여 연도와 월을 추출
-def extract_year_month(date_str):
-    parts = date_str.split('-')
-    if len(parts) == 2:
-        year = int(parts[0])
-        month = int(parts[1])
-        return year, month
-    else:
-        return None
-
-# 연도와 월을 비교하는 함수
-def compare_year_month(date1, date2):
-    year1, month1 = extract_year_month(date1)
-    year2, month2 = extract_year_month(date2)
-    if year1 is not None and year2 is not None and month1 is not None and month2 is not None:
-        if year1 == year2 and month1 + 1 == month2:
-            return True
-    return False
-
 def plot_widget_line_graph(data, y1_color, y2_color, y1_col_name, y2_col_name):
     # 1. 기본 스타일 설정
     plt.style.use('default')
@@ -530,18 +511,22 @@ def plot_widget_bar_line_graph(data, y1_color, y2_color, y1_col_name, y2_col_nam
 
     # 2. 데이터 준비
     x = [i for i in range(0,len(data))]
-    x_tick = data['date'].tolist()
+
+    x_tick = [item['date'] for item in data]
+
     if len(x_tick) > 7:
         x_tick = ['' if x_tick.index(i) % 2 == 1 else i for i in x_tick]
 
-    y1 = [i if i not in ['',np.nan] else np.nan for i in data[y1_col_name]] 
+    y1 = [item[y1_col_name] if item[y1_col_name] not in ['', None] else np.nan for item in data]
     y1[-1] = 0 if np.isnan(y1[-1]) else y1[-1]
-    y2 = [i if i not in ['',np.nan] else np.nan for i in data[y2_col_name]]
+    y2 = [item[y2_col_name] if item[y2_col_name] not in ['', None] else np.nan for item in data]
+
+    print(y1)
+    print(y2)
 
     # 3. 그래프 그리기
     fig, ax1 = plt.subplots(figsize=(10, 6))
     plt.setp(ax1, xticks=x, xticklabels=x_tick)
-
     bar = ax1.bar(x, y1, color=y1_color, width=0.8, alpha=0.8, label = y1_col_name)
     ax1.tick_params(axis='x', direction='in', labelsize = font_size-1)
     ax1.tick_params(axis='y', direction='in', labelsize = font_size)
@@ -556,6 +541,7 @@ def plot_widget_bar_line_graph(data, y1_color, y2_color, y1_col_name, y2_col_nam
     else:
         ax1.set_yticks([])
 
+    ax2 = ax1.twinx()
     lns = ax2.plot(x, y2, '-s', color=y2_color, markersize=5, linewidth=2, alpha=0.8, label = y2_col_name)
     ax2.tick_params(axis='y', direction='in', labelsize = font_size)
     
@@ -750,8 +736,22 @@ def get_reading_program(student_origin):
                     item[col_name] = '' if item[col_name] in ['nan', ''] else int(float(item[col_name]))
 
         img_data = plot_widget_line_graph(student_reading_data, 'blue', 'red', 'SR', 'Lexile')
-        img2_data = plot_widget_bar_line_graph(student_reading_data, 'light-blue', 'grey', 'WC', 'BC')    
-        return jsonify(image=img2_data)
+        img2_data = plot_widget_bar_line_graph(student_reading_data, 'skyblue', 'grey', 'BC', 'WC') 
+        img3_data = plot_widget_line_graph(student_reading_data, 'green', 'blue', 'AR', 'WC/권') 
+        img4_data = plot_widget_line_graph(student_reading_data, 'yellow', 'blue', 'Lexile_BookLevel', 'WC/권') 
+
+        # df = pd.DataFrame(student_reading_data)
+        # target_df = df.to_json(orient='records')
+        # JSON 응답에 이미지 데이터 추가
+        response_data = {
+            "image1": img_data,
+            "image2": img2_data,
+            "image3": img3_data,
+            "image4": img4_data,
+            "student_reading_data": student_reading_data
+        }
+
+        return jsonify(response_data)   
     except Exception as e:
         print('Error:', e)
     finally:
