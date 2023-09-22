@@ -37,24 +37,25 @@ function getBanAndStudentsData() {
 
 async function get_teacher_data(){
     try{
-        $('#maininloading').show()
-        $('#main').hide()
-        // 설정할 데이터 초기화
-        // TstudentMap = new Map(); // 원생정보를 찾을 수 있는 Map 
-        Tmy_students = []
+        const response = await $.ajax({
+            url: '/teacher/get_home_data',
+            type: 'GET',
+            dataType: 'json',
+            data: {},
+        });
         Tban_data = []
-        Tall_writing = []
-        Ttask_consulting = []
-        Tall_task = []
-        Tall_consulting = []
-        TunlearnedConsultingsData = []
-        Tunlearned_student =[]
+        Tmy_students = []
+        Tall_students = response.my_students 
+        Tall_task = response.task_ban
+        Ttask_consulting = response.task_consulting
+        Tgrouped_task = Tall_task.reduce((acc, item) => {
+            if (!acc[item.category]) {
+                acc[item.category] = [];
+            }
+            acc[item.category].push(item);
+            return acc;
+        }, []);
 
-
-        // 담당중인 반과 학생들의 데이터를 백그라운드로 요청 보냅니다 
-        let [banAndStudentsData] = await Promise.all([getBanAndStudentsData()])
-        
-        Tall_students = banAndStudentsData
         let total_first_student_num = Tall_students.length
         let total_out_student_num = Tall_students.filter(s=>s.category_id == 2).length
         let total_hold_student_num = Tall_students.filter(s=>s.category_id == 3).length
@@ -100,93 +101,13 @@ async function get_teacher_data(){
         });
 
         const purplewritingWorker = new Worker("../static/js/Twriting_worker.js");
-        const TtaskdataWorker = new Worker("../static/js/Ttask_worker.js");
-        const TunlearnedWorker = new Worker("../static/js/Tunlearned_worker.js");
-        let temp_ban_list = ''
+        // let temp_ban_list = ''
         let temp_ban_option = '<option value="none" selected>반을 선택해주세요</option>';
         // Tall_students 는 전체 원생-반으로 묶여 있기 때문에 전체 데이터에서 반데이터로 나누는 작업을 합니다.
         // TbanstudentsWorker 작업이 완료되면 이 부분이 실행됩니다.
         Tall_students.forEach((student) => {
             student.semester = make_semester(student.semester)
             if (!TbanMap.has(student.ban_id)) {
-                TtaskdataWorker.postMessage({'ban_id':student.ban_id}) 
-                TtaskdataWorker.onmessage = function (event) {
-                    // 본원 요청 상담=업무
-                    Ttask_consulting = Ttask_consulting.concat(event.data.task_consulting)
-                    Tall_task = Tall_task.concat(event.data.task)
-                    Tgrouped_task = Tall_task.reduce((acc, item) => {
-                        if (!acc[item.category]) {
-                            acc[item.category] = [];
-                        }
-                        acc[item.category].push(item);
-                        return acc;
-                    }, []);
-                    return home_task()
-                };
-                TunlearnedWorker.postMessage({'ban_id':student.ban_id,'startdate':student.startdate})
-                TunlearnedWorker.onmessage = function (event) {
-                    // 미제출 명단을 가져옵니다.
-                    TunlearnedConsultingsData = TunlearnedConsultingsData.concat(event.data.unlearned) 
-                    unlearnedConsultingsCount = TunlearnedConsultingsData.length
-                    if(unlearnedConsultingsCount != 0 ){
-                        const unlearnedDataByStudent = {};
-                        TunlearnedConsultingsData.forEach((unlearned)=>{
-                            const studentId = unlearned.student_id;
-
-                            // unlearnedDataByStudent에 학생 별로 그룹화
-                            if (!unlearnedDataByStudent[studentId]) {
-                                unlearnedDataByStudent[studentId] = [];
-                            }
-
-                            unlearnedDataByStudent[studentId].push(unlearned);
-
-                            for (const studentId in unlearnedDataByStudent) {
-                                const unlearnedArray = unlearnedDataByStudent[studentId];
-
-                                // 미학습 기록을 deadline 기준으로 정렬
-                                unlearnedArray.sort((a, b) => {
-                                    if (a.deadline < b.deadline) return -1;
-                                    if (a.deadline > b.deadline) return 1;
-                                    return 0;
-                                });
-
-                                // 가장 오래된 deadline과 최신 missed 설정
-                                const oldestDeadline = unlearnedArray[0].deadline;
-                                const latestMissed = unlearnedArray.reduce((latest, current) => {
-                                    if (!latest || current.missed > latest) {
-                                        return current.missed;
-                                    }
-                                    return latest;
-                                }, null);
-
-                                // Tunlearned_student에 업데이트
-                                const studentObj = Tunlearned_student.find(item => item.student_id === studentId);
-                                if (studentObj) {
-                                    studentObj.deadline = oldestDeadline;
-                                    studentObj.missed = latestMissed;
-                                    studentObj.unlearned_list = unlearnedArray;
-                                } else {
-                                    // Tunlearned_student에 해당 학생이 없으면 새로 추가
-                                    Tunlearned_student.push({
-                                        student_id: studentId,
-                                        deadline: oldestDeadline,
-                                        missed: latestMissed,
-                                        unlearned_list: unlearnedArray
-                                    });
-                                }
-                            }
-                        })
-
-                        // Tunlearned_student를 deadline이 오래된 순으로 정렬
-                        Tunlearned_student.sort((a, b) => {
-                            if (a.deadline < b.deadline) return -1;
-                            if (a.deadline > b.deadline) return 1;
-                            return 0;
-                        });
-
-                    }
-                    return home_unlearned(0)
-                };
                 // // 담당중인 학생들의 퍼플 라이팅 미제출 내역 데이터를 백그라운드로 요청 보냅니다
                 // purplewritingWorker.postMessage({ ban_id: student.ban_id })
                 // purplewritingWorker.onmessage = function (event) {
@@ -225,21 +146,21 @@ async function get_teacher_data(){
                 temp_ban_option += `<option value=${student.ban_id}>${student.ban_name} (${student.semester}월 학기)</option>`; // 문의 남길때 필요한 반 select 박스도 전체 반 for문 도는 김에 같이 붙입니다. 
 
                 // 반별 차트를 그리기 위한 변수 선언 
-                let first_student = Tall_students.filter(s=>s.ban_id == student.ban_id)
-                let first_student_num = first_student.length
-                let out_student_num = first_student_num != 0 ? first_student.filter(s=>s.category_id == 2).length : 0 
-                let hold_student_num = first_student_num != 0 ? first_student.filter(s=>s.category_id == 3).length : 0 
-                let now_student_num = first_student_num - out_student_num - hold_student_num
+                // let first_student = Tall_students.filter(s=>s.ban_id == student.ban_id)
+                // let first_student_num = first_student.length
+                // let out_student_num = first_student_num != 0 ? first_student.filter(s=>s.category_id == 2).length : 0 
+                // let hold_student_num = first_student_num != 0 ? first_student.filter(s=>s.category_id == 3).length : 0 
+                // let now_student_num = first_student_num - out_student_num - hold_student_num
 
 
-                temp_ban_list += `
-                    <th class="col-3">${student.ban_name}반</th>
-                    <th class="col-1">${student.semester}학기</th>
-                    <td class="col-2">${now_student_num}</td>
-                    <td class="col-2">${hold_student_num}</td>
-                    <td class="col-2">${out_student_num}</td>
-                    <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${student.ban_id})">✔️</td>
-                `
+                // temp_ban_list += `
+                //     <th class="col-3">${student.ban_name}반</th>
+                //     <th class="col-1">${student.semester}학기</th>
+                //     <td class="col-2">${now_student_num}</td>
+                //     <td class="col-2">${hold_student_num}</td>
+                //     <td class="col-2">${out_student_num}</td>
+                //     <td class="col-2" data-bs-toggle="modal" data-bs-target="#ban_student_list" onclick="get_student(${student.ban_id})">✔️</td>
+                // `
 
                 TbanMap.set(student.ban_id, {
                     ban_name: student.ban_name,
@@ -258,8 +179,105 @@ async function get_teacher_data(){
                 Tmy_students.push(student)
             }
         });
-        $('#maininloading').hide()
-        $('#main').show()   
+
+        TunlearnedConsultingsData = response.unlearned_consulting
+        Tunlearned_student = Tmy_students.reduce((acc, student) => {
+            const consultingList = TunlearnedConsultingsData.filter(c => c.student_id === student.student_id);
+            const unlearned_num = consultingList.length;
+            if (unlearned_num>0){
+                const todoconsulting = consultingList.filter(c => c.done == 0)
+                const todoconsulting_num = todoconsulting.length
+                const deadline = todoconsulting.reduce((prev, current) => {
+                    let prevDueDate = new Date(prev.deadline).setHours(0, 0, 0, 0);
+                    let currentDueDate = new Date(current.deadline).setHours(0, 0, 0, 0);
+                    return currentDueDate < prevDueDate ? current : prev;
+                }, todoconsulting[0]);
+                const missed = todoconsulting.reduce((prev, current) => {
+                    let prevDueDate = new Date(prev.missed).setHours(0, 0, 0, 0);
+                    let currentDueDate = new Date(current.missed).setHours(0, 0, 0, 0);
+                    return currentDueDate < prevDueDate ? prev : current;
+                }, todoconsulting[0]);
+                acc.push({
+                    'teacher_id': student.teacher_id,
+                    'student_id': student.student_id,
+                    'student_origin': student.origin,
+                    'student_name': student.name + '(' + student.nick_name + ')',
+                    'student_mobileno': student.mobileno,
+                    'student_birthday': student.birthday,
+                    'ban_id': student.ban_id,
+                    'ban_name': student.classname,
+                    'consulting_done':0,
+                    'todoconsulting_num':todoconsulting_num,
+                    'deadline': make_date(deadline.deadline),
+                    'missed': missed_date(missed.missed)
+                });
+                
+            }
+            return acc;
+        }, []);
+
+        // unlearnedConsultingsCount = TunlearnedConsultingsData.length
+        // if(unlearnedConsultingsCount != 0 ){
+        //     const unlearnedDataByStudent = {};
+        //     TunlearnedConsultingsData.forEach((unlearned)=>{
+        //         const studentId = unlearned.student_id;
+
+        //         // unlearnedDataByStudent에 학생 별로 그룹화
+        //         if (!unlearnedDataByStudent[studentId]) {
+        //             unlearnedDataByStudent[studentId] = [];
+        //         }
+
+        //         unlearnedDataByStudent[studentId].push(unlearned);
+
+        //         for (const studentId in unlearnedDataByStudent) {
+        //             const unlearnedArray = unlearnedDataByStudent[studentId];
+
+        //             // 미학습 기록을 deadline 기준으로 정렬
+        //             unlearnedArray.sort((a, b) => {
+        //                 if (a.deadline < b.deadline) return -1;
+        //                 if (a.deadline > b.deadline) return 1;
+        //                 return 0;
+        //             });
+
+        //             // 가장 오래된 deadline과 최신 missed 설정
+        //             const oldestDeadline = unlearnedArray[0].deadline;
+        //             const latestMissed = unlearnedArray.reduce((latest, current) => {
+        //                 if (!latest || current.missed > latest) {
+        //                     return current.missed;
+        //                 }
+        //                 return latest;
+        //             }, null);
+
+        //             // Tunlearned_student에 업데이트
+        //             const studentObj = Tunlearned_student.find(item => item.student_id === studentId);
+        //             if (studentObj) {
+        //                 studentObj.deadline = oldestDeadline;
+        //                 studentObj.missed = latestMissed;
+        //                 studentObj.unlearned_list = unlearnedArray;
+        //             } else {
+        //                 // Tunlearned_student에 해당 학생이 없으면 새로 추가
+        //                 Tunlearned_student.push({
+        //                     student_id: studentId,
+        //                     deadline: oldestDeadline,
+        //                     missed: latestMissed,
+        //                     unlearned_list: unlearnedArray
+        //                 });
+        //             }
+        //         }
+        //     })
+
+        //     // Tunlearned_student를 deadline이 오래된 순으로 정렬
+        //     Tunlearned_student.sort((a, b) => {
+        //         if (a.deadline < b.deadline) return -1;
+        //         if (a.deadline > b.deadline) return 1;
+        //         return 0;
+        //     });
+
+        //     console.log(Tunlearned_student)
+
+        // }
+        return home_task()
+
     }catch(error){
         alert('반 원생 데이터 수집중 오류 발생');
         console.log(error)

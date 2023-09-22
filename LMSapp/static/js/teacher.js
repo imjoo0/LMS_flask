@@ -10,6 +10,8 @@
 // }  
 $(window).on('load', async function () {
     if(!getIsFetching()){
+        $('#maininloading').hide()
+        $('#main').show()
         try{
             setIsFetching(true);
             await get_teacher_data()
@@ -17,7 +19,6 @@ $(window).on('load', async function () {
             alert('Error occurred while retrieving data2.');
         }finally {
             setIsFetching(false);
-            toggleView('task')
         }
     }
 })
@@ -179,7 +180,8 @@ function home_task(){
             $('#task_cate_list').html(temp_task_cate_list);
         }
         $('#task_body').show();
-    }      
+    }  
+    return home_unlearned(0)
 }
 
 // 미학습 상담 목록

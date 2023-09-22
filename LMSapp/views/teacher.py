@@ -49,6 +49,7 @@ def decrypt(data, is_out_string=True):
         return ou.decode('utf-8') # 출력이 문자열이면 디코딩 후 반환
     else:
         return ou
+
 bp = Blueprint('teacher', __name__, url_prefix='/teacher')
 
 # 선생님 메인 페이지
@@ -59,25 +60,109 @@ def home(u):
         teacher_info = User.query.filter(User.user_id == u['user_id']).first()
         consulting_categories = ConsultingCategory.query.filter(ConsultingCategory.id != 100).all()
         return render_template('teacher.html', user=teacher_info, consulting_categories=consulting_categories)
-# 차트 관련
-@bp.route('/get_banstudents_data', methods=['GET'])
+
+# 홈화면에 필요한 데이터  
+@bp.route('/get_home_data', methods=['GET'])
 @authrize
-def get_banstudents_data(u):
-    all_data = callapi.call_api(u['id'], 'get_myban_student_online')
-    takeovers = TakeOverUser.query.filter(TakeOverUser.teacher_id == u['id']).all()
-    if len(takeovers) != 0 :
-        for takeover in takeovers:
-            all_data += callapi.call_api(takeover.takeover_id, 'get_myban_student_online')
+def get_home_data(u):
+    current_time = datetime.utcnow()
+    korea_timezone = pytz.timezone('Asia/Seoul')
+    korea_time = current_time + timedelta(hours=9)
+    korea_time = korea_timezone.localize(korea_time)
+
+    Today = korea_time.date()
+    today_yoil = korea_time.weekday() + 1
+    standard = datetime.strptime('11110101', "%Y%m%d").date()
+
+    unlearned_consulting = []
+    task_ban = []
+    task_consulting = []
+
+    my_students = callapi.call_api(u['id'], 'get_myban_student_online')
+    ban_data = callapi.call_api(u['id'],'get_mybanid')
     
-    return jsonify({'all_data':all_data})
+    # 퇴사의 경우 강제로 퇴사한 선생님의 반을 다른 선생님의 반으로 편입시킬때 사용
+    # takeovers = TakeOverUser.query.filter(TakeOverUser.teacher_id == u['id']).all()
+    # takeovers_num = len(takeovers)
+    # if takeovers_num != 0 :
+    #     for takeover in takeovers:
+    #         ban_data += callapi.call_api(takeover.takeover_user, 'get_mybanid')
+    
+    # 상담
+    for ban in ban_data:
+        # 상담 해야 하는 날짜가 오늘 이상인 경우 , 내가 담당한 반의 consulting 기록들을 가져옵니다 
+        # 상담 요청일(startdate)가 반 시작일 ban['startdate']값보다 커야 합니다 .
+        #  consulting.cateogry_id < 100 = 미학습 상담 ( 자동 생성 )
+        # 상담 중 진행하지 않은 미학습 상담 기록만 가져옵니다 
+        # 미학습 상담의 경우 반 시작일에 생성된 경우는 제외 합니다.
+
+        query = '''
+            SELECT consulting.origin, consulting.student_name, consulting.student_engname, consulting.id, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate, consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result
+        FROM consulting
+        LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id
+        WHERE (consulting.category_id < 100 AND consulting.done = 0 AND %s <= consulting.startdate AND consulting.startdate <= curdate() and consulting.ban_id=%s)
+        '''
+        params = ({ban['startdate']},ban['ban_id'], ) 
+        unlearned_consulting = common.db_connection.execute_query(query, params)
+
+        # 본원에서 요청한 상담을 업무로 가져옵니다 
+        # 본원 요청 업무 : week_code < 0
+        # 오늘 완료한 경우 가져옵니다 
+        # 완료하지 않은 경우 가져옵니다 
+        query = '''
+        SELECT consulting.origin, consulting.student_name, consulting.student_engname, consulting.id, consulting.ban_id, consulting.student_id, consulting.done, consultingcategory.id as category_id, consulting.week_code, consultingcategory.name as category, consulting.contents, consulting.startdate, consulting.deadline, consulting.missed, consulting.created_at, consulting.reason, consulting.solution, consulting.result
+        FROM consulting
+        LEFT JOIN consultingcategory ON consulting.category_id = consultingcategory.id
+        WHERE (consulting.week_code < 0 AND consulting.startdate <= curdate() AND consulting.ban_id=%s)
+        AND ( (consulting.done = 0) OR (consulting.done = 1 AND consulting.created_at = CURDATE()) )
+        '''
+        params = (ban['ban_id'], ) 
+        task_consulting = common.db_connection.execute_query(query, params)
+        
+        # 업무의 경우엔, task의 category 가 11 이라 상시 업무 인 경우 
+        # 업무 cycle 이 오늘 요일이 된 경우 
+        # 업무의 startdate가 오늘 이상인 경우 이고 deadline 을 넘기지 않은 경우 
+        # 오늘 완수한 업무이거나 done이 0인 경우
+        query = '''
+        select taskban.id,taskban.ban_id, taskcategory.name as category, task.contents, task.deadline,task.priority,taskban.done,taskban.created_at 
+        from taskban 
+        left join task on taskban.task_id = task.id 
+        left join taskcategory on task.category_id = taskcategory.id 
+        where ( (task.category_id = 11) or ( (task.cycle = %s) or (task.cycle = 0) ) ) and ( task.startdate <= curdate() and curdate() <= task.deadline ) and taskban.ban_id=%s
+        AND ( (taskban.done = 1 AND DATE(taskban.created_at) = CURDATE()) OR taskban.done = 0 );'''
+
+        params = (today_yoil,ban['ban_id'],)
+        task_ban = common.db_connection.execute_query(query, params)
+
+    return jsonify({'my_students':my_students, 'unlearned_consulting':unlearned_consulting, 'task_consulting':task_consulting, 'task_ban':task_ban})
+
 
 # 선생님의 업무와 상담 관련 데이터 
 @bp.route('/get_teacher_data', methods=['GET'])
 @authrize
 def get_teacher_data(u):
+    current_time = datetime.utcnow()
+    korea_timezone = pytz.timezone('Asia/Seoul')
+    korea_time = current_time + timedelta(hours=9)
+    korea_time = korea_timezone.localize(korea_time)
+
+    Today = korea_time.date()
+    today_yoil = korea_time.weekday() + 1
+    standard = datetime.strptime('11110101', "%Y%m%d").date()
+
     all_consulting = []
     all_task = []
-    all_consulting_category = []
+
+    my_students = callapi.call_api(u['id'], 'get_myban_student_online')
+    ban_data = callapi.call_api(u['id'],'get_mybanid')
+    
+    # 퇴사의 경우 강제로 퇴사한 선생님의 반을 다른 선생님의 반으로 편입시킬때 사용
+    # takeovers = TakeOverUser.query.filter(TakeOverUser.teacher_id == u['id']).all()
+    # takeovers_num = len(takeovers)
+    # if takeovers_num != 0 :
+    #     for takeover in takeovers:
+    #         ban_data += callapi.call_api(takeover.takeover_user, 'get_mybanid')
+
     # 상담
     for ban in ban_data:
         # 상담 해야 하는 날짜가 오늘 이상인 경우 , 내가 담당한 반의 consulting 기록들을 가져옵니다 
@@ -106,11 +191,11 @@ def get_teacher_data(u):
         left join taskcategory on task.category_id = taskcategory.id 
         where ( (task.category_id = 11) or ( (task.cycle = %s) or (task.cycle = 0) ) ) and ( task.startdate <= curdate() and curdate() <= task.deadline ) and taskban.ban_id=%s
         AND ( (taskban.done = 1 AND DATE(taskban.created_at) = CURDATE()) OR taskban.done = 0 );'''
+
         params = (today_yoil,ban['ban_id'],)
         all_task.extend(common.db_connection.execute_query(query, params))  
-    query = "SELECT * FROM LMS.consultingcategory;"
-    all_consulting_category = common.db_connection.execute_query(query, )
-    return jsonify({'all_consulting':all_consulting,'all_task':all_task,'all_consulting_category':all_consulting_category})
+
+    return jsonify({'all_consulting':all_consulting,'all_task':all_task})
 
 #퍼플 라이팅 미제출 명단 데이터
 @bp.route('/get_purplewriting_data', methods=['GET'])

@@ -82,7 +82,7 @@
                         <input class="modal-body-select w-100 m-3" type="file" id="file-upload" multiple>
                         <p class="error_msg_alert" id="error_msg_filesel"> 🔻 파일 최대 업로드 갯수 3개 </p>
                         <div class="d-flex justify-content-center mt-4 mb-2">
-                            <button class="btn btn-done" onclick="question_save()">저장</button>
+                            <button class="btn btn-success" onclick="question_save()">저장</button>
                             <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="margin-top: 13px;">취소</button> -->
                         </div>
                     </div>
@@ -94,7 +94,7 @@
 
 <!-- 문의 답변, 문의 조회 -->
 <div class="modal fade" id="question_list" tabindex="-1" aria-labelledby="questionListModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling" >
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="questionListModalLabel">
@@ -113,7 +113,7 @@
                 </div>
                 <h3 class="h_title" id="q_title_msg">문의 내역이 없습니다! 😂</h3>
                 <div id="questiondetail" style="width:100%;">
-                    <!-- <div id="questiondetail_box" class="responsive-table-wrapper">
+                    <div id="questiondetail_box" class="responsive-table-wrapper">
                         <table class="table text-center responsive-table" id="consulting_history_attach">
                             <thead>
                                 <tr class="row">
@@ -149,7 +149,7 @@
                         <div class="d-flex justify-content-center">
                             <button class="btn btn-danger" onclick="get_question_list()">목록</button>
                         </div>
-                    </div> -->
+                    </div>
                     <!-- <div id="comment_box">
                         <div class="notice_message">
                             <p>👇Comment </p>
@@ -161,45 +161,6 @@
                             </div>
                         </div>
                     </div> -->
-                    <div id="questiondetail_box" class="responsive-table-wrapper">
-                        <div class="responsive-table" id="consulting_history_attach">
-                            <div class="d-flex flex-column">
-                                <div class="d-flex border-bottom border-2 border-secondary p-3">
-                                    <div class="w-100 text-center fw-bold">진행한 상담 내용</div>
-                                </div>
-                                <div class="d-flex p-4">
-                                    <div id="cha" style="width:100%"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="responsive-table">
-                            <div class="d-flex flex-column w-100">
-                                <div class="d-flex border-bottom border-2 border-secondary p-3">
-                                    <div class="w-50 text-center fw-bold">문의 내용</div>
-                                    <div class="w-50 text-center fw-bold">답변 내용</div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="w-50 p-3">
-                                        <div id="teacher_question"></div>
-                                    </div>
-                                    <div class="w-50 p-3 border-start">
-                                        <div id="manage_answer">
-                                            <div class="d-flex flex-column justify-content-start py-3">
-                                                <div class="modal-body-select-label"><span class="modal-body-select-container-span">내용</span></div>
-                                                <div class="mt-4 px-2 text-start">미응답</div>
-                                            </div>
-                                        </div>
-                                        <div id="teacher_answer">
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <button class="btn btn-danger" onclick="get_question_list()">목록</button>
-                        </div>
-                    </div>
                 </div>
                 <!-- 문의 답변 클릭 시 초기화면 -->
                 <div class="responsive-table-wrapper t_notinloading">
@@ -227,9 +188,43 @@
     </div>
 </div>
 
+<!-- 퍼플 라이팅 현황 모달 -->
+<div class="modal fade" id="unsubmited" tabindex="-1" aria-labelledby="unsubmitedModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="unsubmitedModalLabelt">
+                    <img src="../static/style/images/note.png" style="width: 30px;">&nbsp;&nbsp;과제 미제출
+                </h5>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body by-4 px-5">
+                <div id="week_detail" style="width: 100%;overflow-y: scroll; max-height: 70vh;max-width:30vw;margin: 0 auto;">
+                    <table class="table text-center" style="min-width: 100%; table-layout: fixed;">
+                        <thead>
+                            <tr class="row" style="background-color:#f1f1f1;">
+                                <th class="col-4">주차</th>
+                                <th class="col-4">미제출</th>
+                                <th class="col-4">상세</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="row" id="unsub_weeks">
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <table class="table text-center" style="display: none;width: 100%;" id="UnsubStudentsList">
+                        
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- 지난 상담 조회 상담 일지 조회 -->
-<div class="modal fade" id="consulting_history_list" tabindex="-1" aria-labelledby="consultingListModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl"  style="max-width:90%">
+<div class="modal fade" id="consulting_history_list" tabindex="-1" aria-labelledby="consultingListModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" style="max-width:90%">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="consultingListModalLabel">
@@ -265,8 +260,8 @@
                                     </tr>
                                     <tr class="row">
                                         <th class="col-2">종류</th>
-                                        <th class="col-2">제목</th>
                                         <th class="col-2">사유</th>
+                                        <th class="col-2">내용</th>
                                         <th class="col-1">상담일</th>
                                         <th class="col-1">명</th>
                                         <th class="col-1">이름</th>
@@ -355,13 +350,13 @@
 </div>
 
 <!-- 상담 일지 작성 모달-->
-<div class="modal fade" id="consultinghistory" tabindex="-1" aria-labelledby="consultinghistoryModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling" id="consulting_modal">
-        <!-- style="max-width:90%" -->
-        <div class="modal-content" style="max-height: 1000px; overflow-y: auto;">
+<div class="modal fade" id="consultinghistory" tabindex="-1" aria-labelledby="consultinghistoryModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling" style="max-width:90%">
+        <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="consultinghistoryModalLabelt">
-                    <img src="../static/style/images/user.png" style="width: 30px;">&nbsp;&nbsp;상담일지 작성
+                    <img src="#" style="width: 30px;">&nbsp;&nbsp;상담일지 작성
                 </h5>
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
@@ -374,85 +369,76 @@
                         </path>
                     </svg>
                 </div>
-                <div id="consulting_contents_box_cate"style="float:right;"></div>
+                <!-- <div class="modal_top_head" style="width:100%; max-width:1000px; position:fixed;"> -->
+                    <!-- <div id="modal_top" style="position:fixed;font-size:30px; color:#fff; text-shadow:rgba(0, 0, 0, 0.3) 1px 1px 2px, rgba(0, 0, 0, 0.3) 0 0 10px" onclick="get_consulting_history_by_cate(event)"><a href="#modal_top"><i class="fa fa-arrow-up"></i></a></div> -->
+                <table class="table text-center monot_inloading">
+                    <tbody style="width:100%;">
+                        <tr class="row tagtagtitle" id="student_info_box">
+                            
+                        </tr>
+                        <tr class="row" id="student_consulting_info_box">
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="consulting_contents_box_cate" class="student_report_button_box"></div>
                 <div class="d-flex w-100">
-                    <div id="student_history_record_box" style="display: none;">
-                        <div class="close-button" onclick="dissmiss()">&times;</div>
-                        <div class="my-4 d-flex flex-wrap justify-content-end align-items-center" id="consulting_history_category_box">
-                            <div class="col-lg-3 col-md-4 col-sm-5 col-12 pb-3 pb-sm-0"><span>📌 상담 카테고리 선택</span></div>
-                            <div class="col-md-4 col-sm-6 col-12">
-                                <select id="consulting_history_cate" class="form-select form-select w-100" aria-label="Default select example" onchange="sort_consulting_category(this.value)">
-        
-                                </select>
+                    <div class="w-50 d-flex flex-column pe-5 py-3 monot_inloading" >
+                        <h3 id="sh_title_msg">상담 기록</h3>
+                        <hr class='hr-dotted'/>
+                        <div id="student_history_record_box">
+                            <div class="loader loader--style2" title="1" id="history_loader">
+                                <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px"
+                                    viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                                    <path fill="#000"
+                                        d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                                        <animateTransform attributeType="xml" attributeName="transform" type="rotate"
+                                            from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite" />
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="my-4 d-flex flex-wrap justify-content-end align-items-center" id="consulting_history_category_box">
+                                <div class="col-lg-3 col-md-4 col-sm-5 col-12 pb-3 pb-sm-0"><span>📌 상담 카테고리 선택</span></div>
+                                <div class="col-md-4 col-sm-6 col-12">
+                                    <select id="consulting_history_cate" class="form-select form-select w-100" aria-label="Default select example" onchange="sort_consulting_category(this.value)">
+            
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-start align-items-start flex-column">
+                                <table class="table text-center">
+                                    <tbody style="width:100%;">
+                                        <thead>
+                                            <tr class="row">
+                                                <th class="col-11">상담</th>
+                                                <th class="col-1">상세</th>
+                                            </tr>
+                                            <tr class="row">
+                                                <th class="col-2">종류</th>
+                                                <th class="col-2">사유</th>
+                                                <th class="col-2">상담일</th>
+                                                <th class="col-4">내용</th>
+                                                <th class="col-1">확인</th>
+                                                <th class="col-1">삭제</th>
+                                            </tr>
+                                        </thead>
+                                        <tr class="row" id="consultinghistory_list">
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center w-100">
+                                <div id="consultinghistory_list_pagination" class="py-5"></div>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-start align-items-start flex-column">
-                            <table class="table text-center">
-                                <tbody style="width:100%;">
-                                    <thead>
-                                        <tr class="row">
-                                            <th class="col-3">종류</th>
-                                            <th class="col-3">내용</th>
-                                            <th class="col-3">상담일</th>
-                                            <th class="col-1">확인</th>
-                                            <th class="col-1">삭제</th>
-                                        </tr>
-                                    </thead>
-                                    <tr class="row" id="consultinghistory_list">
-
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="d-flex justify-content-center align-items-center w-100">
-                            <div id="consultinghistory_list_pagination" class="py-5"></div>
+                        <div id="studentconsulting_history_box_detail">
                         </div>
                     </div>
-                    <div id="student_program_record_box" style="display: none;">
-                        <div class="close-button" onclick="dissmiss()">&times;</div>
-                        <div class="d-flex justify-content-start align-items-start flex-column">
-                            <img src="" alt="" id="readingimg" style="width: 700px;">
-                            <table class="table text-center">
-                                <tbody style="width:100%;">
-                                    <thead>
-                                        <tr class="row">
-                                            <th class="col-1">단계</th>
-                                            <th class="col-2">대분류</th>
-                                            <th class="col-1">학습평가</th>
-                                            <th class="col-1">학습날짜 </th>
-                                            <th class="col-1">스킬넘버</th>
-                                            <th class="col-6">문항주제</th>
-                                        </tr>
-                                    </thead>
-                                    <tr class="row" id="student_program_list">
-
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="d-flex justify-content-center align-items-center w-100">
-                            <div id="student_program_list_pagination" class="py-5"></div>
-                        </div>
-                    </div>
-                    <div id="student_program_box_detail">
-                    </div>
-                    <!-- 클릭하면 w-50으로 -->
-                    <div class="w-100 d-flex flex-column ps-5 py-3 monot_inloading" id="student_consulting_box">
-                        <table class="table text-center" >
-                            <tbody style="width:100%;">
-                                <tr class="row">
-                                    <th class="col-2" style="border-bottom:none"></th>
-                                    <th class="col-2">반</th>
-                                    <th class="col-2">이름</th>
-                                    <th class="col-2">원번</th>
-                                    <th class="col-2">생년월일</th>
-                                    <th class="col-2">연락처</th>
-                                </tr>
-                                <tr class="row" id="basic_info">
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="w-50 d-flex flex-column ps-5 py-3 monot_inloading"id="student_consulting_box">
+                        <h3>상담일지 작성</h3>
                         <div id="consulting_write_box">
+                            <div id="consulting_contents_box_cate" class="student_report_button_box"></div>
                         </div>
                         <div id="make_plus_consulting">
                             <div class="make_row">
@@ -464,7 +450,7 @@
                             </div>
                             <select id="consulting_cate" class="form-select form-select w-100" aria-label="Default select example">
                                 {% for consulting_category in consulting_categories%}
-                                <option value={{consulting_category.id}}>{{consulting_category.name}}</option>
+                                    <option value={{consulting_category.id}}>{{consulting_category.name}}</option>
                                 {% endfor %}
                             </select>
                             <div class="modal-body-select-container" >
@@ -479,41 +465,7 @@
                         <div  id="postconsulting_buttonbox"></div>
                     </div>
                 </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- 퍼플 라이팅 현황 모달 -->
-<div class="modal fade" id="unsubmited" tabindex="-1" aria-labelledby="unsubmitedModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl modal-handling">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="unsubmitedModalLabelt">
-                    <img src="../static/style/images/note.png" style="width: 30px;">&nbsp;&nbsp;과제 미제출
-                </h5>
-                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body by-4 px-5">
-                <div id="week_detail" style="width: 100%;overflow-y: scroll; max-height: 70vh;max-width:30vw;margin: 0 auto;">
-                    <table class="table text-center" style="min-width: 100%; table-layout: fixed;">
-                        <thead>
-                            <tr class="row" style="background-color:#f1f1f1;">
-                                <th class="col-4">주차</th>
-                                <th class="col-4">미제출</th>
-                                <th class="col-4">상세</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="row" id="unsub_weeks">
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <table class="table text-center" style="display: none;width: 100%;" id="UnsubStudentsList">
-                        
-                </table>
+                
             </div>
         </div>
     </div>
@@ -581,147 +533,149 @@
     <div class="d-flex justify-content-center row-cols-xl-2 flex-xl-row flex-column">
         <div id="statistics" class="p-xxl-5 p-xl-4 p-1 py-4">
             <div class="info-container">
-                <div class="toggle-button" style="width: 100%; margin-left:0px">
+                <div class="info-title">
                     <span>Total Chart</span>
                 </div>
                 <div class="info make_col" id="ban_chart_list">
-                    
+                    <div class="loader loader--style2" title="1">
+                        <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px"
+                            viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                            <path fill="#000"
+                                d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                                <animateTransform attributeType="xml" attributeName="transform" type="rotate"
+                                    from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite" />
+                            </path>
+                        </svg>
+                    </div>
                 </div>
             </div>
-            
+            <div class="info-container mt-5">
+                <div class="info-title">
+                    <span>퍼플 라이팅 미제출 현황</span>
+                </div>
+                <div class="info make_col" >
+                    <table class="table text-center responsive-table">
+                        <thead>
+                            <tr class="row">
+                                <th class="col-4">반</th>
+                                <th class="col-4">현재 주차</th>
+                                <th class="col-2">미제출</th>
+                                <th class="col-2">상세보기</th>
+                            </tr>
+                        </thead>
+                        <tr class="row" id="unsubmited_list">
+                
+                        </tr>
+                    </table>
+                    <div class="d-flex justify-content-center align-items-center w-100">
+                        <div id="unsubmited_pagination" class="mt-4 mb-5 text-center"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="work" class="p-xxl-5 p-xl-4 p-1 py-4" >
-            <!-- <div class="loader loader--style2" title="1" id="work_loader">
-                <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px"
-                    viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
-                    <path fill="#000"
-                        d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
-                        <animateTransform attributeType="xml" attributeName="transform" type="rotate"
-                            from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite" />
-                    </path>
-                </svg>
-            </div> -->
+        <div id="work" class="p-xxl-5 p-xl-4 p-1 py-4">
             <div class="info-container">
-                <button class="toggle-button" id="taskview_button" onclick="toggleView('task')">
-                    <span>업무</span>
-                </button>
-                <button class="toggle-button" id="unlearnedview_button" onclick="toggleView('unlearned')">
-                    <span>미학습</span>
-                </button>
-                <button class="toggle-button" id="unsubview_button" onclick="toggleView('unsub')">
-                    <span>퍼플 라이팅 미제출</span>
-                </button>
-                <div class="info d-flex justify-content-center align-items-center flex-column notwork_loader">
-                    <div id="task_view_list" class="justify-content-start align-items-start flex-column w-100 my-2">
-                        <h5 class="mb-3" id="total_task_num"> 📌 총 업무 수:  00</h5>
-                        <div id="task_body">
-                            <div class="d-flex justify-content-between flex-row w-100 pb-4 border-bottom mt-4">
-                                <h5 class="d-flex justify-content-center align-items-center m-0" id="taskconsulting_title">원생 업무</h3>
-                            </div>
-                            <div class="responsive-table-wrapper d-flex justify-content-start align-items-start flex-column w-100 mt-4" id="taskconsulting_student_list">
-                                <table class="table text-center responsive-table" >
-                                    <thead style="background-color:#a782e2c2;">
-                                        <tr class="row">
-                                        <th class="col-2">원번</th>
-                                        <th class="col-2">원생</th>
-                                        <th class="col-5">요청 내용</th>
-                                        <th class="col-1">작성</th>
-                                        <th class="col-2">마감일</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody style="width:100%;"> 
-                                        <tr class="row"  id="taskconsulting_sttic">
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="d-flex justify-content-center align-items-center w-100">
-                                <div id="taskconsultingstudent_pagination" class="mt-4 mb-5 text-center"></div>
-                            </div>
-                            <div class="d-flex justify-content-between flex-row w-100 pb-4 border-bottom">
-                                <h5 class="d-flex justify-content-center align-items-center m-0" id="task_title">반 업무</h3>
-                            </div>
-                            <div class="responsive-table-wrapper d-flex justify-content-start align-items-start flex-column w-100 mt-4">
-                                <table class="table text-center responsive-table" id="task_cate_list">
-        
-                                </table>
-                            </div>
-                            <button onclick="get_update_done()" id="task_button" class="btn btn-success mt-4" style="margin-left: 40%;background-color: #6e3ac1c2;">업무 완료 저장</button>
-                        </div>
-                    </div>
-                    <div id="unlearned_view_list" class="justify-content-start align-items-start flex-column w-100 my-2">
-                        <div class="d-flex justify-content-between flex-row w-100 pb-4 border-bottom" id="unlearned_student_list">
-                            <h5 class="mb-3" id="total_unlearned_num"> 📌 총 미학습 자:  00</h5>
-                            <select class="form-select text-center w-25" onchange="home_unlearned(this.value)">
-                                <option value=0 selected>미학습 상담 목록</option>
-                                <option value=1>오늘의 부재중 상담</option>
-                            </select>
-                        </div>
-                        <p class="d-flex justify-content-between flex-row" id="today_consulting_title"></p>
-                        <div class="responsive-table-wrapper w-100" id="consulting_student_list">
-                            <input type="text" id="consultingstudent_search_input" placeholder="반 , 원생 이름 혹은 원번으로 검색" style="float:right;width:350px;height:40px;margin-bottom:10px">
-                            <table class="table text-center responsive-table" id="today_consulting_table">
-                                <thead>
-                                    <tr class="row">
-                                        <th class="col-2" onclick="sort_consultingoption('ban_desc')" id="ban_name_sort">반 이름순 정렬👉</th>
-                                        <th class="col-6" onclick="sort_consultingoption('name_desc')" id="student_name_sort">원생 이름순 정렬👉</th>
-                                        <th class="col-2" onclick="sort_consultingoption('deadline_desc')" id="deadline_sort">마감일 정렬👉</th>
-                                        <th class="col-2" onclick="sort_consultingoption('consulting_desc')" id="consulting_sort">상담 건 정렬👉</th>
-                                    </tr>
-                                    <tr class="row">
-                                        <th class="col-2">반</th>
-                                        <th class="col-2">이름</th>
-                                        <th class="col-2">생년월일</th>
-                                        <th class="col-2">연락처</th>
-                                        <th class="col-2">상담 마감일</th>
-                                        <th class="col-1">상담 수</th>
-                                        <th class="col-1">상담</th>
-                                    </tr>
-                                </thead>
-                                <tr class="row" id="today_consulting_box">
-                        
+                <div class="info-title">
+                    <span>Total Report</span>
+                </div>
+                <div class="info">
+                    <div class="total_table" style="width:90%">
+                        <table class="table text-center" id="unlearned">
+                            <tbody style="width:100%;">
+                                <tr class="row">
+                                    <th class="col-3">오늘의 업무</th>
+                                    <th class="col-3">완수율</th>
+                                    <th class="col-3"> 미학습 관리 </th>
+                                    <th class="col-3">완수율</th>
                                 </tr>
-                            </table>
-                        </div>
-                        <div class="d-flex justify-content-center align-items-center w-100">
-                            <div id="consultingstudent_pagination" class="mt-4 mb-5 text-center"></div>
-                        </div>
-                    </div>
-                    <div id="unsub_view_list" class="justify-content-start align-items-start flex-column w-100 my-2">
-                        <div class="d-flex justify-content-between flex-row w-100 pb-4 border-bottom">
-                            <h5 class="d-flex justify-content-center align-items-center m-0" id="total_unsubmited_num">
-                            </h5>
-                        </div>
-                        <div class="responsive-table-wrapper w-100 mt-4" id="unsubmited_notloader" style="display: none;">
-                            <table class="table text-center responsive-table">
-                                <thead>
-                                    <tr class="row">
-                                        <th class="col-4">반</th>
-                                        <th class="col-4">현재 주차</th>
-                                        <th class="col-2">미제출</th>
-                                        <th class="col-2">상세보기</th>
-                                    </tr>
-                                </thead>
-                                <tr class="row" id="unsubmited_list">
-                        
+                                <tr id="classreport" class="row">
                                 </tr>
-                            </table>
-                        </div>
-                        <div class="d-flex justify-content-center align-items-center w-100">
-                            <div id="unsubmited_pagination" class="mt-4 mb-5 text-center"></div>
-                        </div>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="info-container mt-5">
+                <div class="info-title">
+                    <span id="task_title">오늘의 업무</span>
+                </div>
+                <div class="info d-flex justify-content-center align-items-center flex-column">
+                    <div class="d-flex justify-content-between flex-row w-100 pb-4 border-bottom">
+                        <h5 class="d-flex justify-content-center align-items-center m-0" id="taskconsulting_title">본원 요청 업무</h3>
+                    </div>
+                    <div class="responsive-table-wrapper d-flex justify-content-start align-items-start flex-column w-100 mt-4" id="taskconsulting_student_list">
+                        <table class="table text-center responsive-table" id="taskconsulting_cate_menu">
+                            
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center w-100">
+                        <div id="taskconsultingstudent_pagination" class="mt-4 mb-5 text-center"></div>
+                    </div>
+                    <div class="d-flex justify-content-between flex-row w-100 pb-4 border-bottom">
+                        <h5 class="d-flex justify-content-center align-items-center m-0" id="tasktitlebox">반 업무</h3>
+                    </div>
+                    <div
+                        class="responsive-table-wrapper d-flex justify-content-start align-items-start flex-column w-100 mt-4">
+                        <table class="table text-center responsive-table" id="cate_menu">
+
+                        </table>
+                    </div>
+                    <button onclick="get_update_done()" id="task_button" class="btn btn-success mt-4">업무 완료 저장</button>
+                </div>
+            </div>
+            <div class="info-container mt-5">
+                <div class="info-title">
+                    <span>미학습자 목록</span>
+                </div>
+                <div class="info d-flex justify-content-center align-items-center flex-column">
+                    <div class="d-flex justify-content-between flex-row w-100 pb-4 border-bottom">
+                        <h5 class="d-flex justify-content-center align-items-center m-0" id="today_consulting_title">
+                            미학습 상담 목록
+                        </h5>
+                        <select class="form-select text-center w-25" onchange="get_unlearned_consulting_student(this.value)">
+                            <option value=0 selected>미학습 상담 목록</option>
+                            <option value=1>오늘의 부재중 상담</option>
+                        </select>
+                    </div>
+                    <div class="responsive-table-wrapper w-100 mt-4" id="consulting_student_list">
+                        <input type="text" id="consultingstudent_search_input" placeholder="반 , 원생 이름 혹은 원번으로 검색" style="float:right;width:350px;height:40px;margin-bottom:10px">
+                        <table class="table text-center responsive-table" id="today_consulting_table">
+                            <thead>
+                                <tr class="row">
+                                    <th class="col-2" onclick="sort_consultingoption('ban_desc')" id="ban_name_sort">반 이름순 정렬👉</th>
+                                    <th class="col-6" onclick="sort_consultingoption('name_desc')" id="student_name_sort">원생 이름순 정렬👉</th>
+                                    <th class="col-2" onclick="sort_consultingoption('deadline_desc')" id="deadline_sort">마감일 정렬👉</th>
+                                    <th class="col-2" onclick="sort_consultingoption('consulting_desc')" id="consulting_sort">상담 건 정렬👉</th>
+                                </tr>
+                                <tr class="row">
+                                    <th class="col-2">반</th>
+                                    <th class="col-2">이름</th>
+                                    <th class="col-2">생년월일</th>
+                                    <th class="col-2">연락처</th>
+                                    <th class="col-2">상담 마감일</th>
+                                    <th class="col-1">상담 수</th>
+                                    <th class="col-1">상담</th>
+                                </tr>
+                            </thead>
+                            <tr class="row" id="today_consulting_box">
+                    
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center w-100">
+                        <div id="consultingstudent_pagination" class="mt-4 mb-5 text-center"></div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
-    {% block jspart %}
-    <script type="text/javascript" src="../static/js/teacher_data.js"></script>
-    <script type="text/javascript" src="../static/js/teacher.js"></script>
-    {% endblock %}
+
+{% block jspart %}
+<script type="text/javascript" src="../static/js/teacher_data.js"></script>
+<script type="text/javascript" src="../static/js/teacher.js"></script>
+{% endblock %}
 
 {% endautoescape %}
 {% endblock %}
